@@ -1,0 +1,590 @@
+﻿[section#intro.execution
+    [:en] Program execution
+    [:zh_CN] 程序的执行
+]
+
+[index:begin@text#execution
+    [:en] program execution
+    [:zh_CN] 程序的执行
+]
+
+[index:begin@text#execution.abstract
+    [:en] program execution [!abstract machine]
+    [:zh_CN] 程序的执行 [!抽象机器]
+]
+
+[para]
+[:en]
+The semantic descriptions in this International Standard define a parameterized
+nondeterministic abstract machine.
+[:zh_CN]
+
+[:en]
+This International Standard places no requirement on the structure of conforming
+implementations.
+[:zh_CN]
+
+[:en]
+In particular, they need not copy or emulate the structure of the abstract
+machine.
+[:zh_CN]
+
+[:en]
+[%as-if rule][%behavior [!observable]]
+Rather, conforming implementations are required to emulate (only) the observable
+behavior of the abstract machine as explained below.
+[:zh_CN]
+
+[footnote]
+[:en]
+This provision is sometimes called the ["as-if] rule, because an implementation
+is free to disregard any requirement of this International Standard as long as
+the result is [em as if] the requirement had been obeyed, as far as can be
+determined from the observable behavior of the program.
+[:zh_CN]
+
+[:en]
+For instance, an actual implementation need not evaluate part of an expression
+if it can deduce that its value is not used and that no [%side effects] side
+effects affecting the observable behavior of the program are produced.
+[:zh_CN]
+[footnote:end]
+
+[para]
+[:en]
+[%behavior [!implementation-defined]]
+Certain aspects and operations of the abstract machine are described in this
+International Standard as implementation-defined (for example, [`sizeof(int)]).
+[:zh_CN]
+
+[:en]
+These constitute the parameters of the abstract machine.
+[:zh_CN]
+
+[:en]
+Each implementation shall include documentation describing its characteristics
+and behavior in these respects.
+
+[footnote]
+[:en]
+This documentation also includes conditionally-supported constructs and
+locale-specific behavior.
+[:zh_CN]
+
+[:en]
+See [#intro.compliance].
+[:zh_CN]
+[footnote:end]
+
+[:en]
+Such documentation shall define the instance of the abstract machine that
+corresponds to that implementation (referred to as the ["corresponding instance]
+below).
+[:zh_CN]
+
+[para]
+[:en]
+[%behavior [!unspecified]]
+Certain other aspects and operations of the abstract machine are described in
+this International Standard as unspecified (for example, evaluation of
+expressions in a [~new-initializer] if the allocation function fails to
+allocate memory ([#expr.new])).
+[:zh_CN]
+
+[:en]
+Where possible, this International Standard defines a set of allowable behaviors.
+[:zh_CN]
+
+[:en]
+These define the nondeterministic aspects of the abstract machine.
+[:zh_CN]
+
+[:en]
+An instance of the abstract machine can thus have more than one possible
+execution for a given program and a given input.
+[:zh_CN]
+
+[para]
+[:en]
+[%behavior [!undefined]]
+Certain other operations are described in this International Standard as
+undefined (for example, the effect of attempting to modify a [`const] object).
+[:zh_CN]
+
+[enter:note]
+[:en]
+This International Standard imposes no requirements on the behavior of programs
+that contain undefined behavior.
+[:zh_CN]
+[exit:note]
+
+[para]
+[:en]
+[%program [!well-formed]] [%behavior [!observable]]
+A conforming implementation executing a well-formed program shall produce the
+same observable behavior as one of the possible executions of the corresponding
+instance of the abstract machine with the same program and the same input.
+[:zh_CN]
+
+[:en]
+However, if any such execution contains an undefined operation, this
+International Standard places no requirement on the implementation executing
+that program with that input (not even with regard to operations preceding the
+first undefined operation).
+[:zh_CN]
+
+[index:end#execution.abstract]
+
+[para]
+[:en]
+[%behavior [!unspecified]]
+[%behavior [!undefined]]
+[%behavior [!on receipt of signal]]
+[%signal]
+If a signal handler is executed as a result of a call to the [`raise] function,
+then the execution of the handler is sequenced after the invocation of the
+[`raise] function and before its return.
+[:zh_CN]
+
+[enter:note]
+[:en]
+When a signal is received for another reason, the execution of the signal
+handler is usually unsequenced with respect to the rest of the program.
+[:zh_CN]
+[exit:note]
+
+[para]
+[:en]
+An instance of each object with automatic storage duration ([#basic.stc.auto])
+is associated with each entry into its block.
+[:zh_CN]
+
+[:en]
+Such an object exists and retains its last-stored value during the execution of
+the block and while the block is suspended (by a call of a function or receipt
+of a signal).
+[:zh_CN]
+
+[para]
+[:en]
+[%conformance requirements]
+The least requirements on a conforming implementation are:
+[:zh_CN]
+
+[list:ul]
+
+[item]
+[:en]
+Access to volatile objects are evaluated strictly according to the rules of the
+abstract machine.
+[:zh_CN]
+
+[item]
+[:en]
+At program termination, all data written into files shall be identical to one of
+the possible results that execution of the program according to the abstract
+semantics would have produced.
+[:zh_CN]
+
+[item]
+[:en]
+The input and output dynamics of interactive devices shall take place in such a
+fashion that prompting output is actually delivered before a program waits for
+input.
+[:zh_CN]
+
+[:en]
+What constitutes an interactive device is
+[%@impldef interactive device] implementation-defined.
+[:zh_CN]
+
+[list:end]
+
+[:en]
+These collectively are referred to as the [def observable behavior [%behavior
+[!observable]] of the program.
+[:zh_CN]
+
+[enter:note]
+[:en]
+More stringent correspondences between abstract and actual semantics may be
+defined by each implementation.
+[:zh_CN]
+[exit:note]
+
+[para]
+[:en]
+[%operator [!precedence of]]
+[%expression [!order of evaluation of]]
+[:zh_CN]
+
+[enter:note]
+[:en]
+Operators can be regrouped according to the usual mathematical rules only where
+the operators really are associative or commutative.
+[:zh_CN]
+
+[footnote]
+[:en]
+Overloaded operators are never assumed to be associative or commutative.
+[:zh_CN]
+[footnote:end]
+
+[:en]
+For example, in the following fragment
+[:zh_CN]
+
+[codeblock]
+int a, b;
+/*...*/
+a = a + 32760 + b + 5;
+[codeblock:end]
+
+[~:en]
+the expression statement behaves exactly the same as
+[~:zh_CN]
+
+[codeblock]
+a = (((a + 32760) + b) + 5);
+[codeblock:end]
+
+[~:en]
+due to the associativity and precedence of these operators.
+[~:zh_CN]
+
+[:en]
+Thus, the result of the sum [`(a + 32760)] is next added to [`b], and that
+result is then added to 5 which results in the value assigned to [`a].
+[:zh_CN]
+
+[:en]
+On a machine in which overflows produce an exception and in which the range of
+values representable by an [`int] is [=crange[-32768,+32767]], the
+implementation cannot rewrite this expression as
+[:zh_CN]
+
+[codeblock]
+a = ((a + b) + 32765);
+[codeblock:end]
+
+[~:en]
+since if the values for [`a] and [`b] were, respectively, -32754 and -15, the
+sum [`a + b] would produce an exception while the original expression would not;
+[~:zh_CN]
+
+[:en]
+nor can the expression be rewritten either as
+[:zh_CN]
+
+[codeblock]
+a = ((a + 32765) + b);
+[codeblock:end]
+
+[~:en]
+or
+[~:zh_CN]
+
+[codeblock]
+a = (a + (b + 32765));
+[codeblock:end]
+
+[~:en]
+since the values for [`a] and [`b] might have been, respectively, 4 and -8 or
+-17 and 12.
+[~:zh_CN]
+
+[:en]
+However on a machine in which overflows do not produce an exception and in which
+the results of overflows are reversible, the above expression statement can be
+rewritten by the implementation in any of the above ways because the same result
+will occur.
+[:zh_CN]
+
+[exit:note]
+
+[para]
+[:en]
+[%full-expression]
+A [def full-expression] is an expression that is not a subexpression of another
+expression.
+[:zh_CN]
+
+[enter:note]
+[:en]
+in some contexts, such as unevaluated operands, a syntactic subexpression is
+considered a full-expression (Clause [#expr]).
+[:zh_CN]
+[exit:note]
+
+[:en]
+If a language construct is defined to produce an implicit call of a function, a
+use of the language construct is considered to be an expression for the purposes
+of this definition.
+[:zh_CN]
+
+[:en]
+A call to a destructor generated at the end of the lifetime of an object other
+than a temporary object is an implicit full-expression.
+[:zh_CN]
+
+[:en]
+Conversions applied to the result of an expression in order to satisfy the
+requirements of the language construct in which the expression appears are also
+considered to be part of the full-expression.
+[:zh_CN]
+
+[enter:example]
+
+[codeblock]
+struct S {
+  S(int i): I(i) { }
+  int& v() { return I; }
+private:
+  int I;
+};
+
+ S s1(1);           // [:en] full-expression is call of [`S::S(int)]
+                    // [|:zh_CN] 
+ S s2 = 2;          // [:en] full-expression is call of [`S::S(int)]
+                    // [|:zh_CN] 
+
+void f() {
+  if (S(3).v())     // [:en] full-expression includes lvalue-to-rvalue and
+                    // [|:zh_CN] 
+                    // [~:en] [`int] to [`bool] conversions, performed before
+                    // [|~:zh_CN] 
+                    // [~:en] temporary is deleted at end of full-expression
+                    // [|~:zh_CN] 
+  { }
+}
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+The evaluation of a full-expression can include the evaluation of subexpressions
+that are not lexically part of the full-expression.
+[:zh_CN]
+
+[:en]
+For example, subexpressions involved in evaluating default arguments
+([#dcl.fct.default]) are considered to be created in the expression that calls
+the function, not the expression that defines the default argument.
+[:zh_CN]
+[exit:note]
+
+[index:begin@text#value.computation
+    [:en] value computation
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+Reading an object designated by a [`volatile] glvalue ([#basic.lval]), modifying
+an object, calling a library I/O function, or calling a function that does any
+of those operations are all [def side effects], which are changes in the state
+of the execution environment.
+[:zh_CN]
+
+[:en]
+[def Evaluation] of an expression (or a sub-expression) in general includes both
+value computations (including determining the identity of an object for glvalue
+evaluation and fetching a value previously assigned to an object for prvalue
+evaluation) and initiation of side effects.
+[:zh_CN]
+
+[:en]
+When a call to a library I/O function returns or an access to a [`volatile]
+object is evaluated the side effect is considered complete, even though some
+external actions implied by the call (such as the I/O itself) or by the
+[`volatile] access may not have completed yet.
+[:zh_CN]
+
+[para]
+[:en]
+[def Sequenced before] is an asymmetric, transitive, pair-wise relation between
+evaluations executed by a single thread ([#intro.multithread]), which induces
+a partial order among those evaluations.
+[:zh_CN]
+
+[:en]
+Given any two evaluations [$A] and [$B], if [$A] is sequenced before [$B], then
+the execution of [$A] shall precede the execution of [$B].
+[:zh_CN]
+
+[:en]
+If [$A] is not sequenced before [$B] and [$B] is not sequenced before [$A], then
+[$A] and [$B] are [def unsequenced].
+[:zh_CN]
+
+[enter:note]
+[:en]
+The execution of unsequenced evaluations can overlap.
+[:zh_CN]
+[exit:note]
+
+[:en]
+Evaluations [$A] and [$B] are [def indeterminately sequenced] when either [$A]
+is sequenced before [$B] or [$B] is sequenced before [$A], but it is unspecified
+which.
+[:zh_CN]
+
+[enter:note]
+[:en]
+Indeterminately sequenced evaluations cannot overlap, but either could be
+executed first.
+[:zh_CN]
+[exit:note]
+
+[para]
+[:en]
+Every [%value computation] value computation and [%side effects] side effect
+associated with a full-expression is sequenced before every value computation
+and side effect associated with the next full-expression to be
+evaluated.
+[:zh_CN]
+
+[footnote]
+[:en]
+As specified in [#class.temporary], after a full-expression is evaluated, a
+sequence of zero or more invocations of destructor functions for temporary
+objects takes place, usually in reverse order of the construction of each
+temporary object.
+[:zh_CN]
+[footnote:end]
+
+[para]
+[:en]
+[%evaluation [!unspecified order of]]
+Except where noted, evaluations of operands of individual operators and of
+subexpressions of individual expressions are unsequenced.
+[:zh_CN]
+
+[enter:note]
+[:en]
+In an expression that is evaluated more than once during the execution of a
+program, unsequenced and indeterminately sequenced evaluations of its
+subexpressions need not be performed consistently in different evaluations.
+[:zh_CN]
+[exit:note]
+
+[:en]
+The value computations of the operands of an operator are sequenced before the
+value computation of the result of the operator.
+[:zh_CN]
+
+[:en]
+If a [~side effects] side effect on a scalar object is unsequenced relative to
+either another side effect on the same scalar object or a value computation
+using the value of the same scalar object, and they are not potentially
+concurrent ([#intro.multithread]), the behavior is undefined.
+[:zh_CN]
+
+[enter:note]
+[:en]
+The next section imposes similar, but more complex restrictions on potentially
+concurrent computations.
+[:zh_CN]
+[exit:note]
+
+[enter:example]
+[codeblock]
+void f(int, int);
+void g(int i, int* v) {
+  i = v[i++];         // [:en] the behavior is undefined
+                      // [|:zh_CN] 
+  i = 7, i++, i++;    // [:en] [`i] becomes [`9]
+                      // [|:zh_CN] 
+
+  i = i++ + 1;        // [:en] the behavior is undefined
+                      // [|:zh_CN] 
+  i = i + 1;          // [:en] the value of [`i] is incremented
+                      // [|:zh_CN] 
+
+  f(i = -1, i = -1);  // [:en] the behavior is undefined
+                      // [|:zh_CN] 
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+When calling a function (whether or not the function is inline), every
+[%value computation] value computation and [%side effects] side effect
+associated with any argument expression, or with the postfix expression
+designating the called function, is sequenced before execution of every
+expression or statement in the body of the called function.
+[:zh_CN]
+
+[enter:note]
+[:en]
+Value computations and side effects associated with different argument
+expressions are unsequenced.
+[:zh_CN]
+[exit:note]
+
+[:en]
+Every evaluation in the calling function (including other function calls) that
+is not otherwise specifically sequenced before or after the execution of the
+body of the called function is indeterminately sequenced with respect to the
+execution of the called function.
+[:zh_CN]
+
+[footnote]
+[:en]
+In other words, function executions do not interleave with each other.
+[:zh_CN]
+[footnote:end]
+
+[:en]
+Several contexts in [=Cpp] cause evaluation of a function call, even though no
+corresponding function call syntax appears in the translation unit.
+[:zh_CN]
+
+[enter:example]
+[:en]
+Evaluation of a [~new-expression] invokes one or more allocation and constructor
+functions; see [#expr.new].
+[:zh_CN]
+
+[:en]
+For another example, invocation of a conversion function ([#class.conv.fct]) can
+arise in contexts in which no function call syntax appears.
+[:zh_CN]
+[exit:example]
+
+[:en]
+The sequencing constraints on the execution of the called function (as described
+above) are features of the function calls as evaluated, whatever the syntax of
+the expression that calls the function might be.
+[:zh_CN]
+
+[index:end#value.computation]
+
+[index:end#execution]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
