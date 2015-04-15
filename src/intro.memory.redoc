@@ -1,0 +1,149 @@
+﻿[section#intro.memory
+    [:en] The [=Cpp] memory model
+    [:zh_CN] [=Cpp] 内存模型
+]
+
+[index:begin@text#memory
+    [:en] memory model
+    [:zh_CN] 内存模型
+]
+
+[para]
+[:en]
+The fundamental storage unit in the [=Cpp] memory model is the [def byte].
+[:zh_CN]
+[=Cpp] 内存模型的基本存储单元是[def 字节]。
+
+[:en]
+A byte is at least large enough to contain any member of the basic
+[%character set [!basic execution]] execution character set ([#lex.charset])
+and the eight-bit code units of the Unicode UTF-8 encoding form and is composed
+of a contiguous sequence of bits, the number of which is
+[index@impldef bits in a byte] implementation-defined.
+[:zh_CN]
+一个字节至少能容纳[%字符集 [!基本执行～]] 基本执行字符集（[#lex.charset]）
+的任意成员，以及 Unicode UTF-8 编码形式的 8 位代码单元，并由连续的位序列组成，
+其数量是 [index@impldef 字节的位数] 由实现定义的。
+
+[:en]
+The least significant bit is called the [def low-order bit];
+[:zh_CN]
+最低有效位称为[def 低序位]；
+
+[:en]
+the most significant bit is called the [def high-order bit].
+[:zh_CN]
+最高有效位称为[def 高序位]。
+
+[:en]
+The memory available to a [=Cpp] program consists of one or more sequences of
+contiguous bytes.
+[:zh_CN]
+[=Cpp] 程序可用的内存由一个或多个连续字节序列构成。
+
+[:en]
+Every byte has a unique address.
+[:zh_CN]
+每个字节具有唯一的地址。
+
+[para]
+[enter:note]
+[:en]
+The representation of types is described in [#basic.types].
+[:zh_CN]
+[#basic.types] 中描述了类型的表示。
+[exit:note]
+
+[para]
+[:en]
+A [def memory location] is either an object of scalar type or a maximal sequence
+of adjacent bit-fields all having non-zero width.
+[:zh_CN]
+[def 内存位置]，或者是标量类型的对象，或者是宽度均不为零的相邻位字段的最大序列。
+
+[enter:note]
+[:en]
+Various features of the language, such as references and virtual functions,
+might involve additional memory locations that are not accessible to programs
+but are managed by the implementation.
+[:zh_CN]
+语言中的许多特性，比如引用和虚函数，都可能涉及到一些程序无法访问的内存位置，
+它们是由实现进行管理的。
+[exit:note]
+
+[:en]
+Two or more threads of execution ([#intro.multithread]) can update and access
+separate memory locations without interfering with each other.
+[:zh_CN]
+两个执行线程（[#intro.multithread]）可以互不妨碍地更新并访问不同的内存位置。
+
+[para]
+[enter:note]
+[:en]
+Thus a bit-field and an adjacent non-bit-field are in separate memory locations,
+and therefore can be concurrently updated by two threads of execution without
+interference.
+[:zh_CN]
+因此一个位字段和与其相邻的一个非位字段对象处于不同的内存位置，因而可以被并发地
+被两个执行线程更新并互不妨碍。
+
+[:en]
+The same applies to two bit-fields, if one is declared inside a nested struct
+declaration and the other is not, or if the two are separated by a zero-length
+bit-field declaration, or if they are separated by a non-bit-field declaration.
+[:zh_CN]
+对于两个位字段来说，当其中一个位字段声明于一个嵌套的结构的声明中，而另一个
+不是时，或者当它们被零宽度的位字段的声明所分隔时，或者当它们被一个非位字段的
+声明所分隔时，这也同样适用。
+
+[:en]
+It is not safe to concurrently update two bit-fields in the same struct if all
+fields between them are also bit-fields of non-zero width.
+[:zh_CN]
+但当同一个结构中的两个位字段之间的所有字段均为宽度不为零的位字段时，对它们进行
+并发更新就是不安全的。
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+A structure declared as
+[:zh_CN]
+如下声明的结构
+
+[codeblock]
+struct {
+  char a;
+  int b:5,
+  c:11,
+  :0,
+  d:8;
+  struct {int ee:8;} e;
+}
+[codeblock:end]
+
+[~:en]
+contains four separate memory locations:
+[~:zh_CN]
+包含四个独立的内存位置：
+
+[:en]
+The field [`a] and bit-fields [`d] and [`e.ee] are each separate memory
+locations, and can be modified concurrently without interfering with each other.
+[:zh_CN]
+字段 [`a] 和位字段 [`d]、[`e.ee] 都是不同的内存位置，并且可以并发地进行改动
+而互不妨碍。
+
+[:en]
+The bit-fields [`b] and [`c] together constitute the fourth memory location.
+[:zh_CN]
+位字段 [`b] 和 [`c] 一起构成第四个内存位置。
+
+[:en]
+The bit-fields [`b] and [`c] cannot be concurrently modified, but [~b] and [~a],
+for example, can be.
+[:zh_CN]
+位字段 [`b] 和 [`c] 不能进行并发改动，但比如 [`b] 和 [`a] 却可以。
+[exit:example]
+
+[index:end#memory]

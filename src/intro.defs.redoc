@@ -1,0 +1,418 @@
+﻿[section#intro.defs
+    [:en] Terms and definitions
+    [:zh_CN] 术语与定义
+]
+
+[index:begin@text#definitions
+    [:en] definitions
+    [:zh_CN] 定义
+]
+
+[para]
+[:en]
+For the purposes of this document, the following definitions apply.
+[:zh_CN]
+出于本文件的目的，采用下列定义。
+
+[para]
+[:en]
+[#definitions] defines additional terms that are used only in Clauses [#library]
+through [#thread] and Annex [#depr].
+[:zh_CN]
+条款 [#definitions] 定义了仅在第 [#library] 条到第 [#thread] 条和附录 [#depr]
+中使用的其他术语。
+
+[para]
+[:en]
+Terms that are used only in a small portion of this International Standard are
+defined where they are used and italicized where they are defined.
+[:zh_CN]
+对于仅在本国际标准中小范围使用的术语，将在其使用之处给出定义，并用楷体字表示之。
+
+[section:def#defns.access
+    [:en] access [index access]
+    [:zh_CN] 访问（access） [index 访问]
+]
+[:en]
+<execution-time action> to read or modify the value of an object
+[:zh_CN]
+【执行期行为】 读取或改变对象的值
+
+[section:def#defns.argument
+    [:en] argument [index argument [!function call expression]]
+    [:zh_CN] 实参（argument） [index 实参 [!函数调用表达式]]
+]
+[:en]
+<function call expression> expression in the comma-separated list bounded by the
+parentheses
+[:zh_CN]
+【函数调用表达式】 圆括号所包围的逗号分隔列表中的表达式
+
+[section:def#defns.argument.macro
+    [:en] argument [index argument [!function-like macro]]
+    [:zh_CN] 实参（argument） [index 实参 [!函数形式宏]]
+]
+[:en]
+<function-like macro> sequence of preprocessing tokens in the comma-separated
+list bounded by the parentheses
+[:zh_CN]
+【函数形式宏】 圆括号所包围的逗号分隔列表中的预处理标记序列
+
+[section:def#defns.argument.throw
+    [:en] argument [index argument [!throw expression]]
+    [:zh_CN] 实参（argument） [index 实参 [!throw 表达式]]
+]
+[:en]
+<throw expression> the operand of [`throw]
+[:zh_CN]
+【throw 表达式】 [`throw] 的操作数
+
+[section:def#defns.argument.templ
+    [:en] argument [index argument [!template instantiation]]
+    [:zh_CN] 实参（argument） [index 实参 [!模板实例化式]]
+]
+[:en]
+<template instantiation> expression, [~type-id] or [~template-name] in the
+comma-separated list bounded by the angle brackets
+[:zh_CN]
+【模板实例化式】 角括号所包围的逗号分隔列表中的表达式、[~类型标识]或[~模板名]
+
+[section:def#defns.cond.supp
+    [:en] conditionally-supported [index behavior [sub conditionally-supported]]
+    [:zh_CN] 有条件支持的（conditionally-support）
+        [index 行为 [sub 有条件支持的～]]
+]
+[:en]
+program construct that an implementation is not required to support
+[:zh_CN]
+实现不必支持的程序构造
+
+[br]
+
+[enter:note]
+[:en]
+Each implementation documents all conditionally-supported constructs that it
+does not support.
+[:zh_CN]
+每个实现都要对所有它所不支持的有条件支持的程序构造注明文档。
+[exit:note]
+
+[section:def#defns.diagnostic
+    [:en] diagnostic message [index message [sub diagnostic]]
+    [:zh_CN] 诊断消息（diagnostic message） [index 消息 [sub 诊断～]]
+]
+[:en]
+[index@impldef diagnostic message]
+message belonging to an implementation-defined subset of the implementation[=']s
+output messages
+[:zh_CN]
+[index@impldef 诊断消息]
+实现的输出消息，属于一个由实现定义的子集
+
+[section:def#defns.dynamic.type
+    [:en] dynamic type [index type [sub dynamic]]
+    [:zh_CN] 动态类型（dynamic type） [index 类型 [sub 动态～]]
+]
+[:en]
+<glvalue> type of the most derived object ([#intro.object]) to which the
+glvalue denoted by a glvalue expression refers
+[:zh_CN]
+【泛左值】 由泛左值表达式代表的泛左值所指代的最终派生对象（[#intro.object]）
+的类型
+
+[br]
+
+[enter:example]
+[:en]
+if a pointer ([#dcl.ptr]) [c p] whose static type is [q pointer to class [`B]]
+is pointing to an object of class [`D], derived from [`B] (Clause
+[#class.derived]), the dynamic type of the expression [`*p] is ["[`D].]
+[:zh_CN]
+如果静态类型为“指向类 [`B] 的指针”的指针（[#dcl.ptr]）[`p]，指向一个派生自
+[`B]（第 [#class.derived] 条）的类 [`D] 的对象，则表达式 [`*p] 的动态类型是
+“[`D]”。
+
+[:en]
+References ([#dcl.ref]) are treated similarly.
+[:zh_CN]
+引用（[#dcl.ref]）与此相似。
+[exit:example]
+
+[section:def#defns.dynamic.type.prvalue
+    [:en] dynamic type [index type [sub dynamic]]
+    [:zh_CN] 动态类型（dynamic type） [index 类型 [sub 动态～]]
+]
+[:en]
+<prvalue> static type of the prvalue expression
+[:zh_CN]
+【纯右值】 纯右值表达式的静态类型
+
+[section:def#defns.ill.formed
+    [:en] ill-formed program [index program [sub ill-formed]]
+    [:zh_CN] 非良构的（ill-formed）程序 [index 程序 [sub 非良构的～]]
+]
+[:en]
+program that is not well formed
+[:zh_CN]
+不是良构的程序
+
+[section:def#defns.impl.defined
+    [:en] implementation-defined behavior
+        [index behavior [sub implementation-defined]]
+    [:zh_CN] 由实现定义的（implementation-defined）行为
+        [index 行为 [sub 由实现定义的～]]
+]
+[:en]
+behavior, for a well-formed program construct and correct data, that
+depends on the implementation and that each implementation documents
+[:zh_CN]
+由良构的程序构造与正确的数据引发的行为，但它依赖于实现，并且每个实现各自对其
+注明文档
+
+[section:def#defns.impl.limits
+    [:en] implementation limits [index limits [sub implementation]]
+    [:zh_CN] 实现限度（implementation limits） [index 限度 [sub 实现～]]
+]
+[:en]
+restrictions imposed upon programs by the implementation
+[:zh_CN]
+由实现施加于程序的额度限制
+
+[section:def#defns.locale.specific
+    [:en] locale-specific behavior [index behavior [sub locale-specific]]
+    [:zh_CN] 特定于区域的（locale-specific）行为
+        [index 行为 [sub 特定于区域的～]]
+]
+[:en]
+behavior that depends on local conventions of nationality, culture, and
+language that each implementation documents
+[:zh_CN]
+依赖于当地国别、文化和语言等习俗约定的行为，每个实现各自对其注明文档
+
+[section:def#defns.multibyte
+    [:en] multibyte character [index character [sub multibyte]]
+    [:zh_CN] 多字节（multibyte）字符 [index 字符 [sub 多字节～]]
+]
+[:en]
+sequence of one or more bytes representing a member of the extended
+character set of either the source or the execution environment
+[:zh_CN]
+一个或多个字节的序列，用于表示源文件或执行环境的扩展字符集中的单个成员
+
+[br]
+
+[enter:note]
+[:en]
+The extended character set is a superset of the basic character set
+([#lex.charset]).
+[:zh_CN]
+扩展字符集是基本字符集的超集（[#lex.charset]）。
+[exit:note]
+
+[section:def#defns.parameter
+    [:en] parameter
+        [index parameter [sub function]]
+        [index parameter [sub catch clause]]
+    [:zh_CN] 形参（parameter）
+        [index 形参 [sub 函数～]]
+        [index 形参 [sub catch 子句～]]
+]
+[:en]
+<function or catch clause> object or reference declared as part of a function
+declaration or definition or in the catch clause of an exception handler that
+acquires a value on entry to the function or handler
+[:zh_CN]
+【函数或捕获子句】 作为函数声明式或定义式的一部分，或位于异常处理器的捕获子句中
+所声明的，在函数或处理器的入口点获得值的对象或引用
+
+[section:def#defns.parameter.macro
+    [:en] parameter [index parameter [sub function-like macro]]
+    [:zh_CN] 形参（parameter） [index 形参 [sub 函数形式宏～]]
+]
+[:en]
+<function-like macro> identifier from the comma-separated list bounded by the
+parentheses immediately following the macro name
+[:zh_CN]
+【函数形式宏】 紧跟宏名的圆括号所包围的逗号分隔列表中的标识符
+
+[section:def#defns.parameter.templ
+    [:en] parameter [index parameter [sub template]]
+    [:zh_CN] 形参（parameter） [index 形参 [sub 模板～]]
+]
+[:en]
+<template> [~template-parameter]
+[:zh_CN]
+【模板】 [~模板形参]
+
+[section:def#defns.signature
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<function> name, parameter type list ([#dcl.fct]), and enclosing namespace (if
+any)
+[:zh_CN]
+【函数】 名字，形参类型列表（[#dcl.fct]），及其外围命名空间（如果有）
+
+[br]
+
+[enter:note]
+[:en]
+Signatures are used as a basis for name mangling and linking.
+[:zh_CN]
+签名被用作名字重整和连接的基础。
+[exit:note]
+
+[section:def#defns.signature.templ
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<function template> name, parameter type list ([#dcl.fct]), enclosing namespace
+(if any), return type, and template parameter list
+[:zh_CN]
+【函数模板】 名字，形参类型列表（[#dcl.fct]），外围命名空间（如果有），
+返回类型，及其模板形参列表
+
+[section:def#defns.signature.spec
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<function template specialization> signature of the template of which it is a
+specialization and its template arguments (whether explicitly specified or
+deduced)
+[:zh_CN]
+【函数模板特例】 其所特化的模板的签名，及其（显式指定的或推断出来的）模板实参
+
+[section:def#defns.signature.member
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<class member function> name, parameter type list ([#dcl.fct]), class of which
+the function is a member, [=cv]-qualifiers (if any), and [~ref-qualifier]
+(if any)
+[:zh_CN]
+【类成员函数】 名字，形参类型列表（[#dcl.fct]），以其作为成员的类，
+[=cv]-限定符（如果有），以及[~引用限定符]（如果有）
+
+[section:def#defns.signature.member.templ
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<class member function template> name, parameter type list ([#dcl.fct]), class
+of which the function is a member, [=cv]-qualifiers (if any),
+[~ref-qualifier] (if any), return type, and template parameter list
+[:zh_CN]
+【类成员函数模板】 名字，形参类型列表（[#dcl.fct]），以其作为成员的类，
+[=cv]-限定符（如果有），[~引用限定符]（如果有），返回类型，以及模板形参列表
+
+[section:def#defns.signature.member.spec
+    [:en] signature [index signature]
+    [:zh_CN] 签名（signature） [index 签名]
+]
+[:en]
+<class member function template specialization> signature of the member function
+template of which it is a specialization and its template arguments (whether
+explicitly specified or deduced)
+[:zh_CN]
+【类成员函数模板特例】 其所特化的成员函数模板的签名，及其（显式指定的或推断
+出来的）模板实参
+
+[section:def#defns.static.type
+    [:en] static type [index type [sub static]]
+    [:zh_CN] 静态类型（static type） [index 类型 [sub 静态～]]
+]
+[:en]
+type of an expression ([#basic.types]) resulting from analysis of the program
+without considering execution semantics
+[:zh_CN]
+仅通过分析程序，而不考虑其执行语义所得到的表达式的类型（[#basic.types]）
+
+[br]
+
+[enter:note]
+[:en]
+static type of an expression depends only on the form of the program in which
+the expression appears, and does not change while the program is executing.
+[:zh_CN]
+表达式的静态类型仅依赖于该表达式所在的程序的形式，且在程序执行期间不会改变。
+[exit:note]
+
+[section:def#defns.undefined
+    [:en] undefined behavior [index behavior [sub undefined]]
+    [:zh_CN] 未定义的（undefined）行为 [index 行为 [sub 未定义的～]]
+]
+[:en]
+behavior for which this International Standard imposes no requirements
+[:zh_CN]
+本国际标准不为之施加任何规定的行为
+
+[br]
+
+[enter:note]
+[:en]
+Undefined behavior may be expected when this International Standard omits any
+explicit definition of behavior or when a program uses an erroneous construct or
+erroneous data.
+[:zh_CN]
+若本国际标准忽略了任何行为的明确定义，或者当某个程序使用错误的构造或错误的数据
+时，预期会出现未定义行为。
+
+[:en]
+Permissible undefined behavior ranges from ignoring the situation completely
+with unpredictable results, to behaving during translation or program execution
+in a documented manner characteristic of the environment (with or without the
+issuance of a diagnostic message), to terminating a translation or execution
+(with the issuance of a diagnostic message).
+[:zh_CN]
+未定义行为所允许的的范围包括，完全忽略将会具有不可预测结果的情况，在翻译或程序
+执行期间以文档中明确说明的，环境所特有的方式发生动作（并产生或不产生诊断信息），
+以及终止一次翻译或执行（并产生诊断信息）。
+
+[:en]
+Many erroneous program constructs do not engender undefined behavior; they are
+required to be diagnosed.
+[:zh_CN]
+许多错误的程序构造并不会引发未定义行为；它们就需要被诊断出来。
+[exit:note]
+
+[section:def#defns.unspecified
+    [:en] unspecified behavior [index behavior [sub unspecified]]
+    [:zh_CN] 未指明的行为 [index 行为 [sub 未指明的～]]
+]
+[:en]
+behavior, for a well-formed program construct and correct data, that depends on
+the implementation
+[:zh_CN]
+良构的程序构造和正确的数据可能产生的，依赖于实现的行为
+
+[br]
+
+[enter:note]
+[:en]
+The implementation is not required to document which behavior occurs.
+[:zh_CN]
+实现并不需要注明发生了哪种行为。
+
+[:en]
+The range of possible behaviors is usually delineated by this International
+Standard.
+[:zh_CN]
+在本国际标准中通常都圈定了可能行为的范围。
+[exit:note]
+
+[section:def#defns.well.formed
+    [:en] well-formed program [index program [sub well-formed]]
+    [:zh_CN] 良构的（well-formed）程序 [index 程序 [sub 良构的～]]
+]
+[:en]
+[=Cpp] program constructed according to the syntax rules, diagnosable semantic
+rules, and the One Definition Rule ([#basic.def.odr])
+[:zh_CN]
+根据语法规则、可诊断的语义规则和唯一定义原则（[#basic.def.odr]）所构造的 [=Cpp]
+程序
+
+[index:end#definitions]

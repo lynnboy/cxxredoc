@@ -1,0 +1,220 @@
+﻿[section#intro.object
+    [:en] The [=Cpp] object model
+    [:zh_CN] [=Cpp] 对象模型
+]
+
+[index:begin@text#object
+    [:en] object model
+    [:zh_CN] 对象模型
+]
+
+[para]
+[:en]
+[%object]
+The constructs in a [=Cpp] program create, destroy, refer to, access, and
+manipulate objects.
+[:zh_CN]
+[%对象]
+[=Cpp] 程序中的构造创建、销毁、涉指、访问并操作对象。
+
+[:en]
+An [def object] is a region of storage.
+[:zh_CN]
+[def 对象]是一块存储区域。
+
+[enter:note]
+[:en]
+A function is not an object, regardless of whether or not it occupies storage
+in the way that objects do.
+[:zh_CN]
+无论是否像对象那样占据存储，函数都不是对象。
+[exit:note]
+
+[:en]
+An object is created by a [~definition] ([#basic.def]), by a [~new-expression]
+([#expr.new]) or by the implementation ([#class.temporary]) when needed.
+[:zh_CN]
+对象通过[~定义]（[#basic.def]），通过[~new-表达式]（[#expr.new]），或者根据需要
+由实现创建（[#class.temporary]）。
+
+[:en]
+The properties of an object are determined when the object is created.
+[:zh_CN]
+对象的各种属性确定于对象创建之时。
+
+[:en]
+An object can have a [~name] (Clause [#basic]).
+[:zh_CN]
+对象可以有[~名字]（第 [#basic] 条）。
+
+[:en]
+An object has a [+storage duration] ([#basic.stc]) which influences its
+[+lifetime] ([#basic.life]).
+[:zh_CN]
+对象具有[+存储期]（#basic.stc]），并影响它的[+生存期（[#basic.life]）。
+
+[:en]
+An object has a [+type] ([#basic.types]).
+[:zh_CN]
+对象具有[+类型]（[#basic.types]）。
+
+[:en]
+The term [def object type] refers to the type with which the object is created.
+[:zh_CN]
+术语[def 对象类型]是指创建对象时所使用的类型。
+
+[:en]
+Some objects are [+polymorphic] ([#class.virtual]);
+[:zh_CN]
+一些对象是[+多态的]（[#class.virtual]）；
+
+[:en]
+the implementation generates information associated with each such object that
+makes it possible to determine that object's type during program execution.
+[:zh_CN]
+实现为每个这种对象生成与其关联的信息，以便在程序运行时能够判定该对象的类型。
+
+[:en]
+For other objects, the interpretation of the values found therein is determined
+by the type of the [~expression]s (Clause [#expr]) used to access them.
+[:zh_CN]
+对于其他对象，如何判读其中的值是根据用于访问它们的[~表达式]（第 [#expr] 条）
+的类型来决定的。
+
+[para]
+[:en]
+Objects can contain other objects, called [def subobjects [%subobject]].
+[:zh_CN]
+对象可以包含其他对象，它们被称为[def 子对象]。
+
+[:en]
+A subobject can be a [def member subobject] ([#class.mem]), a [def base class
+subobject] (Clause [#class.derived]), or an array element.
+[:zh_CN]
+子对象可以是[def 成员子对象]（[#class.mem]），[def 基类子对象]
+（第 [#class.derived] 条），或数组元素。
+
+[:en]
+[%object [!complete]]
+An object that is not a subobject of any other object is called a [def complete
+object].
+[:zh_CN]
+[%对象 [!全～]]
+不是任何其他对象的子对象的对象被称为[def 完整对象]。
+
+[para]
+[:en]
+For every object [`x], there is some object called the [def complete object of]
+[`x], determined as follows:
+[:zh_CN]
+对于任意对象 [`x]，都存在被称为 [`x] [def 的完整对象]的对象，判定如下：
+
+[list:ul]
+
+[item]
+[:en]
+If [`x] is a complete object, then [`x] is the complete object of [`x].
+[:zh_CN]
+如果 [`x] 是完整对象，则 [`x] 就是 [`x] 的完整对象。
+
+[item]
+[:en]
+Otherwise, the complete object of [`x] is the complete object of the (unique)
+object that contains [`x].
+[:zh_CN]
+否则，[`x] 的完整对象是包含 [`x] 的（唯一）对象的完整对象。
+
+[list:end]
+
+[para]
+[:en]
+If a complete object, a data member ([#class.mem]), or an array element is of
+class type, its type is considered the [def most derived class], to distinguish
+it from the class type of any base class subobject;
+[:zh_CN]
+如果完整对象、数据成员（[#class.mem]）或数组元素为类类型，那么它的类型被称为
+[def 最外层派生类]，以区别于任何基类子对象的类类型；
+
+[:en]
+an object of a most derived class type or of a non-class type is called a
+[def most derived object].
+[:zh_CN]
+最外层派生类类型的，或非类类型的对象被称为[def 最外层派生对象]。
+
+[para]
+[:en]
+[%most derived object [!bit-field]]
+Unless it is a bit-field ([#class.bit]), a most derived object shall have a
+non-zero size and shall occupy one or more bytes of storage.
+[:zh_CN]
+[%最外层派生对象 [!位字段]]
+除非作为位字段（[#class.bit]），否则最外层派生对象的大小不应为零，并应当占据
+一个或多个字节的存储。
+
+[:en]
+Base class subobjects may have zero size.
+[:zh_CN]
+基类子对象的大小可以为零。
+
+[:en]
+An object of trivially copyable or standard-layout type ([#basic.types]) shall
+occupy contiguous bytes of storage.
+[:zh_CN]
+可简易复制的或标准布局类型（[#basic.types]）的对象应该占据连续字节的存储。
+
+[para]
+[:en]
+[index most derived object [sub bit-field]]
+[index most derived object [sub zero size subobject]]
+Unless an object is a bit-field or a base class subobject of zero size, the
+address of that object is the address of the first byte it occupies.
+[:zh_CN]
+[index 最外层派生对象 [sub 位字段]]
+[index 最外层派生对象 [sub 零大小子对象]]
+除非某个对象是位字段或者是零大小的基类子对象，否则该对象的地址就是它所占据的
+第一个字节的地址。
+
+[:en]
+Two objects that are not bit-fields may have the same address if one is a
+subobject of the other, or if at least one is a base class subobject of zero
+size and they are of different types;
+[:zh_CN]
+对于不是位字段的两个对象，若其中之一是另一个的子对象，或者若其中至少有一个是
+大小为零的基类子对象而它们具有不同的类型，则它们可以具有相同的地址；
+
+[:en]
+otherwise, they shall have distinct addresses.
+[:zh_CN]
+否则它们应当具有各自独立的地址。
+
+[footnote]
+[:en]
+Under the ["as-if] rule an implementation is allowed to store two objects at
+the same machine address or not store an object at all if the program cannot
+observe the difference ([#intro.execution]).
+[:zh_CN]
+根据“如同”原则，如果程序无法察觉其区别，那就允许实现将两个对象存储到同一个机器
+地址，或者并不真正存储某个对象。
+[footnote:end]
+
+[enter:example]
+
+[code]
+static const char test1 = 'x';
+static const char test2 = 'x';
+const bool b = &test1 != &test2;      // [:en] always true
+                                      // [|:zh_CN] 永远为真
+[code:end]
+
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[=Cpp] provides a variety of fundamental types and several ways of composing
+new types from existing types ([#basic.types]).
+[:zh_CN]
+[=Cpp] 提供多种基础类型，以及几种用已有类型组成新类型的途径（[#basic.types]）。
+[exit:note]
+
+[index:end#object]

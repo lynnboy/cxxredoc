@@ -1,0 +1,87 @@
+﻿[section#intro.structure
+    [:en] Structure of this International Standard
+    [:zh_CN] 本国际标准的结构
+]
+
+[index:begin@text#structure
+    [:en] standard [sub structore of]
+    [:zh_CN] 标准 [sub ～的结构]
+]
+
+[index@text#structure
+    [:en] standard [sub structore of]
+    [:zh_CN] 标准 [sub ～的结构]
+]
+
+[para]
+[:en]
+Clauses [#lex] through [#cpp] describe the [=Cpp] programming language.
+[:zh_CN]
+第 [#lex] 条到第 [#cpp] 条描述了 [=Cpp] 程序设计语言。
+
+[:en]
+That description includes detailed syntactic specifications in a form described
+in [#syntax].
+[:zh_CN]
+该描述包含按 [#syntax] 中所描述的形式给出的详细的语法说明。
+
+[:en]
+For convenience, Annex [#gram] repeats all such syntactic specifications.
+[:zh_CN]
+为方便起见，附录 [#gram] 重复了所有这些语法说明。
+
+[para]
+[:en]
+Clauses [#language.support] through [#thread] and Annex [#depr]
+(the [def library clauses]) describe the Standard [=Cpp] library.
+[:zh_CN]
+第 [#language.support] 条到第 [#thread} 条和附录 [#depr] （[def 程序库条款]）
+描述了标准 [=Cpp] 程序库。
+
+[:en]
+That description includes detailed descriptions of the templates, classes,
+functions, constants, and macros that constitute the library, in a form
+described in Clause [#library].
+[:zh_CN]
+按照第 [#library] 条中所描述的形式，这些描述中包含对构成程序库的模板、类、
+函数、常量和宏的详细描述。
+
+[para]
+[:en]
+Annex [#implimits] recommends lower bounds on the capacity of conforming
+implementations.
+[:zh_CN]
+附录 [#limits] 提出了符合标准的实现的能力下限。
+
+[para]
+[:en]
+Annex [#diff] summarizes the evolution of [=Cpp] since its first published
+description, and explains in detail the differences between [=Cpp] and C.
+[:zh_CN]
+附录 [#diff] 总结了 [=Cpp] 自第一个公开描述以来的变革，并详细解释了 [=Cpp] 与
+C 的不同之处。
+
+[:en]
+Certain features of [=Cpp] exist solely for compatibility purposes; Annex
+[#depr] describes those features.
+[:zh_CN]
+某些 [=Cpp] 特性仅出于兼容性目的而存在，附录 [#depr] 描述了这些特性。
+
+[para]
+[:en]
+Throughout this International Standard, each example is introduced by
+["[=EnterExample]] and terminated by ["[=ExitExample]].
+[:zh_CN]
+贯穿本国际标准中的每个示例都由“[=EnterExample]”引入并以“[=ExitExample]”终止。
+
+[:en]
+Each note is introduced by ["[EnterNote]] and terminated by ["[ExitNote]].
+[:zh_CN]
+每个注解都由“[=EnterNote]”引入并以“[=ExitNote]”终止。
+
+[:en]
+Examples and notes may be nested.
+[:zh_CN]
+示例和注解可以嵌套。
+
+[index:end#structure]

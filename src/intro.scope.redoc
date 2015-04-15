@@ -1,0 +1,50 @@
+﻿[section#intro.scope
+    [:en] Scope
+	[:zh_CN] 范畴
+]
+
+[index:begin@text#scope
+	[:en] scope
+	[:zh_CN] 范畴
+]
+
+[para]
+[:en]
+This International Standard specifies requirements for implementations of the
+[=Cpp] programming language.
+[:zh_CN]
+本国际标准对 [=Cpp] 程序设计语言的实现作出了规定。
+
+[:en]
+The first such requirement is that they implement the language, and so this
+International Standard also defines [=Cpp].
+[:zh_CN]
+其中的首要规定就是语言本身的实现，因此本国际标准同样定义了 [=Cpp] 语言。
+
+[:en]
+Other requirements and relaxations of the first requirement appear at various
+places within this International Standard.
+[:zh_CN]
+在本国际标准中还散布着其他的规定和对首要规定的放宽之处。
+
+[para]
+[:en]
+[=Cpp] is a general purpose programming language based on the C programming
+language as described in ISO/IEC 9899:1999 [cite Programming languages [=--] C]
+(hereinafter referred to as the [def C standard [%C [!standard]]]).
+[:zh_CN]
+[=Cpp] 是一种以由 ISO/IEC 9899:1999，[cite 《程序设计语言——C》]（后文将称之为
+[def C 标准 [%C [!标准]]）中所说明的 C 程序设计语言为基础的通用程序设计语言。
+
+[:en]
+In addition to the facilities provided by C, [=Cpp] provides additional data
+types, classes, templates, exceptions, namespaces, operator overloading,
+function name overloading, references, free store management operators, and
+additional library facilities.
+[:zh_CN]
+除了在 C 中所提供的功能之外，[=Cpp] 另外还提供了数据类型、类（Class）、模板
+（Template）、异常（Exception）、命名空间（Namespace）、运算符重载、函数名重载、
+引用（Reference）、自由存储管理运算符，以及额外的库设施。
+
+[index:end#scope]
+

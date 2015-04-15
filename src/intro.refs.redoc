@@ -1,0 +1,140 @@
+﻿[section#intro.refs
+    [:en] Normative references
+    [:zh_CN] 规范性引用文件
+]
+
+[index:begin@text#references
+    [:en] references [sub] normative
+    [:zh_CN] 引用文件 [sub] 规范性～
+]
+
+[para]
+[:en]
+The following referenced documents are indispensable for the application
+of this document.
+[:zh_CN]
+下列引用文件对于本文件的运用是不可或缺的。
+
+[:en]
+For dated references, only the edition cited applies.
+[:zh_CN]
+引用条目中指定了日期的，必须采用其所指定的版本。
+
+[:en]
+For undated references, the latest edition of the referenced document
+(including any amendments) applies.
+[:zh_CN]
+而未指定日期的，则须采用所引用文件的最新版本（包括其所有修订）。
+
+
+[list:ul]
+[item]
+[:en]
+Ecma International, [cite ECMAScript Language Specification], Standard Ecma-262,
+third edition, 1999.
+[:zh_CN]
+Ecma 国际组织，[cite 《ECMAScript 语言规范》]，Ecma-262 标准，第三版，1999。
+
+[item]
+[:en]
+ISO/IEC 2382 (all parts), [cite Information technology [=--] Vocabulary]
+[:zh_CN]
+ISO/IEC 2382（所有部分），[cite 《信息技术——词汇表》]
+
+[item]
+[:en]
+ISO/IEC 9899:1999, [cite Programming languages [=--] C]
+[:zh_CN]
+ISO/IEC 9899:1999，[cite 《程序设计语言——C》]
+
+[item]
+[:en]
+ISO/IEC 9899:1999/Cor.1:2001(E), [cite Programming languages [=--] C,
+Technical Corrigendum 1]
+[:zh_CN]
+ISO/IEC 9899:1999/Cor.1:2001(E)，[cite 《程序设计语言——C，技术勘误 1》]
+
+[item]
+[:en]
+ISO/IEC 9899:1999/Cor.1:2004(E), [cite Programming languages [=--] C,
+Technical Corrigendum 2]
+[:zh_CN]
+ISO/IEC 9899:1999/Cor.1:2004(E)，[cite 《程序设计语言——C，技术勘误 2》]
+
+[item]
+[:en]
+ISO/IEC 9899:1999/Cor.1:2007(E), [cite Programming languages [=--] C,
+Technical Corrigendum 3]
+[:zh_CN]
+ISO/IEC 9899:1999/Cor.1:2007(E)，[cite 《程序设计语言——C，技术勘误 3》]
+
+[item]
+[:en]
+ISO/IEC 9945:2003, [cite Information technology [=--] Portable Operating
+System Interface (POSIX)]
+[:zh_CN]
+ISO/IEC 9945:2003，[cite 《信息技术——可移植操作系统接口（POSIX）》]
+
+[item]
+[:en]
+ISO/IEC 10646-1:1993, [cite Information technology [=--]
+Universal Multiple-Octet Coded Character Set (UCS) [=--]
+Part 1: Architecture and Basic Multilingual Plane]
+[:zh_CN]
+ISO/IEC 10646-1:1993，[cite 《信息技术——通用多八位编码字符集（UCS）——
+第 1 部分：体系结构和基本多语言平面》]
+
+[item]
+[:en]
+ISO/IEC TR 19769:2004, [cite Information technology [=--]
+Programming languages, their environments and system software interfaces [=--]
+Extensions for the programming language C to support new character data types]
+[:zh_CN]
+ISO/IEC TR 19769:2004，[cite 《信息技术——程序设计语言，及其环境和系统软件接口——
+用于支持新字符数据类型的 C 程序设计语言的扩展》]
+
+[list:end]
+
+[para]
+[:en]
+The library described in Clause 7 of ISO/IEC 9899:1999 and Clause 7 of
+ISO/IEC 9899:1999/Cor.1:2001 and Clause 7 of ISO/IEC 9899:1999/Cor.2:2003
+is hereinafter called the [def C standard library [%C [!standard library]]]).
+[:zh_CN]
+ISO/IEC 9899:1999 的第 7 条，ISO/IEC 9899:1999/Cor.1:2001 的第 7 条，
+和 ISO/IEC 9899:1999/Cor.2:2003 的第 7 条中所描述的程序库，在下文中被称为
+[def C 标准程序库 [%C [!标准程序库]]]。
+
+[footnote]
+[:en]
+With the qualifications noted in Clauses [#language.support] through [#thread]
+and in [#diff.library], the C standard library is a subset of the
+[=Cpp] standard library.
+[:zh_CN]
+在满足第 [#language.support] 条到第 [#thread] 条，以及 [#diff.library]
+中所提到的限制条件下，C 标准程序库是 [=Cpp] 标准程序库的子集。
+[footnote:end]
+
+[para]
+[:en]
+The library described in ISO/IEC TR 19769:2004 is hereinafter called the
+[def C Unicode TR [%C [!Unicode TR]]].
+[:zh_CN]
+ISO/IEC TR 19769:2004 中所描述的程序库在下文中被称为
+[def C Unicode TR [%C [!Unicode TR]]]。
+
+[para]
+[:en]
+The operating system interface described in ISO/IEC 9945:2003 is
+hereinafter called [def POSIX].
+[:zh_CN]
+ISO/IEC 9945:2003 中所描述的操作系统接口，在下文中被称为 [def POSIX]。
+
+[para]
+[:en]
+The ECMAScript Language Specification described in Standard Ecma-262 is
+hereinafter called [def ECMA-262].
+[:zh_CN]
+Ecma-262 标准中所描述的 ECMAScript 语言规范，在下文中被称为 [def ECMA-262]。
+
+[index:end#references]

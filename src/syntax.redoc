@@ -1,0 +1,94 @@
+﻿[section#syntax
+    [:en] Syntax notation
+	[:zh_CN] 语法表示法
+]
+
+[index:begin@text#syntax
+	[:en] syntax
+	[:zh_CN] 语法
+]
+
+
+[para]
+[:en]
+In the syntax notation used in this International Standard, syntactic categories
+are indicated by [em@gram italic] type, and literal words and characters in
+[em@code constant] [em@code wide] type.
+[:zh_CN]
+在本国际标准所使用的语法表示法中，语法范畴用[em@gram 楷体字]表示，字面词汇和字符用
+[em@code 等宽字体]表示。
+
+[:en]
+Alternatives are listed on separate lines except in a few cases where a long set
+of alternatives is marked by the phrase ["[=OneOf].]
+[:zh_CN]
+候选条目分别列在各自的行中，少数情况下一长串候选条目用短语“[=OneOf]”标明。
+
+[:en]
+If the text of an alternative is too long to fit on a line, the text is
+continued on subsequent lines indented from the first one.
+[:zh_CN]
+如果某候选条目太长而不能以一行列出，则其文本将在后续行中列出，并相对于第一行
+进行缩进。
+
+[:en]
+An optional terminal or non-terminal symbol is indicated by the subscript
+["[=Opt]], so
+[:zh_CN]
+可选的终结符或非终结符被标以下标“[=Opt]”，于是
+
+[syntax:sample]
+[:en]
+[`{] [~:opt expression] [`}]
+[:zh_CN]
+[`{] [~:opt 表达式] [`}]
+[syntax:end]
+
+[~:en]
+indicates an optional expression enclosed in braces.
+[~:zh_CN]
+表示被包围在花括号中的可选的表达式。
+
+[para]
+[:en]
+Names for syntactic categories have generally been chosen according to the
+following rules:
+[:zh_CN]
+语法范畴的名字通常依据以下规则选择：
+
+[list:ul]
+
+[item]
+[:en]
+[em@gram X-name] is a use of an identifier in a context that determines its meaning
+(e.g., [~class-name], [~typedef-name]).
+[:zh_CN]
+[em@gram 某名] 是在确定含义的语境中使用的标识符，（如[~类名]、
+[~typedef-名]）。
+
+[item]
+[:en]
+[em@gram X-id] is an identifier with no context-dependent meaning (e.g.,
+[~qualified-id]).
+[:zh_CN]
+[em@gram 某标识] 是没有语境相关含义的标识符，（如[~限定标识]）。
+
+[item]
+[:en]
+[em@gram X-seq] is one or more [em@gram X][=']s without intervening delimiters
+(e.g., [~declaration-seq] is a sequence of declarations).
+[:zh_CN]
+[em@gram 某序列] 是没有分隔符的一个或多个[em@gram 某]，（如[~声明式序列]是一系列
+声明式）。
+
+[item]
+[:en]
+[em@gram X-list] is one or more [em@gram X][=']s separated by intervening commas
+(e.g., [~expression-list] is a sequence of expressions separated by commas).
+[:zh_CN]
+[em@gram 某列表] 是以逗号分隔的一个或多个[em@gram 某]，（如[~表达式列表]是
+以逗号分隔的一系列表达式）。
+
+[list:end]
+
+[index:end#syntax]

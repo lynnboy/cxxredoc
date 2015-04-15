@@ -1,0 +1,219 @@
+﻿[section#intro.compliance
+    [:en] Implementation compliance
+    [:zh_CN] 实现遵从性
+]
+
+[index:begin@text#conformance
+    [:en] conformance requirements
+    [:zh_CN] 遵从性规定
+]
+
+[index:begin@text#conformance.general
+    [:en] conformance requirements [sub general]
+    [:zh_CN] 遵从性规定 [sub 综述]
+]
+
+[para]
+[:en]
+The set of [def diagnosable rules] consists of all syntactic and semantic rules
+in this International Standard except for those rules containing an explicit
+notation that ["no diagnostic is required] or which are described as resulting
+in ["undefined behavior.]
+[:zh_CN]
+[def 可诊断规则] 的集合包括，在本国际标准中除了明确标记为“无须诊断”的，或
+描述为导致“未定义的行为”的规则外的所有语法和语义规则。
+
+[para]
+[:en]
+[index@text conformance requirements [sub method of description]]
+Although this International Standard states only requirements on [=Cpp]
+implementations, those requirements are often easier to understand if they are
+phrased as requirements on programs, parts of programs, or execution of programs.
+[:zh_CN]
+[index@text 遵从性规定 [sub 描述方式]]
+虽然本国际标准只需陈述针对 [=Cpp] 实现的规定，但若将这些规定描述为针对程序、程序
+的片段或程序的执行的规定，则通常会使它们更加容易理解。
+
+[:en]
+Such requirements have the following meaning:
+[:zh_CN]
+这些规定具有如下含义：
+
+[list:ul]
+
+[item]
+[:en]
+If a program contains no violations of the rules in this International Standard,
+a conforming implementation shall, within its resource limits, accept and
+correctly execute
+[:zh_CN]
+如果程序没有违反本国际标准中的规则，则在其资源限制下，符合标准的实现应该接受并
+正确执行
+
+[footnote]
+[:en]
+["Correct execution] can include undefined behavior, depending on the data
+being processed; see [#intro.defs] and~[#intro.execution].
+[footnote:end]
+[:zh_CN]
+“正确执行”可能含有未定义的行为，这依赖于其所处理的数据；见 [#intro.defs] 和
+[#intro.execution]。
+
+[~:en]
+that program.
+[~:zh_CN]
+这个程序。
+
+[item]
+[:en]
+[index@text message [sub diagnostic]]
+If a program contains a violation of any diagnosable rule or an occurrence of a
+construct described in this Standard as ["conditionally-supported] when the
+implementation does not support that construct, a conforming implementation
+shall issue at least one diagnostic message.
+[:zh_CN]
+[index@text 消息 [sub 诊断～]]
+如果程序违反了任何可诊断规则，或出现任何在本标准中被描述为“有条件支持的”而
+该实现并不支持的程序构造，则符合标准的实现应该给出至少一条诊断消息。
+
+[item]
+[:en]
+[index@text behavior [sub undefined]]
+If a program contains a violation of a rule for which no diagnostic is required,
+this International Standard places no requirement on implementations with
+respect to that program.
+[:zh_CN]
+[index@text 行为 [sub 未定义的～]]
+如果程序所违反的规则不需要进行诊断，则本国际标准对于该程序不对实现作任何规定。
+
+[list:end]
+
+[index:begin@text#conformance.library
+    [:en] conformance requirements [sub library]
+    [:zh_CN] 遵从性规定 [sub 程序库]
+]
+
+[para]
+[:en]
+[index@text conformance requirements [sub classes]]
+[index@text conformance requirements [sub class template]]
+For classes and class templates, the library Clauses specify partial
+definitions.
+[:zh_CN]
+[index@text 遵从性规定 [sub 类]]
+[index@text 遵从性规定 [sub 类模板]]
+对于类和类模板，程序库条款中指定了它们的部分定义。
+
+[:en]
+Private members (Clause [#class.access]) are not specified, but each
+implementation shall supply them to complete the definitions according to the
+description in the library Clauses.
+[:zh_CN]
+其私有成员（第 [#class.access] 条）并未被指明，但每个实现都应按照程序库条款
+中的描述提供它们以补全这些定义。
+
+[para]
+[:en]
+For functions, function templates, objects, and values, the library Clauses
+specify declarations.
+[:zh_CN]
+对于函数、函数模板、对象和值，程序库条款中指定了它们的声明。
+
+[:en]
+Implementations shall supply definitions consistent with the descriptions in the
+library Clauses.
+[:zh_CN]
+实现应该提供与程序库条款中的描述相一致的定义。
+
+[para]
+[:en]
+The names defined in the library have namespace scope ([#basic.namespace]).
+[:zh_CN]
+程序库中所定义的名字具有命名空间作用域（[#basic.namespace]）。
+
+[:en]
+A [=Cpp] translation unit ([#lex.phases]) obtains access to these names by
+including the appropriate standard library header ([#cpp.include]).
+[:zh_CN]
+[=Cpp] 翻译单元（#lex.phases]）可通过包含相应的标准程序库头文件
+（[#cpp.include]）来访问这些名字。
+
+[para]
+[:en]
+The templates, classes, functions, and objects in the library have external
+linkage ([#basic.link]).
+[:zh_CN]
+程序库中的模板、类、函数和对象具有外部连接（[#basic.link]）。
+
+[:en]
+The implementation provides definitions for standard library entities, as
+necessary, while combining translation units to form a complete [=Cpp]
+program ([#lex.phases]).
+[:zh_CN]
+当将翻译单元合并为完整的 [=Cpp] 程序（[#lex.phases]）时，实现应当按需提供标准
+程序库中的实体的定义。
+
+[index:end#conformance.library]
+
+[para]
+[:en]
+Two kinds of implementations are defined: a [def hosted implementation] and a
+[def freestanding implementation].
+[:zh_CN]
+共定义了两类实现：[def 宿主式实现]和[def 自立式实现]。
+
+[:en]
+For a hosted implementation, this International Standard defines the set of
+available libraries.
+[:zh_CN]
+对于宿主式实现，本国际标准定义了一组可用的程序库。
+
+[:en]
+[index@impldef required libraries for freestanding implementation]
+A freestanding implementation is one in which execution may take place without
+the benefit of an operating system, and has an implementation-defined set of
+libraries that includes certain language-support libraries ([#compliance]).
+[:zh_CN]
+[index@impldef 自立式实现所需的程序库]
+自立式实现中程序执行时没有操作系统的支持，但带有一组由实现定义的程序库，其中
+包含特定的语言支持库（[#compliance]）。
+
+[para]
+[:en]
+A conforming implementation may have extensions (including additional library
+functions), provided they do not alter the behavior of any well-formed program.
+[:zh_CN]
+符合标准的实现也可以带有扩展（包括额外的程序库功能），只要它们不改变任何良构
+程序的行为。
+
+[:en]
+Implementations are required to diagnose programs that use such extensions that
+are ill-formed according to this International Standard.
+[:zh_CN]
+实现应将使用了这些扩展的程序诊断为对本国际标准而言是非良构的。
+
+[:en]
+Having done so, however, they can compile and execute such programs.
+[:zh_CN]
+虽然如此，它们仍能编译并执行这种程序。
+
+[para]
+[:en]
+Each implementation shall include documentation that identifies all
+[index@text behavior [sub conditionally-supported]]
+conditionally-supported constructs that it does not support and defines all
+locale-specific characteristics.
+[:zh_CN]
+每个实现都应当包含文档以标明所有
+[index@text 行为 [sub 有条件支持的～]]
+其所不支持的有条件支持的构造，并定义所有特定于区域的特征。
+[footnote]
+[:en]
+This documentation also defines implementation-defined behavior;
+see [#intro.execution].
+[:zh_CN]
+本文档也为由实现定义的行为进行了定义；见 [#intro.execution]。
+[footnote:end]
+
+[index:end#conformance.general]
+[index:end#conformance]
