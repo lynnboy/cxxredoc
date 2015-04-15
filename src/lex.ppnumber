@@ -1,0 +1,34 @@
+﻿[section#lex.ppnumber
+    [:en] Preprocessing numbers
+    [:zh_CN] 
+]
+
+[index:begin#preprocessing.number
+    [:en] number [! preprocessing]
+]
+
+[syntax]
+[rule pp-number]
+    [| digit]
+    [| [`.] digit]
+    [| pp-number digit]
+    [| pp-number identifier-nondigit]
+    [| pp-number [`'] digit]
+    [| pp-number [`'] nondigit]
+    [| pp-number [`e] sign]
+    [| pp-number [`E] sign]
+    [| pp-number [`.]]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Preprocessing number tokens lexically include all integer literal tokens
+([#lex.icon]) and all floating literal tokens ([#lex.fcon]).
+
+[para]
+[:en]
+A preprocessing number does not have a type or a value; it acquires both after a
+successful conversion to an integer literal token or a floating literal token.
+
+[index:end#preprocessing.number]

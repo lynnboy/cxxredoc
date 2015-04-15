@@ -1,0 +1,203 @@
+﻿[section#lex.icon
+    [:en] Integer literals
+    [:zh_CN] 
+]
+
+[syntax]
+[rule integer-literal]
+    [| binary-literal [~:opt integer-suffix]]
+    [| octal-literal [~:opt integer-suffix]]
+    [| decimal-literal [~:opt integer-suffix]]
+    [| hexadecimal-literal [~:opt integer-suffix]]
+[rule:end]
+
+[rule binary-literal]
+    [| [`0b] binary-digit]
+    [| [`0B] binary-digit]
+    [| binary-literal [`:opt '] binary-digit]
+[rule:end]
+
+[rule octal-literal]
+    [| [`0]]
+    [| octal-literal [`:opt '] octal-digit]
+[rule:end]
+
+[rule decimal-literal]
+    [| nonzero-digit]
+    [| decimal-literal [`:opt '] digit]
+[rule:end]
+
+[rule hexadecimal-literal]
+    [| [`0x] hexadecimal-digit]
+    [| [`0X] hexadecimal-digit]
+    [| hexadecimal-literal [`:opt '] hexadecimal-digit]
+[rule:end]
+
+[rule binary-digit]
+    [| [`0]]
+    [| [`1]]
+[rule:end]
+
+[rule:oneof octal-digit]
+    [| 0 1 2 3 4 5 6 7]
+[rule:end]
+
+[rule:oneof nonzero-digit]
+    [| 1 2 3 4 5 6 7 8 9]
+[rule:end]
+
+[rule:oneof hexadecimal-digit]
+    [| 0 1 2 3 4 5 6 7 8 9]
+    [| a b c d e f]
+    [| A B C D E F]
+[rule:end]
+
+[rule integer-suffix]
+    [| unsigned-suffix [~:opt long-suffix]]
+    [| unsigned-suffix [~:opt long-long-suffix]]
+    [| long-suffix [~:opt unsigned-suffix]]
+    [| long-long-suffix [~:opt unsigned-suffix]]
+[rule:end]
+
+[rule:oneof unsigned-suffix]
+    [| u U]
+[rule:end]
+
+[rule:oneof long-suffix]
+    [| l L]
+[rule:end]
+
+[rule:oneof long-long-suffix]
+    [| ll LL]
+[rule:end]
+
+[syntax:end]
+
+[para]
+[:en]
+[%literal[![`unsigned]]]
+[%literal[![`long]]]
+[%literal[!integer]]
+[%literal[!binary]]
+[%literal[!octal]]
+[%literal[!decimal]]
+[%literal[!hexadecimal]]
+[%literal[!base of integer]]
+An [+integer literal] is a sequence of digits that has no period or exponent
+part, with optional separating single quotes that are ignored when determining
+its value.
+
+[:en]
+An integer literal may have a prefix that specifies its base and a suffix that
+specifies its type.
+
+[:en]
+The lexically first digit of the sequence of digits is the most significant.
+
+[:en]
+A [+binary] integer literal (base two) begins with [`0b] or [`0B] and consists
+of a sequence of binary digits.
+
+[:en]
+An [+octal] integer literal (base eight) begins with the digit [`0] and consists
+of a sequence of octal digits.
+
+[footnote]
+[:en]
+The digits [`8] and [`9] are not octal digits.
+[footnote:end]
+
+[:en]
+A [+decimal] integer literal (base ten) begins with a digit other than [`0] and
+consists of a sequence of decimal digits.
+
+[:en]
+A [+hexadecimal] integer literal (base sixteen) begins with [`0x] or [`0X] and
+consists of a sequence of hexadecimal digits, which include the decimal digits
+and the letters [`a] through [`f] and [`A] through [`F] with decimal values ten
+through fifteen.
+
+[enter:example]
+[:en]
+The number twelve can be written [`12], [`014], [`0XC], or [`0b1100].
+
+[:en]
+The literals [`1048576], [`1'048'576], [`0X100000], [`0x10'0000], and
+[`0'004'000'000] all have the same value.
+[exit:example]
+
+[para]
+[:en]
+[%literal[![`long]]]
+[%literal[![`unsigned]]]
+[%suffix[![`L]]]
+[%suffix[![`U]]]
+[%suffix[![`l]]]
+[%suffix[![`u]]]
+[%literal[!type of integer]]
+The type of an integer literal is the first of the corresponding list in Table
+[#tab:lex.type.integer.literal] in which its value can be represented.
+
+[table:grid#tab:lex.type.integer.literal
+    [:en] Types of integer literals
+    [columns
+        [column@centerheader
+            [:en] Suffix
+        ]
+        [column@code@centerheader
+            [:en] Decimal literal
+        ]
+        [column@code@centerheader
+            [:en] Binary, octal, or hexadecimal literal
+        ]
+    ]
+]
+[|] none
+[|] int [br] long int [br] long long int
+[|] int [br] unsigned int [br] long int [br] unsigned long int [br]
+    long long int [br] unsigned long long int
+
+[|] [`u] or [`U]
+[|] unsigned int [br] unsigned long int [br] unsigned long long int
+[|] unsigned int [br] unsigned long int [br] unsigned long long int
+
+[|] [`l] or [`L]
+[|] long int [br] long long int
+[|] long int [br] unsigned long int [br]
+    long long int [br] unsigned long long int
+
+[|] Both [`u] or [`U] and [`l] or [`L]
+[|] unsigned long int [br] unsigned long long int
+[|] unsigned long int [br] unsigned long long int
+
+[|] [`ll] or [`LL]
+[|] long long int
+[|] long long int [br] unsigned long long int
+
+[|] Both [`u] or [`U] and [`ll] or [`LL]
+[|] unsigned long long int
+[|] unsigned long long int
+
+[table:end]
+
+[para]
+[:en]
+If an integer literal cannot be represented by any type in its list and an
+extended integer type ([#basic.fundamental]) can represent its value, it may
+have that extended integer type.
+
+[:en]
+If all of the types in the list for the literal are signed, the extended integer
+type shall be signed.
+
+[:en]
+If all of the types in the list for the literal are unsigned, the extended
+integer type shall be unsigned.
+
+[:en]
+If the list contains both signed and unsigned types, the extended integer type
+may be signed or unsigned.
+
+[:en]
+A program is ill-formed if one of its translation units contains an integer
+literal that cannot be represented by any of the allowed types.

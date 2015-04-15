@@ -1,0 +1,80 @@
+﻿[section#lex.digraph
+    [:en] Alternative tokens
+    [:zh_CN] 
+]
+
+[index:begin#alternative.token
+    [:en] token [!alternative]
+]
+
+[para]
+[:en]
+Alternative token representations are provided for some operators and
+punctuators.
+
+[footnote]
+[:en]
+[%digraph]
+These include ["digraphs] and additional reserved words.
+
+[:en]
+The term ["digraph] (token consisting of two characters) is not perfectly
+descriptive, since one of the alternative preprocessing-tokens is [`%:%:] and of
+course several primary tokens contain two characters.
+
+[:en]
+Nonetheless, those alternative tokens that aren't lexical keywords are
+colloquially known as ["digraphs].
+[footnote:end]
+
+[para]
+[:en]
+In all respects of the language, each alternative token behaves the same,
+respectively, as its primary token, except for its spelling.
+
+[footnote]
+[:en]
+Thus the ["stringized] values ([#cpp.stringize]) of [`[] and [`<:] will be
+different, maintaining the source spelling, but the tokens can otherwise be
+freely interchanged.
+[footnote:end]
+
+[:en]
+The set of alternative tokens is defined in Table [#tab:alternative.tokens].
+
+[table:listing#tab:alternative.tokens
+    [:en] Alternative tokens
+    [columns:repeated@3
+        [column@code@center
+            [:en] Alternative
+            [border@left]
+        ]
+        [column@code@center
+            [:en] Primary
+            [border@right]
+        ]
+    ]
+    [border:row@both]
+]
+[|] <%      [|] {
+[|] %>      [|] }
+[|] <:      [|] [=[]
+[|] :>      [|] [=]]
+[|] %:      [|] #
+[|] %:%:    [|] ##
+
+[|] and     [|] &&
+[|] bitor   [|] |
+[|] or      [|] ||
+[|] xor     [|] ^
+[|] compl   [|] ~
+[|] bitand  [|] &
+
+[|] and_eq  [|] &=
+[|] or_eq   [|] |=
+[|] xor_eq  [|] ^=
+[|] not     [|] !
+[|] not_eq  [|] !=
+[table:end]
+
+[index:end#alternative.token]

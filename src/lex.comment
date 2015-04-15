@@ -1,0 +1,38 @@
+﻿[section#lex.comment
+    [:en] Comments
+    [:zh_CN] 
+]
+
+[index:begin#comment
+    [:en] comment
+]
+
+[para]
+[:en]
+[%comment[![`/*] [`*/]]]
+The characters [`/*] start a comment, which terminates with the characters [`*/].
+
+[:en]
+These comments do not nest.
+
+[:en]
+[%comment[![`//]]]
+The characters [`//] start a comment, which terminates immediately before the
+next new-line character.
+
+[:en]
+If there is a form-feed or a vertical-tab character in such a comment, only
+white-space characters shall appear between it and the new-line that terminates
+the comment; no diagnostic is required.
+
+[enter:note]
+[:en]
+The comment characters [`//], [`/*], and [`*/] have no special meaning within a
+[`//] comment and are treated just like other characters.
+
+[:en]
+Similarly, the comment characters [`//] and [`/*] have no special meaning within
+a [`/*] comment.
+[exit:note]
+
+[index:end#comment]

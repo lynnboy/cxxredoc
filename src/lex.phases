@@ -1,0 +1,233 @@
+﻿[section#lex.phases
+    [:en] Phases of translation
+    [:zh_CN] 
+]
+
+[index:begin#translation.phases
+    [:en] translation [!phases]
+]
+
+[para]
+[:en]
+The precedence among the syntax rules of translation is specified by the
+following phases.
+
+[footnote]
+[:en]
+Implementations must behave as if these separate phases occur, although in
+practice different phases might be folded together.
+[footnote:end]
+
+[list:ol@ndot]
+[item]
+[:en]
+[%source file] [%character[!source file]] [%character set[!basic source]]
+Physical source file characters are mapped, in an [%@impldef mapping physical
+source file characters to basic source character set] implementation-defined
+manner, to the basic source character set (introducing new-line characters for
+end-of-line indicators) if necessary.
+
+[:en]
+The set of physical source file characters accepted is [%@impldef physical
+source file characters] implementation-defined.
+
+[:en]
+Any source file character not in the basic source character set ([#lex.charset])
+is replaced by the [%universal character name] universal-character-name that
+designates that character.
+
+[:en]
+(An implementation may use any internal encoding, so long as an actual extended
+character encountered in the source file, and the same extended character
+expressed in the source file as a universal-character-name (i.e., using the
+[`\uXXXX] notation), are handled equivalently except where this replacement is
+reverted in a raw string literal.)
+
+[item]
+[:en]
+[%line splicing]
+Each instance of a backslash character (\) immediately followed by a new-line
+character is deleted, splicing physical source lines to form logical source
+lines.
+
+[:en]
+Only the last backslash on any physical source line shall be eligible for being
+part of such a splice.
+
+[:en]
+Except for splices reverted in a raw string literal, if a splice results in a
+character sequence that matches the syntax of a universal-character-name, the
+behavior is undefined.
+
+[:en]
+A source file that is not empty and that does not end in a new-line character,
+or that ends in a new-line character immediately preceded by a backslash
+character before any such splicing takes place, shall be processed as if an
+additional new-line character were appended to the file.
+
+[item]
+[:en]
+The source file is decomposed into preprocessing tokens ([#lex.pptoken]) and
+sequences of white-space characters (including comments).
+
+[:en]
+A source file shall not end in a partial preprocessing token or in a partial
+comment.
+
+[footnote]
+[:en]
+A partial preprocessing token would arise from a source file ending in the first
+portion of a multi-character token that requires a terminating sequence of
+characters, such as a [~header-name] that is missing the closing [~"] or [~>].
+
+[:en]
+A partial comment would arise from a source file ending with an unclosed [`/*]
+comment.
+[footnote:end]
+
+[:en]
+Each comment is replaced by one space character.
+
+[:en]
+New-line characters are retained.
+
+[:en]
+Whether each nonempty sequence of white-space characters other than new-line is
+retained or replaced by one space character is unspecified.
+
+[:en]
+The process of dividing a source file[=']s characters into preprocessing tokens
+is context-dependent.
+
+[enter:example]
+[:en]
+see the handling of [`<] within a [`#include] preprocessing directive.
+[exit:example]
+
+[item]
+[:en]
+Preprocessing directives are executed, macro invocations are expanded, and
+[`_Pragma] unary operator expressions are executed.
+
+[:en]
+If a character sequence that matches the syntax of a universal-character-name is
+produced by token concatenation ([#cpp.concat]), the behavior is undefined.
+
+[:en]
+A [`#include] preprocessing directive causes the named header or source file to
+be processed from phase 1 through phase 4, recursively.
+
+[:en]
+All preprocessing directives are then deleted.
+
+[item]
+[:en]
+Each source character set member in a character literal or a string literal, as
+well as each escape sequence and universal-character-name in a character literal
+or a non-raw string literal, is converted to the corresponding member of the
+execution character set ([#lex.ccon], [#lex.string]);
+
+[:en]
+if there is no corresponding member, it is converted to an [%@impldef converting
+characters from source character set to execution character set]
+implementation-defined member other than the null (wide) character.
+
+[footnote]
+[:en]
+An implementation need not convert all non-corresponding source characters to
+the same execution character.
+[footnote:end]
+
+[item]
+[:en]
+Adjacent string literal tokens are concatenated.
+
+[item]
+[:en]
+White-space characters separating tokens are no longer significant.
+
+[:en]
+Each preprocessing token is converted into a token. ([#lex.token]).
+
+[:en]
+The resulting tokens are syntactically and semantically analyzed and translated
+as a translation unit.
+
+[enter:note]
+[:en]
+The process of analyzing and translating the tokens may occasionally result in
+one token being replaced by a sequence of other tokens ([#temp.names]).
+[exit:note]
+
+[enter:note]
+[:en]
+Source files, translation units and translated translation units need not
+necessarily be stored as files, nor need there be any one-to-one correspondence
+between these entities and any external representation.
+
+[:en]
+The description is conceptual only, and does not specify any particular
+implementation.
+[exit:note]
+
+[item]
+[:en]
+Translated translation units and instantiation units are combined as follows:
+
+[enter:note]
+[:en]
+Some or all of these may be supplied from a library.
+[exit:note]
+
+[:en]
+Each translated translation unit is examined to produce a list of required
+instantiations.
+
+[enter:note]
+[:en]
+This may include instantiations which have been explicitly requested
+([#temp.explicit]).
+[exit:note]
+
+[:en]
+The definitions of the required templates are located.
+
+[:en]
+It is [%@impldef whether source of translation units must be available to locate
+template definitions] implementation-defined whether the source of the
+translation units containing these definitions is required to be available.
+
+[enter:note]
+[:en]
+An implementation could encode sufficient information into the translated
+translation unit so as to ensure the source is not required here.
+[exit:note]
+
+[:en]
+All the required instantiations are performed to produce [def instantiation
+units].
+
+[enter:note]
+[:en]
+These are similar to translated translation units, but contain no references to
+uninstantiated templates and no template definitions.
+[exit:note]
+
+[:en]
+The program is ill-formed if any instantiation fails.
+
+[item]
+[:en]
+All external entity references are resolved.
+
+[:en]
+Library components are linked to satisfy external references to entities not
+defined in the current translation.
+
+[:en]
+All such translator output is collected into a program image which contains
+information needed for execution in its execution environment.
+
+[list:end]
+
+[index:end#translation.phases]

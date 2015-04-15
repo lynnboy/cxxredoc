@@ -1,0 +1,102 @@
+﻿[section:chapter#lex
+    [:en] Lexical conventions
+    [:zh_CN] 
+]
+
+[index
+    [:en] lexical conventions [see conventions[!lexical]]
+]
+
+[index
+    [:en] translation[!separate] [see compilation[!separate]]
+]
+
+[index
+    [:en] separate translation [see compilation[!separate]]
+]
+
+[index
+    [:en] separate compilation [see compilation[!separate]]
+]
+
+[index
+    [:en] phases of translation [see translation[!phases]]
+]
+
+[index
+    [:en] source file character [see character[!source file]]
+]
+
+[index
+    [:en] alternative token [see token[!alternative]]
+]
+
+[index
+    [:en] digraph [see token[!alternative]]
+]
+
+[index
+    [:en] integer literal [see literal[!integer]]
+]
+
+[index
+    [:en] character literal [see literal[!character]]
+]
+
+[index
+    [:en] floating literal [see literal[!floating]]
+]
+
+[index
+    [:en] floating-point literal [see literal[!floating]]
+]
+
+[index
+    [:en] string literal [see literal[!string]]
+]
+
+[index
+    [:en] boolean literal [see literal[!boolean]]
+]
+
+[index
+    [:en] pointer literal [see literal[!pointer]]
+]
+
+[index
+    [:en] user-defined literal [see literal[!user defined]]
+]
+
+[index
+    [:en] file[!source] [see source file]
+]
+
+[index:begin#lexical.conventions
+    [:en] conventions [! lexical]
+]
+
+[include lex.separate]
+
+[include lex.phases]
+
+[include lex.charset]
+
+[include lex.pptoken]
+
+[include lex.digraph]
+
+[include lex.token]
+
+[include lex.comment]
+
+[include lex.header]
+
+[include lex.ppnumber]
+
+[include lex.name]
+
+[include lex.key]
+
+[include lex.literal]
+
+[index:end#lexical.conventions]

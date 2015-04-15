@@ -1,0 +1,39 @@
+﻿[section#lex.operators
+    [:en] Operators and punctuators
+    [:zh_CN] 
+]
+
+[index:begin#operator
+    [:en] operator
+]
+
+[index:begin#punctuator
+    [:en] punctuator
+]
+
+[para]
+[:en]
+The lexical representation of [=Cpp] programs includes a number of preprocessing
+tokens which are used in the syntax of the preprocessor or are converted into
+tokens for operators and punctuators:
+
+[syntax]
+[rule:oneof@aligned preprocessing-op-or-punc]
+    [| {    }       [=[]    [=]]    #       ##      (       )]
+    [| <:   :>      <%      %>      %:      %:%:    ;       :       ...]
+    [| new  delete  ?       ::      .       .*]
+    [| +    -       *       /       %       ^       &       |       ~]
+    [| !    =       <       >       +=      -=      *=      /=      %=]
+    [| ^=   &=      |=      <<      >>      >>=     <<=     ==      !=]
+    [| <=   >=      &&      ||      ++      --      ,       ->*     ->]
+    [| and  and_eq  bitand  bitor   compl   not     not_eq]
+    [| or   or_eq   xor     xor_eq]
+[rule:end]
+[syntax:end]
+
+[:en]
+Each [~preprocessing-op-or-punc] is converted to a single token in translation
+phase 7 ([#lex.phases]).
+
+[index:end#punctuator]
+[index:end#operator]

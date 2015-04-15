@@ -1,0 +1,43 @@
+﻿[section#lex.separate
+    [:en] Separate translation
+    [:zh_CN] 
+]
+
+[index:begin#separate.compilation
+    [:en] compilation [!separate]
+]
+
+[para]
+[:en]
+The text of the program is kept in units called [%source file] [+source files]
+in this International Standard.
+
+[:en]
+A source file together with all the headers ([#headers]) and source files
+included ([#cpp.include]) via the preprocessing directive [~#include], less any
+source lines skipped by any of the conditional inclusion ([#cpp.cond])
+preprocessing directives, is called a [def translation unit].
+
+[enter:note]
+[:en]
+A [=Cpp] program need not all be translated at the same time.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+Previously translated translation units and instantiation units can be preserved
+individually or in libraries.
+
+[:en]
+The separate translation units of a program communicate ([#basic.link]) by (for
+example) calls to functions whose identifiers have external linkage,
+manipulation of objects whose identifiers have external linkage, or manipulation
+of data files.
+
+[:en]
+Translation units can be separately translated and then later linked to produce
+an executable program ([#basic.link]).
+[exit:note]
+
+[index:end#separate.compilation]

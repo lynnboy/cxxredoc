@@ -1,0 +1,122 @@
+﻿[section#lex.name
+    [:en] Identifiers
+    [:zh_CN] 
+]
+
+[index:begin#identifier
+    [:en] identifier
+]
+
+[syntax]
+[rule identifier]
+    [| identifier-nondigit]
+    [| identifier identifier-nondigit]
+    [| identifier digit]
+[rule:end]
+
+[rule identifier-nondigit]
+    [| nondigit]
+    [| universal-character-name]
+    [|:descriptive
+        [:en] other implementation-defined characters
+    ]
+[rule:end]
+
+[rule:oneof nondigit]
+    [| a b c d e f g h i j k l m]
+    [| n o p q r s t u v w x y z]
+    [| A B C D E F G H I J K L M]
+    [| N O P Q R S T U V W X Y Z _]
+[rule:end]
+
+[rule:oneof digit]
+    [| 0 1 2 3 4 5 6 7 8 9]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%name [!length of]] [%name]
+An identifier is an arbitrarily long sequence of letters and digits.
+
+[:en]
+Each universal-character-name in an identifier shall designate a character whose
+encoding in ISO 10646 falls into one of the ranges specified in
+[#charname.allowed].
+
+[:en]
+The initial element shall not be a universal-character-name designating a
+character whose encoding falls into one of the ranges specified in
+[#charname.disallowed].
+
+[:en]
+Upper- and lower-case letters are different.
+
+[:en]
+All characters are significant.
+
+[footnote]
+[:en]
+On systems in which linkers cannot accept extended characters, an encoding of
+the universal-character-name may be used in forming valid external identifiers.
+
+[:en]
+For example, some otherwise unused character or sequence of characters may be
+used to encode the [`\u] in a universal-character-name.
+
+[:en]
+Extended characters may produce a long external identifier, but [=Cpp] does not
+place a translation limit on significant characters for external identifiers.
+
+[:en]
+In [=Cpp], upper- and lower-case letters are considered different for all
+identifiers, including external identifiers.
+[footnote:end]
+
+[para]
+[:en]
+The identifiers in Table [#tab:identifiers.special] have a special meaning when
+appearing in a certain context.
+
+[:en]
+When referred to in the grammar, these identifiers are used explicitly rather
+than using the [~identifier] grammar production.
+
+[:en]
+Unless otherwise specified, any ambiguity as to whether a given [~identifier]
+has a special meaning is resolved to interpret the token as a regular
+[~identifier].
+
+[table:listing@simple#tab:identifiers.special
+    [:en] Identifiers with special meaning
+    [column@code@2]
+]
+[|] override
+[|] final
+[table:end]
+
+[para]
+[:en]
+[% [`_] [see character [!underscore]]]
+[%character[!underscore[!in identifier]]]
+[%reserved identifier]
+In addition, some identifiers are reserved for use by [=Cpp] implementations and
+shall not be used otherwise; no diagnostic is required.
+
+[list]
+
+[item]
+[:en]
+Each identifier that contains a double [%character[!underscore]] underscore [`__]
+or begins with an underscore followed by an [%uppercase] uppercase letter is
+reserved to the implementation for any use.
+
+[item]
+[:en]
+Each identifier that begins with an [%character[!underscore]] underscore is
+reserved to the implementation for use as a name in the [%namespace[!global]]
+global namespace.
+
+[list:end]
+
+[index:end#identifier]

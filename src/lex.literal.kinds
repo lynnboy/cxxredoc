@@ -1,0 +1,28 @@
+﻿[section#lex.literal.kinds
+    [:en] Kinds of literals
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%constant]
+[%literal[!constant]]
+There are several kinds of literals.
+
+[footnote]
+[:en]
+The term ["literal] generally designates, in this International Standard, those
+tokens that are called ["constants] in ISO C.
+[footnote:end]
+
+[syntax]
+[rule literal]
+    [| integer-literal]
+    [| character-literal]
+    [| floating-literal]
+    [| string-literal]
+    [| boolean-literal]
+    [| pointer-literal]
+    [| user-defined-literal]
+[rule:end]
+[syntax:end]

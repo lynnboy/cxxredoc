@@ -1,0 +1,64 @@
+﻿[section#lex.header
+    [:en] Header names
+    [:zh_CN] 
+]
+
+[index:begin#header.name
+    [:en] header [! name]
+]
+
+[syntax]
+[rule header-name]
+    [| [`<] h-char-sequence [`>]]
+    [| [`"] q-char-sequence [`"]]
+[rule:end]
+
+[rule h-char-sequence]
+    [| h-char]
+    [| h-char-sequence h-char]
+[rule:end]
+
+[rule h-char]
+    [|:descriptive
+        [:en] any member of the source character set except new-line and [`>]
+    ]
+[rule:end]
+
+[rule q-char-sequence]
+    [| q-char]
+    [| q-char-sequence q-char]
+[rule:end]
+
+[rule q-char]
+    [|:descriptive
+        [:en] any member of the source character set except new-line and [`"]
+    ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Header name preprocessing tokens shall only appear within a [`#include]
+preprocessing directive ([#cpp.include]).
+
+[:en]
+The sequences in both forms of [~header-name]s are mapped in an [%@impldef
+mapping header name to header or external source file] implementation-defined
+manner to headers or to external source file names as specified in
+[#cpp.include].
+
+[para]
+[:en]
+The appearance of either of the characters [`'] or [`\] or of either of the
+character sequences [`/*] or [`//] in a [~q-char-sequence] or an
+[~h-char-sequence] is conditionally-supported with implementation-defined
+semantics, as is the appearance of the character [`"] in an [~h-char-sequence].
+
+[footnote]
+[:en]
+Thus, a sequence of characters that resembles an escape sequence might result in
+an error, be interpreted as the character corresponding to the escape sequence,
+or have a completely different meaning, depending on the implementation.
+[footnote:end]
+
+[index:end#header.name]
