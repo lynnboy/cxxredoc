@@ -262,14 +262,14 @@ A synchronization operation without an associated memory location is a fence and
 can be either an acquire fence, a release fence, or both an acquire and release
 fence.
 [:zh_CN]
-没有关联的内存位置的同步操作是内存栅栏，可以是获取栅栏、释放栅栏或获取并释放栅栏。
+不与内存位置相关联的同步操作是内存栅栏，可以是获取栅栏、释放栅栏或获取并释放栅栏。
 
 [:en]
 In addition, there are relaxed atomic operations, which are not synchronization
 operations, and atomic read-modify-write operations, which have special
 characteristics.
 [:zh_CN]
-此外，还有不是同步操作的弱原子性操作，以及具有特殊性质的原子性读-改-写操作。
+此外，还有不是同步操作的放松的原子性操作，以及具有特殊性质的原子性读-改-写操作。
 
 [enter:note]
 [:en]
@@ -296,340 +296,751 @@ later perform a consume or an acquire operation on [$A].
 ["Relaxed] atomic operations are not synchronization operations even
 though, like synchronization operations, they cannot contribute to data races.
 [:zh_CN]
+尽管“放松的”原子性操作与同步操作一样不会参与数据竞争，它们仍不是同步操作。
 
 [exit:note]
 
-\pnum
-All modifications to a particular atomic object \term{M} occur in some
-particular total order, called the \defn{modification order} of \term{M}. If
-\term{A} and \term{B} are modifications of an atomic object \term{M} and
-\term{A} happens before (as defined below) \term{B}, then \term{A} shall precede
-\term{B} in the modification order of \term{M}, which is defined below.
-\enternote This states that the modification orders must respect the ``happens
-before'' relationship. \exitnote \enternote There is a separate order for each
-atomic object. There is no requirement that these can be combined into a single
-total order for all objects. In general this will be impossible since different
-threads may observe modifications to different objects in inconsistent orders.
-\exitnote
+[para]
+[:en]
+All modifications to a particular atomic object [$M] occur in some particular
+total order, called the [def modification order] of [$M].
+[:zh_CN]
+对某个特定原子性对象 [$M] 的所有改动都将以某个特定的整体顺序发生，这称为 [$M] 的
+[def 改动顺序]。
 
-\pnum
-A \defn{release sequence} headed by a release operation \term{A} on an atomic object
-\term{M} is a maximal contiguous sub-sequence of
-\indextext{side effects}%
-side effects in the
-modification order of \term{M}, where the first operation is \tcode{A}, and
-every subsequent operation
+[:en]
+If [$A] and [$B] are modifications of an atomic object [$M] and [$A] happens
+before (as defined below) [$B], then [$A] shall precede [$B] in the modification
+order of [$M], which is defined below.
+[:zh_CN]
+根据下文的定义，如果 [$A] 和 [$B] 是对原子性对象 [$M] 的改动操作，且 [$A]
+（如下文所定义）发生早于 [$B]，那么在 [$M] 的改动顺序中 [$A] 应当在 [$B] 之前。
 
-\begin{itemize}
-\item is performed by the same thread that performed \tcode{A}, or
-\item is an atomic read-modify-write operation.
-\end{itemize}
+[enter:note]
+[:en]
+This states that the modification orders must respect the ["happens before]
+relationship.
+[:zh_CN]
+此处指出，改动顺序必须合乎“发生早于”关系。
+[exit:note]
 
-\pnum
-Certain library calls \defn{synchronize with} other library calls performed by
-another thread. For example, an atomic store-release synchronizes with a
-load-acquire that takes its value from the store~(\ref{atomics.order}).
-\enternote Except in the specified cases, reading a later value does not
-necessarily ensure visibility as described below. Such a requirement would
-sometimes interfere with efficient implementation. \exitnote \enternote The
-specifications of the synchronization operations define when one reads the value
-written by another. For atomic objects, the definition is clear. All operations
-on a given mutex occur in a single total order. Each mutex acquisition ``reads
-the value written'' by the last mutex release. \exitnote
+[enter:note]
+[:en]
+There is a separate order for each atomic object.
+[:zh_CN]
+每个原子性对象都有各自的顺序。
 
-\pnum
-An evaluation \term{A} \defn{carries a dependency} to an evaluation \term{B} if
+[:en]
+There is no requirement that these can be combined into a single total order for
+all objects.
+[:zh_CN]
+并不存在这种规定：这些顺序是否可以合并为对于所有对象的单一的整体顺序。
 
-\begin{itemize}
+[:en]
+In general this will be impossible since different threads may observe
+modifications to different objects in inconsistent orders.
+[:zh_CN]
+一般来说这其实是不可能的，因为不同的线程所观察到的不同对象上的改动，其顺序可能
+是不一致的。
+[exit:note]
 
-\item
-the value of \term{A} is used as an operand of \term{B}, unless:
-\begin{itemize}
+[para]
+[:en]
+A [def release sequence] headed by a release operation [$A] on an atomic object
+[$M] is a maximal contiguous sub-sequence of [%side effects] side effects in the
+modification order of [$M], where the first operation is [$A], and every
+subsequent operation
+[:zh_CN]
+某原子性对象 [$M] 上以释放操作 [$A] 起始的[def 释放序列]，是 [$M] 的改动顺序中，
+[%副作用]副作用的最大连续子序列，其第一个操作是 [$A]，并且其后续的每个操作
 
-\item
-\term{B} is an invocation of any specialization of
-\tcode{std::kill_dependency}~(\ref{atomics.order}), or
+[list]
+[item]
+[~:en]
+is performed by the same thread that performed [$A], or
+[~:zh_CN]
+是由实施 [$A] 的同一线程所实施的操作，或者
+[item]
+[~:en]
+is an atomic read-modify-write operation.
+[~:zh_CN]
+是原子性读-改-写操作。
+[list:end]
 
-\item
-\term{A} is the left operand of a built-in logical AND (\tcode{\&\&},
-see~\ref{expr.log.and}) or logical OR (\tcode{||}, see~\ref{expr.log.or})
-operator, or
+[para]
+[:en]
+Certain library calls [def synchronize with] other library calls performed by
+another thread.
+[:zh_CN]
+特定的库函数调用[def 同步于]其他线程中所进行的其他库函数调用。
 
-\item
-\term{A} is the left operand of a conditional (\tcode{?:}, see~\ref{expr.cond})
-operator, or
+[:en]
+For example, an atomic store-release synchronizes with a load-acquire that takes
+its value from the store ([#atomics.order]).
+[:zh_CN]
+例如，一个原子性存储-释放操作同步于一个获得该次存储中的值的加载-获取操作
+（[#atomics.order]）。
 
-\item
-\term{A} is the left operand of the built-in comma (\tcode{,})
-operator~(\ref{expr.comma}); \end{itemize} or
+[enter:note]
+[:en]
+Except in the specified cases, reading a later value does not necessarily ensure
+visibility as described below.
+[:zh_CN]
+除了所指明的情况以外，对晚些的值的读取并不需要如下所述的对可见性的保证。
 
-\item
-\term{A} writes a scalar object or bit-field \term{M}, \term{B} reads the value
-written by \term{A} from \term{M}, and \term{A} is sequenced before \term{B}, or
+[:en]
+Such a requirement would sometimes interfere with efficient implementation.
+[:zh_CN]
+因为有时这种规定将会妨碍产生高效的实现。
+[exit:note]
 
-\item
-for some evaluation \term{X}, \term{A} carries a dependency to \term{X}, and
-\term{X} carries a dependency to \term{B}.
+[enter:note]
+[:en]
+The specifications of the synchronization operations define when one reads the
+value written by another.
+[:zh_CN]
+针对同步操作的说明，定义了一个操作何时读取另一个操作所写入的值。
 
-\end{itemize}
+[:en]
+For atomic objects, the definition is clear.
+[:zh_CN]
+对于原子性对象来说，这项定义是清晰的。
 
-\enternote ``Carries a dependency to'' is a subset of ``is sequenced before'',
-and is similarly strictly intra-thread. \exitnote
+[:en]
+All operations on a given mutex occur in a single total order.
+[:zh_CN]
+在给定的一个互斥体上的进行所有操作都符合单一的整体顺序。
 
-\pnum
-An evaluation \term{A} is \defn{dependency-ordered before} an evaluation
-\term{B} if
-\begin{itemize}
+[:en]
+Each mutex acquisition ["reads the value written] by the last mutex release.
+[:zh_CN]
+每个互斥体获取操作均“读取到最后一个互斥体释放时所写入的值”。
+[exit:note]
 
-\item
-\term{A} performs a release operation on an atomic object \term{M}, and, in
-another thread, \term{B} performs a consume operation on \term{M} and reads a
-value written by any
-\indextext{side effects}%
-side effect in the release sequence headed by \term{A}, or
+[para]
+[:en]
+An evaluation [$A] [def carries a dependency] to an evaluation [$B] if
+[:zh_CN]
+符合如下条件时，求值 [$A] [def 传递依赖给]求值 [$B]：
 
-\item
-for some evaluation \term{X}, \term{A} is dependency-ordered before \term{X} and
-\term{X} carries a dependency to \term{B}.
+[list]
+[item]
+[:en]
+the value of [$A] is used as an operand of [$B], unless:
+[:zh_CN]
+[$A] 的值被用作 [$B] 的操作数，除非：
 
-\end{itemize}
-\enternote The relation ``is dependency-ordered before'' is analogous to
-``synchronizes with'', but uses release/consume in place of release/acquire.
-\exitnote
+[list]
+[item]
+[:en]
+[$B] is an invocation of any specialization of [`std::kill_dependency]
+([#atomics.order]), or
+[:zh_CN]
+[$B] 是对 [`std::kill_dependency]（[#atomics.order]）的任何特例的调用，或者
 
-\pnum
-An evaluation \term{A} \defn{inter-thread happens before} an evaluation \term{B}
-if
+[item]
+[:en]
+[$A] is the left operand of a built-in logical AND ([`&&], see [#expr.log.and])
+or logical OR ([`||], see [#expr.log.or]) operator, or
+[:zh_CN]
+[$A] 是内建逻辑与（[`&&]，见 [#expr.log.and]）或逻辑或（[`||]，见 [#expr.log.or]）
+运算符的左操作数，或者
 
-\begin{itemize}
+[item]
+[:en]
+[$A] is the left operand of a conditional ([`?:], see [#expr.cond]) operator, or
+[:zh_CN]
+[$A] 是条件（[`?:]，见 [#expr.cond]）运算符的左操作数，或者
 
-\item
-\term{A} synchronizes with \term{B}, or
+[item]
+[:en]
+[$A] is the left operand of the built-in comma ([`,]) operator ([#expr.comma]);
+[:zh_CN]
+[$A] 是内建逗号（[`,]）运算符（[#expr.comma]）的左操作数；
+[list:end]
 
-\item
-\term{A} is dependency-ordered before \term{B}, or
-
-\item
-for some evaluation \term{X}
-
-\begin{itemize}
-\item
-\term{A} synchronizes with \term{X} and \term{X} is sequenced before \term{B},
+[~:en]
 or
+[~:zh_CN]
+或者
 
-\item
-\term{A} is sequenced before \term{X} and \term{X} inter-thread happens before
-\term{B}, or
+[item]
+[:en]
+[$A] writes a scalar object or bit-field [$M], [$B] reads the value written by
+[$A] from [$M], and [$A] is sequenced before [$B], or
+[:zh_CN]
+[$A] 写入标量对象或位字段 [$M]，而 [$B] 从 [$M] 中读取由 [$A] 写入的值，且 [$A]
+按顺序早于 [$B]，或者
 
-\item
-\term{A} inter-thread happens before \term{X} and \term{X} inter-thread happens
-before \term{B}.
-\end{itemize}
-\end{itemize}
+[item]
+[:en]
+for some evaluation [$X], [$A] carries a dependency to [$X], and
+[$X] carries a dependency to [$B].
+[:zh_CN]
+对于某个求值 [$X]，[$A] 传递依赖给 [$X]，且 [$X] 传递依赖给 [$B]。
 
-\enternote The ``inter-thread happens before'' relation describes arbitrary
-concatenations of ``sequenced before'', ``synchronizes with'' and
-``dependency-ordered before'' relationships, with two exceptions. The first
-exception is that a concatenation is not permitted to end with
-``dependency-ordered before'' followed by ``sequenced before''. The reason for
-this limitation is that a consume operation participating in a
-``dependency-ordered before'' relationship provides ordering only with respect
-to operations to which this consume operation actually carries a dependency. The
-reason that this limitation applies only to the end of such a concatenation is
-that any subsequent release operation will provide the required ordering for a
-prior consume operation. The second exception is that a concatenation is not
-permitted to consist entirely of ``sequenced before''. The reasons for this
-limitation are (1) to permit ``inter-thread happens before'' to be transitively
-closed and (2) the ``happens before'' relation, defined below, provides for
-relationships consisting entirely of ``sequenced before''. \exitnote
+[list:end]
 
-\pnum
-An evaluation \term{A} \defn{happens before} an evaluation \term{B} if:
+[enter:note]
+[:en]
+["Carries a dependency to] is a subset of ["is sequenced before], and is
+similarly strictly intra-thread.
+[:zh_CN]
+“传递依赖给”关系是“按顺序早于”关系的子集，并且同样也是严格的线程内关系。
+[exit:note]
 
-\begin{itemize}
-\item \term{A} is sequenced before \term{B}, or
-\item \term{A} inter-thread happens before \term{B}.
-\end{itemize}
+[para]
+[:en]
+An evaluation [$A] is [def dependency-ordered before] an evaluation [$B] if
+[:zh_CN]
+符合如下条件时，求值 [$A] [def 按依赖顺序早于]求值 [$B]：
 
+[list]
+
+[item]
+[:en]
+[$A] performs a release operation on an atomic object [$M], and, in another
+thread, [$B] performs a consume operation on [$M] and reads a value written by
+any [%side effects] side effect in the release sequence headed by [$A], or
+[:zh_CN]
+[$A] 对某个原子性对象 [$M] 施以释放操作，而在另一线程中 [$B] 对 [$M] 施以消费
+操作，并读取以 [$A] 起始的释放序列中的任意[%副作用]副作用所写入的值，或者
+
+[item]
+[:en]
+for some evaluation [$X], [$A] is dependency-ordered before [$X] and [$X]
+carries a dependency to [$B].
+[:zh_CN]
+对于某个求值 [$X]，[$A] 按依赖顺序早于 [$X]，且 [$X] 传递依赖给 [$B]。
+
+[list:end]
+
+[enter:note]
+[:en]
+The relation ["is dependency-ordered before] is analogous to
+["synchronizes with], but uses release/consume in place of release/acquire.
+[:zh_CN]
+“按依赖顺序早于”关系和“同步于”关系相似，但并不根据释放/获取操作，而是根据
+释放/消费操作。
+[exit:note]
+
+[para]
+[:en]
+An evaluation [$A] [def inter-thread happens before] an evaluation [$B] if
+[:zh_CN]
+符合如下条件时，求值 [$A] [def 线程间发生早于]求值 [$B]：
+
+[list]
+
+[item]
+[:en]
+[$A] synchronizes with [$B], or
+[:zh_CN]
+[$A] 同步于 [$B]，或者
+
+[item]
+[:en]
+[$A] is dependency-ordered before [$B], or
+[:zh_CN]
+[$A] 按依赖顺序早于 [$B]，或者
+
+[item]
+[:en]
+for some evaluation [$X]
+[:zh_CN]
+对于某个求值 [$X]
+
+[list]
+
+[item]
+[:en]
+[$A] synchronizes with [$X] and [$X] is sequenced before [$B], or
+[:zh_CN]
+[$A] 同步于 [$X]，且 [$X] 按顺序早于 [$B]，或者
+
+[item]
+[:en]
+[$A] is sequenced before [$X] and [$X] inter-thread happens before [$B], or
+[:zh_CN]
+[$A] 按顺序早于 [$X]，且 [$X] 线程间发生早于 [$B]，或者
+
+[item]
+[:en]
+[$A] inter-thread happens before [$X] and [$X] inter-thread happens before [$B].
+[:zh_CN]
+[$A] 线程间发生早于 [$X]，且 [$X] 线程间发生早于 [$B]。
+
+[list:end]
+
+[list:end]
+
+[enter:note]
+[:en]
+The ["inter-thread happens before] relation describes arbitrary concatenations
+of ["sequenced before], ["synchronizes with] and ["dependency-ordered before]
+relationships, with two exceptions.
+[:zh_CN]
+“线程间发生早于”关系描述了“按顺序早于”，“同步于”，和“按依赖顺序早于”关系的任意
+接合，但存在两个例外。
+
+[:en]
+The first exception is that a concatenation is not permitted to end with
+["dependency-ordered before] followed by ["sequenced before].
+[:zh_CN]
+第一个例外是，一个接合不能以“按依赖顺序早于”关系跟着“按顺序早于”关系结尾。
+
+[:en]
+The reason for this limitation is that a consume operation participating in a
+["dependency-ordered before] relationship provides ordering only with respect
+to operations to which this consume operation actually carries a dependency.
+[:zh_CN]
+这条限制的原因在于，对于参与“按依赖顺序早于”关系的消费操作，仅对确实由它向之
+传递了依赖的操作来说才会提供有序性。
+
+[:en]
+The reason that this limitation applies only to the end of such a concatenation
+is that any subsequent release operation will provide the required ordering for
+a prior consume operation.
+[:zh_CN]
+这条限制仅适用于这种接合的结尾的原因在于，任何后续的释放操作都将为之前的消费操作
+提供所需的有序性。
+
+[:en]
+The second exception is that a concatenation is not permitted to consist
+entirely of ["sequenced before].
+[:zh_CN]
+第二个例外是，不允许一个接合仅由“按顺序早于”关系构成。
+
+[:en]
+The reasons for this limitation are
+[:zh_CN]
+这条限制的原因在于：
+
+[:en]
+(1) to permit ["inter-thread happens before] to be transitively closed and
+[:zh_CN]
+第一，使得“线程间发生早于”关系能够是可传递闭合的；
+
+[:en]
+(2) the ["happens before] relation, defined below, provides for relationships
+consisting entirely of ["sequenced before].
+[:zh_CN]
+第二，下文所定义的“发生早于”关系，已经定义了仅由“按顺序早于”关系构成的关系。
+[exit:note]
+
+[para]
+[:en]
+An evaluation [$A] [def happens before] an evaluation [$B] if:
+[:zh_CN]
+符合如下条件时，求值 [$A] [def 发生早于]求值 [$B]：
+
+[list]
+[item]
+[:en]
+[$A] is sequenced before [$B], or
+[:zh_CN]
+[$A] 按顺序早于 [$B]，或者
+[item]
+[:en]
+[$A] inter-thread happens before [$B].
+[:zh_CN]
+[$A] 线程间发生早于 [$B]。
+[list:end]
+
+[:en]
 The implementation shall ensure that no program execution demonstrates a cycle
-in the ``happens before'' relation. \enternote This cycle would otherwise be
-possible only through the use of consume operations. \exitnote
+in the ["happens before] relation.
+[:zh_CN]
+实现应当保证程序的执行不会在“发生早于”关系上出现循环。
 
-\pnum
-A \defnx{visible side effect}{side effects!visible} \term{A} on a scalar object or bit-field \term{M}
-with respect to a value computation \term{B} of \term{M} satisfies the
+[enter:note]
+[:en]
+This cycle would otherwise be possible only through the use of consume
+operations.
+[:zh_CN]
+当仅使用消费操作时可能造成这种循环。
+[exit:note]
+
+[para]
+[:en]
+A [def visible side effect [%side effects[!visible]]] [$A] on a scalar object or
+bit-field [$M] with respect to a value computation [$B] of [$M] satisfies the
 conditions:
+[:zh_CN]
+对于标量对象或位字段 [$M] 上的值计算 [$B]，[$M] 的[def 可见副作用
+[%副作用[!可见～]]] [$A] 满足如下条件：
 
-\begin{itemize}
-\item \term{A} happens before \term{B} and
-\item there is no other
-\indextext{side effects}%
-side effect \term{X} to \term{M} such that \term{A}
-happens before \term{X} and \term{X} happens before \term{B}.
-\end{itemize}
+[list]
+[item]
+[:en]
+[$A] happens before [$B] and
+[:zh_CN]
+[$A] 发生早于 [$B]，并且
 
-The value of a non-atomic scalar object or bit-field \term{M}, as determined by
-evaluation \term{B}, shall be the value stored by the
-\indextext{side effects!visible}%
-visible side effect
-\term{A}. \enternote If there is ambiguity about which side effect to a
-non-atomic object or bit-field is visible, then the behavior is either
-unspecified or undefined. \exitnote \enternote This states that operations on
-ordinary objects are not visibly reordered. This is not actually detectable
-without data races, but it is necessary to ensure that data races, as defined
-below, and with suitable restrictions on the use of atomics, correspond to data
-races in a simple interleaved (sequentially consistent) execution. \exitnote
+[item]
+[:en]
+there is no other [%side effects] side effect [$X] to [$M] such that [$A]
+happens before [$X] and [$X] happens before [$B].
+[:zh_CN]
+不存在 [$M] 的其他[%副作用]副作用 [$X]，使得 [$A] 发生早于 [$X] 且 [$X] 发生早于
+[$B]。
+[list:end]
 
-\pnum
-The value of an
-atomic object \term{M}, as determined by evaluation \term{B}, shall be the value
-stored by some
-side effect \term{A} that modifies \term{M}, where \term{B} does not happen
-before \term{A}.
-\enternote
+[:en]
+The value of a non-atomic scalar object or bit-field [$M], as determined by
+evaluation [$B], shall be the value stored by the [%side effects[!visible]]
+visible side effect [$A].
+[:zh_CN]
+由求值 [$B] 所确定的非原子性标量对象或位字段 [$M] 的值，应当为由
+[%副作用[!可见～]]可见副作用 [$A] 所存储的值。
+
+[enter:note]
+[:en]
+If there is ambiguity about which side effect to a non-atomic object or
+bit-field is visible, then the behavior is either unspecified or undefined.
+[:zh_CN]
+当对非原子性对象或位字段上的哪一个副作用可见有歧义时，其行为或者是未指明，或者是
+未定义的。
+[exit:note]
+
+[enter:note]
+[:en]
+This states that operations on ordinary objects are not visibly reordered.
+[:zh_CN]
+这指出不能对普通对象上的操作进行可见的重新排序。
+
+[:en]
+This is not actually detectable without data races, but it is necessary to
+ensure that data races, as defined below, and with suitable restrictions on the
+use of atomics, correspond to data races in a simple interleaved (sequentially
+consistent) execution.
+[:zh_CN]
+这不通过数据竞争是无法实际检测到的，但仍需要通过它来保证，其（如下文所定义的）
+数据竞争，在符合使用原子性操作或对象的适当限制下，与单纯（序列一致地）交错执行中
+的数据竞争相符合。
+[exit:note]
+
+[para]
+[:en]
+The value of an atomic object [$M], as determined by evaluation [$B], shall be
+the value stored by some side effect [$A] that modifies [$M], where [$B] does
+not happen before [$A].
+[:zh_CN]
+由求值 [$B] 所确定的原子性对象 [$M] 的值，应当为某个改动 [$M] 的副作用 [$A] 所
+存储的值，其中 [$B] 不发生早于 [$A]。
+
+[enter:note]
+[:en]
 The set of such side effects is also restricted by the rest of the rules
 described here, and in particular, by the coherence requirements below.
-\exitnote
+[:zh_CN]
+这种副作用的集合同样受这里所描述的其他规则的限制，尤其是下文的一致性规定。
+[exit:note]
 
-\pnum
-If an operation \term{A} that modifies an atomic object \term{M} happens before
-an operation \term{B} that modifies \term{M}, then \term{A} shall be earlier
-than \term{B} in the modification order of \term{M}. \enternote This requirement
-is known as write-write coherence. \exitnote
+[para]
+[:en]
+If an operation [$A] that modifies an atomic object [$M] happens before an
+operation [$B] that modifies [$M], then [$A] shall be earlier than [$B] in the
+modification order of [$M].
+[:zh_CN]
+如果改动原子性对象 [$M] 的操作 [$A] 发生早于改动 [$M] 的操作 [$B]，则在 [$M] 的
+改动顺序中 [$A] 应当早于 [$B]。
 
-\pnum
-If a
-\indextext{value computation}%
-value computation \term{A} of an atomic object \term{M} happens before a
-value computation \term{B} of \term{M}, and \term{A} takes its value from a side
-effect \term{X} on \term{M}, then the value computed by \term{B} shall either be
-the value stored by \term{X} or the value stored by a
-\indextext{side effects}%
-side effect \term{Y} on
-\term{M}, where \term{Y} follows \term{X} in the modification order of \term{M}.
-\enternote This requirement is known as read-read coherence. \exitnote
+[enter:note]
+[:en]
+This requirement is known as write-write coherence.
+[:zh_CN]
+这条规定称为写-写一致性。
+[exit:note]
 
-\pnum
-If a
-\indextext{value computation}%
-value computation \term{A} of an atomic object \term{M} happens before an
-operation \term{B} that modifies \term{M}, then \term{A} shall take its value from a side
-effect \term{X} on \term{M}, where \term{X} precedes \term{B} in the
-modification order of \term{M}. \enternote This requirement is known as
-read-write coherence. \exitnote
+[para]
+[:en]
+If a [%value computation] value computation [$A] of an atomic object [$M]
+happens before a value computation [$B] of [$M], and [$A] takes its value from a
+side effect [$X] on [$M], then the value computed by [$B] shall either be the
+value stored by [$X] or the value stored by a [%side effects] side effect [$Y]
+on [$M], where [$Y] follows [$X] in the modification order of [$M].
+[:zh_CN]
+如果原子性对象 [$M] 上的[%值计算]值计算 [$A] 发生早于 [$M] 的值计算 [$B]，并且
+[$A] 通过 [$M] 上的副作用 [$X] 来获得其值，则由 [$B] 所计算的值应当要么等于由
+[$X] 所存储的值，要么为 [$M] 上的[%副作用]副作用 [$Y] 所存储的值，其中在 [$M]
+的改动顺序中 [$Y] 处于 [$X] 之后。
 
-\pnum
-If a
-\indextext{side effects}%
-side effect \term{X} on an atomic object \term{M} happens before a value
-computation \term{B} of \term{M}, then the evaluation \term{B} shall take its
-value from \term{X} or from a
-\indextext{side effects}%
-side effect \term{Y} that follows \term{X} in the
-modification order of \term{M}. \enternote This requirement is known as
-write-read coherence. \exitnote
+[enter:note]
+[:en]
+This requirement is known as read-read coherence.
+[:zh_CN]
+这条规定称为读-读一致性。
+[exit:note]
 
-\pnum
-\enternote The four preceding coherence requirements effectively disallow
-compiler reordering of atomic operations to a single object, even if both
-operations are relaxed loads. This effectively makes the cache coherence
-guarantee provided by most hardware available to \Cpp atomic operations.
-\exitnote
+[para]
+[:en]
+If a [%value computation] value computation [$A] of an atomic object [$M]
+happens before an operation [$B] that modifies [$M], then [$A] shall take its
+value from a side effect [$X] on [$M], where [$X] precedes [$B] in the
+modification order of [$M].
+[:zh_CN]
+如果原子性对象 [$M] 上的[%值计算]值计算 [$A] 发生早于改动 [$M] 的操作 [$B]，则
+[$A] 应当从 [$M] 上的副作用 [$X] 中获得其值，其中在 [$M] 的改动顺序中 [$X] 处于
+[$B] 之前。
 
-\pnum
-\enternote The value observed by a load of an atomic depends on the ``happens
-before'' relation, which depends on the values observed by loads of atomics.
-The intended reading is that there must exist an
-association of atomic loads with modifications they observe that, together with
-suitably chosen modification orders and the ``happens before'' relation derived
-as described above, satisfy the resulting constraints as imposed here. \exitnote
+[enter:note]
+[:en]
+This requirement is known as read-write coherence.
+[:zh_CN]
+这条规定称为读-写一致性。
+[exit:note]
 
-\pnum
-\indextext{potentially~concurrent}%
-Two actions are \term{potentially concurrent} if
-\begin{itemize}
-\item they are performed by different threads, or
-\item they are unsequenced, and at least one is performed by a signal handler.
-\end{itemize}
-\indextext{data~race}%
-The execution of a program contains a \defn{data race} if it contains two
+[para]
+[:en]
+If a [%side effects] side effect [$X] on an atomic object [$M] happens before a
+value computation [$B] of [$M], then the evaluation [$B] shall take its value
+from [$X] or from a [%side effects] side effect [$Y] that follows [$X] in the
+modification order of [$M].
+[:zh_CN]
+如果原子性对象 [$M] 上的[%副作用]副作用 [$X] 发生早于 [$M] 的值计算 [$B]，则
+[$B] 的求值应当从 [$X] 或者在 [$M] 的改动顺序中晚于 [$X] 的[%副作用]副作用 [$Y]
+中获得其值。
+
+[enter:note]
+[:en]
+This requirement is known as write-read coherence.
+[:zh_CN]
+这条规定称为写-读一致性。
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The four preceding coherence requirements effectively disallow compiler
+reordering of atomic operations to a single object, even if both operations are
+relaxed loads.
+[:zh_CN]
+上述四条一致性规定实际上禁止了编译器对单个对象的原子性操作进行重新排序，无论所
+排序的操作是否均为放松的加载操作。
+
+[:en]
+This effectively makes the cache coherence guarantee provided by most hardware
+available to [=Cpp] atomic operations.
+[:zh_CN]
+这使得在多数硬件上所提供的高速缓存一致性保证可以被用于 [=Cpp] 的原子性操作。
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The value observed by a load of an atomic depends on the ["happens before]
+relation, which depends on the values observed by loads of atomics.
+[:zh_CN]
+某个原子性对象的加载操作所观察到的值依赖于“发生早于”关系，而它又依赖于原子性对象
+的加载操作所观察到的值。
+
+[:en]
+The intended reading is that there must exist an association of atomic loads
+with modifications they observe that, together with suitably chosen modification
+orders and the ["happens before] relation derived as described above, satisfy
+the resulting constraints as imposed here.
+[:zh_CN]
+所要解释的意图在于，原子性加载操作与其所观察到的改动之间必然存在某种关联，而这与
+经过适当选择的改动顺序，以及根据上文推导出的“发生早于”关系一起，满足此处最终给出
+的各种约束。
+[exit:note]
+
+[para]
+[:en]
+Two actions are [def potentially concurrent] if
+[:zh_CN]
+符合如下条件时，两个操作[def 潜在并发]：
+
+[list]
+[item]
+[:en]
+they are performed by different threads, or
+[:zh_CN]
+它们由不同线程实施，或者
+[item]
+[:en]
+they are unsequenced, and at least one is performed by a signal handler.
+[:zh_CN]
+它们之间是无顺序的，且至少其中之一由信号处理器实施。
+
+[list:end]
+
+[:en]
+[%data race]
+The execution of a program contains a [def data race] if it contains two
 potentially concurrent conflicting actions, at least one of which is not atomic,
-and neither happens before the other,
-except for the special case for signal handlers described below.
-Any such data race results in undefined
-behavior. \enternote It can be shown that programs that correctly use mutexes
-and \tcode{memory_order_seq_cst} operations to prevent all data races and use no
-other synchronization operations behave as if the operations executed by their
-constituent threads were simply interleaved, with each
-\indextext{value computation}%
-value computation of an
-object being taken from the last
-\indextext{side effects}%
-side effect on that object in that
-interleaving. This is normally referred to as ``sequential consistency''.
+and neither happens before the other, except for the special case for signal
+handlers described below.
+[:zh_CN]
+[%数据竞争]
+除了下文所述的信号处理器的特殊情况之外，当程序的执行中包含两个潜在并发的冲突的
+动作，其中至少有一个不是原子性的，并且任何一个都不发生早于另一个时，它就含有
+[def 数据竞争]。
+
+[:en]
+Any such data race results in undefined behavior.
+[:zh_CN]
+任何这种数据竞争都导致未定义的行为。
+
+[enter:note]
+[:en]
+It can be shown that programs that correctly use mutexes and
+[`memory_order_seq_cst] operations to prevent all data races and use no other
+synchronization operations behave as if the operations executed by their
+constituent threads were simply interleaved, with each [%value computation]
+value computation of an object being taken from the last [%side effects] side
+effect on that object in that interleaving.
+[:zh_CN]
+可以看到，通过正确使用互斥体和 [`memory_order_seq_cst] 操作，而不使用其他任何
+同步操作，以避免全部数据竞争的程序，其行为如同构成它的线程所执行的操作之间单纯地
+交错执行，其中某个对象上进行的[%值计算]值计算，从该对象在这种交错执行中的最后
+一次[%副作用]副作用中获得值。
+
+[:en]
+This is normally referred to as ["sequential consistency].
+[:zh_CN]
+这通常被称为“序列一致性”。
+
+[:en]
 However, this applies only to data-race-free programs, and data-race-free
 programs cannot observe most program transformations that do not change
-single-threaded program semantics. In fact, most single-threaded program
-transformations continue to be allowed, since any program that behaves
-differently as a result must perform an undefined operation. \exitnote
+single-threaded program semantics.
+[:zh_CN]
+然而，这只对无数据竞争的程序有效，而且无数据竞争的程序无法观察到多数不改变单线程
+程序语义的程序变换。
 
-\pnum
-Two accesses to the same object of type \tcode{volatile sig_atomic_t} do not
-result in a data race if both occur in the same thread, even if one or more
-occurs in a signal handler. For each signal handler invocation, evaluations
-performed by the thread invoking a signal handler can be divided into two
-groups \placeholder{A} and \placeholder{B}, such that no evaluations in
-\placeholder{B} happen before evaluations in \placeholder{A}, and the
-evaluations of such \tcode{volatile sig_atomic_t} objects take values as though
-all evaluations in \placeholder{A} happened before the execution of the signal
-handler and the execution of the signal handler happened before all evaluations
-in \placeholder{B}.
+[:en]
+In fact, most single-threaded program transformations continue to be allowed,
+since any program that behaves differently as a result must perform an undefined
+operation.
+[:zh_CN]
+实际上，多数单线程程序变换仍然是被允许的，这是由于任何有不同行为的程序必然导致
+产生未定义的操作。
+[exit:note]
 
-\pnum
-\enternote Compiler transformations that introduce assignments to a potentially
-shared memory location that would not be modified by the abstract machine are
-generally precluded by this standard, since such an assignment might overwrite
-another assignment by a different thread in cases in which an abstract machine
-execution would not have encountered a data race. This includes implementations
-of data member assignment that overwrite adjacent members in separate memory
-locations. Reordering of atomic loads in cases in which the atomics in question
-may alias is also generally precluded, since this may violate the coherence
-rules. \exitnote
+[para]
+[:en]
+Two accesses to the same object of type [`volatile sig_atomic_t] do not result
+in a data race if both occur in the same thread, even if one or more occurs in a
+signal handler.
+[:zh_CN]
+对同一个 [`volatile sig_atomic_t] 类型的对象的两次访问，如果发生于同一个线程内，
+则即使其中之一或两者均发生于信号处理器中，也不会导致数据竞争。
 
-\pnum
-\enternote Transformations that introduce a speculative read of a potentially
-shared memory location may not preserve the semantics of the \Cpp program as
-defined in this standard, since they potentially introduce a data race. However,
-they are typically valid in the context of an optimizing compiler that targets a
-specific machine with well-defined semantics for data races. They would be
-invalid for a hypothetical machine that is not tolerant of races or provides
-hardware race detection. \exitnote
+[:en]
+For each signal handler invocation, evaluations performed by the thread invoking
+a signal handler can be divided into two groups [$A] and [$B], such that no
+evaluations in [$B] happen before evaluations in [$A], and the evaluations of
+such [`volatile sig_atomic_t] objects take values as though all evaluations in
+[$A] happened before the execution of the signal handler and the execution of
+the signal handler happened before all evaluations in [$B].
+[:zh_CN]
+对于每次信号处理器的调用，由调用信号处理器的线程所实施的求值，可以分为两个组
+[$A] 和 [$B]，使得 [$B] 中的任何求值均不发生早于 [$A] 中的求值，并且对这种
+[`volatile sig_atomic_t] 对象的求值如同 [$A] 中的所有求值均发生早于该信号处理器
+的执行，且信号处理器的执行发生早于 [$B] 中的所有求值。
 
-\pnum
+[para]
+[enter:note]
+[:en]
+Compiler transformations that introduce assignments to a potentially shared
+memory location that would not be modified by the abstract machine are generally
+precluded by this standard, since such an assignment might overwrite another
+assignment by a different thread in cases in which an abstract machine execution
+would not have encountered a data race.
+[:zh_CN]
+本标准一般排除了某些编译器程序变换，它们引入向抽象机器并不会改的动潜在共享的内存
+位置的赋值，这是由于这种赋值可能会覆写某个不同的线程进行的其他赋值，而这种情况下
+抽象机器的执行本不会产生数据竞争。
+
+[:en]
+This includes implementations of data member assignment that overwrite adjacent
+members in separate memory locations.
+[:zh_CN]
+这包括对数据成员赋值的某些实现方式，它们会覆写处于独立内存位置中的相邻成员。
+
+[:en]
+Reordering of atomic loads in cases in which the atomics in question may alias
+is also generally precluded, since this may violate the coherence rules.
+[:zh_CN]
+在所涉及的原子性对象可能互为别名时，对原子性加载操作所进行的重新排序，一般也被
+排除，这是因为这可能会违反一致性规则。
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+Transformations that introduce a speculative read of a potentially shared memory
+location may not preserve the semantics of the [=Cpp] program as defined in this
+standard, since they potentially introduce a data race.
+[:zh_CN]
+引入对潜在共享的内存位置进行推测性读取操作的程序变换，可能不能保持本标准中定义的
+[=Cpp] 程序的语义。
+
+[:en]
+However, they are typically valid in the context of an optimizing compiler that
+targets a specific machine with well-defined semantics for data races.
+[:zh_CN]
+然而，在目标为具有良好定义的数据竞争语义的特定机器的优化编译器的条件下，它们通常
+是有效的。
+
+[:en]
+They would be invalid for a hypothetical machine that is not tolerant of races
+or provides hardware race detection.
+[:zh_CN]
+而对于假想的不能容忍竞争的或者提供硬件竞争检测的机器，它们就是无效的。
+[exit:note]
+
+[para]
+[:en]
 The implementation may assume that any thread will eventually do one of the
 following:
+[:zh_CN]
+实现可以假设任何线程最终将产生以下行为之一：
 
-\begin{itemize}
-\item
+[list]
+[item]
+[:en]
 terminate,
+[:zh_CN]
+终止，
 
-\item
+[item]
+[:en]
 make a call to a library I/O function,
+[:zh_CN]
+调用程序库 I/O 函数，
 
-\item
+[item]
+[:en]
 read or modify a volatile object, or
+[:zh_CN]
+读取或改写 volatile 对象，或者
 
-\item
+[item]
+[:en]
 perform a synchronization operation or an atomic operation.
-\end{itemize}
+[:zh_CN]
+实施同步操作或原子性操作。
+[list:end]
 
-\enternote This is intended to allow compiler transformations such as removal of
-empty loops, even when termination cannot be proven. \exitnote
+[enter:note]
+[:en]
+This is intended to allow compiler transformations such as removal of
+empty loops, even when termination cannot be proven.
+[:zh_CN]
+其用意是在即使无法证明终止的情况下，允许某些如移除空循环这样的编译器程序变换。
+[exit:note]
 
-\pnum
+[para]
+[:en]
 An implementation should ensure that the last value (in modification order)
 assigned by an atomic or synchronization operation will become visible to all
-other threads in a finite period of time.%
+other threads in a finite period of time.
+[:zh_CN]
+实现应当保证，由原子性操作或同步操作（在改动顺序中）所最后赋予的值，将在有限时间
+段内对所有其他线程可见。
 
 [index:end#operation.atomic]
 

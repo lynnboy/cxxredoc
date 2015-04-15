@@ -199,12 +199,12 @@ observe the difference ([#intro.execution]).
 
 [enter:example]
 
-[code]
+[codeblock]
 static const char test1 = 'x';
 static const char test2 = 'x';
 const bool b = &test1 != &test2;      // [:en] always true
                                       // [|:zh_CN] 永远为真
-[code:end]
+[codeblock:end]
 
 [exit:example]
 
