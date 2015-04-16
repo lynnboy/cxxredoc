@@ -1,14 +1,15 @@
 ﻿[section#lex.ppnumber
     [:en] Preprocessing numbers
-    [:zh_CN] 
+    [:zh_CN] 预处理数字
 ]
 
 [index:begin#preprocessing.number
     [:en] number [! preprocessing]
+    [:zh_CN] 数字 [! 预处理～]
 ]
 
 [syntax]
-[rule pp-number]
+[rule pp-number [:zh_CN] 预处理数字]
     [| digit]
     [| [`.] digit]
     [| pp-number digit]
@@ -25,10 +26,16 @@
 [:en]
 Preprocessing number tokens lexically include all integer literal tokens
 ([#lex.icon]) and all floating literal tokens ([#lex.fcon]).
+[:zh_CN]
+预处理数字记号在词法上包括所有整数字面量记号（[#lex.icon]）和所有浮点字面量记号
+（[#lex.fcon]）。
 
 [para]
 [:en]
 A preprocessing number does not have a type or a value; it acquires both after a
 successful conversion to an integer literal token or a floating literal token.
+[:zh_CN]
+预处理数字没有类型和值；当其被成功转换成整数字面量记号或浮点字面量记号后才获得
+类型和值。
 
 [index:end#preprocessing.number]

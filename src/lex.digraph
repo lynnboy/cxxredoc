@@ -1,56 +1,77 @@
 ﻿[section#lex.digraph
     [:en] Alternative tokens
-    [:zh_CN] 
+    [:zh_CN] 替代记号
 ]
 
 [index:begin#alternative.token
     [:en] token [!alternative]
+    [:zh_CN] 记号 [!替代～]
 ]
 
 [para]
 [:en]
 Alternative token representations are provided for some operators and
 punctuators.
+[:zh_CN]
+某些运算符和标点具有可替代的记号表示形式。
 
 [footnote]
 [:en]
 [%digraph]
 These include ["digraphs] and additional reserved words.
+[%二联符]
+[:zh_CN]
+包括“二联符”和额外的保留字。
 
 [:en]
 The term ["digraph] (token consisting of two characters) is not perfectly
 descriptive, since one of the alternative preprocessing-tokens is [`%:%:] and of
 course several primary tokens contain two characters.
+[:zh_CN]
+术语“二联符”（由两个字符构成的记号）的表达效果并不完美，因为替代预处理记号中有
+一个是 [`%:%:]，而且好几个首选记号也有两个字符。
 
 [:en]
 Nonetheless, those alternative tokens that aren't lexical keywords are
 colloquially known as ["digraphs].
+[:zh_CN]
+虽然如此，这些不是词法关键字的替代记号还是通俗地被称为“二联符”。
 [footnote:end]
 
 [para]
 [:en]
 In all respects of the language, each alternative token behaves the same,
 respectively, as its primary token, except for its spelling.
+[:zh_CN]
+除了其拼写之外，所有的替代记号和它对应的首选记号的行为在语言的所有方面都相同。
 
 [footnote]
 [:en]
 Thus the ["stringized] values ([#cpp.stringize]) of [`[] and [`<:] will be
 different, maintaining the source spelling, but the tokens can otherwise be
 freely interchanged.
+[:zh_CN]
+[`[] 和 [`<:] 的“字符串化”的值（[#cpp.stringize]）有所不同（维持其在源文件中的
+拼写），但除此之外这些记号可以自由互换。
 [footnote:end]
 
 [:en]
 The set of alternative tokens is defined in Table [#tab:alternative.tokens].
+[:zh_CN]
+表 [#tab:alternative.tokens] 定义了替代记号的集合。
 
 [table:listing#tab:alternative.tokens
     [:en] Alternative tokens
+    [:zh_CN] 替代记号
     [columns:repeated@3
         [column@code@center
             [:en] Alternative
+            [:zh_CN] 替代记号
             [border@left]
         ]
         [column@code@center
             [:en] Primary
+            [:zh_CN] 首选记号
             [border@right]
         ]
     ]

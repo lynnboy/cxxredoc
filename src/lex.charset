@@ -1,30 +1,40 @@
 ﻿[section#lex.charset
     [:en] Character sets
-    [:zh_CN] 
+    [:zh_CN] 字符集
 ]
 
 [index:begin#character.set
     [:en] character set
+    [:zh_CN] 字符集
 ]
 
 [para]
 [:en]
 [%character set[!basic source]]
-The [+basic source character set] consists of 96 characters: the space character,
-the control characters representing horizontal tab, vertical tab, form feed, and
-new-line, plus the following 91 graphical characters:
+The [+basic source character set] consists of 96 characters: the space
+character, the control characters representing horizontal tab, vertical tab,
+form feed, and new-line, plus the following 91 graphical characters:
+[:zh_CN]
+[+字符集]由 96 个字符组成：空格字符，表示水平制表、垂直制表、换页、换行的控制
+字符，加上如下 91 个图形字符：
 
 [footnote]
 [:en]
 The glyphs for the members of the basic source character set are intended to
 identify characters from the subset of ISO/IEC 10646 which corresponds to the
 ASCII character set.
+[:zh_CN]
+基本源字符集中的成员的字型特意与 ISO/IEC 10646 中与 ASCII 字符集对应的子集保持
+一致。
 
 [:en]
 However, because the mapping from source file characters to the source character
 set (described in translation phase 1) is specified as implementation-defined,
 an implementation is required to document how the basic source characters are
 represented in source files.
+[:zh_CN]
+由于从源文件的字符到源字符集的映射（在翻译阶段 1 中描述）是由实现定义的，实现
+应该提供基本源字符在源文件中表示方式的文档。
 [footnote:end]
 
 [codeblock:literal]
@@ -41,13 +51,15 @@ _ { } [ ] # ( ) < > % : ; . ? * + - / ^ & | ~ ! = , \ " '
 [:en]
 The [~universal-character-name] construct provides a way to name other
 characters.
+[:zh_CN]
+[~通用字符名]的构造提供了命名其他字符的方式。
 
 [syntax]
-[rule hex-quad]
+[rule hex-quad [:zh_CN] hex-quad ]
     [| hexadecimal-digit hexadecimal-digit hexadecimal-digit hexadecimal-digit]
 [rule:end]
 
-[rule universal-character-name]
+[rule universal-character-name [:zh_CN] 通用字符名 ]
     [| [`\u] hex-quad]
     [| [`\U] hex-quad hex-quad]
 [rule:end]
@@ -56,15 +68,24 @@ characters.
 [:en]
 The character designated by the universal-character-name [`\UNNNNNNNN] is that
 character whose character short name in ISO/IEC 10646 is [`NNNNNNNN];
+[:zh_CN]
+通用字符名 [`\UNNNNNNNN] 所代表的字符是在 ISO/IEC 10646 中短字符名为 [`NNNNNNNN]
+的字符；
 
 [:en]
 the character designated by the universal-character-name [`\uNNNN] is that
 character whose character short name in ISO/IEC 10646 is [`0000NNNN].
+[:zh_CN]
+通用字符名 [`\uNNNN] 所代表的字符是在 ISO/IEC 10646 中短字符名为 [`0000NNNN]
+的字符。
 
 [:en]
 If the hexadecimal value for a universal-character-name corresponds to a
 surrogate code point (in the range 0xD800[=-]0xDFFF, inclusive), the program is
 ill-formed.
+[:zh_CN]
+如果某通用字符名的十六进制值对应于一个代用代码点（处于范围
+[=crange(0xD800,0xDFFF)] 内），则程序非良构。
 
 [:en]
 Additionally, if the hexadecimal value for a universal-character-name outside
@@ -72,11 +93,17 @@ the [~c-char-sequence], [~s-char-sequence], or [~r-char-sequence] of a character
 or string literal corresponds to a control character (in either of the ranges
 0x00[=-]0x1F or 0x7F[=-]0x9F, both inclusive) or to a character in the basic
 source character set, the program is ill-formed.
+[:zh_CN]
+此外，如果处于字符或字符串字面量的 [~c-字符序列]，[~s-字符序列] 或 [~r-字符序列]
+之外的通用字符名的十六进制值对应于某个控制字符（处于范围 [=crange(0x00,0x1F)] 或
+[=crange(0x7F,0x9F)] 内）或者对应于某个基本源字符集中的字符，则程序非良构。
 
 [footnote]
 [:en]
 A sequence of characters resembling a universal-character-name in an
 [~r-char-sequence] ([#lex.string]) does not form a universal-character-name.
+[:zh_CN]
+[~r-字符序列]（[#lex.string]）中符合通用字符名形式的字符序列并不构成通用字符名。
 [footnote:end]
 
 [para]
@@ -85,24 +112,37 @@ The [+basic execution character set] and the [+basic execution wide-character
 set] shall each contain all the members of the basic source character set, plus
 control characters representing alert, backspace, and carriage return, plus a
 [+null character] (respectively, [+null wide character]), whose value is 0.
+[:zh_CN]
+[+基本执行字符集]和[+基本执行宽字符集]都应该包含基本源字符集的所有成员，加上表示
+警铃、退格和回车的控制字符，再加上值为 0 的[+空字符]（或对应的[+空宽字符]）。
 
 [:en]
 For each basic execution character set, the values of the members shall be
 non-negative and distinct from one another.
+[:zh_CN]
+每种基本执行字符集中，所有成员的值都应该为非负数且互不相同。
 
 [:en]
 In both the source and execution basic character sets, the value of each
 character after [`0] in the above list of decimal digits shall be one greater
 than the value of the previous.
+[:zh_CN]
+在源和执行基本字符集中，上述列出的十进制数字中位于 [`0] 之后的每个字符的值应比其
+前一个字符的值大一。
 
 [:en]
 The [+execution character set] and the [+execution wide-character set] are
 [%@impldef execution character-set and execution wide-character set]
 implementation-defined supersets of the basic execution character set and the
 basic execution wide-character set, respectively.
+[:zh_CN]
+[+执行字符集]和[+执行宽字符集]，分别是基本执行字符集和基本执行宽字符集的
+[%@impldef 执行字符集和执行宽字符集]由实现定义的超集。
 
 [:en]
 The values of the members of the execution character sets and the sets of
 additional members are locale-specific.
+[:zh_CN]
+这些执行字符集及其额外成员的集合中，成员的值都是特定于区域的。
 
 [index:end#character.set]

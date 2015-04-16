@@ -104,13 +104,13 @@ additional new-line character were appended to the file.
 The source file is decomposed into preprocessing tokens ([#lex.pptoken]) and
 sequences of white-space characters (including comments).
 [:zh_CN]
-将源文件分解为预处理标记（[#lex.pptoken]）和空白字符（包括注释）的序列。
+将源文件分解为预处理记号（[#lex.pptoken]）和空白字符（包括注释）的序列。
 
 [:en]
 A source file shall not end in a partial preprocessing token or in a partial
 comment.
 [:zh_CN]
-源文件不应该在不完整的预处理标记或不完整的注释中结束。
+源文件不应该在不完整的预处理记号或不完整的注释中结束。
 
 [footnote]
 [:en]
@@ -118,8 +118,8 @@ A partial preprocessing token would arise from a source file ending in the first
 portion of a multi-character token that requires a terminating sequence of
 characters, such as a [~header-name] that is missing the closing [`"] or [`>].
 [:zh_CN]
-当源文件在某个需要终结字符序列的多字符标记的前一部分处结束时，就会出现不完整的
-预处理标记，比如缺失闭合的 [`"] 或 [`>] 的[~头文件名]。
+当源文件在某个需要终结字符序列的多字符记号的前一部分处结束时，就会出现不完整的
+预处理记号，比如缺失闭合的 [`"] 或 [`>] 的[~头文件名]。
 
 [:en]
 A partial comment would arise from a source file ending with an unclosed [`/*]
@@ -148,7 +148,7 @@ retained or replaced by one space character is unspecified.
 The process of dividing a source file[=']s characters into preprocessing tokens
 is context-dependent.
 [:zh_CN]
-将源文件的字符分割成预处理标记的过程是上下文相关的。
+将源文件的字符分割成预处理记号的过程是上下文相关的。
 
 [enter:example]
 [:en]
@@ -168,7 +168,7 @@ Preprocessing directives are executed, macro invocations are expanded, and
 If a character sequence that matches the syntax of a universal-character-name is
 produced by token concatenation ([#cpp.concat]), the behavior is undefined.
 [:zh_CN]
-如果标记拼接（[#cpp.concat]）后产生了符合通用字符名文法的字符序列，则其行为是
+如果记号拼接（[#cpp.concat]）后产生了符合通用字符名文法的字符序列，则其行为是
 未定义的。
 
 [:en]
@@ -214,31 +214,31 @@ the same execution character.
 [:en]
 Adjacent string literal tokens are concatenated.
 [:zh_CN]
-拼接相邻的字符串字面量标记。
+拼接相邻的字符串字面量记号。
 
 [item]
 [:en]
 White-space characters separating tokens are no longer significant.
 [:zh_CN]
-用于分隔标记的空白字符不再有意义。
+用于分隔记号的空白字符不再有意义。
 
 [:en]
 Each preprocessing token is converted into a token. ([#lex.token]).
 [:zh_CN]
-把每个预处理标记转换为一个标记。（[#lex.token]）。
+把每个预处理记号转换为一个记号。（[#lex.token]）。
 
 [:en]
 The resulting tokens are syntactically and semantically analyzed and translated
 as a translation unit.
 [:zh_CN]
-对所产生的这些标记作为一个翻译单元进行语法和语义的分析和翻译。
+对所产生的这些记号作为一个翻译单元进行语法和语义的分析和翻译。
 
 [enter:note]
 [:en]
 The process of analyzing and translating the tokens may occasionally result in
 one token being replaced by a sequence of other tokens ([#temp.names]).
 [:zh_CN]
-分析和翻译的过程可能偶尔会导致某个标记被替换为一系列其他标记（[#temp.names]）。
+分析和翻译的过程可能偶尔会导致某个记号被替换为一系列其他记号（[#temp.names]）。
 [exit:note]
 
 [enter:note]

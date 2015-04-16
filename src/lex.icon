@@ -4,70 +4,70 @@
 ]
 
 [syntax]
-[rule integer-literal]
+[rule integer-literal [:zh_CN] 整数字面量]
     [| binary-literal [~:opt integer-suffix]]
     [| octal-literal [~:opt integer-suffix]]
     [| decimal-literal [~:opt integer-suffix]]
     [| hexadecimal-literal [~:opt integer-suffix]]
 [rule:end]
 
-[rule binary-literal]
+[rule binary-literal [:zh_CN] 二进制字面量]
     [| [`0b] binary-digit]
     [| [`0B] binary-digit]
     [| binary-literal [`:opt '] binary-digit]
 [rule:end]
 
-[rule octal-literal]
+[rule octal-literal [:zh_CN] 八进制字面量]
     [| [`0]]
     [| octal-literal [`:opt '] octal-digit]
 [rule:end]
 
-[rule decimal-literal]
+[rule decimal-literal [:zh_CN] 十进制字面量]
     [| nonzero-digit]
     [| decimal-literal [`:opt '] digit]
 [rule:end]
 
-[rule hexadecimal-literal]
+[rule hexadecimal-literal [:zh_CN] 十六进制字面量]
     [| [`0x] hexadecimal-digit]
     [| [`0X] hexadecimal-digit]
     [| hexadecimal-literal [`:opt '] hexadecimal-digit]
 [rule:end]
 
-[rule binary-digit]
+[rule binary-digit [:zh_CN] 二进制数字]
     [| [`0]]
     [| [`1]]
 [rule:end]
 
-[rule:oneof octal-digit]
+[rule:oneof octal-digit [:zh_CN] 八进制数字]
     [| 0 1 2 3 4 5 6 7]
 [rule:end]
 
-[rule:oneof nonzero-digit]
+[rule:oneof nonzero-digit [:zh_CN] 非零数字]
     [| 1 2 3 4 5 6 7 8 9]
 [rule:end]
 
-[rule:oneof hexadecimal-digit]
+[rule:oneof hexadecimal-digit [:zh_CN] 十六进制数字]
     [| 0 1 2 3 4 5 6 7 8 9]
     [| a b c d e f]
     [| A B C D E F]
 [rule:end]
 
-[rule integer-suffix]
+[rule integer-suffix [:zh_CN] 整数后缀]
     [| unsigned-suffix [~:opt long-suffix]]
     [| unsigned-suffix [~:opt long-long-suffix]]
     [| long-suffix [~:opt unsigned-suffix]]
     [| long-long-suffix [~:opt unsigned-suffix]]
 [rule:end]
 
-[rule:oneof unsigned-suffix]
+[rule:oneof unsigned-suffix [:zh_CN] unsigned-后缀]
     [| u U]
 [rule:end]
 
-[rule:oneof long-suffix]
+[rule:oneof long-suffix [:zh_CN] long-后缀]
     [| l L]
 [rule:end]
 
-[rule:oneof long-long-suffix]
+[rule:oneof long-long-suffix [:zh_CN] long-long-后缀]
     [| ll LL]
 [rule:end]
 
@@ -78,52 +78,84 @@
 [%literal[![`unsigned]]]
 [%literal[![`long]]]
 [%literal[!integer]]
-[%literal[!binary]]
-[%literal[!octal]]
-[%literal[!decimal]]
-[%literal[!hexadecimal]]
-[%literal[!base of integer]]
 An [+integer literal] is a sequence of digits that has no period or exponent
 part, with optional separating single quotes that are ignored when determining
 its value.
+[:zh_CN]
+[%字面量[![`unsigned]]]
+[%字面量[![`long]]]
+[%字面量[!整数～]]
+[+整数字面量]是不含有小数或指数部分的数字序列，当确定其值时忽略其中的可选分组
+单引号。
 
 [:en]
+[%literal[!base of integer]]
 An integer literal may have a prefix that specifies its base and a suffix that
 specifies its type.
+[:zh_CN]
+[%字面量[!整数～的基数]]
+整数字面量可包含用于指定其基数的前缀和用于指定其类型的后缀。
 
 [:en]
 The lexically first digit of the sequence of digits is the most significant.
+[:zh_CN]
+数字序列中词法上的第一个数字最有效。
 
 [:en]
+[%literal[!binary]]
 A [+binary] integer literal (base two) begins with [`0b] or [`0B] and consists
 of a sequence of binary digits.
+[:zh_CN]
+[%字面量[!二进制]]
+[+二进制]整数字面量（以二为基）由 [`0b] 或 [`0B] 开始并由一系列二进制数字构成。
 
 [:en]
+[%literal[!octal]]
 An [+octal] integer literal (base eight) begins with the digit [`0] and consists
 of a sequence of octal digits.
+[:zh_CN]
+[%字面量[!八进制]]
+[+八进制]整数字面量（以八为基）由数字 [`0] 开始并由一系列八进制数字构成。
 
 [footnote]
 [:en]
 The digits [`8] and [`9] are not octal digits.
+[:zh_CN]
 [footnote:end]
+数字 [`8] 和 [`9] 不是八进制数字。
 
 [:en]
+[%literal[!decimal]]
 A [+decimal] integer literal (base ten) begins with a digit other than [`0] and
 consists of a sequence of decimal digits.
+[:zh_CN]
+[%字面量[!十进制]]
+[+十进制]整数字面量（以十为基）由非 [`0] 的数字开始并由一系列十进制数字构成。
 
 [:en]
+[%literal[!hexadecimal]]
 A [+hexadecimal] integer literal (base sixteen) begins with [`0x] or [`0X] and
 consists of a sequence of hexadecimal digits, which include the decimal digits
 and the letters [`a] through [`f] and [`A] through [`F] with decimal values ten
 through fifteen.
+[:zh_CN]
+[%字面量[!十六进制]]
+[+十六进制]整数字面量（以十六为基）由 [`0x] 或 [`0X] 开始并由一系列十六进制数字
+构成，包括十进制数字，和具有十进制数值十到十五的，从 [`a] 到 [`f] 和从 [`A] 到
+[`F] 的字母。
 
 [enter:example]
 [:en]
 The number twelve can be written [`12], [`014], [`0XC], or [`0b1100].
+[:zh_CN]
+数字十二可以被写成 [`12]，[`014]，[`0XC] 或 [`0b1100]。
 
 [:en]
 The literals [`1048576], [`1'048'576], [`0X100000], [`0x10'0000], and
 [`0'004'000'000] all have the same value.
+[:zh_CN]
+字面量 [`1048576]，[`1'048'576]，[`0X100000]，[`0x10'0000]，和 [`0'004'000'000]
+具有相同的值。
 [exit:example]
 
 [para]
@@ -137,44 +169,62 @@ The literals [`1048576], [`1'048'576], [`0X100000], [`0x10'0000], and
 [%literal[!type of integer]]
 The type of an integer literal is the first of the corresponding list in Table
 [#tab:lex.type.integer.literal] in which its value can be represented.
+[:zh_CN]
+[%字面量[![`long]]]
+[%字面量[![`unsigned]]]
+[%后缀[![`L]]]
+[%后缀[![`U]]]
+[%后缀[![`l]]]
+[%后缀[![`u]]]
+[%字面量[!整数～的类型]]
 
 [table:grid#tab:lex.type.integer.literal
     [:en] Types of integer literals
+    [:zh_CN] 整数字面量的类型
     [columns
         [column@centerheader
             [:en] Suffix
+            [:zh_CN] 后缀
         ]
         [column@code@centerheader
             [:en] Decimal literal
+            [:zh_CN] 十进制字面量
         ]
         [column@code@centerheader
             [:en] Binary, octal, or hexadecimal literal
+            [:zh_CN] 二进制、八进制或十六进制字面量
         ]
     ]
 ]
-[|] none
+[|] [:en] none
+    [:zh_CN] 无
 [|] int [br] long int [br] long long int
 [|] int [br] unsigned int [br] long int [br] unsigned long int [br]
     long long int [br] unsigned long long int
 
-[|] [`u] or [`U]
+[|] [:en] [`u] or [`U]
+    [:zh_CN] [`u] 或 [`U]
 [|] unsigned int [br] unsigned long int [br] unsigned long long int
 [|] unsigned int [br] unsigned long int [br] unsigned long long int
 
-[|] [`l] or [`L]
+[|] [:en] [`l] or [`L]
+    [:zh_CN] [`l] 或 [`L]
 [|] long int [br] long long int
 [|] long int [br] unsigned long int [br]
     long long int [br] unsigned long long int
 
-[|] Both [`u] or [`U] and [`l] or [`L]
+[|] [:en] Both [`u] or [`U] and [`l] or [`L]
+    [:zh_CN] 同时有 [`u] 或 [`U] 及 [`l] 或 [`L]
 [|] unsigned long int [br] unsigned long long int
 [|] unsigned long int [br] unsigned long long int
 
-[|] [`ll] or [`LL]
+[|] [:en] [`ll] or [`LL]
+    [:zh_CN] [`ll] 或 [`LL]
 [|] long long int
 [|] long long int [br] unsigned long long int
 
-[|] Both [`u] or [`U] and [`ll] or [`LL]
+[|] [:en] Both [`u] or [`U] and [`ll] or [`LL]
+    [:zh_CN] 同时有 [`u] 或 [`U] 及 [`ll] 或 [`LL]
 [|] unsigned long long int
 [|] unsigned long long int
 
@@ -185,19 +235,31 @@ The type of an integer literal is the first of the corresponding list in Table
 If an integer literal cannot be represented by any type in its list and an
 extended integer type ([#basic.fundamental]) can represent its value, it may
 have that extended integer type.
+[:zh_CN]
+如果一个整数字面量不能用其列表中的任何类型表示，而某个扩展整数类型（
+[#basic.fundamental]）能够表示其值，则它可以具有这个扩展整数类型。
 
 [:en]
 If all of the types in the list for the literal are signed, the extended integer
 type shall be signed.
+[:zh_CN]
+若该字面量的列表中的所有类型都是有符号的，则该扩展整数类型应为有符号的。
 
 [:en]
 If all of the types in the list for the literal are unsigned, the extended
 integer type shall be unsigned.
+[:zh_CN]
+若该字面量的列表中的所有类型都是无符号的，则该扩展整数类型应为无符号的。
 
 [:en]
 If the list contains both signed and unsigned types, the extended integer type
 may be signed or unsigned.
+[:zh_CN]
+若列表既包含有符号的类型也包含无符号的类型，则该扩展整数类型可以为有符号的者无
+符号的。
 
 [:en]
 A program is ill-formed if one of its translation units contains an integer
 literal that cannot be represented by any of the allowed types.
+[:zh_CN]
+若程序的任一翻译单元包含不能以任何被允许的类型表示的整数字面量，则程序非良构。

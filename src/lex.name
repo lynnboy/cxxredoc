@@ -8,28 +8,29 @@
 ]
 
 [syntax]
-[rule identifier]
+[rule identifier [:zh_CN] 标识符]
     [| identifier-nondigit]
     [| identifier identifier-nondigit]
     [| identifier digit]
 [rule:end]
 
-[rule identifier-nondigit]
+[rule identifier-nondigit [:zh_CN] 标识符非数字字符]
     [| nondigit]
     [| universal-character-name]
     [|:descriptive
         [:en] other implementation-defined characters
+        [:zh_CN] 其他由实现定义的字符
     ]
 [rule:end]
 
-[rule:oneof nondigit]
+[rule:oneof nondigit [:zh_CN] 非数字]
     [| a b c d e f g h i j k l m]
     [| n o p q r s t u v w x y z]
     [| A B C D E F G H I J K L M]
     [| N O P Q R S T U V W X Y Z _]
 [rule:end]
 
-[rule:oneof digit]
+[rule:oneof digit [:zh_CN] 数字]
     [| 0 1 2 3 4 5 6 7 8 9]
 [rule:end]
 [syntax:end]
@@ -38,57 +39,88 @@
 [:en]
 [%name [!length of]] [%name]
 An identifier is an arbitrarily long sequence of letters and digits.
+[:zh_CN]
+[%名字 [!～的长度]] [%名字]
+标识符是任意长度的字母和数字的序列。
 
 [:en]
 Each universal-character-name in an identifier shall designate a character whose
 encoding in ISO 10646 falls into one of the ranges specified in
 [#charname.allowed].
+[:zh_CN]
+标识符中的每个通用字符名应该代表其 ISO 10646 编码处于 [#charname.allowed] 中指定
+的范围之一之中的字符。
 
 [:en]
 The initial element shall not be a universal-character-name designating a
 character whose encoding falls into one of the ranges specified in
 [#charname.disallowed].
+[:zh_CN]
+标识符的第一个元素不能为代表编码处于 [#charname.allowed] 中指定
+的范围之一之中的字符的通用字符名。
 
 [:en]
 Upper- and lower-case letters are different.
+[:zh_CN]
+大写和小写字母是不同的。
 
 [:en]
 All characters are significant.
+[:zh_CN]
+所有字符均有效。
 
 [footnote]
 [:en]
 On systems in which linkers cannot accept extended characters, an encoding of
 the universal-character-name may be used in forming valid external identifiers.
+[:zh_CN]
+在连接器不能接受扩展字符的系统中，可能需要使用通用字符名的某种编码以构成有效的
+外部标识符。
 
 [:en]
 For example, some otherwise unused character or sequence of characters may be
 used to encode the [`\u] in a universal-character-name.
+[:zh_CN]
+例如，用某些其他的未用字符或字符序列来编码通用字符名中的 [`\u]。
 
 [:en]
 Extended characters may produce a long external identifier, but [=Cpp] does not
 place a translation limit on significant characters for external identifiers.
+[:zh_CN]
+扩展字符可能产生很长的外部标识符，但 [=Cpp] 不对外部标识符的有效字符数量设置翻译
+限度。
 
 [:en]
 In [=Cpp], upper- and lower-case letters are considered different for all
 identifiers, including external identifiers.
+[:zh_CN]
+在 [=Cpp] 中，大写和小写字母在任何标识符中都被认为是不同的，包括外部标识符。
 [footnote:end]
 
 [para]
 [:en]
 The identifiers in Table [#tab:identifiers.special] have a special meaning when
 appearing in a certain context.
+[:zh_CN]
+表 [#tab:identifiers.special] 中的标识符，当出现在特定的语境中时具有特殊的涵义。
 
 [:en]
 When referred to in the grammar, these identifiers are used explicitly rather
 than using the [~identifier] grammar production.
+[:zh_CN]
+在文法中提到它们时，这些标识符不是使用文法产生式[~标识符]，而是被明确使用的。
 
 [:en]
 Unless otherwise specified, any ambiguity as to whether a given [~identifier]
 has a special meaning is resolved to interpret the token as a regular
 [~identifier].
+[:zh_CN]
+除非特别说明，关于某个给定[~标识符]是否具有特殊涵义的歧义，均通过将该记号作为
+普通[~标识符]得到解决。
 
 [table:listing@simple#tab:identifiers.special
     [:en] Identifiers with special meaning
+    [:zh_CN] 具有特殊含义的标识符
     [column@code@2]
 ]
 [|] override
@@ -102,6 +134,11 @@ has a special meaning is resolved to interpret the token as a regular
 [%reserved identifier]
 In addition, some identifiers are reserved for use by [=Cpp] implementations and
 shall not be used otherwise; no diagnostic is required.
+[:zh_CN]
+[% [`_] [see 字符 [!下划线～]]]
+[%字符[!下划线～[!标识符中的～]]]
+[%保留的标识符]
+另外，某些标识符被保留为由 [=Cpp] 实现使用，不应该使用它们；无须诊断。
 
 [list]
 
@@ -110,12 +147,18 @@ shall not be used otherwise; no diagnostic is required.
 Each identifier that contains a double [%character[!underscore]] underscore
 [`__] or begins with an underscore followed by an [%uppercase] uppercase letter
 is reserved to the implementation for any use.
+[:zh_CN]
+包含双[%字符[!下划线～]]下划线 [`__] 或者以一个下划线跟着一个[%大写]大写字母开始
+的标识符保留由实现用于任何用途。
 
 [item]
 [:en]
 Each identifier that begins with an [%character[!underscore]] underscore is
 reserved to the implementation for use as a name in the [%namespace[!global]]
 global namespace.
+[:zh_CN]
+以一个[%字符[!下划线～]]下划线开始的标识符保留由实现用作[%命名空间[!全局～]]
+全局命名空间中的名字。
 
 [list:end]
 

@@ -1,39 +1,42 @@
 ﻿[section#lex.ext
     [:en] User-defined literals
-    [:zh_CN] 
+    [:zh_CN] 自定义字面量
 ]
 
-[%literal[!user defined]]
+[%
+    [:en] literal[!user defined]
+    [:zh_CN] 字面量[!自定义～]
+]
 
 [syntax]
-[rule user-defined-literal]
+[rule user-defined-literal [:zh_CN] 自定义字面量]
     [| user-defined-integer-literal]
     [| user-defined-floating-literal]
     [| user-defined-string-literal]
     [| user-defined-character-literal]
 [rule:end]
 
-[rule user-defined-integer-literal]
+[rule user-defined-integer-literal [:zh_CN] 自定义整数字面量]
     [| decimal-literal ud-suffix]
     [| octal-literal ud-suffix]
     [| hexadecimal-literal ud-suffix]
     [| binary-literal ud-suffix]
 [rule:end]
 
-[rule user-defined-floating-literal]
+[rule user-defined-floating-literal [:zh_CN] 自定义浮点字面量]
     [| fractional-constant [~:opt exponent-part] ud-suffix]
     [| digit-sequence exponent-part ud-suffix]
 [rule:end]
 
-[rule user-defined-string-literal]
+[rule user-defined-string-literal [:zh_CN] 自定义字符串字面量]
     [| string-literal ud-suffix]
 [rule:end]
 
-[rule user-defined-character-literal]
+[rule user-defined-character-literal [:zh_CN] 自定义字符字面量]
     [| character-literal ud-suffix]
 [rule:end]
 
-[rule ud-suffix]
+[rule ud-suffix [:zh_CN] ud-后缀]
     [| identifier]
 [rule:end]
 [syntax:end]
@@ -42,42 +45,65 @@
 [:en]
 If a token matches both [~user-defined-literal] and another literal kind, it is
 treated as the latter.
+[:zh_CN]
+如果某个记号同时匹配[~自定义字面量]和另一个字面量种类，则将其看作后者。
 
 [enter:example]
 [:en]
 [`123_km] is a [~user-defined-literal], but [`12LL] is an [~integer-literal].
+[:zh_CN]
+[`123_km] 是[~自定义字面量]，但 [`12LL] 是[~整数字面量]。
 [exit:example]
 
 [:en]
 The syntactic non-terminal preceding the [~ud-suffix] in a
 [~user-defined-literal] is taken to be the longest sequence of characters that
 could match that non-terminal.
+[:zh_CN]
+[~自定义字面量]中处于[~ud-后缀]之前的语法非终结符，是能够匹配这个非终结符的最长
+的字符序列。
 
 [para]
 [:en]
 A [~user-defined-literal] is treated as a call to a literal operator or literal
 operator template ([#over.literal]).
+[:zh_CN]
+[~自定义字面量]被当作是对字面量运算符或字面量运算符模板的一次调用
+（[#over.literal]）。
 
 [:en]
 To determine the form of this call for a given [~user-defined-literal] [$L] with
 [~ud-suffix] [$X], the [~literal-operator-id] whose literal suffix identifier is
 [$X] is looked up in the context of [$L] using the rules for unqualified name
 lookup ([#basic.lookup.unqual]).
+[:zh_CN]
+对于给定的带有[~ud-后缀][$X]的[~自定义字面量][$L]，为确定该调用的形式，要使用
+未限定名查找规则（[#basic.lookup.unqual]），在 [$L] 的语境中查找以 [$X] 为字面量
+后缀标识符的[~字面量运算符标识]。
 
 [:en]
 Let [$S] be the set of declarations found by this lookup.
+[:zh_CN]
+令 [$S] 为由这个查找所找到的声明式集合。
 
 [:en]
 [$S] shall not be empty.
+[:zh_CN]
+[$S] 不能为空。
 
 [para]
 [:en]
 If [$L] is a [~user-defined-integer-literal], let [$n] be the literal without
 its [~ud-suffix].
+[:zh_CN]
+若 [$L] 是一个[~自定义整数字面量]，则令 [$n] 为不带有[~ud-后缀]的字面量。
 
 [:en]
 If [$S] contains a literal operator with parameter type [`unsigned long long],
 the literal [$L] is treated as a call of the form
+[:zh_CN]
+若 [$S] 包含一个形参类型为 [`unsigned long long] 的字面量运算符，则将字面量 [$L]
+当作如下形式的调用
 
 [codeblock:notation [special:var X n]]
 operator "" X([$n]ULL)
@@ -86,10 +112,15 @@ operator "" X([$n]ULL)
 [:en]
 Otherwise, [$S] shall contain a raw literal operator or a literal operator
 template ([#over.literal]) but not both.
+[:zh_CN]
+否则，[$S] 应当包含一个原始字面量运算符或一个字面量运算符模板（[#over.literal]）
+，但不能同时包含二者。
 
 [:en]
 If [$S] contains a raw literal operator, the literal [$L] is treated as a call
 of the form
+[:zh_CN]
+若 [$S] 包含一个原始字面量运算符，则将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X n]]
 operator "" X("[$n]")
@@ -98,6 +129,8 @@ operator "" X("[$n]")
 [:en]
 Otherwise ([$S] contains a literal operator template), [$L] is treated as a call
 of the form
+[:zh_CN]
+否则（[$S] 包含一个字面量运算符模板），将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X]]
 operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
@@ -105,21 +138,30 @@ operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
 
 [:en]
 where [$n] is the source character sequence [$c[_1]c[_2]...c[_k]].
+[:zh_CN]
+其中 [$n] 为源代码字符序列 [$c[_1]c[_2]...c[_k]]。
 
 [enter:note]
 [:en]
 The sequence [$c[_1]c[_2]...c[_k]] can only contain characters from the basic
 source character set.
+[:zh_CN]
+序列 [$c[_1]c[_2]...c[_k]] 只能包含基本源字符集中的字符。
 [exit:note]
 
 [para]
 [:en]
 If [$L] is a [~user-defined-floating-literal], let [$f] be the literal without
 its [~ud-suffix].
+[:zh_CN]
+若 [$L] 是一个[~自定义浮点字面量]，则令 [$f] 为不带有[~ud-后缀]的字面量。
 
 [:en]
 If [$S] contains a literal operator with parameter type [`long double], the
 literal [$L] is treated as a call of the form
+[:zh_CN]
+若 [$S] 包含一个形参类型为 [`long double] 的字面量运算符，则将字面量 [$L] 当作
+如下形式的调用
 
 [codeblock:notation [special:var X]]
 operator "" X([$f]L)
@@ -128,10 +170,15 @@ operator "" X([$f]L)
 [:en]
 Otherwise, [$S] shall contain a raw literal operator or a literal operator
 template ([#over.literal]) but not both.
+[:zh_CN]
+否则，[$S] 应当包含一个原始字面量运算符或一个字面量运算符模板（[#over.literal]）
+，但不能同时包含二者。
 
 [:en]
 If [$S] contains a raw literal operator, the [+literal] [$L] is treated as a
 call of the form
+[:zh_CN]
+若 [$S] 包含一个原始字面量运算符，则将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X]]
 operator "" X("[$f]")
@@ -140,6 +187,8 @@ operator "" X("[$f]")
 [:en]
 Otherwise ([$S] contains a literal operator template), [$L] is treated as a call
 of the form
+[:zh_CN]
+否则（[$S] 包含一个字面量运算符模板），将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X]]
 operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
@@ -147,11 +196,15 @@ operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
 
 [:en]
 where [$f] is the source character sequence [$c[_1]c[_2]...c[_k]].
+[:zh_CN]
+其中 [$f] 为源代码字符序列 [$c[_1]c[_2]...c[_k]]。
 
 [enter:note]
 [:en]
 The sequence [$c[_1]c[_2]...c[_k]] can only contain characters from the basic
 source character set.
+[:zh_CN]
+序列 [$c[_1]c[_2]...c[_k]] 只能包含基本源字符集中的字符。
 [exit:note]
 
 [para]
@@ -159,9 +212,14 @@ source character set.
 If [$L] is a [~user-defined-string-literal], let [$str] be the literal without
 its [~ud-suffix] and let [$len] be the number of code units in [$str] (i.e., its
 length excluding the terminating null character).
+[:zh_CN]
+若 [$L] 是一个[~自定义字符串字面量]，则令 [$str] 为不带有[~ud-后缀]的字面量，又
+令 [$len] 为 [$str] 中的代码单元的数量（就是说，不包括结尾的空字符的长度）。
 
 [:en]
 The literal [$L] is treated as a call of the form
+[:zh_CN]
+将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X str len]]
 operator "" X(str, len)
@@ -171,10 +229,15 @@ operator "" X(str, len)
 [:en]
 If [$L] is a [~user-defined-character-literal], let [$ch] be the literal without
 its [~ud-suffix].
+[:zh_CN]
+若 [$L] 是一个[~自定义字符字面量]，则令 [$ch] 为不带有[~ud-后缀]的字面量。
 
 [:en]
 [$S] shall contain a literal operator ([#over.literal]) whose only parameter has
 the type of [$ch] and the literal [$L] is treated as a call of the form
+[:zh_CN]
+[$S] 应当包含一个其唯一形参的类型为 [$ch] 的类型的字面量运算符
+（[#over.literal]），并将字面量 [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X ch]]
 operator "" X(ch)
@@ -189,13 +252,13 @@ std::string operator "" _w(const char16_t*, std::size_t);
 unsigned operator "" _w(const char*);
 int main() {
   1.2_w;      // [:en] calls [`operator "" _w(1.2L)]
-              // [|:zh_CN]
+              // [|:zh_CN] 调用 [`operator "" _w(1.2L)]
   u"one"_w;   // [:en] calls [`operator "" _w(u"one", 3)]
-              // [|:zh_CN]
+              // [|:zh_CN] 调用 [`operator "" _w(u"one", 3)]
   12_w;       // [:en] calls [`operator "" _w("12")]
-              // [|:zh_CN]
+              // [|:zh_CN] 调用 [`operator "" _w("12")]
   "two"_w;    // [:en] error: no applicable literal operator
-              // [|:zh_CN]
+              // [|:zh_CN] 错误：没有适用的字面量运算符
 }
 [codeblock:end]
 
@@ -206,16 +269,25 @@ int main() {
 In translation phase 6 ([#lex.phases]), adjacent string literals are
 concatenated and [~user-defined-string-literal]s are considered string literals
 for that purpose.
+[:zh_CN]
+在翻译阶段 6 中（[#lex.phases]），相邻的字符串字面量要进行拼接，而[~自定义字符串
+字面量]也被当作其中的字符串字面量。
 
 [:en]
 During concatenation, [~ud-suffix]es are removed and ignored and the
 concatenation process occurs as described in [#lex.string].
+[:zh_CN]
+进行拼接时，移除并忽略所有 [~ud-后缀]，而拼接过程按照 [#lex.string] 的描述进行。
 
 [:en]
 At the end of phase 6, if a string literal is the result of a concatenation
 involving at least one [~user-defined-string-literal], all the participating
 [~user-defined-string-literal]s shall have the same [~ud-suffix] and that suffix
 is applied to the result of the concatenation.
+[:zh_CN]
+阶段 6 结束时，若某个字符串字面量是由至少涉及一个[~自定义字符串字面量]的拼接所
+产生的，则其中所有参与的[~自定义字符串字面量]都应当带有相同的 [~ud-后缀]，并将
+这个后缀应用到拼接的结果上。
 
 [para]
 [enter:example]
@@ -223,9 +295,9 @@ is applied to the result of the concatenation.
 [codeblock]
 int main() {
   L"A" "B" "C"_x; // [:en] OK: same as [`L"ABC"_x]
-                  // [|:zh_CN]
+                  // [|:zh_CN] OK：与 [`L"ABC"_x] 相同
   "P"_x "Q" "R"_y;// [:en] error: two different [~ud-suffix]es
-                  // [|:zh_CN]
+                  // [|:zh_CN] 错误：两个不同的 [~ud-后缀]
 }
 [codeblock:end]
 

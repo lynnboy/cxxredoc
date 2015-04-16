@@ -1,10 +1,11 @@
 ﻿[section#lex.comment
     [:en] Comments
-    [:zh_CN] 
+    [:zh_CN] 注释
 ]
 
 [index:begin#comment
     [:en] comment
+    [:zh_CN] 注释
 ]
 
 [para]
@@ -12,28 +13,44 @@
 [%comment[![`/*] [`*/]]]
 The characters [`/*] start a comment, which terminates with the characters
 [`*/].
+[:zh_CN]
+[%注释[![`/*] [`*/]]]
+字符 [`/*] 开始一个以字符 [`*/] 结束的注释。
 
 [:en]
 These comments do not nest.
+[:zh_CN]
+这种注释不能嵌套。
 
 [:en]
 [%comment[![`//]]]
 The characters [`//] start a comment, which terminates immediately before the
 next new-line character.
+[:zh_CN]
+[%注释[![`//]]]
+字符 <code>//</code> 开始一个紧接下一个换行字符之前结束的注释。
 
 [:en]
 If there is a form-feed or a vertical-tab character in such a comment, only
 white-space characters shall appear between it and the new-line that terminates
 the comment; no diagnostic is required.
+[:zh_CN]
+如果一个换页或垂直制表字符出现在这种注释中，则在它与结束这个注释的换行字符之间
+只能存在空白字符；无须诊断。
 
 [enter:note]
 [:en]
 The comment characters [`//], [`/*], and [`*/] have no special meaning within a
 [`//] comment and are treated just like other characters.
+[:zh_CN]
+[`//] 注释中的注释字符 [`//]、[`/*] 和 [`*/] 没有特殊含义，并以与其他字符同样的
+方式处理。
 
 [:en]
 Similarly, the comment characters [`//] and [`/*] have no special meaning within
 a [`/*] comment.
+[:zh_CN]
+类似地，[`/*] 注释中的注释字符 [`//] 和 [`/*] 没有特殊含义。
 [exit:note]
 
 [index:end#comment]

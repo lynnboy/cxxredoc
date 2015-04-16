@@ -1,12 +1,15 @@
 ﻿[section#lex.nullptr
     [:en] Pointer literals
-    [:zh_CN] 
+    [:zh_CN] 指针字面量
 ]
 
-[%literal[!pointer]]
+[%
+    [:en] literal[!pointer]
+    [:zh_CN] 字面量[!指针～]
+]
 
 [syntax]
-[rule pointer-literal]
+[rule pointer-literal [:zh_CN] 指针字面量]
     [| [`nullptr]]
 [rule:end]
 [syntax:end]
@@ -14,19 +17,29 @@
 [para]
 [:en]
 The pointer literal is the keyword [`nullptr].
+[:zh_CN]
+指针字面量是关键字 [`nullptr]。
 
 [:en]
 It is a prvalue of type [`std::nullptr_t].
+[:zh_CN]
+它是一个 [`std::nullptr_t] 类型的纯右值。
 
 [enter:note]
 [:en]
 [`std::nullptr_t] is a distinct type that is neither a pointer type nor a
 pointer to member type;
+[:zh_CN]
+[`std::nullptr_t] 是一个既不是指针类型，也不是成员指针类型的独立类型；
 
 [:en]
 rather, a prvalue of this type is a null pointer constant and can be converted
 to a null pointer value or null member pointer value.
+[:zh_CN]
+然而，这种类型的纯右值是空指针常量，并且可以被转换为空指针值或空成员指针值。
 
 [:en]
 See [#conv.ptr] and [#conv.mem].
+[:zh_CN]
+参见 [#conv.ptr] 和 [#conv.mem]。
 [exit:note]

@@ -1,49 +1,51 @@
 ﻿[section#lex.ccon
     [:en] Character literals
-    [:zh_CN] 
+    [:zh_CN] 字符字面量
 ]
 
 [syntax]
-[rule character-literal]
+[rule character-literal [:zh_CN] 字符字面量]
     [| [~:opt encoding-prefix] [`'] c-char-sequence [`']]
 [rule:end]
 
-[rule:oneof encoding-prefix]
+[rule:oneof encoding-prefix [:zh_CN] 编码前缀]
     [| u8 u U L]
 [rule:end]
 
-[rule c-char-sequence]
+[rule c-char-sequence [:zh_CN] c-字符序列]
     [| c-char]
     [| c-char-sequence c-char]
 [rule:end]
 
-[rule c-char]
+[rule c-char [:zh_CN] c-字符]
     [|:descriptive
-        [:en] any member of the source character set except the single-quote
-        [`'], backslash [`\], or new-line character
+        [:en] any member of the source character set except [br]
+            the single-quote [`'], backslash [`\], or new-line character
+        [:zh_CN] 源字符集中的任意成员，除了 [br]
+            单引号 [`']、反斜杠 [`\] 或换行字符
     ]
     [| escape-sequence]
     [| universal-character-name]
 [rule:end]
 
-[rule escape-sequence]
+[rule escape-sequence [:zh_CN] 转义序列]
     [| simple-escape-sequence]
     [| octal-escape-sequence]
     [| hexadecimal-escape-sequence]
 [rule:end]
 
-[rule:oneof simple-escape-sequence]
+[rule:oneof simple-escape-sequence [:zh_CN] 简单转义序列]
     [| \' \" \? \\]
     [| \a \b \f \n \r \t \v]
 [rule:end]
 
-[rule octal-escape-sequence]
+[rule octal-escape-sequence [:zh_CN] 八进制转义序列]
     [| [`\] octal-digit]
     [| [`\] octal-digit octal-digit]
     [| [`\] octal-digit octal-digit octal-digit]
 [rule:end]
 
-[rule hexadecimal-escape-sequence]
+[rule hexadecimal-escape-sequence [:zh_CN] 十六进制转义序列]
     [| [`\] hexadecimal-digit]
     [| hexadecimal-escape-sequence hexadecimal-digit]
 [rule:end]
@@ -53,28 +55,40 @@
 [para]
 [:en]
 [%literal[!character]]
-[%literal[!narrow-character]]
-[%literal[![`char16_t]]]
-[%literal[![`char32_t]]]
 A character literal is one or more characters enclosed in single quotes, as in
 [`'x'], optionally preceded by [`u8], [`u], [`U], or [`L], as in [`u8'w'],
 [`u'x'], [`U'y'], or [`L'z'], respectively.
+[:zh_CN]
+[%字面量[!字符～]]
+字符字面量是被单引号包围的一个或多个字符，如 [`'x']，可选地带有前置字母 [`u8]，
+[`u]，[`U]，或 [`L]，分别如 [`u8'w']，[`u'x']，[`U'y']，或 [`L'z']。
 
 [para]
 [:en]
-[%literal[!type of character]]
+[%literal[!narrow-character]]
 A character literal that does not begin with [`u8], [`u], [`U], or [`L] is an
 [def ordinary character literal].
+[:zh_CN]
+[%字面量[!窄字符～]]
+不以 [`u8]，[`u]，[`U]，或 [`L] 开始的字符字面量是[def 普通字符字面量]。
 
 [:en]
+[%literal[!type of character]]
 An ordinary character literal that contains a single [~c-char] representable in
 the execution character set has type [`char], with value equal to the numerical
 value of the encoding of the [~c-char] in the execution character set.
+[:zh_CN]
+[%字面量[!字符～的类型]]
+包含单个在执行字符集中可以表示的 [~c-字符]的普通字符字面量具有类型 [`char]，其值
+与执行字符集中该 [~c-字符]的编码数值相等。
 
 [:en]
-An ordinary character literal that contains more than one [~c-char] is a
 [%multicharacter literal [see literal [!multicharacter]]]
+An ordinary character literal that contains more than one [~c-char] is a
 [def multicharacter literal [%literal [!multicharacter]]].
+[:zh_CN]
+[%多字符字面量 [see 字面量 [!多字符～]]]
+包含多个 [~c-字符] 的普通字符字面量是[def 多字符字面量 [% 字面量 [!多字符～]]。
 
 [:en]
 A multicharacter literal, or an ordinary character literal containing a single
@@ -83,74 +97,123 @@ conditionally-supported, has type [`int],
 [%literal[!multicharacter[!implementation-defined value of]]]
 and has an [%@impldef value of multicharacter literal] implementation-defined
 value.
+[:zh_CN]
+多字符字面量，以及包含一个无法在执行字符集中表示的 [~c-字符]的普通字符字面量，
+是有条件支持的，具有类型 [`int]，并具有
+[%字面量[!多字符～[!～的由实现定义的值]]]
+[%@impldef 多字符字面量的值]
+由实现定义的值。
 
 [para]
 [:en]
 A character literal that begins with [`u8], such as [`u8'w'], is a character
 literal of type [`char], known as a [def UTF-8 character literal].
+[:zh_CN]
+以 [`u8] 开始的字符字面量，如 [`u8'w']，是 [`char] 类型的字符字面量，被称为
+[def UTF-8 字符字面量]。
 
 [:en]
 The value of a UTF-8 character literal is equal to its ISO 10646 code point
 value, provided that the code point value is representable with a single UTF-8
 code unit (that is, provided it is in the C0 Controls and Basic Latin Unicode
 block).
+[:zh_CN]
+UTF-8 字符字面量的值与其 ISO 10646 代码点的值相等，其中该代码点可以由单个 UTF-8
+代码单位表示（就是说，它位于《C0 控制字符和基本拉丁文》区块之内）。
 
 [:en]
 If the value is not representable with a single UTF-8 code unit, the program is
 ill-formed.
+[:zh_CN]
+如果其值无法由单个 UTF-8 代码单位表示，则程序非良构。
 
 [:en]
 A UTF-8 character literal containing multiple [~c-char]s is ill-formed.
+[:zh_CN]
+包含多个 [~c-字符]的 UTF-8 字符字面量非良构。
 
 [para]
 [:en]
+[%literal[![`char16_t]]]
 [%[`char16_t] character] [%[`char16_t]]
 A character literal that begins with the letter [`u], such as [`u'x'], is a
 character literal of type [`char16_t].
+[:zh_CN]
+[%字面量[![`char16_t]]]
+[%[`char16_t] 字符] [%[`char16_t]]
+以字母 [`u] 开始的字符字面量，如 [`u'x']，是 [`char16_t] 类型的字符字面量。
 
 [:en]
 The value of a [`char16_t] literal containing a single [~c-char] is equal to its
 ISO 10646 code point value, provided that the code point is representable with a
 single 16-bit code unit.
+[:zh_CN]
+包含单个 [~c-字符]的 [`char16_t] 字面量的值与其 ISO 10646 代码点的值相等，其中
+该代码点可以由单个十六位代码单位表示。
 
 [:en]
 (That is, provided it is a basic multi-lingual plane code point.)
+[:zh_CN]
+（就是说，它是基本多语言平面的代码点）
 
 [:en]
 If the value is not representable within 16 bits, the program is ill-formed.
+[:zh_CN]
+若该值不能以十六位表示，则程序非良构。
 
 [:en]
 A [`char16_t] literal containing multiple [~c-char]s is ill-formed.
+[:zh_CN]
+包含多个 [~c-字符]的 [`char16_t] 字面量非良构。
 
 [para]
 [:en]
+[%literal[![`char32_t]]]
 [%[`char32_t] character] [%[`char32_t]]
 A character literal that begins with the letter [`U], such as [`U'y'], is a
 character literal of type [`char32_t].
+[:zh_CN]
+[%字面量[![`char32_t]]]
+[%[`char32_t] 字符] [%[`char32_t]]
+以字母 [`U] 开始的字符字面量，如 [`U'y']，是 [`char32_t] 类型的字符字面量。
 
 [:en]
 The value of a [`char32_t] literal containing a single [~c-char] is equal to its
 ISO 10646 code point value.
+[:zh_CN]
+包含单个 [~c-字符]的 [`char32_t] 字面量的值与其 ISO 10646 代码点的值相等。
 
 [:en]
 A [`char32_t] literal containing multiple [~c-char]s is ill-formed.
+[:zh_CN]
+包含多个 [~c-字符]的 [`char32_t] 字面量非良构。
 
 [para]
 [:en]
 [%wide-character]
-[%[`<stddef.h>] [orderby stddef.h]]
-[%[`wchar_t]]
-A character literal that begins with the letter [`L], such as [`L'z'],
 [%prefix[![`L]]]
+A character literal that begins with the letter [`L], such as [`L'z'],
 is a wide-character literal.
+[:zh_CN]
+[%宽字符]
+[%前缀[![`L]]]
+以字母 [`L] 开始的字符字面量，如 [`L'z']，是宽字符字面量。
 
 [:en]
+[%[`wchar_t]]
+[%[`<stddef.h>] [orderby stddef.h]]
 A wide-character literal has type [`wchar_t].
+[:zh_CN]
+[%[`wchar_t]]
+[%[`<stddef.h>] [orderby stddef.h]]
+宽字符字面量具有类型 [`wchar_t]。
 
 [footnote]
 [:en]
 They are intended for character sets where a character does not fit into a
 single byte.
+[:zh_CN]
+它们用于无法以单个字节表示字符的字符集。
 [footnote:end]
 
 [:en]
@@ -158,110 +221,139 @@ The value of a wide-character literal containing a single [~c-char] has value
 equal to the numerical value of the encoding of the [~c-char] in the execution
 wide-character set, unless the [~c-char] has no representation in the execution
 wide-character set, in which case the value is [%@impldef value of
-wide-character literal with single c-char that is not in execution
+wide-character literal with single [~c-char] that is not in execution
 wide-character set] implementation-defined.
+[:zh_CN]
+包含单个 [~c-字符]的宽字符字面量的值与执行宽字符集中该 [~c-字符]的编码数值相等，
+除非在执行宽字符集中没有该 [~c-字符]的表示，这种情况下其值
+[%@impldef 具有单个执行宽字符集中不存在的[~c-字符]的宽字符字面量的值]
+由实现定义。
 
 [enter:note]
 [:en]
 The type [`wchar_t] is able to represent all members of the execution
 wide-character set (see [#basic.fundamental]).
+[:zh_CN]
+类型 [`wchar_t] 能够表示执行宽字符集的所有成员（参见 [#basic.fundamental]）。
 [exit:note]
 
 [:en]
 The value of a wide-character literal containing multiple [~c-char]s is
 [%@impldef value of wide-character literal containing multiple characters]
 implementation-defined.
+[:zh_CN]
+包含多个 [~c-字符]的宽字符字面量的值
+[%@impldef 包含多个字符的宽字符字面量的值] 由实现定义。
 
 [para]
 [:en]
 Certain nongraphic characters, the single quote [`'], the double quote [`"], the
 question mark [`?],
+[:zh_CN]
+某些非图形字符，单引号 [`']，双引号 [`"]，问号 [`?]，
 
 [footnote]
 [:en]
 Using an escape sequence for a question mark is supported for compatibility with
 ISO [=Cpp]14 and ISO C.
+[:zh_CN]
+支持对问号使用转义序列，是为了与 ISO [=Cpp]14 和 ISO C 保持兼容。
 [footnote:end]
 
-[~:en]
+[:en@~]
 and the backslash
 [%backslash character]
 [%[`\] [see backslash]]
 [%escape character[see backslash]]
 [`\], can be represented according to Table [#tab:escape.sequences].
+[:zh_CN]
+以及反斜杠
+[%反斜杠字符]
+[%[`\] [see 反斜杠]]
+[%转义字符 [see 反斜杠]]
+[`\] 可以按表 [#tab:escape.sequences] 来表示。
 
 [:en]
 The double quote [`"] and the question mark [`?], can be represented as
 themselves or by the escape sequences [`\"] and [`\?] respectively, but the
 single quote [`'] and the backslash [`\] shall be represented by the escape
 sequences [\'] and [`\\] respectively.
+[:zh_CN]
+双引号 [`"] 和问号 [`?] 可以独自代表其自身，或分别用转义序列 [`\"] 和 [`\?] 来
+表示，但单引号 [`'] 和反斜杠 [`\] 应该分别用转义序列 [\'] 和 [`\\] 来表示。
 
 [:en]
 Escape sequences in which the character following the backslash is not listed in
 Table [#tab:escape.sequences] are conditionally-supported, with
 [%@impldef semantics of non-standard escape sequences] implementation-defined
 semantics.
+[:zh_CN]
+反斜杠之后的字符未在表 [#tab:escape.sequences] 中列出的转义序列是有条件支持的，
+并具有[%@impldef 非标准转义序列的语义]由实现定义的语义。
 
 [:en]
 An escape sequence specifies a single character.
+[:zh_CN]
+一个转义序列代表单个字符。
 
 [table:grid@simple#tab:escape.sequences
     [:en] Escape sequences
+    [:zh_CN] 转义序列
     [columns
         [column]
         [column]
         [column@code]
     ]
 ]
-[|] [:en] new-line
+[|] [:en] new-line [:zh_CN] 换行
 [|] NL(LF)
 [|] \n
 
-[|] [:en] horizontal tab
+[|] [:en] horizontal tab [:zh_CN] 水平制表
 [|] HT
 [|] \t
 
-[|] [:en] vertical tab
+[|] [:en] vertical tab [:zh_CN] 垂直制表
 [|] VT
 [|] \v
 
-[|] [:en] backspace
+[|] [:en] backspace [:zh_CN] 退格
 [|] BS
 [|] \b
 
-[|] [:en] carriage return
+[|] [:en] carriage return [:zh_CN] 回车
 [|] CR
 [|] \r
 
-[|] [:en] form feed
+[|] [:en] form feed [:zh_CN] 换页
 [|] FF
 [|] \f
 
-[|] [:en] alert
+[|] [:en] alert [:zh_CN] 警铃
 [|] BEL
 [|] \a
 
-[|] [:en] backslash
+[|] [:en] backslash [:zh_CN] 反斜杠
 [|] \
 [|] \\
 
-[|] [:en] question mark
+[|] [:en] question mark [:zh_CN] 问号
 [|] ?
 [|] \?
 
-[|] [:en] single quote
+[|] [:en] single quote [:zh_CN] 单引号
 [|] [`']
 [|] \'
 
-[|] [:en] double quote
+[|] [:en] double quote [:zh_CN] 双引号
 [|] [`"]
 [|] \"
 
-[|] [:en] octal number
+[|] [:en] octal number [:zh_CN] 八进制数字
 [|] [$ooo]
 [|] \[$ooo]
 
-[|] [:en] hex number
+[|] [:en] hex number [:zh_CN] 十六进制数字
 [|] [$hhh]
 [|] \x[$hhh]
 
@@ -272,18 +364,28 @@ An escape sequence specifies a single character.
 The escape [%number[!octal]] [`\[$ooo]] consists of the backslash followed by
 one, two, or three octal digits that are taken to specify the value of the
 desired character.
+[:zh_CN]
+由反斜杠后面跟着一个、两个或三个八进制数字所构成的转义序列 [%数字[!八进制～]]
+[`\[$ooo]]，用以代表所需字符的值。
 
 [:en]
-The escape [%number[!hex]] [`\[$hhh]] consists of the backslash followed by [`x]
+The escape [%number[!hex]] [`\x[$hhh]] consists of the backslash followed by [`x]
 followed by one or more hexadecimal digits that are taken to specify the value
 of the desired character.
+[:zh_CN]
+由反斜杠后面跟着 [`x] 再跟着一个或多个十六进制数字构成的转义序列
+[%数字[!十六进制～]] [`\x[$hhh]]，用以代表所需字符的值。
 
 [:en]
 There is no limit to the number of digits in a hexadecimal sequence.
+[:zh_CN]
+十六进制序列中的数字个数没有限制。
 
 [:en]
 A sequence of octal or hexadecimal digits is terminated by the first character
 that is not an octal digit or a hexadecimal digit, respectively.
+[:zh_CN]
+八进制或十六进制数字序列分别在遇到第一个不是八进制或十六进制数字的字符时结束。
 
 [:en]
 [%literal[!implementation-defined value of [`char]]]
@@ -291,31 +393,52 @@ The value of a character literal is [%@impldef value of character literal
 outside range of corresponding type] implementation-defined if it falls outside
 of the implementation-defined range defined for [`char] (for literals with no
 prefix) or [`wchar_t] (for literals prefixed by [`L]).
+[:zh_CN]
+[%字面量[![`char]～的由实现定义的值]]
+超出由实现定义的 [`char]（对于不带前缀的字面量）或 [`wchar_t]（对于带有 [`L]
+前缀的字面量）的数值范围的字符字面量的值
+[%@impldef 超出对应类型的数值范围的字符字面量的值]由实现定义。
 
 [enter:note]
 [:en]
 If the value of a character literal prefixed by [`u], [`u8], or [`U] is outside
 the range defined for its type, the program is ill-formed.
+[:zh_CN]
+如果带有 [`u]，[`u8]，或 [`U] 前缀的字符字面量的值超出其类型的数值范围，则程序
+非良构。
 [exit:note]
 
 [para]
 [:en]
 A universal-character-name is translated to the encoding, in the appropriate
-execution character set, of the character named. If there is no such encoding,
-the universal-character-name is translated to an
+execution character set, of the character named. 
+[:zh_CN]
+通用字符名被翻译成其所命名的字符在适当的执行字符集中的编码。
+
+[:en]
+If there is no such encoding, the universal-character-name is translated to an
 [%@impldef encoding of universal character name not in execution character set]
 implementation-defined encoding.
+[:zh_CN]
+如果此编码不存在，则通用字符名被翻译成某个
+[%@impldef 执行字符集中不存在的通用字符名的编码] 由实现定义的编码。
 
 [enter:note]
 [:en]
 In translation phase 1, a universal-character-name is introduced whenever an
 actual extended character is encountered in the source text.
+[:zh_CN]
+在翻译阶段 1 中，一旦在源文本中遇到一个实际扩展字符时就引入一个通用字符名。
 
 [:en]
 Therefore, all extended characters are described in terms of
 universal-character-names.
+[:zh_CN]
+这样，所有扩展字符都以通用字符名来说明。
 
 [:en]
 However, the actual compiler implementation may use its own native character
 set, so long as the same results are obtained.
+[:zh_CN]
+然而，只要能够产生相同结果，实际的编译器实现可以使用其自己的本地字符集。
 [exit:note]

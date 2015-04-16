@@ -299,18 +299,18 @@ int a, b;
 a = a + 32760 + b + 5;
 [codeblock:end]
 
-[~:en]
+[:en@~]
 the expression statement behaves exactly the same as
-[~:zh_CN]
+[:zh_CN@~]
 根据运算符的结合性和优先级，该表达式与
 
 [codeblock]
 a = (((a + 32760) + b) + 5);
 [codeblock:end]
 
-[~:en]
+[:en@~]
 due to the associativity and precedence of these operators.
-[~:zh_CN]
+[:zh_CN@~]
 具有完全相同的行为。
 
 [:en]
@@ -332,10 +332,10 @@ implementation cannot rewrite this expression as
 a = ((a + b) + 32765);
 [codeblock:end]
 
-[~:en]
+[:en@~]
 since if the values for [`a] and [`b] were, respectively, -32754 and -15, the
 sum [`a + b] would produce an exception while the original expression would not;
-[~:zh_CN]
+[:zh_CN@~]
 因为若 [`a] 和 [`b] 的值分别为 -32754 和 -15，则 [`a + b] 的和就会导致异常，
 而原来的表达式却不会；
 
@@ -348,19 +348,19 @@ nor can the expression be rewritten either as
 a = ((a + 32765) + b);
 [codeblock:end]
 
-[~:en]
+[:en@~]
 or
-[~:zh_CN]
+[:zh_CN@~]
 或
 
 [codeblock]
 a = (a + (b + 32765));
 [codeblock:end]
 
-[~:en]
+[:en@~]
 since the values for [`a] and [`b] might have been, respectively, 4 and -8 or
 -17 and 12.
-[~:zh_CN]
+[:zh_CN@~]
 因为 [`a] 和 [`b] 的值可能分别是 4 和 -8，或 -17 和 12。
 
 [:en]
@@ -431,9 +431,9 @@ private:
 void f() {
   if (S(3).v())     // [:en] full-expression includes lvalue-to-rvalue and
                     // [|:zh_CN] 全表达式包括左值向右值以及
-                    // [~:en] [`int] to [`bool] conversions, performed before
+                    // [:en@~] [`int] to [`bool] conversions, performed before
                     // [|~:zh_CN] [`int] 向 [`bool] 的转换，并实施于
-                    // [~:en] temporary is deleted at end of full-expression
+                    // [:en@~] temporary is deleted at end of full-expression
                     // [|~:zh_CN] 临时变量在全表达式结尾处被删除之前
   { }
 }

@@ -1,36 +1,36 @@
 ﻿[section#lex.fcon
     [:en] Floating literals
-    [:zh_CN] 
+    [:zh_CN] 浮点字面量
 ]
 
 [%literal[!floating]]
 
 [syntax]
-[rule floating-literal]
+[rule floating-literal [:zh_CN] 浮点字面量]
     [| fractional-constant [~:opt exponent-part] [~:opt floating-suffix]]
     [| digit-sequence exponent-part [~:opt floating-suffix]]
 [rule:end]
 
-[rule fractional-constant]
+[rule fractional-constant [:zh_CN] 分数常量]
     [| [~:opt digit-sequence] [`.] digit-sequence]
     [| digit-sequence [`.]]
 [rule:end]
 
-[rule exponent-part]
+[rule exponent-part [:zh_CN] 指数部分]
     [| [`e] [~:opt sign] digit-sequence]
     [| [`E] [~:opt sign] digit-sequence]
 [rule:end]
 
-[rule:oneof sign]
+[rule:oneof sign [:zh_CN] 正负号]
     [| + -]
 [rule:end]
 
-[rule digit-sequence]
+[rule digit-sequence [:zh_CN] 数字序列]
     [| digit]
     [| digit-sequence [~:opt '] digit]
 [rule:end]
 
-[rule:oneof floating-suffix]
+[rule:oneof floating-suffix [:zh_CN] 浮点后缀]
     [| f l F L]
 [rule:end]
 
@@ -42,57 +42,92 @@
 A floating literal consists of an integer part, a decimal point, a fraction
 part, an [%suffix[![`e]]] [`e] or [%suffix[![`E]]] [`E], an optionally signed
 integer exponent, and an optional type suffix.
+[:zh_CN]
+浮点字面量由整数部分，小数点，分数部分，[%后缀[![`e]]] [`e] 或 [%后缀[![`E]]]
+[`E]，带有可选正负号的整数指数，以及可选的类型后缀组成。
 
 [:en]
 The integer and fraction parts both consist of a sequence of decimal (base ten)
 digits.
+[:zh_CN]
+整数和分数部分都由十进制（以十为基）数字序列组成。
 
 [:en]
 Optional separating single quotes in a [~digit-sequence] are ignored when
 determining its value.
+[:zh_CN]
+当确定其值时忽略[~数字序列]中的可选分组单引号。
 
 [enter:example]
 [:en]
 The literals [`1.602'176'565e-19] and [`1.602176565e-19] have the same value.
+[:zh_CN]
 [exit:example]
+字面量 [`1.602'176'565e-19] 和 [`1.602176565e-19] 的值相同。
 
 [:en]
 Either the integer part or the fraction part (not both) can be omitted;
+[:zh_CN]
+整数部分和分数部分都可以（但不可同时）省略；
 
 [:en]
 either the decimal point or the letter [`e] (or [`E]) and the exponent (not
 both) can be omitted.
+[:zh_CN]
+小数点和字母 [`e]（或 [`E]）及指数都可以（但不可同时）省略。
 
 [:en]
 The integer part, the optional decimal point and the optional fraction part form
 the [+significant part] of the floating literal.
+[:zh_CN]
+整数部分、可选的小数点以及可选的分数部分组成浮点字面量的[+有效部分]。
 
 [:en]
 The exponent, if present, indicates the power of 10 by which the significant
 part is to be scaled.
+[:zh_CN]
+指数部分（如果存在），代表有效部分所乘的 10 的幂。
 
 [:en]
 If the scaled value is in the range of representable values for its type, the
 result is the scaled value if representable, else the larger or smaller
 representable value nearest the scaled value, chosen in an [%@impldef choice of
 larger or smaller value of floating literal] implementation-defined manner.
+[:zh_CN]
+如果所乘之后的值在字面量的类型所表示的数值范围内，则结果为可表示的所乘之后的值，
+否则就按照 [%@impldef 选择大于或小于浮点字面量的值]
+由实现定义的方式选择大于或小于所乘结果并最接近的可表示的值。
 
 [:en]
 [%literal[![`double]]]
 [%literal[!type of floating point]]
 The type of a floating literal is [`double] unless explicitly specified by a
 suffix.
+[:zh_CN]
+[%字面量[![`double]]]
+[%字面量[!浮点～的类型]]
+浮点字面量的类型，如果并未通过后缀明确指定，则为 [`double]。
 
 [:en]
 [%literal[![`float]]]
 [%suffix[![`F]]] [%suffix[![`f]]]
 The suffixes [`f] and [`F] specify [`float],
+[:zh_CN]
+[%字面量[![`float]]]
+[%后缀[![`F]]] [%后缀[![`f]]]
+后缀 [`f] 和 [`F] 指定类型 [`float]，
 
 [:en]
 [%literal[![`long double]]]
 [%suffix[![`L]]] [%suffix[![`l]]]
 the suffixes [`l] and [`L] specify [`long] [`double],
+[:zh_CN]
+[%字面量[![`long double]]]
+[%后缀[![`L]]] [%后缀[![`l]]]
+后缀 [`l] 和 [`L] 指定类型 [`long] [`double]。
 
 [:en]
 If the scaled value is not in the range of representable values for its type,
 the program is ill-formed.
+[:zh_CN]
+如果所乘之后的值不在其能表示的数值范围内，则程序非良构。

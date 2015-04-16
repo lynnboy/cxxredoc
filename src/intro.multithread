@@ -358,14 +358,14 @@ subsequent operation
 
 [list]
 [item]
-[~:en]
+[:en@~]
 is performed by the same thread that performed [$A], or
-[~:zh_CN]
+[:zh_CN@~]
 是由实施 [$A] 的同一线程所实施的操作，或者
 [item]
-[~:en]
+[:en@~]
 is an atomic read-modify-write operation.
-[~:zh_CN]
+[:zh_CN@~]
 是原子性读-改-写操作。
 [list:end]
 
@@ -461,9 +461,9 @@ or logical OR ([`||], see [#expr.log.or]) operator, or
 [$A] 是内建逗号（[`,]）运算符（[#expr.comma]）的左操作数；
 [list:end]
 
-[~:en]
+[:en@~]
 or
-[~:zh_CN]
+[:zh_CN@~]
 或者
 
 [item]

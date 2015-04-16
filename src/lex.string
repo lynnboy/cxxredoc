@@ -1,59 +1,70 @@
 ﻿[section#lex.string
     [:en] String literals
-    [:zh_CN] 
+    [:zh_CN] 字符串字面量
 ]
 
-[%literal[!string]]
+[%
+    [:en] literal[!string]
+    [:zh_CN] 字面量[!字符串～]
+]
 
 [syntax]
-[rule string-literal]
+[rule string-literal [:zh_CN] 字符串字面量]
     [| [~:opt encoding-prefix] [`"] [~:opt s-char-sequence] [`"]]
     [| [~:opt encoding-prefix] [`R] raw-string]
 [rule:end]
 
-[rule s-char-sequence]
+[rule s-char-sequence [:zh_CN] s-字符序列]
     [| s-char]
     [| s-char-sequence s-char]
 [rule:end]
 
-[rule s-char]
+[rule s-char [:zh_CN] s-字符]
     [|:descriptive
-        [:en] any member of the source character set except the double-quote
-        [`"], backslash [`\], or new-line character
+        [:en] any member of the source character set except [br]
+            the double-quote [`"], backslash [`\], or new-line character
+        [:zh_CN] 源字符集中的任意成员，除了 [br]
+            双引号 [`"]、反斜杠 [`\] 或换行字符
     ]
     [| escape-sequence]
     [| universal-character-name]
 [rule:end]
 
-[rule raw-string]
+[rule raw-string [:zh_CN] 原始字符串]
     [| [`"] [~:opt d-char-sequence] [`(] [~:opt r-char-sequence] [`)]
         [~:opt d-char-sequence] [`"]]
 [rule:end]
 
-[rule r-char-sequence]
+[rule r-char-sequence [:zh_CN] r-字符序列]
     [| r-char]
     [| r-char-sequence r-char]
 [rule:end]
 
-[rule r-char]
+[rule r-char [:zh_CN] r-字符]
     [|:descriptive
         [:en] any member of the source character set, except [br]
-        a right parenthesis [`)] followed by the initial [~d-char-sequence]
-        (which may be empty) followed by a double quote [`"].
+            a right parenthesis [`)] followed by the initial [~d-char-sequence]
+            (which may be empty) followed by a double quote [`"].
+        [:zh_CN] 源字符集中的任何成员，除了 [br]
+            右圆括号 [`)] 后面跟着开头的 [~d-字符序列]（可能为空）后面再跟着
+            双引号 [`"]。
     ]
 [rule:end]
 
-[rule d-char-sequence]
+[rule d-char-sequence [:zh_CN] d-字符序列]
     [| d-char]
     [| d-char-sequence d-char]
 [rule:end]
 
-[rule d-char]
+[rule d-char [:zh_CN] s-字符]
     [|:descriptive
         [:en] any member of the source character set except: [br]
-        space, the left parenthesis [`(], the right parenthesis [`)], the
-        backslash [`\], and the control characters representing horizontal tab,
-        vertical tab, form feed, and newline.
+            space, the left parenthesis [`(], the right parenthesis [`)], the
+            backslash [`\], and the control characters representing horizontal
+            tab, vertical tab, form feed, and newline.
+        [:zh_CN] 源字符集中的任何成员，除了：[br]
+            空格，左圆括号 [`(]，右圆括号 [`)]，反斜杠 [`\]，以及表示水平制表、
+            垂直制表、换页和换行的控制字符。
     ]
 [rule:end]
 
@@ -73,28 +84,53 @@ surrounded by double quotes, optionally prefixed by
 as in [`"..."], [`R"(...)"], [`u8"..."], [`u8R"**(...)**"], [`u"..."],
 [`uR"*\~{}(...)*\~{}"], [`U"..."], [`UR"zzz(...)zzz"], [`L"..."], or
 [`LR"(...)"], respectively.
+[:zh_CN]
+[%字面量[!字符串～]]
+[%字面量[!字符串～[!窄～]]]
+[%字面量[!字符串～[!宽～]]]
+[%字面量[!字符串～[![`char16_t]]]]
+[%字面量[!字符串～[![`char32_t]]]]
+[%字符串]
+[~字符串字面量]是由双引号包围的，可选带有前缀
+[`R]，[`u8]，[`u8R]，[`u]，[`uR]，[`U]，[`UR]，[`L]，或 [`LR]
+的一系列（如 [#lex.ccon] 中所定义的）字符组成，分别如
+[`"..."]，[`R"(...)"]，[`u8"..."]，[`u8R"**(...)**"]，[`u"..."]，
+[`uR"*\~{}(...)*\~{}"]，[`U"..."]，[`UR"zzz(...)zzz"]，[`L"..."]，或
+[`LR"(...)"]。
 
 [para]
 [:en]
 A [~string-literal] that has an [`R] in the prefix is a [def raw string literal].
+[:zh_CN]
+前缀中带有 [`R] 的[~字符串字面量]是[def 原始字符串字面量]。
 
 [:en]
 The [~d-char-sequence] serves as a delimiter.
+[:zh_CN]
+[~d-字符序列]用作分隔符。
 
 [:en]
 The terminating [~d-char-sequence] of a [~raw-string] is the same sequence of
 characters as the initial [~d-char-sequence].
+[:zh_CN]
+[~原始字符串]结尾的 [~d-字符序列]与其开头的 [~d-字符序列]是相同的字符序列。
 
 [:en]
 A [~d-char-sequence] shall consist of at most 16 characters.
+[:zh_CN]
+[~d-字符序列]应由最多 16 个字符构成。
 
 [para]
 [enter:note]
 [:en]
 The characters [`'('] and [`')'] are permitted in a [~raw-string].
+[:zh_CN]
+[~原始字符串]中允许出现 [`'('] 和 [`')']。
 
 [:en]
 Thus, [`R"delimiter((a|b))delimiter"] is equivalent to [`"(a|b)"].
+[:zh_CN]
+因此 [`R"delimiter((a|b))delimiter"] 等价于 [`"(a|b)"]。
 [exit:note]
 
 [para]
@@ -102,10 +138,15 @@ Thus, [`R"delimiter((a|b))delimiter"] is equivalent to [`"(a|b)"].
 [:en]
 A source-file new-line in a raw string literal results in a new-line in the
 resulting execution [~string-literal].
+[:zh_CN]
+原始字符串字面量中的源文件换行字符，在所生成的执行[~字符串字面量]中产生换行
+字符。
 
 [:en]
 Assuming no whitespace at the beginning of lines in the following example, the
 assert will succeed:
+[:zh_CN]
+假设在下例中每行开始没有空白，其断言将会成功：
 
 [codeblock]
 const char* p = R"(a\
@@ -120,6 +161,8 @@ assert(std::strcmp(p, "a\\\nb\nc") == 0);
 [enter:example]
 [:en]
 The raw string
+[:zh_CN]
+原始字符串
 
 [codeblock]
 R"a(
@@ -128,21 +171,29 @@ a"
 )a"
 [codeblock:end]
 
-[~:en]
+[:en@~]
 is equivalent to [`"\n)\\\na\"\n"].
+[:zh_CN@~]
+等价于 [`"\n)\\\na\"\n"]。
 
 [:en]
 The raw string
+[:zh_CN]
+原始字符串
 
 [codeblock]
 R"(??)"
 [codeblock:end]
 
-[~:en]
+[:en@~]
 is equivalent to \tcode{"\?\?"].
+[:zh_CN@~]
+等价于 \tcode{"\?\?"]。
 
 [:en]
 The raw string
+[:zh_CN]
+原始字符串
 
 [codeblock]
 R"#(
@@ -150,8 +201,10 @@ R"#(
 )#"
 [codeblock:end]
 
-[~:en]
+[:en@~]
 is equivalent to [`"\n)\?\?=\"\n"].
+[:zh_CN@~]
+等价于 [`"\n)\?\?=\"\n"]。
 
 [exit:example]
 
@@ -162,64 +215,96 @@ is equivalent to [`"\n)\?\?=\"\n"].
 After translation phase 6, a [~string-literal] that does not begin with an
 [~encoding-prefix] is an ordinary string literal, and is initialized with the
 given characters.
+[:zh_CN]
+[%字符串[!～的类型]]
+[%字面量[!字符串～[!窄～]]]
+翻译阶段 6 之后，不以[~编码前缀]开始的[~字符串字面量]是普通字符串字面量，并由
+给定的字符初始化。
 
 [para]
 [:en]
 A [~string-literal] that begins with [`u8], such as [`u8"asdf"], is a UTF-8
 string literal.
+[:zh_CN]
+由 [`u8] 开始的[~字符串字面量]，如 [`u8"asdf"]，是 UTF-8 字符串字面量。
 
 [para]
 [:en]
 Ordinary string literals and UTF-8 string literals are also referred to as
 narrow string literals.
+[:zh_CN]
+普通字符串字面量和 UTF-8 字符串字面量也称为窄字符串字面量。
 
 [:en]
 A narrow string literal has type
 [%literal[!string[!type of]]]
 ["array of [$n] [`const char]], where [$n] is the size of the string as defined
 below, and has static storage duration ([#basic.stc]).
+[:zh_CN]
+窄字符串字面量的类型为
+[%字面量[!字符串～[!～的类型]]]
+“[$n] 个 [`const char] 的数组”（其中 [$n] 是如下文中所定义的字符串大小），并
+具有静态存储期（[#basic.stc]）。
 
 [para]
 [:en]
 For a UTF-8 string literal, each successive element of the object representation
 ([#basic.types]) has the value of the corresponding code unit of the UTF-8
 encoding of the string.
+[:zh_CN]
+UTF-8 字符串字面量的对象表示（[#basic.types]）中的每个元素，依次具有该字符串的
+UTF-8 编码中的对应代码单元的值。
 
 [para]
 [:en]
 [%literal[!string[![`char16_t]]]]
 A [~string-literal] that begins with [`u], such as [`u"asdf"], is a [`char16_t]
 string literal.
+[:zh_CN]
+[%字面量[!字符串～[![`char16_t]]]]
+由 [`u] 开始的[~字符串字面量]，如 [`u"asdf"]，是 [`char16_t] 字符串字面量。
 
 [:en]
 A [`char16_t] string literal has type ["array of [$n] [`const char16_t]], where
-[$n] is the size of the string as defined below;
-
-[:en]
-it is initialized with the given characters.
+[$n] is the size of the string as defined below; it is initialized with the
+given characters.
+[:zh_CN]
+[`char16_t] 字符串字面量的类型为
+“[$n] 个 [`const char16_t] 的数组”（其中 [$n] 是如下文中所定义的字符串大小）；
+并由给定的字符初始化。
 
 [:en]
 A single [~c-char] may produce more than one [`char16_t] character in the form
 of surrogate pairs.
+[:zh_CN]
+单个 [~c-字符]可能以代用对的形式产生多于一个 [`char16_t] 字符。
 
 [para]
 [:en]
 [%literal[!string[![`char32_t]]]]
 A [~string-literal] that begins with [`U], such as [`U"asdf"], is a [`char32_t]
 string literal.
+[:zh_CN]
+[%字面量[!字符串～[![`char32_t]]]]
+由 [`U] 开始的[~字符串字面量]，如 [`U"asdf"]，是 [`char32_t] 字符串字面量。
 
 [:en]
 A [`char32_t] string literal has type ["array of [$n] [`const char32_t]], where
-[$n] is the size of the string as defined below;
-
-[:en]
-it is initialized with the given characters.
+[$n] is the size of the string as defined below; it is initialized with the
+given characters.
+[:zh_CN]
+[`char32_t] 字符串字面量的类型为
+“[$n] 个 [`const char32_t] 的数组”（其中 [$n] 是如下文中所定义的字符串大小）；
+并由给定的字符初始化。
 
 [para]
 [:en]
 [%literal[!string[!wide]]]
 A [~string-literal] that begins with [`L], such as [`L"asdf"], is a wide string
 literal.
+[:zh_CN]
+[%字面量[!字符串～[!宽～]]]
+由 [`L] 开始的[~字符串字面量]，如 [`L"asdf"]，是宽字符串字面量。
 
 [:en]
 [%[`<stddef.h>] [orderby stddef.h]]
@@ -227,57 +312,86 @@ literal.
 [%literal[!string[!wide]]]
 [%prefix[![`L]]]
 A wide string literal has type ["array of [$n] [`const wchar_t]], where [$n] is
-the size of the string as defined below;
-
-[:en]
-it is initialized with the given characters.
+the size of the string as defined below; it is initialized with the given
+characters.
+[:zh_CN]
+[%[`<stddef.h>] [orderby stddef.h]]
+[%[`wchar_t]]
+[%字面量[!字符串～[!宽～]]]
+[%前缀[![`L]]]
+宽字符串字面量的类型为
+“[$n] 个 [`const wchar_t] 的数组”（其中 [$n] 是如下文中所定义的字符串大小）；
+并由给定的字符初始化。
 
 [para]
 [:en]
-[%concatenation[!string]]
+[%拼接[!字符串～]]
 In translation phase 6 ([#lex.phases]), adjacent [~string-literal]s are
 concatenated.
+[:zh_CN]
+在翻译阶段 6 中（[#lex.phases]），相邻的[~字符串字面量]进行了拼接。
 
 [:en]
 If both [~string-literal]s have the same [~encoding-prefix], the resulting
 concatenated string literal has that [~encoding-prefix].
+[:zh_CN]
+若两个[~字符串字面量]具有相同的[~编码前缀]，则拼接后的字符串字面量具有该
+[~编码前缀]。
 
 [:en]
 If one [~string-literal] has no [~encoding-prefix], it is treated as a
 [~string-literal] of the same [~encoding-prefix] as the other operand.
+[:zh_CN]
+若一个字符串字面量没有[~编码前缀]，则把它当作与另一个操作数具有相同的[~编码前缀]
+的字符串字面量。
 
 [:en]
 If a UTF-8 string literal token is adjacent to a wide string literal token, the
 program is ill-formed.
+[:zh_CN]
+若一个 UTF-8 字符串字面量记号与一个宽字符串字面量记号相邻，则程序非良构。
 
 [:en]
 Any other concatenations are conditionally-supported with
 [%@impldef concatenation of some types of string literals]
 implementation-defined behavior.
+[:zh_CN]
+任何其他拼接都是有条件支持的，并具有
+[%@impldef 某些类型的字符串字面量的拼接]由实现定义的行为。
 
 [enter:note]
 [:en]
 This concatenation is an interpretation, not a conversion.
+[:zh_CN]
+这种拼接是一种解释，而不是转换。
 
 [:en]
 Because the interpretation happens in translation phase 6 (after each character
 from a literal has been translated into a value from the appropriate character
 set), a [~string-literal][=']s initial rawness has no effect on the
 interpretation or well-formedness of the concatenation.
+[:zh_CN]
+因为该解释发生于翻译阶段 6（已经将字面量中的每个字符翻译成适当的字符集中的值），
+所以[~字符串字面量]开始时是否是原始的，并不会影响对拼接的解释或其良构性。
 [exit:note]
 
 [:en]
 Table [#tab:lex.string.concat] has some examples of valid concatenations.
+[:zh_CN]
+表 [#tab:lex.string.concat] 中有一些合法拼接的例子。
 
 [table:listing#tab:lex.string.concat
     [:en] String literal concatenations
+    [:zh_CN] 字符串字面量的拼接
     [columns:repeated@3
         [column@code
             [:en] Source
+            [:zh_CN] 源代码
         ]
         [column@code@sharehead]
         [column@code
             [:en] Means
+            [:zh_CN] 含义
         ]
     ]
 ]
@@ -297,6 +411,8 @@ Table [#tab:lex.string.concat] has some examples of valid concatenations.
 
 [:en]
 Characters in concatenated strings are kept distinct.
+[:zh_CN]
+拼接而成的字符串中的字符保持独立性。
 
 [enter:example]
 
@@ -307,6 +423,8 @@ Characters in concatenated strings are kept distinct.
 [:en]
 contains the two characters [`'\xA'] and [`'B'] after concatenation (and not the
 single hexadecimal character [`'\xAB']).
+[:zh_CN]
+在拼接后将包含两个字符 [`'\xA'] 和 [`'B']（而不是单个十六进制字符 [`'\xAB']）。
 [exit:example]
 
 [para]
@@ -317,6 +435,12 @@ single hexadecimal character [`'\xAB']).
 After any necessary concatenation, in translation phase 7 ([#lex.phases]),
 [`'\0'] is appended to every string literal so that programs that scan a string
 can find its end.
+[:zh_CN]
+[%[`0] [seealso 零[!空]]]
+[%[`0] [!字符串终止符]]
+[%[`0] [!空字符]]
+在进行必要的拼接之后，在翻译阶段 7 中（[#lex.phases]），[`'\0'] 被添附到每个
+字符串字面量之后，使得扫描字符串的程序可以找到它的结尾。
 
 [para]
 [:en]
@@ -327,50 +451,83 @@ quote [`'] is representable either by itself or by the escape sequence [`\'],
 and the double quote [`"] shall be preceded by a [`\], and except that a
 universal-character-name in a [`char16_t] string literal may yield a surrogate
 pair.
+[:zh_CN]
+[%编码[!多字节～]]
+非原始字符串字面量中的转义序列和通用字符名的含义，与其在字符字面量
+（[#lex.ccon]）中的相同，除了单引号 [`'] 既能够被其自身又能被转义序列 [`\']
+代表，而双引号 [`"] 须在前面加上 [`\]，又除了 [`char16_t] 字符串字面量中的
+通用字符名能够产生代用对。
 
 [:en]
 [%string[![`sizeof]]]
 In a narrow string literal, a universal-character-name may map to more than one
 [`char] element due to [+multibyte encoding].
+[:zh_CN]
+[%字符串[![`sizeof]]]
+在窄字符串字面量中，通用字符名可能依据[+多字节编码]映射为不只一个 [`char] 元素。
 
 [:en]
 The size of a [`char32_t] or wide string literal is the total number of escape
 sequences, universal-character-names, and other characters, plus one for the
 terminating [`U'\0'] or [`L'\0'].
+[:zh_CN]
+[`char32_t] 或宽字符串字面量的大小是转义序列、通用字符名以及其他字符的总数，再为
+终结字符 [`U'\0'] 或 [`L'\0'] 加上一。
 
 [:en]
 The size of a [`char16_t] string literal is the total number of escape
 sequences, universal-character-names, and other characters, plus one for each
 character requiring a surrogate pair, plus one for the terminating [`u'\0'].
+[:zh_CN]
+[`char16_t] 字符串字面量的大小是转义序列、通用字符名以及其他字符的总数，为每个
+需要代用对表示的字符加上一，再为终结字符 [`u'\0'] 加上一。
 
 [enter:note]
 [:en]
 The size of a [`char16_t] string literal is the number of code units, not the
 number of characters.
+[:zh_CN]
+[`char16_t] 字符串字面量的大小是其代码单位的数量，而不是其字符的数量。
 [exit:note]
 
 [:en]
 Within [`char32_t] and [`char16_t] literals, any universal-character-names shall
 be within the range [`0x0] to [`0x10FFFF].
+[:zh_CN]
+[`char32_t] 和 [`char16_t] 字面量中的任何通用字符名，应当处于从 [`0x0] 到
+[`0x10FFFF] 的范围之间。
 
 [:en]
 The size of a narrow string literal is the total number of escape sequences and
 other characters, plus at least one for the multibyte encoding of each
 universal-character-name, plus one for the terminating [`'\0'].
+[:zh_CN]
+窄字符串字面量的大小是转义序列以及其他字符的总数，为每个通用字符名的多字节编码
+至少加上一，再为终结字符 [`'\0'] 加上一。
 
 [para]
 [:en]
 Evaluating a [~string-literal] results in a string literal object with static
 storage duration, initialized from the given characters as specified above.
+[:zh_CN]
+[~字符串字面量]的求值结果是一个字符串字面量对象，具有静态存储期，并以入上所述的
+字符初始化。
 
 [:en]
 [%string[!distinct]]
 Whether all string literals are distinct (that is, are stored in nonoverlapping
 objects) and whether successive evaluations of a [~string-literal] yield the
 same or a different object is unspecified.
+[:zh_CN]
+[%字符串[!相互独立的～]]
+是否所有字符串字面量都是相互独立的（就是说，存储于互不交叠的对象中），以及对某个
+[~字符串字面量]的相继求值产生相同还是不同的对象是未指明的。
 
 [enter:note]
 [:en]
 [%literal[!string[!undefined change to]]]
 The effect of attempting to modify a string literal is undefined.
+[:zh_CN]
+[%字面量[!字符串～[!未定义的～的改动]]]
+试图修改字符串字面量的效果是未定义的。
 [exit:note]

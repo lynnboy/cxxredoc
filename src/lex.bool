@@ -1,12 +1,15 @@
 ﻿[section#lex.bool
     [:en] Boolean literals
-    [:zh_CN] 
+    [:zh_CN] 布尔字面量
 ]
 
-[%literal[!boolean]]
+[%
+    [:en] literal[!boolean]
+    [:zh_CN] 字面量[!布尔～]
+]
 
 [syntax]
-[rule boolean-literal]
+[rule boolean-literal [:zh_CN] 布尔字面量]
     [| [`false]]
     [| [`true]]
 [rule:end]
@@ -16,6 +19,11 @@
 [:en]
 [%Boolean literal]
 The Boolean literals are the keywords [`false] and [`true].
+[:zh_CN]
+[%布尔字面量]
+布尔字面量是关键字 [`false] 和 [`true]。
 
 [:en]
 Such literals are prvalues and have type [`bool].
+[:zh_CN]
+这些字面量是纯右值，且类型为 [`bool]。
