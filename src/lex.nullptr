@@ -1,0 +1,32 @@
+﻿[section#lex.nullptr
+    [:en] Pointer literals
+    [:zh_CN] 
+]
+
+[%literal[!pointer]]
+
+[syntax]
+[rule pointer-literal]
+    [| [`nullptr]]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The pointer literal is the keyword [`nullptr].
+
+[:en]
+It is a prvalue of type [`std::nullptr_t].
+
+[enter:note]
+[:en]
+[`std::nullptr_t] is a distinct type that is neither a pointer type nor a
+pointer to member type;
+
+[:en]
+rather, a prvalue of this type is a null pointer constant and can be converted
+to a null pointer value or null member pointer value.
+
+[:en]
+See [#conv.ptr] and [#conv.mem].
+[exit:note]

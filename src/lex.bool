@@ -1,0 +1,21 @@
+﻿[section#lex.bool
+    [:en] Boolean literals
+    [:zh_CN] 
+]
+
+[%literal[!boolean]]
+
+[syntax]
+[rule boolean-literal]
+    [| [`false]]
+    [| [`true]]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%Boolean literal]
+The Boolean literals are the keywords [`false] and [`true].
+
+[:en]
+Such literals are prvalues and have type [`bool].

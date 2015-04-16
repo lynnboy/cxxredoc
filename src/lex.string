@@ -1,0 +1,376 @@
+﻿[section#lex.string
+    [:en] String literals
+    [:zh_CN] 
+]
+
+[%literal[!string]]
+
+[syntax]
+[rule string-literal]
+    [| [~:opt encoding-prefix] [`"] [~:opt s-char-sequence] [`"]]
+    [| [~:opt encoding-prefix] [`R] raw-string]
+[rule:end]
+
+[rule s-char-sequence]
+    [| s-char]
+    [| s-char-sequence s-char]
+[rule:end]
+
+[rule s-char]
+    [|:descriptive
+        [:en] any member of the source character set except the double-quote
+        [`"], backslash [`\], or new-line character
+    ]
+    [| escape-sequence]
+    [| universal-character-name]
+[rule:end]
+
+[rule raw-string]
+    [| [`"] [~:opt d-char-sequence] [`(] [~:opt r-char-sequence] [`)]
+        [~:opt d-char-sequence] [`"]]
+[rule:end]
+
+[rule r-char-sequence]
+    [| r-char]
+    [| r-char-sequence r-char]
+[rule:end]
+
+[rule r-char]
+    [|:descriptive
+        [:en] any member of the source character set, except [br]
+        a right parenthesis [`)] followed by the initial [~d-char-sequence]
+        (which may be empty) followed by a double quote [`"].
+    ]
+[rule:end]
+
+[rule d-char-sequence]
+    [| d-char]
+    [| d-char-sequence d-char]
+[rule:end]
+
+[rule d-char]
+    [|:descriptive
+        [:en] any member of the source character set except: [br]
+        space, the left parenthesis [`(], the right parenthesis [`)], the
+        backslash [`\], and the control characters representing horizontal tab,
+        vertical tab, form feed, and newline.
+    ]
+[rule:end]
+
+[syntax:end]
+
+[para]
+[:en]
+[%literal[!string]]
+[%literal[!string[!narrow]]]
+[%literal[!string[!wide]]]
+[%literal[!string[![`char16_t]]]]
+[%literal[!string[![`char32_t]]]]
+[%character string]
+A [~string-literal] is a sequence of characters (as defined in [#lex.ccon])
+surrounded by double quotes, optionally prefixed by
+[`R], [`u8], [`u8R], [`u], [`uR], [`U], [`UR], [`L], or [`LR],
+as in [`"..."], [`R"(...)"], [`u8"..."], [`u8R"**(...)**"], [`u"..."],
+[`uR"*\~{}(...)*\~{}"], [`U"..."], [`UR"zzz(...)zzz"], [`L"..."], or
+[`LR"(...)"], respectively.
+
+[para]
+[:en]
+A [~string-literal] that has an [`R] in the prefix is a [def raw string literal].
+
+[:en]
+The [~d-char-sequence] serves as a delimiter.
+
+[:en]
+The terminating [~d-char-sequence] of a [~raw-string] is the same sequence of
+characters as the initial [~d-char-sequence].
+
+[:en]
+A [~d-char-sequence] shall consist of at most 16 characters.
+
+[para]
+[enter:note]
+[:en]
+The characters [`'('] and [`')'] are permitted in a [~raw-string].
+
+[:en]
+Thus, [`R"delimiter((a|b))delimiter"] is equivalent to [`"(a|b)"].
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+A source-file new-line in a raw string literal results in a new-line in the
+resulting execution [~string-literal].
+
+[:en]
+Assuming no whitespace at the beginning of lines in the following example, the
+assert will succeed:
+
+[codeblock]
+const char* p = R"(a\
+b
+c)";
+assert(std::strcmp(p, "a\\\nb\nc") == 0);
+[codeblock:end]
+
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+The raw string
+
+[codeblock]
+R"a(
+)\
+a"
+)a"
+[codeblock:end]
+
+[~:en]
+is equivalent to [`"\n)\\\na\"\n"].
+
+[:en]
+The raw string
+
+[codeblock]
+R"(??)"
+[codeblock:end]
+
+[~:en]
+is equivalent to \tcode{"\?\?"].
+
+[:en]
+The raw string
+
+[codeblock]
+R"#(
+)??="
+)#"
+[codeblock:end]
+
+[~:en]
+is equivalent to [`"\n)\?\?=\"\n"].
+
+[exit:example]
+
+[para]
+[:en]
+[%string[!type of]]
+[%literal[!string[!narrow]]]
+After translation phase 6, a [~string-literal] that does not begin with an
+[~encoding-prefix] is an ordinary string literal, and is initialized with the
+given characters.
+
+[para]
+[:en]
+A [~string-literal] that begins with [`u8], such as [`u8"asdf"], is a UTF-8
+string literal.
+
+[para]
+[:en]
+Ordinary string literals and UTF-8 string literals are also referred to as
+narrow string literals.
+
+[:en]
+A narrow string literal has type
+[%literal[!string[!type of]]]
+["array of [$n] [`const char]], where [$n] is the size of the string as defined
+below, and has static storage duration ([#basic.stc]).
+
+[para]
+[:en]
+For a UTF-8 string literal, each successive element of the object representation
+([#basic.types]) has the value of the corresponding code unit of the UTF-8
+encoding of the string.
+
+[para]
+[:en]
+[%literal[!string[![`char16_t]]]]
+A [~string-literal] that begins with [`u], such as [`u"asdf"], is a [`char16_t]
+string literal.
+
+[:en]
+A [`char16_t] string literal has type ["array of [$n] [`const char16_t]], where
+[$n] is the size of the string as defined below;
+
+[:en]
+it is initialized with the given characters.
+
+[:en]
+A single [~c-char] may produce more than one [`char16_t] character in the form
+of surrogate pairs.
+
+[para]
+[:en]
+[%literal[!string[![`char32_t]]]]
+A [~string-literal] that begins with [`U], such as [`U"asdf"], is a [`char32_t]
+string literal.
+
+[:en]
+A [`char32_t] string literal has type ["array of [$n] [`const char32_t]], where
+[$n] is the size of the string as defined below;
+
+[:en]
+it is initialized with the given characters.
+
+[para]
+[:en]
+[%literal[!string[!wide]]]
+A [~string-literal] that begins with [`L], such as [`L"asdf"], is a wide string
+literal.
+
+[:en]
+[%[`<stddef.h>] [orderby stddef.h]]
+[%[`wchar_t]]
+[%literal[!string[!wide]]]
+[%prefix[![`L]]]
+A wide string literal has type ["array of [$n] [`const wchar_t]], where [$n] is
+the size of the string as defined below;
+
+[:en]
+it is initialized with the given characters.
+
+[para]
+[:en]
+[%concatenation[!string]]
+In translation phase 6 ([#lex.phases]), adjacent [~string-literal]s are
+concatenated.
+
+[:en]
+If both [~string-literal]s have the same [~encoding-prefix], the resulting
+concatenated string literal has that [~encoding-prefix].
+
+[:en]
+If one [~string-literal] has no [~encoding-prefix], it is treated as a
+[~string-literal] of the same [~encoding-prefix] as the other operand.
+
+[:en]
+If a UTF-8 string literal token is adjacent to a wide string literal token, the
+program is ill-formed.
+
+[:en]
+Any other concatenations are conditionally-supported with
+[%@impldef concatenation of some types of string literals]
+implementation-defined behavior.
+
+[enter:note]
+[:en]
+This concatenation is an interpretation, not a conversion.
+
+[:en]
+Because the interpretation happens in translation phase 6 (after each character
+from a literal has been translated into a value from the appropriate character
+set), a [~string-literal][=']s initial rawness has no effect on the
+interpretation or well-formedness of the concatenation.
+[exit:note]
+
+[:en]
+Table [#tab:lex.string.concat] has some examples of valid concatenations.
+
+[table:listing#tab:lex.string.concat
+    [:en] String literal concatenations
+    [columns:repeated@3
+        [column@code
+            [:en] Source
+        ]
+        [column@code@sharehead]
+        [column@code
+            [:en] Means
+        ]
+    ]
+]
+[|] u"a"    [|] u"b"    [|] u"ab"
+[|] u"a"    [|] "b"     [|] u"ab"
+[|] "a"     [|] u"b"    [|] u"ab"
+
+[|] U"a"    [|] U"b"    [|] U"ab"
+[|] U"a"    [|] "b"     [|] U"ab"
+[|] "a"     [|] U"b"    [|] U"ab"
+
+[|] L"a"    [|] L"b"    [|] L"ab"
+[|] L"a"    [|] "b"     [|] L"ab"
+[|] "a"     [|] L"b"    [|] L"ab"
+
+[table:end]
+
+[:en]
+Characters in concatenated strings are kept distinct.
+
+[enter:example]
+
+[codeblock]
+"\xA" "B"
+[codeblock:end]
+
+[:en]
+contains the two characters [`'\xA'] and [`'B'] after concatenation (and not the
+single hexadecimal character [`'\xAB']).
+[exit:example]
+
+[para]
+[:en]
+[%[`0] [seealso zero[!null]]]
+[%[`0] [!string terminator]]
+[%[`0] [!null character]]
+After any necessary concatenation, in translation phase 7 ([#lex.phases]),
+[`'\0'] is appended to every string literal so that programs that scan a string
+can find its end.
+
+[para]
+[:en]
+[%encoding[!multibyte]]
+Escape sequences and universal-character-names in non-raw string literals have
+the same meaning as in character literals ([#lex.ccon]), except that the single
+quote [`'] is representable either by itself or by the escape sequence [`\'],
+and the double quote [`"] shall be preceded by a [`\], and except that a
+universal-character-name in a [`char16_t] string literal may yield a surrogate
+pair.
+
+[:en]
+[%string[![`sizeof]]]
+In a narrow string literal, a universal-character-name may map to more than one
+[`char] element due to [+multibyte encoding].
+
+[:en]
+The size of a [`char32_t] or wide string literal is the total number of escape
+sequences, universal-character-names, and other characters, plus one for the
+terminating [`U'\0'] or [`L'\0'].
+
+[:en]
+The size of a [`char16_t] string literal is the total number of escape
+sequences, universal-character-names, and other characters, plus one for each
+character requiring a surrogate pair, plus one for the terminating [`u'\0'].
+
+[enter:note]
+[:en]
+The size of a [`char16_t] string literal is the number of code units, not the
+number of characters.
+[exit:note]
+
+[:en]
+Within [`char32_t] and [`char16_t] literals, any universal-character-names shall
+be within the range [`0x0] to [`0x10FFFF].
+
+[:en]
+The size of a narrow string literal is the total number of escape sequences and
+other characters, plus at least one for the multibyte encoding of each
+universal-character-name, plus one for the terminating [`'\0'].
+
+[para]
+[:en]
+Evaluating a [~string-literal] results in a string literal object with static
+storage duration, initialized from the given characters as specified above.
+
+[:en]
+[%string[!distinct]]
+Whether all string literals are distinct (that is, are stored in nonoverlapping
+objects) and whether successive evaluations of a [~string-literal] yield the
+same or a different object is unspecified.
+
+[enter:note]
+[:en]
+[%literal[!string[!undefined change to]]]
+The effect of attempting to modify a string literal is undefined.
+[exit:note]

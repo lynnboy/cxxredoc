@@ -1,0 +1,321 @@
+﻿[section#lex.ccon
+    [:en] Character literals
+    [:zh_CN] 
+]
+
+[syntax]
+[rule character-literal]
+    [| [~:opt encoding-prefix] [`'] c-char-sequence [`']]
+[rule:end]
+
+[rule:oneof encoding-prefix]
+    [| u8 u U L]
+[rule:end]
+
+[rule c-char-sequence]
+    [| c-char]
+    [| c-char-sequence c-char]
+[rule:end]
+
+[rule c-char]
+    [|:descriptive
+        [:en] any member of the source character set except the single-quote
+        [`'], backslash [`\], or new-line character
+    ]
+    [| escape-sequence]
+    [| universal-character-name]
+[rule:end]
+
+[rule escape-sequence]
+    [| simple-escape-sequence]
+    [| octal-escape-sequence]
+    [| hexadecimal-escape-sequence]
+[rule:end]
+
+[rule:oneof simple-escape-sequence]
+    [| \' \" \? \\]
+    [| \a \b \f \n \r \t \v]
+[rule:end]
+
+[rule octal-escape-sequence]
+    [| [`\] octal-digit]
+    [| [`\] octal-digit octal-digit]
+    [| [`\] octal-digit octal-digit octal-digit]
+[rule:end]
+
+[rule hexadecimal-escape-sequence]
+    [| [`\] hexadecimal-digit]
+    [| hexadecimal-escape-sequence hexadecimal-digit]
+[rule:end]
+
+[syntax:end]
+
+[para]
+[:en]
+[%literal[!character]]
+[%literal[!narrow-character]]
+[%literal[![`char16_t]]]
+[%literal[![`char32_t]]]
+A character literal is one or more characters enclosed in single quotes, as in
+[`'x'], optionally preceded by [`u8], [`u], [`U], or [`L], as in [`u8'w'],
+[`u'x'], [`U'y'], or [`L'z'], respectively.
+
+[para]
+[:en]
+[%literal[!type of character]]
+A character literal that does not begin with [`u8], [`u], [`U], or [`L] is an
+[def ordinary character literal].
+
+[:en]
+An ordinary character literal that contains a single [~c-char] representable in
+the execution character set has type [`char], with value equal to the numerical
+value of the encoding of the [~c-char] in the execution character set.
+
+[:en]
+An ordinary character literal that contains more than one [~c-char] is a
+[%multicharacter literal [see literal [!multicharacter]]]
+[def multicharacter literal [%literal [!multicharacter]]].
+
+[:en]
+A multicharacter literal, or an ordinary character literal containing a single
+[~c-char] not representable in the execution character set, is
+conditionally-supported, has type [`int],
+[%literal[!multicharacter[!implementation-defined value of]]]
+and has an [%@impldef value of multicharacter literal] implementation-defined
+value.
+
+[para]
+[:en]
+A character literal that begins with [`u8], such as [`u8'w'], is a character
+literal of type [`char], known as a [def UTF-8 character literal].
+
+[:en]
+The value of a UTF-8 character literal is equal to its ISO 10646 code point
+value, provided that the code point value is representable with a single UTF-8
+code unit (that is, provided it is in the C0 Controls and Basic Latin Unicode
+block).
+
+[:en]
+If the value is not representable with a single UTF-8 code unit, the program is
+ill-formed.
+
+[:en]
+A UTF-8 character literal containing multiple [~c-char]s is ill-formed.
+
+[para]
+[:en]
+[%[`char16_t] character] [%[`char16_t]]
+A character literal that begins with the letter [`u], such as [`u'x'], is a
+character literal of type [`char16_t].
+
+[:en]
+The value of a [`char16_t] literal containing a single [~c-char] is equal to its
+ISO 10646 code point value, provided that the code point is representable with a
+single 16-bit code unit.
+
+[:en]
+(That is, provided it is a basic multi-lingual plane code point.)
+
+[:en]
+If the value is not representable within 16 bits, the program is ill-formed.
+
+[:en]
+A [`char16_t] literal containing multiple [~c-char]s is ill-formed.
+
+[para]
+[:en]
+[%[`char32_t] character] [%[`char32_t]]
+A character literal that begins with the letter [`U], such as [`U'y'], is a
+character literal of type [`char32_t].
+
+[:en]
+The value of a [`char32_t] literal containing a single [~c-char] is equal to its
+ISO 10646 code point value.
+
+[:en]
+A [`char32_t] literal containing multiple [~c-char]s is ill-formed.
+
+[para]
+[:en]
+[%wide-character]
+[%[`<stddef.h>] [orderby stddef.h]]
+[%[`wchar_t]]
+A character literal that begins with the letter [`L], such as [`L'z'],
+[%prefix[![`L]]]
+is a wide-character literal.
+
+[:en]
+A wide-character literal has type [`wchar_t].
+
+[footnote]
+[:en]
+They are intended for character sets where a character does not fit into a
+single byte.
+[footnote:end]
+
+[:en]
+The value of a wide-character literal containing a single [~c-char] has value
+equal to the numerical value of the encoding of the [~c-char] in the execution
+wide-character set, unless the [~c-char] has no representation in the execution
+wide-character set, in which case the value is [%@impldef value of
+wide-character literal with single c-char that is not in execution
+wide-character set] implementation-defined.
+
+[enter:note]
+[:en]
+The type [`wchar_t] is able to represent all members of the execution
+wide-character set (see [#basic.fundamental]).
+[exit:note]
+
+[:en]
+The value of a wide-character literal containing multiple [~c-char]s is
+[%@impldef value of wide-character literal containing multiple characters]
+implementation-defined.
+
+[para]
+[:en]
+Certain nongraphic characters, the single quote [`'], the double quote [`"], the
+question mark [`?],
+
+[footnote]
+[:en]
+Using an escape sequence for a question mark is supported for compatibility with
+ISO [=Cpp]14 and ISO C.
+[footnote:end]
+
+[~:en]
+and the backslash
+[%backslash character]
+[%[`\] [see backslash]]
+[%escape character[see backslash]]
+[`\], can be represented according to Table [#tab:escape.sequences].
+
+[:en]
+The double quote [`"] and the question mark [`?], can be represented as
+themselves or by the escape sequences [`\"] and [`\?] respectively, but the
+single quote [`'] and the backslash [`\] shall be represented by the escape
+sequences [\'] and [`\\] respectively.
+
+[:en]
+Escape sequences in which the character following the backslash is not listed in
+Table [#tab:escape.sequences] are conditionally-supported, with
+[%@impldef semantics of non-standard escape sequences] implementation-defined
+semantics.
+
+[:en]
+An escape sequence specifies a single character.
+
+[table:grid@simple#tab:escape.sequences
+    [:en] Escape sequences
+    [columns
+        [column]
+        [column]
+        [column@code]
+    ]
+]
+[|] [:en] new-line
+[|] NL(LF)
+[|] \n
+
+[|] [:en] horizontal tab
+[|] HT
+[|] \t
+
+[|] [:en] vertical tab
+[|] VT
+[|] \v
+
+[|] [:en] backspace
+[|] BS
+[|] \b
+
+[|] [:en] carriage return
+[|] CR
+[|] \r
+
+[|] [:en] form feed
+[|] FF
+[|] \f
+
+[|] [:en] alert
+[|] BEL
+[|] \a
+
+[|] [:en] backslash
+[|] \
+[|] \\
+
+[|] [:en] question mark
+[|] ?
+[|] \?
+
+[|] [:en] single quote
+[|] [`']
+[|] \'
+
+[|] [:en] double quote
+[|] [`"]
+[|] \"
+
+[|] [:en] octal number
+[|] [$ooo]
+[|] \[$ooo]
+
+[|] [:en] hex number
+[|] [$hhh]
+[|] \x[$hhh]
+
+[table:end]
+
+[para]
+[:en]
+The escape [%number[!octal]] [`\[$ooo]] consists of the backslash followed by
+one, two, or three octal digits that are taken to specify the value of the
+desired character.
+
+[:en]
+The escape [%number[!hex]] [`\[$hhh]] consists of the backslash followed by [`x]
+followed by one or more hexadecimal digits that are taken to specify the value
+of the desired character.
+
+[:en]
+There is no limit to the number of digits in a hexadecimal sequence.
+
+[:en]
+A sequence of octal or hexadecimal digits is terminated by the first character
+that is not an octal digit or a hexadecimal digit, respectively.
+
+[:en]
+[%literal[!implementation-defined value of [`char]]]
+The value of a character literal is [%@impldef value of character literal
+outside range of corresponding type] implementation-defined if it falls outside
+of the implementation-defined range defined for [`char] (for literals with no
+prefix) or [`wchar_t] (for literals prefixed by [`L]).
+
+[enter:note]
+[:en]
+If the value of a character literal prefixed by [`u], [`u8], or [`U] is outside
+the range defined for its type, the program is ill-formed.
+[exit:note]
+
+[para]
+[:en]
+A universal-character-name is translated to the encoding, in the appropriate
+execution character set, of the character named. If there is no such encoding,
+the universal-character-name is translated to an
+[%@impldef encoding of universal character name not in execution character set]
+implementation-defined encoding.
+
+[enter:note]
+[:en]
+In translation phase 1, a universal-character-name is introduced whenever an
+actual extended character is encountered in the source text.
+
+[:en]
+Therefore, all extended characters are described in terms of
+universal-character-names.
+
+[:en]
+However, the actual compiler implementation may use its own native character
+set, so long as the same results are obtained.
+[exit:note]

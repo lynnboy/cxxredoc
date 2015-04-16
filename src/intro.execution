@@ -37,7 +37,7 @@ machine.
 Rather, conforming implementations are required to emulate (only) the observable
 behavior of the abstract machine as explained below.
 [:zh_CN]
-[%如同原则] [%行为 [!可观察～]]
+[%“如同”原则 orderby[如同原则]] [%行为 [!可观察～]]
 更确切地说，符合标准的实现需要模拟的（仅仅）是下文阐明的抽象机器的可观察行为。
 
 [footnote]
@@ -254,9 +254,9 @@ What constitutes an interactive device is
 
 [:en]
 These collectively are referred to as the [def observable behavior [%behavior
-[!observable]] of the program.
+[!observable]]] of the program.
 [:zh_CN]
-这些共同称之为程序的[%行为[!可观察～]][def 可观察行为]。
+这些共同称之为程序的[def 可观察行为 [%行为[!可观察～]]]。
 
 [enter:note]
 [:en]
@@ -432,9 +432,9 @@ void f() {
   if (S(3).v())     // [:en] full-expression includes lvalue-to-rvalue and
                     // [|:zh_CN] 全表达式包括左值向右值以及
                     // [~:en] [`int] to [`bool] conversions, performed before
-                    // [|~:zh_CN] [`int] 向 [`bool] 的转换，发生于
+                    // [|~:zh_CN] [`int] 向 [`bool] 的转换，并实施于
                     // [~:en] temporary is deleted at end of full-expression
-                    // [|~:zh_CN] 全表达式结尾临时变量删除之前
+                    // [|~:zh_CN] 临时变量在全表达式结尾处被删除之前
   { }
 }
 [codeblock:end]
@@ -506,7 +506,7 @@ Given any two evaluations [$A] and [$B], if [$A] is sequenced before [$B], then
 the execution of [$A] shall precede the execution of [$B].
 [:zh_CN]
 任意给定两次求值 [$A] 和 [$B]，若 [$A] 按顺序早于 [$B]，则 [$A] 的执行应当在
-[$B] 的执行之前。
+[$B] 的执行之前进行。
 
 [:en]
 If [$A] is not sequenced before [$B] and [$B] is not sequenced before [$A], then

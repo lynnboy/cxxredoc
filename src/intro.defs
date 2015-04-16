@@ -124,7 +124,7 @@ glvalue denoted by a glvalue expression refers
 
 [enter:example]
 [:en]
-if a pointer ([#dcl.ptr]) [c p] whose static type is [q pointer to class [`B]]
+if a pointer ([#dcl.ptr]) [`p] whose static type is ["pointer to class [`B]]
 is pointing to an object of class [`D], derived from [`B] (Clause
 [#class.derived]), the dynamic type of the expression [`*p] is ["[`D].]
 [:zh_CN]

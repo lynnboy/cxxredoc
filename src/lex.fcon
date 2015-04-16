@@ -1,0 +1,98 @@
+﻿[section#lex.fcon
+    [:en] Floating literals
+    [:zh_CN] 
+]
+
+[%literal[!floating]]
+
+[syntax]
+[rule floating-literal]
+    [| fractional-constant [~:opt exponent-part] [~:opt floating-suffix]]
+    [| digit-sequence exponent-part [~:opt floating-suffix]]
+[rule:end]
+
+[rule fractional-constant]
+    [| [~:opt digit-sequence] [`.] digit-sequence]
+    [| digit-sequence [`.]]
+[rule:end]
+
+[rule exponent-part]
+    [| [`e] [~:opt sign] digit-sequence]
+    [| [`E] [~:opt sign] digit-sequence]
+[rule:end]
+
+[rule:oneof sign]
+    [| + -]
+[rule:end]
+
+[rule digit-sequence]
+    [| digit]
+    [| digit-sequence [~:opt '] digit]
+[rule:end]
+
+[rule:oneof floating-suffix]
+    [| f l F L]
+[rule:end]
+
+[syntax:end]
+
+[para]
+[:en]
+[%literal[!floating]]
+A floating literal consists of an integer part, a decimal point, a fraction
+part, an [%suffix[![`e]]] [`e] or [%suffix[![`E]]] [`E], an optionally signed
+integer exponent, and an optional type suffix.
+
+[:en]
+The integer and fraction parts both consist of a sequence of decimal (base ten)
+digits.
+
+[:en]
+Optional separating single quotes in a [~digit-sequence] are ignored when
+determining its value.
+
+[enter:example]
+[:en]
+The literals [`1.602'176'565e-19] and [`1.602176565e-19] have the same value.
+[exit:example]
+
+[:en]
+Either the integer part or the fraction part (not both) can be omitted;
+
+[:en]
+either the decimal point or the letter [`e] (or [`E]) and the exponent (not
+both) can be omitted.
+
+[:en]
+The integer part, the optional decimal point and the optional fraction part form
+the [+significant part] of the floating literal.
+
+[:en]
+The exponent, if present, indicates the power of 10 by which the significant
+part is to be scaled.
+
+[:en]
+If the scaled value is in the range of representable values for its type, the
+result is the scaled value if representable, else the larger or smaller
+representable value nearest the scaled value, chosen in an [%@impldef choice of
+larger or smaller value of floating literal] implementation-defined manner.
+
+[:en]
+[%literal[![`double]]]
+[%literal[!type of floating point]]
+The type of a floating literal is [`double] unless explicitly specified by a
+suffix.
+
+[:en]
+[%literal[![`float]]]
+[%suffix[![`F]]] [%suffix[![`f]]]
+The suffixes [`f] and [`F] specify [`float],
+
+[:en]
+[%literal[![`long double]]]
+[%suffix[![`L]]] [%suffix[![`l]]]
+the suffixes [`l] and [`L] specify [`long] [`double],
+
+[:en]
+If the scaled value is not in the range of representable values for its type,
+the program is ill-formed.

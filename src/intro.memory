@@ -92,9 +92,9 @@ The same applies to two bit-fields, if one is declared inside a nested struct
 declaration and the other is not, or if the two are separated by a zero-length
 bit-field declaration, or if they are separated by a non-bit-field declaration.
 [:zh_CN]
-对于两个位字段来说，当其中一个位字段声明于一个嵌套的结构的声明中，而另一个
-不是时，或者当它们被零宽度的位字段的声明所分隔时，或者当它们被一个非位字段的
-声明所分隔时，这也同样适用。
+对于两个位字段来说，当其中一个位字段声明于一个嵌套的结构的声明式中，而另一个
+不是时，或者当它们被零宽度的位字段的声明式所分隔时，或者当它们被一个非位字段的
+声明式所分隔时，这也同样适用。
 
 [:en]
 It is not safe to concurrently update two bit-fields in the same struct if all
@@ -140,7 +140,7 @@ The bit-fields [`b] and [`c] together constitute the fourth memory location.
 位字段 [`b] 和 [`c] 一起构成第四个内存位置。
 
 [:en]
-The bit-fields [`b] and [`c] cannot be concurrently modified, but [~b] and [~a],
+The bit-fields [`b] and [`c] cannot be concurrently modified, but [`b] and [`a],
 for example, can be.
 [:zh_CN]
 位字段 [`b] 和 [`c] 不能进行并发改动，但比如 [`b] 和 [`a] 却可以。

@@ -1,0 +1,232 @@
+﻿[section#lex.ext
+    [:en] User-defined literals
+    [:zh_CN] 
+]
+
+[%literal[!user defined]]
+
+[syntax]
+[rule user-defined-literal]
+    [| user-defined-integer-literal]
+    [| user-defined-floating-literal]
+    [| user-defined-string-literal]
+    [| user-defined-character-literal]
+[rule:end]
+
+[rule user-defined-integer-literal]
+    [| decimal-literal ud-suffix]
+    [| octal-literal ud-suffix]
+    [| hexadecimal-literal ud-suffix]
+    [| binary-literal ud-suffix]
+[rule:end]
+
+[rule user-defined-floating-literal]
+    [| fractional-constant [~:opt exponent-part] ud-suffix]
+    [| digit-sequence exponent-part ud-suffix]
+[rule:end]
+
+[rule user-defined-string-literal]
+    [| string-literal ud-suffix]
+[rule:end]
+
+[rule user-defined-character-literal]
+    [| character-literal ud-suffix]
+[rule:end]
+
+[rule ud-suffix]
+    [| identifier]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+If a token matches both [~user-defined-literal] and another literal kind, it is
+treated as the latter.
+
+[enter:example]
+[:en]
+[`123_km] is a [~user-defined-literal], but [`12LL] is an [~integer-literal].
+[exit:example]
+
+[:en]
+The syntactic non-terminal preceding the [~ud-suffix] in a
+[~user-defined-literal] is taken to be the longest sequence of characters that
+could match that non-terminal.
+
+[para]
+[:en]
+A [~user-defined-literal] is treated as a call to a literal operator or literal
+operator template ([#over.literal]).
+
+[:en]
+To determine the form of this call for a given [~user-defined-literal] [$L] with
+[~ud-suffix] [$X], the [~literal-operator-id] whose literal suffix identifier is
+[$X] is looked up in the context of [$L] using the rules for unqualified name
+lookup ([#basic.lookup.unqual]).
+
+[:en]
+Let [$S] be the set of declarations found by this lookup.
+
+[:en]
+[$S] shall not be empty.
+
+[para]
+[:en]
+If [$L] is a [~user-defined-integer-literal], let [$n] be the literal without
+its [~ud-suffix].
+
+[:en]
+If [$S] contains a literal operator with parameter type [`unsigned long long],
+the literal [$L] is treated as a call of the form
+
+[codeblock:notation [special:var X n]]
+operator "" X([$n]ULL)
+[codeblock:end]
+
+[:en]
+Otherwise, [$S] shall contain a raw literal operator or a literal operator
+template ([#over.literal]) but not both.
+
+[:en]
+If [$S] contains a raw literal operator, the literal [$L] is treated as a call
+of the form
+
+[codeblock:notation [special:var X n]]
+operator "" X("[$n]")
+[codeblock:end]
+
+[:en]
+Otherwise ([$S] contains a literal operator template), [$L] is treated as a call
+of the form
+
+[codeblock:notation [special:var X]]
+operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
+[codeblock:end]
+
+[:en]
+where [$n] is the source character sequence [$c[_1]c[_2]...c[_k]].
+
+[enter:note]
+[:en]
+The sequence [$c[_1]c[_2]...c[_k]] can only contain characters from the basic
+source character set.
+[exit:note]
+
+[para]
+[:en]
+If [$L] is a [~user-defined-floating-literal], let [$f] be the literal without
+its [~ud-suffix].
+
+[:en]
+If [$S] contains a literal operator with parameter type [`long double], the
+literal [$L] is treated as a call of the form
+
+[codeblock:notation [special:var X]]
+operator "" X([$f]L)
+[codeblock:end]
+
+[:en]
+Otherwise, [$S] shall contain a raw literal operator or a literal operator
+template ([#over.literal]) but not both.
+
+[:en]
+If [$S] contains a raw literal operator, the [+literal] [$L] is treated as a
+call of the form
+
+[codeblock:notation [special:var X]]
+operator "" X("[$f]")
+[codeblock:end]
+
+[:en]
+Otherwise ([$S] contains a literal operator template), [$L] is treated as a call
+of the form
+
+[codeblock:notation [special:var X]]
+operator "" X<'[$c[_1]]', '[$c[_2]]', ... '[$c[_k]]'>()
+[codeblock:end]
+
+[:en]
+where [$f] is the source character sequence [$c[_1]c[_2]...c[_k]].
+
+[enter:note]
+[:en]
+The sequence [$c[_1]c[_2]...c[_k]] can only contain characters from the basic
+source character set.
+[exit:note]
+
+[para]
+[:en]
+If [$L] is a [~user-defined-string-literal], let [$str] be the literal without
+its [~ud-suffix] and let [$len] be the number of code units in [$str] (i.e., its
+length excluding the terminating null character).
+
+[:en]
+The literal [$L] is treated as a call of the form
+
+[codeblock:notation [special:var X str len]]
+operator "" X(str, len)
+[codeblock:end]
+
+[para]
+[:en]
+If [$L] is a [~user-defined-character-literal], let [$ch] be the literal without
+its [~ud-suffix].
+
+[:en]
+[$S] shall contain a literal operator ([#over.literal]) whose only parameter has
+the type of [$ch] and the literal [$L] is treated as a call of the form
+
+[codeblock:notation [special:var X ch]]
+operator "" X(ch)
+[codeblock:end]
+
+[para]
+[enter:example]
+
+[codeblock]
+long double operator "" _w(long double);
+std::string operator "" _w(const char16_t*, std::size_t);
+unsigned operator "" _w(const char*);
+int main() {
+  1.2_w;      // [:en] calls [`operator "" _w(1.2L)]
+              // [|:zh_CN]
+  u"one"_w;   // [:en] calls [`operator "" _w(u"one", 3)]
+              // [|:zh_CN]
+  12_w;       // [:en] calls [`operator "" _w("12")]
+              // [|:zh_CN]
+  "two"_w;    // [:en] error: no applicable literal operator
+              // [|:zh_CN]
+}
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+In translation phase 6 ([#lex.phases]), adjacent string literals are
+concatenated and [~user-defined-string-literal]s are considered string literals
+for that purpose.
+
+[:en]
+During concatenation, [~ud-suffix]es are removed and ignored and the
+concatenation process occurs as described in [#lex.string].
+
+[:en]
+At the end of phase 6, if a string literal is the result of a concatenation
+involving at least one [~user-defined-string-literal], all the participating
+[~user-defined-string-literal]s shall have the same [~ud-suffix] and that suffix
+is applied to the result of the concatenation.
+
+[para]
+[enter:example]
+
+[codeblock]
+int main() {
+  L"A" "B" "C"_x; // [:en] OK: same as [`L"ABC"_x]
+                  // [|:zh_CN]
+  "P"_x "Q" "R"_y;// [:en] error: two different [~ud-suffix]es
+                  // [|:zh_CN]
+}
+[codeblock:end]
+
+[exit:example]

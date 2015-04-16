@@ -102,7 +102,7 @@ definitions.
 [:zh_CN]
 [index@text 遵从性规定 [sub 类]]
 [index@text 遵从性规定 [sub 类模板]]
-对于类和类模板，程序库条款中指定了它们的部分定义。
+对于类和类模板，程序库条款中指定了它们的部分定义式。
 
 [:en]
 Private members (Clause [#class.access]) are not specified, but each
@@ -110,14 +110,14 @@ implementation shall supply them to complete the definitions according to the
 description in the library Clauses.
 [:zh_CN]
 其私有成员（第 [#class.access] 条）并未被指明，但每个实现都应按照程序库条款
-中的描述提供它们以补全这些定义。
+中的描述提供它们以补全这些定义式。
 
 [para]
 [:en]
 For functions, function templates, objects, and values, the library Clauses
 specify declarations.
 [:zh_CN]
-对于函数、函数模板、对象和值，程序库条款中指定了它们的声明。
+对于函数、函数模板、对象和值，程序库条款中指定了它们的声明式。
 
 [:en]
 Implementations shall supply definitions consistent with the descriptions in the
@@ -183,7 +183,7 @@ libraries that includes certain language-support libraries ([#compliance]).
 A conforming implementation may have extensions (including additional library
 functions), provided they do not alter the behavior of any well-formed program.
 [:zh_CN]
-符合标准的实现也可以带有扩展（包括额外的程序库功能），只要它们不改变任何良构
+符合标准的实现也可以带有扩展（包括额外的程序库功能），它们不能改变任何良构
 程序的行为。
 
 [:en]

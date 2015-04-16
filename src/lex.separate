@@ -1,43 +1,59 @@
 ﻿[section#lex.separate
     [:en] Separate translation
-    [:zh_CN] 
+    [:zh_CN] 分离式翻译
 ]
 
 [index:begin#separate.compilation
     [:en] compilation [!separate]
+    [:zh_CN] 编译[!分离式～]
 ]
 
 [para]
 [:en]
 The text of the program is kept in units called [%source file] [+source files]
 in this International Standard.
+[:zh_CN]
+程序的文本保存在本国际标准中称为[%源文件][def 源文件]的单元中。
 
 [:en]
 A source file together with all the headers ([#headers]) and source files
-included ([#cpp.include]) via the preprocessing directive [~#include], less any
+included ([#cpp.include]) via the preprocessing directive [`#include], less any
 source lines skipped by any of the conditional inclusion ([#cpp.cond])
 preprocessing directives, is called a [def translation unit].
+[:zh_CN]
+源文件，以及通过预处理指令 [`#include] 所包含（[#cpp.include]）的所有头文件
+（[#headers]）和源文件一起，再排除任何被条件包含（[#cpp.cond]）预处理指令跳过的
+源文本行之后，称为一个[def 翻译单元]。
 
 [enter:note]
 [:en]
 A [=Cpp] program need not all be translated at the same time.
+[:zh_CN]
 [exit:note]
+[=Cpp] 程序并不需要全部被同时翻译。
 
 [para]
 [enter:note]
 [:en]
 Previously translated translation units and instantiation units can be preserved
 individually or in libraries.
+[:zh_CN]
+已翻译过的翻译单元和实例化单元可以独立保留，或者保留在程序库中。
 
 [:en]
 The separate translation units of a program communicate ([#basic.link]) by (for
 example) calls to functions whose identifiers have external linkage,
 manipulation of objects whose identifiers have external linkage, or manipulation
 of data files.
+[:zh_CN]
+程序中分离的翻译单元之间，通过（例如）调用其标识符具有外部连接的函数，操作其标
+识符具有外部连接的对象，或操作数据文件来进行通信（[#basic.link）。
 
 [:en]
 Translation units can be separately translated and then later linked to produce
 an executable program ([#basic.link]).
+[:zh_CN]
+翻译单元可以先分别翻译，然后再连接成可执行程序（[#basic.link]）。
 [exit:note]
 
 [index:end#separate.compilation]

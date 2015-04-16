@@ -34,8 +34,8 @@ in the way that objects do.
 An object is created by a [~definition] ([#basic.def]), by a [~new-expression]
 ([#expr.new]) or by the implementation ([#class.temporary]) when needed.
 [:zh_CN]
-对象通过[~定义]（[#basic.def]），通过[~new-表达式]（[#expr.new]），或者根据需要
-由实现创建（[#class.temporary]）。
+对象通过[~定义式]（[#basic.def]），通过[~new-表达式]（[#expr.new]），或者由实现
+根据需要创建（[#class.temporary]）。
 
 [:en]
 The properties of an object are determined when the object is created.
@@ -51,7 +51,7 @@ An object can have a [~name] (Clause [#basic]).
 An object has a [+storage duration] ([#basic.stc]) which influences its
 [+lifetime] ([#basic.life]).
 [:zh_CN]
-对象具有[+存储期]（#basic.stc]），并影响它的[+生存期（[#basic.life]）。
+对象具有[+存储期]（#basic.stc]），并影响它的[+生存期]（[#basic.life]）。
 
 [:en]
 An object has a [+type] ([#basic.types]).
@@ -99,7 +99,7 @@ subobject] (Clause [#class.derived]), or an array element.
 An object that is not a subobject of any other object is called a [def complete
 object].
 [:zh_CN]
-[%对象 [!全～]]
+[%对象 [!完整～]]
 不是任何其他对象的子对象的对象被称为[def 完整对象]。
 
 [para]

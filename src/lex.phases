@@ -1,21 +1,26 @@
 ﻿[section#lex.phases
     [:en] Phases of translation
-    [:zh_CN] 
+    [:zh_CN] 翻译的阶段
 ]
 
 [index:begin#translation.phases
     [:en] translation [!phases]
+    [:zh_CN] 翻译 [!阶段]
 ]
 
 [para]
 [:en]
 The precedence among the syntax rules of translation is specified by the
 following phases.
+[:zh_CN]
+下列各阶段指定了所翻译的语法规则之间的先后次序。
 
 [footnote]
 [:en]
 Implementations must behave as if these separate phases occur, although in
 practice different phases might be folded together.
+[:zh_CN]
+即使实现实际上将不同的阶段合并进行，它仍然必须表现为如同这些阶段是分别发生的。
 [footnote:end]
 
 [list:ol@ndot]
@@ -26,15 +31,28 @@ Physical source file characters are mapped, in an [%@impldef mapping physical
 source file characters to basic source character set] implementation-defined
 manner, to the basic source character set (introducing new-line characters for
 end-of-line indicators) if necessary.
+[:zh_CN]
+[%源文件] [%字符[!源文件～]] [%字符集[!基本源～]]
+Physical source file characters are mapped, in an [%@impldef mapping physical
+source file characters to basic source character set] implementation-defined
+manner, to the basic source character set (introducing new-line characters for
+end-of-line indicators) if necessary.
+当需要时，以[%@impldef 將物理源文件字符映射到基本源字符集]由实现定义的方式将物理
+源文件字符映射到基本源字符集中（并为行结束指示符引入换行字符）。
 
 [:en]
 The set of physical source file characters accepted is [%@impldef physical
 source file characters] implementation-defined.
+[:zh_CN]
+[%@impldef 物理源文件字符]由实现定义其所能接受的物理源文件字符的集合。
 
 [:en]
 Any source file character not in the basic source character set ([#lex.charset])
 is replaced by the [%universal character name] universal-character-name that
 designates that character.
+[:zh_CN]
+把不在基本源字符集（[#lex.charset]）中的任何源文件字符替换为代表该字符的通用
+字符名。
 
 [:en]
 (An implementation may use any internal encoding, so long as an actual extended
@@ -42,6 +60,10 @@ character encountered in the source file, and the same extended character
 expressed in the source file as a universal-character-name (i.e., using the
 [`\uXXXX] notation), are handled equivalently except where this replacement is
 reverted in a raw string literal.)
+[:zh_CN]
+（实现可以使用任何内部编码，只要能够保证源文件中实际出线的扩展字符与源文件中代表
+同一个扩展字符的通用字符名（如使用 [`\uXXXX] 记法），除了在原始字符串字面量中对
+这种替换进行还原的情况之外，被等价处理即可。）
 
 [item]
 [:en]
@@ -49,76 +71,117 @@ reverted in a raw string literal.)
 Each instance of a backslash character (\) immediately followed by a new-line
 character is deleted, splicing physical source lines to form logical source
 lines.
+[:zh_CN]
+[%行接合]
+删除所有反斜杠字符（\）及其后紧跟的换行字符，将物理的源文本行接合成逻辑的源文本
+行。
 
 [:en]
 Only the last backslash on any physical source line shall be eligible for being
 part of such a splice.
+[:zh_CN]
+在任何物理源文本行中只有末尾的反斜杠适用于这种接合。
 
 [:en]
 Except for splices reverted in a raw string literal, if a splice results in a
 character sequence that matches the syntax of a universal-character-name, the
 behavior is undefined.
+[:zh_CN]
+除了被原始字符串字面量所还原的行接合之外，如果某次行接合产生了符合通用字符名文法
+的字符序列，则其行为是未定义的。
 
 [:en]
 A source file that is not empty and that does not end in a new-line character,
 or that ends in a new-line character immediately preceded by a backslash
 character before any such splicing takes place, shall be processed as if an
 additional new-line character were appended to the file.
+[:zh_CN]
+如果非空的源文件不以换行字符结尾，或在进行任何这种接合之前，其结尾的换行字符之前
+紧跟一个反斜杠字符，则对其进行处理时应当如同该文件追加了一个额外的换行字符。
 
 [item]
 [:en]
 The source file is decomposed into preprocessing tokens ([#lex.pptoken]) and
 sequences of white-space characters (including comments).
+[:zh_CN]
+将源文件分解为预处理标记（[#lex.pptoken]）和空白字符（包括注释）的序列。
 
 [:en]
 A source file shall not end in a partial preprocessing token or in a partial
 comment.
+[:zh_CN]
+源文件不应该在不完整的预处理标记或不完整的注释中结束。
 
 [footnote]
 [:en]
 A partial preprocessing token would arise from a source file ending in the first
 portion of a multi-character token that requires a terminating sequence of
-characters, such as a [~header-name] that is missing the closing [~"] or [~>].
+characters, such as a [~header-name] that is missing the closing [`"] or [`>].
+[:zh_CN]
+当源文件在某个需要终结字符序列的多字符标记的前一部分处结束时，就会出现不完整的
+预处理标记，比如缺失闭合的 [`"] 或 [`>] 的[~头文件名]。
 
 [:en]
 A partial comment would arise from a source file ending with an unclosed [`/*]
 comment.
+[:zh_CN]
+当源文件在没闭合的 [`/*] 注释中结束时，就会出现不完整的注释。
 [footnote:end]
 
 [:en]
 Each comment is replaced by one space character.
+[:zh_CN]
+把每个注释都替换为一个空格字符。
 
 [:en]
 New-line characters are retained.
+[:zh_CN]
+保留换行字符。
 
 [:en]
 Whether each nonempty sequence of white-space characters other than new-line is
 retained or replaced by one space character is unspecified.
+[:zh_CN]
+是否将除换行字符以外的空白字符的非空序列保留或将其替换为一个空格字符是未指明的。
 
 [:en]
 The process of dividing a source file[=']s characters into preprocessing tokens
 is context-dependent.
+[:zh_CN]
+将源文件的字符分割成预处理标记的过程是上下文相关的。
 
 [enter:example]
 [:en]
 see the handling of [`<] within a [`#include] preprocessing directive.
+[:zh_CN]
 [exit:example]
+参见 [#include] 预处理指令中对 [`<] 的处理。
 
 [item]
 [:en]
 Preprocessing directives are executed, macro invocations are expanded, and
 [`_Pragma] unary operator expressions are executed.
+[:zh_CN]
+执行预处理指令，对宏调用进行展开，并执行 [`_Pragma] 一元运算符表达式。
 
 [:en]
 If a character sequence that matches the syntax of a universal-character-name is
 produced by token concatenation ([#cpp.concat]), the behavior is undefined.
+[:zh_CN]
+如果标记拼接（[#cpp.concat]）后产生了符合通用字符名文法的字符序列，则其行为是
+未定义的。
 
 [:en]
 A [`#include] preprocessing directive causes the named header or source file to
 be processed from phase 1 through phase 4, recursively.
+[:zh_CN]
+[`#include] 预处理指令将导致递归地对被指名的头文件或源文件进行从阶段 1 到阶段 4
+的处理。
 
 [:en]
 All preprocessing directives are then deleted.
+[:zh_CN]
+随后即删除所有预处理指令。
 
 [item]
 [:en]
@@ -126,37 +189,56 @@ Each source character set member in a character literal or a string literal, as
 well as each escape sequence and universal-character-name in a character literal
 or a non-raw string literal, is converted to the corresponding member of the
 execution character set ([#lex.ccon], [#lex.string]);
+[:zh_CN]
+将在字符字面量和字符串字面量中的每个源字符集的成员，以及字符字面量和非原始字符串
+字面量中的每个转义序列和通用字符名，转换为执行字符集的对应成员（[#lex.ccon]，
+[#lex.string]）；
 
 [:en]
 if there is no corresponding member, it is converted to an [%@impldef converting
 characters from source character set to execution character set]
 implementation-defined member other than the null (wide) character.
+[:zh_CN]
+如果对应成员不存在，则转换为[%@impldef 将字符从源字符集转换到执行字符集]由实现
+定义的某个不是空（宽）字符的成员。
 
 [footnote]
 [:en]
 An implementation need not convert all non-corresponding source characters to
 the same execution character.
+[:zh_CN]
 [footnote:end]
+实现并不需要将所有无对应的源字符转换为相同的执行字符。
 
 [item]
 [:en]
 Adjacent string literal tokens are concatenated.
+[:zh_CN]
+拼接相邻的字符串字面量标记。
 
 [item]
 [:en]
 White-space characters separating tokens are no longer significant.
+[:zh_CN]
+用于分隔标记的空白字符不再有意义。
 
 [:en]
 Each preprocessing token is converted into a token. ([#lex.token]).
+[:zh_CN]
+把每个预处理标记转换为一个标记。（[#lex.token]）。
 
 [:en]
 The resulting tokens are syntactically and semantically analyzed and translated
 as a translation unit.
+[:zh_CN]
+对所产生的这些标记作为一个翻译单元进行语法和语义的分析和翻译。
 
 [enter:note]
 [:en]
 The process of analyzing and translating the tokens may occasionally result in
 one token being replaced by a sequence of other tokens ([#temp.names]).
+[:zh_CN]
+分析和翻译的过程可能偶尔会导致某个标记被替换为一系列其他标记（[#temp.names]）。
 [exit:note]
 
 [enter:note]
@@ -164,69 +246,101 @@ one token being replaced by a sequence of other tokens ([#temp.names]).
 Source files, translation units and translated translation units need not
 necessarily be stored as files, nor need there be any one-to-one correspondence
 between these entities and any external representation.
+[:zh_CN]
+源文件、翻译单元和已翻译过的翻译单元不必存储为文件，也不必在这些实体和其外部表示
+之间进行一一对应。
 
 [:en]
 The description is conceptual only, and does not specify any particular
 implementation.
+[:zh_CN]
+这仅是个概念上的描述，而并非对任何特定的实现的说明。
 [exit:note]
 
 [item]
 [:en]
 Translated translation units and instantiation units are combined as follows:
+[:zh_CN]
+已翻译过的翻译单元和实例化单元按如下方式合并：
 
 [enter:note]
 [:en]
 Some or all of these may be supplied from a library.
+[:zh_CN]
+其中的某些或全部单元都可能由程序库提供。
 [exit:note]
 
 [:en]
 Each translated translation unit is examined to produce a list of required
 instantiations.
+[:zh_CN]
+检查每个已翻译过的翻译单元以产生其所需的实例化的列表。
 
 [enter:note]
 [:en]
 This may include instantiations which have been explicitly requested
 ([#temp.explicit]).
+[:zh_CN]
+其中可能包括经由显式要求（[#temp.explicit]）的实例化。
 [exit:note]
 
 [:en]
 The definitions of the required templates are located.
+[:zh_CN]
+对所需要的模板定义进行定位。
 
 [:en]
 It is [%@impldef whether source of translation units must be available to locate
 template definitions] implementation-defined whether the source of the
 translation units containing these definitions is required to be available.
+[:zh_CN]
+包含这些定义的翻译单元的源文件此时是否应当可用是[%@impldef 当对模板定义进行定位
+时翻译单元的源文件是否必须可用]由实现定义的。
 
 [enter:note]
 [:en]
 An implementation could encode sufficient information into the translated
 translation unit so as to ensure the source is not required here.
+[:zh_CN]
+实现可以将充分的信息编码进已翻译过的翻译单元以保证此时不需要源文件。
 [exit:note]
 
 [:en]
 All the required instantiations are performed to produce [def instantiation
 units].
+[:zh_CN]
+实施所有需要的实例化以产生[def 实例化单元]。
 
 [enter:note]
 [:en]
 These are similar to translated translation units, but contain no references to
 uninstantiated templates and no template definitions.
+[:zh_CN]
+它们类似于已翻译过的翻译单元，但不包含对任何未实例化的模板的引用和任何模板定义。
 [exit:note]
 
 [:en]
 The program is ill-formed if any instantiation fails.
+[:zh_CN]
+如果任何实例化失败，则程序是非良构的。
 
 [item]
 [:en]
 All external entity references are resolved.
+[:zh_CN]
+解决所有对外部实体的引用。
 
 [:en]
 Library components are linked to satisfy external references to entities not
 defined in the current translation.
+[:zh_CN]
+将程序库组件连接进程序以满足在当前翻译中未定义的实体的外部引用。
 
 [:en]
 All such translator output is collected into a program image which contains
 information needed for execution in its execution environment.
+[:zh_CN]
+所有这些翻译器输出都汇集到一个程序映像中，它包含在其执行环境中执行所需要的信息。
 
 [list:end]
 

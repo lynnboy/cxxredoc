@@ -93,7 +93,8 @@ program can have more than one thread of execution.
 A signal handler that is executed as a result of a call to the [`raise] function
 belongs to the same thread of execution as the call to the [`raise] function.
 [:zh_CN]
-由于调用[`raise]函数而执行的信号处理器属于对[`raise]函数的调用同一个执行线程。
+由 [`raise] 函数的调用而被执行的信号处理器，属于此 [`raise] 函数调用的同一个执行
+线程。
 
 [:en]
 Otherwise it is unspecified which thread of execution contains a signal handler
@@ -180,7 +181,7 @@ e.g., by repeatedly stealing a cache line for unrelated purposes between
 load-locked and store-conditional instructions.
 [:zh_CN]
 例如，通过不断地在LL（Load-Locked）和SC（Store-Conditional）指令之间偷取
-某个用于无关目的的Cache Line。
+某个用于无关目的的高速缓存线。
 
 [:en]
 Implementations should ensure that such effects cannot indefinitely delay
@@ -262,7 +263,8 @@ A synchronization operation without an associated memory location is a fence and
 can be either an acquire fence, a release fence, or both an acquire and release
 fence.
 [:zh_CN]
-不与内存位置相关联的同步操作是内存栅栏，可以是获取栅栏、释放栅栏或获取并释放栅栏。
+不与内存位置相关联的同步操作是内存栅栏，可以是获取栅栏、释放栅栏或获取并释放
+栅栏。
 
 [:en]
 In addition, there are relaxed atomic operations, which are not synchronization
@@ -443,8 +445,8 @@ the value of [$A] is used as an operand of [$B], unless:
 [$A] is the left operand of a built-in logical AND ([`&&], see [#expr.log.and])
 or logical OR ([`||], see [#expr.log.or]) operator, or
 [:zh_CN]
-[$A] 是内建逻辑与（[`&&]，见 [#expr.log.and]）或逻辑或（[`||]，见 [#expr.log.or]）
-运算符的左操作数，或者
+[$A] 是内建逻辑与（[`&&]，见 [#expr.log.and]）或逻辑或（[`||]，见
+[#expr.log.or]）运算符的左操作数，或者
 
 [item]
 [:en]
