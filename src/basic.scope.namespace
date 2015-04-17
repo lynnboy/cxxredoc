@@ -1,0 +1,79 @@
+﻿[section#basic.scope.namespace
+    [:en] Namespace scope
+]
+
+[para]
+[:en]
+[%scope[!namespace]]
+The declarative region of a [~namespace-definition] is its [~namespace-body].
+
+[:en]
+Entities declared in a [~namespace-body] are said to be [def members] of the
+namespace, and names introduced by these declarations into the declarative
+region of the namespace are said to be [def member names] of the namespace.
+
+[:en]
+A namespace member name has namespace scope.
+
+[:en]
+Its potential scope includes its namespace from the name[=']s point of
+declaration ([#basic.scope.pdecl]) onwards; and for each [~using-directive]
+([#namespace.udir]) that nominates the member[=']s namespace, the member[=']s
+potential scope includes that portion of the potential scope of the
+[~using-directive] that follows the member[=']s point of declaration.
+
+[enter:example]
+
+[codeblock]
+namespace N {
+  int i;
+  int g(int a) { return a; }
+  int j();
+  void q();
+}
+namespace { int l=1; }
+// [:en] the potential scope of [`l] is from its point of declaration
+// [:en@~] to the end of the translation unit
+
+namespace N {
+  int g(char a) {   // [:en] overloads [`N::g(int)]
+    return l+a;     // [:en] [`l] is from unnamed namespace
+  }
+
+  int i;            // [:en] error: duplicate definition
+  int j();          // [:en] OK: duplicate function declaration
+
+  int j() {         // [:en] OK: definition of [`N::j()]
+    return g(i);    // [:en] calls [`N::g(int)]
+  }
+  int q();          // [:en] error: different return type
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A namespace member can also be referred to after the [`::] scope resolution
+operator ([#expr.prim]) applied to the name of its namespace or the name of a
+namespace which nominates the member[=']s namespace in a [~using-directive]; see
+[#namespace.qual].
+
+[para]
+[:en]
+[%scope[!global namespace]]
+[%scope[!global]]
+The outermost declarative region of a translation unit is also a namespace,
+called the [def global namespace].
+
+[:en]
+A name declared in the global namespace has [def global namespace scope] (also
+called [def global scope]).
+
+[:en]
+The potential scope of such a name begins at its point of declaration
+([#basic.scope.pdecl]) and ends at the end of the translation unit that is its
+declarative region.
+
+[:en]
+[%name[!global]]
+A name with global namespace scope is said to be a [def global name [%global]].

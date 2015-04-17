@@ -1,0 +1,48 @@
+﻿[section#basic.scope.hiding
+    [:en] Name hiding
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%scope name hiding and]
+[%name hiding]
+[%hiding [see name hiding]]
+A name can be hidden by an explicit declaration of that same name in a nested
+declarative region or derived class ([#class.member.lookup]).
+
+[para]
+[:en]
+[%name hiding]
+A class name ([#class.name]) or enumeration name ([#dcl.enum]) can be hidden by
+the name of a variable, data member, function, or enumerator declared in the
+same scope.
+
+[:en]
+If a class or enumeration name and a variable, data member, function, or
+enumerator are declared in the same scope (in any order) with the same name, the
+class or enumeration name is hidden wherever the variable, data member,
+function, or enumerator name is visible.
+
+[para]
+[:en]
+In a member function definition, the declaration of a name at block scope hides
+the declaration of a member of the class with the same name; see
+[#basic.scope.class].
+
+[:en]
+The declaration of a member in a derived class (Clause [#class.derived]) hides
+the declaration of a member of a base class of the same name; see
+[#class.member.lookup].
+
+[para]
+[:en]
+During the lookup of a name qualified by a namespace name, declarations that
+would otherwise be made visible by a [~using-directive] can be hidden by
+declarations with the same name in the namespace containing the
+[~using-directive]; see ([#namespace.qual]).
+
+[para]
+[:en]
+[%visibility]
+If a name is in scope and is not hidden it is said to be [def visible].

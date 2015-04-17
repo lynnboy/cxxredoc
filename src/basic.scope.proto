@@ -1,0 +1,11 @@
+﻿[section#basic.scope.proto
+    [:en] Function prototype scope
+]
+
+[para]
+[:en]
+[%scope[!function prototype]] [%function prototype]
+In a function declaration, or in any function declarator except the declarator
+of a function definition ([#dcl.fct.def]), names of parameters (if supplied)
+have function prototype scope, which terminates at the end of the nearest
+enclosing function declarator.

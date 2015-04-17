@@ -1,0 +1,14 @@
+﻿[section#basic.scope.enum
+    [:en] Enumeration scope
+    [:zh_CN] 枚举作用域
+]
+
+[para]
+[:en]
+[%enumeration scope]
+[%scope[!enumeration]]
+The name of a scoped enumerator ([#dcl.enum]) has [def enumeration scope].
+
+[:en]
+Its potential scope begins at its point of declaration and terminates at the end
+of the [~enum-specifier].

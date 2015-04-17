@@ -1,0 +1,50 @@
+﻿[section#basic.scope.block
+    [:en] Block scope
+]
+
+[para]
+[:en]
+[%scope[!block]]
+[%local scope [see block scope]]
+A name declared in a block ([#stmt.block]) is local to that block; it has
+[def block scope].
+
+[:en]
+Its potential scope begins at its point of declaration ([#basic.scope.pdecl])
+and ends at the end of its block.
+
+[:en]
+A variable declared at block scope is a [def local variable].
+
+[para]
+[:en]
+[%parameter[!scope of]]
+The potential scope of a function parameter name (including one appearing in a
+[~lambda-declarator]) or of a function-local predefined variable in a function
+definition ([#dcl.fct.def]) begins at its point of declaration.
+
+[:en]
+If the function has a [~function-try-block] the potential scope of a parameter
+or of a function-local predefined variable ends at the end of the last
+associated handler, otherwise it ends at the end of the outermost block of the
+function definition.
+
+[:en]
+A parameter name shall not be redeclared in the outermost block of the function
+definition nor in the outermost block of any handler associated with a
+[~function-try-block].
+
+[para]
+[:en]
+[%scope[!exception declaration]]
+The name declared in an [~exception-declaration] is local to the [~handler] and
+shall not be redeclared in the outermost block of the [~handler].
+
+[para]
+[:en]
+Names declared in the [~for-init-statement], the [~for-range-declaration], and
+in the [~condition] of [`if], [`while], [`for], and [`switch] statements are
+local to the [`if], [`while], [`for], or [`switch] statement (including the
+controlled statement), and shall not be redeclared in a subsequent condition of
+that statement nor in the outermost block (or, for the [`if] statement, any of
+the outermost blocks) of the controlled statement; see [#stmt.select].

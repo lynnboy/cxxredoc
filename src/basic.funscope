@@ -1,0 +1,13 @@
+﻿[section#basic.funscope
+    [:en] Function scope
+]
+
+[para]
+[:en]
+[%scope[!function]]
+[%label[!scope of]]
+Labels ([#stmt.label]) have [+function scope] and may be used anywhere in the
+function in which they are declared.
+
+[:en]
+Only labels have function scope.

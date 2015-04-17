@@ -1,0 +1,197 @@
+﻿[section#basic.scope.pdecl
+    [:en] Point of declaration
+]
+
+[para]
+[:en]
+[%name[!point of declaration]]
+The [def point of declaration] for a name is immediately after its complete
+declarator (Clause [#dcl.decl]) and before its [~initializer] (if any), except
+as noted below.
+[enter:example]
+
+[codeblock]
+unsigned char x = 12;
+{ unsigned char x = x; }
+[codeblock:end]
+
+[:en]
+Here the second [`x] is initialized with its own (indeterminate) value.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[%name hiding]
+a name from an outer scope remains visible up to the point of declaration of the
+name that hides it.
+
+[enter:example]
+
+[codeblock]
+const int  i = 2;
+{ int  i[i]; }
+[codeblock:end]
+
+[:en]
+declares a block-scope array of two integers.
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+The point of declaration for a class or class template first declared by a
+[~class-specifier] is immediately after the [~identifier] or
+[~simple-template-id] (if any) in its [~class-head] (Clause [#class]).
+
+[:en]
+The point of declaration for an enumeration is immediately after the
+[~identifier] (if any) in either its [~enum-specifier] ([#dcl.enum]) or its
+first [~opaque-enum-declaration] ([#dcl.enum]), whichever comes first.
+
+[:en]
+The point of declaration of an alias or alias template immediately follows the
+[~type-id] to which the alias refers.
+
+[para]
+[:en]
+The point of declaration of a [~using-declaration] that does not name a
+constructor is immediately after the [~using-declaration] ([#namespace.udecl]).
+
+[para]
+[:en]
+[%declaration[!enumerator point of]]
+The point of declaration for an enumerator is immediately after its
+[~enumerator-definition].
+
+[enter:example]
+
+[codeblock]
+const int x = 12;
+{ enum { x = x }; }
+[codeblock:end]
+
+[:en]
+Here, the enumerator [`x] is initialized with the value of the constant [`x],
+namely 12.
+[exit:example]
+
+[para]
+[:en]
+After the point of declaration of a class member, the member name can be looked
+up in the scope of its class.
+
+[enter:note]
+[:en]
+[%type[!incomplete]]
+this is true even if the class is an incomplete class.
+
+[:en]
+For example,
+
+[codeblock]
+struct X {
+  enum E { z = 16 };
+  int b[X::z];      // [:en] OK
+};
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+The point of declaration of a class first declared in an
+[~elaborated-type-specifier] is as follows:
+
+[list]
+[item]
+[:en]
+for a declaration of the form
+
+[syntax:explanation]
+[~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
+[syntax:end]
+
+[:en@~]
+the [~identifier] is declared to be a [~class-name] in the scope that contains
+the declaration, otherwise
+
+[item]
+[:en]
+for an [~elaborated-type-specifier] of the form
+
+[syntax:explanation]
+[~class-key] [~identifier]
+[syntax:end]
+
+[:en@~]
+if the [~elaborated-type-specifier] is used in the [~decl-specifier-seq] or
+[~parameter-declaration-clause] of a function defined in namespace scope, the
+[~identifier] is declared as a [~class-name] in the namespace that contains the
+declaration;
+
+[:en]
+otherwise, except as a friend declaration, the [~identifier] is declared in the
+smallest namespace or block scope that contains the declaration.
+
+[enter:note]
+[:en]
+These rules also apply within templates.
+[exit:note]
+
+[enter:note]
+[:en]
+Other forms of [~elaborated-type-specifier] do not declare a new name, and
+therefore must refer to an existing [~type-name].
+
+[:en]
+See [#basic.lookup.elab] and [#dcl.type.elab].
+[exit:note]
+
+[list:end]
+
+[para]
+[:en]
+The point of declaration for an [~injected-class-name] (Clause [#class]) is
+immediately following the opening brace of the class definition.
+
+[para]
+[:en]
+The point of declaration for a function-local predefined variable
+([#dcl.fct.def]) is immediately before the [~function-body] of a function
+definition.
+
+[para]
+[:en]
+The point of declaration for a template parameter is immediately after its
+complete [~template-parameter].
+
+[enter:example]
+
+[codeblock]
+typedef unsigned char T;
+template<class T
+  = T     // [:en] lookup finds the typedef name of [`unsigned char]
+  , T     // [:en] lookup finds the template parameter
+    N = 0> struct A { };
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Friend declarations refer to functions or classes that are members of the
+nearest enclosing namespace, but they do not introduce new names into that
+namespace ([#namespace.memdef]).
+
+[:en]
+Function declarations at block scope and variable declarations with the
+[`extern] specifier at block scope refer to declarations that are members of an
+enclosing namespace, but they do not introduce new names into that scope.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+For point of instantiation of a template, see [#temp.point].
+[exit:note]

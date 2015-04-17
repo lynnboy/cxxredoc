@@ -1,0 +1,103 @@
+﻿[section#basic.scope.class
+    [:en] Class scope
+]
+
+[para]
+[:en]
+[%scope[!class]]
+The following rules describe the scope of names declared in classes.
+
+[list:ol@nrparen]
+[item]
+[:en]
+The potential scope of a name declared in a class consists not only of the
+declarative region following the name[=']s point of declaration, but also of all
+function bodies, default arguments, [~exception-specification]s, and
+[~brace-or-equal-initializers] of non-static data members in that class
+(including such things in nested classes).
+
+[item]
+[:en]
+A name [`N] used in a class [`S] shall refer to the same declaration in its
+context and when re-evaluated in the completed scope of [`S].
+
+[:en]
+No diagnostic is required for a violation of this rule.
+
+[item]
+[:en]
+If reordering member declarations in a class yields an alternate valid program
+under (1) and (2), the program is ill-formed, no diagnostic is required.
+
+[item]
+[:en]
+A name declared within a member function hides a declaration of the same name
+whose scope extends to or past the end of the member function[=']s class.
+
+[item]
+[:en]
+The potential scope of a declaration that extends to or past the end of a class
+definition also extends to the regions defined by its member definitions, even
+if the members are defined lexically outside the class (this includes static
+data member definitions, nested class definitions, and member function
+definitions, including the member function body and any portion of the
+declarator part of such definitions which follows the [~declarator-id],
+including a [~parameter-declaration-clause] and any default arguments
+([#dcl.fct.default])).
+
+[enter:example]
+
+[codeblock]
+typedef int  c;
+enum { i = 1 };
+
+class X {
+  char  v[i];                       // [:en] error: [`i] refers to [`::i]
+                                    // [:en@~] but when reevaluated is [`X::i]
+  int  f() { return sizeof(c); }    // [:en] OK: [`X::c]
+  char  c;
+  enum { i = 2 };
+};
+
+typedef char*  T;
+struct Y {
+  T  a;                             // [:en] error: [`T] refers to [`::T]
+                                    // [:en@~] but when reevaluated is [`Y::T]
+  typedef long  T;
+  T  b;
+};
+
+typedef int I;
+class D {
+  typedef I I;                      // [:en] error, even though no reordering involved
+};
+[codeblock:end]
+[exit:example]
+
+[list:end]
+
+[para]
+[:en]
+The name of a class member shall only be used as follows:
+
+[list]
+[item]
+[:en]
+in the scope of its class (as described above) or a class derived (Clause
+[#class.derived]) from its class,
+
+[item]
+[:en]
+after the [`.] operator applied to an expression of the type of its class
+([#expr.ref]) or a class derived from its class,
+
+[item]
+[:en]
+after the [`->] operator applied to a pointer to an object of its class
+([#expr.ref]) or a class derived from its class,
+
+[item]
+[:en]
+after the [`::] scope resolution operator ([#expr.prim]) applied to the name of
+its class or a class derived from its class.
+[list:end]
