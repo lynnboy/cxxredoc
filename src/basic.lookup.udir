@@ -1,0 +1,12 @@
+﻿[section#basic.lookup.udir
+    [:en] Using-directives and namespace aliases
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%lookup[!using-directives and]]
+[%lookup[!namespace aliases and]]
+In a [~using-directive] or [~namespace-alias-definition], during the lookup for
+a [~namespace-name] or for a name in a [~nested-name-specifier] only namespace
+names are considered.

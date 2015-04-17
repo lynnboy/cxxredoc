@@ -1,0 +1,111 @@
+﻿[section#class.qual
+    [:en] Class members
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%lookup[!class member]]
+If the [~nested-name-specifier] of a [~qualified-id] nominates a class, the name
+specified after the [~nested-name-specifier] is looked up in the scope of the
+class ([#class.member.lookup]), except for the cases listed below.
+
+[:en]
+The name shall represent one or more members of that class or of one of its base
+classes (Clause [#class.derived]).
+
+[enter:note]
+[:en]
+A class member can be referred to using a [~qualified-id] at any point in its
+potential scope ([#basic.scope.class]).
+[exit:note]
+
+[:en]
+The exceptions to the name lookup rule above are the following:
+
+[list]
+[item]
+[:en]
+a destructor name is looked up as specified in [#basic.lookup.qual];
+
+[item]
+[:en]
+a [~conversion-type-id] of a [~conversion-function-id] is looked up in the same
+manner as a [~conversion-type-id] in a class member access (see
+[#basic.lookup.classref]);
+
+[item]
+[:en]
+the names in a [~template-argument] of a [~template-id] are looked up in the
+context in which the entire [~postfix-expression] occurs.
+
+[item]
+[:en]
+the lookup for a name specified in a [~using-declaration] ([#namespace.udecl])
+also finds class or enumeration names hidden within the same scope
+([#basic.scope.hiding]).
+
+[list:end]
+
+[para]
+[:en]
+In a lookup in which function names are not ignored
+
+[footnote]
+[:en]
+Lookups in which function names are ignored include names appearing in a
+[~nested-name-specifier], an [~elaborated-type-specifier], or a
+[~base-specifier].
+[footnote:end]
+
+[:en@~]
+and the [~nested-name-specifier] nominates a class [`C]:
+
+[list]
+[item]
+[:en]
+if the name specified after the [~nested-name-specifier], when looked up in
+[`C], is the injected-class-name of [`C] (Clause [#class]), or
+
+[item]
+[:en]
+in a [~using-declaration] ([#namespace.udecl]) that is a [~member-declaration],
+if the name specified after the [~nested-name-specifier] is the same as the
+[~identifier] or the [~simple-template-id][=']s [~template-name] in the last
+component of the [~nested-name-specifier],
+[list:end]
+
+[:en]
+the name is instead considered to name the constructor of class [`C].
+
+[enter:note]
+[:en]
+For example, the constructor is not an acceptable lookup result in an
+[~elaborated-type-specifier] so the constructor would not be used in place of
+the injected-class-name.
+[exit:note]
+
+[:en]
+Such a constructor name shall be used only in the [~declarator-id] of a
+declaration that names a constructor or in a [~using-declaration].
+
+[enter:example]
+
+[codeblock]
+struct A { A(); };
+struct B: public A { B(); };
+
+A::A() { }
+B::B() { }
+
+B::A ba;            // [:en] object of type [`A]
+A::A a;             // [:en] error, [`A::A] is not a type name
+struct A::A a2;     // [:en] object of type [`A]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A class member name hidden by a name in a nested declarative region or by the
+name of a derived class member can still be found if qualified by the name of
+its class followed by the [`::] operator.

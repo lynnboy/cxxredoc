@@ -1,0 +1,433 @@
+﻿[section#basic.lookup.unqual
+    [:en] Unqualified name lookup
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%lookup[!unqualified name]] [%name[!unqualified]]
+In all the cases listed in [#basic.lookup.unqual], the scopes are searched for a
+declaration in the order listed in each of the respective categories; name
+lookup ends as soon as a declaration is found for the name.
+
+[:en]
+If no declaration is found, the program is ill-formed.
+
+[para]
+[:en]
+The declarations from the namespace nominated by a [~using-directive] become
+visible in a namespace enclosing the [~using-directive]; see [#namespace.udir].
+
+[:en]
+For the purpose of the unqualified name lookup rules described in
+[#basic.lookup.unqual], the declarations from the namespace nominated by the
+[~using-directive] are considered members of that enclosing namespace.
+
+[para]
+[:en]
+The lookup for an unqualified name used as the [~postfix-expression] of a
+function call is described in [#basic.lookup.argdep].
+
+[enter:note]
+[:en]
+For purposes of determining (during parsing) whether an expression is a
+[~postfix-expression] for a function call, the usual name lookup rules apply.
+
+[:en]
+The rules in [#basic.lookup.argdep] have no effect on the syntactic
+interpretation of an expression.
+
+[:en]
+For example,
+
+[codeblock]
+typedef int f;
+namespace N {
+  struct A {
+    friend void f(A &);
+    operator int();
+    void g(A a) {
+      int i = f(a);         // [:en] [`f] is the typedef, not the friend
+                            // [:en@~] function: equivalent to [`int(a)]
+    }
+  };
+}
+[codeblock:end]
+
+[:en]
+Because the expression is not a function call, the argument-dependent name
+lookup ([#basic.lookup.argdep]) does not apply and the friend function [`f] is
+not found.
+[exit:note]
+
+[para]
+[:en]
+A name used in global scope, outside of any function, class or user-declared
+namespace, shall be declared before its use in global scope.
+
+[para]
+[:en]
+A name used in a user-declared namespace outside of the definition of any
+function or class shall be declared before its use in that namespace or before
+its use in a namespace enclosing its namespace.
+
+[para]
+[:en]
+A name used in the definition of a function following the function[=']s
+[~declarator-id]
+
+[footnote]
+[:en]
+This refers to unqualified names that occur, for instance, in a type or default
+argument in the [~parameter-declaration-clause] or used in the function body.
+[footnote:end]
+
+[:en@~]
+that is a member of namespace [`N] (where, only for the purpose of exposition,
+[`N] could represent the global scope) shall be declared before its use in the
+block in which it is used or in one of its enclosing blocks ([#stmt.block]) or,
+shall be declared before its use in namespace [`N] or, if [`N] is a nested
+namespace, shall be declared before its use in one of [`N][=']s enclosing
+namespaces.
+[enter:example]
+
+[codeblock]
+namespace A {
+  namespace N {
+    void f();
+  }
+}
+void A::N::f() {
+  i = 5;
+  // [:en] The following scopes are searched for a declaration of [`i]:
+  // [:en] 1) outermost block scope of [`A::N::f], before the use of [`i]
+  // [:en] 2) scope of namespace [`N]
+  // [:en] 3) scope of namespace [`A]
+  // [:en] 4) global scope, before the definition of [`A::N::f]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A name used in the definition of a class [`X] outside of a member function body,
+default argument, [~exception-specification], [~brace-or-equal-initializer] of a
+non-static data member, or nested class definition
+
+[footnote]
+[:en]
+This refers to unqualified names following the class name; such a name may be
+used in the [~base-clause] or may be used in the class definition.
+[footnote:end]
+
+[:en@~]
+shall be declared in one of the following ways:
+
+[list]
+[item]
+[:en]
+before its use in class [`X] or be a member of a base class of [`X]
+([#class.member.lookup]), or
+
+[item]
+[:en]
+if [`X] is a nested class of class [`Y] ([#class.nest]), before the definition
+of [`X] in [`Y], or shall be a member of a base class of [`Y] (this lookup
+applies in turn to [`Y][=']s enclosing classes, starting with the innermost
+enclosing class),
+
+[footnote]
+[:en]
+This lookup applies whether the definition of [`X] is nested within [`Y][=']s
+definition or whether [`X][=']s definition appears in a namespace scope
+enclosing [`Y][=']s definition ([#class.nest]).
+[footnote:end]
+
+[:en@~]
+or
+
+[item]
+[:en]
+if [`X] is a local class ([#class.local]) or is a nested class of a local class,
+before the definition of class [`X] in a block enclosing the definition of class
+[`X], or
+
+[item]
+[:en]
+if [`X] is a member of namespace [`N], or is a nested class of a class that is a
+member of [`N], or is a local class or a nested class within a local class of a
+function that is a member of [`N], before the definition of class [`X] in
+namespace [`N] or in one of [`N][=']s enclosing namespaces.
+[list:end]
+
+[enter:example]
+
+[codeblock]
+namespace M {
+  class B { };
+}
+
+[codeblock:end]
+[codeblock]
+namespace N {
+  class Y : public M::B {
+    class X {
+      int a[i];
+    };
+  };
+}
+
+// [:en] The following scopes are searched for a declaration of [`i]:
+// [:en] 1) scope of class [`N::Y::X], before the use of [`i]
+// [:en] 2) scope of class [`N::Y], before the definition of [`N::Y::X]
+// [:en] 3) scope of [`N::Y][=']s base class [`M::B]
+// [:en] 4) scope of namespace [`N], before the definition of [`N::Y]
+// [:en] 5) global scope, before the definition of [`N]
+[codeblock:end]
+
+[exit:example]
+
+[enter:note]
+[:en]
+When looking for a prior declaration of a class or function introduced by a
+[`friend] declaration, scopes outside of the innermost enclosing namespace scope
+are not considered; see [#namespace.memdef].
+[exit:note]
+
+[enter:note]
+[:en]
+[#basic.scope.class] further describes the restrictions on the use of names in a
+class definition.
+
+[:en]
+[#class.nest] further describes the restrictions on the use of names in nested
+class definitions.
+
+[:en]
+[#class.local] further describes the restrictions on the use of names in local
+class definitions.
+[exit:note]
+
+[para]
+[:en]
+For the members of a class [`X], a name used in a member function body, in a
+default argument, in an [~exception-specification], in the
+[~brace-or-equal-initializer] of a non-static data member ([#class.mem]), or in
+the definition of a class member outside of the definition of [`X], following
+the member[=']s [~declarator-id]
+
+[footnote]
+[:en]
+That is, an unqualified name that occurs, for instance, in a type in the
+[~parameter-declaration-clause] or in the [~exception-specification].
+[footnote:end]
+
+[:en@~]
+, shall be declared in one of the following ways:
+
+[list]
+[item]
+[:en]
+before its use in the block in which it is used or in an enclosing block
+([#stmt.block]), or
+
+[item]
+[:en]
+shall be a member of class [`X] or be a member of a base class of [`X]
+([#class.member.lookup]), or
+
+[item]
+[:en]
+if [`X] is a nested class of class [`Y] ([#class.nest]), shall be a member of
+[`Y], or shall be a member of a base class of [`Y] (this lookup applies in turn
+to [`Y][=']s enclosing classes, starting with the innermost enclosing class),
+
+[footnote]
+[:en]
+This lookup applies whether the member function is defined within the definition
+of class [`X] or whether the member function is defined in a namespace scope
+enclosing [`X][=']s definition.
+[footnote:end]
+
+[:en@~]
+or
+
+[item]
+[:en]
+if [`X] is a local class ([#class.local]) or is a nested class of a local class,
+before the definition of class [`X] in a block enclosing the definition of class
+[`X], or
+
+[item]
+[:en]
+if [`X] is a member of namespace [`N], or is a nested class of a class that is a
+member of [`N], or is a local class or a nested class within a local class of a
+function that is a member of [`N], before the use of the name, in namespace [`N]
+or in one of [`N][=']s enclosing namespaces.
+[list:end]
+
+[enter:example]
+ 
+[codeblock]
+class B { };
+namespace M {
+  namespace N {
+    class X : public B {
+      void f();
+    };
+  }
+}
+void M::N::X::f() {
+  i = 16;
+}
+
+// [:en] The following scopes are searched for a declaration of [`i]:
+// [:en] 1) outermost block scope of [`M::N::X::f], before the use of [`i]
+// [:en] 2) scope of class [`M::N::X]
+// [:en] 3) scope of [`M::N::X][=']s base class [`B]
+// [:en] 4) scope of namespace [`M::N]
+// [:en] 5) scope of namespace [`M]
+// [:en] 6) global scope, before the definition of [`M::N::X::f]
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+[#class.mfct] and [#class.static] further describe the restrictions on the use
+of names in member function definitions.
+
+[:en]
+[#class.nest] further describes the restrictions on the use of names in the
+scope of nested classes.
+
+[:en]
+[#class.local] further describes the restrictions on the use of names in local
+class definitions.
+[exit:note]
+
+[para]
+[:en]
+Name lookup for a name used in the definition of a [`friend] function
+([#class.friend]) defined inline in the class granting friendship shall proceed
+as described for lookup in member function definitions.
+
+[:en]
+If the [`friend] function is not defined in the class granting friendship, name
+lookup in the [`friend] function definition shall proceed as described for
+lookup in namespace member function definitions.
+
+[para]
+[:en]
+In a [`friend] declaration naming a member function, a name used in the function
+declarator and not part of a [~template-argument] in the [~declarator-id] is
+first looked up in the scope of the member function[=']s class
+([#class.member.lookup]).
+
+[:en]
+If it is not found, or if the name is part of a [~template-argument] in the
+[~declarator-id], the look up is as described for unqualified names in the
+definition of the class granting friendship.
+
+[enter:example]
+
+[codeblock]
+struct A {
+  typedef int AT;
+  void f1(AT);
+  void f2(float);
+  template <class T> void f3();
+};
+struct B {
+  typedef char AT;
+  typedef float BT;
+  friend void A::f1(AT);      // [:en] parameter type is [`A::AT]
+  friend void A::f2(BT);      // [:en] parameter type is [`B::BT]
+  friend void A::f3<AT>();    // [:en] template argument is [`B::AT]
+};
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+During the lookup for a name used as a default argument ([#dcl.fct.default]) in
+a function [~parameter-declaration-clause] or used in the [~expression] of a
+[~mem-initializer] for a constructor ([#class.base.init]), the function
+parameter names are visible and hide the names of entities declared in the
+block, class or namespace scopes containing the function declaration.
+
+[enter:note]
+[:en]
+[#dcl.fct.default] further describes the restrictions on the use of names in
+default arguments.
+
+[:en]
+[#class.base.init] further describes the restrictions on the use of names in a
+[~ctor-initializer].
+[exit:note]
+
+[para]
+[:en]
+During the lookup of a name used in the [~constant-expression] of an
+[~enumerator-definition], previously declared [~enumerator]s of the enumeration
+are visible and hide the names of entities declared in the block, class, or
+namespace scopes containing the [~enum-specifier].
+
+[para]
+[:en]
+A name used in the definition of a [`static] data member of class [`X]
+([#class.static.data]) (after the [~qualified-id] of the static member) is
+looked up as if the name was used in a member function of [`X].
+
+[enter:note]
+[:en]
+[#class.static.data] further describes the restrictions on the use of names in
+the definition of a [`static] data member.
+[exit:note]
+
+[para]
+[:en]
+If a variable member of a namespace is defined outside of the scope of its
+namespace then any name that appears in the definition of the member (after the
+[~declarator-id]) is looked up as if the definition of the member occurred in
+its namespace.
+
+[enter:example]
+
+[codeblock]
+namespace N {
+  int i = 4;
+  extern int j;
+}
+
+int i = 2;
+
+int N::j = i;                   // [`N::j == 4]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A name used in the handler for a [~function-try-block] (Clause [#except]) is
+looked up as if the name was used in the outermost block of the function
+definition.
+
+[:en]
+In particular, the function parameter names shall not be redeclared in the
+[~exception-declaration] nor in the outermost block of a handler for the
+[~function-try-block].
+
+[:en]
+Names declared in the outermost block of the function definition are not found
+when looked up in the scope of a handler for the [~function-try-block].
+
+[enter:note]
+[:en]
+But function parameter names are found.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The rules for name lookup in template definitions are described in [#temp.res].
+[exit:note]

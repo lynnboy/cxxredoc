@@ -1,0 +1,130 @@
+﻿[section#basic.lookup.classref
+    [:en] Class member access
+    [:zh_CN] 
+]
+
+[para]
+[:en]
+[%lookup[!class member]]
+In a class member access expression ([#expr.ref]), if the [`.] or [`->] token is
+immediately followed by an [~identifier] followed by a [`<], the identifier must
+be looked up to determine whether the [`<] is the beginning of a template
+argument list ([#temp.names]) or a less-than operator.
+
+[:en]
+The identifier is first looked up in the class of the object expression.
+
+[:en]
+If the identifier is not found, it is then looked up in the context of the
+entire [~postfix-expression] and shall name a class template.
+
+[para]
+[:en]
+If the [~id-expression] in a class member access ([#expr.ref]) is an
+[~unqualified-id], and the type of the object expression is of a class type
+[`C], the [~unqualified-id] is looked up in the scope of class [`C].
+
+[:en]
+For a pseudo-destructor call ([#expr.pseudo]), the [~unqualified-id] is looked
+up in the context of the complete [~postfix-expression].
+
+[para]
+[:en]
+If the [~unqualified-id] is [`~][~type-name], the [~type-name] is looked up in
+the context of the entire [~postfix-expression].
+
+[:en]
+If the type [`T] of the object expression is of a class type [`C], the
+[~type-name] is also looked up in the scope of class [`C].
+
+[:en]
+At least one of the lookups shall find a name that refers to (possibly
+[=cv]-qualified) [`T].
+
+[enter:example]
+
+[codeblock]
+struct A { };
+
+struct B {
+  struct A { };
+  void f(::A* a);
+};
+
+void B::f(::A* a) {
+  a->~A();                      // [:en] OK: lookup in [`*a] finds the injected-class-name
+}
+[codeblock:end][exit:example]
+
+[para]
+[:en]
+If the [~id-expression] in a class member access is a [~qualified-id] of the
+form
+
+[syntax:descriptive]
+[`class-name-or-namespace-name::...]
+[syntax:end]
+
+[:en@~]
+the [~class-name-or-namespace-name] following the [`.] or [`->] operator is
+first looked up in the class of the object expression and the name, if found,
+is used.
+
+[:en]
+Otherwise it is looked up in the context of the entire [~postfix-expression].
+
+[enter:note]
+[:en]
+See [#basic.lookup.qual], which describes the lookup of a name before [`::],
+which will only find a type or namespace name.
+[exit:note]
+
+[para]
+[:en]
+If the [~qualified-id] has the form
+
+[syntax:descriptive]
+[`::class-name-or-namespace-name::...]
+[syntax:end]
+
+[:en@~]
+the [~class-name-or-namespace-name] is looked up in global scope as a
+[~class-name] or [~namespace-name].
+
+[para]
+[:en]
+If the [~nested-name-specifier] contains a [~simple-template-id]
+([#temp.names]), the names in its [~template-argument]s are looked up in the
+context in which the entire [~postfix-expression] occurs.
+
+[para]
+[:en]
+If the [~id-expression] is a [~conversion-function-id], its
+[~conversion-type-id] is first looked up in the class of the object expression
+and the name, if found, is used.
+
+[:en]
+Otherwise it is looked up in the context of the entire [~postfix-expression].
+
+[:en]
+In each of these lookups, only names that denote types or templates whose
+specializations are types are considered.
+
+[enter:example]
+
+[codeblock]
+struct A { };
+namespace N {
+  struct A {
+    void g() { }
+    template <class T> operator T();
+  };
+}
+
+int main() {
+  N::A a;
+  a.operator A();               // [:en] calls [`N::A::operator N::A]
+}
+[codeblock:end]
+[exit:example]
+

@@ -1,0 +1,80 @@
+﻿[section#basic.lookup
+    [:en] Name lookup
+    [:zh_CN] 
+]
+
+[%:begin#scope.namelookup
+    [:en] scope [!name lookup and]
+]
+[%:begin#lookup.name
+    [:en] lookup [!name]
+]
+
+[para]
+[:en]
+The name lookup rules apply uniformly to all names (including [~typedef-name]s
+([#dcl.typedef]), [~namespace-name]s ([#basic.namespace]), and [~class-name]s
+([#class.name])) wherever the grammar allows such names in the context discussed
+by a particular rule.
+
+[:en]
+Name lookup associates the use of a name with a declaration ([#basic.def]) of
+that name.
+
+[:en]
+Name lookup shall find an unambiguous declaration for the name (see
+[#class.member.lookup]).
+
+[:en]
+Name lookup may associate more than one declaration with a name if it finds the
+name to be a function name;
+
+[:en]
+the declarations are said to form a set of overloaded functions ([#over.load]).
+
+[:en]
+Overload resolution ([#over.match]) takes place after name lookup has succeeded.
+
+[:en]
+The access rules (Clause [#class.access]) are considered only once name lookup
+and function overload resolution (if applicable) have succeeded.
+
+[:en]
+Only after name lookup, function overload resolution (if applicable) and access
+checking have succeeded are the attributes introduced by the name[=']s
+declaration used further in expression processing (Clause [#expr]).
+
+[para]
+[:en]
+A name ["looked up in the context of an expression] is looked up as an
+unqualified name in the scope where the expression is found.
+
+[para]
+[:en]
+The injected-class-name of a class (Clause [#class]) is also considered to be a
+member of that class for the purposes of name hiding and lookup.
+
+[para]
+[enter:note]
+[:en]
+[#basic.link] discusses linkage issues.
+
+[:en]
+The notions of scope, point of declaration and name hiding are discussed in
+[#basic.scope].
+[exit:note]
+
+[include basic.lookup.unqual]
+
+[include basic.lookup.argdep]
+
+[include basic.lookup.qual]
+
+[include basic.lookup.elab]
+
+[include basic.lookup.classref]
+
+[include basic.lookup.udir]
+
+[%:end#lookup.name]
+[%:end#scope.namelookup]

@@ -1,0 +1,94 @@
+﻿[section#basic.lookup.elab
+    [:en] Elaborated type specifiers
+    [:zh_CN] 
+]
+
+[%:begin#lookup.elab
+    [:en] lookup [!elaborated type specifier]
+]
+
+[para]
+[:en]
+[%type specifier[!elaborated]]
+An [~elaborated-type-specifier] ([#dcl.type.elab]) may be used to refer to a
+previously declared [~class-name] or [~enum-name] even though the name has been
+hidden by a non-type declaration ([#basic.scope.hiding]).
+
+[para]
+[:en]
+If the [~elaborated-type-specifier] has no [~nested-name-specifier], and unless
+the [~elaborated-type-specifier] appears in a declaration with the following
+form:
+
+[syntax:descriptive]
+[~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
+[syntax:end]
+
+[:en@~]
+the [~identifier] is looked up according to [#basic.lookup.unqual] but ignoring
+any non-type names that have been declared.
+
+[:en]
+If the [~elaborated-type-specifier] is introduced by the [`enum] keyword and
+this lookup does not find a previously declared [~type-name], the
+[~elaborated-type-specifier] is ill-formed.
+
+[:en]
+If the [~elaborated-type-specifier] is introduced by the [~class-key] and this
+lookup does not find a previously declared [~type-name], or if the
+[~elaborated-type-specifier] appears in a declaration with the form:
+
+[syntax:descriptive]
+[~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
+[syntax:end]
+
+[:en@~]
+the [~elaborated-type-specifier] is a declaration that introduces the
+[~class-name] as described in [#basic.scope.pdecl].
+
+[para]
+[:en]
+If the [~elaborated-type-specifier] has a [~nested-name-specifier], qualified
+name lookup is performed, as described in [#basic.lookup.qual], but ignoring any
+non-type names that have been declared.
+
+[:en]
+If the name lookup does not find a previously declared [~type-name], the
+[~elaborated-type-specifier] is ill-formed.
+
+[enter:example]
+
+[codeblock]
+struct Node {
+  struct Node* Next;            // [:en] OK: Refers to [`Node] at global scope
+  struct Data* Data;            // [:en] OK: Declares type [`Data]
+                                // [:en@~] at global scope and member [`Data]
+};
+
+struct Data {
+  struct Node* Node;            // [:en] OK: Refers to [`Node] at global scope
+  friend struct ::Glob;         // [:en] error: [`Glob] is not declared
+                                // [:en@~] cannot introduce a qualified type ([#dcl.type.elab])
+  friend struct Glob;           // [:en] OK: Refers to (as yet) undeclared [`Glob]
+                                // [:en@~] at global scope.
+  /* ... */
+};
+
+struct Base {
+  struct Data;                  // [:en] OK: Declares nested [`Data]
+  struct ::Data*     thatData;  // [:en] OK: Refers to [`::Data]
+  struct Base::Data* thisData;  // [:en] OK: Refers to nested [`Data]
+  friend class ::Data;          // [:en] OK: global [`Data] is a friend
+  friend class Data;            // [:en] OK: nested [`Data] is a friend
+  struct Data { /* ... */ };    // [:en] Defines nested [`Data]
+};
+
+struct Data;                    // [:en] OK: Redeclares [`Data] at global scope
+struct ::Data;                  // [:en] error: cannot introduce a qualified type ([#dcl.type.elab])
+struct Base::Data;              // [:en] error: cannot introduce a qualified type ([#dcl.type.elab])
+struct Base::Datum;             // [:en] error: [`Datum] undefined
+struct Base::Data* pBase;       // [:en] OK: refers to nested [`Data]
+[codeblock:end]
+[exit:example]
+
+[%:end#lookup.elab]

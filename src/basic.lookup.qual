@@ -1,0 +1,140 @@
+﻿[section#basic.lookup.qual
+    [:en] Qualified name lookup
+    [:zh_CN] 
+]
+
+[%:begin#lookup.qualified.name
+    [:en] lookup [!qualified name]
+]
+
+[para]
+[:en]
+[%name[!qualified]]
+[%qualification[!explicit]]
+The name of a class or namespace member or enumerator can be referred to after
+the [`::] scope resolution operator ([#expr.prim]) applied to a
+[~nested-name-specifier] that denotes its class, namespace, or enumeration.
+
+[:en]
+If a [`::] scope resolution operator in a [~nested-name-specifier] is not
+preceded by a [~decltype-specifier], lookup of the name preceding that [`::]
+considers only namespaces, types, and templates whose specializations are types.
+
+[:en]
+If the name found does not designate a namespace or a class, enumeration, or
+dependent type, the program is ill-formed.
+
+[enter:example]
+
+[codeblock]
+class A {
+public:
+  static int n;
+};
+int main() {
+  int A;
+  A::n = 42;        // [:en] OK
+  A b;              // [:en] ill-formed: [`A] does not name a type
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Multiply qualified names, such as [`N1::N2::N3::n], can be used to refer to
+members of nested classes ([#class.nest]) or members of nested namespaces.
+[exit:note]
+
+[para]
+[:en]
+In a declaration in which the [~declarator-id] is a [~qualified-id], names used
+before the [~qualified-id] being declared are looked up in the defining
+namespace scope; names following the [~qualified-id] are looked up in the scope
+of the member[=']s class or namespace.
+[enter:example]
+
+[codeblock]
+class X { };
+class C {
+  class X { };
+  static const int number = 50;
+  static X arr[number];
+};
+X C::arr[number];   // [:en] ill-formed:
+                    // [:en@~] equivalent to: [`::X] [`C::arr[C::number];]
+                    // [:en@~] not to: [`C::X] [`C::arr[C::number];]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%scope resolution operator]
+A name prefixed by the unary scope operator [`::] ([#expr.prim]) is looked up in
+global scope, in the translation unit where it is used.
+
+[:en]
+The name shall be declared in global namespace scope or shall be a name whose
+declaration is visible in global scope because of a [~using-directive]
+([#namespace.qual]).
+
+[:en]
+The use of [`::] allows a global name to be referred to even if its identifier
+has been hidden ([#basic.scope.hiding]).
+
+[para]
+[:en]
+A name prefixed by a [~nested-name-specifier] that nominates an enumeration type
+shall represent an [~enumerator] of that enumeration.
+
+[para]
+[:en]
+If a [~pseudo-destructor-name] ([#expr.pseudo]) contains a
+[~nested-name-specifier], the [~type-name]s are looked up as types in the scope
+designated by the [~nested-name-specifier].
+
+[:en]
+Similarly, in a [~qualified-id] of the form:
+
+[syntax:explanation]
+[~:opt nested-name-specifier] [~class-name] [`::] [`~] [~class-name]
+[syntax:end]
+
+[:en@~]
+the second [~class-name] is looked up in the same scope as the first.
+
+[enter:example]
+
+[codeblock]
+struct C {
+  typedef int I;
+};
+typedef int I1, I2;
+extern int* p;
+extern int* q;
+p->C::I::~I();      // [:en] [`I] is looked up in the scope of [`C]
+q->I1::~I2();       // [:en] [`I2] is looked up in the scope of
+                    // [:en@~] the postfix-expression
+
+struct A {
+  ~A();
+};
+typedef A AB;
+int main() {
+  AB* p;
+  p->AB::~AB();     // [:en] explicitly calls the destructor for [`A]
+}
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+[#basic.lookup.classref] describes how name lookup proceeds after the [`.] and
+[`->] operators.
+[exit:note]
+
+[include class.qual]
+
+[include namespace.qual]
+
+[%:end#lookup.qualified.name]
