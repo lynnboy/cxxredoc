@@ -525,7 +525,7 @@ struct X {
 X::X(int = 0, int = 0) { }
 class D: public X { };          // [:en] [`X(int, int)] called by [`D()];
                                 // [|:zh_CN] [`X(int, int)] 被 [`D()] 调用；
-                                // [:en@~] [`D()]'s implicit definition
+                                // [:en@~] [`D()][=']s implicit definition
                                 // [|:zh_CN@~] [`D()] 的隐式定义
                                 // [:en@~] violates the ODR
                                 // [|:zh_CN@~] 违反 ODR
@@ -536,9 +536,9 @@ class D: public X { };          // [:en] [`X(int, int)] called by [`D()];
 
 [:en]
 If [`D] is a template and is defined in more than one translation unit, then the
-preceding requirements shall apply both to names from the template's enclosing
-scope used in the template definition ([#temp.nondep]), and also to dependent
-names at the point of instantiation ([#temp.dep]).
+preceding requirements shall apply both to names from the template[=']s
+enclosing scope used in the template definition ([#temp.nondep]), and also to
+dependent names at the point of instantiation ([#temp.dep]).
 [:zh_CN]
 若 [`D] 是模板，且定义于多个翻译单元之中，则前述的规定应当既适用于该模板的定义式
 中所使用的来自该模板的外围作用域的名字（[#temp.nondep]），也适用于实例化点处的待
