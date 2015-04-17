@@ -1,0 +1,83 @@
+﻿\rSec2[basic.start.term]{Termination}
+
+[para]
+[%program!termination|(]
+[%object!destructor static]
+[%\idxcode{main()}!return from]
+Destructors ([#class.dtor}) for initialized objects
+(that is, objects whose lifetime ([#basic.life}) has begun)
+with static storage duration
+are called as a result of returning from [`main} and as a result of calling
+[%\idxcode{exit}]
+\indexlibrary{\idxcode{exit}]
+[`std::exit} ([#support.start.term}).
+Destructors for initialized objects with thread storage duration within a given thread
+are called as a result of returning from the initial function of that thread and as a
+result of that thread calling [`std::exit}.
+The completions of the destructors for all initialized objects with thread storage
+duration within that thread are sequenced before the initiation of the destructors of
+any object with static storage duration.
+If the completion of the constructor or dynamic initialization of an object with thread
+storage duration is sequenced before that of another, the completion of the destructor
+of the second is sequenced before the initiation of the destructor of the first.
+If the completion of the constructor or dynamic initialization of an object with static
+storage duration is sequenced before that of another, the completion of the destructor
+of the second is sequenced before the initiation of the destructor of the first.
+[enter:note]
+ This definition permits concurrent destruction. [exit:note]
+ If an object is
+initialized statically, the object is destroyed in the same order as if
+the object was dynamically initialized. For an object of array or class
+type, all subobjects of that object are destroyed before any block-scope
+object with static storage duration initialized during the construction
+of the subobjects is destroyed.
+If the destruction of an object with static or thread storage duration
+exits via an exception,
+[`std::terminate} is called ([#except.terminate}).
+
+[para]
+If a function contains a block-scope object of static or thread storage duration that has been
+destroyed and the function is called during the destruction of an object with static or
+thread storage duration, the program has undefined behavior if the flow of control
+passes through the definition of the previously destroyed block-scope object. Likewise, the
+behavior is undefined if the block-scope object is used indirectly (i.e., through a
+pointer) after its destruction.
+
+[para]
+[%\idxcode{atexit}]
+\indexlibrary{\idxcode{atexit}]
+If the completion of the initialization of an object with static storage
+duration is sequenced before a call to [`std::atexit} (see
+[`<cstdlib>}, [#support.start.term}), the call to the function passed to
+[`std::atexit} is sequenced before the call to the destructor for the object. If a
+call to [`std::atexit} is sequenced before the completion of the initialization of
+an object with static storage duration, the call to the destructor for the
+object is sequenced before the call to the function passed to [`std::atexit}. If a
+call to [`std::atexit} is sequenced before another call to [`std::atexit}, the
+call to the function passed to the second [`std::atexit} call is sequenced before
+the call to the function passed to the first [`std::atexit} call.
+
+[para]
+If there is a use of a standard library object or function not permitted within signal
+handlers ([#support.runtime}) that does not happen before ([#intro.multithread})
+completion of destruction of objects with static storage duration and execution of
+[`std::atexit} registered functions ([#support.start.term}), the program has
+undefined behavior. [enter:note]
+ If there is a use of an object with static storage
+duration that does not happen before the object[=']s destruction, the program has undefined
+behavior. Terminating every thread before a call to [`std::exit} or the exit from
+[`main} is sufficient, but not necessary, to satisfy these requirements. These
+requirements permit thread managers as static-storage-duration objects. [exit:note]
+
+
+[para]
+[%\idxcode{abort}]
+\indexlibrary{\idxcode{abort}]
+[%termination!program]
+Calling the function [`std::abort()} declared in
+[%\idxhdr{cstdlib}]
+[`<cstdlib>} terminates the program without executing any destructors
+and without calling
+the functions passed to [`std::atexit()} or [`std::at_quick_exit()}.%
+[%program!termination|)}
+

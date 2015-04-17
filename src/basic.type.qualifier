@@ -1,0 +1,117 @@
+﻿\rSec2[basic.type.qualifier]{CV-qualifiers}
+
+[para]
+[%cv-qualifier]
+[%\idxcode{const}]
+[%\idxcode{volatile}]
+A type mentioned in [#basic.fundamental} and [#basic.compound} is
+a [+cv-unqualified type}. Each type which is a
+cv-unqualified complete or incomplete object type or is
+[`void} ([#basic.types}) has three corresponding cv-qualified
+versions of its type: a [~const-qualified} version, a
+[+volatile-qualified} version, and a
+[+const-volatile-qualified} version. The term
+[+object type} ([#intro.object}) includes the cv-qualifiers
+specified in the [~decl-specifier-seq} ([#dcl.spec}), 
+[~declarator} (Clause [#dcl.decl}),
+[~type-id} ([#dcl.name}), or 
+[~new-type-id} ([#expr.new}) when the object is created.
+
+[list]
+[item]
+A [+const object} is an object of type [`const T} or a
+  non-mutable subobject of such an object.
+
+[item]
+A [+volatile object} is an object of type
+  [`volatile T}, a subobject of such an object, or a mutable
+  subobject of a const volatile object.
+
+[item]
+A [+const volatile object} is an object of type
+  [`const volatile T}, a non-mutable subobject of such an object,
+  a const subobject of a volatile object, or a non-mutable volatile
+  subobject of a const object.
+
+[list:end]
+
+The cv-qualified or
+cv-unqualified versions of a type
+are distinct types; however, they shall have the same representation and
+alignment requirements ([#basic.align}).\footnote{The same representation
+and alignment requirements are meant to imply
+interchangeability as arguments to functions, return values from
+functions, and non-static data members of unions.}
+
+[para]
+[%array!\idxcode{const}]
+A compound type ([#basic.compound}) is not cv-qualified by the
+cv-qualifiers (if any) of the types from which it is compounded. Any
+cv-qualifiers applied to an array type affect the array element type,
+not the array type ([#dcl.array}).
+
+[para]
+See [#dcl.fct} and [#class.this} regarding function
+types that have [~cv-qualifier}s.
+
+[para]
+There is a partial ordering on cv-qualifiers, so that a type can be
+said to be [~more cv-qualified} than another.
+Table [#tab:relations.on.const.and.volatile} shows the relations that
+constitute this ordering.
+
+\begin{floattable}{Relations on [`const} and [`volatile}}{tab:relations.on.const.and.volatile}
+{ccc}
+\topline
+\cvqual{no cv-qualifier}    &<& [`const}           \\
+\cvqual{no cv-qualifier}    &<& [`volatile}        \\
+\cvqual{no cv-qualifier}    &<& [`const volatile}  \\
+[`const}               &<& [`const volatile}  \\
+[`volatile}            &<& [`const volatile}  \\
+\end{floattable}
+
+[para]
+In this International Standard, the notation [+cv} (or
+[+cv1}, [+cv2}, etc.), used in the description of types,
+represents an arbitrary set of cv-qualifiers, i.e., one of
+\{[`const}\}, \{[`volatile}\}, \{[`const},
+[`volatile}\}, or the empty set.
+[%cv-qualifier!top-level}
+For a type \cv\ [`T}, the [+top-level cv-qualifiers}
+of that type are those denoted by \cv.
+[enter:example]
+
+The type corresponding to the [~type-id}
+[`const int\&}
+has no top-level cv-qualifiers.
+The type corresponding to the [~type-id}
+[`volatile int * const}
+has the top-level cv-qualifier [`const}.
+For a class type [`C},
+the type corresponding to the [~type-id}
+[`void (C::* volatile)(int) const}
+has the top-level cv-qualifier [`volatile}.
+[exit:example]
+
+
+[para]
+Cv-qualifiers applied to an array
+type attach to the underlying element type, so the notation
+["[+cv} [`T},] where [`T} is an array type, refers to
+an array whose elements are so-qualified. An array type whose elements
+are cv-qualified is also considered to have the same cv-qualifications
+as its elements.%
+[enter:example]
+
+[codeblock]
+typedef char CA[5];
+typedef const char CC;
+CC arr1[5] = { 0 };
+const CA arr2 = { 0 };
+[codeblock:end]
+The type of both [`arr1} and [`arr2} is ["array of 5
+[`const char},] and the array type is considered to be
+[`const}-qualified.
+[exit:example]
+
+

@@ -1,0 +1,218 @@
+﻿%!TEX root = std.tex
+\rSec0[basic]{Basic concepts}
+
+%gram: \rSec1[gram.basic]{Basic concepts}
+%gram:
+
+[para]
+[enter:note]
+ This Clause presents the basic concepts of the [=Cpp] language.
+It explains the difference between an [+object} and a
+[+name} and how they relate to the value categories for expressions.
+It introduces the concepts of a
+[+declaration} and a [+definition} and presents [=Cpp][=']s
+notion of [+type}, [+scope}, [+linkage}, and
+[+storage} [+duration}. The mechanisms for starting and
+terminating a program are discussed. Finally, this Clause presents the
+[+fundamental} types of the language and lists the ways of constructing
+[+compound} types from these.[exit:note]
+
+
+[para]
+[enter:note]
+ This Clause does not cover concepts that affect only a single
+part of the language. Such concepts are discussed in the relevant
+Clauses. [exit:note]
+
+
+[para]
+[%name]
+[%declaration]
+[%type]
+[%object]
+[%storage~class]
+[%scope]
+[%linkage]
+[%region!declarative]
+[%entity]
+An [def entity} is a value, object, reference, function, enumerator, type,
+class member, bit-field, template, template specialization, namespace, parameter
+pack, or [`this}.
+
+[para]
+A [def name} is a use of an [~identifier} ([#lex.name}),
+[~operator-function-id} ([#over.oper}),
+[~literal-operator-id} ([#over.literal}),
+[~conversion-function-id} ([#class.conv.fct}), or
+[~template-id} ([#temp.names}) that denotes an entity or
+[~label} ([#stmt.goto}, [#stmt.label}).
+
+[para]
+Every name that denotes an entity is introduced by a
+[+declaration}. Every name that denotes a label is introduced
+either by a [`goto} statement ([#stmt.goto}) or a
+[~labeled-statement} ([#stmt.label}).
+
+[para]
+A [def variable} is introduced by the
+declaration of
+a reference other than a non-static data member or of
+an object. The variable[=']s name, if any, denotes the reference or object.
+
+[para]
+Some names denote types or templates. In general,
+whenever a name is encountered it is necessary to determine whether that name denotes
+one of these entities before continuing to parse the program that contains it. The
+process that determines this is called
+[%lookup!name]
+[+name lookup} ([#basic.lookup}).
+
+[para]
+Two names are [+the same} if
+
+[list]
+[item]
+they are [~identifier}s composed of the same character sequence, or
+[item]
+they are [~operator-function-id}s formed with
+the same operator, or
+[item]
+they are [~conversion-function-id}s formed
+with the same type, or
+[item]
+they are [~template-id}s that refer to the same class,
+function, or variable ([#temp.type}), or
+[item]
+they are the names of literal operators ([#over.literal}) formed with
+the same literal suffix identifier.
+[list:end]
+
+[para]
+[%translation~unit!name~and]
+[%linkage]
+A name used in more than one translation unit can potentially
+refer to the same entity in these translation units depending on the
+linkage ([#basic.link}) of the name specified in each
+translation unit.
+
+[include basic.def]
+
+[include basic.def.odr]
+
+[include basic.scope]
+
+[include basic.lookup]
+
+[include basic.link]
+
+[include basic.start]
+
+[include basic.stc]
+
+[include basic.life]
+
+[include basic.types]
+
+[include basic.lval]
+
+\rSec1[basic.align]{Alignment}
+
+[para]
+[%alignment~requirement!implementation-defined]
+Object types have [+alignment requirements} ([#basic.fundamental}, [#basic.compound})
+which place restrictions on the addresses at which an object of that type
+may be allocated. An [+alignment} is an \impldef{alignment}
+integer value representing the number of bytes between successive addresses
+at which a given object can be allocated. An object type imposes an alignment
+requirement on every object of that type; stricter alignment can be requested
+using the alignment specifier ([#dcl.align}).
+
+[para]
+[%fundamental~alignment]
+[%alignment!fundamental]
+A [+fundamental alignment} is represented by an alignment
+less than or equal to the greatest alignment supported by the implementation in
+all contexts, which is equal to
+[`alignof(std::max_align_t)} ([#support.types}).
+The alignment required for a type might be different when it is used as the type
+of a complete object and when it is used as the type of a subobject. [enter:example]
+
+[codeblock]
+struct B { long double d; };
+struct D : virtual B { char c; };
+[codeblock:end]
+
+When [`D} is the type of a complete object, it will have a subobject of
+type [`B}, so it must be aligned appropriately for a [`long double}.
+If [`D} appears as a subobject of another object that also has [`B}
+as a virtual base class, the [`B} subobject might be part of a different
+subobject, reducing the alignment requirements on the [`D} subobject.
+[exit:example]
+ The result of the [`alignof} operator reflects the alignment
+requirement of the type in the complete-object case.
+
+[para]
+[%extended~alignment]
+[%alignment!extended]
+[%over-aligned~type]
+[%type!over-aligned]
+An [+extended alignment} is represented by an alignment
+greater than [`alignof(std::max_align_t)}. It is implementation-defined
+whether any extended alignments are supported and the contexts in which they are
+supported ([#dcl.align}). A type having an extended alignment
+requirement is an [~over-aligned type}. [enter:note]
+
+every over-aligned type is or contains a class type
+to which extended alignment applies (possibly through a non-static data member).
+[exit:note]
+
+
+[para]
+Alignments are represented as values of the type [`std::size_t}.
+Valid alignments include only those values returned by an [`alignof}
+expression for the fundamental types plus an additional \impldef{alignment additional
+values}
+set of values, which may be empty.
+Every alignment value shall be a non-negative integral power of two.
+
+[para]
+Alignments have an order from [+weaker} to
+[+stronger} or [+stricter} alignments. Stricter
+alignments have larger alignment values. An address that satisfies an alignment
+requirement also satisfies any weaker valid alignment requirement.
+
+[para]
+The alignment requirement of a complete type can be queried using an
+[`alignof} expression ([#expr.alignof}). Furthermore,
+the narrow character types ([#basic.fundamental}) shall have the weakest
+alignment requirement.
+[enter:note]
+ This enables the narrow character types to be used as the
+underlying type for an aligned memory area ([#dcl.align}).[exit:note]
+
+
+[para]
+Comparing alignments is meaningful and provides the obvious results:
+
+[list]
+[item]
+Two alignments are equal when their numeric values are equal.
+[item]
+Two alignments are different when their numeric values are not equal.
+[item]
+When an alignment is larger than another it represents a stricter alignment.
+[list:end]
+
+[para]
+[enter:note]
+ The runtime pointer alignment function ([#ptr.align})
+can be used to obtain an aligned pointer within a buffer; the aligned-storage templates
+in the library ([#meta.trans.other}) can be used to obtain aligned storage.
+[exit:note]
+
+
+[para]
+If a request for a specific extended alignment in a specific context is not
+supported by an implementation, the program is ill-formed. Additionally, a
+request for runtime allocation of dynamic storage for which the requested
+alignment cannot be honored shall be treated as an allocation failure.

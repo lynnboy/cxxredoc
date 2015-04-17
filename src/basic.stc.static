@@ -1,0 +1,30 @@
+﻿\rSec2[basic.stc.static]{Static storage duration}
+
+[para]
+[%storage~duration!static]
+All variables which do not have dynamic storage duration, do not have thread
+storage duration, and are not local
+have [def static storage duration}. The
+storage for these entities shall last for the duration of the
+program ([#basic.start.init}, [#basic.start.term}).
+
+[para]
+If a variable with static storage duration has initialization or a
+destructor with side effects, it shall not be eliminated even if it
+appears to be unused, except that a class object or its copy/move may be
+eliminated as specified in [#class.copy}.
+
+[para]
+[%object!\idxcode{local static}]
+The keyword [`static} can be used to declare a local variable with
+static storage duration. [enter:note]
+ [#stmt.dcl} describes the
+initialization of local [`static} variables; [#basic.start.term}
+describes the destruction of local [`static} variables. [exit:note]
+
+
+[para]
+[%member!\idxcode{class static}]
+The keyword [`static} applied to a class data member in a class
+definition gives the data member static storage duration.
+

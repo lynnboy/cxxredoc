@@ -1,0 +1,291 @@
+﻿\rSec1[basic.life]{Object lifetime}
+
+[para]
+[%object~lifetime|(]
+[%initialization!non-vacuous]
+The [def lifetime} of an object is a runtime property of the
+object.
+An object is said to have [+non-vacuous initialization} if it is of a class or
+aggregate type and it or one of its members is initialized by a constructor
+other than a trivial default constructor. [enter:note]
+ initialization by a
+trivial copy/move constructor is non-vacuous initialization. [exit:note]
+
+The lifetime of an object of type [`T} begins when:
+
+[list]
+[item]
+storage with the proper alignment and size for type [`T} is
+obtained, and
+
+[item]
+if the object has non-vacuous initialization, its initialization is complete.
+[list:end]
+
+The lifetime of an object of type [`T} ends when:
+
+[list]
+[item]
+if [`T} is a class type with a non-trivial
+destructor ([#class.dtor}), the destructor call starts, or
+
+[item]
+the storage which the object occupies is reused or released.
+[list:end]
+
+[para]
+[enter:note]
+ The lifetime of an array object starts as soon as storage with proper size and
+alignment is obtained, and its lifetime ends when the storage which the
+array occupies is reused or released. [#class.base.init}
+describes the lifetime of base and member subobjects. [exit:note]
+
+
+[para]
+The properties ascribed to objects throughout this International
+Standard apply for a given object only during its lifetime. [enter:note]
+
+In particular, before the lifetime of an object starts and after its
+lifetime ends there are significant restrictions on the use of the
+object, as described below, in [#class.base.init} and
+in [#class.cdtor}. Also, the behavior of an object under construction
+and destruction might not be the same as the behavior of an object whose
+lifetime has started and not ended. [#class.base.init}
+and [#class.cdtor} describe the behavior of objects during the
+construction and destruction phases. [exit:note]
+
+
+[para]
+A program may end the lifetime of any object by reusing the storage
+which the object occupies or by explicitly calling the destructor for an
+object of a class type with a non-trivial destructor. For an object of a
+class type with a non-trivial destructor, the program is not required to
+call the destructor explicitly before the storage which the object
+occupies is reused or released; however, if there is no explicit call to
+the destructor or if a [~delete-expression} ([#expr.delete})
+is not used to release the storage, the destructor shall not be
+implicitly called and any program that depends on the side effects
+produced by the destructor has undefined behavior.
+
+[para]
+Before the lifetime of an object has started but after the storage which
+the object will occupy has been allocated\footnote{For example, before the
+construction of a global object of
+non-POD class type ([#class.cdtor}).}
+or, after the lifetime of an object has ended and before the storage
+which the object occupied is reused or released, any pointer that refers
+to the storage location where the object will be or was located may be
+used but only in limited ways.
+For an object under construction or destruction, see [#class.cdtor}.
+Otherwise, such
+a pointer refers to allocated
+storage ([#basic.stc.dynamic.deallocation}), and using the pointer as
+if the pointer were of type [`void*}, is
+well-defined. Indirection through such a pointer is permitted but the resulting lvalue may only be used in
+limited ways, as described below. The
+program has undefined behavior if:
+
+[list]
+[item]
+the object will be or was of a class type with a non-trivial destructor
+and the pointer is used as the operand of a [~delete-expression},
+
+[item]
+the pointer is used to access a non-static data member or call a
+non-static member function of the object, or
+
+[item]
+the pointer is implicitly converted ([#conv.ptr}) to a pointer
+to a virtual base class, or
+
+[item]
+the pointer is used as the operand of a
+[`static_cast} ([#expr.static.cast}), except when the conversion
+is to pointer to [+cv} [`void}, or to pointer to [+cv}
+[`void} and subsequently to pointer to either [+cv}
+[`char} or [+cv} [`unsigned char}, or
+
+[item]
+the pointer is used as the operand of a
+[`dynamic_cast} ([#expr.dynamic.cast}). [enter:example]
+
+
+[codeblock]
+#include <cstdlib>
+
+struct B {
+  virtual void f();
+  void mutate();
+  virtual ~B();
+};
+
+struct D1 : B { void f(); };
+struct D2 : B { void f(); };
+
+void B::mutate() {
+  new (this) D2;    // reuses storage --- ends the lifetime of [`*this}
+  f();              // undefined behavior
+  ... = this;       // OK, [`this} points to valid memory
+}
+
+void g() {
+  void* p = std::malloc(sizeof(D1) + sizeof(D2));
+  B* pb = new (p) D1;
+  pb->mutate();
+  &pb;              // OK: [`pb} points to valid memory
+  void* q = pb;     // OK: [`pb} points to valid memory
+  pb->f();          // undefined behavior, lifetime of [`*pb} has ended
+}
+[codeblock:end]
+[exit:example]
+
+[list:end]
+
+[para]
+Similarly, before the lifetime of an object has started but after the
+storage which the object will occupy has been allocated or, after the
+lifetime of an object has ended and before the storage which the object
+occupied is reused or released, any glvalue that refers to the original
+object may be used but only in limited ways.
+For an object under construction or destruction, see [#class.cdtor}.
+Otherwise, such
+a glvalue refers to
+allocated storage ([#basic.stc.dynamic.deallocation}), and using the
+properties of the glvalue that do not depend on its value is
+well-defined. The program has undefined behavior if:
+
+[list]
+[item]
+an lvalue-to-rvalue conversion ([#conv.lval}) is applied to such a glvalue,
+
+[item]
+the glvalue is used to access a non-static data member or call a
+non-static member function of the object, or
+
+[item]
+the glvalue is bound to a reference
+to a virtual base class ([#dcl.init.ref}), or
+
+[item]
+the glvalue is used as the operand of a
+[`dynamic_cast} ([#expr.dynamic.cast}) or as the operand of
+[`typeid}.
+[list:end]
+
+[para]
+If, after the lifetime of an object has ended and before the storage
+which the object occupied is reused or released, a new object is created
+at the storage location which the original object occupied, a pointer
+that pointed to the original object, a reference that referred to the
+original object, or the name of the original object will automatically
+refer to the new object and, once the lifetime of the new object has
+started, can be used to manipulate the new object, if:
+
+[list]
+[item]
+the storage for the new object exactly overlays the storage
+location which the original object occupied, and
+
+[item]
+the new object is of the same type as the original object
+(ignoring the top-level cv-qualifiers), and
+
+[item]
+the type of the original object is not const-qualified, and, if a
+class type, does not contain any non-static data member whose type is
+const-qualified or a reference type, and
+
+[item]
+the original object was a most derived object ([#intro.object})
+of type [`T} and the new object is a most derived object of type
+[`T} (that is, they are not base class subobjects). [enter:example]
+
+
+[codeblock]
+struct C {
+  int i;
+  void f();
+  const C& operator=( const C& );
+};
+
+const C& C::operator=( const C& other) {
+  if ( this != &other ) {
+    this->~C();                 // lifetime of [`*this} ends
+    new (this) C(other);        // new object of type [`C} created
+    f();                        // well-defined
+  }
+  return *this;
+}
+
+C c1;
+C c2;
+c1 = c2;                        // well-defined
+c1.f();                         // well-defined; [`c1} refers to a new object of type [`C}
+[codeblock:end]
+
+[exit:example]
+
+[list:end]
+
+[para]
+If a program ends the lifetime of an object of type [`T} with
+static ([#basic.stc.static}), thread ([#basic.stc.thread}),
+or automatic ([#basic.stc.auto})
+storage duration and if [`T} has a non-trivial destructor,\footnote{That
+is, an object for which a destructor will be called
+implicitly---upon exit from the block for an object with
+automatic storage duration, upon exit from the thread for an object with
+thread storage duration, or upon exit from the program for an object
+with static storage duration.}
+the program must ensure that an object of the original type occupies
+that same storage location when the implicit destructor call takes
+place; otherwise the behavior of the program is undefined. This is true
+even if the block is exited with an exception. [enter:example]
+
+
+[codeblock]
+class T { };
+struct B {
+   ~B();
+};
+
+void h() {
+   B b;
+   new (&b) T;
+}                               // undefined behavior at block exit
+[codeblock:end]
+[exit:example]
+ 
+
+[para]
+Creating a new object at the storage location that a [`const}
+object with static, thread, or automatic storage duration occupies or, at the
+storage location that such a [`const} object used to occupy before
+its lifetime ended results in undefined behavior. [enter:example]
+
+
+[codeblock]
+struct B {
+  B();
+  ~B();
+};
+
+const B b;
+
+void h() {
+  b.~B();
+  new (const_cast<B*>(&b)) const B;             // undefined behavior
+}
+[codeblock:end]
+[exit:example]
+ 
+
+[para]
+In this section, ["before] and ["after] refer to the ["happens before]
+relation ([#intro.multithread}). [enter:note]
+ Therefore, undefined behavior results
+if an object that is being constructed in one thread is referenced from another
+thread without adequate synchronization. [exit:note]
+%
+[%object~lifetime|)}
+

@@ -1,0 +1,82 @@
+﻿\rSec3[basic.stc.dynamic.deallocation]{Deallocation functions}
+
+[para]
+[%function!deallocation]
+Deallocation functions shall be class member functions or global
+functions; a program is ill-formed if deallocation functions are
+declared in a namespace scope other than global scope or declared static
+in global scope.
+
+[para]
+[%\idxcode{delete}!overloading~and]
+Each deallocation function shall return [`void} and its first
+parameter shall be [`void*}. A deallocation function can have more
+than one parameter.
+The global [`operator delete} with exactly one parameter is a usual
+(non-placement) deallocation function. The global [`operator delete} with
+exactly two parameters, the second of which has type [`std::size_t}, is a usual
+deallocation function. Similarly, the global [`operator delete[]} with exactly one
+parameter is a usual deallocation function. The global [`operator delete[]} with
+exactly two parameters, the second of which has type [`std::size_t}, is a usual
+deallocation function.\footnote{This deallocation function precludes use of an
+allocation function [`void operator new(std::size_t, std::size_t)} as a placement
+allocation function ([#diff.cpp11.basic}).}
+If a class [`T} has a member deallocation
+function named [`operator} [`delete} with exactly one
+parameter, then that function is a usual deallocation
+function. If class [`T} does not declare such an [`operator}
+[`delete} but does declare a member deallocation function named
+[`operator} [`delete} with exactly two parameters, the second
+of which has type [`std::size_t}, then this
+function is a usual deallocation function. Similarly, if a class
+[`T} has a member deallocation function named [`operator}
+[`delete[]} with exactly one parameter, then that function is a
+usual (non-placement) deallocation function. If class [`T} does not
+declare such an [`operator} [`delete[]} but does declare a
+member deallocation function named [`operator} [`delete[]}
+with exactly two parameters, the second of which has type
+[`std::size_t}, then this function is a usual deallocation
+function. A deallocation function can be an instance of a function
+template. Neither the first parameter nor the return type shall depend
+on a template parameter. [enter:note]
+ That is, a deallocation function
+template shall have a first parameter of type [`void*} and a return
+type of [`void} (as specified above). [exit:note]
+ A deallocation
+function template shall have two or more function parameters. A template
+instance is never a usual deallocation function, regardless of its
+signature.
+
+[para]
+If a deallocation function terminates by throwing an exception, the behavior is undefined.
+The value of the first argument supplied to a deallocation function may
+be a null pointer value; if so, and if the deallocation function is one
+supplied in the standard library, the call has no effect. Otherwise,
+the behavior is undefined if
+the
+value supplied to [`operator} [`delete(void*)} in the standard
+library is not one of the values returned by a previous invocation of
+either [`operator} [`new(std::size_t)} or [`operator}
+[`new(std::size_t,} [`const} [`std::nothrow_t\&)} in the
+standard library, and
+the behavior is undefined if
+the value supplied to [`operator}
+[`delete[](void*)} in the standard library is not one of the
+values returned by a previous invocation of either [`operator}
+[`new[](std::size_t)} or [`operator}
+[`new[](std::size_t,} [`const} [`std::nothrow_t\&)} in
+the standard library.
+
+[para]
+If the argument given to a deallocation function in the standard library
+is a pointer that is not the null pointer value ([#conv.ptr}), the
+deallocation function shall deallocate the storage referenced by the
+pointer, rendering invalid all pointers referring to any part of the
+deallocated storage.
+[%object!undefined deleted]
+Indirection through an invalid pointer value and passing an invalid
+pointer value to a deallocation function have undefined behavior. Any
+other use of an invalid pointer value has implementation-defined
+behavior.\footnote{Some implementations might define that copying an
+  invalid pointer value causes a system-generated runtime fault.}
+

@@ -1,0 +1,25 @@
+﻿\rSec2[basic.stc.auto]{Automatic storage duration}
+
+[para]
+[%storage~duration!automatic]
+[%storage~duration!\idxcode{register}]
+[%storage~duration!local object]
+Block-scope variables explicitly declared [`register} or
+not explicitly declared [`static}, [`thread_local}, or [`extern} have
+[def automatic storage duration}. The storage
+for these entities lasts until the block in which they are created exits.
+
+[para]
+[enter:note]
+ 
+These variables are initialized and destroyed as described in [#stmt.dcl}.
+[exit:note]
+ 
+
+[para]
+If a variable with automatic storage duration has initialization or a destructor with side
+effects, it shall not be destroyed before the end of its block, nor
+shall it be eliminated as an optimization even if it appears to be
+unused, except that a class object or its copy/move may be eliminated as
+specified in [#class.copy}.
+

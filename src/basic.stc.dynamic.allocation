@@ -1,0 +1,78 @@
+﻿\rSec3[basic.stc.dynamic.allocation]{Allocation functions}
+
+[para]
+[%function!allocation]
+An allocation function shall be a class member function or a global
+function; a program is ill-formed if an allocation function is declared
+in a namespace scope other than global scope or declared static in
+global scope. The return type shall be [`void*}. The first
+parameter shall have type [`std::size_t} ([#support.types}). The
+first parameter shall not have an associated default
+argument ([#dcl.fct.default}). The value of the first parameter shall
+be interpreted as the requested size of the allocation. An allocation
+function can be a function template. Such a template shall declare its
+return type and first parameter as specified above (that is, template
+parameter types shall not be used in the return type and first parameter
+type). Template allocation functions shall have two or more parameters.
+
+[para]
+The allocation function attempts to allocate the requested amount of
+storage. If it is successful, it shall return the address of the start
+of a block of storage whose length in bytes shall be at least as large
+as the requested size. There are no constraints on the contents of the
+allocated storage on return from the allocation function. The order,
+contiguity, and initial value of storage allocated by successive calls
+to an allocation function are unspecified. The pointer returned shall be
+suitably aligned so that it can be converted to a pointer of any
+complete object type with a fundamental alignment requirement ([#basic.align})
+and then used to access the object or array in the
+storage allocated (until the storage is explicitly deallocated by a call
+to a corresponding deallocation function). Even if the size of the space
+requested is zero, the request can fail. If the request succeeds, the
+value returned shall be a non-null pointer value ([#conv.ptr})
+[`p0} different from any previously returned value [`p1},
+unless that value [`p1} was subsequently passed to an
+[`operator} [`delete}.
+Furthermore, for the library allocation functions
+in [#new.delete.single} and [#new.delete.array},
+[`p0} shall point to a block of storage disjoint from the storage
+for any other object accessible to the caller.
+The effect of indirecting through a pointer
+returned as a request for zero size is undefined.\footnote{The intent is
+to have [`operator new()} implementable by
+calling [`std::malloc()} or [`std::calloc()}, so the rules are
+substantially the same. [=Cpp] differs from C in requiring a zero request
+to return a non-null pointer.}
+
+[para]
+An allocation function that fails to allocate storage can invoke the
+currently installed new-handler function ([#new.handler}), if any.
+[enter:note]
+
+[%\idxcode{new_handler}]
+A program-supplied allocation function can obtain the address of the
+currently installed [`new_handler} using the
+[`std::get_new_handler} function ([#set.new.handler}). [exit:note]
+
+If an allocation function that has a non-throwing
+exception specification ([#except.spec})
+fails to allocate storage, it shall return a null pointer. Any other
+allocation function that fails to allocate storage shall indicate
+failure only by throwing an exception ([#except.throw}) of a type
+that would match a handler ([#except.handle}) of type
+[`std::bad_alloc} ([#bad.alloc}).
+
+[para]
+A global allocation function is only called as the result of a new
+expression ([#expr.new}), or called directly using the function call
+syntax ([#expr.call}), or called indirectly through calls to the
+functions in the [=Cpp] standard library. [enter:note]
+ In particular, a
+global allocation function is not called to allocate storage for objects
+with static storage duration ([#basic.stc.static}), for objects or references
+with thread storage duration ([#basic.stc.thread}), for objects of
+type [`std::type_info} ([#expr.typeid}), or for an
+exception object ([#except.throw}).
+[exit:note]
+
+
