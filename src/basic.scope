@@ -1,0 +1,38 @@
+﻿[section#basic.scope
+    [:en] Scope
+    [:zh_CN] 作用域
+]
+
+[%:begin#scope
+    [:en] scope
+    [:zh_CN] 作用域
+]
+
+[%:begin#scope.declarations
+    [:en] scope [! declarations]
+    [:zh_CN] 作用域 [! 声明式与～]
+]
+
+[include basic.scope.declarative]
+
+[include basic.scope.pdecl]
+
+[%:end#scope.declarations]
+
+[include basic.scope.block]
+
+[include basic.scope.proto]
+
+[include basic.funscope]
+
+[include basic.scope.namespace]
+
+[include basic.scope.class]
+
+[include basic.scope.enum]
+
+[include basic.scope.temp]
+
+[include basic.scope.hiding]
+
+[%:end#scope]
