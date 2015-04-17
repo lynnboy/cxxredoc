@@ -20,7 +20,7 @@ If the [~elaborated-type-specifier] has no [~nested-name-specifier], and unless
 the [~elaborated-type-specifier] appears in a declaration with the following
 form:
 
-[syntax:descriptive]
+[syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
 [syntax:end]
 
@@ -38,7 +38,7 @@ If the [~elaborated-type-specifier] is introduced by the [~class-key] and this
 lookup does not find a previously declared [~type-name], or if the
 [~elaborated-type-specifier] appears in a declaration with the form:
 
-[syntax:descriptive]
+[syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
 [syntax:end]
 

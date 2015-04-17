@@ -1,0 +1,146 @@
+﻿[section:chapter#conv.lval
+    [:en] Lvalue-to-rvalue conversion
+    [:zh_CN] 左值向右值转换
+]
+
+[para]
+[:en]
+[%conversion[!lvalue-to-rvalue]] [%type[!incomplete]]
+A glvalue ([#basic.lval]) of a non-function, non-array type [`T] can be
+converted to a prvalue.
+[:zh_CN]
+[%转换[!左值向右值～]] [%类型[!不完整～]]
+非函数，非数组的类型 [`T] 的泛左值（[#basic.lval]）可被转换为纯右值。
+
+[footnote]
+[:en]
+For historical reasons, this conversion is called the ["lvalue-to-rvalue]
+conversion, even though that name does not accurately reflect the taxonomy of
+expressions described in [#basic.lval].
+[:zh_CN]
+由于历史原因，这种转换被称为“左值向右值”转换，虽然这个名字并不能精确反映在
+[#basic.lval] 中所描述的表达式分类法。
+[footnote:end]
+
+[:en]
+If [`T] is an incomplete type, a program that necessitates this conversion is
+ill-formed.
+[:zh_CN]
+若 [`T] 是不完整类型，则需要进行这种转换的程序是非良构的。
+
+[:en]
+If [`T] is a non-class type, the type of the prvalue is the [=cv]-unqualified
+version of [`T].
+[:zh_CN]
+若 [`T] 不是类类型，则其纯右值的类型是 [`T] 的 [=cv]-未限定的版本。
+
+[:en]
+Otherwise, the type of the prvalue is [`T].
+[:zh_CN]
+否则，该纯右值的类型是 [`T]。
+
+[footnote]
+[:en]
+In [=Cpp] class prvalues can have [=cv]-qualified types (because they are
+objects).
+[:zh_CN]
+在 [=Cpp] 中，类的纯右值可以具有 [=cv]-限定的类型（因为它们是对象）。
+
+[:en]
+This differs from ISO C, in which non-lvalues never have [=cv]-qualified types.
+[:zh_CN]
+[footnote:end]
+这与 ISO C 中非左值不会有 [=cv]-限定的类型是不同的。
+
+[para]
+[:en]
+When an lvalue-to-rvalue conversion is applied to an expression [`e], and either
+[:zh_CN]
+当对表达式 [`e] 实施左值向右值转换，并且要么
+
+[list]
+[item]
+[:en@~]
+[`e] is not potentially evaluated, or
+[:zh_CN@~]
+[`e] 未被潜在求值，要么
+
+[item]
+[:en@~]
+the evaluation of [`e] results in the evaluation of a member [`ex] of the set of
+potential results of [`e], and [`ex] names a variable [`x] that is not odr-used
+by [`ex] ([#basic.def.odr]),
+[:zh_CN@~]
+[`e] 的求值导致对 [`e] 的潜在结果集合中的成员 [`ex] 的求值，而 [`ex] 指名的变量
+[`x] 未被 [`ex] ODR-式使用（[#basic.def.odr]），
+[list:end]
+
+[:en@~]
+the value contained in the referenced object is not accessed.
+[:zh_CN@~]
+则不会访问所引用的对象中的值。
+
+[enter:example]
+[codeblock]
+struct S { int n; };
+auto f() {
+  S x { 1 };
+  constexpr S y { 2 };
+  return [&](bool b) { return (b ? y : x).n; };
+}
+auto g = f();
+int m = g(false); // [:en] undefined behavior due to access of [`x.n] outside its lifetime
+                  // [|:zh_CN] 未定义行为，因对 [`x.n] 的访问超出其生存期
+int n = g(true);  // [:en] OK, does not access [`y.n]
+                  // [|:zh_CN] OK，并未访问 [`y.n]
+[codeblock:end]
+[exit:example]
+
+[:en]
+In all other cases, the result of the conversion is determined according to the
+following rules:
+[:zh_CN]
+其他所有情况下，根据如下规则来确定转换的结果：
+
+[list]
+
+[item]
+[:en]
+If [`T] is (possibly [=cv]-qualified) [`std::nullptr_t], the result is a null
+pointer constant ([#conv.ptr]).
+[:zh_CN]
+若 [`T] 是（可能被 [=cv]-限定的）[`std::nullptr_t]，则其纯右值结果是空指针常量
+（[#conv.ptr]）。
+
+[item]
+[:en]
+Otherwise, if [`T] has a class type, the conversion copy-initializes a temporary
+of type [`T] from the glvalue and the result of the conversion is a prvalue for
+the temporary.
+[:zh_CN]
+否则，若 [`T] 为类类型，则该转换以该泛左值来复制初始化一个 [`T] 类型的临时对象，
+而其转换的结果就是此临时对象的纯右值。
+
+[item]
+[:en]
+Otherwise, if the object to which the glvalue refers contains an invalid pointer
+value ([#basic.stc.dynamic.deallocation], [#basic.stc.dynamic.safety]), the
+behavior is implementation-defined.
+[:zh_CN]
+否则，若该泛左值所指代的对象包含无效指针值（[#basic.stc.dynamic.deallocation]， [#basic.stc.dynamic.safety]），则其行为是由实现定义的。
+
+[item]
+[:en]
+Otherwise, the value contained in the object indicated by the glvalue is the
+prvalue result.
+[:zh_CN]
+否则，该泛左值指定的对象中包含的值就是其纯右值结果。
+[list:end]
+
+[para]
+[enter:note]
+[:en]
+See also [#basic.lval].
+[:zh_CN]
+另见 [#basic.lval]。
+[exit:note]

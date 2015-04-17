@@ -61,7 +61,7 @@ void B::f(::A* a) {
 If the [~id-expression] in a class member access is a [~qualified-id] of the
 form
 
-[syntax:descriptive]
+[syntax:explanation]
 [`class-name-or-namespace-name::...]
 [syntax:end]
 
@@ -83,7 +83,7 @@ which will only find a type or namespace name.
 [:en]
 If the [~qualified-id] has the form
 
-[syntax:descriptive]
+[syntax:explanation]
 [`::class-name-or-namespace-name::...]
 [syntax:end]
 

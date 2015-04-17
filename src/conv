@@ -1,0 +1,293 @@
+﻿[section:chapter#conv
+    [:en] Standard conversions
+    [:zh_CN] 标准转换
+]
+
+[index
+    [:en] implicit conversion [see conversion[!implicit]]
+    [:zh_CN] 隐式转换 [see 转换 [!隐式～]]
+]
+
+[index
+    [:en] contextually converted to bool [see conversion [!contextual]]
+    [:zh_CN] 按语境转换为 bool [see 转换 [!按语境～]]
+]
+
+[index
+    [:en] rvalue [!lvalue conversion to] [see conversion [! lvalue to rvalue]]
+    [:zh_CN] 右值 [!左值向～转换] [see 转换 [!左值向右值～]]
+]
+
+[index:begin#conversion.standard
+    [:en] conversion [!standard]
+    [:zh_CN] 转换 [!标准～]]
+]
+
+
+[para]
+[:en]
+[%conversion[!implicit]]
+Standard conversions are implicit conversions with built-in meaning.
+[:zh_CN]
+[%转换 [!隐式～]]
+标准转换是具有内建含义的隐式转换。
+
+[:en]
+Clause [#conv] enumerates the full set of such conversions.
+[:zh_CN]
+第 [#conv] 条列举了所有这些转换。
+
+[:en]
+A [%sequence[!standard conversion]] [+standard conversion sequence] is a
+sequence of standard conversions in the following order:
+[:zh_CN]
+[%序列[!标准转换～]][+标准转换序列]是按如下顺序进行的一系列标准转换：
+
+[list]
+[item]
+[:en]
+Zero or one conversion from the following set: lvalue-to-rvalue conversion,
+array-to-pointer conversion, and function-to-pointer conversion.
+[:zh_CN]
+如下集合中的零或一个转换：左值向右值转换，数组向指针转换和函数向指针转换。
+
+[item]
+[:en]
+Zero or one conversion from the following set: integral promotions, floating
+point promotion, integral conversions, floating point conversions,
+floating-integral conversions, pointer conversions, pointer to member
+conversions, and boolean conversions.
+[:zh_CN]
+如下集合中的零或一个转换：整型提升，浮点提升，整型转换，浮点转换，浮点整型转换，
+指针转换，成员指针转换，和布尔转换。
+
+[item]
+[:en]
+Zero or one qualification conversion.
+[:zh_CN]
+零或一个限定性转换。
+[list:end]
+
+[enter:note]
+[:en]
+A standard conversion sequence can be empty, i.e., it can consist of no
+conversions.
+[:zh_CN]
+标准转换序列可以为空，就是说，由零个转换组成。
+[exit:note]
+
+[:en]
+A standard conversion sequence will be applied to an expression if necessary to
+convert it to a required destination type.
+[:zh_CN]
+如果需要，将对表达式实施标准转换序列，以将其转换为所需的目标类型。
+
+[para]
+[enter:note]
+[:en]
+expressions with a given type will be implicitly converted to other types in
+several contexts:
+[:zh_CN]
+在一些语境下，给定类型的表达式将被隐式转换为其他类型：
+
+[list]
+
+[item]
+[:en]
+When used as operands of operators.
+[:zh_CN]
+用于运算符的操作数。
+
+[:en]
+The operator's requirements for its operands dictate the destination type
+(Clause [#expr]).
+[:zh_CN]
+根据运算符对操作数的规定决定目标类型（第 [#expr] 条）。
+
+[item]
+[:en]
+When used in the condition of an [`if] statement or iteration statement
+([#stmt.select], [#stmt.iter]).
+[:zh_CN]
+用于 [`if] 语句或循环语句的条件中（[#stmt.select]，[#stmt.iter]）。
+
+[:en]
+The destination type is [`bool].
+[:zh_CN]
+目标类型为 [`bool]。
+
+[item]
+[:en]
+When used in the expression of a [`switch] statement.
+[:zh_CN]
+用于 [`switch] 语句的表达式中。
+
+[:en]
+The destination type is integral ([#stmt.select]).
+[:zh_CN]
+目标类型为整形（[#stmt.select]）。
+
+[item]
+[:en]
+When used as the source expression for an initialization (which includes use as
+an argument in a function call and use as the expression in a [`return]
+statement).
+[:zh_CN]
+用作初始化的源表达式（包括用作函数调用中的实参，以及用作 [`return] 语句中的表达
+式）。
+
+[:en]
+The type of the entity being initialized is (generally) the destination type.
+[:zh_CN]
+目标类型（通常）为所初始化的实体的类型。
+
+[:en]
+See [#dcl.init], [#dcl.init.ref].
+[:zh_CN]
+见 [#dcl.init]，[#dcl.init.ref]。
+
+[list:end]
+
+[exit:note]
+
+[para]
+[:en]
+An expression [`e] can be [%conversion[!implicit]] [+implicitly converted] to a
+type [`T] if and only if the declaration [`T t=e;] is well-formed, for some
+invented temporary variable [`t] ([#dcl.init]).
+[:zh_CN]
+当且仅当对于虚构的临时变量 [`t]，声明式 [`T t=e;] 良构时，表达式 [`e] 可被
+[%转换[!隐式～]][+隐式转换]为类型 [`T]（[#dcl.init]）。
+
+[para]
+[:en]
+Certain language constructs require that an expression be converted to a Boolean
+value.
+[:zh_CN]
+一些语言构造需要将表达式转换为布尔值。
+
+[:en]
+An expression [`e] appearing in such a context is said to be
+[%conversion[!contextual to [`bool]]] [+contextually converted to [`bool]]
+and is well-formed if and only if the declaration [`bool t(e);] is well-formed,
+for some invented temporary variable [`t] ([#dcl.init]).
+[:zh_CN]
+出现在这种语境中的表达式 [`e] 被[%转换[!按语境～为 [`bool]]][+按语境转换为
+[`bool]]，当且仅当对于虚构的临时变量 [`t]，声明式 [`bool t(e);] 良构时，它是
+良构的（[#dcl.init]）。
+
+[para]
+[:en]
+Certain language constructs require conversion to a value having one of a
+specified set of types appropriate to the construct.
+[:zh_CN]
+一些语言构造需要向适用于该构造的一组类型之一进行转换。
+
+[:en]
+An expression [`e] of class type [`E] appearing in such a context is said to be
+[%conversion[!contextual]] [+contextually implicitly converted to] a specified
+type [`T] and is well-formed if and only if [`e] can be implicitly converted to
+a type [`T] that is determined as follows:
+[:zh_CN]
+出现在这种语境中的类类型 [`E] 的表达式 [`e]，被[%转换[!按语境～]][+按语境隐式
+转换为]某个指定类型 [`T]，当且仅当 [`e] 可以被隐式转换为如下所确定的类型 [`T] 时
+它是良构的（[#dcl.init]）：
+
+[:en]
+[`E] is searched for conversion functions whose return type is [=cv] [`T] or
+reference to [=cv] [`T] such that [`T] is allowed by the context.
+[:zh_CN]
+为 [`E] 搜索返回类型为 [=cv] [`T] 或指代 [=cv] [`T] 的引用的转换函数，并使该语境
+可以接受 [`T]。
+
+[:en]
+There shall be exactly one such [`T].
+[:zh_CN]
+这样的 [`T] 应当恰好唯一。
+
+[para]
+[:en]
+The effect of any implicit conversion is the same as performing the
+corresponding declaration and initialization and then using the temporary
+variable as the result of the conversion.
+[:zh_CN]
+隐式转换的效果，等同于实施其所对应的声明和初始化，然后将临时变量作为转换的结果。
+
+[:en]
+The result is an lvalue if [`T] is an lvalue reference type or an rvalue
+reference to function type ([#dcl.ref]), an xvalue if [`T] is an rvalue
+reference to object type, and a prvalue otherwise.
+[:zh_CN]
+当 [`T] 是左值引用类型或指代函数的右值引用类型（[#dcl.ref]）时，其结果是左值，当
+[`T] 是指代对象的右值引用类型时，其结果是临限值，否则就是纯右值。
+
+[:en]
+The expression [`e] is used as a glvalue if and only if the initialization uses
+it as a glvalue.
+[:zh_CN]
+当且仅当在初始化中将它用作泛左值时，表达式 [`e] 才被用作泛左值。
+
+[para]
+[enter:note]
+[:en]
+For class types, user-defined conversions are considered as well; see
+[#class.conv].
+[:zh_CN]
+对于类类型，还要考察自定义转换；见 [#class.conv]。
+
+[:en]
+In general, an implicit conversion sequence ([#over.best.ics]) consists of a
+standard conversion sequence followed by a user-defined conversion followed by
+another standard conversion sequence.
+[:zh_CN]
+一般地，隐式转换序列（[#over.best.ics]）由一个标准转换序列跟着一个自定义转换再
+跟着另一个标准转换序列构成。
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+There are some contexts where certain conversions are suppressed.
+[:zh_CN]
+有些语境中抑制了特定的转换。
+
+[:en]
+For example, the lvalue-to-rvalue conversion is not done on the operand of the
+unary [`&] operator.
+[:zh_CN]
+例如，一元 [`&] 运算符的操作数并不进行左值向右值转换。
+
+[:en]
+Specific exceptions are given in the descriptions of those operators and
+contexts.
+[:zh_CN]
+具体的例外都在这些运算符和语境的描述中给出。
+[exit:note]
+
+[include conv.lval]
+
+[include conv.array]
+
+[include conv.func]
+
+[include conv.qual]
+
+[include conv.prom]
+
+[include conv.fpprom]
+
+[include conv.integral]
+
+[include conv.double]
+
+[include conv.fpint]
+
+[include conv.ptr]
+
+[include conv.mem]
+
+[include conv.bool]
+
+[include conv.rank]
+
+[index:end#conversion.standard]

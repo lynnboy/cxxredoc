@@ -1,0 +1,70 @@
+﻿[section:chapter#conv.integral
+    [:en] Integral conversions
+    [:zh_CN] 整型转换
+]
+
+[para]
+[:en]
+[%conversion[!integral]]
+A prvalue of an integer type can be converted to a prvalue of another integer
+type.
+[:zh_CN]
+[%转换[!整型～]]
+整数类型的纯右值可以转换为其他整数类型的纯右值。
+
+[:en]
+A prvalue of an unscoped enumeration type can be converted to a prvalue of an
+integer type.
+[:zh_CN]
+无作用域枚举类型的纯右值可以转换为整数类型的纯右值。
+
+[para]
+[:en]
+[%conversion[!to unsigned]]
+If the destination type is unsigned, the resulting value is the least unsigned
+integer congruent to the source integer (modulo [$2[^n]] where [$n] is the
+number of bits used to represent the unsigned type).
+[:zh_CN]
+[%转换[!～为无符号]]
+若目标类型是无符号的，则结果值为源整数的最小同余无符号整数（模 [$2[^n]]，其中
+[$n] 为用于表示该无符号类型的位数）。
+
+[enter:note]
+[:en]
+In a two's complement representation, this conversion is conceptual and there is
+no change in the bit pattern (if there is no truncation).
+[:zh_CN]
+在二的补码表示中，（当没有发生截断时）该转换是概念上的并且其位模式并没有改变。
+[exit:note]
+
+[para]
+[:en]
+[%conversion[!to signed]]
+If the destination type is signed, the value is unchanged if it can be
+represented in the destination type; otherwise, the value is [%@impldef value of
+result of unsigned to signed conversion] implementation-defined.
+[:zh_CN]
+[%转换[!～为有符号]]
+若目标类型是有符号的，则当它可被目标类型（以及位字段宽度）表示时值不变；否则，
+其值是[%@impldef 无符号向有符号转换结果值]由实现定义的。
+
+[para]
+[:en]
+[%conversion[![`bool]]]
+If the destination type is [`bool], see [#conv.bool].
+[:zh_CN]
+[%转换[![`bool]]]
+若目标类型是 [`bool]，参见 [#conv.bool]。
+
+[:en]
+If the source type is [`bool], the value [`false] is converted to zero and the
+value [`true] is converted to one.
+[:zh_CN]
+若源类型是 [`bool]，则值 [`false] 转换为零而值 [`true] 转换为一。
+
+[para]
+[:en]
+The conversions allowed as integral promotions are excluded from the set of
+integral conversions.
+[:zh_CN]
+整型转换集合中不包括允许作为整型提升的转换。

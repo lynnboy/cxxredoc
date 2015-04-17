@@ -1,0 +1,172 @@
+﻿[section:chapter#conv.qual
+    [:en] Qualification conversions
+    [:zh_CN] 限定性转换
+]
+
+[%:begin#conversion.qualification
+    [:en] conversion [!qualification]
+    [:zh_CN] 转换 [!限定性～]
+]
+
+[para]
+[:en]
+A [def cv-decomposition] of a type [`T] is a sequence of [$cv[_i]] and [$P[_i]]
+such that [`T] is
+[:zh_CN]
+类型 [`T] 的[def cv-分解式]，是一系列 [$cv[_i]] 和 [$P[_i]]，使得 [`T] 为
+
+[syntax:explanation]
+[:en@~]
+["[$cv[_0]] [$P[_0]] [$cv[_1]] [$P[_1]] [=cdots] [$cv[_n-1]] [$P[_n-1]]
+[$cv[_n]] [`U]] for [$n > 0],
+[:zh_CN@~]
+对于 [$n > 0]，有 ["[$cv[_0]] [$P[_0]] [$cv[_1]] [$P[_1]] [=cdots] [$cv[_n-1]]
+[$P[_n-1]] [$cv[_n]] [`U]]，
+[syntax:end]
+
+[:en@~]
+where each [$cv[_i]] is a set of cv-qualifiers ([#basic.type.qualifier]), and
+each [$P[_i]] is ["pointer to] ([#dcl.ptr]), ["pointer to member of class
+[$C[_i]] of type] ([#dcl.mptr]), ["array of [$N[_i]]], or ["array of unknown
+bound of] ([#dcl.array]).
+[:zh_CN@~]
+其中各个 [$cv[_i]] 是一组 cv-限定符（[#basic.type.qualifier]），而各个 [$P[_i]]
+为“指向～的指针”（[#dcl.ptr]），“指向类 [$C[_i]] 中～类型的成员的指针”
+（[#dcl.mptr]），“[$N[_i]] 个～的数组”，或“未知边界的～的数组”（[#dcl.array]）。
+
+[:en]
+If [$P[_i]] designates an array, the cv-qualifiers [$cv[_i+1]] on the element
+type are also taken as the cv-qualifiers [$cv[_i]] of the array.
+[:zh_CN]
+若 [$P[_i]] 代表数组，则元素类型上的 cv-限定符 [$cv[_i+1]] 也作为该数组的
+cv-限定符 [$cv[_i]]。
+
+[enter:example]
+[:en]
+The type denoted by the [~type-id] [`const int **] has two cv-decompositions,
+taking [`U] as ["[`int]] and as ["pointer to [`const int]].
+[:zh_CN]
+[~类型标识] [`const int **] 所代表的类型具有两个 cv-分解式，其 [`U] 分别为
+“[`int]”和“[`const int] 的指针”。
+[exit:example]
+
+The [$n]-tuple of cv-qualifiers after the first one in the longest
+cv-decomposition of [`T], that is, [$cv[_1]], [$cv[_2]], [=cdots], [$cv[_n]], is
+called the [def cv-qualification signature] of [`T].
+[:zh_CN]
+[`T] 的最长 cv-分解式中，第一个之后的 cv-限定符的 [$n]-元组，被称作 [`T] 的
+[def cv-限定性签名]。
+
+[para]
+[:en]
+[%type[!similar][see similar types]]
+Two types [`T1] and [`T2] are [def similar [%similar types]] if they have
+cv-decompositions with the same [$n] such that corresponding [$P[_i]] components
+are the same and the types denoted by [`U] are the same.
+[:zh_CN]
+[%类型[!相似～][see 相似类型]]
+如果两个类型 [`T1] 和 [`T2] 具有 [$n] 相同的 cv-分解式，使得其对应的 [$P[_i]]
+成分相同且 [`U] 所代表的类型也相同，则它们[def 相似[%相似类型]]。
+
+[para]
+[:en]
+A prvalue expression of type [`T1] can be converted to type [`T2] if the
+following conditions are satisfied, where [$cv[_i][^j]] denotes the
+cv-qualifiers in the cv-qualification signature of [$T[_j]]
+[:zh_CN]
+当满足如下条件时，[`T1] 类型的纯右值表达式可以被转换为类型 [`T2]，其中
+[$cv[_i][^j]] 代表 [$T[_j]] 的 cv-限定性签名中的 cv-限定符
+
+[footnote]
+[:en]
+These rules ensure that const-safety is preserved by the conversion.
+[:zh_CN]
+这些规则确保在转换之中维持 const-安全性。
+[footnote:end]
+
+[:en@~]
+:
+[:zh_CN@~]
+：
+
+[list]
+[item]
+[:en]
+[`T1] and [`T2] are similar.
+[:zh_CN]
+[`T1] 和 [`T2] 相似。
+
+[item]
+[:en]
+For every [$i > 0], if [`const] is in [$cv[_i][^1]] then [`const] is in
+[$cv[_i][^2]], and similarly for [`volatile].
+[:zh_CN]
+对于每个 [$i > 0]，若 [`const] 在 [$cv[_i][^1]] 中，则 [`const] 也在
+[$cv[_i][^2]] 中，[`volatile] 与此相似。
+
+[item]
+[:en]
+If the [$cv[_i][^1]] and [$cv[_i][^2]] are different, then [`const] is in every
+[$cv[_k][^2]] for [$0 < k < i].
+[:zh_CN]
+若 [$cv[_i][^1]] 和 [$cv[_i][^2]] 不同，则对于 [$0 < k < i]，[`const] 在每个
+[$cv[_k][^2]] 中。
+[list:end]
+
+[enter:note]
+[:en]
+if a program could assign a pointer of type [`T**] to a pointer of type [`const]
+[`T**] (that is, if line [`#1] below were allowed), a program could
+inadvertently modify a [`const] object (as it is done on line [`#2]).
+[:zh_CN]
+如果程序能够把类型 [`T**] 的指针转换为类型 [`const] [`T**] 的指针（就是说，如果
+允许下面的行 [`#1]），程序就可能不慎地改动 [`const] 对象（如行 [`#2] 所作）。
+
+[:en]
+For example,
+[:zh_CN]
+例如，
+
+[codeblock]
+int main() {
+  const char c = 'c';
+  char* pc;
+  const char** pcc = &pc;       // [:en] #1: not allowed
+                                // [|:zh_CN] #1：不允许这样
+  *pcc = &c;
+  *pc = 'C';                    // [:en] #2: modifies a [`const] object
+                                // [|:zh_CN] #2：改动了 [`const] 对象
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[enternote]
+[:en]
+A prvalue of type ["pointer to [$cv1] [`T]] can be converted to a prvalue of
+type ["pointer to [$cv2] [`T]] if ["[$cv2] [`T]] is more cv-qualified than
+["[$cv1] [`T]].
+[:zh_CN]
+如果“[$cv2] [`T]”是比“[$cv1] [`T]”更加 cv-限定的，那么类型“指向 [$cv1] [`T]
+的指针”的纯右值可以被转换为类型“指向 [$cv2] [`T] 的指针”的纯右值。
+
+[:en]
+A prvalue of type ["pointer to member of [`X] of type [$cv1] [`T]] can be
+converted to a prvalue of type ["pointer to member of [`X] of type [$cv2] [`T]]
+if ["[$cv2] [`T]] is more cv-qualified than ["[$cv1] [`T]].
+[:zh_CN]
+如果“[$cv2] [`T]”是比“[$cv1] [`T]”更加 cv-限定的，那么类型“指向 [`X] 中 [$cv1]
+[`T] 类型的成员的指针”的纯右值可以被转换为类型“指向 [`X] 中 [$cv2] [`T] 类型的
+成员的指针”的纯右值。
+[exit:note]
+
+[para]
+[enternote]
+[:en]
+Function types (including those used in pointer to member function types) are
+never cv-qualified ([#dcl.fct]).
+[:zh_CN]
+[exit:note]
+函数类型（包括用在指向成员函数的指针中的）总不是 cv-限定的（[#dcl.fct]）。
+
+[%:end#conversion.qualification]

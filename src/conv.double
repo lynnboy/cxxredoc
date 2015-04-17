@@ -1,0 +1,39 @@
+﻿[section:chapter#conv.double
+    [:en] Floating point conversions
+    [:zh_CN] 浮点转换
+]
+
+[para]
+[:en]
+[%conversion[!floating point]]
+A prvalue of floating point type can be converted to a prvalue of another
+floating point type.
+[:zh_CN]
+[%转换[!浮点～]]
+浮点类型的纯右值可以转换为其他浮点类型的纯右值。
+
+[:en]
+If the source value can be exactly represented in the destination type, the
+result of the conversion is that exact representation.
+[:zh_CN]
+若源值能够被目标类型精确表示，则转换的结果就是这个精确表示。
+
+[:en]
+If the source value is between two adjacent destination values, the result of
+the conversion is an [%@impldef result of inexact floating-point conversion]
+implementation-defined choice of either of those values.
+[:zh_CN]
+若源值处于两个相邻目标值之间，则转换的结果是这两个值之间[%@impldef 不精确浮点
+转换的结果]由实现定义的选择。
+
+[:en]
+Otherwise, the behavior is undefined.
+[:zh_CN]
+否则，其行为未定义。
+
+[para]
+[:en]
+The conversions allowed as floating point promotions are excluded from the set
+of floating point conversions.
+[:zh_CN]
+浮点转换集合中不包括允许作为浮点提升的转换。

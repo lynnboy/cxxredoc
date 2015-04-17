@@ -1,0 +1,37 @@
+﻿[section:chapter#conv.func
+    [:en] Function-to-pointer conversion
+    [:zh_CN] 函数向指针转换
+]
+
+[para]
+[:en]
+[%conversion[!function-to-pointer]]
+[%decay [see conversion[!function to pointer]]]
+An lvalue of function type [`T] can be converted to a prvalue of type ["pointer
+to [`T].]
+[:zh_CN]
+[%转换[!函数向指针～]]
+[%衰退 [see 转换[!函数向指针～]]]
+函数类型 [`T] 的左值可被转换为类型“指向 [`T] 的指针”的纯右值。
+
+[:en]
+The result is a pointer to the function.
+[:zh_CN]
+其结果是指向该函数的指针。
+
+[footnote]
+[:en]
+This conversion never applies to non-static member functions because an lvalue
+that refers to a non-static member function cannot be obtained.
+[:zh_CN]
+该转换不会施加于非静态成员函数，这是因为无法获得指代非静态成员函数的左值。
+[footnote:end]
+
+[para]
+[enter:note]
+[:en]
+See [#over.over] for additional rules for the case where the function is
+overloaded.
+[:zh_CN]
+对于重载函数情况下的附加规则，参见 [#over.over]。
+[exit:note]

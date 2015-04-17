@@ -1,0 +1,21 @@
+﻿[section:chapter#conv.array
+    [:en] Array-to-pointer conversion
+    [:zh_CN] 数组向指针转换
+]
+
+[para]
+[:en]
+[%conversion[!array-to-pointer]]
+[%decay [see conversion[!array to pointer]]]
+An lvalue or rvalue of type ["array of [`N] [`T]] or ["array of unknown bound of
+[`T]] can be converted to a prvalue of type ["pointer to [`T]].
+[:zh_CN]
+[%转换[!数组向指针～]]
+[%衰退 [see 转换[!数组向指针～]]]
+类型“[`N] 个 [`T] 的数组”或“未知边界的 [`T] 的数组”的左值或右值，可被转换为类型
+“指向 [`T] 的指针”的纯右值。
+
+[:en]
+The result is a pointer to the first element of the array.
+[:zh_CN]
+其结果是指向该数组第一个元素的指针。

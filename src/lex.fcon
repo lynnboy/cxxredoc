@@ -11,7 +11,7 @@
     [| digit-sequence exponent-part [~:opt floating-suffix]]
 [rule:end]
 
-[rule fractional-constant [:zh_CN] 分数常量]
+[rule fractional-constant [:zh_CN] 小数常量]
     [| [~:opt digit-sequence] [`.] digit-sequence]
     [| digit-sequence [`.]]
 [rule:end]
@@ -43,14 +43,14 @@ A floating literal consists of an integer part, a decimal point, a fraction
 part, an [%suffix[![`e]]] [`e] or [%suffix[![`E]]] [`E], an optionally signed
 integer exponent, and an optional type suffix.
 [:zh_CN]
-浮点字面量由整数部分，小数点，分数部分，[%后缀[![`e]]] [`e] 或 [%后缀[![`E]]]
+浮点字面量由整数部分，小数点，小数部分，[%后缀[![`e]]] [`e] 或 [%后缀[![`E]]]
 [`E]，带有可选正负号的整数指数，以及可选的类型后缀组成。
 
 [:en]
 The integer and fraction parts both consist of a sequence of decimal (base ten)
 digits.
 [:zh_CN]
-整数和分数部分都由十进制（以十为基）数字序列组成。
+整数和小数部分都由十进制（以十为基）数字序列组成。
 
 [:en]
 Optional separating single quotes in a [~digit-sequence] are ignored when
@@ -68,7 +68,7 @@ The literals [`1.602'176'565e-19] and [`1.602176565e-19] have the same value.
 [:en]
 Either the integer part or the fraction part (not both) can be omitted;
 [:zh_CN]
-整数部分和分数部分都可以（但不可同时）省略；
+整数部分和小数部分都可以（但不可同时）省略；
 
 [:en]
 either the decimal point or the letter [`e] (or [`E]) and the exponent (not
@@ -80,7 +80,7 @@ both) can be omitted.
 The integer part, the optional decimal point and the optional fraction part form
 the [+significant part] of the floating literal.
 [:zh_CN]
-整数部分、可选的小数点以及可选的分数部分组成浮点字面量的[+有效部分]。
+整数部分、可选的小数点以及可选的小数部分组成浮点字面量的[+有效部分]。
 
 [:en]
 The exponent, if present, indicates the power of 10 by which the significant

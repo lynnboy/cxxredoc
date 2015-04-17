@@ -1,0 +1,122 @@
+﻿[section:chapter#conv.prom
+    [:en] Integral promotions
+    [:zh_CN] 整型提升
+]
+
+[para]
+[:en]
+[%promotion[!integral]]
+A prvalue of an integer type other than [`bool], [`char16_t], [`char32_t], or
+[`wchar_t] whose integer conversion rank ([#conv.rank]) is less than the rank of
+[`int] can be converted to a prvalue of type [`int] if [`int] can represent all
+the values of the source type; otherwise, the source prvalue can be converted to
+a prvalue of type [`unsigned int].
+[:zh_CN]
+[%提升[!整型～]]
+不是 [`bool]，[`char16_t]，[`char32_t] 或 [`wchar_t]，且其整数转换等级
+（[#conv.rank]）低于 [`int] 的等级的整数类型的纯右值，若 [`int] 能够表示源类型的
+全部值，则可以转换为类型 [`int]；否则，源纯右值可以转换为类型 [`unsigned int]。
+
+[para]
+[:en]
+A prvalue of type [`char16_t], [`char32_t], or [`wchar_t] ([#basic.fundamental])
+can be converted to a prvalue of the first of the following types that can
+represent all the values of its underlying type: [`int], [`unsigned int], [`long
+int], [`unsigned long int], [`long long int], or [`unsigned long long int].
+[:zh_CN]
+类型 [`char16_t]，[`char32_t]，或 [`wchar_t]（[#basic.fundamental]）的纯右值，
+可以转换为下列类型中首个能够表示其底层类型的全部值的类型的纯右值：[`int]，
+[`unsigned int]，[`long int]，[`unsigned long int]，[`long long int]，或
+[`unsigned long long int]。
+
+[:en]
+If none of the types in that list can represent all the values of its underlying
+type, a prvalue of type [`char16_t], [`char32_t], or [`wchar_t] can be converted
+to a prvalue of its underlying type.
+[:zh_CN]
+若这个列表中没有能够表示其底层类型的全部值的类型，则类型 [`char16_t]，
+[`char32_t]，或 [`wchar_t] 的纯右值可以转换为其底层类型的纯右值。
+
+[para]
+[:en]
+A prvalue of an unscoped enumeration type whose underlying type is not fixed
+([#dcl.enum]) can be converted to a prvalue of the first of the following types
+that can represent all the values of the enumeration (i.e., the values in the
+range [$b[_[$min]]] to [$b[_[$max]]] as described in [#dcl.enum]): [`int],
+[`unsigned int], [`long int], [`unsigned long int], [`long long int], or
+[`unsigned long long int].
+[:zh_CN]
+底层类型未固定的无作用域枚举类型（[#dcl.enum]）的纯右值，可以转换为下列类型中
+首个能够表示该枚举的全部值（也就是，在 [#dcl.enum] 中所述的从 [$b[_[$min]]] 到
+[$b[_[$max]]] 范围内的值）的类型的纯右值：[`int]，[`unsigned int]，[`long int]，
+[`unsigned long int]，[`long long int]，或 [`unsigned long long int]。
+
+[:en]
+If none of the types in that list can represent all the values of the
+enumeration, a prvalue of an unscoped enumeration type can be converted to a
+prvalue of the extended integer type with lowest integer conversion rank
+([#conv.rank]) greater than the rank of [`long long] in which all the values of
+the enumeration can be represented.
+[:zh_CN]
+若这个列表中没有能够表示该枚举的全部值的类型，无作用域枚举类型的纯右值可以转换为
+能够表示该枚举的全部值的，其整数转换等级大于 [`long long] 的整数转换等级
+（[#conv.rank]）的类型中最低等级的类型的纯右值。
+
+[:en]
+If there are two such extended types, the signed one is chosen.
+[:zh_CN]
+如果这种扩展类型有两个，则选择有符号的那个。
+
+[para]
+[:en]
+A prvalue of an unscoped enumeration type whose underlying type is fixed
+([#dcl.enum]) can be converted to a prvalue of its underlying type.
+[:zh_CN]
+底层类型固定的无作用域枚举类型（[#dcl.enum]）的纯右值，可以转换为其底层类型的纯
+右值。
+
+[:en]
+Moreover, if integral promotion can be applied to its underlying type, a prvalue
+of an unscoped enumeration type whose underlying type is fixed can also be
+converted to a prvalue of the promoted underlying type.
+[:zh_CN]
+此外，若可以对其底层类型实施整型提升，则底层类型固定的无作用域枚举类型的纯右值还
+可以转换为提升后的底层类型的纯右值。
+
+[para]
+[:en]
+A prvalue for an integral bit-field ([#class.bit]) can be converted to a prvalue
+of type [`int] if [`int] can represent all the values of the bit-field;
+otherwise, it can be converted to [`unsigned int] if [`unsigned int] can
+represent all the values of the bit-field.
+[:zh_CN]
+整型位字段（[#class.bit]）的纯右值，当 [`int] 能够表示该位字段的全部值时，可以
+转换为类型 [`int] 的纯右值；否则，当 [`unsigned int] 能够表示该位字段的全部值时
+，可以转换为 [`unsigned int]。
+
+[:en]
+If the bit-field is larger yet, no integral promotion applies to it.
+[:zh_CN]
+若该位字段仍然比较大，就不对它实施整型提升。
+
+[:en]
+If the bit-field has an enumerated type, it is treated as any other value of
+that type for promotion purposes.
+[:zh_CN]
+若该位字段具有枚举类型，则进行提升时它将按照该类型的任何其他值那样处理。
+
+[para]
+[:en]
+[%promotion[![`bool] to [`int]]]
+A prvalue of type [`bool] can be converted to a prvalue of type [`int], with
+[`false] becoming zero and [`true] becoming one.
+[:zh_CN]
+[%提升[![`bool] 向 [`int] ～]]
+[`bool] 类型的纯右值可以转换为 [`int] 类型的纯右值，[`false] 变为零，[`true] 变
+为一。
+
+[para]
+[:en]
+These conversions are called [+integral promotions].
+[:zh_CN]
+这些转换被称为[+整型提升]。

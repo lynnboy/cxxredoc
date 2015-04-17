@@ -1,0 +1,27 @@
+﻿[section:chapter#conv.bool
+    [:en] Boolean conversions
+    [:zh_CN] 布尔转换
+]
+
+[para]
+[:en]
+[%conversion[!boolean]]
+A prvalue of arithmetic, unscoped enumeration, pointer, or pointer to member
+type can be converted to a prvalue of type [`bool].
+[:zh_CN]
+[%转换[!布尔～]]
+算术，无作用域枚举，指针，或成员指针类型的纯右值可以转换为类型 [`bool] 的纯右值
+。
+
+[:en]
+A zero value, null pointer value, or null member pointer value is converted to
+[`false]; any other value is converted to [`true].
+[:zh_CN]
+零值，空指针值，或空成员指针值被转换为 [`false]；任何其他值都被转换为 [`true]。
+
+[:en]
+For direct-initialization ([#dcl.init]), a prvalue of type [`std::nullptr_t] can
+be converted to a prvalue of type [`bool]; the resulting value is [`false].
+[:zh_CN]
+对于直接初始化（[#dcl.init]），[`std::nullptr_t] 类型的纯右值可以转换为类型
+[`bool] 的纯右值；其结果为 [`false]。

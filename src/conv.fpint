@@ -1,0 +1,76 @@
+﻿[section:chapter#conv.fpint
+    [:en] Floating-integral conversions
+    [:zh_CN] 浮点-整型转换
+]
+
+[para]
+[:en]
+[%conversion[!floating to integral]]
+A prvalue of a floating point type can be converted to a prvalue of an integer
+type.
+[:zh_CN]
+[%转换[!浮点向整型～]]
+浮点类型的纯右值可以转换为整数类型的纯右值。
+
+[:en]
+The conversion truncates; that is, the fractional part is discarded.
+[:zh_CN]
+转换中进行截断：亦即丢弃其小数部分。
+
+[:en]
+[%value[!undefined unrepresentable integral]]
+The behavior is undefined if the truncated value cannot be represented in the
+destination type.
+[:zh_CN]
+[%值[!未定义的不可表示整型～]]
+如果被截断的值不能被目标类型表示，则其行为未定义。
+
+[enter:note]
+[:en]
+If the destination type is [`bool], see [#conv.bool].
+[:zh_CN]
+[exit:note]
+若目标类型是 [`bool]，参见 [#conv.bool]。
+
+[para]
+[:en]
+[%conversion[!integral to floating]] [%truncation] [%rounding]
+A prvalue of an integer type or of an unscoped enumeration type can be converted
+to a prvalue of a floating point type.
+[:zh_CN]
+[%转换[!整型向浮点～]] [%截断] [%舍入]
+整数类型或无作用域枚举类型的纯右值可以转换为浮点类型的纯右值。
+
+[:en]
+The result is exact if possible.
+[:zh_CN]
+其结果尽可能精确。
+
+[:en]
+If the value being converted is in the range of values that can be represented
+but the value cannot be represented exactly, it is an [%@impldef value of result
+of inexact integer to floating-point conversion] implementation-defined choice
+of either the next lower or higher representable value.
+[:zh_CN]
+如果被转换的值处于可以表示的取值范围之内但无法精确表示，则在更小或更大的相邻的可
+表示值之间进行[%@impldef 不精确的整数向浮点转换的结果值]由实现定义的选择。
+
+[enter:note]
+[:en]
+Loss of precision occurs if the integral value cannot be represented exactly as
+a value of the floating type.
+[:zh_CN]
+当整型值不能作为该浮点类型的值精确表示时将发生精度损失。
+[exit:note]
+
+[:en]
+If the value being converted is outside the range of values that can be
+represented, the behavior is undefined.
+[:zh_CN]
+如果被转换的值处于可以表示的取值范围之外，则其行为未定义。
+
+[:en]
+If the source type is [`bool], the value [`false] is converted to zero and the
+value [`true] is converted to one.
+[:zh_CN]
+若源类型为 [`bool]，则值 [`false] 转换为零而值 [`true] 转换为一。

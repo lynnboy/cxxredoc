@@ -1,0 +1,107 @@
+﻿[section:chapter#conv.ptr
+    [:en] Pointer conversions
+    [:zh_CN] 指针转换
+]
+
+[para]
+[:en]
+[%conversion[!pointer]]
+[%pointer[!zero]] [%constant[!null pointer]] [%value[!null pointer]]
+A [+null pointer constant] is an integer literal ([#lex.icon]) with value zero
+or a prvalue of type [`std::nullptr_t].
+[:zh_CN]
+[%转换[!指针～]]
+[%指针[!零]] [%常量[!空指针～]] [%值[!空指针～]]
+[+空指针常量]是值为零的整数字面量（[#lex.icon]）或 [`std::nullptr_t] 类型的纯
+右值。
+
+[:en]
+A null pointer constant can be converted to a pointer type; the result is the
+[+null pointer value] of that type and is distinguishable from every other value
+of object pointer or function pointer type.
+[:zh_CN]
+空指针常量可以转换为指针类型；其结果为该类型的[+空指针值]，并且与任何其他对象
+指针或函数指针类型的值都不相同。
+
+[:en]
+Such a conversion is called a [+null pointer conversion].
+[:zh_CN]
+这种转换被称为[+空指针转换]。
+
+[:en]
+Two null pointer values of the same type shall compare equal.
+[:zh_CN]
+比较相同类型的两个空指针值应当相等。
+
+[:en]
+The conversion of a null pointer constant to a pointer to cv-qualified type is a
+single conversion, and not the sequence of a pointer conversion followed by a
+qualification conversion ([#conv.qual]).
+[:zh_CN]
+把空指针常量转换为指向 cv-限定的类型的指针是单个转换，而不是指针转换跟着限定性
+转换（[#conv.qual]）的序列。
+
+[:en]
+A null pointer constant of integral type can be converted to a prvalue of type
+[`std::nullptr_t].
+[:zh_CN]
+整型类型的空指针常量可以转换为类型 [`std::nullptr_t] 的纯右值。
+
+[enter:note]
+[:en]
+The resulting prvalue is not a null pointer value.
+[:zh_CN]
+所产生的纯右值不是空指针值。
+[exit:note]
+
+[para]
+[:en]
+A prvalue of type ["pointer to [$cv] [`T],] where [`T] is an object type, can be
+converted to a prvalue of type ["pointer to [$cv] [`void]].
+[:zh_CN]
+“指向 [$cv] [`T] 的指针”类型的纯右值，其中 [`T] 为对象类型，可以转换为“指向
+[$cv] [`void] 的指针”类型的纯右值。
+
+[:en]
+The result of converting a non-null pointer value of a pointer to object type to
+a ["pointer to [$cv] [`void]] represents the address of the same byte in memory
+as the original pointer value.
+[:zh_CN]
+把对象指针类型的非空指针值转换为“指向 [$cv] [`void] 的指针”的结果，与原指针值
+表示内存中的同一个字节的地址。
+
+[:en]
+The null pointer value is converted to the null pointer value of the destination
+type.
+[:zh_CN]
+空指针值转换为目标类型的空指针值。
+
+[para]
+[:en]
+A prvalue of type ["pointer to [$cv] [`D]], where [`D] is a class type, can be
+converted to a prvalue of type ["pointer to [$cv] [`B]], where [`B] is a base
+class (Clause [#class.derived]) of [`D].
+[:zh_CN]
+“指向 [$cv] [`D] 的指针”类型的纯右值，其中 [`D] 为类类型，可以转换为“指向
+[$cv] [`B] 的指针”类型的纯右值，其中 [`B] 是 [`D] 的基类（第 [#class.derived]
+条）。
+
+[:en]
+If [`B] is an inaccessible (Clause [#class.access]) or ambiguous
+([#class.member.lookup]) base class of [`D], a program that necessitates this
+conversion is ill-formed.
+[:zh_CN]
+如果 [`B] 是 [`D] 的不可访问的（第 [#class.access] 条）或有歧义的
+（[#class.member.lookup]）基类，则要求进行这种转换的程序是非良构的。
+
+[:en]
+The result of the conversion is a pointer to the base class subobject of the
+derived class object.
+[:zh_CN]
+转换的结果为指向派生类对象的基类子对象的指针。
+
+[:en]
+The null pointer value is converted to the null pointer value of the destination
+type.
+[:zh_CN]
+空指针值转换为目标类型的空指针值。

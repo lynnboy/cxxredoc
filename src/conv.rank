@@ -1,0 +1,101 @@
+﻿[section:chapter#conv.rank
+    [:en] Integer conversion rank
+    [:zh_CN] 整数转换等级
+]
+
+[para]
+[:en]
+[%conversion[!integer rank]]
+Every integer type has an [+integer conversion rank] defined as follows:
+[:zh_CN]
+[%转换[!整数～等级]]
+每个整数类型都有如下定义的[+整数转换等级]。
+
+[list]
+[item]
+[:en]
+No two signed integer types other than [`char] and [`signed char] (if [`char] is
+signed) shall have the same rank, even if they have the same representation.
+[:zh_CN]
+除了 [`char] 和 [`signed char]（若 [`char] 有符号）之外，两个有符号整数类型，
+即使具有相同表示，它们也不具有相同等级。
+
+[item]
+[:en]
+The rank of a signed integer type shall be greater than the rank of any signed
+integer type with a smaller size.
+[:zh_CN]
+有符号整数类型的等级应当大于具有更小大小的有符号整数类型的等级。
+
+[item]
+[:en]
+The rank of [`long long int] shall be greater than the rank of [`long int],
+which shall be greater than the rank of [`int], which shall be greater than the
+rank of [`short int], which shall be greater than the rank of [`signed char].
+[:zh_CN]
+[`long long int] 的等级应当大于 [`long int] 的等级，后者应当大于 [`int] 的等级，
+后者应当大于 [`short int] 的等级，后者应当大于 [`signed char] 的等级。
+
+[item]
+[:en]
+The rank of any unsigned integer type shall equal the rank of the corresponding
+signed integer type.
+[:zh_CN]
+任何无符号整数类型的等级应当等于其对应有符号整数类型的等级。
+
+[item]
+[:en]
+The rank of any standard integer type shall be greater than the rank of any
+extended integer type with the same size.
+[:zh_CN]
+任何标准整数类型的等级应当大于任何具有相同大小的扩展整数类型的等级。
+
+[item]
+[:en]
+The rank of [`char] shall equal the rank of [`signed char] and [`unsigned char].
+[:zh_CN]
+[`char] 的等级应当等于 [`signed char] 和 [`unsigned char] 的等级。
+
+[item]
+[:en]
+The rank of [`bool] shall be less than the rank of all other standard integer
+types.
+[:zh_CN]
+[`bool] 的等级应当小于所有其他标准整数类型的等级。
+
+[item]
+[:en]
+The ranks of [`char16_t], [`char32_t], and [`wchar_t] shall equal the ranks of
+their underlying types ([#basic.fundamental]).
+[:zh_CN]
+[`char16_t]，[`char32_t]，和 [`wchar_t] 的等级应当等于它们的底层类型
+（[#basic.fundamental]）的等级。
+
+[item]
+[:en]
+The rank of any extended signed integer type relative to another extended signed
+integer type with the same size is [%@impldef rank of extended signed integer
+type] implementation-defined, but still subject to the other rules for
+determining the integer conversion rank.
+[:zh_CN]
+任何扩展有符号整数类型的等级与具有相同大小的另一扩展整数类型的等级之间的关系是
+[%@impldef 扩展有符号整数类型的等级]由实现定义的，但也要遵守用于确定整数转换等级
+的其他规则。
+
+[item]
+[:en]
+For all integer types [`T1], [`T2], and [`T3], if [`T1] has greater rank than
+[`T2] and [`T2] has greater rank than [`T3], then [`T1] shall have greater rank
+than [`T3}].
+[:zh_CN]
+对于整数类型 [`T1]，[`T2]，和 [`T3]，若 [`T1] 的等级大于 [`T2] 且 [`T2] 的等级
+大于 [`T3]，则 [`T1] 的等级应当大于 [`T3]。
+[list:end]
+
+[enter:note]
+[:en]
+The integer conversion rank is used in the definition of the integral promotions
+([#conv.prom]) and the usual arithmetic conversions (Clause [#expr]).
+[:zh_CN]
+整数转换等级用于定义整型提升（[#conv.prom]）和一般算数转换（第 [#expr] 条）。
+[exit:note]

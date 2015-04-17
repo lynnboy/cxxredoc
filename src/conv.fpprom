@@ -1,0 +1,23 @@
+﻿[section:chapter#conv.fpprom
+    [:en] Floating point promotion
+    [:zh_CN] 浮点提升
+]
+
+[para]
+[:en]
+[%promotion[!floating point]]
+A prvalue of type [`float] can be converted to a prvalue of type [`double].
+[:zh_CN]
+[%提升[!浮点～]]
+[`float] 类型的纯右值可以转换为 [`double] 类型的纯右值。
+
+[:en]
+The value is unchanged.
+[:zh_CN]
+其值并不改变。
+
+[para]
+[:en]
+This conversion is called [+floating point promotion].
+[:zh_CN]
+这种转换被称为[+浮点提升]。

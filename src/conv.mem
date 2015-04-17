@@ -1,0 +1,119 @@
+﻿[section:chapter#conv.mem
+    [:en] Pointer to member conversions
+    [:zh_CN] 成员指针转换
+]
+
+[para]
+[:en]
+[%conversion[!pointer to member]]
+[%constant[!null pointer]] [%value[!null member pointer]]
+A null pointer constant ([#conv.ptr]) can be converted to a pointer to member
+type; the result is the [+null member pointer value] of that type and is
+distinguishable from any pointer to member not created from a null pointer
+constant.
+
+[:zh_CN]
+[%转换[!成员指针～]]
+[%常量[!空指针～]] [%值[!空成员指针～]]
+空指针常量（[#conv.ptr]）可以转换为成员指针类型；其结果为该类型的[+空成员指针值]
+，并且与任何并非以空指针常量创建成员指针都不相同。
+
+[:en]
+Such a conversion is called a [+null member pointer conversion].
+[:zh_CN]
+这种转换被称为[+空成员指针转换]。
+
+[:en]
+Two null member pointer values of the same type shall compare equal.
+[:zh_CN]
+比较相同类型的两个空成员指针值应当相等。
+
+[:en]
+The conversion of a null pointer constant to a pointer to member of cv-qualified
+type is a single conversion, and not the sequence of a pointer to member
+conversion followed by a qualification conversion ([#conv.qual]).
+[:zh_CN]
+把空指针常量转换为指向 cv-限定的类型的成员指针是单个转换，而不是成员指针转换跟着
+限定性转换（[#conv.qual]）的序列。
+
+[para]
+[:en]
+A prvalue of type ["pointer to member of [`B] of type [$cv] [`T]], where [`B] is
+a class type, can be converted to a prvalue of type ["pointer to member of [`D]
+of type [$cv] [`T]], where [`D] is a derived class (Clause [#class.derived]) of
+[`B].
+[:zh_CN]
+“指向 [`B] 中 [$cv] [`T] 类型成员的指针”类型的纯右值，其中 [`B] 为类类型，可以
+转换为“指向 [`D] 中 [$cv] [`T] 类型成员的指针”类型的纯右值，其中 [`D] 是 [`B] 的
+派生类（第 [#class.derived] 条）。
+
+[:en]
+If [`B] is an inaccessible (Clause [#class.access]), ambiguous
+([#class.member.lookup]), or virtual ([#class.mi]) base class of [`D], or a base
+class of a virtual base class of [`D], a program that necessitates this
+conversion is ill-formed.
+[:zh_CN]
+如果 [`B] 是 [`D] 的不可访问的（第 [#class.access] 条），有歧义的
+（[#class.member.lookup]），或虚（[#class.mi]）基类，或者是 [`D] 的虚基类的基类
+，则要求进行这种转换的程序是非良构的。
+
+[:en]
+The result of the conversion refers to the same member as the pointer to member
+before the conversion took place, but it refers to the base class member as if
+it were a member of the derived class.
+[:zh_CN]
+转换的结果与该成员指针在转换发生前指代的成员相同，但它指代基类成员如同其是派生类
+的成员一样。
+
+[:en]
+The result refers to the member in [`D][=']s instance of [`B].
+[:zh_CN]
+其结果指代 [`D] 中的 [`B] 实例之中的成员。
+
+[:en]
+Since the result has type ["pointer to member of [`D] of type [$cv] [`T]],
+indirection through it with a [`D] object is valid.
+[:zh_CN]
+由于结果类型为“指向 [`D] 中 [$cv] [`T] 类型成员的指针”，通过它对 [`D] 对象解引用
+是有效的。
+
+[:en]
+The result is the same as if indirecting through the pointer to member of [`B]
+with the [`B] subobject of [`D].
+[:zh_CN]
+其结果与通过指向 [`B] 成员的指针对 [`D] 中的 [`B] 子对象解引用的结果相同。
+
+[:en]
+The null member pointer value is converted to the null member pointer value of
+the destination type.
+[:zh_CN]
+空成员指针值转换为目标类型的空成员指针值。
+
+[footnote]
+[:en]
+The rule for conversion of pointers to members (from pointer to member of base
+to pointer to member of derived) appears inverted compared to the rule for
+pointers to objects (from pointer to derived to pointer to base) ([#conv.ptr],
+Clause [#class.derived]).
+[:zh_CN]
+成员指针的转换规则（从指向基类的成员的指针向指向派生类的成员的指针）看起来和指向
+对象的指针的规则（从指向派生类的指针向指向基类的指针）相反（[#conv.ptr]，第
+[#class.derived] 条）。
+
+[:en]
+This inversion is necessary to ensure type safety.
+[:zh_CN]
+这种反转对于保证类型安全是必须的。
+
+[:en]
+Note that a pointer to member is not an object pointer or a function pointer and
+the rules for conversions of such pointers do not apply to pointers to members.
+[:zh_CN]
+注意成员指针不是对象指针或函数指针，并且对这些指针的转换规则也不适用于成员指针。
+
+[:en]
+[%conversion[!pointer to member[![`void*]]]]
+In particular, a pointer to member cannot be converted to a [`void*].
+[:zh_CN]
+特别地，成员指针不能被转换为 [`void]。
+[footnote:end]
