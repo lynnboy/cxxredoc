@@ -1,0 +1,209 @@
+﻿[section:chapter#basic
+    [:en] Basic concepts
+    [:zh_CN] 基本概念
+]
+
+[para]
+[enter:note]
+[:en]
+This Clause presents the basic concepts of the [=Cpp] language.
+[:zh_CN]
+本条给出了 [=Cpp] 语言中的基本概念。
+
+[:en]
+It explains the difference between an [+object] and a [+name] and how they
+relate to the value categories for expressions.
+[:zh_CN]在本条中解释了[+对象]和[+名字]的区别，以及它们怎样与表达式的值类别相
+联系。
+
+[:en]
+It introduces the concepts of a [+declaration] and a [+definition] and presents
+[=Cpp][=']s notion of [+type], [+scope], [+linkage], and [+storage duration].
+[:zh_CN]
+本条中引入了[+声明式]和[+定义式]的概念，并给出 [=Cpp] 的[+类型]，[+作用域]，
+[+连接]以及[+存储期]等概念。
+
+[:en]
+The mechanisms for starting and terminating a program are discussed.
+[:zh_CN]
+本条还讨论了程序启动和终止的机制。
+
+[:en]
+Finally, this Clause presents the [+fundamental] types of the language and lists
+the ways of constructing [+compound] types from these.
+[:zh_CN]
+最后，本条介绍了语言中的[+基础]类型，并列出了用它们构造出[+组合]类型的途径。
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+This Clause does not cover concepts that affect only a single part of the
+language.
+[:zh_CN]
+本条中不涉及仅对语言的某一部分有影响的概念。
+
+[:en]
+Such concepts are discussed in the relevant Clauses.
+[:zh_CN]
+[exit:note]
+这样的概念将在其相关条款中讨论。
+
+[para]
+[:en]
+[%name]
+[%declaration]
+[%type]
+[%object]
+[%storage class]
+[%scope]
+[%linkage]
+[%region[!declarative]]
+[%entity]
+An [def entity] is a value, object, reference, function, enumerator, type, class
+member, bit-field, template, template specialization, namespace, parameter pack,
+or [`this].
+[:zh_CN]
+[%名字]
+[%声明式]
+[%类型]
+[%对象]
+[%存储类]
+[%作用域]
+[%连接]
+[%区[!声明～]]
+[%实体]
+[def 实体]是值，对象，引用，函数，枚举符，类型，类成员，位字段，模板，模板特例，
+命名空间，形参包组，或 [`this]。
+
+[para]
+[:en]
+A [def name] is a use of an [~identifier] ([#lex.name]), [~operator-function-id]
+([#over.oper]), [~literal-operator-id] ([#over.literal]),
+[~conversion-function-id] ([#class.conv.fct]), or [~template-id] ([#temp.names])
+that denotes an entity or [~label] ([#stmt.goto], [#stmt.label]).
+[:zh_CN]
+[def 名字]是用来代表某个实体或[~标号]（[#stmt.goto]，[#stmt.label]）的[~标识符]
+（[#lex.name]），[~运算符函数标识]（[#over.oper]），[~字面量运算符标识]
+（[#over.literal]），[~转换函数标识]（[#class.conv.fct]]，或[~模板标识]
+（[#temp.names]）。
+
+[para]
+[:en]
+Every name that denotes an entity is introduced by a [+declaration].
+[:zh_CN]
+每个代表实体的名字都是由[~声明式]所引入的。
+
+[:en]
+Every name that denotes a label is introduced either by a [`goto] statement
+([#stmt.goto]) or a [~labeled-statement] ([#stmt.label]).
+[:zh_CN]
+每个代表标号的名字都是由 [`goto] 语句（[#stmt.goto]）或[~带标号语句]
+（[#stmt.label]）引入的。
+
+[para]
+[:en]
+A [def variable] is introduced by the declaration of a reference other than a
+non-static data member or of an object.
+[:zh_CN]
+[def 变量]是由（不是非静态数据成员的）引用的声明式，以及对象的声明式所引入的。
+
+[:en]
+The variable[=']s name, if any, denotes the reference or object.
+[:zh_CN]
+变量的名字代表这个引用或者对象。
+
+[para]
+[:en]
+Some names denote types or templates.
+[:zh_CN]
+一些名字代表类型或模板。
+
+[:en]
+In general, whenever a name is encountered it is necessary to determine whether
+that name denotes one of these entities before continuing to parse the program
+that contains it.
+[:zh_CN]
+一般来说，每当遇到一个名字时，在继续对包含这个名字的程序进行解析之前，必须确定它
+是否代表这些实体中的某一个。
+
+[:en]
+The process that determines this is called [%lookup[!name]] [+name lookup]
+([#basic.lookup]).
+[:zh_CN]
+确定这种信息的过程被称为 [%查找[!名字～]] [+名字查找]（[#basic.lookup]）。
+
+[para]
+[:en]
+Two names are [+the same] if
+[:zh_CN]
+在如下情况下两个名字[+相同]：
+
+[list]
+[item]
+[:en]
+they are [~identifier]s composed of the same character sequence, or
+[:zh_CN]
+它们都是由相同的字符序列构成的[~标识符]，或者
+
+[item]
+[:en]
+they are [~operator-function-id]s formed with the same operator, or
+[:zh_CN]
+它们都是以相同的运算符构成的[~运算符函数标识]，或者
+
+[item]
+[:en]
+they are [~conversion-function-id]s formed with the same type, or
+[:zh_CN]
+它们都是以相同的类型构成的[~转换函数标识]，或者
+
+[item]
+[:en]
+they are [~template-ids that refer to the same class, function, or variable
+([#temp.type]), or
+[:zh_CN]
+它们都是代表相同类、函数或变量的[~模板标识]（[#temp.type]），或者
+
+[item]
+[:en]
+they are the names of literal operators ([#over.literal]) formed with the same
+literal suffix identifier.
+[:zh_CN]
+它们都是以相同的字面量后缀标识符构成的字面量运算符（[#over.literal]）的名字。
+[list:end]
+
+[para]
+[:en]
+[%translation unit[!name and]]
+[%linkage]
+A name used in more than one translation unit can potentially refer to the same
+entity in these translation units depending on the linkage ([#basic.link]) of
+the name specified in each translation unit.
+[:zh_CN]
+[%翻译单元[!名字与～]]
+[%连接]
+在多个翻译单元中使用的某个名字，根据在每个翻译单元中对该名字所指定的连接
+（[#basic.link]），可以潜在地在这些翻译单元中代表相同的实体。
+
+[include basic.def]
+
+[include basic.def.odr]
+
+[include basic.scope]
+
+[include basic.lookup]
+
+[include basic.link]
+
+[include basic.start]
+
+[include basic.stc]
+
+[include basic.life]
+
+[include basic.types]
+
+[include basic.lval]
+
+[include basic.align]

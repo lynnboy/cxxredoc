@@ -1,0 +1,245 @@
+﻿[section#basic.def
+    [:en] Declarations and definitions
+    [:zh_CN] 声明式和定义式
+]
+
+[para]
+[:en]
+[%declaration[!definition versus]]
+[%declaration]
+[%declaration[!name]]
+A declaration (Clause [#dcl.dcl]) may introduce one or more names into a
+translation unit or redeclare names introduced by previous declarations.
+[:zh_CN]
+[%声明式[!定义式与～]]
+[%声明式]
+[%声明式[!名字]]
+声明式（第 [#dcl.dcl] 条）能够向翻译单元中引入一个或多个名字，或者重新声明之前的
+声明式所引入的名字。
+
+[:en]
+If so, the declaration specifies the interpretation and attributes of these
+names.
+[:zh_CN]
+若有名字被引入，则声明式指定了这些名字的判读和性质。
+
+[:en]
+A declaration may also have effects including:
+[:zh_CN]
+声明式还可能带有下列效果：
+
+[list]
+[item]
+[:en]
+a static assertion (Clause [#dcl.dcl]),
+[:zh_CN]
+静态断言（第 [#dcl.dcl] 条），
+
+[item]
+[:en]
+controlling template instantiation ([#temp.explicit]),
+[:zh_CN]
+控制模板的实例化（[#temp.explicit]），
+
+[item]
+[:en]
+use of attributes (Clause [#dcl.dcl]), and
+[:zh_CN]
+使用特性标注（第 [#dcl.dcl] 条），以及
+
+[item]
+[:en]
+nothing (in the case of an [~empty-declaration]).
+[:zh_CN]
+无效果（对于[~空声明式]的情况）。
+[list:end]
+
+[para]
+[:en]
+[%declaration[!function]]
+[%definition]
+A declaration is a [def definition] unless it declares a function without
+specifying the function's body ([#dcl.fct.def]), it contains the
+[%declaration[![`extern]]] [`extern] specifier ([#dcl.stc]) or a
+[~linkage-specification]
+[:zh_CN]
+[%声明式[!函数～]]
+[%定义式]
+声明式也是[def 定义式，除非声明式声明了函数但未指定其函数体（[#dcl.fct.def]），
+声明式中包含[%声明式[![`extern]]][`extern] 说明符（[#dcl.stc]）或[~连接说明]
+
+[footnote]
+[:en]
+Appearing inside the braced-enclosed [~declaration-seq] in a
+[~linkage-specification] does not affect whether a declaration is a definition.
+[:zh_CN]
+声明式是否出现在[~连接说明]中以花括号包围的[~声明式序列]之中，并不影响它是否是
+定义式。
+[footnote:end]
+
+[:en@~]
+([#dcl.link]) and neither an [~initializer] nor a [~function-body],
+[%declaration[!static member]] it declares a static data member in a class
+definition ([#class.mem], [#class.static]), [%declaration[!class name]] it is a
+class name declaration ([#class.name]), it is an [%declaration[!opaque enum]]
+[~opaque-enum-declaration] ([#dcl.enum]), it is a [%parameter[!template]]
+[%template parameter] [~template-parameter] ([#temp.param]), it is a
+[%declaration[!parameter]][%parameter declaration] [~parameter-declaration]
+([#dcl.fct]) in a function [%declarator] declarator that is not the
+[~declarator] of a [~function-definition], or it is a
+[%declaration[![`typedef]]] [`typedef] declaration ([#dcl.typedef]), an
+[~alias-declaration] ([#dcl.typedef]), a [~using-declaration]
+([#namespace.udecl]), a [~static_assert-declaration] (Clause [#dcl.dcl]), an
+[~attribute-declaration] (Clause [#dcl.dcl]), an [~empty-declaration] (Clause
+[#dcl.dcl]), a [~using-directive] ([#namespace.udir]), an explicit instantiation
+declaration ([#temp.explicit]), or an explicit specialization
+([#temp.expl.spec]) whose [~declaration] is not a definition.
+[:zh_CN@~]
+（[#dcl.link]）且既没有[~初始化式]也没有[~函数体]，[%声明式[!静态成员]]它在类的
+定义式中声明静态数据成员（[#class.mem]，[#class.static]），[%声明式[!类名～]]
+它是个类名声明式（[#class.name]），它是个[%声明式[!笼统枚举～]][~笼统枚举声明式]
+（[#dcl.enum]），它是个[%形参[!模板～]][~模板形参]（[#temp.param]），它是某个
+函数[%声明符]声明符中的[%声明式[!形参～]][%形参声明式][~形参声明式]而该声明符
+并非[~函数定义式]中的[~声明符]（[#dcl.fct]），或者它是个[%声明式[![`typedef]]]
+[`typedef] 声明式（[#dcl.typedef]），[~别名声明式]（[#dcl.typedef]），
+[~using-声明式]（[#namespace.udecl]），[~static_assert-声明式]（第 [#dcl.dcl]
+条），[~特性声明式]（第 [#dcl.dcl] 条），[~空声明式]（第 [#dcl.dcl] 条），
+[~using-指令]（[#namespace.udir]），显式实例化声明式（[#temp.explicit]），或者
+是[~声明式]不是定义式的显式特化式（[#temp.expl.spec]）。
+
+[enter:example]
+[:en]
+all but one of the following are definitions:
+[:zh_CN]
+下面只有一个不是定义式：
+
+[%example[!definition]]
+[codeblock]
+int a;                          // [:en] defines [`a]
+                                // [|:zh_CN] 定义了 [`a]
+extern const int c = 1;         // [:en] defines [`c]
+                                // [|:zh_CN] 定义了 [`c]
+int f(int x) { return x+a; }    // [:en] defines [`f] and defines [`x]
+                                // [|:zh_CN] 定义了 [`f] 并定义了 [`x]
+struct S { int a; int b; };     // [:en] defines [`S], [`S::a], and [`S::b]
+                                // [|:zh_CN] 定义了 [`S]，[`S::a]，和 [`S::b]
+struct X {                      // [:en] defines [`X]
+                                // [|:zh_CN] 定义了 [`X]
+  int x;                        // [:en] defines non-static data member [`x]
+                                // [|:zh_CN] 定义了非静态数据成员 [`x]
+  static int y;                 // [:en] declares static data member [`y]
+                                // [|:zh_CN] 声明了静态数据成员 [`y]
+  X(): x(0) { }                 // [:en] defines a constructor of [`X]
+                                // [|:zh_CN] 定义了 [`X] 的一个构造函数
+};
+int X::y = 1;                   // [:en] defines [`X::y]
+                                // [|:zh_CN] 定义了 [`X::y]
+enum { up, down };              // [:en] defines [`up] and [`down]
+                                // [|:zh_CN] 定义了 [`up] 和 [`down]
+namespace N { int d; }          // [:en] defines [`N] and [`N::d]
+                                // [|:zh_CN] 定义了 [`N] 和 [`N::d]
+namespace N1 = N;               // [:en] defines [`N1]
+                                // [|:zh_CN] 定义了 [`N1]
+X anX;                          // [:en] defines [`anX]
+                                // [|:zh_CN] 定义了 [`anX]
+[codeblock:end]
+
+[:en@~]
+whereas these are just declarations:
+[:zh_CN@~]
+而这些只是声明式：
+
+[%example[!declaration]]
+[codeblock]
+extern int a;                   // declares [`a]
+                                // [|:zh_CN] 声明了 [`a]
+extern const int c;             // declares [`c]
+                                // [|:zh_CN] 声明了 [`c]
+int f(int);                     // declares [`f]
+                                // [|:zh_CN] 声明了 [`f]
+struct S;                       // declares [`S]
+                                // [|:zh_CN] 声明了 [`S]
+typedef int Int;                // declares [`Int]
+                                // [|:zh_CN] 声明了 [`Int]
+extern X anotherX;              // declares [`anotherX]
+                                // [|:zh_CN] 声明了 [`anotherX]
+using N::d;                     // declares [`d]
+                                // [|:zh_CN] 声明了 [`d]
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[%implementation-generated]
+In some circumstances, [=Cpp] implementations implicitly define the default
+constructor ([#class.ctor]), copy constructor ([#class.copy]), move constructor
+([#class.copy]), copy assignment operator ([#class.copy]), move assignment
+operator ([#class.copy]), or destructor ([#class.dtor]) member functions.
+[:zh_CN]
+[%由实现生成的]
+[exit:note]
+某些情况下，[=Cpp] 实现隐含地定义默认构造函数（[#class.ctor]），复制构造函数
+（[#class.copy]），移动构造函数（[#class.copy]），复制赋值运算符（[#class.copy]
+），移动赋值运算符（[#class.copy]），或析构函数（[#class.dtor]）等成员函数。
+
+[enter:example]
+[:en]
+given
+[:zh_CN]
+给定
+
+[codeblock]
+#include <string>
+
+struct C {
+  std::string s;              // [:en] [`std::string] is the standard library class (Clause [#strings])
+                              // [|:zh_CN] [`std::string] 是标准程序库的类（第 [#strings] 条）
+};
+
+int main() {
+  C a;
+  C b = a;
+  b = a;
+}
+[codeblock:end]
+
+[:en@~]
+the implementation will implicitly define functions to make the definition of
+[`C] equivalent to
+[:zh_CN@~]
+实现将隐含地定义一些函数以使 [`C] 的定义等价于
+
+[codeblock]
+struct C {
+  std::string s;
+  C() : s() { }
+  C(const C& x): s(x.s) { }
+  C(C&& x): s(static_cast<std::string&&>(x.s)) { }
+    // [`: s(std::move(x.s)) { }]
+  C& operator=(const C& x) { s = x.s; return *this; }
+  C& operator=(C&& x) { s = static_cast<std::string&&>(x.s); return *this; }
+    // [`{ s = std::move(x.s); return *this; }]
+  ~C() { }
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+A class name can also be implicitly declared by an [~elaborated-type-specifier]
+([#dcl.type.elab]).
+[:zh_CN]
+类名也可能隐含地由[~详细类型说明符]所声明（[#dcl.type.elab]）。
+[exit:note]
+
+[para]
+[:en]
+[%type[!incomplete]]
+A program is ill-formed if the definition of any object gives the object an
+incomplete type ([#basic.types]).
+[:zh_CN]
+[%类型[!不完整～]]
+如果有任何对象的定义式使用了不完整类型（[#basic.types]），则程序非良构。
