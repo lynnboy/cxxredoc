@@ -1,0 +1,351 @@
+﻿[section#basic.link
+    [:en] Program and linkage
+]
+
+[%:begin#linkage
+    [:en] linkage
+]
+
+[para]
+[:en]
+[%program]
+A [def program] consists of one or more [def translation units] (Clause [#lex])
+linked together.
+
+[:en]
+A translation unit consists of a sequence of declarations.
+
+[syntax]
+[rule translation-unit [:zh_CN] ]
+    [| [~:opt declaration-seq]]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%linkage] [%translation unit] [%linkage[!internal]] [%linkage[!external]]
+A name is said to have [def linkage] when it might denote the same object,
+reference, function, type, template, namespace or value as a name introduced by
+a declaration in another scope:
+
+[list]
+[item]
+[:en]
+When a name has [def external linkage][%linkage[!external]], the entity it
+denotes can be referred to by names from scopes of other translation units or
+from other scopes of the same translation unit.
+
+[item]
+[:en]
+When a name has [def internal linkage][%linkage[!internal]], the entity it
+denotes can be referred to by names from other scopes in the same translation
+unit.
+
+[item]
+[:en]
+When a name has [def no linkage][%linkage[!no]], the entity it denotes cannot be
+referred to by names from other scopes.
+[list:end]
+
+[para]
+[:en]
+[%linkage[![`static] and]] [%[`static][!linkage of]]
+[%linkage[![`const] and]] [%[`const][!linkage of]]
+[%linkage[![`inline] and]] [%[`inline][!linkage of]]
+A name having namespace scope ([#basic.scope.namespace]) has internal linkage if
+it is the name of
+
+[list]
+[item]
+[:en]
+a variable, function or function template that is explicitly declared [`static];
+or,
+
+[item]
+[:en]
+a variable of non-volatile const-qualified type that is neither explicitly
+declared [`extern] nor previously declared to have external linkage; or
+
+[item]
+[:en]
+a data member of an anonymous union.
+[list:end]
+
+[para]
+[:en]
+An unnamed namespace or a namespace declared directly or indirectly within an
+unnamed namespace has internal linkage.
+
+[:en]
+All other namespaces have external linkage.
+
+[:en]
+A name having namespace scope that has not been given internal linkage above has
+the same linkage as the enclosing namespace if it is the name of
+
+[list]
+[item]
+[:en]
+a variable; or
+
+[item]
+[:en]
+a function; or
+
+[item]
+[:en]
+[%class[!linkage of]]
+a named class (Clause [#class]), or an unnamed class defined in a typedef
+declaration in which the class has the typedef name for linkage purposes
+([#dcl.typedef]); or
+
+[item]
+[:en]
+[%enumeration[!linkage of]]
+a named enumeration ([#dcl.enum]), or an unnamed enumeration defined in a
+typedef declaration in which the enumeration has the typedef name for linkage
+purposes ([#dcl.typedef]); or
+
+[item]
+[:en]
+an enumerator belonging to an enumeration with linkage; or
+
+[item]
+[:en]
+a template.
+[list:end]
+
+[para]
+[:en]
+In addition, a member function, static data member, a named class or enumeration
+of class scope, or an unnamed class or enumeration defined in a class-scope
+typedef declaration such that the class or enumeration has the typedef name for
+linkage purposes ([#dcl.typedef]), has the same linkage, if any, as the name of
+the class of which it is a member.
+
+[para]
+[:en]
+The name of a function declared in block scope and the name of a variable
+declared by a block scope [`extern] declaration have linkage.
+
+[:en]
+If there is a visible declaration of an entity with linkage having the same name
+and type, ignoring entities declared outside the innermost enclosing namespace
+scope, the block scope declaration declares that same entity and receives the
+linkage of the previous declaration.
+
+[:en]
+If there is more than one such matching entity, the program is ill-formed.
+
+[:en]
+Otherwise, if no matching entity is found, the block scope entity receives
+external linkage.
+
+[enter:example]
+
+[codeblock]
+static void f();
+static int i = 0;               // #1
+void g() {
+  extern void f();              // [:en] internal linkage
+  int i;                        // [:en] #2 [`i] has no linkage
+  {
+    extern void f();            // [:en] internal linkage
+    extern int i;               // [:en] #3 external linkage
+  }
+}
+[codeblock:end]
+
+[:en]
+There are three objects named [`i] in this program.
+
+[:en]
+The object with internal linkage introduced by the declaration in global scope
+(line [`#1] ), the object with automatic storage duration and no linkage
+introduced by the declaration on line [`#2], and the object with static storage
+duration and external linkage introduced by the declaration on line [`#3].
+[exit:example]
+
+[para]
+[:en]
+When a block scope declaration of an entity with linkage is not found to refer
+to some other declaration, then that entity is a member of the innermost
+enclosing namespace.
+
+[:en]
+However such a declaration does not introduce the member name in its namespace
+scope.
+
+[enter:example]
+
+[codeblock]
+namespace X {
+  void p() {
+    q();                        // [:en] error: [`q] not yet declared
+    extern void q();            // [:en] [`q] is a member of namespace [`X]
+  }
+
+  void middle() {
+    q();                        // [:en] error: [`q] not yet declared
+  }
+
+  void q() { /* ... */ }        // [:en] definition of [`X::q]        
+}
+
+void q() { /* ... */ }          // [:en] some other, unrelated [`q]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%linkage[!no]]
+Names not covered by these rules have no linkage.
+
+[:en]
+Moreover, except as noted, a name declared at block scope ([#basic.scope.block])
+has no linkage.
+
+[:en]
+A type is said to have linkage if and only if:
+
+[list]
+[item]
+[:en]
+it is a class or enumeration type that is named (or has a name for linkage
+purposes ([#dcl.typedef])) and the name has linkage; or
+
+[item]
+[:en]
+it is an unnamed class or enumeration member of a class with linkage; or
+
+[item]
+[:en]
+it is a specialization of a class template (Clause [#temp])
+
+[footnote]
+[:en]
+A class template has the linkage of the innermost enclosing class or namespace
+in which it is declared.
+[footnote:end]
+
+[:en@~]
+; or
+
+[item]
+[:en]
+it is a fundamental type ([#basic.fundamental]); or
+
+[item]
+[:en]
+it is a compound type ([#basic.compound]) other than a class or enumeration,
+compounded exclusively from types that have linkage; or
+
+[item]
+[:en]
+it is a [=cv]-qualified ([#basic.type.qualifier]) version of a type that has
+linkage.
+[list:end]
+
+[:en]
+A type without linkage shall not be used as the type of a variable or function
+with external linkage unless
+[list]
+[item]
+[:en]
+the entity has C language linkage ([#dcl.link]), or
+
+[item]
+[:en]
+the entity is declared within an unnamed namespace ([#namespace.def]), or
+
+[item]
+[:en]
+the entity is not odr-used ([#basic.def.odr]) or is defined in the same
+translation unit.
+[list:end]
+
+[enter:note]
+[:en]
+In other words, a type without linkage contains a class or enumeration that
+cannot be named outside its translation unit.
+
+[:en]
+An entity with external linkage declared using such a type could not correspond
+to any other entity in another translation unit of the program and thus must be
+defined in the translation unit if it is odr-used.
+
+[:en]
+Also note that classes with linkage may contain members whose types do not have
+linkage, and that typedef names are ignored in the determination of whether a
+type has linkage.
+[exit:note]
+
+[enter:example]
+
+[codeblock]
+template <class T> struct B {
+  void g(T) { }
+  void h(T);
+  friend void i(B, T) { }
+};
+
+void f() {
+  struct A { int x; };  // [:en] no linkage
+  A a = { 1 };
+  B<A> ba;              // [:en] declares [`B<A>::g(A)] and [`B<A>::h(A)]
+  ba.g(a);              // [:en] OK
+  ba.h(a);              // [:en] error: [`B<A>::h(A)] not defined in the translation unit
+  i(ba, a);             // [:en] OK
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Two names that are the same (Clause [#basic]) and that are declared in different
+scopes shall denote the same variable, function, type, enumerator, template or
+namespace if
+
+[list]
+[item]
+[:en]
+both names have external linkage or else both names have internal linkage and
+are declared in the same translation unit; and
+
+[item]
+[:en]
+both names refer to members of the same namespace or to members, not by
+inheritance, of the same class; and
+
+[item]
+[:en]
+when both names denote functions, the parameter-type-lists of the functions
+([#dcl.fct]) are identical; and
+
+[item]
+[:en]
+when both names denote function templates, the signatures ([#temp.over.link])
+are the same.
+[list:end]
+
+[para]
+[:en]
+[%consistency[!type declaration]]
+[%declaration[!multiple]]
+After all adjustments of types (during which typedefs ([#dcl.typedef]) are
+replaced by their definitions), the types specified by all declarations
+referring to a given variable or function shall be identical, except that
+declarations for an array object can specify array types that differ by the
+presence or absence of a major array bound ([#dcl.array]).
+
+[:en]
+A violation of this rule on type identity does not require a diagnostic.
+
+[para]
+[enter:note]
+[:en]
+Linkage to non-[=Cpp] declarations can be achieved using a
+[~linkage-specification] ([#dcl.link]).
+[exit:note]
+
+[%:end#linkage]
