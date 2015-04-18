@@ -1,154 +1,232 @@
-﻿\rSec1[basic.lval]{Lvalues and rvalues}
-[para]
-Expressions are categorized according to the taxonomy in Figure [#fig:categories}.
+﻿[section#basic.lval
+    [:en] Lvalues and rvalues
+    [:zh_CN] 
+]
 
-\begin{importgraphic}
-{Expression category taxonomy}
-{fig:categories}
-{valuecategories.pdf}
-\end{importgraphic}
+[para]
+[:en]
+Expressions are categorized according to the taxonomy in Figure
+[#fig:categories].
+
+[figure:graphviz@dot#fig:categories
+    [:en] Expression category taxonomy
+]
+[:en]
+digraph categories {
+    graph [nodesep=.75];
+
+    expression [shape=plaintext, height=.1, fontsize=24];
+    glvalue [shape=plaintext, height=.1, fontsize=24];
+    lvalue [shape=plaintext, height=.1, fontsize=24];
+    xvalue [shape=plaintext, height=.1, fontsize=24];
+    rvalue [shape=plaintext, height=.1, fontsize=24];
+    prvalue [shape=plaintext, height=.1, fontsize=24];
+
+    expression -> glvalue;
+    glvalue -> lvalue;
+    glvalue -> xvalue;
+    expression -> rvalue;
+    rvalue -> xvalue;
+    rvalue -> prvalue;
+}
+[figure:end]
 
 [list]
 [item]
-An [def lvalue} (so called, historically, because lvalues could appear
-on the left-hand side of an assignment expression) designates a function or an object.
+[:en]
+An [def lvalue] (so called, historically, because lvalues could appear on the
+left-hand side of an assignment expression) designates a function or an object.
+
 [enter:example]
- If [`E} is an expression of pointer type, then [`*E} is
-an lvalue expression referring to the object or function to which [`E} points.
+[:en]
+If [`E] is an expression of pointer type, then [`*E] is an lvalue expression
+referring to the object or function to which [`E] points.
+
+[:en]
 As another example, the result of calling a function whose return type is an
-lvalue reference is an lvalue. [exit:example]
-
+lvalue reference is an lvalue.
+[exit:example]
 
 [item]
-An [def xvalue} (an ["eXpiring] value) also refers to an object, usually near
+[:en]
+An [def xvalue] (an ["eXpiring] value) also refers to an object, usually near
 the end of its lifetime (so that its resources may be moved, for example).
-Certain kinds of expressions involving rvalue references ([#dcl.ref}) yield xvalues.
+
+[:en]
+Certain kinds of expressions involving rvalue references ([#dcl.ref]) yield
+xvalues.
+
 [enter:example]
- The result of calling a function whose return type is an rvalue reference
-to an object type is an xvalue ([#expr.call}). [exit:example]
-
-
-[item]
-A [def glvalue} (["generalized] lvalue) is an lvalue or an xvalue.
+[:en]
+The result of calling a function whose return type is an rvalue reference to an
+object type is an xvalue ([#expr.call]).
+[exit:example]
 
 [item]
-An [def rvalue} (so called, historically, because rvalues could appear
-on the right-hand side of an assignment expression) is an xvalue, a temporary
-object ([#class.temporary}) or subobject thereof, or a value that is not
-associated with an object.
+[:en]
+A [def glvalue] (["generalized] lvalue) is an lvalue or an xvalue.
 
 [item]
-A [def prvalue} (["pure] rvalue) is an rvalue that is not an xvalue.
+[:en]
+An [def rvalue] (so called, historically, because rvalues could appear on the
+right-hand side of an assignment expression) is an xvalue, a temporary object
+([#class.temporary]) or subobject thereof, or a value that is not associated
+with an object.
+
+[item]
+[:en]
+A [def prvalue] (["pure] rvalue) is an rvalue that is not an xvalue.
+
 [enter:example]
- The result of calling a function whose return type is not a reference
-is a prvalue. The value of a literal such as [`12}, [`7.3e5}, or [`true}
-is also a prvalue. [exit:example]
+[:en]
+The result of calling a function whose return type is not a reference is a
+prvalue.
+
+[:en]
+The value of a literal such as [`12], [`7.3e5], or [`true] is also a prvalue.
+[exit:example]
 
 [list:end]
 
-Every expression belongs to exactly one of the fundamental classifications in this
-taxonomy: lvalue, xvalue, or prvalue. This property of an expression is called
-its [def value category}. [enter:note]
- The discussion of each built-in operator in
-Clause [#expr} indicates the category of the value it yields and the value categories
-of the operands it expects. For example, the built-in assignment operators expect that
-the left operand is an lvalue and that the right operand is a prvalue and yield an
-lvalue as the result. User-defined operators are functions, and the categories of
-values they expect and yield are determined by their parameter and return types. [exit:note]
+[:en]
+Every expression belongs to exactly one of the fundamental classifications in
+this taxonomy: lvalue, xvalue, or prvalue.
 
+[:en]
+This property of an expression is called its [def value category].
 
-[para]
-Whenever a glvalue appears in a context where a prvalue is expected, the glvalue is converted
-to a prvalue; see [#conv.lval}, [#conv.array},
-and [#conv.func}.
 [enter:note]
+[:en]
+The discussion of each built-in operator in Clause [#expr] indicates the
+category of the value it yields and the value categories of the operands it
+expects.
 
-An attempt to bind an rvalue reference to an lvalue is not such a context; see [#dcl.init.ref}.
+[:en]
+For example, the built-in assignment operators expect that the left operand is
+an lvalue and that the right operand is a prvalue and yield an lvalue as the
+result.
+
+[:en]
+User-defined operators are functions, and the categories of values they expect
+and yield are determined by their parameter and return types.
 [exit:note]
 
+[para]
+[:en]
+Whenever a glvalue appears in a context where a prvalue is expected, the glvalue
+is converted to a prvalue; see [#conv.lval], [#conv.array], and [#conv.func].
+
+[enter:note]
+[:en]
+An attempt to bind an rvalue reference to an lvalue is not such a context; see
+[#dcl.init.ref].
+[exit:note]
 
 [para]
-The discussion of reference initialization in [#dcl.init.ref} and of
-temporaries in [#class.temporary} indicates the behavior of lvalues
-and rvalues in other significant contexts.
+[:en]
+The discussion of reference initialization in [#dcl.init.ref] and of temporaries
+in [#class.temporary] indicates the behavior of lvalues and rvalues in other
+significant contexts.
 
 [para]
-Unless otherwise indicated ([#expr.call}), prvalues
-shall always have complete types or the
-[`void} type; in addition to these types, glvalues can also have
+[:en]
+Unless otherwise indicated ([#expr.call]), prvalues shall always have complete
+types or the [`void] type; in addition to these types, glvalues can also have
 incomplete types.
-[enter:note]
 
-class and array prvalues can have cv-qualified types; other prvalues
-always have cv-unqualified types. See Clause [#expr}.
+[enter:note]
+[:en]
+class and array prvalues can have cv-qualified types; other prvalues always have
+cv-unqualified types.
+
+[:en]
+See Clause [#expr].
 [exit:note]
 
-
 [para]
-An lvalue for an object is necessary in order to modify the object
-except that an rvalue of class type can also be used to modify its
-referent under certain circumstances. [enter:example]
- a member function
-called for an object ([#class.mfct}) can modify the object.
+[:en]
+An lvalue for an object is necessary in order to modify the object except that
+an rvalue of class type can also be used to modify its referent under certain
+circumstances.
+
+[enter:example]
+[:en]
+a member function called for an object ([#class.mfct]) can modify the object.
 [exit:example]
 
+[para]
+[:en]
+Functions cannot be modified, but pointers to functions can be modifiable.
 
 [para]
-Functions cannot be modified, but pointers to functions can be
-modifiable.
+[:en]
+A pointer to an incomplete type can be modifiable.
+
+[:en]
+At some point in the program when the pointed to type is complete, the object at
+which the pointer points can also be modified.
 
 [para]
-A pointer to an incomplete type can be modifiable. At some point in the
-program when the pointed to type is complete, the object at which the
-pointer points can also be modified.
+[:en]
+The referent of a [`const]-qualified expression shall not be modified (through
+that expression), except that if it is of class type and has a [`mutable]
+component, that component can be modified ([#dcl.type.cv]).
 
 [para]
-The referent of a [`const}-qualified expression shall not be
-modified (through that expression), except that if it is of class type
-and has a [`mutable} component, that component can be
-modified ([#dcl.type.cv}).
+[:en]
+If an expression can be used to modify the object to which it refers, the
+expression is called [+modifiable].
+
+[:en]
+A program that attempts to modify an object through a nonmodifiable lvalue or
+rvalue expression is ill-formed.
 
 [para]
-If an expression can be used to modify the object to which it refers,
-the expression is called [+modifiable}. A program that attempts
-to modify an object through a nonmodifiable lvalue or rvalue expression
-is ill-formed.
-
-[para]
+[:en]
 If a program attempts to access the stored value of an object through a glvalue
-of other than one of the following types the behavior is
-undefined:\footnote{The intent of this list is to specify those circumstances in which an
-object may or may not be aliased.}
+of other than one of the following types the behavior is undefined:
+
+[footnote]
+[:en]
+The intent of this list is to specify those circumstances in which an object may
+or may not be aliased.
+[footnote:end]
 
 [list]
 [item]
+[:en]
 the dynamic type of the object,
 
 [item]
+[:en]
 a cv-qualified version of the dynamic type of the object,
 
 [item]
-a type similar (as defined in [#conv.qual}) to the dynamic type
-of the object,
+[:en]
+a type similar (as defined in [#conv.qual]) to the dynamic type of the object,
 
 [item]
-a type that is the signed or unsigned type corresponding to the
-dynamic type of the object,
+[:en]
+a type that is the signed or unsigned type corresponding to the dynamic type of
+the object,
 
 [item]
-a type that is the signed or unsigned type corresponding to a
-cv-qualified version of the dynamic type of the object,
+[:en]
+a type that is the signed or unsigned type corresponding to a cv-qualified
+version of the dynamic type of the object,
 
 [item]
-an aggregate or union type that includes one of the aforementioned types among its
-elements or non-static data members (including, recursively, an element or non-static data member of a
-subaggregate or contained union),
+[:en]
+an aggregate or union type that includes one of the aforementioned types among
+its elements or non-static data members (including, recursively, an element or
+non-static data member of a subaggregate or contained union),
 
 [item]
+[:en]
 a type that is a (possibly cv-qualified) base class type of the dynamic type of
 the object,
 
 [item]
-a [`char} or [`unsigned} [`char} type.
+[:en]
+a [`char] or [`unsigned char] type.
 [list:end]
-
