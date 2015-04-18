@@ -1,5 +1,6 @@
 ﻿[section#basic.scope.pdecl
     [:en] Point of declaration
+    [:zh_CN] 声明点
 ]
 
 [para]
@@ -8,6 +9,11 @@
 The [def point of declaration] for a name is immediately after its complete
 declarator (Clause [#dcl.decl]) and before its [~initializer] (if any), except
 as noted below.
+[:zh_CN]
+[%名字[!声明点]]
+除了下述情况外，一个名字的[def 声明点]位于紧接其整个声明符（第 [#dcl.decl] 条）
+之后和其[~初始化式]（如果有）之前。
+
 [enter:example]
 
 [codeblock]
@@ -17,6 +23,8 @@ unsigned char x = 12;
 
 [:en]
 Here the second [`x] is initialized with its own (indeterminate) value.
+[:zh_CN]
+此处第二个 [`x] 被其自己的（不确定）值初始化。
 [exit:example]
 
 [para]
@@ -25,6 +33,9 @@ Here the second [`x] is initialized with its own (indeterminate) value.
 [%name hiding]
 a name from an outer scope remains visible up to the point of declaration of the
 name that hides it.
+[:zh_CN]
+[%名字隐藏]
+来自外部作用域的名字，直到隐藏它的名字的声明点之前都保持可见。
 
 [enter:example]
 
@@ -35,6 +46,8 @@ const int  i = 2;
 
 [:en]
 declares a block-scope array of two integers.
+[:zh_CN]
+声明了块作用域的两个整数的数组。
 [exit:example]
 [exit:note]
 
@@ -43,26 +56,40 @@ declares a block-scope array of two integers.
 The point of declaration for a class or class template first declared by a
 [~class-specifier] is immediately after the [~identifier] or
 [~simple-template-id] (if any) in its [~class-head] (Clause [#class]).
+[:zh_CN]
+由[~类说明符]所首先声明的类或类模板的声明点，紧跟其[~类头]中的[~标示符]或[~简单
+模板标识]（如果有）之后（第 [#class] 条）。
 
 [:en]
 The point of declaration for an enumeration is immediately after the
 [~identifier] (if any) in either its [~enum-specifier] ([#dcl.enum]) or its
 first [~opaque-enum-declaration] ([#dcl.enum]), whichever comes first.
+[:zh_CN]
+枚举的声明点紧跟其率先出现的[~枚举说明符]（[#dcl.enum]）或其第一个[~笼统枚举声
+明式]（[#dcl.enum]）中的[~标示符]（如果有）之后。
 
 [:en]
 The point of declaration of an alias or alias template immediately follows the
 [~type-id] to which the alias refers.
+[:zh_CN]
+别名或别名模板的声明点紧跟被这个别名所代表的[~类型标识]之后。
 
 [para]
 [:en]
 The point of declaration of a [~using-declaration] that does not name a
 constructor is immediately after the [~using-declaration] ([#namespace.udecl]).
+[:zh_CN]
+不指名构造函数[~using-声明式]的声明点紧跟该[~using-声明式]之后
+（[#namespace.udecl]）。
 
 [para]
 [:en]
 [%declaration[!enumerator point of]]
 The point of declaration for an enumerator is immediately after its
 [~enumerator-definition].
+[:zh_CN]
+[%声明式[!枚举符的～]]
+枚举符的声明点紧跟其[~枚举符定义]之后。
 
 [enter:example]
 
@@ -74,25 +101,35 @@ const int x = 12;
 [:en]
 Here, the enumerator [`x] is initialized with the value of the constant [`x],
 namely 12.
+[:zh_CN]
+此处，枚举符 [`x] 被常量 [`x] 的值初始化，就是 12。
 [exit:example]
 
 [para]
 [:en]
 After the point of declaration of a class member, the member name can be looked
 up in the scope of its class.
+[:zh_CN]
+在类成员的声明点之后，可在该类的作用域中查找到该成员名。
 
 [enter:note]
 [:en]
 [%type[!incomplete]]
 this is true even if the class is an incomplete class.
+[:zh_CN]
+[%类型[!不完整～]]
+即使该类是不完全类也是如此。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 struct X {
   enum E { z = 16 };
   int b[X::z];      // [:en] OK
+                    // [|:zh_CN] OK
 };
 [codeblock:end]
 [exit:note]
@@ -101,11 +138,15 @@ struct X {
 [:en]
 The point of declaration of a class first declared in an
 [~elaborated-type-specifier] is as follows:
+[:zh_CN]
+由[~详细类型说明符]所首先声明的类的声明点如下：
 
 [list]
 [item]
 [:en]
 for a declaration of the form
+[:zh_CN]
+对于形式为
 
 [syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
@@ -114,10 +155,14 @@ for a declaration of the form
 [:en@~]
 the [~identifier] is declared to be a [~class-name] in the scope that contains
 the declaration, otherwise
+[:zh_CN@~]
+的声明式，[~标识符]被声明为包含该声明式的作用域中的[~类名]，而
 
 [item]
 [:en]
 for an [~elaborated-type-specifier] of the form
+[:zh_CN]
+对于形式为
 
 [syntax:explanation]
 [~class-key] [~identifier]
@@ -128,23 +173,37 @@ if the [~elaborated-type-specifier] is used in the [~decl-specifier-seq] or
 [~parameter-declaration-clause] of a function defined in namespace scope, the
 [~identifier] is declared as a [~class-name] in the namespace that contains the
 declaration;
+[:zh_CN@~]
+的[~详细类型说明符]，如果该[~详细类型说明符]是在定义于命名空间作用域中的函数的
+[~声明说明符序列]或[~形参声明子句]中使用的，则其[~标识符]就被声明为包含该声明式
+的命名空间中的[~类名]；
 
 [:en]
 otherwise, except as a friend declaration, the [~identifier] is declared in the
 smallest namespace or block scope that contains the declaration.
+[:zh_CN]
+否则，除非作为友元声明式，否则其[~标识符]将被声明在包含该声明式的最小的命名空间
+或块作用域之中。
 
 [enter:note]
 [:en]
 These rules also apply within templates.
+[:zh_CN]
+这些规则在模板中同样适用。
 [exit:note]
 
 [enter:note]
 [:en]
 Other forms of [~elaborated-type-specifier] do not declare a new name, and
 therefore must refer to an existing [~type-name].
+[:zh_CN]
+其他形式的[~详细类型说明符]并不会声明新的名字，因此就必须涉指一个已声明的
+[~类型名]。
 
 [:en]
 See [#basic.lookup.elab] and [#dcl.type.elab].
+[:zh_CN]
+参见 [#basic.lookup.elab] 和 [#dcl.type.elab]。
 [exit:note]
 
 [list:end]
@@ -153,17 +212,23 @@ See [#basic.lookup.elab] and [#dcl.type.elab].
 [:en]
 The point of declaration for an [~injected-class-name] (Clause [#class]) is
 immediately following the opening brace of the class definition.
+[:zh_CN]
+[~注入类名]（第 [#class] 条）的声明点紧跟其类定义式的开花括号之后。
 
 [para]
 [:en]
 The point of declaration for a function-local predefined variable
 ([#dcl.fct.def]) is immediately before the [~function-body] of a function
 definition.
+[:zh_CN]
+函数局部预定义变量（[#dcl.fct.def]）的声明点紧接其函数定义式的[~函数体]之前。
 
 [para]
 [:en]
 The point of declaration for a template parameter is immediately after its
 complete [~template-parameter].
+[:zh_CN]
+模板形参的声明点紧跟其完整的[~模板形参]之后。
 
 [enter:example]
 
@@ -171,7 +236,9 @@ complete [~template-parameter].
 typedef unsigned char T;
 template<class T
   = T     // [:en] lookup finds the typedef name of [`unsigned char]
+          // [|:zh_CN] 查找到 [`unsigned char] 的 typedef 名
   , T     // [:en] lookup finds the template parameter
+          // [|:zh_CN] 查找到模板形参
     N = 0> struct A { };
 [codeblock:end]
 
@@ -183,15 +250,23 @@ template<class T
 Friend declarations refer to functions or classes that are members of the
 nearest enclosing namespace, but they do not introduce new names into that
 namespace ([#namespace.memdef]).
+[:zh_CN]
+友元声明式所涉指的函数或类是其最近外围命名空间的成员，但它们不向命名空间中引入新
+名字（[#namespace.memdef]）。
 
 [:en]
 Function declarations at block scope and variable declarations with the
 [`extern] specifier at block scope refer to declarations that are members of an
 enclosing namespace, but they do not introduce new names into that scope.
+[:zh_CN]
+块作用域中的函数声明式和块作用域中带有 [`extern] 说明符的变量声明式，所涉指的
+声明式是某个外围命名空间的成员，但它们不向该作用域中引入新名字。
 [exit:note]
 
 [para]
 [enter:note]
 [:en]
 For point of instantiation of a template, see [#temp.point].
+[:zh_CN]
+有关模板的实例化点，参见 [#temp.point]。
 [exit:note]

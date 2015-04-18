@@ -1,5 +1,6 @@
 ﻿[section#basic.scope.proto
     [:en] Function prototype scope
+    [:zh_CN] 函数原型作用域
 ]
 
 [para]
@@ -9,3 +10,7 @@ In a function declaration, or in any function declarator except the declarator
 of a function definition ([#dcl.fct.def]), names of parameters (if supplied)
 have function prototype scope, which terminates at the end of the nearest
 enclosing function declarator.
+[:zh_CN]
+[%作用域[!函数原型～]] [%函数原型]
+在函数声明式，或者除函数定义式（[#dcl.fct.def]）的声明符以外的任何函数声明符中，
+形参的名字（如果被提供）具有函数原型作用域，并终止于其最近外围函数声明符的末尾。

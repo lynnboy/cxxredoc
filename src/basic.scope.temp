@@ -1,26 +1,33 @@
 ﻿[section#basic.scope.temp
     [:en] Template parameter scope
-    [:zh_CN] 作用域
+    [:zh_CN] 模板形参作用域
 ]
 
 [para]
 [:en]
-[%template parameter scope]
-[%scope[!template parameter]]
+[%template parameter scope] [%scope[!template parameter]]
 The declarative region of the name of a template parameter of a template
 [~template-parameter] is the smallest [~template-parameter-list] in which the
 name was introduced.
+[:zh_CN]
+[%模板形参作用域] [%作用域[!模板形参～]]
+模板[~模板形参]的模板形参的名字的声明区，是引入这个名字的最小的[~模板形参列表]。
 
 [para]
 [:en]
 The declarative region of the name of a template parameter of a template is the
 smallest [~template-declaration] in which the name was introduced.
+[:zh_CN]
+模板的模板形参的名字的声明区，是引入这个名字的最小的[~模板声明式]。
 
 [:en]
 Only template parameter names belong to this declarative region; any other kind
 of name introduced by the [~declaration] of a [~template-declaration] is instead
 introduced into the same declarative region where it would be introduced as a
 result of a non-template declaration of the same name.
+[:zh_CN]
+只有模板形参的名字属于这种声明区；由[~模板声明式]的[~声明式]所引入的其他任何种类
+的名字所被引入的声明区，与当同样的名字在非模板声明式中所引入的声明区相同。
 
 [enter:example]
 
@@ -37,30 +44,46 @@ namespace N {
 [:en]
 The declarative regions of [`T], [`U] and [`V] are the [~template-declaration]s
 on lines [`#1], [`#2] and [`#3], respectively.
+[:zh_CN]
+[`T]、[`U] 和 [`V] 的声明区分别为第 [`#1]、[`#2] 和第 [`#3] 行中的[~模板声明式]
+。
 
 [:en]
 But the names [`A], [`f], [`g] and [`C] all belong to the same declarative
 region [=--] namely, the [~namespace-body] of [`N].
+[:zh_CN]
+但名字 [`A]、[`f]、[`g] 和 [`C] 都属于同一个声明区——也就是 [`N] 的[~命名空间体]
+。
 
 [:en]
 ([`g] is still considered to belong to this declarative region in spite of its
 being hidden during qualified and unqualified name lookup.)
 [exit:example]
+[:zh_CN]
+（虽然 [`g] 在未限定名查找中被隐藏，但仍认为它属于这个声明区。）
 
 [para]
 [:en]
 The potential scope of a template parameter name begins at its point of
 declaration ([#basic.scope.pdecl]) and ends at the end of its declarative
 region.
+[:zh_CN]
+模板形参名的潜在作用域开始于其声明点（[#basic.scope.pdecl]）并结束于其声明区末尾
+。
 
 [enter:note]
 [:en]
 This implies that a [~template-parameter] can be used in the declaration of
 subsequent [~template-parameter]s and their default arguments but cannot be used
 in preceding [~template-parameter]s or their default arguments.
+[:zh_CN]
+这意味着，可以在随后的[~模板形参]的声明式及其默认实参中使用该[~模板形参]，但不能
+在它前面的[~模板形参]或其默认实参中使用它。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 template<class T, T* p, class U = T> class X { /* ... */ };
@@ -70,9 +93,13 @@ template<class T> void f(T* p = new T);
 [:en]
 This also implies that a [~template-parameter] can be used in the specification
 of base classes.
+[:zh_CN]
+这还意味着可以在基类说明中使用[~模板形参]。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 template<class T> class X : public Array<T> { /* ... */ };
@@ -83,17 +110,25 @@ template<class T> class Y : public T { /* ... */ };
 The use of a template parameter as a base class implies that a class used as a
 template argument must be defined and not just declared when the class template
 is instantiated.
+[:zh_CN]
+将模板形参用作基类，意味着当实例化该类模板时，被用作模板实参的类必须已被定义而
+不仅被声明。
 [exit:note]
 
 [para]
 [:en]
 The declarative region of the name of a template parameter is nested within the
 immediately-enclosing declarative region.
+[:zh_CN]
+模板形参的名字的声明区，嵌套在其直接外围声明区之内。
 
 [enter:note]
 [:en]
 As a result, a [~template-parameter] hides any entity with the same name in an
 enclosing scope ([#basic.scope.hiding]).
+[:zh_CN]
+其结果是，[~模板形参]隐藏其外围作用域中具有相同名字的任何实体
+（[#basic.scope.hiding]）。
 
 [enter:example]
 
@@ -106,6 +141,9 @@ template<N X, typename N, template<N Y> class T> struct A;
 Here, [`X] is a non-type template parameter of type [`int] and [`Y] is a
 non-type template parameter of the same type as the second template parameter of
 [`A].
+[:zh_CN]
+这里，[`X] 是 [`int] 类型的非类型模板形参，而 [`Y] 是与 [`A] 的第二个模板形参
+类型相同的非类型模板形参。
 [exit:example]
 [exit:note]
 
@@ -115,8 +153,14 @@ non-type template parameter of the same type as the second template parameter of
 Because the name of a template parameter cannot be redeclared within its
 potential scope ([#temp.local]), a template parameter[=']s scope is often its
 potential scope.
+[:zh_CN]
+由于无法在其潜在作用域中重复声明模板形参的名字（[#temp.local]），模板形参的潜在
+作用域通常就是其作用域。
 
 [:en]
 However, it is still possible for a template parameter name to be hidden; see
 [#temp.local].
+[:zh_CN]
+然而，隐藏一个模板形参名仍然是可能的；参见 [#temp.local]。
+
 [exit:note]

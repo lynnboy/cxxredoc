@@ -1,11 +1,15 @@
 ﻿[section#basic.scope.class
     [:en] Class scope
+    [:zh_CN] 类作用域
 ]
 
 [para]
 [:en]
 [%scope[!class]]
 The following rules describe the scope of names declared in classes.
+[:zh_CN]
+[%作用域[!类～]]
+下列规则描述了在类之中声明的名字的作用域。
 
 [list:ol@nrparen]
 [item]
@@ -15,24 +19,39 @@ declarative region following the name[=']s point of declaration, but also of all
 function bodies, default arguments, [~exception-specification]s, and
 [~brace-or-equal-initializers] of non-static data members in that class
 (including such things in nested classes).
+[:zh_CN]
+在类中声明的名字的潜在作用域，不仅包括该名字的声明点后面的声明区，也包括该类中的
+所有函数体，默认实参，[~异常说明]，以及非静态数据成员的[~花括号或等号初始化式]
+（以及在嵌套类中的这些事物）。
 
 [item]
 [:en]
 A name [`N] used in a class [`S] shall refer to the same declaration in its
 context and when re-evaluated in the completed scope of [`S].
+[:zh_CN]
+在类 [`S] 中使用的名字 [`N]，在其语境中，以及当 [`S] 的作用域完成时进行重估后，
+应该涉指相同的声明式。
 
 [:en]
 No diagnostic is required for a violation of this rule.
+[:zh_CN]
+违反本条规则无须诊断。
 
 [item]
 [:en]
 If reordering member declarations in a class yields an alternate valid program
 under (1) and (2), the program is ill-formed, no diagnostic is required.
+[:zh_CN]
+如果对类中的成员声明式进行重新排序产生了对于（1）和（2）都合法的不同程序，则该
+程序非良构，无须诊断。
 
 [item]
 [:en]
 A name declared within a member function hides a declaration of the same name
 whose scope extends to or past the end of the member function[=']s class.
+[:zh_CN]
+成员函数中声明的名字，隐藏那些作用域延伸到或超过该成员函数的类的末尾的相同名字的
+声明式。
 
 [item]
 [:en]
@@ -44,6 +63,12 @@ definitions, including the member function body and any portion of the
 declarator part of such definitions which follows the [~declarator-id],
 including a [~parameter-declaration-clause] and any default arguments
 ([#dcl.fct.default])).
+[:zh_CN]
+延伸到或超过类定义式的末尾的声明式的潜在作用域，同样延伸到其成员的定义式所定义的
+区域，即使该成员在词法上定义于该类之外（这包括静态数据成员的定义式，嵌套类的定义
+式，和成员函数的定义式（包括成员函数体，以及这些定义式中处于[~声明符标识]之后的
+声明符的所有部分，这包括[~形参声明式子句]和所有的默认实参（[#dcl.fct.default]）
+）。
 
 [enter:example]
 
@@ -53,8 +78,11 @@ enum { i = 1 };
 
 class X {
   char  v[i];                       // [:en] error: [`i] refers to [`::i]
+                                    // [|:zh_CN] 错误：[`i] 指代 [`::i]
                                     // [:en@~] but when reevaluated is [`X::i]
+                                    // [|:zh_CN@~] 但重估后却为 [`X::i]
   int  f() { return sizeof(c); }    // [:en] OK: [`X::c]
+                                    // [|:zh_CN] OK：[`X::c]
   char  c;
   enum { i = 2 };
 };
@@ -62,7 +90,9 @@ class X {
 typedef char*  T;
 struct Y {
   T  a;                             // [:en] error: [`T] refers to [`::T]
+                                    // [|:zh_CN] 错误：[`T] 指代 [`::T]
                                     // [:en@~] but when reevaluated is [`Y::T]
+                                    // [|:zh_CN@~] 但重估后却为 [`Y::T]
   typedef long  T;
   T  b;
 };
@@ -70,6 +100,7 @@ struct Y {
 typedef int I;
 class D {
   typedef I I;                      // [:en] error, even though no reordering involved
+                                    // [|:zh_CN] 错误，虽然其并不涉及重新排序
 };
 [codeblock:end]
 [exit:example]
@@ -79,25 +110,36 @@ class D {
 [para]
 [:en]
 The name of a class member shall only be used as follows:
+[:zh_CN]
+类成员的名字仅应按如下方式使用：
 
 [list]
 [item]
 [:en]
 in the scope of its class (as described above) or a class derived (Clause
 [#class.derived]) from its class,
+[:zh_CN]
+在其类的作用域（如上述）或其类的派生类（第 [#class.derived] 条）的作用域中，
 
 [item]
 [:en]
 after the [`.] operator applied to an expression of the type of its class
 ([#expr.ref]) or a class derived from its class,
+[:zh_CN]
+在对某个类型为其类或其类的派生类的表达式应用 [`.] 运算符（[#expr.ref]）之后，
 
 [item]
 [:en]
 after the [`->] operator applied to a pointer to an object of its class
 ([#expr.ref]) or a class derived from its class,
+[:zh_CN]
+在对某个指向其类或其类的派生类的对象的指针应用 [`->] 运算符（[#expr.ref]）之后，
 
 [item]
 [:en]
 after the [`::] scope resolution operator ([#expr.prim]) applied to the name of
 its class or a class derived from its class.
+[:zh_CN]
+在对其类或其类的派生类的名字应用作用域解析运算符 [`::]（[#expr.prim]）之后。
+
 [list:end]

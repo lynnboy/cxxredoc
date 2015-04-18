@@ -1,19 +1,28 @@
 ﻿[section#basic.scope.namespace
     [:en] Namespace scope
+    [:zh_CN] 命名空间作用域
 ]
 
 [para]
 [:en]
 [%scope[!namespace]]
 The declarative region of a [~namespace-definition] is its [~namespace-body].
+[:zh_CN]
+[%作用域[!命名空间～]]
+[~命名空间定义式]的声明区是其[~命名空间体]。
 
 [:en]
 Entities declared in a [~namespace-body] are said to be [def members] of the
 namespace, and names introduced by these declarations into the declarative
 region of the namespace are said to be [def member names] of the namespace.
+[:zh_CN]
+在[~命名空间体]中声明的实体被称为该命名空间的[def 成员]，而被这些声明式引入到
+命名空间的声明区中的名字被称为该命名空间的[def 成员名]。
 
 [:en]
 A namespace member name has namespace scope.
+[:zh_CN]
+命名空间成员名具有命名空间作用域。
 
 [:en]
 Its potential scope includes its namespace from the name[=']s point of
@@ -21,6 +30,10 @@ declaration ([#basic.scope.pdecl]) onwards; and for each [~using-directive]
 ([#namespace.udir]) that nominates the member[=']s namespace, the member[=']s
 potential scope includes that portion of the potential scope of the
 [~using-directive] that follows the member[=']s point of declaration.
+[:zh_CN]
+它的潜在作用域包括命名空间中从该名字的声明点（[#basic.scope.pdecl]）往后的部分；
+而且，对于每个提名该成员的命名空间的 [~using-指令]（[#namespace.udir]），该成员
+的潜在作用域还包括这个 [~using-指令]的潜在作用域处于该成员的声明点之后的部分。
 
 [enter:example]
 
@@ -33,20 +46,29 @@ namespace N {
 }
 namespace { int l=1; }
 // [:en] the potential scope of [`l] is from its point of declaration
+// [|:zh_CN] [`l] 的潜在作用域从其声明点
 // [:en@~] to the end of the translation unit
+// [|:zh_CN@~] 到该翻译单元的末尾
 
 namespace N {
   int g(char a) {   // [:en] overloads [`N::g(int)]
+                    // [|:zh_CN] 重载了 [`N::g(int)]
     return l+a;     // [:en] [`l] is from unnamed namespace
+                    // [|:zh_CN] [`l] 来自无名命名空间
   }
 
   int i;            // [:en] error: duplicate definition
+                    // [|:zh_CN] 错误：重复定义
   int j();          // [:en] OK: duplicate function declaration
+                    // [|:zh_CN] OK：重复的函数声明
 
   int j() {         // [:en] OK: definition of [`N::j()]
+                    // [|:zh_CN] OK：[`N::j()] 的定义
     return g(i);    // [:en] calls [`N::g(int)]
+                    // [|:zh_CN] 调用了 [`N::g(int)]
   }
   int q();          // [:en] error: different return type
+                    // [|:zh_CN] 错误：不同的返回类型
 }
 [codeblock:end]
 [exit:example]
@@ -57,23 +79,37 @@ A namespace member can also be referred to after the [`::] scope resolution
 operator ([#expr.prim]) applied to the name of its namespace or the name of a
 namespace which nominates the member[=']s namespace in a [~using-directive]; see
 [#namespace.qual].
+[:zh_CN]
+命名空间的成员，也可以通过对命名空间的名字，或对某个以 [~using-指令]提名了该成员
+所在命名空间的命名空间的名字，应用作用域解析运算符 [`::]（[#expr.prim]）来进行
+涉指；见 [#namespace.qual]。
 
 [para]
 [:en]
-[%scope[!global namespace]]
-[%scope[!global]]
+[%scope[!global namespace]] [%scope[!global]]
 The outermost declarative region of a translation unit is also a namespace,
 called the [def global namespace].
+[:zh_CN]
+[%作用域[!全局命名空间～]] [%作用域[!全局～]]
+翻译单元最外层的声明区也是命名空间，叫做[def 全局命名空间]。
 
 [:en]
 A name declared in the global namespace has [def global namespace scope] (also
 called [def global scope]).
+[:zh_CN]
+在全局命名空间中声明的名字具有[def 全局命名空间作用域]（也叫[def 全局作用域]）。
 
 [:en]
 The potential scope of such a name begins at its point of declaration
 ([#basic.scope.pdecl]) and ends at the end of the translation unit that is its
 declarative region.
+[:zh_CN]
+这种名字的潜在作用域开始于其声明点（[#basic.scope.pdecl]）并结束于作为其声明区的
+翻译单元的末尾。
 
 [:en]
 [%name[!global]]
 A name with global namespace scope is said to be a [def global name [%global]].
+[:zh_CN]
+[%name[!全局]]
+具有全局命名空间作用域的名字被称为[def 全局名字 [%全局的]]。

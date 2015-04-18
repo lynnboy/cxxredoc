@@ -1,13 +1,18 @@
 ﻿[section#basic.funscope
     [:en] Function scope
+    [:zh_CN] 函数作用域
 ]
 
 [para]
 [:en]
-[%scope[!function]]
-[%label[!scope of]]
+[%scope[!function]] [%label[!scope of]]
 Labels ([#stmt.label]) have [+function scope] and may be used anywhere in the
 function in which they are declared.
+[:zh_CN]
+[%作用域[!函数～]] [%标号[!～的作用域]]
+标号（[#stmt.label]）具有[~函数作用域]，且可在声明它的函数中的任意位置使用。
 
 [:en]
 Only labels have function scope.
+[:zh_CN]
+只有标号具有函数作用域。

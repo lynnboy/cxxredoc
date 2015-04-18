@@ -5,10 +5,14 @@
 
 [para]
 [:en]
-[%enumeration scope]
-[%scope[!enumeration]]
+[%enumeration scope] [%scope[!enumeration]]
 The name of a scoped enumerator ([#dcl.enum]) has [def enumeration scope].
+[:zh_CN]
+[%枚举作用域] [%作用域[!枚举～]]
+有作用域的枚举符（[#dcl.enum]）的名字具有[def 枚举作用域]。
 
 [:en]
 Its potential scope begins at its point of declaration and terminates at the end
 of the [~enum-specifier].
+[:zh_CN]
+其潜在作用域开始于其声明点并结束于其[~枚举说明符]的末尾。

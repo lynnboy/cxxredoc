@@ -1,15 +1,17 @@
 ﻿[section#basic.scope.hiding
     [:en] Name hiding
-    [:zh_CN] 
+    [:zh_CN] 名字隐藏
 ]
 
 [para]
 [:en]
-[%scope name hiding and]
-[%name hiding]
-[%hiding [see name hiding]]
+[%scope [!name hiding and]] [%name hiding] [%hiding [see name hiding]]
 A name can be hidden by an explicit declaration of that same name in a nested
 declarative region or derived class ([#class.member.lookup]).
+[:zh_CN]
+[%作用域 [!名字隐藏与～]] [%名字隐藏] [%隐藏 [see 名字隐藏]]
+名字可以被嵌套的声明区或派生类中相同名字的显式的声明式所隐藏
+（[#class.member.lookup]）。
 
 [para]
 [:en]
@@ -17,23 +19,37 @@ declarative region or derived class ([#class.member.lookup]).
 A class name ([#class.name]) or enumeration name ([#dcl.enum]) can be hidden by
 the name of a variable, data member, function, or enumerator declared in the
 same scope.
+[:zh_CN]
+[%名字隐藏]
+类名（[#class.name]）或枚举名（[#dcl.enum]）可以被相同作用域中的变量、数据成员、
+函数或枚举符的名字所隐藏。
 
 [:en]
 If a class or enumeration name and a variable, data member, function, or
 enumerator are declared in the same scope (in any order) with the same name, the
 class or enumeration name is hidden wherever the variable, data member,
 function, or enumerator name is visible.
+[:zh_CN]
+如果在相同作用域中（以任意顺序）声明的类或枚举名，与变量、数据成员、函数或枚举符
+的名字相同，则只要该变量、数据成员、函数或枚举符的名字可见时，该类或枚举的名字就
+被隐藏。
 
 [para]
 [:en]
 In a member function definition, the declaration of a name at block scope hides
 the declaration of a member of the class with the same name; see
 [#basic.scope.class].
+[:zh_CN]
+在成员函数定义式中，块作用域中的名字的声明式隐藏该类中具有相同名字的成员的声明式
+；参见 [#basic.scope.class]。
 
 [:en]
 The declaration of a member in a derived class (Clause [#class.derived]) hides
 the declaration of a member of a base class of the same name; see
 [#class.member.lookup].
+[:zh_CN]
+派生类（第 [#class.derived] 条）中成员的声明式隐藏具有相同名字的基类成员的声明式
+；参见 [#class.member.lookup]。
 
 [para]
 [:en]
@@ -41,8 +57,15 @@ During the lookup of a name qualified by a namespace name, declarations that
 would otherwise be made visible by a [~using-directive] can be hidden by
 declarations with the same name in the namespace containing the
 [~using-directive]; see ([#namespace.qual]).
+[:zh_CN]
+在对以命名空间名限定的名字进行查找时，凡是被 [~using-指令]变为可见的声明式，都
+可被在包含该 [~using-指令]的命名空间中的相同名字的声明式所隐藏；参见
+[#namespace.qual]。
 
 [para]
 [:en]
 [%visibility]
 If a name is in scope and is not hidden it is said to be [def visible].
+[:zh_CN]
+[%可见性]
+若某个名字在作用域中且未被隐藏，就称其为[def 可见的]。
