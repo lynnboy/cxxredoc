@@ -1,214 +1,272 @@
-﻿\rSec1[basic.types]{Types]
-[%type|(}
+﻿[section#basic.types
+    [:en] Types
+    [:zh_CN] 
+]
+
+[%:begin#type
+    [:en] type
+]
 
 [para]
 [enter:note]
+[:en]
+[#basic.types] and the subclauses thereof impose requirements on implementations
+regarding the representation of types.
 
-[#basic.types} and the subclauses thereof
-impose requirements on implementations regarding the representation
-of types.
+[:en]
 There are two kinds of types: fundamental types and compound types.
-Types describe objects ([#intro.object}),
-references ([#dcl.ref}),
-or functions ([#dcl.fct}).
+
+[:en]
+Types describe objects ([#intro.object]), references ([#dcl.ref]), or functions
+([#dcl.fct]).
 [exit:note]
 
+[%:begin#object.byte.copying
+    [:en] object [!byte copying and]
+]
 
 [para]
-[%object!byte~copying~and|(]
-[%type!trivially~copyable]
+[:en]
+[%type[!trivially copyable]]
 For any object (other than a base-class subobject) of trivially copyable type
-[`T}, whether or not the object holds a valid value of type
-[`T}, the underlying bytes ([#intro.memory}) making up the
-object can be copied into an array of [`char} or [`unsigned}
-[`char}.\footnote{By using, for example, the library
-functions ([#headers}) [`std::memcpy} or [`std::memmove}.}
-If the content of the array of [`char} or [`unsigned}
-[`char} is copied back into the object, the object shall
-subsequently hold its original value. [enter:example]
+[`T], whether or not the object holds a valid value of type [`T], the underlying
+bytes ([#intro.memory]) making up the object can be copied into an array of
+[`char] or [`unsigned] [`char].
 
+[footnote]
+[:en]
+By using, for example, the library functions ([#headers]) [`std::memcpy] or
+[`std::memmove].
+[footnote:end]
 
+[:en]
+If the content of the array of [`char] or [`unsigned] [`char] is copied back
+into the object, the object shall subsequently hold its original value.
+
+[enter:example]
 [codeblock]
 #define N sizeof(T)
 char buf[N];
-T obj;                          // [`obj} initialized to its original value
-std::memcpy(buf, &obj, N);      // between these two calls to [`std::memcpy},
-                                // [`obj} might be modified
-std::memcpy(&obj, buf, N);      // at this point, each subobject of [`obj} of scalar type
-                                // holds its original value
+T obj;                          // [:en] [`obj] initialized to its original value
+std::memcpy(buf, &obj, N);      // [:en] between these two calls to [`std::memcpy],
+                                // [:en@~] [`obj] might be modified
+std::memcpy(&obj, buf, N);      // [:en] at this point, each subobject of [`obj] of scalar type
+                                // [:en@~] holds its original value
 [codeblock:end]
 [exit:example]
  
-
 [para]
-For any trivially copyable type [`T}, if two pointers to [`T} point to
-distinct [`T} objects [`obj1} and [`obj2}, where neither
-[`obj1} nor [`obj2} is a base-class subobject, if the underlying
-bytes ([#intro.memory}) making up
-[`obj1} are copied into [`obj2},\footnote{By using, for example,
-the library functions ([#headers}) [`std::memcpy} or [`std::memmove}.}
- [`obj2} shall subsequently hold the same value as
-[`obj1}. [enter:example]
+[:en]
+For any trivially copyable type [`T], if two pointers to [`T] point to distinct
+[`T] objects [`obj1] and [`obj2], where neither [`obj1] nor [`obj2] is a
+base-class subobject, if the underlying bytes ([#intro.memory]) making up
+[`obj1] are copied into [`obj2],
 
+[footnote]
+[:en]
+By using, for example, the library functions ([#headers]) [`std::memcpy] or
+[`std::memmove].
+[footnote:end]
 
+[:en]
+[`obj2] shall subsequently hold the same value as [`obj1].
+
+[enter:example]
 [codeblock]
 T* t1p;
 T* t2p;
-    // provided that [`t2p} points to an initialized object ...
+    // [:en] provided that [`t2p] points to an initialized object ...
 std::memcpy(t1p, t2p, sizeof(T));
-    // at this point, every subobject of trivially copyable type in [`*t1p} contains
-    // the same value as the corresponding subobject in [`*t2p}
+    // [:en] at this point, every subobject of trivially copyable type in [`*t1p] contains
+    // [:en@~] the same value as the corresponding subobject in [`*t2p]
 [codeblock:end]
 [exit:example]
-%
-[%object!byte~copying~and|)}
+
+[%:end#object.byte.copying]
 
 [para]
-The [def object representation}
-[%representation!object]
-of an object of type [`T} is the
-sequence of [+N} [`unsigned} [`char} objects taken up
-by the object of type [`T}, where [+N} equals
-[`sizeof(T)}. The
-[%representation!value]
-[def value representation}
-of an object is the set of bits that hold
-the value of type [`T}. For trivially copyable types, the value representation is
-a set of bits in the object representation that determines a
-[def value}, which is one discrete element of an
-\impldef{values of a trivially copyable type} set of values.\footnote{The
-intent is that the memory model of [=Cpp] is compatible
-with that of ISO/IEC 9899 Programming Language C.}
+[:en]
+The [%representation[!object]] [def object representation] of an object of type
+[`T] is the sequence of [+N] [`unsigned] [`char] objects taken up by the object
+of type [`T], where [+N] equals [`sizeof(T)].
+
+[:en]
+The [%representation[!value]] [def value representation] of an object is the set
+of bits that hold the value of type [`T].
+
+[:en]
+For trivially copyable types, the value representation is a set of bits in the
+object representation that determines a [def value], which is one discrete
+element of an [%@impldef values of a trivially copyable type]
+implementation-defined set of values.
+
+[footnote]
+[:en]
+The intent is that the memory model of [=Cpp] is compatible with that of ISO/IEC
+9899 Programming Language C.
+[footnote:end]
 
 [para]
-[%type!incomplete]
-[%type!incompletely-defined object]
-[%object type!incompletely-defined]
+[:en]
+[%type[!incomplete]] [%type[!incompletely-defined object]]
+[%object type[!incompletely-defined]]
 A class that has been declared but not defined, an enumeration type in certain
-contexts ([#dcl.enum}), or an array of unknown
-size or of incomplete element type, is an [def incompletely-defined object
-type}.\footnote{The size and layout of an instance of an incompletely-defined
-object type is unknown.}
-Incompletely-defined object types and the void types are [+incomplete
-types} ([#basic.fundamental}). Objects shall not be defined to have an
-incomplete type.
+contexts ([#dcl.enum]), or an array of unknown size or of incomplete element
+type, is an [def incompletely-defined object type].
+
+[footnote]
+[:en]
+The size and layout of an instance of an incompletely-defined object type is
+unknown.
+[footnote:end]
+
+[:en]
+Incompletely-defined object types and the void types are [+incomplete types]
+([#basic.fundamental]).
+
+[:en]
+Objects shall not be defined to have an incomplete type.
 
 [para]
-A class type (such as ["[`class X}]) might be incomplete at one
-point in a translation unit and complete later on; the type
-["[`class X}] is the same type at both points. The declared type
-of an array object might be an array of incomplete class type and
-therefore incomplete; if the class type is completed later on in the
-translation unit, the array type becomes complete; the array type at
-those two points is the same type. The declared type of an array object
-might be an array of unknown bound and therefore be incomplete at one
-point in a translation unit and complete later on; the array types at
-those two points (["array of unknown bound of [`T}] and ["array of
-[`N} [`T}]) are different types. The type of a pointer to array of
-unknown size, or of a type defined by a [`typedef} declaration to
-be an array of unknown size, cannot be completed. [enter:example]
+[:en]
+A class type (such as ["[`class X]]) might be incomplete at one point in a
+translation unit and complete later on; the type ["[`class X]] is the same type
+at both points.
 
+[:en]
+The declared type of an array object might be an array of incomplete class type
+and therefore incomplete; if the class type is completed later on in the
+translation unit, the array type becomes complete; the array type at those two
+points is the same type.
 
-[%type!example~of incomplete]
+[:en]
+The declared type of an array object might be an array of unknown bound and
+therefore be incomplete at one point in a translation unit and complete later
+on; the array types at those two points (["array of unknown bound of [`T]] and
+["array of [`N] [`T]]) are different types.
+
+[:en]
+The type of a pointer to array of unknown size, or of a type defined by a
+[`typedef] declaration to be an array of unknown size, cannot be completed.
+
+[enter:example]
+[% [:en] type[!example of incomplete]]
 [codeblock]
-class X;                        // [`X} is an incomplete type
-extern X* xp;                   // [`xp} is a pointer to an incomplete type
-extern int arr[];               // the type of arr is incomplete
-typedef int UNKA[];             // [`UNKA} is an incomplete type
-UNKA* arrp;                     // [`arrp} is a pointer to an incomplete type
+class X;                        // [:en] [`X] is an incomplete type
+extern X* xp;                   // [:en] [`xp] is a pointer to an incomplete type
+extern int arr[];               // [:en] the type of arr is incomplete
+typedef int UNKA[];             // [:en] [`UNKA] is an incomplete type
+UNKA* arrp;                     // [:en] [`arrp] is a pointer to an incomplete type
 UNKA** arrpp;
 
 void foo() {
-  xp++;                         // ill-formed: [`X} is incomplete
-  arrp++;                       // ill-formed: incomplete type
-  arrpp++;                      // OK: sizeof [`UNKA*} is known
+  xp++;                         // [:en] ill-formed: [`X] is incomplete
+  arrp++;                       // [:en] ill-formed: incomplete type
+  arrpp++;                      // [:en] OK: sizeof [`UNKA*] is known
 }
 
-struct X { int i; };            // now [`X} is a complete type
-int  arr[10];                   // now the type of [`arr} is complete
+struct X { int i; };            // [:en] now [`X] is a complete type
+int  arr[10];                   // [:en] now the type of [`arr] is complete
 
 X x;
 void bar() {
-  xp = &x;                      // OK; type is ["pointer to [`X}]
-  arrp = &arr;                  // ill-formed: different types
-  xp++;                         // OK:  [`X} is complete
-  arrp++;                       // ill-formed: [`UNKA} can[=']t be completed
+  xp = &x;                      // [:en] OK; type is ["pointer to [`X]]
+  arrp = &arr;                  // [:en] ill-formed: different types
+  xp++;                         // [:en] OK:  [`X] is complete
+  arrp++;                       // [:en] ill-formed: [`UNKA] can[=']t be completed
 }
 [codeblock:end]
 [exit:example]
- 
 
 [para]
 [enter:note]
- The rules for declarations and expressions describe in which
-contexts incomplete types are prohibited. [exit:note]
-
-
-[para]
-[%object~type]
-An [def object type} is a (possibly cv-qualified) type that is not
-a function type, not a reference type, and not a void type.
+[:en]
+The rules for declarations and expressions describe in which contexts incomplete
+types are prohibited.
+[exit:note]
 
 [para]
-Arithmetic types ([#basic.fundamental}), enumeration types, pointer
-types, pointer to member types ([#basic.compound}),
-[`std::nullptr_t},
-and
-cv-qualified versions of these
-types ([#basic.type.qualifier}) are collectively called
-[%scalar~type]
-[+scalar types}. Scalar types,
-POD classes (Clause [#class}), arrays of such types and
-[~cv-qualified} versions of these
-types ([#basic.type.qualifier}) are collectively called
-[%type!POD]
-[+POD types}.
-Cv-unqualified scalar types, trivially copyable class types (Clause [#class}), arrays of
-such types, and non-volatile const-qualified versions of these
-types ([#basic.type.qualifier}) are collectively called [def trivially
-copyable types}.
-Scalar types, trivial class types (Clause [#class}),
-arrays of such types and cv-qualified versions of these
-types ([#basic.type.qualifier}) are collectively called
-[def trivial types}. Scalar types, standard-layout class
-types (Clause [#class}), arrays of such types and
-cv-qualified versions of these types ([#basic.type.qualifier})
-are collectively called [def standard-layout types}.
+[:en]
+[%object type]
+An [def object type] is a (possibly cv-qualified) type that is not a function
+type, not a reference type, and not a void type.
 
 [para]
-A type is a [def literal type} if it is:
+[:en]
+Arithmetic types ([#basic.fundamental]), enumeration types, pointer types,
+pointer to member types ([#basic.compound]), [`std::nullptr_t], and cv-qualified
+versions of these types ([#basic.type.qualifier]) are collectively called
+[%scalar type] [+scalar types].
+
+[:en]
+Scalar types, POD classes (Clause [#class]), arrays of such types and
+[~cv-qualified] versions of these types ([#basic.type.qualifier]) are
+collectively called [%type[!POD]] [+POD types].
+
+[:en]
+Cv-unqualified scalar types, trivially copyable class types (Clause [#class]),
+arrays of such types, and non-volatile const-qualified versions of these types
+([#basic.type.qualifier]) are collectively called [def trivially copyable
+types].
+
+[:en]
+Scalar types, trivial class types (Clause [#class]), arrays of such types and
+cv-qualified versions of these types ([#basic.type.qualifier]) are collectively
+called [def trivial types].
+
+[:en]
+Scalar types, standard-layout class types (Clause [#class]), arrays of such
+types and cv-qualified versions of these types ([#basic.type.qualifier]) are
+collectively called [def standard-layout types].
+
+[para]
+[:en]
+A type is a [def literal type] if it is:
 
 [list]
 [item]
-[`void}; or
+[:en]
+[`void]; or
+
 [item]
+[:en]
 a scalar type; or
+
 [item]
+[:en]
 a reference type; or
+
 [item]
+[:en]
 an array of literal type; or
+
 [item]
-a class type (Clause [#class}) that
-has all of the following properties:
+[:en]
+a class type (Clause [#class]) that has all of the following properties:
+
 [list]
 [item]
+[:en]
 it has a trivial destructor,
+
 [item]
-it is an aggregate type ([#dcl.init.aggr}) or has
-at least one [`constexpr} constructor or constructor template that is not a copy or move constructor, and
+[:en]
+it is an aggregate type ([#dcl.init.aggr]) or has at least one [`constexpr]
+constructor or constructor template that is not a copy or move constructor, and
+
 [item]
+[:en]
 all of its non-static data members and base classes are
 of non-volatile literal types.
 [list:end]
 [list:end]
 
 [para]
-[%layout-compatible~type]
-Two types \cvqual{cv1} [`T1} and \cvqual{cv2} [`T2} are
-[def layout-compatible} types
-if [`T1} and [`T2} are the same type,
-layout-compatible enumerations ([#dcl.enum}), or
-layout-compatible standard-layout class types ([#class.mem}).
+[:en]
+[%layout-compatible type]
+Two types [$cv1] [`T1] and [%cv2] [`T2] are [def layout-compatible] types if
+[`T1] and [`T2] are the same type, layout-compatible enumerations ([#dcl.enum]),
+or layout-compatible standard-layout class types ([#class.mem]).
 
 [include basic.fundamental]
 
@@ -216,4 +274,4 @@ layout-compatible standard-layout class types ([#class.mem}).
 
 [include basic.type.qualifier]
 
-[%type|)}
+[%:end#type]
