@@ -1,28 +1,44 @@
-﻿\rSec2[basic.stc.dynamic]{Dynamic storage duration]
-[%storage~duration!dynamic|(}
+﻿[section#basic.stc.dynamic
+    [:en] Dynamic storage duration
+    [:zh_CN] 
+]
+
+[%:begin#storage.duration.dynamic
+    [:en] storage duration [!dynamic]
+]
 
 [para]
-Objects can be created dynamically during program
-execution ([#intro.execution}), using
-[%\idxcode{new}]
-[~new-expression}s ([#expr.new}), and destroyed using
-[%\idxcode{delete}]
-[~delete-expression}s ([#expr.delete}). A [=Cpp] implementation
-provides access to, and management of, dynamic storage via the global
-[def allocation functions} [`operator new} and [`operator
-new[]} and the global [def deallocation functions} [`operator
-delete} and [`operator delete[]}.
+[:en]
+Objects can be created dynamically during program execution
+([#intro.execution]), using [%[`new]] [~new-expression]s ([#expr.new]), and
+destroyed using [%[`delete]] [~delete-expression]s ([#expr.delete]).
+
+[:en]
+A [=Cpp] implementation provides access to, and management of, dynamic storage
+via the global [def allocation functions] [`operator new] and [`operator new[]]
+and the global [def deallocation functions] [`operator delete] and [`operator
+delete[]].
 
 [para]
+[:en]
 The library provides default definitions for the global allocation and
-deallocation functions. Some global allocation and deallocation
-functions are replaceable ([#new.delete}). A [=Cpp] program shall
-provide at most one definition of a replaceable allocation or
-deallocation function. Any such function definition replaces the default
-version provided in the library ([#replacement.functions}). The
-following allocation and deallocation functions ([#support.dynamic})
-are implicitly declared in global scope in each translation unit of a
-program.
+deallocation functions.
+
+[:en]
+Some global allocation and deallocation functions are replaceable
+([#new.delete]).
+
+[:en]
+A [=Cpp] program shall provide at most one definition of a replaceable
+allocation or deallocation function.
+
+[:en]
+Any such function definition replaces the default version provided in the
+library ([#replacement.functions]).
+
+[:en]
+The following allocation and deallocation functions ([#support.dynamic]) are
+implicitly declared in global scope in each translation unit of a program.
 
 [codeblock]
 void* operator new(std::size_t);
@@ -33,28 +49,34 @@ void operator delete(void*, std::size_t) noexcept;
 void operator delete[](void*, std::size_t) noexcept;
 [codeblock:end]
 
-These implicit declarations introduce only the function names
-[`operator} [`new}, [`operator} [`new[]},
-[`op\-er\-a\-tor} [`delete}, and [`operator}
-[`delete[]}. [enter:note]
- The implicit declarations do not introduce
-the names [`std},
-[`std\colcol{}size_t}, or any other names that the library uses to
-declare these names. Thus, a [~new-expression},
-[~delete-expression} or function call that refers to one of
-these functions without including the header [`<new>} is
-well-formed. However, referring to [`std}
-or [`std::size_t} is ill-formed unless the name has been declared
-by including the appropriate header. [exit:note]
- Allocation and/or
-deallocation functions can also be declared and defined for any
-class ([#class.free}).
+[:en]
+These implicit declarations introduce only the function names [`operator new],
+[`operator new[]], [`operator delete], and [`operator delete[]].
+
+[enter:note]
+[:en]
+The implicit declarations do not introduce the names [`std], [`std::size_t], or
+any other names that the library uses to declare these names.
+
+[:en]
+Thus, a [~new-expression], [~delete-expression] or function call that refers to
+one of these functions without including the header [`<new>] is well-formed.
+
+[:en]
+However, referring to [`std] or [`std::size_t] is ill-formed unless the name has
+been declared by including the appropriate header.
+[exit:note]
+
+[:en]
+Allocation and/or deallocation functions can also be declared and defined for
+any class ([#class.free]).
 
 [para]
+[:en]
 Any allocation and/or deallocation functions defined in a [=Cpp] program,
-including the default versions in the library, shall conform to the
-semantics specified in [#basic.stc.dynamic.allocation}
-and [#basic.stc.dynamic.deallocation}.
+including the default versions in the library, shall conform to the semantics
+specified in [#basic.stc.dynamic.allocation] and
+[#basic.stc.dynamic.deallocation].
 
 [include basic.stc.dynamic.allocation]
 
@@ -62,4 +84,4 @@ and [#basic.stc.dynamic.deallocation}.
 
 [include basic.stc.dynamic.safety]
 
-[%storage~duration!dynamic|)}
+[%:end#storage.duration.dynamic]

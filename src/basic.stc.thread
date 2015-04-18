@@ -1,14 +1,24 @@
-﻿\rSec2[basic.stc.thread]{Thread storage duration}
+﻿[section#basic.stc.thread
+    [:en] Thread storage duration
+    [:zh_CN] 
+]
 
 [para]
-[%storage~duration!thread]
-All variables declared with the [`thread_local} keyword have [def thread
-storage duration}. The storage for these entities shall last for the duration of
-the thread in which they are created. There is a distinct object or reference
-per thread, and use of the declared name refers to the entity associated with
-the current thread.
+[:en]
+[%storage duration[!thread]]
+All variables declared with the [`thread_local] keyword have [def thread storage
+duration].
+
+[:en]
+The storage for these entities shall last for the duration of the thread in
+which they are created.
+
+[:en]
+There is a distinct object or reference per thread, and use of the declared name
+refers to the entity associated with the current thread.
 
 [para]
-A variable with thread storage duration shall be initialized before
-its first odr-use ([#basic.def.odr}) and, if constructed, shall be destroyed on thread exit.
-
+[:en]
+A variable with thread storage duration shall be initialized before its first
+odr-use ([#basic.def.odr]) and, if constructed, shall be destroyed on thread
+exit.

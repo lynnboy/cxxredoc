@@ -1,37 +1,54 @@
-﻿\rSec1[basic.stc]{Storage duration}
+﻿[section#basic.stc
+    [:en] Storage duration
+    [:zh_CN] 
+]
+
+[%:begin#storage.duration
+    [:en] storage duration
+]
 
 [para]
-[%storage~duration|(]
-Storage duration is the property of an object that defines the minimum
-potential lifetime of the storage containing the object. The storage
-duration is determined by the construct used to create the object and is
-one of the following:
+[:en]
+Storage duration is the property of an object that defines the minimum potential
+lifetime of the storage containing the object.
+
+[:en]
+The storage duration is determined by the construct used to create the object
+and is one of the following:
 
 [list]
 [item]
+[:en@~]
 static storage duration
 [item]
+[:en@~]
 thread storage duration
 [item]
+[:en@~]
 automatic storage duration
 [item]
+[:en@~]
 dynamic storage duration
 [list:end]
 
 [para]
-[%storage~duration!static]
-[%storage~duration!thread]
-[%storage~duration!automatic]
-[%storage~duration!dynamic]
+[:en]
+[%storage duration[!static]] [%storage duration[!thread]]
+[%storage duration[!automatic]] [%storage duration[!dynamic]]
 Static, thread, and automatic storage durations are associated with objects
-introduced by declarations ([#basic.def}) and implicitly created by
-the implementation ([#class.temporary}). The dynamic storage duration
-is associated with objects created with [`operator}
-[`new} ([#expr.new}).
+introduced by declarations ([#basic.def]) and implicitly created by the
+implementation ([#class.temporary]).
+
+[:en]
+The dynamic storage duration is associated with objects created with [`operator]
+[`new] ([#expr.new]).
 
 [para]
-The storage duration categories apply to references as well. The
-lifetime of a reference is its storage duration.
+[:en]
+The storage duration categories apply to references as well.
+
+[:en]
+The lifetime of a reference is its storage duration.
 
 [include basic.stc.static]
 
@@ -43,5 +60,4 @@ lifetime of a reference is its storage duration.
 
 [include basic.stc.inherit]
 
-[%storage~duration|)]
-
+[%:end#storage.duration]

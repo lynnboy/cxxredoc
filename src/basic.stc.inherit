@@ -1,7 +1,10 @@
-﻿\rSec2[basic.stc.inherit]{Duration of subobjects}
+﻿[section#basic.stc.inherit
+    [:en] Duration of subobjects
+    [:zh_CN] 
+]
 
 [para]
-[%storage~duration!class member]
-The storage duration of member subobjects, base class subobjects and
-array elements is that of their complete object ([#intro.object}).
-
+[:en]
+[%storage duration[!class member]]
+The storage duration of member subobjects, base class subobjects and array
+elements is that of their complete object ([#intro.object]).
