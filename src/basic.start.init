@@ -1,131 +1,196 @@
-﻿\rSec2[basic.start.init]{Initialization of non-local variables}
+﻿[section#basic.start.init
+    [:en] Initialization of non-local variables
+    [:zh_CN] 
+]
 
 [para]
+[:en]
 [%initialization]
-[%initialization!static and thread]
-There are two broad classes of named non-local variables: those with static storage
-duration ([#basic.stc.static}) and those with thread storage
-duration ([#basic.stc.thread}). Non-local variables with static storage duration
-are initialized as a consequence of program initiation. Non-local variables with
-thread storage duration are initialized as a consequence of thread execution.
+[%initialization[!static and thread]]
+There are two broad classes of named non-local variables: those with static
+storage duration ([#basic.stc.static]) and those with thread storage duration
+([#basic.stc.thread]).
+
+[:en]
+Non-local variables with static storage duration are initialized as a
+consequence of program initiation.
+
+[:en]
+Non-local variables with thread storage duration are initialized as a
+consequence of thread execution.
+
+[:en]
 Within each of these phases of initiation, initialization occurs as follows.
 
 [para]
-[%initialization!\idxcode{static object}]
-[%initialization!dynamic]
-[%initialization!run-time]
-[%start!program]
-[%initialization!order~of]
-Variables with static storage duration ([#basic.stc.static}) or thread storage
-duration ([#basic.stc.thread}) shall be zero-initialized ([#dcl.init}) before
+[:en]
+[%initialization[![`static object]]]
+[%initialization[!dynamic]] [%initialization[!run-time]]
+[%start[!program]] [%initialization[!order of]]
+Variables with static storage duration ([#basic.stc.static]) or thread storage
+duration ([#basic.stc.thread]) shall be zero-initialized ([#dcl.init]) before
 any other initialization takes place.
-A [+constant initializer} for an object [`o} is an expression that is a
-constant expression, except that it may also invoke [`constexpr} constructors
-for [`o} and its subobjects even if those objects are of non-literal class
-types [enter:note]
- such a class may have a non-trivial destructor [exit:note]
+
+[:en]
+A [+constant initializer] for an object [`o] is an expression that is a constant
+expression, except that it may also invoke [`constexpr] constructors for [`o]
+and its subobjects even if those objects are of non-literal class types
+
+[enter:note]
+[:en]
+such a class may have a non-trivial destructor
+[exit:note]
+
+[:en@~]
 .
-[%initialization!constant]
-[+Constant initialization} is performed:
+
+[:en]
+[%initialization[!constant]]
+[+Constant initialization] is performed:
 
 [list]
-\item
-if each full-expression (including implicit conversions) that appears in
-the initializer of a reference with static or thread storage duration is a
-constant expression ([#expr.const}) and the reference is bound to a glvalue
-designating an object with static storage duration, to a temporary object
-(see [#class.temporary}) or subobject thereof, or to a function;
+[item]
+[:en]
+if each full-expression (including implicit conversions) that appears in the
+initializer of a reference with static or thread storage duration is a constant
+expression ([#expr.const]) and the reference is bound to a glvalue designating
+an object with static storage duration, to a temporary object (see
+[#class.temporary]) or subobject thereof, or to a function;
 
-\item
-if an object with static or thread storage duration is initialized
-by a constructor call, and if the initialization full-expression is a constant
+[item]
+[:en]
+if an object with static or thread storage duration is initialized by a
+constructor call, and if the initialization full-expression is a constant
 initializer for the object;
 
-\item
-if an object with static or thread storage duration is not initialized by a constructor call
-and if either the object is value-initialized or every full-expression that
-appears in its initializer is a constant expression.
+[item]
+[:en]
+if an object with static or thread storage duration is not initialized by a
+constructor call and if either the object is value-initialized or every
+full-expression that appears in its initializer is a constant expression.
 
 [list:end]
 
+[:en]
 Together, zero-initialization and constant initialization are called [def static
-initialization}; all other initialization is [def dynamic initialization}. Static
-initialization shall be performed before any dynamic initialization takes place. Dynamic
-initialization of a non-local variable with static storage duration is 
-[def unordered} if the variable is an implicitly or explicitly instantiated
-specialization, and otherwise is [def ordered} [enter:note]
- an explicitly
-specialized static data member or variable template specialization has
-ordered initialization.[exit:note]
-. Variables with ordered
-initialization defined within a single translation unit shall be initialized in the order of
-their definitions in the translation unit. If a program starts a thread ([#thread.threads}),
-the subsequent initialization of a variable is unsequenced with respect to the initialization
-of a variable defined in a different translation unit. Otherwise, the initialization of a
-variable is indeterminately sequenced with respect to the initialization of a variable defined
-in a different translation unit. If a program starts a thread, the subsequent unordered
-initialization of a variable is unsequenced with respect to every other dynamic initialization.
-Otherwise, the unordered initialization of a variable is indeterminately sequenced with respect
-to every other dynamic initialization. [enter:note]
- This definition permits initialization of a
-sequence of ordered variables concurrently with another sequence. [exit:note]
- [enter:note]
- The
-initialization of local static variables is described in [#stmt.dcl}. [exit:note]
+initialization]; all other initialization is [def dynamic initialization].
 
+[:en]
+Static initialization shall be performed before any dynamic initialization takes
+place.
+
+[:en]
+Dynamic initialization of a non-local variable with static storage duration is 
+[def unordered] if the variable is an implicitly or explicitly instantiated
+specialization, and otherwise is [def ordered]
+
+[enter:note]
+[:en]
+an explicitly specialized static data member or variable template specialization
+has ordered initialization.
+[exit:note]
+
+[:en@~]
+.
+
+[:en]
+Variables with ordered initialization defined within a single translation unit
+shall be initialized in the order of their definitions in the translation unit.
+
+[:en]
+If a program starts a thread ([#thread.threads]), the subsequent initialization
+of a variable is unsequenced with respect to the initialization of a variable
+defined in a different translation unit.
+
+[:en]
+Otherwise, the initialization of a variable is indeterminately sequenced with
+respect to the initialization of a variable defined in a different translation
+unit.
+
+[:en]
+If a program starts a thread, the subsequent unordered initialization of a
+variable is unsequenced with respect to every other dynamic initialization.
+
+[:en]
+Otherwise, the unordered initialization of a variable is indeterminately
+sequenced with respect to every other dynamic initialization.
+
+[enter:note]
+[:en]
+This definition permits initialization of a sequence of ordered variables
+concurrently with another sequence.
+[exit:note]
+
+[enter:note]
+[:en]
+The
+initialization of local static variables is described in [#stmt.dcl].
+[exit:note]
 
 [para]
-An implementation is permitted to perform the initialization of a
-non-local variable with static storage duration as a static
-initialization even if such initialization is not required to be done
-statically, provided that
+An implementation is permitted to perform the initialization of a non-local
+variable with static storage duration as a static initialization even if such
+initialization is not required to be done statically, provided that
 
 [list]
-\item
-the dynamic version of the initialization does not change the
-value of any other object of namespace scope prior to its initialization, and
+[item]
+[:en]
+the dynamic version of the initialization does not change the value of any other
+object of namespace scope prior to its initialization, and
 
-\item
-the static version of the initialization produces the same value
-in the initialized variable as would be produced by the dynamic
-initialization if all variables not required to be initialized statically
-were initialized dynamically.
+[item]
+[:en]
+the static version of the initialization produces the same value in the
+initialized variable as would be produced by the dynamic initialization if all
+variables not required to be initialized statically were initialized
+dynamically.
 [list:end]
 
-% \item
 [enter:note]
- As a consequence, if the initialization of an object [`obj1} refers to an
-object [`obj2} of namespace scope potentially requiring dynamic initialization and defined
-later in the same translation unit, it is unspecified whether the value of [`obj2} used
-will be the value of the fully initialized [`obj2} (because [`obj2} was statically
-initialized) or will be the value of [`obj2} merely zero-initialized. For example,
+[:en]
+As a consequence, if the initialization of an object [`obj1] refers to an object
+[`obj2] of namespace scope potentially requiring dynamic initialization and
+defined later in the same translation unit, it is unspecified whether the value
+of [`obj2] used will be the value of the fully initialized [`obj2] (because
+[`obj2] was statically initialized) or will be the value of [`obj2] merely
+zero-initialized.
+
+[:en]
+For example,
 
 [codeblock]
 inline double fd() { return 1.0; }
 extern double d1;
-double d2 = d1;     // unspecified:
-                    // may be statically initialized to [`0.0} or
-                    // dynamically initialized to [`0.0} if [`d1} is
-                    // dynamically initialized, or [`1.0} otherwise
-double d1 = fd();   // may be initialized statically or dynamically to [`1.0}
+double d2 = d1;     // [:en] unspecified:
+                    // [:en@~] may be statically initialized to [`0.0] or
+                    // [:en@~] dynamically initialized to [`0.0] if [`d1] is
+                    // [:en@~] dynamically initialized, or [`1.0] otherwise
+double d1 = fd();   // [:en] may be initialized statically or dynamically to [`1.0]
 [codeblock:end]
 [exit:note]
 
-
 [para]
-[%evaluation!unspecified order~of]
-It is \impldef{dynamic initialization of static objects before [`main}} whether the
-dynamic initialization of a non-local variable with static storage duration is
-done before the first statement of [`main}. If the initialization is deferred to
-some point in time after the first statement of [`main}, it shall occur before the
-first odr-use ([#basic.def.odr}) of any function or variable
-defined in the same translation unit as the variable
-to be initialized.\footnote{A non-local variable with static storage duration
-having initialization
-with side-effects must be initialized even if it is not
-odr-used ([#basic.def.odr}, [#basic.stc.static}).}
-[enter:example]
- 
+[:en]
+[%evaluation[!unspecified order of]]
+It is [%@impldef dynamic initialization of static objects before [`main]]
+implementation-defined whether the dynamic initialization of a non-local
+variable with static storage duration is done before the first statement of
+[`main].
+
+[:en]
+If the initialization is deferred to some point in time after the first
+statement of [`main], it shall occur before the first odr-use ([#basic.def.odr])
+of any function or variable defined in the same translation unit as the variable
+to be initialized.
+
+[footnote]
+[:en]
+A non-local variable with static storage duration having initialization with
+side-effects must be initialized even if it is not odr-used ([#basic.def.odr],
+[#basic.stc.static]).
+[footnote:end]
+
+[enter:example] 
 
 [codeblock]
 // - File 1 -
@@ -152,29 +217,36 @@ int main() {
 }
 [codeblock:end]
 
-It is implementation-defined whether either [`a} or [`b} is
-initialized before [`main} is entered or whether the
-initializations are delayed until [`a} is first odr-used in
-[`main}. In particular, if [`a} is initialized before
-[`main} is entered, it is not guaranteed that [`b} will be
-initialized before it is odr-used by the initialization of [`a}, that
-is, before [`A::A} is called. If, however, [`a} is initialized
-at some point after the first statement of [`main}, [`b} will
-be initialized prior to its use in [`A::A}. [exit:example]
+[:en]
+It is implementation-defined whether either [`a] or [`b] is initialized before
+[`main] is entered or whether the initializations are delayed until [`a] is
+first odr-used in [`main].
 
+[:en]
+In particular, if [`a] is initialized before [`main] is entered, it is not
+guaranteed that [`b] will be initialized before it is odr-used by the
+initialization of [`a], that is, before [`A::A] is called.
 
-[para]
-It is \impldef{dynamic initialization of thread-local objects before entry} whether the
-dynamic initialization of a non-local variable with static or
-thread storage duration
-is done before the first statement of the initial function of the thread. If the
-initialization is deferred to some point in time after the first statement of the
-initial function of the thread, it shall occur before the first
-odr-use ([#basic.def.odr}) of any variable with
-thread storage duration defined in the same translation unit as the variable to be
-initialized.
+[:en]
+If, however, [`a] is initialized at some point after the first statement of
+[`main], [`b] will be initialized prior to its use in [`A::A].
+[exit:example]
 
 [para]
-If the initialization of a non-local variable with static or thread storage duration
-exits via
-an exception, [`std::terminate} is called ([#except.terminate}).%
+[:en]
+It is [%@impldef dynamic initialization of thread-local objects before entry]
+implementation-defined whether the dynamic initialization of a non-local
+variable with static or thread storage duration is done before the first
+statement of the initial function of the thread.
+
+[:en]
+If the initialization is deferred to some point in time after the first
+statement of the initial function of the thread, it shall occur before the first
+odr-use ([#basic.def.odr]) of any variable with thread storage duration defined
+in the same translation unit as the variable to be initialized.
+
+[para]
+[:en]
+If the initialization of a non-local variable with static or thread storage
+duration exits via an exception, [`std::terminate] is called
+([#except.terminate]).

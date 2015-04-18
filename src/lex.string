@@ -307,7 +307,7 @@ literal.
 由 [`L] 开始的[~字符串字面量]，如 [`L"asdf"]，是宽字符串字面量。
 
 [:en]
-[%[`<stddef.h>] [orderby stddef.h]]
+[%[`<stddef.h>] [sortas stddef.h]]
 [%[`wchar_t]]
 [%literal[!string[!wide]]]
 [%prefix[![`L]]]
@@ -315,7 +315,7 @@ A wide string literal has type ["array of [$n] [`const wchar_t]], where [$n] is
 the size of the string as defined below; it is initialized with the given
 characters.
 [:zh_CN]
-[%[`<stddef.h>] [orderby stddef.h]]
+[%[`<stddef.h>] [sortas stddef.h]]
 [%[`wchar_t]]
 [%字面量[!字符串～[!宽～]]]
 [%前缀[![`L]]]

@@ -6,89 +6,119 @@
 [para]
 [:en]
 [%[`main()]]
-A program shall contain a global function called [`main], which is the designated
-start of the program. It is \impldef{defining [`main] in freestanding environment}
-whether a program in a freestanding environment is required to define a [`main]
-function. [enter:note]
- In a freestanding environment, start-up and termination is
-\impldef{start-up and termination in freestanding environment}; start-up contains the
-execution of constructors for objects of namespace scope with static storage duration;
-termination contains the execution of destructors for objects with static storage
-duration. [exit:note]
+A program shall contain a global function called [`main], which is the
+designated start of the program.
 
+[:en]
+It is [%@impldef defining [`main] in freestanding environment]
+implementation-defined whether a program in a freestanding environment is
+required to define a [`main] function.
+
+[enter:note]
+[:en]
+In a freestanding environment, start-up and termination is
+[%@impldef start-up and termination in freestanding environment]
+implementation-defined; start-up contains the execution of constructors for
+objects of namespace scope with static storage duration; termination contains
+the execution of destructors for objects with static storage duration.
+[exit:note]
 
 [para]
-An implementation shall not predefine the [`main] function. This
-function shall not be overloaded. It shall have a declared return type of type
-[`int], but otherwise its type is \impldef{parameters to [`main]}.
-[%\idxcode{main()}!implementation-defined parameters to]
+[:en]
+An implementation shall not predefine the [`main] function.
+
+[:en]
+This function shall not be overloaded.
+
+[:en]
+It shall have a declared return type of type [`int], but otherwise its type is
+[%@impldef parameters to [`main]] implementation-defined.
+
+[:en]
+[%[`main()][!implementation-defined parameters to]]
 An implementation shall allow both
 
 [list]
 [item]
+[:en@~]
 a function of [`()] returning [`int] and
 [item]
+[:en@~]
 a function of [`(int], pointer to pointer to [`char)] returning [`int]
 [list:end]
 
-[%\idxcode{argc}]
-[%\idxcode{argv}]
-as the type of [`main] ([#dcl.fct]).
-[%\idxcode{main()}!parameters to]
-[%environment!program]
-In the latter form, for purposes of exposition, the first function
-parameter is called [`argc] and the second function parameter is
-called [`argv], where [`argc] shall be the number of
-arguments passed to the program from the environment in which the
-program is run. If
-[`argc] is nonzero these arguments shall be supplied in
-[`argv[0]] through [`argv[argc-1]] as pointers to the initial
-characters of null-terminated multibyte strings (\ntmbs
-s) ([#multibyte.strings]) and [`argv[0]] shall be the pointer to
-the initial character of a \ntmbs that represents the name used to
-invoke the program or [`""]. The value of [`argc] shall be
-non-negative. The value of [`argv[argc]] shall be 0. [enter:note]
- It
-is recommended that any further (optional) parameters be added after
-[`argv]. [exit:note]
+[:en@~]
+[%[`argc]] [%[`argv]] as the type of [`main] ([#dcl.fct]).
 
+[:en]
+[%[`main()][!parameters to]] [%environment[!program]]
+In the latter form, for purposes of exposition, the first function parameter is
+called [`argc] and the second function parameter is called [`argv], where
+[`argc] shall be the number of arguments passed to the program from the
+environment in which the program is run.
+
+[:en]
+If [`argc] is nonzero these arguments shall be supplied in [`argv[0]] through
+[`argv[argc-1]] as pointers to the initial characters of null-terminated
+multibyte strings ([em@sc ntmbs]s) ([#multibyte.strings]) and [`argv[0]] shall
+be the pointer to the initial character of a [em@sc ntmbs] that represents the
+name used to invoke the program or [`""].
+
+[:en]
+The value of [`argc] shall be non-negative.
+
+[:en]
+The value of [`argv[argc]] shall be 0.
+
+[enter:note]
+[:en]
+It is recommended that any further (optional) parameters be added after [`argv].
+[exit:note]
 
 [para]
-The function [`main] shall not be used within
-a program.
-[%\idxcode{main()}!implementation-defined linkage of]
+[:en]
+The function [`main] shall not be used within a program.
+
+[:en]
+[%[`main()][!implementation-defined linkage of]]
 The linkage ([#basic.link]) of [`main] is
-\impldef{linkage of [`main]}. A program that defines [`main] as
-deleted or that declares [`main] to be
-[`inline], [`static], or [`constexpr] is ill-formed. The name [`main] is
-not otherwise reserved. [enter:example]
- member functions, classes, and
-enumerations can be called [`main], as can entities in other
-namespaces. [exit:example]
+[%@impldef linkage of [`main]].
 
+[:en]
+A program that defines [`main] as deleted or that declares [`main] to be
+[`inline], [`static], or [`constexpr] is ill-formed.
 
-[para]
-[%\idxcode{exit}]
-\indexlibrary{\idxcode{exit}]
-[%termination!program]
-Terminating the program
-without leaving the current block (e.g., by calling the function
-[`std::exit(int)] ([#support.start.term])) does not destroy any
-objects with automatic storage duration ([#class.dtor]). If
-[`std::exit] is called to end a program during the destruction of
-an object with static or thread storage duration, the program has undefined
-behavior.
+[:en]
+The name [`main] is not otherwise reserved.
+
+[enter:example]
+[:en]
+member functions, classes, and enumerations can be called [`main], as can
+entities in other namespaces.
+[exit:example]
 
 [para]
-[%termination!program]
-[%\idxcode{main()}!return from]
-A return statement in [`main] has the effect of leaving the main
-function (destroying any objects with automatic storage duration) and
-calling [`std::exit] with the return value as the argument. If
-control reaches the end of [`main] without encountering a
-[`return] statement, the effect is that of executing
+[:en]
+[%[`exit]] [%@library exit]] [%termination[!program]]
+Terminating the program without leaving the current block (e.g., by calling the
+function [`std::exit(int)] ([#support.start.term])) does not destroy any
+objects with automatic storage duration ([#class.dtor]).
+
+[:en]
+If [`std::exit] is called to end a program during the destruction of an object
+with static or thread storage duration, the program has undefined behavior.
+
+[para]
+[:en]
+[%termination[!program]] [%[`main()][!return from]]
+A return statement in [`main] has the effect of leaving the main function
+(destroying any objects with automatic storage duration) and calling
+[`std::exit] with the return value as the argument.
+
+[:en]
+If control reaches the end of [`main] without encountering a [`return]
+statement, the effect is that of executing
 
 [codeblock]
 return 0;
 [codeblock:end]
-
