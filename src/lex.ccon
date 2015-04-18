@@ -101,8 +101,7 @@ value.
 多字符字面量，以及包含一个无法在执行字符集中表示的 [~c-字符]的普通字符字面量，
 是有条件支持的，具有类型 [`int]，并具有
 [%字面量[!多字符～[!～的由实现定义的值]]]
-[%@impldef 多字符字面量的值]
-由实现定义的值。
+[%@impldef 多字符字面量的值]由实现定义的值。
 
 [para]
 [:en]
@@ -225,9 +224,8 @@ wide-character literal with single [~c-char] that is not in execution
 wide-character set] implementation-defined.
 [:zh_CN]
 包含单个 [~c-字符]的宽字符字面量的值与执行宽字符集中该 [~c-字符]的编码数值相等，
-除非在执行宽字符集中没有该 [~c-字符]的表示，这种情况下其值
-[%@impldef 具有单个执行宽字符集中不存在的[~c-字符]的宽字符字面量的值]
-由实现定义。
+除非在执行宽字符集中没有该 [~c-字符]的表示，这种情况下其值 [%@impldef 具有单个
+执行宽字符集中不存在的[~c-字符]的宽字符字面量的值]由实现定义。
 
 [enter:note]
 [:en]
@@ -242,8 +240,8 @@ The value of a wide-character literal containing multiple [~c-char]s is
 [%@impldef value of wide-character literal containing multiple characters]
 implementation-defined.
 [:zh_CN]
-包含多个 [~c-字符]的宽字符字面量的值
-[%@impldef 包含多个字符的宽字符字面量的值] 由实现定义。
+包含多个 [~c-字符]的宽字符字面量的值[%@impldef 包含多个字符的宽字符字面量的值]
+由实现定义。
 
 [para]
 [:en]
@@ -284,9 +282,8 @@ sequences [\'] and [`\\] respectively.
 
 [:en]
 Escape sequences in which the character following the backslash is not listed in
-Table [#tab:escape.sequences] are conditionally-supported, with
-[%@impldef semantics of non-standard escape sequences] implementation-defined
-semantics.
+Table [#tab:escape.sequences] are conditionally-supported, with [%@impldef
+semantics of non-standard escape sequences] implementation-defined semantics.
 [:zh_CN]
 反斜杠之后的字符未在表 [#tab:escape.sequences] 中列出的转义序列是有条件支持的，
 并具有[%@impldef 非标准转义序列的语义]由实现定义的语义。
@@ -396,8 +393,8 @@ prefix) or [`wchar_t] (for literals prefixed by [`L]).
 [:zh_CN]
 [%字面量[![`char]～的由实现定义的值]]
 超出由实现定义的 [`char]（对于不带前缀的字面量）或 [`wchar_t]（对于带有 [`L]
-前缀的字面量）的数值范围的字符字面量的值
-[%@impldef 超出对应类型的数值范围的字符字面量的值]由实现定义。
+前缀的字面量）的数值范围的字符字面量的值 [%@impldef 超出对应类型的数值范围的
+字符字面量的值]由实现定义。
 
 [enter:note]
 [:en]
@@ -420,8 +417,8 @@ If there is no such encoding, the universal-character-name is translated to an
 [%@impldef encoding of universal character name not in execution character set]
 implementation-defined encoding.
 [:zh_CN]
-如果此编码不存在，则通用字符名被翻译成某个
-[%@impldef 执行字符集中不存在的通用字符名的编码] 由实现定义的编码。
+如果此编码不存在，则通用字符名被翻译成某个[%@impldef 执行字符集中不存在的通用
+字符名的编码] 由实现定义的编码。
 
 [enter:note]
 [:en]

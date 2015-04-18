@@ -352,12 +352,11 @@ program is ill-formed.
 若一个 UTF-8 字符串字面量记号与一个宽字符串字面量记号相邻，则程序非良构。
 
 [:en]
-Any other concatenations are conditionally-supported with
-[%@impldef concatenation of some types of string literals]
-implementation-defined behavior.
+Any other concatenations are conditionally-supported with [%@impldef
+concatenation of some types of string literals] implementation-defined behavior.
 [:zh_CN]
-任何其他拼接都是有条件支持的，并具有
-[%@impldef 某些类型的字符串字面量的拼接]由实现定义的行为。
+任何其他拼接都是有条件支持的，并具有 [%@impldef 某些类型的字符串字面量的拼接]
+由实现定义的行为。
 
 [enter:note]
 [:en]

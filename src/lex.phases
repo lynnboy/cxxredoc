@@ -33,10 +33,6 @@ manner, to the basic source character set (introducing new-line characters for
 end-of-line indicators) if necessary.
 [:zh_CN]
 [%源文件] [%字符[!源文件～]] [%字符集[!基本源～]]
-Physical source file characters are mapped, in an [%@impldef mapping physical
-source file characters to basic source character set] implementation-defined
-manner, to the basic source character set (introducing new-line characters for
-end-of-line indicators) if necessary.
 当需要时，以[%@impldef 將物理源文件字符映射到基本源字符集]由实现定义的方式将物理
 源文件字符映射到基本源字符集中（并为行结束指示符引入换行字符）。
 

@@ -81,8 +81,8 @@ The function [`main] shall not be used within a program.
 
 [:en]
 [%[`main()][!implementation-defined linkage of]]
-The linkage ([#basic.link]) of [`main] is
-[%@impldef linkage of [`main]].
+The linkage ([#basic.link]) of [`main] is [%@impldef linkage of [`main]]
+implementation-defined.
 
 [:en]
 A program that defines [`main] as deleted or that declares [`main] to be
