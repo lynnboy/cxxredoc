@@ -1,6 +1,6 @@
 ﻿[section#basic.lookup.classref
     [:en] Class member access
-    [:zh_CN] 
+    [:zh_CN] 类成员访问
 ]
 
 [para]
@@ -10,36 +10,59 @@ In a class member access expression ([#expr.ref]), if the [`.] or [`->] token is
 immediately followed by an [~identifier] followed by a [`<], the identifier must
 be looked up to determine whether the [`<] is the beginning of a template
 argument list ([#temp.names]) or a less-than operator.
+[:zh_CN]
+[%查找[!类成员的～]]
+在类成员访问表达式中（[#expr.ref]），若 [`.] 或 [`->] 标记后面紧跟着的[~标识符]
+后面紧跟着一个 [`<]，则必须查找该标识符以断定这个 [`<] 是一个模板实参列表
+（[#temp.names]）的开始还是一个小于运算符。
 
 [:en]
 The identifier is first looked up in the class of the object expression.
+[:zh_CN]
+首先在该对象表达式的类中查找这个标识符。
 
 [:en]
 If the identifier is not found, it is then looked up in the context of the
 entire [~postfix-expression] and shall name a class template.
+[:zh_CN]
+若未找到这个标识符，则再在整个[~后缀表达式]的语境中进行查找，且它应当为某个类
+模板的名字。
 
 [para]
 [:en]
 If the [~id-expression] in a class member access ([#expr.ref]) is an
 [~unqualified-id], and the type of the object expression is of a class type
 [`C], the [~unqualified-id] is looked up in the scope of class [`C].
+[:zh_CN]
+若在类成员访问（[#expr.ref]）中的[~标识表达式]是一个[~未限定标识]，且其对象表达
+式的类型是类类型 [`C]，则在类 [`C] 的作用域中查找该[~未限定标识]。
 
 [:en]
 For a pseudo-destructor call ([#expr.pseudo]), the [~unqualified-id] is looked
 up in the context of the complete [~postfix-expression].
+[:zh_CN]
+对于伪析构函数调用（[#expr.pseudo]），则在整个[~后缀表达式]的语境中查找该
+[~未限定标识]。
 
 [para]
 [:en]
 If the [~unqualified-id] is [`~][~type-name], the [~type-name] is looked up in
 the context of the entire [~postfix-expression].
+[:zh_CN]
+若该[~未限定标识]是 [`~][~类型名]，则在整个[~后缀表达式]的语境中查找此[~类型名]
+。
 
 [:en]
 If the type [`T] of the object expression is of a class type [`C], the
 [~type-name] is also looked up in the scope of class [`C].
+[:zh_CN]
+若对象表达式的类型 [`T] 是类类型 [`C]，则也在类 [`C] 的作用域中查找此[~类型名]。
 
 [:en]
 At least one of the lookups shall find a name that refers to (possibly
 [=cv]-qualified) [`T].
+[:zh_CN]
+应该至少有一个查找过程能够找到代表（可能被 [=cv]-限定的）[`T] 的名字。
 
 [enter:example]
 
@@ -53,6 +76,7 @@ struct B {
 
 void B::f(::A* a) {
   a->~A();                      // [:en] OK: lookup in [`*a] finds the injected-class-name
+                                // [|:zh_CN] OK：在 [`*a] 中的查找找到了注入类名
 }
 [codeblock:end][exit:example]
 
@@ -60,58 +84,82 @@ void B::f(::A* a) {
 [:en]
 If the [~id-expression] in a class member access is a [~qualified-id] of the
 form
+[:zh_CN]
+若在类成员访问中的[~标识表达式]是一个形式为
 
 [syntax:explanation]
 [`class-name-or-namespace-name::...]
 [syntax:end]
 
 [:en@~]
-the [~class-name-or-namespace-name] following the [`.] or [`->] operator is
+the [$class-name-or-namespace-name] following the [`.] or [`->] operator is
 first looked up in the class of the object expression and the name, if found,
 is used.
+[:zh_CN@~]
+的[~限定标识]，则首先在对象表达式的类中，对跟在 [`.] 或 [`->] 运算符后面的
+[$class-name-or-namespace-name] 进行查找，一旦找到则使用它。
 
 [:en]
 Otherwise it is looked up in the context of the entire [~postfix-expression].
+[:zh_CN]
+否则就在整个[~后缀表达式]的语境中查找。
 
 [enter:note]
 [:en]
 See [#basic.lookup.qual], which describes the lookup of a name before [`::],
 which will only find a type or namespace name.
+[:zh_CN]
+参见 [#basic.lookup.qual]，其中说明了对 [`::] 之前的名字的查找，这仅会找到类型或
+命名空间的名字。
 [exit:note]
 
 [para]
 [:en]
 If the [~qualified-id] has the form
+[:zh_CN]
+若[~限定标识]的形式为
 
 [syntax:explanation]
 [`::class-name-or-namespace-name::...]
 [syntax:end]
 
 [:en@~]
-the [~class-name-or-namespace-name] is looked up in global scope as a
+the [$class-name-or-namespace-name] is looked up in global scope as a
 [~class-name] or [~namespace-name].
+[:zh_CN@~]
+则在全局作用域中，把该 [$class-name-or-namespace-name] 作为[~类名]或[~命名空间
+名]来进行查找。
 
 [para]
 [:en]
 If the [~nested-name-specifier] contains a [~simple-template-id]
 ([#temp.names]), the names in its [~template-argument]s are looked up in the
 context in which the entire [~postfix-expression] occurs.
+[:zh_CN]
+若其[~嵌套名说明符]包含[~简单模板标识]（[#temp.names]），则在整个[~后缀表达式]
+出现的语境中对它的[~模板实参]中的所有名字进行查找。
 
 [para]
 [:en]
 If the [~id-expression] is a [~conversion-function-id], its
 [~conversion-type-id] is first looked up in the class of the object expression
 and the name, if found, is used.
+[:zh_CN]
+若其[~标识表达式]是一个[~转换函数标识]，则应当首先在对象表达式的类中查找它的
+[~转换类型标识]，一旦找到则使用它。
 
 [:en]
 Otherwise it is looked up in the context of the entire [~postfix-expression].
+[:zh_CN]
+否则就在整个[~后缀表达式]的语境中查找。
 
 [:en]
 In each of these lookups, only names that denote types or templates whose
 specializations are types are considered.
+[:zh_CN]
+在以上每种查找中，仅考虑代表类型的，或者代表其特例是类型的模板的名字。
 
 [enter:example]
-
 [codeblock]
 struct A { };
 namespace N {
@@ -124,6 +172,7 @@ namespace N {
 int main() {
   N::A a;
   a.operator A();               // [:en] calls [`N::A::operator N::A]
+                                // [|:zh_CN] 调用 [`N::A::operator N::A]
 }
 [codeblock:end]
 [exit:example]

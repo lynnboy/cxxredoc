@@ -1,6 +1,6 @@
 ﻿[section#basic.lookup.argdep
     [:en] Argument-dependent name lookup
-    [:zh_CN] 
+    [:zh_CN] 依赖于实参的名字查找
 ]
 
 [para]
@@ -11,10 +11,19 @@ When the [~postfix-expression] in a function call ([#expr.call]) is an
 lookup ([#basic.lookup.unqual]) may be searched, and in those namespaces,
 namespace-scope friend function or function template declarations
 ([#class.friend]) not otherwise visible may be found.
+[:zh_CN]
+[%查找[!依赖于实参的～]]
+当函数调用中的[~后缀表达式]（[#expr.call]）为[~未限定名]时，还会搜索那些在常规的
+未限定查找（[#basic.lookup.unqual]）中并不考虑的其他命名空间，而且在这些命名空间
+中，即使是不可见的命名空间作用域友元函数或函数模板的声明式（[#class.friend]）
+也能被找到。
 
 [:en]
 These modifications to the search depend on the types of the arguments (and for
 template template arguments, the namespace of the template argument).
+[:zh_CN]
+对搜索过程的这些变动依赖于实参的类型（以及对于模板模板实参来说，还依赖于模板实参
+的命名空间）。
 
 [enter:example]
 
@@ -27,8 +36,11 @@ namespace N {
 void g() {
   N::S s;
   f(s);                         // [:en] OK: calls [`N::f]
+                                // [|:zh_CN] OK：调用了 [`N::f]
   (f)(s);                       // [:en] error: [`N::f] not considered; parentheses
+                                // [|:zh_CN] 错误：并未考虑 [`N::F]；
                                 // [:en@~] prevent argument-dependent lookup
+                                // [|:zh_CN@~] 括号防止了依赖于实参的查找
 }
 [codeblock:end]
 
@@ -39,33 +51,50 @@ void g() {
 For each argument type [`T] in the function call, there is a set of zero or more
 associated namespaces and a set of zero or more associated classes to be
 considered.
+[:zh_CN]
+对于函数调用中的每个实参类型 [`T]，都需要考察其所关联的零或多个命名空间的集合和
+其所关联的零或多个类的集合。
 
 [:en]
 The sets of namespaces and classes is determined entirely by the types of the
 function arguments (and the namespace of any template template argument).
+[:zh_CN]
+命名空间集合和类集合完全由函数实参的类型（以及任何模板模板实参的命名空间）所确定
+。
 
 [:en]
 Typedef names and [~using-declaration]s used to specify the types do not
 contribute to this set.
+[:zh_CN]
+用于指定类型的 typedef 名和 [~using-声明式]对这些集合没有贡献。
 
 [:en]
 The sets of namespaces and classes are determined in the following way:
+[:zh_CN]
+按如下方式确定命名空间集合和类集合：
 
 [list]
 [item]
 [:en]
 If [`T] is a fundamental type, its associated sets of namespaces and classes are
 both empty.
+[:zh_CN]
+若 [`T] 为基础类型，则它所关联的命名空间和类集合都为空。
 
 [item]
 [:en]
 If [`T] is a class type (including unions), its associated classes are: the
 class itself; the class of which it is a member, if any; and its direct and
 indirect base classes.
+[:zh_CN]
+若 [`T] 为类类型（包括联合），则它所关联的类为：该类本身；该类作为其成员的类
+（如果有）；它的直接和间接基类。
 
 [:en]
 Its associated namespaces are the innermost enclosing namespaces of its
 associated classes.
+[:zh_CN]
+它所关联的命名空间为其每个关联类的最内层外围命名空间。
 
 [:en]
 Furthermore, if [`T] is a class template specialization, its associated
@@ -74,100 +103,156 @@ the types of the template arguments provided for template type parameters
 (excluding template template parameters); the namespaces of which any template
 template arguments are members; and the classes of which any member templates
 used as template template arguments are members.
+[:zh_CN]
+此外，若 [`T] 为类模板特例，则它所关联的命名空间和类还包括：与提供给模板类型形参（排除模板模板
+形参）的模板实参类型相关联的命名空间和类；有任何模板模板实参是其成员的命名空间；
+有任何用作模板模板实参的成员模板是其成员的类。
 
 [enter:note]
 [:en]
 Non-type template arguments do not contribute to the set of associated
 namespaces.
+[:zh_CN]
+非类型模板实参对关联的命名空间集合没有贡献。
 [exit:note]
 
 [item]
 [:en]
 If [`T] is an enumeration type, its associated namespace is the innermost
 enclosing namespace of its declaration.
+[:zh_CN]
+若 [`T] 为枚举类型，则它所关联的命名空间为在其中定义了它的最内层外围命名空间。
 
 [:en]
 If it is a class member, its associated class is the member[=']s class; else it
 has no associated class.
+[:zh_CN]
+如果它是类的成员，则它所关联的类为该成员所在的类；否则它没有关联的类。
 
 [item]
 [:en]
 If [`T] is a pointer to [`U] or an array of [`U], its associated namespaces and
 classes are those associated with [`U].
+[:zh_CN]
+若 [`T] 为 [`U] 的指针或 [`U] 的数组，则它关联与 [`U] 向关联的命名空间和类。
 
 [item]
 [:en]
 If [`T] is a function type, its associated namespaces and classes are those
 associated with the function parameter types and those associated with the
 return type.
+[:zh_CN]
+若 [`T] 为函数类型，则它关联该函数的形参类型和返回类型所关联的命名空间和类。
 
 [item]
 [:en]
 If [`T] is a pointer to a member function of a class [`X], its associated
 namespaces and classes are those associated with the function parameter types
 and return type, together with those associated with [`X].
+[:zh_CN]
+若 [`T] 是指向类 [`X] 的成员函数指针，则它关联与该函数的形参类型和返回类型相关联
+，以及 [`X] 所关联的命名空间和类。
 
 [item]
 [:en]
 If [`T] is a pointer to a data member of class [`X], its associated namespaces
 and classes are those associated with the member type together with those
 associated with [`X].
+[:zh_CN]
+若 [`T] 为指向类 [`X] 的数据成员的指针，则它关联该成员的类型所关联的以及 [`X]
+所关联的命名空间和类。
 
 [list:end]
 
 [:en]
 If an associated namespace is an inline namespace ([#namespace.def]), its
 enclosing namespace is also included in the set.
+[:zh_CN]
+如果某个关联的命名空间是内联命名空间（[#namespace.def]），则其外围命名空间也包含
+在该集合中。
 
 [:en]
 If an associated namespace directly contains inline namespaces, those inline
 namespaces are also included in the set.
+[:zh_CN]
+如果某个关联的命名空间直接包含了某些内联命名空间，则这些内联命名空间也包含在该
+集合中。
 
 [:en]
 In addition, if the argument is the name or address of a set of overloaded
 functions and/or function templates, its associated classes and namespaces are
 the union of those associated with each of the members of the set, i.e., the
 classes and namespaces associated with its parameter types and return type.
+[:zh_CN]
+另外，若该实参是一个重载函数和/或函数模板的集合的名字或地址，则它所关联的类和
+命名空间是该集合的每个成员所关联的并集，也就是与其形参类型和返回类型相关联的类和
+命名空间。
 
 [:en]
 Additionally, if the aforementioned set of overloaded functions is named with
 a [~template-id], its associated classes and namespaces also include those of
 its type [~template-argument]s and its template [~template-argument]s.
+[:zh_CN]
+此外，如果上述重载函数的集合是以一个[~模板标识]指名的，则其所关联的类和命名空间
+还包括其类型[~模板实参]及其模板[~模板实参]所关联的类和命名空间。
 
 [para]
 [:en]
 Let [$X] be the lookup set produced by unqualified lookup
 ([#basic.lookup.unqual]) and let [$Y] be the lookup set produced by argument
 dependent lookup (defined as follows).
+[:zh_CN]
+设 [$X] 为由未限定名查找（[#basic.lookup.unqual]）产生的查找集合，并设 [$Y] 为
+由依赖于实参的查找（如下文定义）产生的查找集合。
 
 [:en]
 If [$X] contains
+[:zh_CN]
+若 [$X] 包含
+
 [list]
 [item]
-[:en]
+[:en@~]
 a declaration of a class member, or
+[:zh_CN@~]
+类成员的声明式，或
 
 [item]
-[:en]
+[:en@~]
 a block-scope function declaration that is not a [~using-declaration], or
+[:zh_CN@~]
+不是 [~using-声明式]的块作用域函数声明式，或
 
 [item]
-[:en]
+[:en@~]
 a declaration that is neither a function or a function template
-
+[:zh_CN@~]
+不是函数或函数模板声明式的声明式
 [list:end]
+
+[:en@~]
+then [$Y] is empty.
+[:zh_CN@~]
+则 [$Y] 为空。
+
 [:en]
-then [$Y] is empty. Otherwise [$Y] is the set of declarations found in the
-namespaces associated with the argument types as described below.
+Otherwise [$Y] is the set of declarations found in the namespaces associated
+with the argument types as described below.
+[:zh_CN]
+否则 [$Y] 为按如下所述在与实参类型相关联的命名空间中找到的声明式的集合。
 
 [:en]
 The set of declarations found by the lookup of the name is the union of [$X] and
 [$Y].
+[:zh_CN]
+对该名字进行的查找所找到的声明式的集合是 [$X] 和 [$Y] 的并集。
 
 [enter:note]
 [:en]
 The namespaces and classes associated with the argument types can include
 namespaces and classes already considered by the ordinary unqualified lookup.
+[:zh_CN]
+实参类型关联的命名空间和类可能包括已经被常规未限定查找考察过的命名空间和类。
 [exit:note]
 
 [enter:example]
@@ -182,8 +267,10 @@ NS::T parm;
 void g(NS::T, float);
 int main() {
   f(parm);                      // [:en] OK: calls [`NS::f]
+                                // [|:zh_CN] OK：调用了 [`NS::f]
   extern void g(NS::T, float);
   g(parm, 1);                   // [:en] OK: calls [`g(NS::T, float)]
+                                // [|:zh_CN] OK：调用了 [`g(NS::T, float)]
 }
 [codeblock:end]
 [exit:example]
@@ -193,21 +280,31 @@ int main() {
 When considering an associated namespace, the lookup is the same as the lookup
 performed when the associated namespace is used as a qualifier
 ([#namespace.qual]) except that:
+[:zh_CN]
+当考察关联的命名空间时，其查找过程与当该关联的命名空间作为限定符时所进行的查找
+（[#namespace.qual]）相同，除了：
 
 [list]
 [item]
 [:en]
 Any [~using-directive]s in the associated namespace are ignored.
+[:zh_CN]
+忽略关联的命名空间中的任何 [~using-指令]。
 
 [item]
 [:en]
 Any namespace-scope friend functions or friend function templates declared in
 associated classes are visible within their respective namespaces even if they
 are not visible during an ordinary lookup ([#class.friend]).
+[:zh_CN]
+在关联的类中声明的任何命名空间作用域的友元函数或友元函数模板，在其各自命名空间中
+可见，即使它们在常规查找中并不可见（[#class.friend]）。
 
 [item]
 [:en]
 All names except those of (possibly overloaded) functions and function templates
 are ignored.
+[:zh_CN]
+除（可能重载的）函数或函数模板的名字外的所有名字都被忽略。
 
 [list:end]

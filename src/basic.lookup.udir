@@ -1,6 +1,6 @@
 ﻿[section#basic.lookup.udir
     [:en] Using-directives and namespace aliases
-    [:zh_CN] 
+    [:zh_CN] using-指令和命名空间别名
 ]
 
 [para]
@@ -10,3 +10,8 @@
 In a [~using-directive] or [~namespace-alias-definition], during the lookup for
 a [~namespace-name] or for a name in a [~nested-name-specifier] only namespace
 names are considered.
+[:zh_CN]
+[%查找[!using-指令与～]]
+[%查找[!命名空间别名与～]]
+当在 [~using-指令]或[~命名空间别名定义]中查找[~命名空间名]或者[~嵌套名说明符]
+中的名字时，只考察命名空间的名字。

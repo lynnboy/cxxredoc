@@ -1,6 +1,6 @@
 ﻿[section#class.qual
     [:en] Class members
-    [:zh_CN] 
+    [:zh_CN] 类成员
 ]
 
 [para]
@@ -9,88 +9,126 @@
 If the [~nested-name-specifier] of a [~qualified-id] nominates a class, the name
 specified after the [~nested-name-specifier] is looked up in the scope of the
 class ([#class.member.lookup]), except for the cases listed below.
+[:zh_CN]
+[%查找[!类成员的～]]
+若[~限定标识]的[~嵌套名说明符]提名了一个类，则在[~嵌套名说明符]后指定的名字，除
+下列情况之外，在该类的作用域中查找（[#class.member.lookup]）。
 
 [:en]
 The name shall represent one or more members of that class or of one of its base
 classes (Clause [#class.derived]).
+[:zh_CN]
+这个名字应当代表该类或其基类（第 [#class.derived] 条）之一的一个或多个成员。
 
 [enter:note]
 [:en]
 A class member can be referred to using a [~qualified-id] at any point in its
 potential scope ([#basic.scope.class]).
+[:zh_CN]
+类成员可以在其潜在作用域中的任意位置用[~限定标识]提及（[#basic.scope.class]）。
 [exit:note]
 
 [:en]
 The exceptions to the name lookup rule above are the following:
+[:zh_CN]
+上述的名字查找规则的例外情况如下：
 
 [list]
 [item]
 [:en]
 a destructor name is looked up as specified in [#basic.lookup.qual];
+[:zh_CN]
+按 [#basic.lookup.qual] 所述查找析构函数名；
 
 [item]
 [:en]
 a [~conversion-type-id] of a [~conversion-function-id] is looked up in the same
 manner as a [~conversion-type-id] in a class member access (see
 [#basic.lookup.classref]);
+[:zh_CN]
+[~转换函数标识]中的[~转换类型标识]，按照与类成员访问中的[~转换类型标识]相同的
+方式进行查找（参见 [#basic.lookup.classref]）；
 
 [item]
 [:en]
 the names in a [~template-argument] of a [~template-id] are looked up in the
 context in which the entire [~postfix-expression] occurs.
+[:zh_CN]
+[~模板标识]的[~模板实参]中的名字，在整个[~后缀表达式]所出现的语境中查找。
 
 [item]
 [:en]
 the lookup for a name specified in a [~using-declaration] ([#namespace.udecl])
 also finds class or enumeration names hidden within the same scope
 ([#basic.scope.hiding]).
-
+[:zh_CN]
+对 [~using-声明式]（[#namespace.udecl]）中指定的名字所进行的查找，也会找到在相同
+作用域中被隐藏的类或枚举的名字（[#basic.scope.hiding]）。
 [list:end]
 
 [para]
 [:en]
 In a lookup in which function names are not ignored
+[:zh_CN]
+在不忽略函数名
 
 [footnote]
 [:en]
 Lookups in which function names are ignored include names appearing in a
 [~nested-name-specifier], an [~elaborated-type-specifier], or a
 [~base-specifier].
+[:zh_CN]
+忽略函数名的查找，包括[~嵌套名说明符]，[~详细类型说明符]，或者[~基类说明符]。
 [footnote:end]
 
 [:en@~]
 and the [~nested-name-specifier] nominates a class [`C]:
+[:zh_CN@~]
+，并且其[~嵌套名说明符]提名了类 [`C] 的查找中：
 
 [list]
 [item]
-[:en]
+[:en@~]
 if the name specified after the [~nested-name-specifier], when looked up in
 [`C], is the injected-class-name of [`C] (Clause [#class]), or
+[:zh_CN@~]
+若当在 [`C] 中查找时，[~嵌套名说明符]之后所指定的名字是 [`C] 的注入类名（第 <a href="09-classes-zh_CN.html#class" title="class">9</a> 条），或者
 
 [item]
-[:en]
+[:en@~]
 in a [~using-declaration] ([#namespace.udecl]) that is a [~member-declaration],
 if the name specified after the [~nested-name-specifier] is the same as the
 [~identifier] or the [~simple-template-id][=']s [~template-name] in the last
 component of the [~nested-name-specifier],
+[:zh_CN@~]
+在作为[~成员声明式]的 [~using-声明式]（[#namespace.udecl]）中，若[~嵌套名说明符]
+之后所指定的名字，与[~嵌套名说明符]的最后一部分中的[~标识符]，或[~简单模板标识]
+的[~模板名]相同，
 [list:end]
 
-[:en]
+[:en@~]
 the name is instead considered to name the constructor of class [`C].
+[:zh_CN@~]
+则该名字被当作是类 [`C] 的构造函数名。
 
 [enter:note]
 [:en]
 For example, the constructor is not an acceptable lookup result in an
 [~elaborated-type-specifier] so the constructor would not be used in place of
 the injected-class-name.
+[:zh_CN]
+例如，在[~详细类型说明符]中，构造函数就不是可接受的查找结果，故该构造函数不能被
+用于替代注入类名。
 [exit:note]
 
 [:en]
 Such a constructor name shall be used only in the [~declarator-id] of a
 declaration that names a constructor or in a [~using-declaration].
+[:zh_CN]
+只能在构造函数声明式的[~声明符标识]中，或者在 [~using-声明式]中使用这种构造函数
+名。
 
 [enter:example]
-
 [codeblock]
 struct A { A(); };
 struct B: public A { B(); };
@@ -99,8 +137,11 @@ A::A() { }
 B::B() { }
 
 B::A ba;            // [:en] object of type [`A]
+                    // [|:zh_CN] [`A] 类型的对象
 A::A a;             // [:en] error, [`A::A] is not a type name
+                    // [|:zh_CN] 错误，[`A] 不是类型名
 struct A::A a2;     // [:en] object of type [`A]
+                    // [|:zh_CN] [`A] 类型的对象
 [codeblock:end]
 [exit:example]
 
@@ -109,3 +150,6 @@ struct A::A a2;     // [:en] object of type [`A]
 A class member name hidden by a name in a nested declarative region or by the
 name of a derived class member can still be found if qualified by the name of
 its class followed by the [`::] operator.
+[:zh_CN]
+被嵌套声明区中的名字或派生类成员所隐藏的类成员名，仍然可以在其类之后跟着 [`::]
+运算符进行限定而找到。

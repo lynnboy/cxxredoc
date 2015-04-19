@@ -1,6 +1,6 @@
 ﻿[section#basic.lookup.unqual
     [:en] Unqualified name lookup
-    [:zh_CN] 
+    [:zh_CN] 未限定名查找
 ]
 
 [para]
@@ -9,36 +9,58 @@
 In all the cases listed in [#basic.lookup.unqual], the scopes are searched for a
 declaration in the order listed in each of the respective categories; name
 lookup ends as soon as a declaration is found for the name.
+[:zh_CN]
+[%查找[!未限定名～]] [%名字[!未限定～]]
+在 [#basic.lookup.unqual] 所列出的所有情况中，根据每个类别各自所列出的顺序在
+作用域中搜索声明式；一旦找到该名字的一个声明式就结束名字查找。
 
 [:en]
 If no declaration is found, the program is ill-formed.
+[:zh_CN]
+若找不到任何声明式，则程序非良构。
 
 [para]
 [:en]
 The declarations from the namespace nominated by a [~using-directive] become
 visible in a namespace enclosing the [~using-directive]; see [#namespace.udir].
+[:zh_CN]
+由 [~using-指令]所提名的命名空间中的声明式，在包含 [~using-指令]的命名空间之中是
+可见的；参见 [#namespace.udir]。
 
 [:en]
 For the purpose of the unqualified name lookup rules described in
 [#basic.lookup.unqual], the declarations from the namespace nominated by the
 [~using-directive] are considered members of that enclosing namespace.
+[:zh_CN]
+当施行 [#basic.lookup.unqual] 中描述的未限定名查找规则时，[~using-指令]所提名的
+命名空间中的声明式也被当成是包含该指令的命名空间的成员。
 
 [para]
 [:en]
 The lookup for an unqualified name used as the [~postfix-expression] of a
 function call is described in [#basic.lookup.argdep].
+[:zh_CN]
+对在函数调用中用作[~后缀表达式]的未限定名所进行的查找，在 [#basic.lookup.argdep]
+中描述。
 
 [enter:note]
 [:en]
 For purposes of determining (during parsing) whether an expression is a
 [~postfix-expression] for a function call, the usual name lookup rules apply.
+[:zh_CN]
+当（在语法解析时）确定表达式是否是某函数调用的[~后缀表达式]时，使用一般的名字
+查找规则。
 
 [:en]
 The rules in [#basic.lookup.argdep] have no effect on the syntactic
 interpretation of an expression.
+[:zh_CN]
+[#basic.lookup.argdep] 中的规则对表达式的语法判读没有影响。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 typedef int f;
@@ -48,7 +70,9 @@ namespace N {
     operator int();
     void g(A a) {
       int i = f(a);         // [:en] [`f] is the typedef, not the friend
+                            // [|:zh_CN] 是 typedef，而不是友元
                             // [:en@~] function: equivalent to [`int(a)]
+                            // [|:zh_CN@~] 函数：等价于 [`int(a)]
     }
   };
 }
@@ -58,28 +82,43 @@ namespace N {
 Because the expression is not a function call, the argument-dependent name
 lookup ([#basic.lookup.argdep]) does not apply and the friend function [`f] is
 not found.
+[:zh_CN]
+因为该表达式并不是函数调用，所以依赖于实参的名字查找（[#basic.lookup.argdep]）
+不适用，且友元函数 [`f] 没被找到。
 [exit:note]
 
 [para]
 [:en]
 A name used in global scope, outside of any function, class or user-declared
 namespace, shall be declared before its use in global scope.
+[:zh_CN]
+在全局作用域中，于任何函数、类或用户声明的命名空间之外使用的名字，应当在全局作用
+域之中，在其使用被之前进行声明。
 
 [para]
 [:en]
 A name used in a user-declared namespace outside of the definition of any
 function or class shall be declared before its use in that namespace or before
 its use in a namespace enclosing its namespace.
+[:zh_CN]
+在用户声明的命名空间中，于任何函数或类之外使用的名字，应当在该命名空间或包含该
+命名空间的命名空间之中，在其被使用之前进行声明。
 
 [para]
 [:en]
 A name used in the definition of a function following the function[=']s
 [~declarator-id]
+[:zh_CN]
+在作为命名空间 [`N]（此处为便于解释起见，[`N] 可以代表全局作用域）的成员的函数
+定义式中，于该函数的[~声明符标识]
 
 [footnote]
 [:en]
 This refers to unqualified names that occur, for instance, in a type or default
 argument in the [~parameter-declaration-clause] or used in the function body.
+[:zh_CN]
+所说的是，出现于（例如）[~形参声明子句]中的类型或默认实参表达式中，或在函数体
+中使用的未限定名。
 [footnote:end]
 
 [:en@~]
@@ -89,6 +128,12 @@ block in which it is used or in one of its enclosing blocks ([#stmt.block]) or,
 shall be declared before its use in namespace [`N] or, if [`N] is a nested
 namespace, shall be declared before its use in one of [`N][=']s enclosing
 namespaces.
+[:zh_CN@~]
+之后所使用的名字，应当在使用它的块或其外围块（[#stmt.block]）之一之中，在其被
+使用之前进行声明，或者应当在命名空间 [`N] 之中，在其被使用之前进行声明，或者当
+[`N] 为嵌套的命名空间时，应当在 [`N] 的外围命名空间之一之中，在其被使用之前进行
+声明。
+
 [enter:example]
 
 [codeblock]
@@ -100,10 +145,15 @@ namespace A {
 void A::N::f() {
   i = 5;
   // [:en] The following scopes are searched for a declaration of [`i]:
+  // [|:zh_CN] 在如下作用域中搜索 [`i] 的声明式：
   // [:en] 1) outermost block scope of [`A::N::f], before the use of [`i]
+  // [|:zh_CN] 1) [`A::N::f] 的最外层块作用域，使用 [`i] 之前
   // [:en] 2) scope of namespace [`N]
+  // [|:zh_CN] 2) 命名空间 [`N] 的作用域
   // [:en] 3) scope of namespace [`A]
+  // [|:zh_CN] 3) 命名空间 [`A] 的作用域
   // [:en] 4) global scope, before the definition of [`A::N::f]
+  // [|:zh_CN] 4) 全局作用域，[`A::N::f] 的定义式之前
 }
 [codeblock:end]
 [exit:example]
@@ -113,21 +163,32 @@ void A::N::f() {
 A name used in the definition of a class [`X] outside of a member function body,
 default argument, [~exception-specification], [~brace-or-equal-initializer] of a
 non-static data member, or nested class definition
+[:zh_CN]
+在类 [`X] 的定义式中，于成员函数体，默认实参，[~异常说明]，非静态数据成员的
+[~花括号或等号初始化式]，或嵌套类的定义式之外使用的名字
 
 [footnote]
 [:en]
 This refers to unqualified names following the class name; such a name may be
 used in the [~base-clause] or may be used in the class definition.
+[:zh_CN]
+所说的是类名之后的未限定名；这种名字可能被用在[~基类子句]中，或被用在类定义式中
+。
 [footnote:end]
 
 [:en@~]
 shall be declared in one of the following ways:
+[:zh_CN@~]
+，应当以如下方式之一进行声明：
 
 [list]
 [item]
 [:en]
 before its use in class [`X] or be a member of a base class of [`X]
 ([#class.member.lookup]), or
+[:zh_CN]
+处于它在类 [`X] 中的使用之前，或作为类 [`X] 的某个基类的成员
+（[#class.member.lookup]），或者
 
 [item]
 [:en]
@@ -135,22 +196,34 @@ if [`X] is a nested class of class [`Y] ([#class.nest]), before the definition
 of [`X] in [`Y], or shall be a member of a base class of [`Y] (this lookup
 applies in turn to [`Y][=']s enclosing classes, starting with the innermost
 enclosing class),
+[:zh_CN]
+若 [`X] 是类 [`Y] 的嵌套类（[#class.nest]），则处于 [`Y] 中的 [`X] 的定义式之前
+，或者应作为 [`Y] 的某个基类的成员（此查找从最内层的外围类开始，依次应用于包含
+[`Y] 的类中），
 
 [footnote]
 [:en]
 This lookup applies whether the definition of [`X] is nested within [`Y][=']s
 definition or whether [`X][=']s definition appears in a namespace scope
 enclosing [`Y][=']s definition ([#class.nest]).
+[:zh_CN]
+无论 [`X] 的定义式嵌套于 [`Y] 的定义式之中，还是 [`X] 的定义式出现于包含 [`Y] 的
+定义式的命名空间作用域之中，都适用此查找（[#class.nest]）。
 [footnote:end]
 
 [:en@~]
 or
+[:zh_CN@~]
+或者
 
 [item]
 [:en]
 if [`X] is a local class ([#class.local]) or is a nested class of a local class,
 before the definition of class [`X] in a block enclosing the definition of class
 [`X], or
+[:zh_CN]
+若 [`X] 是局部类（[#class.local]）或是局部类的嵌套类，则处于包含类 [`X] 的定义式
+的某个块之中，在类 [`X] 的定义式之前，或者
 
 [item]
 [:en]
@@ -158,6 +231,10 @@ if [`X] is a member of namespace [`N], or is a nested class of a class that is a
 member of [`N], or is a local class or a nested class within a local class of a
 function that is a member of [`N], before the definition of class [`X] in
 namespace [`N] or in one of [`N][=']s enclosing namespaces.
+[:zh_CN]
+若 [`X] 是命名空间 [`N] 的成员，或是作为 [`N] 的成员的某个类的嵌套类，或是作为
+[`N] 的成员的某个函数的局部类或局部类中的嵌套类，则处于命名空间 [`N] 或 [`N] 的
+外围命名空间之一之中，在类 [`X] 的定义式之前。
 [list:end]
 
 [enter:example]
@@ -178,11 +255,17 @@ namespace N {
 }
 
 // [:en] The following scopes are searched for a declaration of [`i]:
+// [|:zh_CN] 在如下作用域中搜索 [`i] 的声明式：
 // [:en] 1) scope of class [`N::Y::X], before the use of [`i]
+// [|:zh_CN] 1) 类 [`N::Y::X] 的作用域，使用 [`i] 之前
 // [:en] 2) scope of class [`N::Y], before the definition of [`N::Y::X]
+// [|:zh_CN] 2) 类 [`N::Y] 的作用域，[`N::Y::X] 的定义式之前
 // [:en] 3) scope of [`N::Y][=']s base class [`M::B]
+// [|:zh_CN] 3) [`N::Y] 的基类 [`M::B] 的作用域
 // [:en] 4) scope of namespace [`N], before the definition of [`N::Y]
+// [|:zh_CN] 4) 命名空间 [`N] 的作用域，[`N::] 的定义式之前
 // [:en] 5) global scope, before the definition of [`N]
+// [|:zh_CN] 5) 全局作用域，[`N] 的定义式之前
 [codeblock:end]
 
 [exit:example]
@@ -192,20 +275,29 @@ namespace N {
 When looking for a prior declaration of a class or function introduced by a
 [`friend] declaration, scopes outside of the innermost enclosing namespace scope
 are not considered; see [#namespace.memdef].
+[:zh_CN]
+当查找由 [`friend] 声明式所引入的类或函数早前的声明式时，不考察除最内层外围命名
+空间作用域之外的作用域；参见 [#namespace.memdef]。
 [exit:note]
 
 [enter:note]
 [:en]
 [#basic.scope.class] further describes the restrictions on the use of names in a
 class definition.
+[:zh_CN]
+[#basic.scope.class] 进一步说明类定义式中使用名字的限制。
 
 [:en]
 [#class.nest] further describes the restrictions on the use of names in nested
 class definitions.
+[:zh_CN]
+[#class.nest] 进一步说明嵌套类定义式中使用名字的限制。
 
 [:en]
 [#class.local] further describes the restrictions on the use of names in local
 class definitions.
+[:zh_CN]
+[#class.local] 进一步说明局部类定义式中使用名字的限制。
 [exit:note]
 
 [para]
@@ -215,48 +307,71 @@ default argument, in an [~exception-specification], in the
 [~brace-or-equal-initializer] of a non-static data member ([#class.mem]), or in
 the definition of a class member outside of the definition of [`X], following
 the member[=']s [~declarator-id]
+[:zh_CN]
+对于类 [`X] 的成员，在成员函数体，默认实参，[~异常说明]，非静态数据成员的[~花括
+号或等号初始化式]（[#class.mem]），或者在处于 [`X] 的定义式之外的类成员定义式中
+，于该成员的[~声明符标识]
 
 [footnote]
 [:en]
 That is, an unqualified name that occurs, for instance, in a type in the
 [~parameter-declaration-clause] or in the [~exception-specification].
+[:zh_CN]
+也就是说，出现于（例如）[~形参声明子句]中或[~异常说明]中的类型之中的未限定名。
 [footnote:end]
 
 [:en@~]
 , shall be declared in one of the following ways:
+[:zh_CN@~]
+之后所使用的名字，应当以如下方式之一进行声明：
 
 [list]
 [item]
 [:en]
 before its use in the block in which it is used or in an enclosing block
 ([#stmt.block]), or
+[:zh_CN]
+在使用它的块或其某个外围块（[#stmt.block]）之中，处于其被使用之前，或者
 
 [item]
 [:en]
 shall be a member of class [`X] or be a member of a base class of [`X]
 ([#class.member.lookup]), or
+[:zh_CN]
+作为类 [`X] 的成员，或 [`X] 的某个基类（[#class.member.lookup]）的成员，或者
 
 [item]
 [:en]
 if [`X] is a nested class of class [`Y] ([#class.nest]), shall be a member of
 [`Y], or shall be a member of a base class of [`Y] (this lookup applies in turn
 to [`Y][=']s enclosing classes, starting with the innermost enclosing class),
+[:zh_CN]
+若 [`X] 是类 [`Y] 的嵌套类（[#class.nest]），则作为 [`Y] 的成员，或作为 [`Y] 的
+某个基类的成员（此查找从最内层外围类开始，依次应用于包含 [`Y] 的类中），
 
 [footnote]
 [:en]
 This lookup applies whether the member function is defined within the definition
 of class [`X] or whether the member function is defined in a namespace scope
 enclosing [`X][=']s definition.
+[:zh_CN]
+无论该成员函数定义于类 [`X] 的定义式之内，还是该成员函数定义于包含 [`X] 的定义式
+的命名空间作用域之中，都适用此查找。
 [footnote:end]
 
 [:en@~]
 or
+[:zh_CN@~]
+或者
 
 [item]
 [:en]
 if [`X] is a local class ([#class.local]) or is a nested class of a local class,
 before the definition of class [`X] in a block enclosing the definition of class
 [`X], or
+[:zh_CN]
+若 [`X] 是局部类（[#class.local]）或是局部类的嵌套类，则在包含类 [`X] 的某个块之
+中，处于类 [`X] 的定义式之前，或者
 
 [item]
 [:en]
@@ -264,6 +379,10 @@ if [`X] is a member of namespace [`N], or is a nested class of a class that is a
 member of [`N], or is a local class or a nested class within a local class of a
 function that is a member of [`N], before the use of the name, in namespace [`N]
 or in one of [`N][=']s enclosing namespaces.
+[:zh_CN]
+若 [`X] 是命名空间 [`N] 的成员，或是作为 [`N] 的成员的某个类的嵌套类，或是作为
+[`N] 的成员的某个函数的局部类或局部类中的嵌套类，则在命名空间 [`N] 或 [`N] 的
+外围命名空间之一之中，使用该名字之前。
 [list:end]
 
 [enter:example]
@@ -282,12 +401,19 @@ void M::N::X::f() {
 }
 
 // [:en] The following scopes are searched for a declaration of [`i]:
+// [|:zh_CN] 在如下作用域中搜索 [`i] 的声明式：
 // [:en] 1) outermost block scope of [`M::N::X::f], before the use of [`i]
+// [|:zh_CN] 1) [`M::N::X::f] 的最外层块作用域，使用 [`i]
 // [:en] 2) scope of class [`M::N::X]
+// [|:zh_CN] 2) 类 [`M::N::X] 的作用域
 // [:en] 3) scope of [`M::N::X][=']s base class [`B]
+// [|:zh_CN] 3) [`M::N::X] 的基类 [`B] 的作用域
 // [:en] 4) scope of namespace [`M::N]
+// [|:zh_CN] 4) 命名空间 [`M::N] 的作用域
 // [:en] 5) scope of namespace [`M]
+// [|:zh_CN] 5) 命名空间 [`M] 的作用域
 // [:en] 6) global scope, before the definition of [`M::N::X::f]
+// [|:zh_CN] 6) 全局作用域，[`M::N::X::f] 的定义式之前
 [codeblock:end]
 [exit:example]
 
@@ -295,26 +421,38 @@ void M::N::X::f() {
 [:en]
 [#class.mfct] and [#class.static] further describe the restrictions on the use
 of names in member function definitions.
+[:zh_CN]
+[#class.mfct] 和 [#class.static] 进一步说明成员函数的定义式中使用名字的限制。
 
 [:en]
 [#class.nest] further describes the restrictions on the use of names in the
 scope of nested classes.
+[:zh_CN]
+[#class.nest] 进一步说明嵌套类的作用域中使用名字的限制。
 
 [:en]
 [#class.local] further describes the restrictions on the use of names in local
 class definitions.
+[:zh_CN]
 [exit:note]
+[#class.local] 进一步说明局部类的定义式中使用名字的限制。
 
 [para]
 [:en]
 Name lookup for a name used in the definition of a [`friend] function
 ([#class.friend]) defined inline in the class granting friendship shall proceed
 as described for lookup in member function definitions.
+[:zh_CN]
+对于在授予友元关系的类中内联定义的 [`friend] 函数（[#class.friend]）的定义式中
+使用的名字所进行的名字查找，应当按照在成员函数定义式中进行查找的描述进行。
 
 [:en]
 If the [`friend] function is not defined in the class granting friendship, name
 lookup in the [`friend] function definition shall proceed as described for
 lookup in namespace member function definitions.
+[:zh_CN]
+若 [`friend] 函数不是在授予友元关系的类之中进行定义的，则在 [`friend] 函数的定义
+式中所进行的名字查找，应当按照在命名空间成员函数定义式中进行查找的描述进行。
 
 [para]
 [:en]
@@ -322,11 +460,18 @@ In a [`friend] declaration naming a member function, a name used in the function
 declarator and not part of a [~template-argument] in the [~declarator-id] is
 first looked up in the scope of the member function[=']s class
 ([#class.member.lookup]).
+[:zh_CN]
+在提名某个成员函数的 [`friend] 声明式中，在函数声明符中所使用的，不是[~模板标识]
+中的某个[~模板实参]的一部分的名字，首先在该成员函数的类的作用域中查找
+（[#class.member.lookup]）。
 
 [:en]
 If it is not found, or if the name is part of a [~template-argument] in the
 [~declarator-id], the look up is as described for unqualified names in the
 definition of the class granting friendship.
+[:zh_CN]
+如果找不到，或者如果该名字是[~模板标识]中某个[~模板实参]的一部分，则该查找按照在
+授予友元关系的类的定义式中，对未限定名进行查找的描述来进行。
 
 [enter:example]
 
@@ -341,8 +486,11 @@ struct B {
   typedef char AT;
   typedef float BT;
   friend void A::f1(AT);      // [:en] parameter type is [`A::AT]
+                              // [|:zh_CN] 形参类型为 [`A::AT]
   friend void A::f2(BT);      // [:en] parameter type is [`B::BT]
+                              // [|:zh_CN] 形参类型为 [`B::BT]
   friend void A::f3<AT>();    // [:en] template argument is [`B::AT]
+                              // [|:zh_CN] 模板实参为 [`B::AT]
 };
 [codeblock:end]
 
@@ -355,15 +503,24 @@ a function [~parameter-declaration-clause] or used in the [~expression] of a
 [~mem-initializer] for a constructor ([#class.base.init]), the function
 parameter names are visible and hide the names of entities declared in the
 block, class or namespace scopes containing the function declaration.
+[:zh_CN]
+对于在函数的[~形参声明子句]中用作默认实参（[#dcl.fct.default]），或在构造函数
+的一个[~成员初始化式]（[#class.base.init]）中的[~表达式]中使用的名字，当对其进行
+查找时，函数形参名可见，并将隐藏声明于包含该函数声明式的块、类或命名空间作用域
+之中的实体的名字。
 
 [enter:note]
 [:en]
 [#dcl.fct.default] further describes the restrictions on the use of names in
 default arguments.
+[:zh_CN]
+[#dcl.fct.default] 进一步说明默认实参中使用名字的限制。
 
 [:en]
 [#class.base.init] further describes the restrictions on the use of names in a
 [~ctor-initializer].
+[:zh_CN]
+[#class.base.init] 进一步说明[~构造函数初始化式]中使用名字的限制。
 [exit:note]
 
 [para]
@@ -372,17 +529,27 @@ During the lookup of a name used in the [~constant-expression] of an
 [~enumerator-definition], previously declared [~enumerator]s of the enumeration
 are visible and hide the names of entities declared in the block, class, or
 namespace scopes containing the [~enum-specifier].
+[:zh_CN]
+当对[~枚举符定义式]的[~常量表达式]之中所使用的名字进行查找时，该枚举中早前声明的
+[~枚举符]可见，并将隐藏声明于包含该[~枚举说明符]的块、类或命名空间作用域中的实体
+的名字。
 
 [para]
 [:en]
 A name used in the definition of a [`static] data member of class [`X]
 ([#class.static.data]) (after the [~qualified-id] of the static member) is
 looked up as if the name was used in a member function of [`X].
+[:zh_CN]
+在类 [`X] 的 [`static] 数据成员（[#class.static.data]）的定义式中（在该静态成员
+的[~限定标识]之后）所使用的名字，按照如同该名字被使用于 [`X] 的成员函数中那样来
+进行查找。
 
 [enter:note]
 [:en]
 [#class.static.data] further describes the restrictions on the use of names in
 the definition of a [`static] data member.
+[:zh_CN]
+[#class.static.data] 进一步说明 [`static] 数据成员的定义式中使用名字的限制。
 [exit:note]
 
 [para]
@@ -391,6 +558,10 @@ If a variable member of a namespace is defined outside of the scope of its
 namespace then any name that appears in the definition of the member (after the
 [~declarator-id]) is looked up as if the definition of the member occurred in
 its namespace.
+[:zh_CN]
+若命名空间的变量成员定义于其命名空间的作用域之外，则在该成员的定义式中（在其
+[~声明符标识]之后）出现的任何名字，都按照如同该成员的定义式出现于其命名空间之内
+来进行查找。
 
 [enter:example]
 
@@ -411,23 +582,36 @@ int N::j = i;                   // [`N::j == 4]
 A name used in the handler for a [~function-try-block] (Clause [#except]) is
 looked up as if the name was used in the outermost block of the function
 definition.
+[:zh_CN]
+在[~函数-try-块]（第 [#except] 条）的某个处理器中使用的名字，按照如同该名字被
+使用于该函数定义式的最外层块中来进行查找。
 
 [:en]
 In particular, the function parameter names shall not be redeclared in the
 [~exception-declaration] nor in the outermost block of a handler for the
 [~function-try-block].
+[:zh_CN]
+特别是，既不能在[~异常声明]中，也不能在[~函数-try-块]的任何处理器的最外层块中
+重复声明函数形参名。
 
 [:en]
 Names declared in the outermost block of the function definition are not found
 when looked up in the scope of a handler for the [~function-try-block].
+[:zh_CN]
+在[~函数-try-块]的某个处理器的作用域中查找时，不会找到函数定义式的最外层块中声明
+的名字。
 
 [enter:note]
 [:en]
 But function parameter names are found.
+[:zh_CN]
+但函数形参名会被找到。
 [exit:note]
 
 [para]
 [enter:note]
 [:en]
 The rules for name lookup in template definitions are described in [#temp.res].
+[:zh_CN]
+在模板定义式中进行名字查找的规则在 [#temp.res] 中说明。
 [exit:note]

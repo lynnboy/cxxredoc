@@ -1,13 +1,15 @@
 ﻿[section#basic.lookup
     [:en] Name lookup
-    [:zh_CN] 
+    [:zh_CN] 名字查找
 ]
 
 [%:begin#scope.namelookup
     [:en] scope [!name lookup and]
+    [:zh_CN] 作用域 [!名字查找与～]
 ]
 [%:begin#lookup.name
     [:en] lookup [!name]
+    [:zh_CN] 查找 [!名字～]
 ]
 
 [para]
@@ -16,53 +18,79 @@ The name lookup rules apply uniformly to all names (including [~typedef-name]s
 ([#dcl.typedef]), [~namespace-name]s ([#basic.namespace]), and [~class-name]s
 ([#class.name])) wherever the grammar allows such names in the context discussed
 by a particular rule.
+[:zh_CN]
+名字查找规则统一地应用于所有名字（包括 [~typedef-名]（[#dcl.typedef]），[~命名
+空间名]（[#basic.namespace]），以及[~类名]（[#class.name]）），只要根据特定规则
+所考察的语境中这种名字被文法所接受。
 
 [:en]
 Name lookup associates the use of a name with a declaration ([#basic.def]) of
 that name.
+[:zh_CN]
+名字查找将名字的运用和该名字的声明式（[#basic.def]）关联起来。
 
 [:en]
 Name lookup shall find an unambiguous declaration for the name (see
 [#class.member.lookup]).
+[:zh_CN]
+名字查找应当能找到该名字的一个无歧义的声明式（参见 [#class.member.lookup]）。
 
 [:en]
 Name lookup may associate more than one declaration with a name if it finds the
-name to be a function name;
-
-[:en]
-the declarations are said to form a set of overloaded functions ([#over.load]).
+name to be a function name; the declarations are said to form a set of
+overloaded functions ([#over.load]).
+[:zh_CN]
+如果名字查找所查找到的名字是函数名，则它可以将多个声明式与该名字关联起来；称这些
+声明式构成一个重载函数集合（[#over.load]）。
 
 [:en]
 Overload resolution ([#over.match]) takes place after name lookup has succeeded.
+[:zh_CN]
+在名字查找成功后进行重载决议（[#over.match]）。
 
 [:en]
 The access rules (Clause [#class.access]) are considered only once name lookup
 and function overload resolution (if applicable) have succeeded.
+[:zh_CN]
+仅当名字查找和函数重载决议（如果适用）成功后，才考察访问规则（第 [#class.access]
+条）。
 
 [:en]
 Only after name lookup, function overload resolution (if applicable) and access
 checking have succeeded are the attributes introduced by the name[=']s
 declaration used further in expression processing (Clause [#expr]).
+[:zh_CN]
+仅当名字查找、函数重载决议（如果适用）和访问检查都成功后，才能在表达式的处理过程
+中进一步使用由该名字的声明式所引入的属性（第 [#expr] 条）。
 
 [para]
 [:en]
 A name ["looked up in the context of an expression] is looked up as an
 unqualified name in the scope where the expression is found.
+[:zh_CN]
+“在某表达式的语境中查找”一个名字，即在出现该表达式的作用域中将其作为未限定名
+进行查找。
 
 [para]
 [:en]
 The injected-class-name of a class (Clause [#class]) is also considered to be a
 member of that class for the purposes of name hiding and lookup.
+[:zh_CN]
+当进行名字隐藏和查找时，类的注入类名（第 [#class] 条）同样被当作该类的成员。
 
 [para]
 [enter:note]
 [:en]
 [#basic.link] discusses linkage issues.
+[:zh_CN]
+[#basic.link] 讨论了连接问题。
 
 [:en]
 The notions of scope, point of declaration and name hiding are discussed in
 [#basic.scope].
+[:zh_CN]
 [exit:note]
+作用域、声明点和名字隐藏在 [#basic.scope] 中讨论。
 
 [include basic.lookup.unqual]
 

@@ -1,6 +1,6 @@
 ﻿[section#namespace.qual
     [:en] Namespace members
-    [:zh_CN] 
+    [:zh_CN] 命名空间成员
 ]
 
 [para]
@@ -10,39 +10,63 @@ If the [~nested-name-specifier] of a [~qualified-id] nominates a namespace
 (including the case where the [~nested-name-specifier] is [`::], i.e.,
 nominating the global namespace), the name specified after the
 [~nested-name-specifier] is looked up in the scope of the namespace.
+[:zh_CN]
+[%查找[!命名空间成员的～]]
+若[~限定标识]的[~嵌套名说明符]提名了一个命名空间（这包括[~嵌套名说明符]为 [`::]
+的情况，亦即提名全局命名空间），则[~嵌套名说明符]后所指定的名字在这个命名空间的
+作用域中查找。
 
 [:en]
 The names in a [~template-argument] of a [~template-id] are looked up in the
 context in which the entire [~postfix-expression] occurs.
+[:zh_CN]
+[~模板标识]的[~模板实参]中的名字，在整个[~后缀表达式]所出现的语境中查找。
 
 [para]
 [:en]
 For a namespace [`X] and name [`m], the namespace-qualified lookup set
 [$S(X, m)] is defined as follows:
+[:zh_CN]
+对于命名空间 [`X] 与名字 [`m]，由命名空间限定的查找集合 [$S(X, m)] 定义如下：
 
 [:en]
 Let [$S'(X, m)] be the set of all declarations of [`m] in [`X] and the inline
 namespace set of [`X] ([#namespace.def]).
+[:zh_CN]
+设 [$S'(X, m)] 为在 [`X] 以及 [`X] 的内联命名空间集合（[#namespace.def]）中，
+[`m] 的所有声明式的集合。
 
 [:en]
 If [$S'(X, m)] is not empty, [$S(X, m)] is [$S'(X, m)]; otherwise, [$S(X, m)] is
-the union of [$S(N_i, m)] for all namespaces [$N[_i]] nominated by
+the union of [$S(N[_i], m)] for all namespaces [$N[_i]] nominated by
 [~using-directives] in [`X] and its inline namespace set.
+[:zh_CN]
+如果 [$S'(X, m)] 非空，则 [$S(X, m)] 即为 [$S'(X, m)]；否则 [$S(X, m)] 是 [`X]
+及其内联命名空间集合中的 [~using-指令]所提名的每个命名空间 [$N[_i]] 的
+[$S(N[_i], m)] 的并集。
 
 [para]
 [:en]
 Given [`X::m] (where [`X] is a user-declared namespace), or given [`::m] (where
 [`X] is the global namespace), if [$S(X, m)] is the empty set, the program is
 ill-formed.
+[:zh_CN]
+给定 [`X::m]（其中 [`X] 是自定义的命名空间），或给定 [`::m]（其中 [`X] 是全局
+命名空间），若 [$S(X, m)] 是空集，则该程序非良构。
 
 [:en]
 Otherwise, if [$S(X, m)] has exactly one member, or if the context of the
 reference is a [~using-declaration] ([#namespace.udecl]), [$S(X, m)] is the
 required set of declarations of [`m].
+[:zh_CN]
+否则，若 [$S(X, m)] 恰好有一个成员，或若进行该涉指的语境是个 [~using-声明式]
+（[#namespace.udecl]），则 [$S(X, m)] 就为所求的 [`m] 的声明式的集合。
 
 [:en]
 Otherwise if the use of [`m] is not one that allows a unique declaration to be
 chosen from [$S(X, m)], the program is ill-formed.
+[:zh_CN]
+否则如果 [`m] 的使用方式不允许从 [$S(X, m)] 中选取唯一的声明式，则该程序非良构。
 
 [enter:example]
 
@@ -78,29 +102,51 @@ namespace AB {
 
 void h()
 {
-  AB::g();          // [:en] [`g] is declared directly in [`AB,]
-                    // [:en@~] therefore [`S] is { [`AB::g()] } and [`AB::g()] is chosen
+  AB::g();          // [:en] [`g] is declared directly in [`AB],
+                    // [|:zh_CN] [`AB] 中直接声明了 [`g]，
+                    // [:en@~] therefore [$S] is { [`AB::g()] } and [`AB::g()] is chosen
+                    // [|:zh_CN@~] 故 [$S] 为 { [`AB::g()] } 并选取 [`AB::g()]
   AB::f(1);         // [:en] [`f] is not declared directly in [`AB] so the rules are
+                    // [|:zh_CN] [`AB] 中并未直接声明 [`f]，因此
                     // [:en@~] applied recursively to [`A] and [`B];
+                    // [|:zh_CN@~] 对 [`A] 和 [`B] 递归应用查找规则；
                     // [:en@~] namespace [`Y] is not searched and [`Y::f(float)]
+                    // [|:zh_CN@~] 未搜索命名空间 [`Y] 且
                     // [:en@~] is not considered;
-                    // [:en] [`S] is { [`A::f(int)], [`B::f(char)] } and overload
+                    // [|:zh_CN@~] 未考察 [`Y::f(float)]；
+                    // [:en@~] [$S] is { [`A::f(int)], [`B::f(char)] } and overload
+                    // [|:zh_CN@~] [$S] 为 { [`A::f(int)], [`B::f(char)] }
                     // [:en@~] resolution chooses [`A::f(int)]
+                    // [|:zh_CN@~] 而重载决议选取 [`A::f(int)]
   AB::f('c');       // [:en] as above but resolution chooses [`B::f(char)]
+                    // [|:zh_CN] 同上，但重载决议选取 [`B::f(char)]
 
   AB::x++;          // [:en] [`x] is not declared directly in [`AB], and
+                    // [|:zh_CN] [`AB] 中并未直接声明 [`x] 而且
                     // [:en@~] is not declared in [`A] or [`B] , so the rules are
+                    // [|:zh_CN@~] 也未在 [`A] 或 [`B] 中声明，因此
                     // [:en@~] applied recursively to [`Y] and [`Z],
-                    // [:en] [`S] is { } so the program is ill-formed
+                    // [|:zh_CN@~] 对 [`Y] 和 [`Z] 递归应用查找规则，
+                    // [:en@~] [$S] is { } so the program is ill-formed
+                    // [|:zh_CN@~] [$S] 为空，因此程序非良构
   AB::i++;          // [:en] [`i] is not declared directly in [`AB] so the rules are
+                    // [|:zh_CN] [`AB] 中并未直接声明 [`i]，因此
                     // [:en@~] applied recursively to [`A] and [`B],
-                    // [:en] [`S] is { [`A::i] , [`B::i] } so the use is ambiguous
+                    // [|:zh_CN@~] 对 [`A] 和 [`B] 递归应用查找规则，
+                    // [:en] [$S] is { [`A::i], [`B::i] } so the use is ambiguous
+                    // [|:zh_CN@~] [$S] 为 { [`A::i], [`B::i] } 
                     // [:en@~] and the program is ill-formed
+                    // [|:zh_CN@~] 因此该使用有歧义且程序非良构
   AB::h(16.8);      // [:en] [`h] is not declared directly in [`AB] and
+                    // [|:zh_CN] [`AB] 中并未直接声明 [`h] 而且
                     // [:en@~] not declared directly in [`A] or [`B] so the rules are
+                    // [|:zh_CN@~] 也未在 [`A] 或 [`B] 中声明，因此
                     // [:en@~] applied recursively to [`Y] and [`Z],
-                    // [:en] [`S] is { [`Y::h(int)], [`Z::h(double)] } and overload
+                    // [|:zh_CN@~] 对 [`Y] 和 [`Z] 递归应用查找规则，
+                    // [:en@~] [$S] is { [`Y::h(int)], [`Z::h(double)] } and overload
+                    // [|:zh_CN@~] [$S] 为 { [`Y::h(int)], [`Z::h(double)] }
                     // [:en@~] resolution chooses [`Z::h(double)]
+                    // [|:zh_CN@~] 而重载决议选取 [`Z::h(double)]
 }
 [codeblock:end]
 
@@ -108,9 +154,13 @@ void h()
 [:en]
 The same declaration found more than once is not an ambiguity (because it is
 still a unique declaration).
+[:zh_CN]
+同一个声明式被多次找到不造成歧义（因为它仍是唯一的声明式）。
 
 [:en]
 For example:
+[:zh_CN]
+例如：
 
 [codeblock]
 namespace A {
@@ -132,7 +182,8 @@ namespace BC {
 
 void f()
 {
-  BC::a++;          // [:en] OK: [`S] is { [`A::a], [`A::a] }
+  BC::a++;          // [:en] OK: [$S] is { [`A::a], [`A::a] }
+                    // [|:zh_CN] OK：[$S] 为 { [`A::a], [`A::a] }
 }
 
 namespace D {
@@ -146,7 +197,8 @@ namespace BD {
 
 void g()
 {
-  BD::a++;          // [:en] OK: S is { [`A::a], [`A::a] }
+  BD::a++;          // [:en] OK: [$S] is { [`A::a], [`A::a] }
+                    // [|:zh_CN] OK：[$S] 为 { [`A::a], [`A::a] }
 }
 [codeblock:end]
 
@@ -154,6 +206,8 @@ void g()
 [:en]
 Because each referenced namespace is searched at most once, the following is
 well-defined:
+[:zh_CN]
+因为所涉指的每个命名空间最多被搜索一次，所以如下程序是良构的：
 
 [codeblock]
 namespace B {
@@ -171,10 +225,14 @@ namespace B {
 
 void f()
 {
-  A::a++;           // [:en] OK: [`a] declared directly in [`A], [`S] is {[`A::a]}
-  B::a++;           // [:en] OK: both [`A] and [`B] searched (once), [`S] is {[`A::a]}
-  A::b++;           // [:en] OK: both [`A] and [`B] searched (once), [`S] is {[`B::b]}
-  B::b++;           // [:en] OK: [`b] declared directly in [`B], [`S] is {[`B::b]}
+  A::a++;           // [:en] OK: [`a] declared directly in [`A], [$S] is {[`A::a]}
+                    // [|:zh_CN] OK：[`A] 中直接声明了 [`a]，[$S] 为 {[`A::a]}
+  B::a++;           // [:en] OK: both [`A] and [`B] searched (once), [$S] is {[`A::a]}
+                    // [|:zh_CN] OK：[`A] 和 [`B] 都进行了（一次）搜索，[$S] 为 {[`A::a]}
+  A::b++;           // [:en] OK: both [`A] and [`B] searched (once), [$S] is {[`B::b]}
+                    // [|:zh_CN] OK：[`A] 和 [`B] 都进行了（一次）搜索，[$S] 为 {[`B::b]}
+  B::b++;           // [:en] OK: [`b] declared directly in [`B], [$S] is {[`B::b]}
+                    // [|:zh_CN] OK：[`B] 中直接声明了 [`b]，[$S] 为 {[`B::b]}
 }
 [codeblock:end]
 [exit:example]
@@ -188,6 +246,11 @@ variable, the same enumerator or a set of functions, the non-type name hides the
 class or enumeration name if and only if the declarations are from the same
 namespace; otherwise (the declarations are from different namespaces), the
 program is ill-formed.
+[:zh_CN]
+在对受限定的命名空间成员名进行查找时，如果该查找找到了该成员的多个声明式，并且若
+其中一个声明式引入了类名或枚举名而其他声明式引入了相同的变量、相同的枚举符或一组
+函数，则当且仅当这些声明式来自同一个命名空间时，这个非类型名隐藏这个类或枚举名；
+否则（这些声明式来自不同命名空间），该程序非良构。
 
 [enter:example]
 
@@ -206,7 +269,9 @@ namespace C {
   using namespace A;
   using namespace B;
   int i = C::x;     // [:en] OK, [`A::x] (of type [`int])
+                    // [|:zh_CN] OK，[`A::x]（类型为 [`int]）
   int j = C::y;     // [:en] ambiguous, [`A::y] or [`B::y]
+                    // [|:zh_CN] 有歧义，[`A::y] 或 [`B::y]
 }
 [codeblock:end]
 [exit:example]
@@ -216,6 +281,9 @@ namespace C {
 In a declaration for a namespace member in which the [~declarator-id] is a
 [~qualified-id], given that the [~qualified-id] for the namespace member has the
 form
+[:zh_CN]
+在[~声明符标识]是[~限定标识]的命名空间成员声明式中，若给定该命名空间成员的[~限定
+标识]的形式为
 
 [syntax:explanation]
 [~nested-name-specifier] [~unqualified-id]
@@ -225,6 +293,9 @@ form
 the [~unqualified-id] shall name a member of the namespace designated by the
 [~nested-name-specifier] or of an element of the inline namespace set
 ([#namespace.def]) of that namespace.
+[:zh_CN@~]
+则该[~未限定标识]应当是该[~嵌套名说明符]所指定的命名空间或该命名空间的内联命名
+空间集合（[#namespace.def]）的某个元素的名字。
 
 [enter:example]
 
@@ -236,6 +307,7 @@ namespace A {
   using namespace B;
 }
 void A::f1(int){ }  // [:en] ill-formed, [`f1] is not a member of [`A]
+                    // [|:zh_CN] 非良构，[`fi] 不是 [`A] 的成员
 [codeblock:end]
 
 [exit:example]
@@ -244,6 +316,9 @@ void A::f1(int){ }  // [:en] ill-formed, [`f1] is not a member of [`A]
 However, in such namespace member declarations, the [~nested-name-specifier] may
 rely on [~using-directive]s to implicitly provide the initial part of the
 [~nested-name-specifier].
+[:zh_CN]
+然而，在这种命名空间成员声明式中，其[~嵌套名说明符]可能会基于 [~using-指令]来
+隐含地提供该[~嵌套名说明符]的开头部分。
 
 [enter:example]
 
@@ -263,5 +338,6 @@ namespace C {
 using namespace A;
 using namespace C::D;
 void B::f1(int){ }  // [:en] OK, defines [`A::B::f1(int)]
+                    // [|:zh_CN] OK，定义了 [`A::B::f1(int)]
 [codeblock:end]
 [exit:example]

@@ -1,28 +1,37 @@
 ﻿[section#basic.lookup.qual
     [:en] Qualified name lookup
-    [:zh_CN] 
+    [:zh_CN] 限定名查找
 ]
 
 [%:begin#lookup.qualified.name
     [:en] lookup [!qualified name]
+    [:zh_CN] 查找 [!限定名～]
 ]
 
 [para]
 [:en]
-[%name[!qualified]]
-[%qualification[!explicit]]
+[%name[!qualified]] [%qualification[!explicit]]
 The name of a class or namespace member or enumerator can be referred to after
 the [`::] scope resolution operator ([#expr.prim]) applied to a
 [~nested-name-specifier] that denotes its class, namespace, or enumeration.
+[:zh_CN]
+[%名[!限定～]] [%限定[!明确～]]
+类或命名空间的成员，或者枚举符的名字，可以在对代表其类、命名空间或枚举的[~嵌套名
+说明符]上应用作用域解析运算符 [`::]（[#expr.prim]）之后提及。
 
 [:en]
 If a [`::] scope resolution operator in a [~nested-name-specifier] is not
 preceded by a [~decltype-specifier], lookup of the name preceding that [`::]
 considers only namespaces, types, and templates whose specializations are types.
+[:zh_CN]
+如果[~嵌套名说明符]中的某个 [`::] 前面不是 [~decltype-说明符]，则对这个 [`::]
+前面的名字进行查找时，只考察命名空间、类型，以及特例为类型的模板。
 
 [:en]
 If the name found does not designate a namespace or a class, enumeration, or
 dependent type, the program is ill-formed.
+[:zh_CN]
+若所找到的名字不代表某个命名空间或某个类、枚举，或者待决的类型，则该程序非良构。
 
 [enter:example]
 
@@ -34,7 +43,9 @@ public:
 int main() {
   int A;
   A::n = 42;        // [:en] OK
+                    // [|:zh_CN] OK
   A b;              // [:en] ill-formed: [`A] does not name a type
+                    // [|:zh_CN] 非良构：[`A] 不是类型名
 }
 [codeblock:end]
 [exit:example]
@@ -44,6 +55,9 @@ int main() {
 [:en]
 Multiply qualified names, such as [`N1::N2::N3::n], can be used to refer to
 members of nested classes ([#class.nest]) or members of nested namespaces.
+[:zh_CN]
+多重限定的名字，如 [`N1::N2::N3::n]，可用于指代嵌套类（[#class.nest]）的成员或者
+嵌套命名空间的成员。
 [exit:note]
 
 [para]
@@ -52,8 +66,12 @@ In a declaration in which the [~declarator-id] is a [~qualified-id], names used
 before the [~qualified-id] being declared are looked up in the defining
 namespace scope; names following the [~qualified-id] are looked up in the scope
 of the member[=']s class or namespace.
-[enter:example]
+[:zh_CN]
+在[~声明符标识]为[~限定标识]的声明式中，在其所声明的[~限定标识]之前所使用的名字
+，在定义它的命名空间作用域之中查找；处于[~限定标识]之后的名字，在该成员所处的类
+或命名空间之中查找。
 
+[enter:example]
 [codeblock]
 class X { };
 class C {
@@ -62,8 +80,11 @@ class C {
   static X arr[number];
 };
 X C::arr[number];   // [:en] ill-formed:
+                    // [|:zh_CN] 非良构：
                     // [:en@~] equivalent to: [`::X] [`C::arr[C::number];]
+                    // [|:zh_CN@~] 等价于：[`::X] [`C::arr[C::number];]
                     // [:en@~] not to: [`C::X] [`C::arr[C::number];]
+                    // [|:zh_CN@~] 而不是：[`C::X] [`C::arr[C::number];]
 [codeblock:end]
 [exit:example]
 
@@ -72,29 +93,47 @@ X C::arr[number];   // [:en] ill-formed:
 [%scope resolution operator]
 A name prefixed by the unary scope operator [`::] ([#expr.prim]) is looked up in
 global scope, in the translation unit where it is used.
+[:zh_CN]
+[%作用域解析运算符]
+前面带有一元作用域运算符 [`::]（[#expr.prim]）的名字，在使用它的翻译单元中的全局
+作用域中查找。
 
 [:en]
 The name shall be declared in global namespace scope or shall be a name whose
 declaration is visible in global scope because of a [~using-directive]
 ([#namespace.qual]).
+[:zh_CN]
+该名字应当声明于全局命名空间中，或应当因 [~using-指令]而在全局作用域中可见
+（[#namespace.qual]）。
 
 [:en]
 The use of [`::] allows a global name to be referred to even if its identifier
 has been hidden ([#basic.scope.hiding]).
+[:zh_CN]
+通过使用 [`::]，使得即使某个全局名字的标识符被隐藏（[#basic.scope.hiding]），
+也能够提及它。
 
 [para]
 [:en]
 A name prefixed by a [~nested-name-specifier] that nominates an enumeration type
 shall represent an [~enumerator] of that enumeration.
+[:zh_CN]
+以提名了某个枚举类型的[~嵌套名说明符]为前缀的名字，应当代表这个枚举的某个[~枚举
+符]。
 
 [para]
 [:en]
 If a [~pseudo-destructor-name] ([#expr.pseudo]) contains a
 [~nested-name-specifier], the [~type-name]s are looked up as types in the scope
 designated by the [~nested-name-specifier].
+[:zh_CN]
+如果[~伪析构函数名]（[#expr.pseudo]）中含有[~嵌套名说明符]，则应当把其[~类型名]
+当作[~嵌套名说明符]所指定的作用域中的类型来进行查找。
 
 [:en]
 Similarly, in a [~qualified-id] of the form:
+[:zh_CN]
+相似地，对于形式为
 
 [syntax:explanation]
 [~:opt nested-name-specifier] [~class-name] [`::] [`~] [~class-name]
@@ -102,9 +141,10 @@ Similarly, in a [~qualified-id] of the form:
 
 [:en@~]
 the second [~class-name] is looked up in the same scope as the first.
+[:zh_CN@~]
+的[~限定标识]，第二个[~类名]与第一个在相同作用域中查找。
 
 [enter:example]
-
 [codeblock]
 struct C {
   typedef int I;
@@ -113,8 +153,11 @@ typedef int I1, I2;
 extern int* p;
 extern int* q;
 p->C::I::~I();      // [:en] [`I] is looked up in the scope of [`C]
+                    // [|:zh_CN] 在 [`C] 的作用域中查找 [`I]
 q->I1::~I2();       // [:en] [`I2] is looked up in the scope of
-                    // [:en@~] the postfix-expression
+                    // [|:zh_CN] 在[~后缀表达式]的作用域
+                    // [:en@~] the [~postfix-expression]
+                    // [|:zh_CN@~] 中查找 [`I2]
 
 struct A {
   ~A();
@@ -123,6 +166,7 @@ typedef A AB;
 int main() {
   AB* p;
   p->AB::~AB();     // [:en] explicitly calls the destructor for [`A]
+                    // [|:zh_CN] 显式调用 [`A] 的析构函数
 }
 [codeblock:end]
 [exit:example]
@@ -131,6 +175,8 @@ int main() {
 [:en]
 [#basic.lookup.classref] describes how name lookup proceeds after the [`.] and
 [`->] operators.
+[:zh_CN]
+[#basic.lookup.classref] 描述 [`.] 和 [`->] 运算符之后怎样进行名字查找。
 [exit:note]
 
 [include class.qual]

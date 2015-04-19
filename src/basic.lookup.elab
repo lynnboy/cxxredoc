@@ -1,10 +1,11 @@
 ﻿[section#basic.lookup.elab
     [:en] Elaborated type specifiers
-    [:zh_CN] 
+    [:zh_CN] 详细类型说明符
 ]
 
 [%:begin#lookup.elab
     [:en] lookup [!elaborated type specifier]
+    [:zh_CN] 查找 [!详细类型说明符的～]
 ]
 
 [para]
@@ -13,12 +14,19 @@
 An [~elaborated-type-specifier] ([#dcl.type.elab]) may be used to refer to a
 previously declared [~class-name] or [~enum-name] even though the name has been
 hidden by a non-type declaration ([#basic.scope.hiding]).
+[:zh_CN]
+[%类型说明符[!详细～]]
+[~详细类型说明符]（[#dcl.type.elab]）可以用于提及之前所声明过的[~类名]或
+[~枚举名]，即使这个名字已被某个非类型的声明式所隐藏（[#basic.scope.hiding]）。
 
 [para]
 [:en]
 If the [~elaborated-type-specifier] has no [~nested-name-specifier], and unless
 the [~elaborated-type-specifier] appears in a declaration with the following
 form:
+[:zh_CN]
+若[~详细类型说明符]中没有[~嵌套名说明符]，且该[~详细类型说明符]并非出现于具有
+如下形式的声明式中：
 
 [syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
@@ -27,16 +35,25 @@ form:
 [:en@~]
 the [~identifier] is looked up according to [#basic.lookup.unqual] but ignoring
 any non-type names that have been declared.
+[:zh_CN@~]
+则根据 [#basic.lookup.unqual] 查找这个[~标识符]，但忽略任何已声明的非类型的名字
+。
 
 [:en]
 If the [~elaborated-type-specifier] is introduced by the [`enum] keyword and
 this lookup does not find a previously declared [~type-name], the
 [~elaborated-type-specifier] is ill-formed.
+[:zh_CN]
+若该[~详细类型说明符]是由关键字 [`enum] 引入，而此名字查找过程并未找到之前声明
+过的[~类型名]，则该[~详细类型说明符]是非良构的。
 
 [:en]
 If the [~elaborated-type-specifier] is introduced by the [~class-key] and this
 lookup does not find a previously declared [~type-name], or if the
 [~elaborated-type-specifier] appears in a declaration with the form:
+[:zh_CN]
+若该[~详细类型说明符]是由[~类关键字]所引入，而此查找过程并未找到之前声明过的
+[~类型名]，或该[~详细类型说明符]出现于具有如下形式的声明式中：
 
 [syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
@@ -45,49 +62,76 @@ lookup does not find a previously declared [~type-name], or if the
 [:en@~]
 the [~elaborated-type-specifier] is a declaration that introduces the
 [~class-name] as described in [#basic.scope.pdecl].
+[:zh_CN@~]
+则该[~详细类型说明符]是如在 [#basic.scope.pdecl] 中所述的一个引入[~类名]的声明
+式。
 
 [para]
 [:en]
 If the [~elaborated-type-specifier] has a [~nested-name-specifier], qualified
 name lookup is performed, as described in [#basic.lookup.qual], but ignoring any
 non-type names that have been declared.
+[:zh_CN]
+若该[~详细类型说明符]中含有[~嵌套名说明符]，则实施限定名查找，如在
+[#basic.lookup.qual] 中所述，但忽略任何已声明的非类型的名字。
 
 [:en]
 If the name lookup does not find a previously declared [~type-name], the
 [~elaborated-type-specifier] is ill-formed.
+[:zh_CN]
+若此名字查找过程并未找到之前声明的[~类型名]，则该[~详细类型说明符]是非良构的。
 
 [enter:example]
 
 [codeblock]
 struct Node {
   struct Node* Next;            // [:en] OK: Refers to [`Node] at global scope
+                                // [|:zh_CN] OK：涉指全局作用域的 [`Node]
   struct Data* Data;            // [:en] OK: Declares type [`Data]
+                                // [|:zh_CN] OK：声明了全局作用域的类型
                                 // [:en@~] at global scope and member [`Data]
+                                // [|:zh_CN@~] [`Data] 和成员 [`Data]
 };
 
 struct Data {
   struct Node* Node;            // [:en] OK: Refers to [`Node] at global scope
+                                // [|:zh_CN] OK：涉指全局作用域的 [`Node]
   friend struct ::Glob;         // [:en] error: [`Glob] is not declared
+                                // [|:zh_CN] 错误：[`Glob] 未声明
                                 // [:en@~] cannot introduce a qualified type ([#dcl.type.elab])
+                                // [|:zh_CN@~] 不能引入带限定的类型（[#dcl.type.elab]）
   friend struct Glob;           // [:en] OK: Refers to (as yet) undeclared [`Glob]
+                                // [|:zh_CN] OK：涉指（还）未声明的
                                 // [:en@~] at global scope.
+                                // [|:zh_CN@~] 全局作用域的 [`Glob]
   /* ... */
 };
 
 struct Base {
   struct Data;                  // [:en] OK: Declares nested [`Data]
+                                // [|:zh_CN] OK：声明嵌套的 [`Data]
   struct ::Data*     thatData;  // [:en] OK: Refers to [`::Data]
+                                // [|:zh_CN] OK：涉指 [`::Data]
   struct Base::Data* thisData;  // [:en] OK: Refers to nested [`Data]
+                                // [|:zh_CN] OK：涉指嵌套的 [`Data]
   friend class ::Data;          // [:en] OK: global [`Data] is a friend
+                                // [|:zh_CN] OK：以全局的 [`Data] 为友元
   friend class Data;            // [:en] OK: nested [`Data] is a friend
+                                // [|:zh_CN] OK：以嵌套的 [`Data] 为友元
   struct Data { /* ... */ };    // [:en] Defines nested [`Data]
+                                // [|:zh_CN] 定义嵌套的 [`Data]
 };
 
 struct Data;                    // [:en] OK: Redeclares [`Data] at global scope
+                                // [|:zh_CN] OK：在全局作用域重复声明 [`Data]
 struct ::Data;                  // [:en] error: cannot introduce a qualified type ([#dcl.type.elab])
+                                // [|:zh_CN] 不能引入带限定的类型（[#dcl.type.elab]）
 struct Base::Data;              // [:en] error: cannot introduce a qualified type ([#dcl.type.elab])
+                                // [|:zh_CN] 不能引入带限定的类型（[#dcl.type.elab]）
 struct Base::Datum;             // [:en] error: [`Datum] undefined
+                                // [|:zh_CN] 错误：[`Datum] 未定义
 struct Base::Data* pBase;       // [:en] OK: refers to nested [`Data]
+                                // [|:zh_CN] OK: 涉指嵌套的 [`Data]
 [codeblock:end]
 [exit:example]
 
