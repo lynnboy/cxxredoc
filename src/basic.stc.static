@@ -1,6 +1,6 @@
 ﻿[section#basic.stc.static
     [:en] Static storage duration
-    [:zh_CN] 
+    [:zh_CN] 静态存储期
 ]
 
 [para]
@@ -8,30 +8,51 @@
 [%storage duration[!static]]
 All variables which do not have dynamic storage duration, do not have thread
 storage duration, and are not local have [def static storage duration].
+[:zh_CN]
+[%存储期[!静态～]]
+不具有动态存储期，不具有线程存储期，并且不是局部变量的所有变量都具有[def 静态
+存储期]。
 
 [:en]
 The storage for these entities shall last for the duration of the program
 ([#basic.start.init], [#basic.start.term]).
+[:zh_CN]
+这些实体的存储应当维持到程序的整个持续期间（[#basic.start.init]，
+[#basic.start.term]）。
 
 [para]
+[:en]
 If a variable with static storage duration has initialization or a destructor
 with side effects, it shall not be eliminated even if it appears to be unused,
 except that a class object or its copy/move may be eliminated as specified in
 [#class.copy].
+[:zh_CN]
+如果具有静态存储期的变量带有具有副作用的初始化或析构函数，则即使它看来并未被使用
+也不能将其消除，但可以根据 [#class.copy] 中所述消除类对象或其复制/移动。
 
 [para]
 [:en]
-[%object[![`local static]]
+[%object[!local [`static]]]
 The keyword [`static] can be used to declare a local variable with static
 storage duration.
+[:zh_CN]
+[%对象[!局部 [`static] ～]]
+[`static] 关键字可用于声明具有静态存储期的局部变量。
 
 [enter:note]
 [:en]
 [#stmt.dcl] describes the initialization of local [`static] variables;
 [#basic.start.term] describes the destruction of local [`static] variables.
+[:zh_CN]
+[#stmt.dcl] 说明了局部 [`static] 变量的初始化；[#basic.start.term] 说明了局部
+[`static] 变量的销毁。
 [exit:note]
 
 [para]
-[%member[![`class static]]
+[:en]
+[%member[!class [`static]]]
 The keyword [`static] applied to a class data member in a class definition gives
 the data member static storage duration.
+[:zh_CN]
+[%成员[!类 [`static] ～]]
+在类定义式中对类数据成员应用 [`static] 关键字，使该数据成员具有静态存储期。

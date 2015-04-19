@@ -1,6 +1,6 @@
 ﻿[section#basic.stc.dynamic.deallocation
     [:en] Deallocation functions
-    [:zh_CN] 
+    [:zh_CN] 回收函数
 ]
 
 [para]
@@ -9,99 +9,161 @@
 Deallocation functions shall be class member functions or global functions; a
 program is ill-formed if deallocation functions are declared in a namespace
 scope other than global scope or declared static in global scope.
+[:zh_CN]
+[%函数[!回收～]]
+回收函数应当是类成员函数或全局函数；若回收函数声明于非全局作用域的命名空间作用域
+中，或在全局作用域中被声明为静态的，则程序非良构。
 
 [para]
 [:en]
 [%[`delete][!overloading and]]
 Each deallocation function shall return [`void] and its first parameter shall be
 [`void*].
+[:zh_CN]
+[%[`delete][!重载与～]]
+每个回收函数都应当返回 [`void]，且其第一个形参都应当为 [`void*]。
 
 [:en]
 A deallocation function can have more than one parameter.
+[:zh_CN]
+回收函数可以有多个形参。
 
 [:en]
 The global [`operator delete] with exactly one parameter is a usual
 (non-placement) deallocation function.
+[:zh_CN]
+恰有一个形参的全局 [`operator delete] 是常规（非放置式）回收函数。
 
 [:en]
 The global [`operator delete] with exactly two parameters, the second of which
 has type [`std::size_t], is a usual deallocation function.
+[:zh_CN]
+恰有两个形参，其中第二个具有类型 [`std::size_t] 的全局 [`operator delete] 是常规
+回收函数。
 
 [:en]
-Similarly, the global [`operator delete[]] with exactly one parameter is a usual
+Similarly, the global [`operator delete[`]] with exactly one parameter is a usual
 deallocation function.
+[:zh_CN]
+相似地，恰有一个形参的全局 [`operator delete[`]] 是常规回收函数。
 
 [:en]
-The global [`operator delete[]] with exactly two parameters, the second of which
+The global [`operator delete[`]] with exactly two parameters, the second of which
 has type [`std::size_t], is a usual deallocation function.
+[:zh_CN]
+恰有两个形参，其中第二个具有类型 [`std::size_t] 的全局 [`operator delete[`]] 是
+常规回收函数。
 
 [footnote]
 [:en]
 This deallocation function precludes use of an allocation function [`void
 operator new(std::size_t, std::size_t)] as a placement allocation function
 ([#diff.cpp11.basic]).
+[:zh_CN]
+这种回收函数避免了将分配函数 [`void operator new(std::size_t, std::size_t)] 用作
+放置式分配函数（[#diff.cpp11.basic]）。
 [footnote:end]
 
 [:en]
-If a class [`T] has a member deallocation function named [`operator] [`delete]
-with exactly one parameter, then that function is a usual deallocation function.
+If a class [`T] has a member deallocation function named [`operator delete] with
+exactly one parameter, then that function is a usual deallocation function.
+[:zh_CN]
+如果类 [`T] 具有名为 [`operator delete]，且恰有一个形参的成员回收函数，则该函数
+是一个常规回收函数。
 
 [:en]
 If class [`T] does not declare such an [`operator delete] but does declare a
 member deallocation function named [`operator delete] with exactly two
 parameters, the second of which has type [`std::size_t], then this function is a
 usual deallocation function.
+[:zh_CN]
+若类 [`T] 未声明这种 [`operator delete]，但声明了名为 [`operator delete] 且恰有
+两个形参，其中第二个具有类型 [`std::size_t] 的成员回收函数，则该函数是一个常规
+回收函数。
 
 [:en]
 Similarly, if a class [`T] has a member deallocation function named [`operator
-delete[]] with exactly one parameter, then that function is a usual
+delete[`]] with exactly one parameter, then that function is a usual
 (non-placement) deallocation function.
+[:zh_CN]
+相似地，若类 [`T] 具有名为 [`operator delete[`]] 且恰有一个形参的成员回收函数，
+则该函数是一个常规（非放置式）回收函数。
 
 [:en]
-If class [`T] does not declare such an [`operator delete[]] but does declare a
-member deallocation function named [`operator delete[]] with exactly two
+If class [`T] does not declare such an [`operator delete[`]] but does declare a
+member deallocation function named [`operator delete[`]] with exactly two
 parameters, the second of which has type [`std::size_t], then this function is a
 usual deallocation function.
+[:zh_CN]
+若类 [`T] 未声明这种 [`operator delete[`]]，但声明了名为 [`operator delete[`]]
+且恰有两个形参，其中第二个具有类型 [`std::size_t] 的成员回收函数，则该函数是一个
+常规回收函数。
 
 [:en]
 A deallocation function can be an instance of a function template.
+[:zh_CN]
+回收函数可以是函数模板的实例。
 
 [:en]
 Neither the first parameter nor the return type shall depend on a template
 parameter.
+[:zh_CN]
+其第一个形参和返回类型都不应当依赖于模板形参。
 
 [enter:note]
 [:en]
 That is, a deallocation function template shall have a first parameter of type
 [`void*] and a return type of [`void] (as specified above).
+[:zh_CN]
+就是说，回收函数模板应当具有类型 [`void*] 的第一个形参和 [`void] 返回类型（如上
+所述）。
 [exit:note]
 
 [:en]
 A deallocation function template shall have two or more function parameters.
+[:zh_CN]
+回收函数模板应当具有两个或多个形参。
 
 [:en]
 A template instance is never a usual deallocation function, regardless of its
 signature.
+[:zh_CN]
+无论模板实例有什么签名，它都不是常规回收函数。
 
 [para]
 [:en]
 If a deallocation function terminates by throwing an exception, the behavior is
 undefined.
+[:zh_CN]
+如果回收函数由于抛出异常而终止，则其行为未定义。
 
 [:en]
 The value of the first argument supplied to a deallocation function may be a
 null pointer value; if so, and if the deallocation function is one supplied in
 the standard library, the call has no effect.
+[:zh_CN]
+传递给回收函数的第一个实参的值可以为空指针值；这种情况下，若其为由标准程序库所
+提供的回收函数，则此调用没有效果。
 
 [:en]
 Otherwise, the behavior is undefined if the value supplied to [`operator
 delete(void*)] in the standard library is not one of the values returned by a
 previous invocation of either [`operator new(std::size_t)] or [`operator
-new(std::size_t, const std::nothrow_t&)] in the standard library, and the
-behavior is undefined if the value supplied to [`operator delete[](void*)] in
-the standard library is not one of the values returned by a previous invocation
-of either [`operator new[](std::size_t)] or [`operator new[](std::size_t, const
-std::nothrow_t&)] in the standard library.
+new(std::size_t, const std::nothrow_t&)] in the standard library,
+[:zh_CN]
+否则，如果传递给标准程序库中的 [`operator delete(void*)] 的值，不是之前对标准
+程序库中的 [`operator new(std::size_t)] 或 [`operator new(std::size_t, const
+std::nothrow_t&)] 进行的调用所返回的值之一，则其行为未定义，
+
+[:en]
+and the behavior is undefined if the value supplied to [`operator
+delete[`](void*)] in the standard library is not one of the values returned by a
+previous invocation of either [`operator new[`](std::size_t)] or [`operator
+new[`](std::size_t, const std::nothrow_t&)] in the standard library.
+[:zh_CN]
+并且，如果传递给标准程序库中的 [`operator delete[`](void*)] 的值，不是之前对标准
+程序库中的 [`operator new[`](std::size_t)] 或 [`operator new[`](std::size_t,
+const std::nothrow_t&)] 进行的调用所返回的值之一，则其行为未定义。
 
 [para]
 [:en]
@@ -109,17 +171,28 @@ If the argument given to a deallocation function in the standard library is a
 pointer that is not the null pointer value ([#conv.ptr]), the deallocation
 function shall deallocate the storage referenced by the pointer, rendering
 invalid all pointers referring to any part of the deallocated storage.
+[:zh_CN]
+若传递给标准程序库中的回收函数的实参不是具有空指针值（[#conv.ptr]）的指针，则该
+回收函数应当对该指针所指向的存储进行回收，并使所有指向已回收存储的任何部分的指针
+失效。
 
 [:en]
 [%object[!undefined deleted]]
 Indirection through an invalid pointer value and passing an invalid pointer
 value to a deallocation function have undefined behavior.
+[:zh_CN]
+[%对象[!未定义的已删除～]]
+通过无效指针值进行间接，以及将无效指针值传递给回收函数具有未定义的行为。
 
 [:en]
 Any other use of an invalid pointer value has implementation-defined behavior.
+[:zh_CN]
+无效指针值的任何其他用法具有由实现定义的行为。
 
 [footnote]
 [:en]
 Some implementations might define that copying an invalid pointer value causes a
 system-generated runtime fault.
+[:zh_CN]
+某些实现可能将复制无效指针值定义为导致由系统生成的运行时故障。
 [footnote:end]

@@ -9,47 +9,74 @@
 An allocation function shall be a class member function or a global function; a
 program is ill-formed if an allocation function is declared in a namespace scope
 other than global scope or declared static in global scope.
+[:zh_CN]
+[%函数[!分配～]]
+分配函数应当是类成员函数或全局函数；若分配函数声明于非全局作用域的命名空间作用域
+中，或在全局作用域中被声明为静态的，则程序非良构。
 
 [:en]
 The return type shall be [`void*].
+[:zh_CN]
+其返回类型应当为 [`void*]。
 
 [:en]
 The first parameter shall have type [`std::size_t] ([#support.types]).
+[:zh_CN]
+其第一个形参应当具有类型 [`std::size_t]（[#support.types]）。
 
 [:en]
 The first parameter shall not have an associated default argument
 ([#dcl.fct.default]).
+[:zh_CN]
+第一个形参不应当具有关联的默认实参（[#dcl.fct.default]）。
 
 [:en]
 The value of the first parameter shall be interpreted as the requested size of
 the allocation.
+[:zh_CN]
+第一个形参的值应当被判读为这次分配所请求的大小。
 
 [:en]
 An allocation function can be a function template.
+[:zh_CN]
+分配函数可以是函数模板。
 
 [:en]
 Such a template shall declare its return type and first parameter as specified
 above (that is, template parameter types shall not be used in the return type
 and first parameter type).
+[:zh_CN]
+此种模板也应当按如上所述声明其返回类型及第一个形参（就是说，不能在返回类型和第一
+个形参的类型中使用模板形参类型）。
 
 [:en]
 Template allocation functions shall have two or more parameters.
+[:zh_CN]
+模板分配函数应当具有两个或更多形参。
 
 [para]
 [:en]
 The allocation function attempts to allocate the requested amount of storage.
+[:zh_CN]
+分配函数试图分配所请求数量的存储。
 
 [:en]
 If it is successful, it shall return the address of the start of a block of
 storage whose length in bytes shall be at least as large as the requested size.
+[:zh_CN]
+如果成功，它应当返回一块其字节长度至少为所请求大小的存储块的起始地址。
 
 [:en]
 There are no constraints on the contents of the allocated storage on return from
 the allocation function.
+[:zh_CN]
+对分配函数所返回的已分配存储的内容没有限制。
 
 [:en]
 The order, contiguity, and initial value of storage allocated by successive
 calls to an allocation function are unspecified.
+[:zh_CN]
+分配函数的相继成功调用所分配的存储，其之间的顺序、连续性以及初始值是未指明的。
 
 [:en]
 The pointer returned shall be suitably aligned so that it can be converted to a
@@ -57,37 +84,59 @@ pointer of any complete object type with a fundamental alignment requirement
 ([#basic.align]) and then used to access the object or array in the storage
 allocated (until the storage is explicitly deallocated by a call to a
 corresponding deallocation function).
+[:zh_CN]
+其所返回的指针应当恰当地对齐，以使其能够被转换为指向具有基础对齐要求的任何完整
+对象类型的指针（[#basic.align]），并（直到调用对应的回收函数以显式回收该存储之
+前）可用于访问这个已分配存储中的对象或数组。
 
 [:en]
 Even if the size of the space requested is zero, the request can fail.
+[:zh_CN]
+即使所请求的空间大小为零，该请求也可能失败。
 
 [:en]
 If the request succeeds, the value returned shall be a non-null pointer value
 ([#conv.ptr]) [`p0] different from any previously returned value [`p1], unless
-that value [`p1] was subsequently passed to an [`operator] [`delete].
+that value [`p1] was subsequently passed to an [`operator delete].
+[:zh_CN]
+若请求成功，则返回值应当是不同于任何之前的返回值 [`p1] 的非空指针值
+（[#conv.ptr]）[`p0]，除非这个 [`p1] 值随后曾被传给 [`operator delete]。
 
 [:en]
 Furthermore, for the library allocation functions in [#new.delete.single] and
 [#new.delete.array], [`p0] shall point to a block of storage disjoint from the
 storage for any other object accessible to the caller.
+[:zh_CN]
+此外，对于 [#new.delete.single] 和 [#new.delete.array] 中的程序库分配函数，[`p0]
+应当指向与调用方可以访问的任何其他对象的存储都不相交的存储块。
 
 [:en]
 The effect of indirecting through a pointer returned as a request for zero size
 is undefined.
+[:zh_CN]
+对由请求零大小所返回的指针进行间接的后果是未定义的。
 
 [footnote]
 [:en]
 The intent is to have [`operator new()] implementable by calling
 [`std::malloc()] or [`std::calloc()], so the rules are substantially the same.
+[:zh_CN]
+其意图是使 [`operator new()] 可以通过调用 [`std::malloc()] 或 [`std::calloc()]
+来实现，因此它们的规则实质上是相同的。
 
 [:en]
 [=Cpp] differs from C in requiring a zero request to return a non-null pointer.
+[:zh_CN]
+[=Cpp] 与 C 的不同之处在于它要求为零请求返回非空指针。
 [footnote:end]
 
 [para]
 [:en]
 An allocation function that fails to allocate storage can invoke the currently
 installed new-handler function ([#new.handler]), if any.
+[:zh_CN]
+分配存储失败的分配函数可以调用当前安装的 new-处理器函数（[#new.handler]）（如果
+有）。
 
 [enter:note]
 [:en]
@@ -95,16 +144,26 @@ installed new-handler function ([#new.handler]), if any.
 A program-supplied allocation function can obtain the address of the currently
 installed [`new_handler] using the [`std::get_new_handler] function
 ([#set.new.handler]).
+[:zh_CN]
+由程序提供的分配函数可以使用 [`std::get_new_handler] 函数（[#set.new.handler]）
+获取当前安装的 [`new_handler] 的地址。
 [exit:note]
 
 [:en]
 If an allocation function that has a non-throwing exception specification
 ([#except.spec]) fails to allocate storage, it shall return a null pointer.
+[:zh_CN]
+如果用无抛出异常说明（[#except.spec]）所声明的分配函数分配存储失败，它应当返回
+空指针。
 
 [:en]
 Any other allocation function that fails to allocate storage shall indicate
 failure only by throwing an exception ([#except.throw]) of a type that would
 match a handler ([#except.handle]) of type [`std::bad_alloc] ([#bad.alloc]).
+[:zh_CN]
+其他任何分配函数分配存储失败时只能通过抛出异常（[#except.throw]）来表示失败，
+且其类型应当能够与 [`std::bad_alloc] 类型（[#bad.alloc]）的处理器相匹配
+（[#except.handle]）。
 
 [para]
 [:en]
@@ -112,6 +171,9 @@ A global allocation function is only called as the result of a new expression
 ([#expr.new]), or called directly using the function call syntax ([#expr.call]),
 or called indirectly through calls to the functions in the [=Cpp] standard
 library.
+[:zh_CN]
+全局分配函数只能由 new 表达式（[#expr.new]）来调用，或以函数调用语法
+（[#expr.call]）直接进行调用，或通过调用 [=Cpp] 标准程序库中的函数间接进行调用。
 
 [enter:note]
 [:en]
@@ -120,4 +182,8 @@ for objects with static storage duration ([#basic.stc.static]), for objects or
 references with thread storage duration ([#basic.stc.thread]), for objects of
 type [`std::type_info] ([#expr.typeid]), or for an exception object
 ([#except.throw]).
+[:zh_CN]
+特别地，不能调用全局分配函数来为具有静态存储期（[#basic.stc.static]）的对象，
+具有线程存储期（[#basic.stc.thread]）的对象或引用，[`std::type_info] 类型
+（[#expr.typeid]）的对象，或异常对象（[#except.throw]）分配存储。
 [exit:note]

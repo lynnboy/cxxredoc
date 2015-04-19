@@ -5,30 +5,46 @@
 
 [%:begin#storage.duration
     [:en] storage duration
+    [:zh_CN] 存储期
 ]
 
 [para]
 [:en]
 Storage duration is the property of an object that defines the minimum potential
 lifetime of the storage containing the object.
+[:zh_CN]
+存储期是对象的性质，它定义了包含该对象的存储的最小潜在生存期。
 
 [:en]
 The storage duration is determined by the construct used to create the object
 and is one of the following:
+[:zh_CN]
+对象的存储期由用于创建它的语言构造所决定，可以为如下之一：
 
 [list]
 [item]
 [:en@~]
 static storage duration
+[:zh_CN@~]
+静态存储期
+
 [item]
 [:en@~]
 thread storage duration
+[:zh_CN@~]
+线程存储期
+
 [item]
 [:en@~]
 automatic storage duration
+[:zh_CN@~]
+自动存储期
+
 [item]
 [:en@~]
 dynamic storage duration
+[:zh_CN@~]
+动态存储期
 [list:end]
 
 [para]
@@ -38,17 +54,27 @@ dynamic storage duration
 Static, thread, and automatic storage durations are associated with objects
 introduced by declarations ([#basic.def]) and implicitly created by the
 implementation ([#class.temporary]).
+[:zh_CN]
+[%存储期[!静态～]] [%存储期[!线程～]] [%存储期[!自动～]] [%存储期[!动态～]]
+静态、线程和自动存储期与由声明式（[#basic.def]）所引入和由实现隐式创建
+（[#class.temporary]）的对象相关联。
 
 [:en]
-The dynamic storage duration is associated with objects created with [`operator]
-[`new] ([#expr.new]).
+The dynamic storage duration is associated with objects created with [`operator
+new] ([#expr.new]).
+[:zh_CN]
+动态存储期与用 [`operator new]（[#expr.new]）创建的对象相关联。
 
 [para]
 [:en]
 The storage duration categories apply to references as well.
+[:zh_CN]
+存储期的分类也适用于引用。
 
 [:en]
 The lifetime of a reference is its storage duration.
+[:zh_CN]
+引用的生存期就是其存储期。
 
 [include basic.stc.static]
 

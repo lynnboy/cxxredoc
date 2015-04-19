@@ -5,6 +5,7 @@
 
 [%:begin#storage.duration.dynamic
     [:en] storage duration [!dynamic]
+    [:zh_CN] 存储期 [!动态～]
 ]
 
 [para]
@@ -12,33 +13,52 @@
 Objects can be created dynamically during program execution
 ([#intro.execution]), using [%[`new]] [~new-expression]s ([#expr.new]), and
 destroyed using [%[`delete]] [~delete-expression]s ([#expr.delete]).
+[:zh_CN]
+在程序执行期间（[#intro.execution]），可以使用 [%[`new]] [~new-表达式]
+（[#expr.new]）来动态地创建对象，并使用 [%[`delete]] [~delete-表达式]
+（[#expr.delete]）来动态地销毁它。
 
 [:en]
 A [=Cpp] implementation provides access to, and management of, dynamic storage
 via the global [def allocation functions] [`operator new] and [`operator new[]]
 and the global [def deallocation functions] [`operator delete] and [`operator
 delete[]].
+[:zh_CN]
+[=Cpp] 的实现通过全局[def 分配函数] [`operator new] 和 [`operator new[`]]，以及
+全局[def 回收函数] [`operator delete] 和 [`operator delete[`]] 提供对动态存储
+的访问和管理。
 
 [para]
 [:en]
 The library provides default definitions for the global allocation and
 deallocation functions.
+[:zh_CN]
+程序库中提供了全局分配和回收函数的缺省定义。
 
 [:en]
 Some global allocation and deallocation functions are replaceable
 ([#new.delete]).
+[:zh_CN]
+一些全局分配和回收函数是可替换的（[#new.delete]）。
 
 [:en]
 A [=Cpp] program shall provide at most one definition of a replaceable
 allocation or deallocation function.
+[:zh_CN]
+[=Cpp] 程序可以为可替换的分配或回收函数提供最多一个定义。
 
 [:en]
 Any such function definition replaces the default version provided in the
 library ([#replacement.functions]).
+[:zh_CN]
+这类函数定义将替换掉由程序库所提供的缺省版本（[#replacement.functions]）。
 
 [:en]
 The following allocation and deallocation functions ([#support.dynamic]) are
 implicitly declared in global scope in each translation unit of a program.
+[:zh_CN]
+在程序的每个翻译单元的全局作用域中，隐含地声明了下列分配和回收函数
+（[#support.dynamic]）。
 
 [codeblock]
 void* operator new(std::size_t);
@@ -51,25 +71,39 @@ void operator delete[](void*, std::size_t) noexcept;
 
 [:en]
 These implicit declarations introduce only the function names [`operator new],
-[`operator new[]], [`operator delete], and [`operator delete[]].
+[`operator new[`]], [`operator delete], and [`operator delete[`]].
+[:zh_CN]
+这些隐含的声明式仅引入了函数名 [`operator new]，[`operator new[`]]，[`operator
+delete]，和 [`operator delete[`]]。
 
 [enter:note]
 [:en]
 The implicit declarations do not introduce the names [`std], [`std::size_t], or
 any other names that the library uses to declare these names.
+[:zh_CN]
+这些隐含的声明式并不引入名字 [`std]，[`std::size_t]，或其他任何被程序库用于声明
+它们的名字。
 
 [:en]
 Thus, a [~new-expression], [~delete-expression] or function call that refers to
 one of these functions without including the header [`<new>] is well-formed.
+[:zh_CN]
+因此，[~new-表达式]，[~delete-表达式]，或者涉指这些函数之一的函数调用，在未包含
+头文件 [`<new>] 时也是良构的。
 
 [:en]
 However, referring to [`std] or [`std::size_t] is ill-formed unless the name has
 been declared by including the appropriate header.
+[:zh_CN]
+然而，除非 [`std] 或 [`std::size_t] 已经通过包含适当的头文件而进行了声明，否则
+提及这个名字就是非良构的。
 [exit:note]
 
 [:en]
 Allocation and/or deallocation functions can also be declared and defined for
 any class ([#class.free]).
+[:zh_CN]
+也可以为任意类声明和定义它的分配和/或回收函数（[#class.free]）。
 
 [para]
 [:en]
@@ -77,6 +111,10 @@ Any allocation and/or deallocation functions defined in a [=Cpp] program,
 including the default versions in the library, shall conform to the semantics
 specified in [#basic.stc.dynamic.allocation] and
 [#basic.stc.dynamic.deallocation].
+[:zh_CN]
+在 [=Cpp] 程序中定义的任何分配和/或回收函数，包括程序库中的预置版本，都应当符合
+[#basic.stc.dynamic.allocation] 和 [#basic.stc.dynamic.deallocation] 中所说明的
+语义。
 
 [include basic.stc.dynamic.allocation]
 

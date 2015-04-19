@@ -1,6 +1,6 @@
 ﻿[section#basic.stc.thread
     [:en] Thread storage duration
-    [:zh_CN] 
+    [:zh_CN] 线程存储期
 ]
 
 [para]
@@ -8,17 +8,27 @@
 [%storage duration[!thread]]
 All variables declared with the [`thread_local] keyword have [def thread storage
 duration].
+[:zh_CN]
+[%存储期[!线程～]]
+用 [`thread_local] 关键字声明的所有变量都具有[def 线程存储期]。
 
 [:en]
 The storage for these entities shall last for the duration of the thread in
 which they are created.
+[:zh_CN]
+这些实体的存储应当维持到创建它们的线程的整个持续期间。
 
 [:en]
 There is a distinct object or reference per thread, and use of the declared name
 refers to the entity associated with the current thread.
+[:zh_CN]
+每个线程都有各自独立的对象或引用，而使用这个名字时将涉指与当前线程相关联的实体。
 
 [para]
 [:en]
 A variable with thread storage duration shall be initialized before its first
 odr-use ([#basic.def.odr]) and, if constructed, shall be destroyed on thread
 exit.
+[:zh_CN]
+具有线程存储期的变量应当在其首次 ODR-式使用（[#basic.def.odr]）前初始化，并且
+如果构造了它，则应当在线程退出时进行销毁。

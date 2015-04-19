@@ -1,6 +1,6 @@
 ﻿[section#basic.stc.inherit
     [:en] Duration of subobjects
-    [:zh_CN] 
+    [:zh_CN] 子对象的存储期
 ]
 
 [para]
@@ -8,3 +8,7 @@
 [%storage duration[!class member]]
 The storage duration of member subobjects, base class subobjects and array
 elements is that of their complete object ([#intro.object]).
+[:zh_CN]
+[%存储期[!类成员的～]]
+成员子对象、基类子对象和数组元素的存储期就是其完整对象（[#intro.object]）的存储
+期。

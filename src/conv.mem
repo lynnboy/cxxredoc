@@ -74,14 +74,14 @@ The result refers to the member in [`D][=']s instance of [`B].
 Since the result has type ["pointer to member of [`D] of type [$cv] [`T]],
 indirection through it with a [`D] object is valid.
 [:zh_CN]
-由于结果类型为“指向 [`D] 中 [$cv] [`T] 类型成员的指针”，通过它对 [`D] 对象解引用
-是有效的。
+由于结果类型为“指向 [`D] 中 [$cv] [`T] 类型成员的指针”，通过它对 [`D] 对象进行
+间接是有效的。
 
 [:en]
 The result is the same as if indirecting through the pointer to member of [`B]
 with the [`B] subobject of [`D].
 [:zh_CN]
-其结果与通过指向 [`B] 成员的指针对 [`D] 中的 [`B] 子对象解引用的结果相同。
+其结果与通过指向 [`B] 成员的指针对 [`D] 中的 [`B] 子对象进行间接的结果相同。
 
 [:en]
 The null member pointer value is converted to the null member pointer value of

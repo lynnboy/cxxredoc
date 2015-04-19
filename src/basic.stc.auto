@@ -1,24 +1,32 @@
 ﻿[section#basic.stc.auto
     [:en] Automatic storage duration
-    [:zh_CN] 
+    [:zh_CN] 自动存储期
 ]
 
 [para]
 [:en]
 [%storage duration[!automatic]]
-[%storage duration[![`register]]
+[%storage duration[![`register]]]
 [%storage duration[!local object]]
 Block-scope variables explicitly declared [`register] or not explicitly declared
 [`static], [`thread_local], or [`extern] have [def automatic storage duration].
+[:zh_CN]
+[%存储期[!自动～]] [%存储期[![`register]]] [%存储期[!局部对象]]
+明确声明为 [`register] 或未被明确声明为 [`static]，[`thread_local]，或者
+[`extern] 的块作用域变量具有[def 自动存储期]。
 
 [:en]
 The storage for these entities lasts until the block in which they are created
 exits.
+[:zh_CN]
+这些实体的存储维持到创建它们的块退出之时。
 
 [para]
 [enter:note]
 [:en]
 These variables are initialized and destroyed as described in [#stmt.dcl].
+[:zh_CN]
+这些变量按 [#stmt.dcl] 中的描述进行初始化和销毁。
 [exit:note]
 
 [para]
@@ -27,4 +35,8 @@ If a variable with automatic storage duration has initialization or a destructor
 with side effects, it shall not be destroyed before the end of its block, nor
 shall it be eliminated as an optimization even if it appears to be unused,
 except that a class object or its copy/move may be eliminated as specified in
-[#class.copy}.
+[#class.copy].
+[:zh_CN]
+如果具有自动存储期的变量带有具有副作用的初始化或者析构函数，则即使它看起来并未被
+使用，也不应在块结尾之前销毁它，或者作为优化而将其消除掉，但可以根据
+[#class.copy] 中所述消除类对象或其复制/移动。

@@ -271,7 +271,7 @@ In addition, there are relaxed atomic operations, which are not synchronization
 operations, and atomic read-modify-write operations, which have special
 characteristics.
 [:zh_CN]
-此外，还有不是同步操作的放松的原子性操作，以及具有特殊性质的原子性读-改-写操作。
+此外，还有不是同步操作的不严格原子性操作，以及具有特殊性质的原子性读-改-写操作。
 
 [enter:note]
 [:en]
@@ -298,7 +298,7 @@ later perform a consume or an acquire operation on [$A].
 ["Relaxed] atomic operations are not synchronization operations even
 though, like synchronization operations, they cannot contribute to data races.
 [:zh_CN]
-尽管“放松的”原子性操作与同步操作一样不会参与数据竞争，它们仍不是同步操作。
+尽管“不严格”原子性操作与同步操作一样不会参与数据竞争，它们仍不是同步操作。
 
 [exit:note]
 
@@ -819,7 +819,7 @@ reordering of atomic operations to a single object, even if both operations are
 relaxed loads.
 [:zh_CN]
 上述四条一致性规定实际上禁止了编译器对单个对象的原子性操作进行重新排序，无论所
-排序的操作是否均为放松的加载操作。
+排序的操作是否均为不严格的加载操作。
 
 [:en]
 This effectively makes the cache coherence guarantee provided by most hardware
