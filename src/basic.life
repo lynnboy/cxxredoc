@@ -1,52 +1,74 @@
 ﻿[section#basic.life
     [:en] Object lifetime
-    [:zh_CN] 
+    [:zh_CN] 对象生存期
 ]
 
 [%:begin#object.lifetime
     [:en] object lifetime
+    [:zh_CN] 对象生存期
 ]
 
 [para]
 [:en]
 [%initialization[!non-vacuous]]
 The [def lifetime] of an object is a runtime property of the object.
+[:zh_CN]
+[%初始化[!非空虚～]]
+对象的[def 生存期]是对象的一项运行时性质。
 
 [:en]
 An object is said to have [+non-vacuous initialization] if it is of a class or
 aggregate type and it or one of its members is initialized by a constructor
 other than a trivial default constructor.
+[:zh_CN]
+如果某个对象是类或聚合类型，并且它或它的一个成员以不是平凡默认构造函数的构造函数
+来进行初始化，则称该对象具有非空虚初始化。
 
 [enter:note]
 [:en]
 initialization by a trivial copy/move constructor is non-vacuous initialization.
+[:zh_CN]
+由平凡复制/移动构造函数进行的初始化为非空虚初始化。
 [exit:note]
 
 [:en]
 The lifetime of an object of type [`T] begins when:
+[:zh_CN]
+类型 [`T] 的对象的生存期开始于：
 
 [list]
 [item]
-[:en]
+[:en@~]
 storage with the proper alignment and size for type [`T] is obtained, and
+[:zh_CN@~]
+已获得对齐和大小都适应类型 [`T] 的存储，且
 
 [item]
-[:en]
+[:en@~]
 if the object has non-vacuous initialization, its initialization is complete.
+[:zh_CN@~]
+若该对象具有非空虚初始化，则其初始化已结束。
 [list:end]
 
 [:en]
 The lifetime of an object of type [`T] ends when:
+[:zh_CN]
+类型 [`T] 的对象的生存期结束于：
 
 [list]
 [item]
-[:en]
+[:en@~]
 if [`T] is a class type with a non-trivial destructor ([#class.dtor]), the
 destructor call starts, or
+[:zh_CN@~]
+当 [`T] 为具有非平凡析构函数（[#class.dtor]）的类类型时，该析构函数的调用已经
+开始，或
 
 [item]
-[:en]
+[:en@~]
 the storage which the object occupies is reused or released.
+[:zh_CN@~]
+该对象所占据的存储已被重用或释放。
 [list:end]
 
 [para]
@@ -55,29 +77,44 @@ the storage which the object occupies is reused or released.
 The lifetime of an array object starts as soon as storage with proper size and
 alignment is obtained, and its lifetime ends when the storage which the
 array occupies is reused or released.
+[:zh_CN]
+数组对象的生存期，在获得具有合适大小和对齐的存储时立刻开始，且其生存期在该数组所
+占据的存储被重用或释放时结束。
 
 [:en]
 [#class.base.init] describes the lifetime of base and member subobjects.
+[:zh_CN]
+[#class.base.init] 说明基类子对象和成员子对象的生存期。
 [exit:note]
 
 [para]
 [:en]
 The properties ascribed to objects throughout this International Standard apply
 for a given object only during its lifetime.
+[:zh_CN]
+贯穿本国际标准中所描述的对象的性质，对于给定对象仅在对象的生存期中才适用。
 
 [enter:note]
 [:en]
 In particular, before the lifetime of an object starts and after its lifetime
 ends there are significant restrictions on the use of the object, as described
 below, in [#class.base.init] and in [#class.cdtor].
+[:zh_CN]
+特别地，在对象的生存期开始之前及在其生存期结束之后，对于对象的使用有明确的限制，
+如后文在 [#class.base.init] 和 [#class.cdtor] 中所述。
 
 [:en]
 Also, the behavior of an object under construction and destruction might not be
 the same as the behavior of an object whose lifetime has started and not ended.
+[:zh_CN]
+同样地，处于构造和析构之中的对象的行为，可能不同于生存期已经开始且还未结束的对象
+的行为。
 
 [:en]
 [#class.base.init] and [#class.cdtor] describe the behavior of objects during
 the construction and destruction phases.
+[:zh_CN]
+[#class.base.init] 和 [#class.cdtor] 描述了处于构造和析构阶段中的对象的行为。
 [exit:note]
 
 [para]
@@ -85,6 +122,9 @@ the construction and destruction phases.
 A program may end the lifetime of any object by reusing the storage which the
 object occupies or by explicitly calling the destructor for an object of a class
 type with a non-trivial destructor.
+[:zh_CN]
+程序可以通过重用对象所占据的存储，或通过对具有非平凡析构函数的类类型的对象明确
+调用其析构函数来结束任何对象的生存期。
 
 [:en]
 For an object of a class type with a non-trivial destructor, the program is not
@@ -93,16 +133,25 @@ occupies is reused or released; however, if there is no explicit call to the
 destructor or if a [~delete-expression] ([#expr.delete]) is not used to release
 the storage, the destructor shall not be implicitly called and any program that
 depends on the side effects produced by the destructor has undefined behavior.
+[:zh_CN]
+对于具有非平凡析构函数的类类型的对象，程序不必在该对象所占据的存储被重用或释放
+之前明确调用其析构函数；然而，若未明确调用析构函数或未用 [~delete-表达式]
+（[#expr.delete]）释放其存储，则析构函数不会被隐式调用，且任何依赖于析构函数产生
+的副作用的程序具有未定义行为。
 
 [para]
 [:en]
 Before the lifetime of an object has started but after the storage which the
 object will occupy has been allocated
+[:zh_CN]
+在对象的生存期开始前而该对象将要占据的存储已经分配之后
 
 [footnote]
 [:en]
 For example, before the construction of a global object of non-POD class type
 ([#class.cdtor]).
+[:zh_CN]
+例如，在某个非 POD 类类型的全局对象进行构造之前（[#class.cdtor]）。
 [footnote:end]
 
 [:en]
@@ -110,37 +159,56 @@ or, after the lifetime of an object has ended and before the storage which the
 object occupied is reused or released, any pointer that refers to the storage
 location where the object will be or was located may be used but only in limited
 ways.
+[:zh_CN]
+，或者在对象的生存期结束后而该对象占据过的存储被重用或释放之前，可以但仅能以有限
+的方式使用指向该对象将要或曾经位于的存储位置的指针。
 
 [:en]
 For an object under construction or destruction, see [#class.cdtor].
+[:zh_CN]
+对于处于构造和析构过程中的对象，参见 [#class.cdtor]。
 
 [:en]
 Otherwise, such a pointer refers to allocated storage
 ([#basic.stc.dynamic.deallocation]), and using the pointer as if the pointer
 were of type [`void*], is well-defined.
+[:zh_CN]
+否则，此种指针指代已分配的存储（[#basic.stc.dynamic.deallocation]），将其当作
+类型 [`void*] 的指针来使用是定义明确的。
 
 [:en]
 Indirection through such a pointer is permitted but the resulting lvalue may
 only be used in limited ways, as described below.
+[:zh_CN]
+此种指针可以进行间接，但所获得的左值仅能以有限的方式使用，如下所述。
 
 [:en]
 The program has undefined behavior if:
+[:zh_CN]
+如下情况程序具有未定义行为：
 
 [list]
 [item]
 [:en]
 the object will be or was of a class type with a non-trivial destructor and the
 pointer is used as the operand of a [~delete-expression],
+[:zh_CN]
+该对象将为或曾为具有非平凡析构函数的类类型的对象，且该指针被用作
+[~delete-表达式]的操作数，
 
 [item]
 [:en]
 the pointer is used to access a non-static data member or call a non-static
 member function of the object, or
+[:zh_CN]
+该指针被用于访问该对象的非静态数据成员或调用非静态成员函数，或
 
 [item]
 [:en]
 the pointer is implicitly converted ([#conv.ptr]) to a pointer to a virtual base
 class, or
+[:zh_CN]
+该指针被隐式转换（[#conv.ptr]）为虚基类的指针，或
 
 [item]
 [:en]
@@ -148,10 +216,16 @@ the pointer is used as the operand of a [`static_cast] ([#expr.static.cast]),
 except when the conversion is to pointer to [$cv] [`void], or to pointer to
 [$cv] [`void] and subsequently to pointer to either [$cv] [`char] or [$cv]
 [`unsigned char], or
+[:zh_CN]
+该指针被用作 [`static_cast]（[#expr.static.cast]）的操作数，但不包括转换为 [$cv]
+[`void] 的指针，或者转换为 [$cv] [`void] 的指针随即转换为 [$cv] [`char] 或 [$cv]
+[`unsigned char] 的转换，或
 
 [item]
 [:en]
 the pointer is used as the operand of a [`dynamic_cast] ([#expr.dynamic.cast]).
+[:zh_CN]
+该指针被用作 [`dynamic_cast]（[#expr.dynamic.cast]）的操作数。
 
 [enter:example]
 
@@ -169,8 +243,11 @@ struct D2 : B { void f(); };
 
 void B::mutate() {
   new (this) D2;    // [:en] reuses storage [=--] ends the lifetime of [`*this]
+                    // [|:zh_CN] 重用存储——结束 [`*this] 的生存期
   f();              // [:en] undefined behavior
+                    // [|:zh_CN] 未定义行为
   ... = this;       // [:en] OK, [`this] points to valid memory
+                    // [|:zh_CN] OK：[`this] 指向有效内存
 }
 
 void g() {
@@ -178,8 +255,11 @@ void g() {
   B* pb = new (p) D1;
   pb->mutate();
   &pb;              // [:en] OK: [`pb] points to valid memory
+                    // [|:zh_CN] OK：[`pb] 指向有效内存
   void* q = pb;     // [:en] OK: [`pb] points to valid memory
+                    // [|:zh_CN] OK：[`pb] 指向有效内存
   pb->f();          // [:en] undefined behavior, lifetime of [`*pb] has ended
+                    // [|:zh_CN] 未定义行为，[`*pb] 的生存期已经结束
 }
 [codeblock:end]
 [exit:example]
@@ -193,37 +273,57 @@ which the object will occupy has been allocated or, after the lifetime of an
 object has ended and before the storage which the object occupied is reused or
 released, any glvalue that refers to the original object may be used but only in
 limited ways.
+[:zh_CN]
+与此相似，在对象的生存期开始前而该对象将要占据的存储已经分配之后，或者在对象的
+生存期结束后而该对象占据过的存储被重用或释放之前，可以但仅能以有限方式使用指代
+原对象的泛左值。
 
 [:en]
 For an object under construction or destruction, see [#class.cdtor].
+[:zh_CN]
+对于处于构造和析构过程中的对象，参见 [#class.cdtor]。
 
 [:en]
 Otherwise, such a glvalue refers to allocated storage
 ([#basic.stc.dynamic.deallocation]), and using the properties of the glvalue
 that do not depend on its value is well-defined.
+[:zh_CN]
+否则，此种泛左值指代已分配的存储（[#basic.stc.dynamic.deallocation]），且不依赖
+于该泛左值的值而使用它的性质是定义明确的。
 
 [:en]
 The program has undefined behavior if:
+[:zh_CN]
+如下情况程序具有未定义行为：
 
 [list]
 [item]
 [:en]
 an lvalue-to-rvalue conversion ([#conv.lval]) is applied to such a glvalue,
+[:zh_CN]
+对此种泛左值实施左值向右值转换（[#conv.lval]），
 
 [item]
 [:en]
 the glvalue is used to access a non-static data member or call a non-static
 member function of the object, or
+[:zh_CN]
+该泛左值被用于访问该对象的非静态数据成员或调用非静态成员函数，或
 
 [item]
 [:en]
 the glvalue is bound to a reference to a virtual base class ([#dcl.init.ref]),
 or
+[:zh_CN]
+该泛左值被绑定到虚基类的引用（[#dcl.init.ref]），
 
 [item]
 [:en]
 the glvalue is used as the operand of a [`dynamic_cast] ([#expr.dynamic.cast])
 or as the operand of [`typeid].
+[:zh_CN]
+该泛左值被用作 [`dynamic_cast]（[#expr.dynamic.cast]）的操作数，或 [`typeid] 的
+操作数。
 [list:end]
 
 [para]
@@ -235,29 +335,43 @@ original object, a reference that referred to the original object, or the name
 of the original object will automatically refer to the new object and, once the
 lifetime of the new object has started, can be used to manipulate the new
 object, if:
+[:zh_CN]
+如果在对象的生存期结束后而该对象占据过的存储被重用或释放之前，在原对象占据过的存
+储位置上创建一个新的对象，则在如下情况下，指向原对象的指针、指代原对象的引用或原
+对象的名字将自动指代新对象，并且一旦新对象的生存期开始，就可以被用于操纵新对象：
 
 [list]
 [item]
 [:en]
 the storage for the new object exactly overlays the storage location which the
 original object occupied, and
+[:zh_CN]
+新对象的存储恰好覆盖原对象曾占据的存储位置，且
 
 [item]
 [:en]
 the new object is of the same type as the original object (ignoring the
 top-level cv-qualifiers), and
+[:zh_CN]
+新对象与原对象类型相同（忽略顶层的 cv-限定符），且
 
 [item]
 [:en]
 the type of the original object is not const-qualified, and, if a class type,
 does not contain any non-static data member whose type is const-qualified or a
 reference type, and
+[:zh_CN]
+原对象的类型未被 const-限定，并且若其为类类型，则不包含任何类型为被 const-限定
+的类型或引用类型的非静态数据成员，且
 
 [item]
 [:en]
 the original object was a most derived object ([#intro.object]) of type [`T] and
 the new object is a most derived object of type [`T] (that is, they are not base
 class subobjects).
+[:zh_CN]
+原对象曾是类型 [`T] 的最终派生对象（[#intro.object]），且新对象是类型 [`T] 的
+最终派生对象（就是说，他们不是基类子对象）。
 
 [enter:example]
 
@@ -271,8 +385,11 @@ struct C {
 const C& C::operator=( const C& other) {
   if ( this != &other ) {
     this->~C();                 // [:en] lifetime of [`*this] ends
+                                // [|:zh_CN] [`*this] 的生存期结束
     new (this) C(other);        // [:en] new object of type [`C] created
+                                // [|:zh_CN] 创建了 [`C] 类型的新对象
     f();                        // [:en] well-defined
+                                // [|:zh_CN] 良构的
   }
   return *this;
 }
@@ -280,7 +397,9 @@ const C& C::operator=( const C& other) {
 C c1;
 C c2;
 c1 = c2;                        // [:en] well-defined
+                                // [|:zh_CN] 良构的
 c1.f();                         // [:en] well-defined; [`c1] refers to a new object of type [`C]
+                                // [|:zh_CN] 良构的；[`c1] 指代 [`C] 类型的新对象
 [codeblock:end]
 
 [exit:example]
@@ -292,6 +411,10 @@ c1.f();                         // [:en] well-defined; [`c1] refers to a new obj
 If a program ends the lifetime of an object of type [`T] with static
 ([#basic.stc.static]), thread ([#basic.stc.thread]), or automatic
 ([#basic.stc.auto]) storage duration and if [`T] has a non-trivial destructor,
+[:zh_CN]
+若程序结束了具有静态（[#basic.stc.static]）、线程（[#basic.stc.thread]）或动态
+存储期（[#basic.stc.auto]）的类型 [`T] 的对象的生存期，且若 [`T] 具有非平凡析构
+函数，
 
 [footnote]
 [:en]
@@ -299,15 +422,23 @@ That is, an object for which a destructor will be called implicitly[=--]upon
 exit from the block for an object with automatic storage duration, upon exit
 from the thread for an object with thread storage duration, or upon exit from
 the program for an object with static storage duration.
+[:zh_CN]
+就是说，某个析构函数将被隐式调用的对象——具有自动存储期的对象的所在块退出时，
+具有线程存储期的对象的线程退出时，或者具有静态存储期的对象在程序退出时。
 [footnote:end]
 
 [:en@~]
 the program must ensure that an object of the original type occupies that same
 storage location when the implicit destructor call takes place; otherwise the
 behavior of the program is undefined.
+[:zh_CN@~]
+则程序必须保证当发生隐式析构函数的调用时，相同存储位置已被原类型的某个对象占据；
+否则该程序的行为是未定义的。
 
 [:en]
 This is true even if the block is exited with an exception.
+[:zh_CN]
+即使块的退出是由异常引发的也应如此。
 
 [enter:example]
 
@@ -321,6 +452,7 @@ void h() {
    B b;
    new (&b) T;
 }                               // [:en] undefined behavior at block exit
+                                // [|:zh_CN] 块退出时具有未定义行为
 [codeblock:end]
 [exit:example]
  
@@ -330,6 +462,9 @@ Creating a new object at the storage location that a [`const] object with
 static, thread, or automatic storage duration occupies or, at the storage
 location that such a [`const] object used to occupy before its lifetime ended
 results in undefined behavior.
+[:zh_CN]
+在具有静态、线程或自动存储期的 [`const] 对象所占据的存储位置上，或在此种
+[`const] 对象的生存期结束之前曾占据的存储位置上创建新对象将导致未定义行为。
 
 [enter:example]
 
@@ -344,6 +479,7 @@ const B b;
 void h() {
   b.~B();
   new (const_cast<B*>(&b)) const B;             // [:en] undefined behavior
+                                                // [|:zh_CN] 未定义行为
 }
 [codeblock:end]
 [exit:example]
@@ -352,11 +488,16 @@ void h() {
 [:en]
 In this section, ["before] and ["after] refer to the ["happens before] relation
 ([#intro.multithread]).
+[:zh_CN]
+本节中的“之前”和“之后”，代表“发生早于”关系（[#intro.multithread]）。
 
 [enter:note]
 [:en]
 Therefore, undefined behavior results if an object that is being constructed in
 one thread is referenced from another thread without adequate synchronization.
+[:zh_CN]
+因此，当没有进行恰当的同步时，一个线程中正在构造的对象被从另一个线程中引用，会
+导致未定义行为。
 [exit:note]
 
 [%:end#object.lifetime]
