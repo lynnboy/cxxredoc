@@ -1,18 +1,23 @@
 ﻿[section#basic.start.main
     [:en] Main function
-    [:zh_CN] 
+    [:zh_CN] 主函数
 ]
 
 [para]
-[:en]
 [%[`main()]]
+[:en]
 A program shall contain a global function called [`main], which is the
 designated start of the program.
+[:zh_CN]
+程序应当包含一个叫做 [`main] 的全局函数，它被指定为程序的启动点。
 
 [:en]
 It is [%@impldef defining [`main] in freestanding environment]
 implementation-defined whether a program in a freestanding environment is
 required to define a [`main] function.
+[:zh_CN]
+自立式环境中的程序是否需要定义 [`main] 函数是[%@impldef 在自立式环境中定义
+[`main]]由实现定义的。
 
 [enter:note]
 [:en]
@@ -21,92 +26,149 @@ In a freestanding environment, start-up and termination is
 implementation-defined; start-up contains the execution of constructors for
 objects of namespace scope with static storage duration; termination contains
 the execution of destructors for objects with static storage duration.
+[:zh_CN]
+在自立式环境中，启动和终止过程是[%@impldef 自立式环境中的启动与终止]由实现定义的
+；启动过程包含对具有静态存储期的命名空间作用域对象的构造函数的执行；终止过程包含
+对具有静态存储期的对象的析构函数的执行。
 [exit:note]
 
 [para]
 [:en]
 An implementation shall not predefine the [`main] function.
+[:zh_CN]
+实现不应当预定义 [`main] 函数。
 
 [:en]
 This function shall not be overloaded.
+[:zh_CN]
+这个函数不可重载。
 
 [:en]
 It shall have a declared return type of type [`int], but otherwise its type is
 [%@impldef parameters to [`main]] implementation-defined.
+[:zh_CN]
+它应当声明返回类型为 [`int] 类型，但除此之外其类型是[%@impldef [`main] 的形参]
+由实现定义的。
 
 [:en]
 [%[`main()][!implementation-defined parameters to]]
 An implementation shall allow both
+[:zh_CN]
+[%[`main()][!由实现定义的形参]]
+实现应该允许
 
 [list]
 [item]
 [:en@~]
 a function of [`()] returning [`int] and
+[:zh_CN@~]
+接受 [`()] 返回 [`int] 的函数，和
+
 [item]
 [:en@~]
 a function of [`(int], pointer to pointer to [`char)] returning [`int]
+[:zh_CN@~]
+接受 [`(int]，[`char]的指针的指针[`)] 返回 [`int] 的函数
 [list:end]
 
 [:en@~]
-[%[`argc]] [%[`argv]] as the type of [`main] ([#dcl.fct]).
+as the type of [`main] ([#dcl.fct]).
+[:zh_CN@~]
+作为 [`main] 的类型（[#dcl.fct]）。
 
+[%[`argc]] [%[`argv]] 
 [:en]
 [%[`main()][!parameters to]] [%environment[!program]]
 In the latter form, for purposes of exposition, the first function parameter is
 called [`argc] and the second function parameter is called [`argv], where
 [`argc] shall be the number of arguments passed to the program from the
 environment in which the program is run.
+[:zh_CN]
+[%[`main()][!～的形参]] [%环境[!程序]]
+后一种形式中，为了说明，令其第一个函数形参名为 [`argc] 而其第二个函数形参名为
+[`argv]，其中 [`argc] 应当为从程序的运行环境中传递给该程序的实参的个数。
 
 [:en]
-If [`argc] is nonzero these arguments shall be supplied in [`argv[0]] through
-[`argv[argc-1]] as pointers to the initial characters of null-terminated
-multibyte strings ([em@sc ntmbs]s) ([#multibyte.strings]) and [`argv[0]] shall
+If [`argc] is nonzero these arguments shall be supplied in [`argv[0`]] through
+[`argv[argc-1`]] as pointers to the initial characters of null-terminated
+multibyte strings ([em@sc ntmbs]s) ([#multibyte.strings]) and [`argv[0`]] shall
 be the pointer to the initial character of a [em@sc ntmbs] that represents the
 name used to invoke the program or [`""].
+[:zh_CN]
+若 [`argc] 非零，则应当以指向空终结多字节字符串（NTMBS）（[#multibyte.strings]）
+的起始字符的指针的方式，由 [`argv[0`]] 到 [`argv[argc-1`]] 提供这些实参，并且
+[`argv[0`]] 应当为指向表示用来调用该程序的名字或 [`""] 的 NTMBS 的起始字符的指针
+。
 
 [:en]
 The value of [`argc] shall be non-negative.
+[:zh_CN]
+[`argc] 的值应当为非负数。
 
 [:en]
-The value of [`argv[argc]] shall be 0.
+The value of [`argv[argc`]] shall be 0.
+[:zh_CN]
+[`argv[argc`]] 的值应当为 0。
 
 [enter:note]
 [:en]
 It is recommended that any further (optional) parameters be added after [`argv].
+[:zh_CN]
+推荐把更多的（可选）形参加在 [`argv] 之后。
 [exit:note]
 
 [para]
 [:en]
 The function [`main] shall not be used within a program.
+[:zh_CN]
+不能在程序中使用 [`main] 函数。
 
 [:en]
 [%[`main()][!implementation-defined linkage of]]
 The linkage ([#basic.link]) of [`main] is [%@impldef linkage of [`main]]
 implementation-defined.
+[:zh_CN]
+[%[`main()][!由实现定义的连接]]
+[`main] 的连接（[#basic.link]）是[%@impldef [`main] 的连接]由实现定义的。
 
 [:en]
 A program that defines [`main] as deleted or that declares [`main] to be
 [`inline], [`static], or [`constexpr] is ill-formed.
+[:zh_CN]
+将 [`main] 定义为删除的，或将 [`main] 声明为 [`inline]，[`static]，或
+[`constexpr] 的程序是非良构的。
 
 [:en]
 The name [`main] is not otherwise reserved.
+[:zh_CN]
+名字 [`main] 并未保留其他用处。
 
 [enter:example]
 [:en]
 member functions, classes, and enumerations can be called [`main], as can
 entities in other namespaces.
+[:zh_CN]
+成员函数，类，以及枚举可以叫做 [`main]，其他命名空间中的实体也可以。
 [exit:example]
 
 [para]
+[%[`exit]] [%@library exit]]
 [:en]
-[%[`exit]] [%@library exit]] [%termination[!program]]
+[%termination[!program]]
 Terminating the program without leaving the current block (e.g., by calling the
 function [`std::exit(int)] ([#support.start.term])) does not destroy any
 objects with automatic storage duration ([#class.dtor]).
+[:zh_CN]
+[%终止[!程序～]]
+在不离开当前代码块的情况下终止程序（例如调用函数 [`std::exit(int)]
+（[#support.start.term]）），并不销毁任何具有自动存储期的对象（[#class.dtor]）。
 
 [:en]
 If [`std::exit] is called to end a program during the destruction of an object
 with static or thread storage duration, the program has undefined behavior.
+[:zh_CN]
+若在具有静态或线程存储期的对象的析构过程中调用 [`std::exit(int)] 来结束程序，
+则该程序具有未定义行为。
 
 [para]
 [:en]
@@ -114,10 +176,16 @@ with static or thread storage duration, the program has undefined behavior.
 A return statement in [`main] has the effect of leaving the main function
 (destroying any objects with automatic storage duration) and calling
 [`std::exit] with the return value as the argument.
+[:zh_CN]
+[%终止[!程序～]] [%[`main()][!从～返回]]
+[`main] 中的返回语句的效果是离开主函数（销毁任何具有自动存储期的对象）并以该返回
+值为实参调用 [`std::exit]。
 
 [:en]
 If control reaches the end of [`main] without encountering a [`return]
 statement, the effect is that of executing
+[:zh_CN]
+若控制未遇到 [`return] 语句而到达 [`main] 的末尾，其效果为执行
 
 [codeblock]
 return 0;

@@ -1,10 +1,11 @@
 ﻿[section#basic.start.term
     [:en] Termination
-    [:zh_CN] 
+    [:zh_CN] 终止
 ]
 
 [%:begin#program.termination
     [:en] program [!termination]
+    [:zh_CN] 程序 [!～终止]
 ]
 
 [para]
@@ -14,46 +15,73 @@ Destructors ([#class.dtor]) for initialized objects (that is, objects whose
 lifetime ([#basic.life]) has begun) with static storage duration are called as a
 result of returning from [`main] and as a result of calling [%[`exit]]
 [%@library exit] [`std::exit] ([#support.start.term]).
+[:zh_CN]
+[%对象[!静态～的析构函数]] [%[`main()][!从～返回]]
+从 [`main] 中返回和调用 [%[`exit]] [%@library exit] [`std::exit]
+（[#support.start.term]），将导致调用具有静态存储期的已初始化对象（就是已经开始
+其生存期（[#basic.life]）的对象）的析构函数（[#class.dtor]）。
 
 [:en]
 Destructors for initialized objects with thread storage duration within a given
 thread are called as a result of returning from the initial function of that
 thread and as a result of that thread calling [`std::exit].
+[:zh_CN]
+从给定线程的启动函数中返回，以及该线程调用 [`std::exit]，将导致调用具有线程存储
+期的已初始化对象的析构函数。
 
 [:en]
 The completions of the destructors for all initialized objects with thread
 storage duration within that thread are sequenced before the initiation of the
 destructors of any object with static storage duration.
+[:zh_CN]
+线程中所有已初始化的具有线程存储期的对象的析构函数的完成，都按顺序早于任何具有
+静态存储期的对象的析构函数的开始执行。
 
 [:en]
 If the completion of the constructor or dynamic initialization of an object with
 thread storage duration is sequenced before that of another, the completion of
 the destructor of the second is sequenced before the initiation of the
 destructor of the first.
+[:zh_CN]
+若某个具有线程存储期的对象的构造函数或动态初始化的完成，按顺序早于另一个的，则
+第二个对象的析构函数的完成就按顺序早于第一个对象的析构函数的开始。
 
 [:en]
 If the completion of the constructor or dynamic initialization of an object with
 static storage duration is sequenced before that of another, the completion of
 the destructor of the second is sequenced before the initiation of the
 destructor of the first.
+[:zh_CN]
+若某个具有静态存储期的对象的构造函数或动态初始化的完成，按顺序早于另一个的，则
+第二个对象的析构函数的完成就按顺序早于第一个对象的析构函数的开始。
 
 [enter:note]
 [:en]
 This definition permits concurrent destruction.
+[:zh_CN]
+这条定义允许进行并发的析构。
 [exit:note]
 
 [:en]
 If an object is initialized statically, the object is destroyed in the same
 order as if the object was dynamically initialized.
+[:zh_CN]
+若某对象被静态地初始化，则该对象将以如同当它被动态初始化时的相同顺序进行销毁。
 
 [:en]
 For an object of array or class type, all subobjects of that object are
 destroyed before any block-scope object with static storage duration initialized
 during the construction of the subobjects is destroyed.
+[:zh_CN]
+对于数组或类类型的对象，该对象的所有子对象的销毁，将在这些子对象的构造过程中所
+初始化的任何具有静态存储期的块作用域对象被销毁之前进行。
 
 [:en]
 If the destruction of an object with static or thread storage duration exits via
 an exception, [`std::terminate] is called ([#except.terminate]).
+[:zh_CN]
+如果具有静态或线程存储期的对象的析构由于异常而退出，则将会调用 [`std::terminate]
+（[#except.terminate]）。
 
 [para]
 [:en]
@@ -62,29 +90,47 @@ that has been destroyed and the function is called during the destruction of an
 object with static or thread storage duration, the program has undefined
 behavior if the flow of control passes through the definition of the previously
 destroyed block-scope object.
+[:zh_CN]
+若某个函数包含一个已经销毁的具有静态或线程存储期的块作用域对象，且该函数被某个
+具有静态或线程存储期的对象的析构过程所调用，则当控制流经过之前销毁的块作用域对象
+的定义式时，该程序具有未定义的行为。
 
 [:en]
 Likewise, the behavior is undefined if the block-scope object is used indirectly
 (i.e., through a pointer) after its destruction.
+[:zh_CN]
+类似地，在块作用域对象析构之后，间接地（比如通过指针）使用它的行为也是未定义的。
 
 [para]
-[:en]
 [%[`atexit]] [%@library atexit]
+[:en]
 If the completion of the initialization of an object with static storage
 duration is sequenced before a call to [`std::atexit] (see [`<cstdlib>],
 [#support.start.term]), the call to the function passed to [`std::atexit] is
 sequenced before the call to the destructor for the object.
+[:zh_CN]
+如果某个具有静态存储期的对象的初始化的完成，按顺序早于对 [`std::atexit]（参见
+[`<cstdlib>]，[#support.start.term]）的某次调用，则对传递给 [`std::atexit]
+的函数进行的调用就按顺序早于对该对象的析构函数的调用。
 
 [:en]
 If a call to [`std::atexit] is sequenced before the completion of the
 initialization of an object with static storage duration, the call to the
 destructor for the object is sequenced before the call to the function passed to
 [`std::atexit].
+[:zh_CN]
+如果对 [`std::atexit] 的某次调用，按顺序早于某个具有静态存储期的对象的初始化的
+完成，则对该对象的析构函数调用就按顺序早于对传递给 [`std::atexit] 的函数所进行的
+调用。
 
 [:en]
 If a call to [`std::atexit] is sequenced before another call to [`std::atexit],
 the call to the function passed to the second [`std::atexit] call is sequenced
 before the call to the function passed to the first [`std::atexit] call.
+[:zh_CN]
+如果对 [`std::atexit] 的某次调用按顺序早于对 [`std::atexit] 的另一次调用，则对
+第二次调用 [`std::atexit] 时传递的函数所进行的调用，就按顺序早于对第一次调用
+[`std::atexit] 时传递的函数所进行的调用。
 
 [para]
 [:en]
@@ -93,26 +139,45 @@ signal handlers ([#support.runtime]) that does not happen before
 ([#intro.multithread]) completion of destruction of objects with static storage
 duration and execution of [`std::atexit] registered functions
 ([#support.start.term]), the program has undefined behavior.
+[:zh_CN]
+如果对标准程序库中不允许在信号处理器（[#support.runtime]）中使用的对象或函数
+进行了使用，并且其并非发生早于（[#intro.multithread]）具有静态存储期的对象的
+析构的完成，以及用 [`std::atexit] 注册的函数（[#support.start.term]）的执行的
+完成，则程序具有未定义的行为。
 
 [enter:note]
 [:en]
 If there is a use of an object with static storage duration that does not happen
 before the object[=']s destruction, the program has undefined behavior.
+[:zh_CN]
+如果对具有静态存储期的非局部对象的某次使用，并非发生早于该对象的析构，则程序具有
+未定义的行为。
 
 [:en]
 Terminating every thread before a call to [`std::exit] or the exit from [`main]
 is sufficient, but not necessary, to satisfy these requirements.
+[:zh_CN]
+在调用 [`std::exit] 或者从 [`main] 退出之前终止所有线程，是充分满足这些规定的，
+但这不是必须的。
 
 [:en]
 These requirements permit thread managers as static-storage-duration objects.
+[:zh_CN]
+这些规定允许将线程管理器实现为静态存储期的对象。
 [exit:note]
 
 [para]
+[%[`abort]] [%@library abort]
 [:en]
-[%[`abort]] [%@library abort] [%termination[!program]]
+[%termination[!program]]
 Calling the function [`std::abort()] declared in [%[`<cstdlib>][sortas cstdlib]]
 [`<cstdlib>] terminates the program without executing any destructors and
 without calling the functions passed to [`std::atexit()] or
 [`std::at_quick_exit()].
+[:zh_CN]
+[%终止[!程序～]]
+调用声明于 [%[`<cstdlib>][sortas cstdlib]] [`<cstdlib>] 的函数 [`std::abort()]
+终止程序，而不执行任何析构函数，且不调用传递给 [`std::atexit()] 或
+[`std::at_quick_exit()] 的任何函数。
 
 [%:endprogram.termination]
