@@ -1,9 +1,11 @@
 ﻿[section#basic.link
     [:en] Program and linkage
+    [:zh_CN] 程序与连接
 ]
 
 [%:begin#linkage
     [:en] linkage
+    [:zh_CN] 连接
 ]
 
 [para]
@@ -11,12 +13,17 @@
 [%program]
 A [def program] consists of one or more [def translation units] (Clause [#lex])
 linked together.
+[:zh_CN]
+[%程序]
+[def 程序]由一个或多个被连接起来的[def 翻译单元]（第 [#lex] 条）构成。
 
 [:en]
 A translation unit consists of a sequence of declarations.
+[:zh_CN]
+翻译单元由一系列的声明式构成。
 
 [syntax]
-[rule translation-unit [:zh_CN] ]
+[rule translation-unit [:zh_CN] 翻译单元 ]
     [| [~:opt declaration-seq]]
 [rule:end]
 [syntax:end]
@@ -27,6 +34,10 @@ A translation unit consists of a sequence of declarations.
 A name is said to have [def linkage] when it might denote the same object,
 reference, function, type, template, namespace or value as a name introduced by
 a declaration in another scope:
+[:zh_CN]
+[%连接] [%翻译单元] [%连接[!内部～]] [%连接[!外部～]]
+当某个名字能够与在另一个作用域中由某个声明式引入的名字代表同一个对象、引用、函数
+、类型、模板、命名空间或值时，就称其是有[def 连接]的：
 
 [list]
 [item]
@@ -34,17 +45,26 @@ a declaration in another scope:
 When a name has [def external linkage][%linkage[!external]], the entity it
 denotes can be referred to by names from scopes of other translation units or
 from other scopes of the same translation unit.
+[:zh_CN]
+若某个名字具有[def 外部连接]，则其所代表的实体可以用其他翻译单元中的作用域，或
+相同翻译单元中的其他作用域中的名字来代表。
 
 [item]
 [:en]
 When a name has [def internal linkage][%linkage[!internal]], the entity it
 denotes can be referred to by names from other scopes in the same translation
 unit.
+[:zh_CN]
+若某个名字具有[def 内部连接]，则其所代表的实体可以用相同翻译单元中的其他作用域
+中的名字来代表。
 
 [item]
 [:en]
 When a name has [def no linkage][%linkage[!no]], the entity it denotes cannot be
 referred to by names from other scopes.
+[:zh_CN]
+若某个名字为[def 无连接][%连接[!无～]]，则其所代表的实体就不能用其他作用域中的
+名字来代表。
 [list:end]
 
 [para]
@@ -54,65 +74,100 @@ referred to by names from other scopes.
 [%linkage[![`inline] and]] [%[`inline][!linkage of]]
 A name having namespace scope ([#basic.scope.namespace]) has internal linkage if
 it is the name of
+[:zh_CN]
+[%连接[![`static] 与～]] [%[`static][!～的连接]]
+[%连接[![`const] 与～]] [%[`const][!～的连接]]
+[%连接[![`inline] 与～]] [%[`inline][!～的连接]]
+如下情况下，具有命名空间作用域（[#basic.scope.namespace]）的名字具有内部连接
 
 [list]
 [item]
-[:en]
+[:en@~]
 a variable, function or function template that is explicitly declared [`static];
 or,
+[:zh_CN@~]
+被明确声明为 [`static] 的变量、函数或函数模板；或者
 
 [item]
-[:en]
+[:en@~]
 a variable of non-volatile const-qualified type that is neither explicitly
 declared [`extern] nor previously declared to have external linkage; or
+[:zh_CN@~]
+既未被明确声明为 [`extern] 也未曾被声明为具有外部连接的，非 volatile 的
+const-限定的类型的变量；或者
 
 [item]
-[:en]
+[:en@~]
 a data member of an anonymous union.
+[:zh_CN@~]
+匿名联合的数据成员。
 [list:end]
 
 [para]
 [:en]
 An unnamed namespace or a namespace declared directly or indirectly within an
 unnamed namespace has internal linkage.
+[:zh_CN]
+无名命名空间，或者直接或间接声明于无名命名空间中的命名空间具有内部连接。
 
 [:en]
 All other namespaces have external linkage.
+[:zh_CN]
+其他任何命名空间具有外部连接。
 
 [:en]
 A name having namespace scope that has not been given internal linkage above has
 the same linkage as the enclosing namespace if it is the name of
+[:zh_CN]
+具有命名空间作用域的名字，当未被以上述方式给定内部连接时，若它是下列各项之一的
+名字，则具有与其外围命名空间相同的连接：
 
 [list]
 [item]
-[:en]
+[:en@~]
 a variable; or
+[:zh_CN@~]
+变量；或者
 
 [item]
-[:en]
+[:en@~]
 a function; or
+[:zh_CN@~]
+函数；或者
 
 [item]
-[:en]
+[:en@~]
 [%class[!linkage of]]
 a named class (Clause [#class]), or an unnamed class defined in a typedef
 declaration in which the class has the typedef name for linkage purposes
 ([#dcl.typedef]); or
+[:zh_CN@~]
+[%类[!～的连接]]
+有名字的类（第 [#class] 条），或定义于 typedef 声明式中的无名类，其具有用于连接
+的 typedef 名（[#dcl.typedef]）；或者
 
 [item]
-[:en]
+[:en@~]
 [%enumeration[!linkage of]]
 a named enumeration ([#dcl.enum]), or an unnamed enumeration defined in a
 typedef declaration in which the enumeration has the typedef name for linkage
 purposes ([#dcl.typedef]); or
+[:zh_CN@~]
+[%枚举[!～的连接]]
+有名字的枚举（[#dcl.enum]），或定义于 typedef 声明式中的无名枚举，其具有用于连接
+的 typedef 名（[#dcl.typedef]）；或者
 
 [item]
-[:en]
+[:en@~]
 an enumerator belonging to an enumeration with linkage; or
+[:zh_CN@~]
+属于某个具有连接的枚举的枚举符；或者
 
 [item]
-[:en]
+[:en@~]
 a template.
+[:zh_CN@~]
+模板。
 [list:end]
 
 [para]
@@ -122,24 +177,39 @@ of class scope, or an unnamed class or enumeration defined in a class-scope
 typedef declaration such that the class or enumeration has the typedef name for
 linkage purposes ([#dcl.typedef]), has the same linkage, if any, as the name of
 the class of which it is a member.
+[:zh_CN]
+此外，类的成员函数，静态数据成员，类作用域中的具名类或枚举，或者定义于类作用域中
+的 typedef 声明式中（从而使其具有用于连接的 typedef 名）的无名类或枚举
+（[#dcl.typedef]），它们具有与其作为成员的类的名字相同的连接（如果有）。
 
 [para]
 [:en]
 The name of a function declared in block scope and the name of a variable
 declared by a block scope [`extern] declaration have linkage.
+[:zh_CN]
+在块作用域中声明的函数的名字，以及由块作用域 [`extern] 声明式所声明的变量的名字
+具有连接。
 
 [:en]
 If there is a visible declaration of an entity with linkage having the same name
 and type, ignoring entities declared outside the innermost enclosing namespace
 scope, the block scope declaration declares that same entity and receives the
 linkage of the previous declaration.
+[:zh_CN]
+若忽略其最内层外围命名空间作用域之外所声明的实体后，某个具有相同名字和类型的有
+连接实体的声明式是可见的，则此块作用域声明式就对同一个实体进行声明，并获得其之前
+所声明的连接。
 
 [:en]
 If there is more than one such matching entity, the program is ill-formed.
+[:zh_CN]
+若它所匹配的实体多于一个，则该程序非良构。
 
 [:en]
 Otherwise, if no matching entity is found, the block scope entity receives
 external linkage.
+[:zh_CN]
+否则，若没找到匹配的实体，则这个块作用域实体就获得外部连接。
 
 [enter:example]
 
@@ -148,22 +218,32 @@ static void f();
 static int i = 0;               // #1
 void g() {
   extern void f();              // [:en] internal linkage
+                                // [|:zh_CN] 内部连接
   int i;                        // [:en] #2 [`i] has no linkage
+                                // [|:zh_CN] #2 [`i] 无连接
   {
     extern void f();            // [:en] internal linkage
+                                // [|:zh_CN] 内部连接
     extern int i;               // [:en] #3 external linkage
+                                // [|:zh_CN] #3 外部连接
   }
 }
 [codeblock:end]
 
 [:en]
 There are three objects named [`i] in this program.
+[:zh_CN]
+该程序中有三个名为 [`i] 的对象。
 
 [:en]
 The object with internal linkage introduced by the declaration in global scope
 (line [`#1] ), the object with automatic storage duration and no linkage
 introduced by the declaration on line [`#2], and the object with static storage
 duration and external linkage introduced by the declaration on line [`#3].
+[:zh_CN]
+全局作用域中的声明式（行 [`#1]）所引入的对象具有内部连接，行 [`#2] 处的声明式所
+引入的对象具有自动存储期且无连接，行 [`#3] 处的声明式所引入的对象具有静态存储期
+和外部连接。
 [exit:example]
 
 [para]
@@ -171,28 +251,37 @@ duration and external linkage introduced by the declaration on line [`#3].
 When a block scope declaration of an entity with linkage is not found to refer
 to some other declaration, then that entity is a member of the innermost
 enclosing namespace.
+[:zh_CN]
+当某个有连接实体的块作用域声明式，没有找到所能代表的其他声明式时，该实体就成为其
+最内层外围命名空间的成员。
 
 [:en]
 However such a declaration does not introduce the member name in its namespace
 scope.
+[:zh_CN]
+然而这种声明式并不向其命名空间作用域中引入成员名。
 
 [enter:example]
-
 [codeblock]
 namespace X {
   void p() {
     q();                        // [:en] error: [`q] not yet declared
+                                // [|:zh_CN] 错误：[`q] 还未声明
     extern void q();            // [:en] [`q] is a member of namespace [`X]
+                                // [|:zh_CN] [`q] 是命名空间 [`X] 的成员
   }
 
   void middle() {
     q();                        // [:en] error: [`q] not yet declared
+                                // [|:zh_CN] 错误：[`q] 还未声明
   }
 
   void q() { /* ... */ }        // [:en] definition of [`X::q]        
+                                // [|:zh_CN] [`X::q] 的定义式
 }
 
 void q() { /* ... */ }          // [:en] some other, unrelated [`q]
+                                // [|:zh_CN] 某个无关的其他 [`q]
 [codeblock:end]
 [exit:example]
 
@@ -200,84 +289,126 @@ void q() { /* ... */ }          // [:en] some other, unrelated [`q]
 [:en]
 [%linkage[!no]]
 Names not covered by these rules have no linkage.
+[:zh_CN]
+[%连接[!无～]]
+未由下列规则覆盖到的名字没有连接。
 
 [:en]
 Moreover, except as noted, a name declared at block scope ([#basic.scope.block])
 has no linkage.
+[:zh_CN]
+此外，除非另行指明，在块作用域（[#basic.scope.block]）中声明的名字没有连接。
 
 [:en]
 A type is said to have linkage if and only if:
+[:zh_CN]
+当且仅当如下情况时称类型具有连接：
 
 [list]
 [item]
-[:en]
+[:en@~]
 it is a class or enumeration type that is named (or has a name for linkage
 purposes ([#dcl.typedef])) and the name has linkage; or
+[:zh_CN@~]
+它是有名字（或为连接而带有名字（[#dcl.typedef]））的类或枚举，且其名字有连接；
+或者
 
 [item]
-[:en]
+[:en@~]
 it is an unnamed class or enumeration member of a class with linkage; or
+[:zh_CN@~]
+它是某个有连接的类的无名类或枚举成员；或者
 
 [item]
-[:en]
+[:en@~]
 it is a specialization of a class template (Clause [#temp])
+[:zh_CN@~]
+它是类模板的特例（第 [#temp] 条）
 
 [footnote]
 [:en]
 A class template has the linkage of the innermost enclosing class or namespace
 in which it is declared.
+[:zh_CN]
+类模板具有与声明了它的最内层外围类或命名空间相同的连接。
 [footnote:end]
 
 [:en@~]
 ; or
+[:zh_CN@~]
+；或者
 
 [item]
-[:en]
+[:en@~]
 it is a fundamental type ([#basic.fundamental]); or
+[:zh_CN@~]
+它是基础类型（[#basic.fundamental]）；或者
 
 [item]
-[:en]
+[:en@~]
 it is a compound type ([#basic.compound]) other than a class or enumeration,
 compounded exclusively from types that have linkage; or
+[:zh_CN@~]
+它是仅由有连接的类型组合而成的，除类或枚举以外的组合类型（[#basic.compound]）；
+或者
 
 [item]
-[:en]
-it is a [=cv]-qualified ([#basic.type.qualifier]) version of a type that has
+[:en@~]
+it is a cv-qualified ([#basic.type.qualifier]) version of a type that has
 linkage.
+[:zh_CN@~]
+它是有连接类型的被 cv-限定的（[#basic.type.qualifier]）版本。
 [list:end]
 
 [:en]
 A type without linkage shall not be used as the type of a variable or function
 with external linkage unless
+[:zh_CN]
+无连接的类型不能用作有外部连接的变量或函数的类型，除非
+
 [list]
 [item]
-[:en]
+[:en@~]
 the entity has C language linkage ([#dcl.link]), or
+[:zh_CN@~]
+该实体具有 C 语言连接（[#dcl.link]）；或者
 
 [item]
-[:en]
+[:en@~]
 the entity is declared within an unnamed namespace ([#namespace.def]), or
+[:zh_CN@~]
+该实体在无名命名空间中声明（[#namespace.def]）；或者
 
 [item]
-[:en]
+[:en@~]
 the entity is not odr-used ([#basic.def.odr]) or is defined in the same
 translation unit.
+[:zh_CN@~]
+该实体并未被 ODR-式使用（[#basic.def.odr]），或它是在同一个翻译单元中定义的。
 [list:end]
 
 [enter:note]
 [:en]
 In other words, a type without linkage contains a class or enumeration that
 cannot be named outside its translation unit.
+[:zh_CN]
+也就是说，无连接的类型包括不能在其翻译单元之外被提名的类或枚举。
 
 [:en]
 An entity with external linkage declared using such a type could not correspond
 to any other entity in another translation unit of the program and thus must be
 defined in the translation unit if it is odr-used.
+[:zh_CN]
+使用这种类型所声明的具有外部连接的实体，无法对应于该程序的其他翻译单元中的任何
+其他实体，故而若要在该翻译单元中 ODR-式使用它，就应当对其进行定义。
 
 [:en]
 Also note that classes with linkage may contain members whose types do not have
 linkage, and that typedef names are ignored in the determination of whether a
 type has linkage.
+[:zh_CN]
+还要注意有连接的类可能会包含无连接的类型的成员，而且当确定类型是否具有连接时
+typedef 名是被忽略的。
 [exit:note]
 
 [enter:example]
@@ -291,11 +422,16 @@ template <class T> struct B {
 
 void f() {
   struct A { int x; };  // [:en] no linkage
+                        // [|:zh_CN] 无连接
   A a = { 1 };
   B<A> ba;              // [:en] declares [`B<A>::g(A)] and [`B<A>::h(A)]
+                        // [|:zh_CN] 声明了 [`B<A>::g(A)] 和 [`B<A>::h(A)]
   ba.g(a);              // [:en] OK
+                        // [|:zh_CN] OK
   ba.h(a);              // [:en] error: [`B<A>::h(A)] not defined in the translation unit
+                        // [|:zh_CN] 错误：在该翻译单元中并未定义 [`B<A>::h(A)]
   i(ba, a);             // [:en] OK
+                        // [|:zh_CN] OK
 }
 [codeblock:end]
 [exit:example]
@@ -305,47 +441,66 @@ void f() {
 Two names that are the same (Clause [#basic]) and that are declared in different
 scopes shall denote the same variable, function, type, enumerator, template or
 namespace if
+[:zh_CN]
+在下列情况下，相同的（第 [#basic] 条），且声明于不同的作用域中的两个名字，应当
+代表相同的变量、函数、类型、枚举符、模板或命名空间：
 
 [list]
 [item]
-[:en]
+[:en@~]
 both names have external linkage or else both names have internal linkage and
 are declared in the same translation unit; and
+[:zh_CN@~]
+两个名字都具有外部连接，或者都具有内部连接且声明于相同翻译单元中；且
 
 [item]
-[:en]
+[:en@~]
 both names refer to members of the same namespace or to members, not by
 inheritance, of the same class; and
+[:zh_CN@~]
+两个名字都代表相同命名空间的成员，或相同类的（不来自继承的）成员；且
 
 [item]
-[:en]
+[:en@~]
 when both names denote functions, the parameter-type-lists of the functions
 ([#dcl.fct]) are identical; and
+[:zh_CN@~]
+若两个名字都代表函数，则这些函数的形参类型列表（[#dcl.fct]）应当一致；且
 
 [item]
-[:en]
+[:en@~]
 when both names denote function templates, the signatures ([#temp.over.link])
 are the same.
+[:zh_CN@~]
+若两个名字都代表函数模板，则其签名（[#temp.over.link]）应当相同。
 [list:end]
 
 [para]
 [:en]
-[%consistency[!type declaration]]
-[%declaration[!multiple]]
+[%consistency[!type declaration]] [%declaration[!multiple]]
 After all adjustments of types (during which typedefs ([#dcl.typedef]) are
 replaced by their definitions), the types specified by all declarations
 referring to a given variable or function shall be identical, except that
 declarations for an array object can specify array types that differ by the
 presence or absence of a major array bound ([#dcl.array]).
+[:zh_CN]
+[%一致性[!类型声明式的～]] [%声明式[!多重～]]
+在全部类型调整（其中 typedef（[#dcl.typedef]）都被其定义所取代）之后，除了数组
+对象的声明式可以指定因带有或不带有主数组边界（[#dcl.array]）而相异的数组类型外，
+所有代表给定变量或函数的声明式所指定的类型都应当一致。
 
 [:en]
 A violation of this rule on type identity does not require a diagnostic.
+[:zh_CN]
+违反本条关于类型一致的规则不需要诊断。
 
 [para]
 [enter:note]
 [:en]
 Linkage to non-[=Cpp] declarations can be achieved using a
 [~linkage-specification] ([#dcl.link]).
+[:zh_CN]
+到非 [=Cpp] 的声明式的连接可以通过使用[~连接说明]进行。
 [exit:note]
 
 [%:end#linkage]
