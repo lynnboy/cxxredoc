@@ -1,0 +1,809 @@
+﻿[section#expr.prim.lambda
+    [:en] Lambda expressions
+]
+
+[%:begin#expression.lambda
+    [:en] expression [!lambda]
+]
+
+[para]
+[:en]
+Lambda expressions provide a concise way to create simple function objects.
+
+[enter:example]
+[codeblock]
+#include <algorithm>
+#include <cmath>
+void abssort(float* x, unsigned N) {
+  std::sort(x, x + N,
+    [](float a, float b) {
+      return std::abs(a) < std::abs(b);
+    });
+}
+[codeblock:end]
+[exit:example]
+
+[syntax]
+[rule lambda-expression [:zh_CN] ]
+    [| lambda-introducer [~:opt lambda-declarator] compound-statement ]
+[rule:end]
+
+[rule lambda-introducer [:zh_CN] ]
+    [| [`[] [~:opt lambda-capture] [``]] ]
+[rule:end]
+
+[rule lambda-capture [:zh_CN] ]
+    [| capture-default ]
+    [| capture-list ]
+    [| capture-default [`,] capture-list ]
+[rule:end]
+
+[rule capture-default [:zh_CN] ]
+    [| [`&] ]
+    [| [`=] ]
+[rule:end]
+
+[rule capture-list [:zh_CN] ]
+    [| capture [`:opt ...] ]
+    [| capture-list [`,] capture [`:opt ...] ]
+[rule:end]
+
+[rule capture [:zh_CN] ]
+    [| simple-capture ]
+    [| init-capture ]
+[rule:end]
+
+[rule simple-capture [:zh_CN] ]
+    [| identifier ]
+    [| [`&] identifier ]
+    [| [`this] ]
+[rule:end]
+
+[rule init-capture [:zh_CN] ]
+    [| identifier initializer ]
+    [| [`&] identifier initializer ]
+[rule:end]
+
+[rule lambda-declarator [:zh_CN] ]
+    [| [`(] parameter-declaration-clause [`)] [`:opt mutable]
+        [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
+    [| [~:opt trailing-return-type] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The evaluation of a [~lambda-expression] results in a prvalue temporary
+([#class.temporary]).
+
+[:en]
+This temporary is called the [def closure object].
+
+[:en]
+A [~lambda-expression] shall not appear in an unevaluated operand (Clause
+[#expr]), in a [~template-argument], in an [~alias-declaration], in a typedef
+declaration, or in the declaration of a function or function template outside
+its function body and default arguments.
+
+[enter:note]
+[:en]
+The intention is to prevent lambdas from appearing in a signature.
+[exit:note]
+
+[enter:note]
+[:en]
+A closure object behaves like a function object ([#function.objects]).
+[exit:note]
+
+[para]
+[:en]
+The type of the [~lambda-expression] (which is also the type of the closure
+object) is a unique, unnamed non-union class type [=--] called the [def closure
+type] [=--] whose properties are described below.
+
+[:en]
+This class type is neither an aggregate ([#dcl.init.aggr]) nor a literal type
+([#basic.types]).
+
+[:en]
+The closure type is declared in the smallest block scope, class scope, or
+namespace scope that contains the corresponding [~lambda-expression].
+
+[enter:note]
+[:en]
+This determines the set of namespaces and classes associated with the closure
+type ([#basic.lookup.argdep]).
+
+[:en]
+The parameter types of a [~lambda-declarator] do not affect these associated
+namespaces and classes.
+[exit:note]
+
+[:en]
+An implementation may define the closure type differently from what is described
+below provided this does not alter the observable behavior of the program other
+than by changing:
+
+[list]
+[item]
+[:en@~]
+the size and/or alignment of the closure type,
+
+[item]
+[:en@~]
+whether the closure type is trivially copyable (Clause [#class]),
+
+[item]
+[:en@~]
+whether the closure type is a standard-layout class (Clause [#class]), or
+
+[item]
+[:en@~]
+whether the closure type is a POD class (Clause [#class]).
+[list:end]
+
+[:en]
+An implementation shall not add members of rvalue reference type to the closure
+type.
+
+[para]
+[:en]
+If a [~lambda-expression] does not include a [~lambda-declarator], it is as if
+the [~lambda-declarator] were [`()].
+
+[:en]
+The lambda return type is [`auto], which is replaced by the
+[~trailing-return-type] if provided and/or deduced from [`return] statements as
+described in [#dcl.spec.auto].
+
+[enter:example]
+[codeblock]
+auto x1 = [](int i){ return i; };     // [:en] OK: return type is [`int]
+auto x2 = []{ return { 1, 2 }; };     // [:en] error: deducing return type from [~braced-init-list]
+int j;
+auto x3 = []()->auto&& { return j; }; // [:en] OK: return type is [`int&]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The closure type for a non-generic [~lambda-expression] has a public inline
+function call operator ([#over.call]) whose parameters and return type are
+described by the [~lambda-expression][=']s [~parameter-declaration-clause] and
+[~trailing-return-type] respectively.
+
+[:en]
+For a generic lambda, the closure type has a public inline function call
+operator member template ([#temp.mem]) whose [~template-parameter-list] consists
+of one invented type [~template-parameter] for each occurrence of [`auto] in the
+lambda[=']s [~parameter-declaration-clause], in order of appearance.
+
+[:en]
+The invented type [~template-parameter] is a parameter pack if the corresponding
+[~parameter-declaration] declares a function parameter pack ([#dcl.fct]).
+
+[:en]
+The return type and function parameters of the function call operator template
+are derived from the [~lambda-expression][=']s [~trailing-return-type] and
+[~parameter-declaration-clause] by replacing each occurrence of [`auto] in the
+[~decl-specifier]s of the [~parameter-declaration-clause] with the name of the
+corresponding invented [~template-parameter].
+
+[enter:example]
+[codeblock]
+  auto glambda = [](auto a, auto&& b) { return a < b; };
+  bool b = glambda(3, 3.14);                                  // [:en] OK
+                                                              // [|:zh_CN] OK
+  auto vglambda = [](auto printer) {
+     return [=](auto&& ... ts) {                              // [:en] OK: [`ts] is a function parameter pack
+                                                              // [|:zh_CN]
+         printer(std::forward<decltype(ts)>(ts)...);
+
+         return [=]() {
+           printer(ts ...);
+         };
+     };
+  };
+  auto p = vglambda( [](auto v1, auto v2, auto v3)
+                         { std::cout << v1 << v2 << v3; } );
+  auto q = p(1, 'a', 3.14);                                   // [:en] OK: outputs [`1a3.14]
+                                                              // [|:zh_CN]
+  q();                                                        // [:en] OK: outputs [`1a3.14]
+                                                              // [|:zh_CN]
+[codeblock:end]
+[exit:example]
+
+[:en]
+This function call operator or operator template is declared [`const]
+([#class.mfct.non-static]) if and only if the [~lambda-expression][=']s
+[~parameter-declaration-clause] is not followed by [`mutable].
+
+[:en]
+It is neither virtual nor declared [`volatile].
+
+[:en]
+Any [~exception-specification] specified on a [~lambda-expression] applies to
+the corresponding function call operator or operator template.
+
+[:en]
+An [~attribute-specifier-seq] in a [~lambda-declarator] appertains to the type
+of the corresponding function call operator or operator template.
+
+[enter:note]
+[:en]
+Names referenced in the [~lambda-declarator] are looked up in the context in
+which the [~lambda-expression] appears.
+[exit:note]
+
+[para]
+[:en]
+The closure type for a non-generic [~lambda-expression] with no
+[~lambda-capture] has a public non-virtual non-explicit const conversion
+function to pointer to function with [=Cpp] language linkage ([#dcl.link])
+having the same parameter and return types as the closure type[=']s function
+call operator.
+
+[:en]
+The value returned by this conversion function shall be the address of a
+function that, when invoked, has the same effect as invoking the closure
+type[=']s function call operator.
+
+[:en]
+For a generic lambda with no [~lambda-capture], the closure type has a public
+non-virtual non-explicit const conversion function template to pointer to
+function.
+
+[:en]
+The conversion function template has the same invented
+[~template-parameter-list], and the pointer to function has the same parameter
+types, as the function call operator template.
+
+[:en]
+The return type of the pointer to function shall behave as if it were a
+[~decltype-specifier] denoting the return type of the corresponding function
+call operator template specialization.
+
+[enter:note]
+[:en]
+If the generic lambda has no [~trailing-return-type] or the
+[~trailing-return-type] contains a placeholder type, return type deduction of
+the corresponding function call operator template specialization has to be done.
+
+[:en]
+The corresponding specialization is that instantiation of the function call
+operator template with the same template arguments as those deduced for the
+conversion function template.
+
+[:en]
+Consider the following:
+
+[codeblock]
+auto glambda = [](auto a) { return a; };
+int (*fp)(int) = glambda;
+[codeblock:end]
+
+[:en]
+The behavior of the conversion function of [`glambda] above is like
+that of the following conversion function:
+
+[codeblock]
+struct Closure {
+  template<class T> auto operator()(T t) const { ... }
+  template<class T> static auto lambda_call_operator_invoker(T a) {
+    // [:en] forwards execution to [`operator()(a)] and therefore has
+    // [:en@~] the same return type deduced
+    ...
+  }
+  template<class T> using fptr_t =
+     decltype(lambda_call_operator_invoker(declval<T>())) (*)(T);
+
+  template<class T> operator fptr_t<T>() const
+    { return &lambda_call_operator_invoker; }
+};
+[codeblock:end]
+[exit:note]
+[enter:example]
+[codeblock]
+void f1(int (*)(int))   { }
+void f2(char (*)(int))  { }
+
+void g(int (*)(int))    { }  // #1
+void g(char (*)(char))  { }  // #2
+
+void h(int (*)(int))    { }  // #3
+void h(char (*)(int))   { }  // #4
+
+auto glambda = [](auto a) { return a; };
+f1(glambda);  // OK
+f2(glambda);  // [:en] error: ID is not convertible
+g(glambda);   // [:en] error: ambiguous
+h(glambda);   // [:en] OK: calls #3 since it is convertible from ID
+int& (*fpi)(int*) = [](auto* a) -> auto& { return *a; }; // OK
+[codeblock:end]
+[exit:example]
+
+[:en]
+The value returned by any given specialization of this conversion function
+template shall be the address of a function that, when invoked, has the same
+effect as invoking the generic lambda[=']s corresponding function call operator
+template specialization.
+
+[enter:note]
+[:en]
+This will result in the implicit instantiation of the generic lambda[=']s body.
+
+[:en]
+The instantiated generic lambda[=']s return type and parameter types shall match
+the return type and parameter types of the pointer to function.
+[exit:note]
+
+[enter:example]
+[codeblock]
+auto GL = [](auto a) { std::cout << a; return a; };
+int (*GL_int)(int) = GL;  // [:en] OK: through conversion function template
+GL_int(3);                // [:en] OK: same as [`GL(3)]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The [~lambda-expression][=']s [~compound-statement] yields the [~function-body]
+([#dcl.fct.def]) of the function call operator, but for purposes of name lookup
+([#basic.lookup]), determining the type and value of [`this] ([#class.this]) and
+transforming [~id-expression]s referring to non-static class members into class
+member access expressions using [`(*this)] ([#class.mfct.non-static]), the
+[~compound-statement] is considered in the context of the [~lambda-expression].
+
+[enter:example]
+[codeblock]
+struct S1 {
+  int x, y;
+  int operator()(int);
+  void f() {
+    [=]()->int {
+      return operator()(this->x + y); // [:en] equivalent to [`S1::operator()(this->x + (*this).y)]
+                                      // [:en@~] [`this] has type [`S1*]
+    };
+  }
+};
+[codeblock:end]
+[exit:example]
+
+[:en]
+Further, a variable [`__func__] is implicitly defined at the beginning of the
+[~compound-statement] of the [~lambda-expression], with semantics as described
+in [#dcl.fct.def.general].
+
+[para]
+[:en]
+If a [~lambda-capture] includes a [~capture-default] that is [`&], no identifier
+in a [~simple-capture] of that [~lambda-capture] shall be preceded by [`&].
+
+[:en]
+If a [~lambda-capture] includes a [~capture-default] that is [`=], each
+[~simple-capture] of that [~lambda-capture] shall be of the form ["[`&]
+[~identifier]].
+
+[:en]
+Ignoring appearances in [~initializer]s of [~init-capture]s, an identifier or
+[`this] shall not appear more than once in a [~lambda-capture].
+
+[enter:example]
+[codeblock]
+struct S2 { void f(int i); };
+void S2::f(int i) {
+  [&, i]{ };    // OK
+  [&, &i]{ };   // [:en] error: [`i] preceded by [`&] when [`&] is the default
+  [=, this]{ }; // [:en] error: [`this] when [`=] is the default
+  [i, i]{ };    // [:en] error: [`i] repeated
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~lambda-expression] whose smallest enclosing scope is a block scope
+([#basic.scope.block]) is a [def local lambda expression]; any other
+[~lambda-expression] shall not have a [~capture-default] or [~simple-capture] in
+its [~lambda-introducer].
+
+[:en]
+The [def reaching scope] of a local lambda expression is the set of enclosing
+scopes up to and including the innermost enclosing function and its parameters.
+
+[enter:note]
+[:en]
+This reaching scope includes any intervening [~lambda-expression]s.
+[exit:note]
+
+[para]
+[:en]
+The [~identifier] in a [~simple-capture] is looked up using the usual rules for
+unqualified name lookup ([#basic.lookup.unqual]); each such lookup shall find an
+entity.
+
+[:en]
+An entity that is designated by a [~simple-capture] is said to be [def
+explicitly captured], and shall be [`this] or a variable with automatic storage
+duration declared in the reaching scope of the local lambda expression.
+
+[para]
+[:en]
+An [~init-capture] behaves as if it declares and explicitly captures a variable
+of the form ["[`auto] [~init-capture] [`;]] whose declarative region is the
+[~lambda-expression][=']s [~compound-statement], except that:
+
+[list]
+[item]
+[:en]
+if the capture is by copy (see below), the non-static data member declared for
+the capture and the variable are treated as two different ways of referring to
+the same object, which has the lifetime of the non-static data member, and no
+additional copy and destruction is performed, and
+
+[item]
+[:en]
+if the capture is by reference, the variable[=']s lifetime ends when the closure
+object[=']s lifetime ends.
+[list:end]
+
+[enter:note]
+[:en]
+This enables an [~init-capture] like ["[`x = std::move(x)]]; the second ["[`x]]
+must bind to a declaration in the surrounding context.
+[exit:note]
+
+[enter:example]
+[codeblock]
+int x = 4;
+auto y = [&r = x, x = x+1]()->int {
+            r += 2;
+            return x+2;
+         }();  // [:en] Updates [`::x] to 6, and initializes [`y] to 7.
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~lambda-expression] with an associated [~capture-default] that does not
+explicitly capture [`this] or a variable with automatic storage duration (this
+excludes any [~id-expression] that has been found to refer to an
+[~init-capture][=']s associated
+[%implicit capture[!definition of]] non-static data member), is said to
+[+implicitly capture] the entity (i.e., [`this] or a variable) if the
+[~compound-statement]:
+
+[list]
+[item]
+[:en@~]
+odr-uses ([#basic.def.odr]) the entity, or
+
+[item]
+[:en@~]
+names the entity in a potentially-evaluated expression ([#basic.def.odr]) where
+the enclosing full-expression depends on a generic lambda parameter declared
+within the reaching scope of the [~lambda-expression].
+[list:end]
+
+[enter:example]
+[codeblock]
+void f(int, const int (&)[2] = {})    { }   // #1
+void f(const int&, const int (&)[1])  { }   // #2
+void test() {
+  const int x = 17;
+  auto g = [](auto a) {
+    f(x);  // [:en] OK: calls #1, does not capture [`x]
+  };
+
+  auto g2 = [=](auto a) {
+    int selector[sizeof(a) == 1 ? 1 : 2]{};
+    f(x, selector);  // [:en] OK: is a dependent expression, so captures [`x]
+  };
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+All such implicitly captured entities shall be declared within the reaching
+scope of the lambda expression.
+
+[enter:note]
+[:en]
+The implicit capture of an entity by a nested [~lambda-expression] can cause its
+implicit capture by the containing [~lambda-expression] (see below).
+
+[:en]
+Implicit odr-uses of [`this] can result in implicit capture.
+[exit:note]
+
+[para]
+[:en]
+An entity is [def captured] if it is captured explicitly or implicitly.
+
+[:en]
+An entity captured by a [~lambda-expression] is odr-used ([#basic.def.odr]) in
+the scope containing the [~lambda-expression].
+
+[:en]
+If [`this] is captured by a local lambda expression, its nearest enclosing
+function shall be a non-static member function.
+
+[:en]
+If a [~lambda-expression] or an instantiation of the function call operator
+template of a generic lambda odr-uses ([#basic.def.odr]) [`this] or a variable
+with automatic storage duration from its reaching scope, that entity shall be
+captured by the [~lambda-expression].
+
+[:en]
+If a [~lambda-expression] captures an entity and that entity is not defined or
+captured in the immediately enclosing lambda expression or function, the program
+is ill-formed.
+
+[enter:example]
+[codeblock]
+void f1(int i) {
+  int const N = 20;
+  auto m1 = [=]{
+    int const M = 30;
+    auto m2 = [i]{
+      int x[N][M];              // [:en] OK: [`N] and [`M] are not odr-used
+      x[0][0] = i;              // [:en] OK: [`i] is explicitly captured by [`m2]
+                                // [:en@~] and implicitly captured by [`m1]
+    };
+  };
+  struct s1 {
+    int f;
+    void work(int n) {
+      int m = n*n;
+      int j = 40;
+      auto m3 = [this,m] {
+        auto m4 = [&,j] {       // [:en] error: [`j] not captured by [`m3]
+          int x = n;            // [:en] error: [`n] implicitly captured by [`m4]
+                                // [:en@~] but not captured by [`m3]
+          x += m;               // [:en] OK: [`m] implicitly captured by [`m4]
+                                // [:en@~] and explicitly captured by [`m3]
+          x += i;               // [:en] error: [`i] is outside of the reaching scope
+          x += f;               // [:en] OK: [`this] captured implicitly by [`m4]
+                                // [:en@~] and explicitly by [`m3]
+        };
+      };
+    }
+  };
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~lambda-expression] appearing in a default argument shall not implicitly or
+explicitly capture any entity.
+
+[enter:example]
+[codeblock]
+void f2() {
+  int i = 1;
+  void g1(int = ([i]{ return i; })());        // [:en] ill-formed
+  void g2(int = ([i]{ return 0; })());        // [:en] ill-formed
+  void g3(int = ([=]{ return i; })());        // [:en] ill-formed
+  void g4(int = ([=]{ return 0; })());        // OK
+  void g5(int = ([]{ return sizeof i; })());  // OK
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An entity is [+captured by copy [%captured [!by copy]]] if it is implicitly
+captured and the [~capture-default] is [`=] or if it is explicitly captured with
+a capture that is not of the form [`&] [~identifier] or [`&] [~identifier]
+[~initializer].
+
+[:en]
+For each entity captured by copy, an unnamed non-static data member is declared
+in the closure type.
+
+[:en]
+The declaration order of these members is unspecified.
+
+[:en]
+The type of such a data member is the type of the corresponding captured entity
+if the entity is not a reference to an object, or the referenced type otherwise.
+
+[enter:note]
+[:en]
+If the captured entity is a reference to a function, the corresponding data
+member is also a reference to a function.
+[exit:note]
+
+[:en]
+A member of an anonymous union shall not be captured by copy.
+
+[para]
+[:en]
+An entity is [+captured by reference [% captured [!by reference]]] if it is
+implicitly or explicitly captured but not captured by copy.
+
+[:en]
+It is unspecified whether additional unnamed non-static data members are
+declared in the closure type for entities captured by reference.
+
+[:en]
+A member of an anonymous union shall not be captured by reference.
+
+[para]
+[:en]
+If a [~lambda-expression] [`m2] captures an entity and that entity is captured
+by an immediately enclosing [~lambda-expression] [`m1], then [`m2][=']s capture
+is transformed as follows:
+
+[list]
+[item]
+[:en@~]
+if [`m1] captures the entity by copy, [`m2] captures the corresponding
+non-static data member of [`m1][=']s closure type;
+
+[item]
+[:en@~]
+if [`m1] captures the entity by reference, [`m2] captures the same entity
+captured by [`m1].
+[list:end]
+
+[enter:example]
+[:en]
+the nested lambda expressions and invocations below will output [`123234].
+
+[codeblock]
+int a = 1, b = 1, c = 1;
+auto m1 = [a, &b, &c]() mutable {
+  auto m2 = [a, b, &c]() mutable {
+    std::cout << a << b << c;
+    a = 4; b = 4; c = 4;
+  };
+  a = 3; b = 3; c = 3;
+  m2();
+};
+a = 2; b = 2; c = 2;
+m1();
+std::cout << a << b << c;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Every [~id-expression] within the [~compound-statement] of a
+[~lambda-expression] that is an odr-use ([#basic.def.odr]) of an entity captured
+by copy is transformed into an access to the corresponding unnamed data member
+of the closure type.
+
+[enter:note]
+[:en]
+An [~id-expression] that is not an odr-use refers to the original entity, never
+to a member of the closure type.
+
+[:en]
+Furthermore, such an [~id-expression] does not cause the implicit capture of the
+entity.
+[exit:note]
+
+[:en]
+If [`this] is captured, each odr-use of [`this] is transformed into an access to
+the corresponding unnamed data member of the closure type, cast ([#expr.cast])
+to the type of [`this].
+
+[enter:note]
+[:en]
+The cast ensures that the transformed expression is a prvalue.
+[exit:note]
+
+[enter:example]
+[codeblock]
+void f(const int*);
+void g() {
+  const int N = 10;
+  [=] {
+    int arr[N];             // [:en] OK: not an odr-use, refers to automatic variable
+    f(&N);                  // [:en] OK: causes [`N] to be captured; [`&N] points to the
+                            // [:en@~] corresponding member of the closure type
+  };
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Every occurrence of [`decltype((x))] where [`x] is a possibly parenthesized
+[~id-expression] that names an entity of automatic storage duration is treated
+as if [`x] were transformed into an access to a corresponding data member of the
+closure type that would have been declared if [`x] were an odr-use of the
+denoted entity.
+
+[enter:example]
+[codeblock]
+void f3() {
+  float x, &r = x;
+  [=] {                     // [:en] [`x] and [`r] are not captured (appearance in a [`decltype] operand is not an odr-use)
+    decltype(x) y1;         // [:en] [`y1] has type [`float]
+    decltype((x)) y2 = y1;  // [:en] [`y2] has type [`float const&] because this lambda
+                            // [:en@~] is not [`mutable] and [`x] is an lvalue
+    decltype(r) r1 = y1;    // [:en] [`r1] has type [`float&] (transformation not considered)
+    decltype((r)) r2 = y2;  // [:en] [`r2] has type [`float const&]
+  };
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The closure type associated with a [~lambda-expression] has no default
+constructor and a deleted copy assignment operator.
+
+[:en]
+It has a defaulted copy constructor and a defaulted move constructor
+([#class.copy]).
+
+[enter:note]
+[:en]
+These special member functions are implicitly defined as usual, and might
+therefore be defined as deleted.
+[exit:note]
+
+[para]
+[:en]
+The closure type associated with a [~lambda-expression] has an
+implicitly-declared destructor ([#class.dtor]).
+
+[para]
+[:en]
+A member of a closure type shall not be explicitly instantiated ([#temp.inst]),
+explicitly specialized ([#temp.explicit]), or named in a [`friend] declaration
+([#class.friend]).
+
+[para]
+[:en]
+When the [~lambda-expression] is evaluated, the entities that are captured by
+copy are used to direct-initialize each corresponding non-static data member of
+the resulting closure object, and the non-static data members corresponding to
+the [~init-capture]s are initialized as indicated by the corresponding
+[~initializer] (which may be copy- or direct-initialization).
+
+[:en]
+(For array members, the array elements are direct-initialized in increasing
+subscript order.)
+
+[:en]
+These initializations are performed in the (unspecified) order in which the
+non-static data members are declared.
+
+[enter:note]
+[:en]
+This ensures that the destructions will occur in the reverse order of the
+constructions.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+If an entity is implicitly or explicitly captured by reference, invoking the
+function call operator of the corresponding [~lambda-expression] after the
+lifetime of the entity has ended is likely to result in undefined behavior.
+[exit:note]
+
+[para]
+[:en]
+A [~simple-capture] followed by an ellipsis is a pack expansion
+([#temp.variadic]).
+
+[:en]
+An [~init-capture] followed by an ellipsis is ill-formed.
+
+[enter:example]
+[codeblock]
+template<class... Args>
+void f(Args... args) {
+  auto lm = [&, args...] { return g(args...); };
+  lm();
+}
+[codeblock:end]
+[exit:example]
+
+[%:end#expression.lambda]

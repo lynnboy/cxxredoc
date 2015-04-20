@@ -1,0 +1,488 @@
+﻿[section:chapter#expr
+    [:en] Expressions
+    [:zh_CN]
+]
+
+[:en]
+[% [`operator new] [seealso [`new]] ]
+[% [`operator delete] [seealso [`delete]] ]
+[% usual arithmetic conversions [see conversion [!usual arithmetic]] ]
+[% [`==] [see equality operator] ]
+[% [`!=] [see inequality operator] ]
+[% [`static_cast] [see cast [!static]] ]
+[% [`dynamic_cast] [see cast [!dynamic]] ]
+[% [`const_cast] [see cast [!const]] ]
+[% [`reinterpret_cast] [see cast [!reinterpret]] ]
+
+[%:begin#expression
+    [:en] expression
+]
+
+[para]
+[enter:note]
+[:en]
+Clause [#expr] defines the syntax, order of evaluation, and meaning of
+expressions.
+
+[footnote]
+[:en]
+The precedence of operators is not directly specified, but it can be derived
+from the syntax.
+[footnote:end]
+
+[:en]
+An expression is a sequence of operators and operands that specifies a
+computation.
+
+[:en]
+An expression can result in a value and can cause side effects.
+[exit:note]
+
+[para]
+[:en]
+[%operator[!overloaded]]
+[enter:note]
+[:en]
+Operators can be overloaded, that is, given meaning when applied to expressions
+of class type (Clause [#class]) or enumeration type ([#dcl.enum]).
+
+[:en]
+Uses of overloaded operators are transformed into function calls as described in
+[#over.oper].
+
+[:en]
+Overloaded operators obey the rules for syntax specified in Clause [#expr], but
+the requirements of operand type, value category, and evaluation order are
+replaced by the rules for function call.
+
+[:en]
+Relations between operators, such as [`++a] meaning [`a+=1], are not guaranteed
+for overloaded operators ([#over.oper]), and are not guaranteed for operands of
+type [`bool].
+[exit:note]
+
+[para]
+[:en]
+Clause [#expr] defines the effects of operators when applied to types for which
+they have not been overloaded.
+
+[:en]
+Operator overloading shall not modify the rules for the [+built-in operators],
+that is, for operators applied to types for which they are defined by this
+Standard.
+
+[:en]
+However, these built-in operators participate in overload resolution, and as
+part of that process user-defined conversions will be considered where necessary
+to convert the operands to types appropriate for the built-in operator.
+
+[:en]
+If a built-in operator is selected, such conversions will be applied to the
+operands before the operation is considered further according to the rules in
+Clause [#expr]; see [#over.match.oper], [#over.built].
+
+[para]
+[:en]
+[%exception[!arithmetic]]
+[%exception[!undefined arithmetic]]
+[%overflow[!undefined]]
+[%zero[!division by undefined]]
+[%zero[!remainder undefined]]
+If during the evaluation of an expression, the result is not mathematically
+defined or not in the range of representable values for its type, the behavior
+is undefined.
+
+[enter:note]
+[:en]
+[%overflow]
+most existing implementations of [=Cpp] ignore integer overflows.
+
+[:en]
+Treatment of division by zero, forming a remainder using a zero divisor, and all
+floating point exceptions vary among machines, and is usually adjustable by a
+library function.
+[exit:note]
+
+[para]
+[:en]
+[%expression[!reference]]
+If an expression initially has the type ["reference to [`T]] ([#dcl.ref],
+[#dcl.init.ref]), the type is adjusted to [`T] prior to any further analysis.
+
+[:en]
+The expression designates the object or function denoted by the reference, and
+the expression is an lvalue or an xvalue, depending on the expression.
+
+[para]
+[:en]
+If a prvalue initially has the type ["[$cv] [`T],] where [`T] is a
+cv-unqualified non-class, non-array type, the type of the expression is adjusted
+to [`T] prior to any further analysis.
+
+[para]
+[:en]
+[%expression[!rvalue reference]]
+[enter:note]
+[:en]
+An expression is an xvalue if it is:
+[list]
+[item]
+[:en]
+the result of calling a function, whether implicitly or explicitly, whose return
+type is an rvalue reference to object type,
+
+[item]
+[:en]
+a cast to an rvalue reference to object type,
+
+[item]
+[:en]
+a class member access expression designating a non-static data member of
+non-reference type in which the object expression is an xvalue, or
+
+[item]
+[:en]
+a [`.*] pointer-to-member expression in which the first operand is an xvalue and
+the second operand is a pointer to data member.
+[list:end]
+
+[:en]
+In general, the effect of this rule is that named rvalue references are treated
+as lvalues and unnamed rvalue references to objects are treated as xvalues;
+rvalue references to functions are treated as lvalues whether named or not.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct A {
+  int m;
+};
+A&& operator+(A, A);
+A&& f();
+
+A a;
+A&& ar = static_cast<A&&>(a);
+[codeblock:end]
+
+[:en]
+The expressions [`f()], [`f().m], [`static_cast<A&&>(a)], and [`a + a] are
+xvalues.
+
+[:en]
+The expression [`ar] is an lvalue.
+[exit:example]
+
+[para]
+[:en]
+In some contexts, [def unevaluated operands [%unevaluated operand]] appear
+([#expr.typeid], [#expr.sizeof], [#expr.unary.noexcept], [#dcl.type.simple]).
+
+[:en]
+An unevaluated operand is not evaluated. An unevaluated operand is considered a
+full-expression.
+
+[enter:note]
+[:en]
+In an unevaluated operand, a non-static class member may be named ([#expr.prim])
+and naming of objects or functions does not, by itself, require that a
+definition be provided ([#basic.def.odr]).
+[exit:note]
+
+[para]
+[:en]
+Whenever a glvalue expression appears as an operand of an operator that expects
+a prvalue for that operand, the lvalue-to-rvalue ([#conv.lval]),
+array-to-pointer ([#conv.array]), or function-to-pointer ([#conv.func]) standard
+conversions are applied to convert the expression to a prvalue.
+
+[enter:note]
+[:en]
+because cv-qualifiers are removed from the type of an expression of non-class
+type when the expression is converted to a prvalue, an lvalue expression of type
+[`const int] can, for example, be used where a prvalue expression of type [`int]
+is required.
+[exit:note]
+
+[para]
+[:en]
+[%conversion[!usual arithmetic]]
+Many binary operators that expect operands of arithmetic or enumeration type
+cause conversions and yield result types in a similar way.
+
+[:en]
+The purpose is to yield a common type, which is also the type of the result.
+
+[:en]
+This pattern is called the [+usual arithmetic conversions], which are defined as
+follows:
+
+[list]
+[item]
+[:en]
+If either operand is of scoped enumeration type ([#dcl.enum]), no conversions
+are performed; if the other operand does not have the same type, the expression
+is ill-formed.
+
+[item]
+[:en]
+If either operand is of type [`long double], the other shall be converted to
+[`long double].
+
+[item]
+[:en]
+Otherwise, if either operand is [`double], the other shall be converted to
+[`double].
+
+[item]
+[:en]
+Otherwise, if either operand is [`float], the other shall be converted to
+[`float].
+
+[item]
+[:en]
+Otherwise, the integral promotions ([#conv.prom]) shall be performed on both
+operands.
+
+[footnote]
+[:en]
+As a consequence, operands of type [`bool], [`char16_t], [`char32_t],
+[`wchar_t], or an enumerated type are converted to some integral type.
+[footnote:end]
+
+[:en]
+Then the following rules shall be applied to the promoted operands:
+
+[list]
+
+[item]
+[:en]
+If both operands have the same type, no further conversion is needed.
+
+[item]
+[:en]
+Otherwise, if both operands have signed integer types or both have unsigned
+integer types, the operand with the type of lesser integer conversion rank shall
+be converted to the type of the operand with greater rank.
+
+[item]
+[:en]
+Otherwise, if the operand that has unsigned integer type has rank greater than
+or equal to the rank of the type of the other operand, the operand with signed
+integer type shall be converted to the type of the operand with unsigned integer
+type.
+
+[item]
+[:en]
+Otherwise, if the type of the operand with signed integer type can represent all
+of the values of the type of the operand with unsigned integer type, the operand
+with unsigned integer type shall be converted to the type of the operand with
+signed integer type.
+
+[item]
+[:en]
+Otherwise, both operands shall be converted to the unsigned integer type
+corresponding to the type of the operand with signed integer type.
+[list:end]
+[list:end]
+
+[para]
+[:en]
+In some contexts, an expression only appears for its side effects.
+
+[:en]
+Such an expression is called a [def discarded-value expression].
+
+[:en]
+The expression is evaluated and its value is discarded.
+
+[:en]
+The array-to-pointer ([#conv.array]) and function-to-pointer ([#conv.func])
+standard conversions are not applied.
+
+[:en]
+The lvalue-to-rvalue conversion ([#conv.lval]) is applied if and only if the
+expression is a glvalue of volatile-qualified type and it is one of the
+following:
+
+[list]
+[item]
+[:en@~]
+[`(] [~expression] [`)], where [~expression] is one of these expressions,
+
+[item]
+[:en@~]
+[~id-expression] ([#expr.prim.general]),
+
+[item]
+[:en@~]
+subscripting ([#expr.sub]),
+
+[item]
+[:en@~]
+class member access ([#expr.ref]),
+
+[item]
+[:en@~]
+indirection ([#expr.unary.op]),
+
+[item]
+[:en@~]
+pointer-to-member operation ([#expr.mptr.oper]),
+
+[item]
+[:en@~]
+conditional expression ([#expr.cond]) where both the second and the third
+operands are one of these expressions, or
+
+[item]
+[:en@~]
+comma expression ([#expr.comma]) where the right operand is one of these
+expressions.
+[list:end]
+
+[enter:note]
+[:en]
+Using an overloaded operator causes a function call; the above covers only
+operators with built-in meaning.
+
+[:en]
+If the lvalue is of class type, it must have a volatile copy constructor to
+initialize the temporary that is the result of the lvalue-to-rvalue conversion.
+[exit:note]
+
+[para]
+[:en]
+The values of the floating operands and the results of floating expressions may
+be represented in greater precision and range than that required by the type;
+the types are not changed thereby.
+
+[footnote]
+[:en]
+The cast and assignment operators must still perform their specific conversions
+as described in [#expr.cast], [#expr.static.cast] and [#expr.ass].
+[footnote:end]
+
+[para]
+[:en]
+The [+cv-combined type] of two types [`T1] and [`T2] is a type [`T3] similar to
+[`T1] whose cv-qualification signature ([#conv.qual]) is:
+
+[list]
+[item]
+[:en@~]
+for every [$j > 0], [$cv[_3,j]] is the union of [$cv[_1,j]] and [$cv[_2,j]];
+
+[item]
+[:en@~]
+if the resulting [$cv[_3,j]] is different from [$cv[_1,j]] or [$cv[_2,j]], then
+[`const] is added to every [$cv[_3,k]] for [$0 < k < j].
+[list:end]
+
+[enter:note]
+[:en]
+Given similar types [`T1] and [`T2], this construction ensures that both can be
+converted to [`T3].
+[exit:note]
+
+[:en]
+The [+composite pointer type] of two operands [`p1] and [`p2] having types [`T1]
+and [`T2], respectively, where at least one is a pointer or pointer to member
+type or [`std::nullptr_t], is:
+
+[list]
+[item]
+[:en]
+if both [`p1] and [`p2] are null pointer constants, [`std::nullptr_t];
+
+[item]
+[:en]
+if either [`p1] or [`p2] is a null pointer constant, [`T2] or [`T1],
+respectively;
+
+[item]
+[:en]
+if [`T1] or [`T2] is ["pointer to [$cv1] [`void]] and the other type is
+["pointer to [$cv2] [`T]], ["pointer to [$cv12] [`void]], where [$cv12] is the
+union of [$cv1] and [$cv2];
+
+[item]
+[:en]
+if [`T1] is ["pointer to [$cv1] [`C1]] and [`T2] is ["pointer to [$cv2] [`C2]],
+where [`C1] is reference-related to [`C2] or [`C2] is reference-related to [`C1]
+([#dcl.init.ref]), the cv-combined type of [`T1] and [`T2] or the cv-combined
+type of [`T2] and [`T1], respectively;
+
+[item]
+[:en]
+if [`T1] is ["pointer to member of [`C1] of type [$cv1] [`U1]] and [`T2] is
+["pointer to member of [`C2] of type [$cv2] [`U2]] where [`C1] is
+reference-related to [`C2] or [`C2] is reference-related to [`C1]
+([#dcl.init.ref]), the cv-combined type of [`T2] and [`T1] or the cv-combined
+type of [`T1] and [`T2], respectively;
+
+[item]
+[:en]
+if [`T1] and [`T2] are similar types ([#conv.qual]), the cv-combined type of
+[`T1] and [`T2];
+
+[item]
+[:en]
+otherwise, a program that necessitates the determination of a composite pointer
+type is ill-formed.
+[list:end]
+
+[enter:example]
+[codeblock]
+typedef void *p;
+typedef const int *q;
+typedef int **pi;
+typedef const int **pci;
+[codeblock:end]
+
+[:en]
+The composite pointer type of [`p] and [`q] is ["pointer to [`const void]]; the
+composite pointer type of [`pi] and [`pci] is ["pointer to [`const] pointer to
+[`const int]].
+[exit:example]
+
+[include expr.prim]
+
+[include expr.post]
+
+[include expr.unary]
+
+[include expr.cast]
+
+[include expr.mptr.oper]
+
+[include expr.mul]
+
+[include expr.add]
+
+[include expr.shift]
+
+[include expr.rel]
+
+[include expr.eq]
+
+[include expr.bit.and]
+
+[include expr.xor]
+
+[include expr.or]
+
+[include expr.log.and]
+
+[include expr.log.or]
+
+[include expr.cond]
+
+[include expr.throw]
+
+[include expr.ass]
+
+[include expr.comma]
+
+[include expr.const]
+
+[%:end#expression]

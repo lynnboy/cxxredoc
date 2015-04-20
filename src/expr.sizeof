@@ -1,0 +1,126 @@
+﻿[section#expr.sizeof
+    [:en] Sizeof
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[![`sizeof]]]
+[%operator[![`sizeof]]]
+[%byte]
+The [`sizeof] operator yields the number of bytes in the object representation
+of its operand.
+
+[:en]
+The operand is either an expression, which is an unevaluated operand (Clause
+[#expr]), or a parenthesized [~type-id].
+
+[:en]
+[%type[!incomplete]]
+The [`sizeof] operator shall not be applied to an expression that has function
+or incomplete type, to the parenthesized name of such types, or to a glvalue
+that designates a bit-field.
+
+[:en]
+[`sizeof(char)], [`sizeof(signed char)] and [`sizeof(unsigned char)] are [`1].
+
+[:en]
+The result of [`sizeof] applied to any other fundamental type
+([#basic.fundamental]) is [%@impldef [`sizeof] applied to fundamental types
+other than [`char], [`signed char], and [`unsigned char]]implementation-defined.
+
+[enter:note]
+[:en]
+in particular, [`sizeof(bool)], [`sizeof(char16_t)], [`sizeof(char32_t)], and
+[`sizeof(wchar_t)] are implementation-defined.
+
+[footnote]
+[:en]
+[`sizeof(bool)] is not required to be [`1].
+[footnote:end]
+
+[exit:note]
+
+[enter:note]
+[:en]
+See [#intro.memory] for the definition of [+byte] and [#basic.types] for the
+definition of [+object representation].
+[exit:note]
+
+[para]
+[:en]
+[%reference[![`sizeof]]]
+When applied to a reference or a reference type, the result is the size of the
+referenced type.
+
+[:en]
+[%class object[![`sizeof]]]
+When applied to a class, the result is the number of bytes in an object of that
+class including any padding required for placing objects of that type in an
+array.
+
+[:en]
+The size of a most derived class shall be greater than zero ([#intro.object]).
+
+[:en]
+The result of applying [`sizeof] to a base class subobject is the size of the
+base class type.
+
+[footnote]
+[:en]
+The actual size of a base class subobject may be less than the result of
+applying [`sizeof] to the subobject, due to virtual base classes and less strict
+padding requirements on base class subobjects.
+[footnote:end]
+
+[:en]
+[%array[![`sizeof]]]
+When applied to an array, the result is the total number of bytes in the array.
+
+[:en]
+This implies that the size of an array of [$n] elements is [$n] times the size
+of an element.
+
+[para]
+[:en]
+The [`sizeof] operator can be applied to a pointer to a function, but shall not
+be applied directly to a function.
+
+[para]
+[:en]
+The lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
+function-to-pointer ([#conv.func]) standard conversions are not applied to the
+operand of [`sizeof].
+
+[para]
+[:en]
+The identifier in a [`sizeof...] expression shall name a parameter pack.
+
+[:en]
+The [`sizeof...] operator yields the number of arguments provided for the
+parameter pack [~identifier].
+
+[:en]
+A [`sizeof...] expression is a pack expansion ([#temp.variadic]).
+
+[enter:example]
+[codeblock]
+template<class... Types>
+struct count {
+  static const std::size_t value = sizeof...(Types);
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The result of [`sizeof] and [`sizeof...] is a constant of type [`std::size_t].
+
+[enter:note]
+[:en]
+[%[`size_t]]
+[%@library size_t]
+[`std::size_t] is defined in the standard header
+[%[`<cstddef>] [sortas cstddef]]
+[`<cstddef>] ([#support.types]).
+[exit:note]

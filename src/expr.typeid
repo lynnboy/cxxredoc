@@ -1,0 +1,118 @@
+﻿[section#expr.typeid
+    [:en] Type identification
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!type identification]]
+[%[`typeid]]
+The result of a [`typeid] expression is an lvalue of static type
+
+[%[`type_info]]
+[%@library type_info]
+[:en]
+[`const std::type_info] ([#type.info]) and dynamic type [`const std::type_info]
+or [`const] [+name] where [+name] is an [%@impldef derived type for [`typeid]]
+implementation-defined class publicly derived from [`std::type_info] which
+preserves the behavior described in [#type.info].
+
+[footnote]
+[:en]
+The recommended name for such a class is [`extended_type_info].
+[footnote:end]
+
+[:en]
+The lifetime of the object referred to by the lvalue extends to the end of the
+program.
+
+[:en]
+Whether or not the destructor is called for the [`std::type_info] object at the
+end of the program is unspecified.
+
+[para]
+[:en]
+When [`typeid] is applied to a glvalue expression whose type is a polymorphic
+class type ([#class.virtual]), the result refers to a [`std::type_info] object
+representing the type of the most derived object ([#intro.object]) (that is, the
+dynamic type) to which the glvalue refers.
+
+[:en]
+If the glvalue expression is obtained by applying the unary [`*] operator to a
+pointer
+
+[footnote]
+[:en]
+If [`p] is an expression of pointer type, then [`*p], [`(*p)], [`*(p)],
+[`((*p))], [`*((p))], and so on all meet this requirement.
+[footnote:end]
+
+[:en]
+and the pointer is a null pointer value ([#conv.ptr]), the [`typeid] expression
+throws an exception ([#except.throw]) of a type that would match a handler of
+type [%[`bad_typeid]] [%@library bad_typeid] [`std::bad_typeid] exception
+([#bad.typeid]).
+
+[para]
+[:en]
+When [`typeid] is applied to an expression other than a glvalue of a polymorphic
+class type, the result refers to a [`std::type_info] object representing the
+static type of the expression.
+
+[:en]
+Lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
+function-to-pointer ([#conv.func]) conversions are not applied to the
+expression.
+
+[:en]
+[%type[!incomplete]]
+If the type of the expression is a class type, the class shall be
+completely-defined.
+
+[:en]
+The expression is an unevaluated operand (Clause [#expr]).
+
+[para]
+[:en]
+When [`typeid] is applied to a [~type-id], the result refers to a
+[`std::type_info] object representing the type of the [~type-id].
+
+[:en]
+If the type of the [~type-id] is a reference to a possibly [$cv]-qualified type,
+the result of the [`typeid] expression refers to a [`std::type_info] object
+representing the [$cv]-unqualified referenced type.
+
+[:en]
+If the type of the [~type-id] is a class type or a reference to a class type,
+the class shall be completely-defined.
+
+[para]
+[:en]
+If the type of the expression or [~type-id] is a cv-qualified type, the result
+of the [`typeid] expression refers to a [`std::type_info] object representing
+the cv-unqualified type.
+
+[enter:example]
+[codeblock]
+class D { /* ... */ };
+D d1;
+const D d2;
+
+typeid(d1) == typeid(d2);       // [:en] yields [`true]
+typeid(D)  == typeid(const D);  // [:en] yields [`true]
+typeid(D)  == typeid(d2);       // [:en] yields [`true]
+typeid(D)  == typeid(const D&); // [:en] yields [`true]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the header [`<typeinfo>] ([#type.info]) is not included prior to a use of
+[`typeid], the program is ill-formed.
+
+[para]
+[enter:note]
+[:en]
+[#class.cdtor] describes the behavior of [`typeid] applied to an object under
+construction or destruction.
+[exit:note]

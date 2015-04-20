@@ -1,0 +1,24 @@
+﻿[section#expr.or
+    [:en] Bitwise inclusive OR operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!bitwise inclusive OR]]
+[%operator[!bitwise inclusive OR]]
+[%[`|][see bitwise inclusive OR operator]]
+
+[syntax]
+[rule inclusive-or-expression]
+    [| exclusive-or-expression ]
+    [| inclusive-or-expression [`|] exclusive-or-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The usual arithmetic conversions are performed; the result is the bitwise
+inclusive [em@sc OR] function of its operands.
+
+[:en]
+The operator applies only to integral or unscoped enumeration operands.

@@ -1,0 +1,181 @@
+﻿[section#expr.unary.op
+    [:en] Unary operators
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!unary operator]]
+[%operator[!unary]]
+The unary [`*] operator performs [+indirection]:
+[%dereferencing[seealso indirection]]
+[%indirection]
+the expression to which it is applied shall be a pointer to an object type, or a
+pointer to a function type and the result is an lvalue referring to the object
+or function to which the expression points.
+
+[:en]
+If the type of the expression is ["pointer to [`T],] the type of the result is
+["[`T].]
+
+[enter:note]
+[:en]
+[%type[!incomplete]]
+indirection through a pointer to an incomplete type (other than [$cv] [`void])
+is valid. The lvalue thus obtained can be used in limited ways (to initialize a
+reference, for example); this lvalue must not be converted to a prvalue, see
+[#conv.lval].
+[exit:note]
+
+[para]
+[:en]
+The result of each of the following unary operators is a prvalue.
+
+[para]
+[:en]
+[%name[!address of cv-qualified]]
+[%expression[!pointer to member constant]]
+The result of the unary [`&] operator is a pointer to its operand.
+
+[:en]
+The operand shall be an lvalue or a [~qualified-id].
+
+[:en]
+If the operand is a [~qualified-id] naming a non-static or variant member [`m]
+of some class [`C] with type [`T], the result has type ["pointer to member of
+class [`C] of type [`T]] and is a prvalue designating [`C::m].
+
+[:en]
+Otherwise, if the type of the expression is [`T], the result has type ["pointer
+to [`T]] and is a prvalue that is the address of the designated object
+([#intro.memory]) or a pointer to the designated function.
+
+[enter:note]
+[:en]
+In particular, the address of an object of type ["[$cv] [`T]] is ["pointer to
+[$cv] [`T]], with the same cv-qualification.
+[exit:note]
+
+[:en]
+For purposes of pointer arithmetic ([#expr.add]) and comparison ([#expr.rel],
+[#expr.eq]), an object that is not an array element whose address is taken in
+this way is considered to belong to an array with one element of type [`T].
+
+[enter:example]
+[codeblock]
+struct A { int i; };
+struct B : A { };
+... &B::i ...       // [:en] has type [`int A::*]
+int a;
+int* p1 = &a;
+int* p2 = p1 + 1;   // [:en] defined behavior
+bool b = p2 > p1;   // [:en] defined behavior, with value [`true]
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+a pointer to member formed from a [`mutable] non-static data member ([#dcl.stc])
+does not reflect the [`mutable] specifier associated with the non-static data
+member.
+[exit:note]
+
+[para]
+[:en]
+A pointer to member is only formed when an explicit [`&] is used and its operand
+is a [~qualified-id] not enclosed in parentheses.
+
+[enter:note]
+[:en]
+that is, the expression [`&(qualified-id)], where the [~qualified-id] is
+enclosed in parentheses, does not form an expression of type ["pointer to
+member.]
+
+[:en]
+Neither does [`qualified-id], because there is no implicit conversion from a
+[~qualified-id] for a non-static member function to the type ["pointer to member
+function] as there is from an lvalue of function type to the type ["pointer to
+function] ([#conv.func]).
+
+[:en]
+Nor is [`&unqualified-id] a pointer to member, even within the scope of the
+[~unqualified-id][=']s class.
+[exit:note]
+
+[para]
+[:en]
+If [`&] is applied to an lvalue of incomplete class type and the complete type
+declares [`operator&()], it is unspecified whether the operator has the built-in
+meaning or the operator function is called.
+
+[:en]
+The operand of [`&] shall not be a bit-field.
+
+[para]
+[:en]
+[%overloaded function[!address of]]
+The address of an overloaded function (Clause [#over]) can be taken only in a
+context that uniquely determines which version of the overloaded function is
+referred to (see [#over.over]).
+
+[enter:note]
+[:en]
+since the context might determine whether the operand is a static or non-static
+member function, the context can also affect whether the expression has type
+["pointer to function] or ["pointer to member function.]
+[exit:note]
+
+[para]
+[:en]
+[%operator[!unary plus]]
+The operand of the unary [`+] operator shall have arithmetic, unscoped
+enumeration, or pointer type and the result is the value of the argument.
+
+[:en]
+Integral promotion is performed on integral or enumeration operands.
+
+[:en]
+The type of the result is the type of the promoted operand.
+
+[para]
+[:en]
+[%operator[!unary minus]]
+The operand of the unary [`-] operator shall have arithmetic or unscoped
+enumeration type and the result is the negation of its operand.
+
+[:en]
+Integral promotion is performed on integral or enumeration operands.
+
+[:en]
+The negative of an unsigned quantity is computed by subtracting its value from
+[$2[^n]], where [$n] is the number of bits in the promoted operand.
+
+[:en]
+The type of the result is the type of the promoted operand.
+
+[para]
+[:en]
+[%operator[!logical negation]]
+The operand of the logical negation operator [`!] is contextually converted to
+[`bool] (Clause [#conv]); its value is [`true] if the converted operand is
+[`false] and [`false] otherwise.
+
+[:en]
+The type of the result is [`bool].
+
+[para]
+[:en]
+[%operator[!one[=']s complement]]
+The operand of [`~] shall have integral or unscoped enumeration type; the result
+is the one[=']s complement of its operand. Integral promotions are performed.
+
+[:en]
+The type of the result is the type of the promoted operand.
+
+[:en]
+There is an ambiguity in the [~unary-expression] [`~X()], where [`X] is a
+[~class-name] or [~decltype-specifier].
+
+[:en]
+The ambiguity is resolved in favor of treating [`~] as a unary complement rather
+than treating [`~X] as referring to a destructor.

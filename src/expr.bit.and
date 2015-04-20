@@ -1,0 +1,25 @@
+﻿[section#expr.bit.and
+    [:en] Bitwise AND operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!bitwise AND]]
+[%operator[!bitwise]]
+[%operator[!bitwise AND]]
+[%[`&][see bitwise AND operator]]
+
+[syntax]
+[rule and-expression]
+    [| equality-expression ]
+    [| and-expression [`&] equality-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The usual arithmetic conversions are performed; the result is the bitwise
+[em@sc AND] function of the operands.
+
+[:en]
+The operator applies only to integral or unscoped enumeration operands.

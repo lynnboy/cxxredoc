@@ -1,0 +1,41 @@
+﻿[section#expr.log.or
+    [:en] Logical OR operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!logical OR]]
+[%operator[!logical OR]]
+[%[`||][see logical OR operator]]
+
+[syntax]
+[rule logical-or-expression]
+    [| logical-and-expression ]
+    [| logical-or-expression [`||] logical-and-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The [`||] operator groups left-to-right.
+
+[:en]
+The operands are both contextually converted to [`bool] (Clause [#conv]).
+
+[:en]
+It returns [`true] if either of its operands is [`true], and [`false] otherwise.
+
+[:en]
+Unlike [`|], [`||] guarantees left-to-right evaluation; moreover, the second
+operand is not evaluated if the first operand evaluates to [`true].
+
+[para]
+[:en]
+The result is a [`bool].
+
+[:en]
+[%operator[!side effects and logical OR]]
+If the second expression is evaluated, every [%value computation] value
+computation and [%side effects] side effect associated with the first expression
+is sequenced before every value computation and side effect associated with the
+second expression.

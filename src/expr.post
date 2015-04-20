@@ -1,0 +1,80 @@
+﻿[section#expr.post
+    [:en] Postfix expressions
+    [:zh_CN]
+]
+
+[%:begin#expression.postfix
+    [:en] expression [! postfix]
+]
+
+[para]
+[:en]
+Postfix expressions group left-to-right.
+
+[syntax]
+[rule postfix-expression [:zh_CN] ]
+    [| primary-expression ]
+    [| postfix-expression [`[] expression [``]] ]
+    [| postfix-expression [`[] braced-init-list [``]] ]
+    [| postfix-expression [`(] [~:opt expression-list] [`)] ]
+    [| simple-type-specifier [`(] [~:opt expression-list] [`)] ]
+    [| typename-specifier [`(] [~:opt expression-list] [`)] ]
+    [| simple-type-specifier braced-init-list ]
+    [| typename-specifier braced-init-list ]
+    [| postfix-expression [`.] [`:opt template] id-expression ]
+    [| postfix-expression [`->] [`:opt template] id-expression ]
+    [| postfix-expression [`.] pseudo-destructor-name ]
+    [| postfix-expression [`->] pseudo-destructor-name ]
+    [| postfix-expression [`++] ]
+    [| postfix-expression [`--] ]
+    [| [`dynamic_cast] [`<] type-id [`>] [`(] expression [`)] ]
+    [| [`static_cast] [`<] type-id [`>] [`(] expression [`)] ]
+    [| [`reinterpret_cast] [`<] type-id [`>] [`(] expression [`)] ]
+    [| [`const_cast] [`<] type-id [`>] [`(] expression [`)] ]
+    [| [`typeid] [`(] expression [`)] ]
+    [| [`typeid] [`(] type-id [`)] ]
+[rule:end]
+
+[rule expression-list [:zh_CN] ]
+    initializer-list
+[rule:end]
+
+[rule pseudo-destructor-name [:zh_CN] ]
+    [| [~:opt nested-name-specifier] type-name [`::] [`~] type-name ]
+    [| nested-name-specifier [`template] simple-template-id [`::] [`~] type-name ]
+    [| [`~] type-name ]
+    [| [`~] decltype-specifier ]
+[rule:end]
+[syntax:end]
+
+[para]
+[enter:note]
+[:en]
+The [`>] token following the [~type-id] in a [`dynamic_cast], [`static_cast],
+[`reinterpret_cast], or [`const_cast] may be the product of replacing a [`>>]
+token by two consecutive [`>] tokens ([#temp.names]).
+[exit:note]
+
+[include expr.sub]
+
+[include expr.call]
+
+[include expr.type.conv]
+
+[include expr.pseudo]
+
+[include expr.ref]
+
+[include expr.post.incr]
+
+[include expr.dynamic.cast]
+
+[include expr.typeid]
+
+[include expr.static.cast]
+
+[include expr.reinterpret.cast]
+
+[include expr.const.cast]
+
+[%:end#expression.postfix]

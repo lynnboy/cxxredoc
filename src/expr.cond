@@ -1,0 +1,214 @@
+﻿[section#expr.cond
+    [:en] Conditional operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!conditional operator]]
+[%operator[!conditional expression]]
+[%[`?:][see conditional expression operator]]
+
+[syntax]
+[rule conditional-expression]
+    [| logical-or-expression ]
+    [| logical-or-expression [`?] expression [`:] assignment-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Conditional expressions group right-to-left.
+
+[:en]
+The first expression is contextually converted to [`bool] (Clause [#conv]).
+
+[:en]
+It is evaluated and if it is [`true], the result of the conditional expression
+is the value of the second expression, otherwise that of the third expression.
+
+[:en]
+Only one of the second and third expressions is evaluated.
+
+[:en]
+Every [%value computation] value computation and side effect associated with the
+first expression is sequenced before every value computation and side effect
+associated with the second or third expression.
+
+[para]
+[:en]
+If either the second or the third operand has type [`void], one of the following
+shall hold:
+
+[list]
+[:en]
+[%conditional-expression[!throw-expression in]]
+[item]
+[:en]
+The second or the third operand (but not both) is a (possibly parenthesized)
+[~throw-expression] ([#expr.throw]); the result is of the type and value
+category of the other.
+
+[:en]
+The [~conditional-expression] is a bit-field if that operand is a bit-field.
+
+[item]
+[:en]
+Both the second and the third operands have type [`void]; the result is of type
+[`void] and is a prvalue.
+
+[enter:note]
+[:en]
+This includes the case where both operands are [~throw-expression]s.
+[exit:note]
+[list:end]
+
+[para]
+[:en]
+Otherwise, if the second and third operand have different types and either has
+(possibly cv-qualified) class type, or if both are glvalues of the same value
+category and the same type except for cv-qualification, an attempt is made to
+convert each of those operands to the type of the other.
+
+[:en]
+The process for determining whether an operand expression [`E1] of type [`T1]
+can be converted to match an operand expression [`E2] of type [`T2] is defined
+as follows:
+
+[list]
+[item]
+[:en]
+If [`E2] is an lvalue: [`E1] can be converted to match [`E2] if [`E1] can be
+implicitly converted (Clause [#conv]) to the type ["lvalue reference to [`T2]],
+subject to the constraint that in the conversion the reference must bind
+directly ([#dcl.init.ref]) to an lvalue.
+
+[item]
+[:en]
+If [`E2] is an xvalue: [`E1] can be converted to match [`E2] if [`E1] can be
+implicitly converted to the type ["rvalue reference to [`T2]], subject to the
+constraint that the reference must bind directly.
+
+[item]
+[:en]
+If [`E2] is a prvalue or if neither of the conversions above can be done and at
+least one of the operands has (possibly cv-qualified) class type:
+
+[list]
+[item]
+[:en]
+if [`E1] and [`E2] have class type, and the underlying class types are the same
+or one is a base class of the other: [`E1] can be converted to match [`E2] if
+the class of [`T2] is the same type as, or a base class of, the class of [`T1],
+and the cv-qualification of [`T2] is the same cv-qualification as, or a greater
+cv-qualification than, the cv-qualification of [`T1].
+
+[:en]
+If the conversion is applied, [`E1] is changed to a prvalue of type [`T2] by
+copy-initializing a temporary of type [`T2] from [`E1] and using that temporary
+as the converted operand.
+
+[item]
+[:en]
+Otherwise (if [`E1] or [`E2] has a non-class type, or if they both have class
+types but the underlying classes are not the same and neither is a base class of
+the other): [`E1] can be converted to match [`E2] if [`E1] can be implicitly
+converted to the type that [`E2] would have after applying the lvalue-to-rvalue
+([#conv.lval]), array-to-pointer ([#conv.array]), and function-to-pointer
+([#conv.func]) standard conversions.
+[list:end]
+[list:end]
+
+[:en]
+Using this process, it is determined whether the second operand can be converted
+to match the third operand, and whether the third operand can be converted to
+match the second operand.
+
+[:en]
+If both can be converted, or one can be converted but the conversion is
+ambiguous, the program is ill-formed.
+
+[:en]
+If neither can be converted, the operands are left unchanged and further
+checking is performed as described below.
+
+[:en]
+If exactly one conversion is possible, that conversion is applied to the chosen
+operand and the converted operand is used in place of the original operand for
+the remainder of this section.
+
+[para]
+[:en]
+If the second and third operands are glvalues of the same value category and
+have the same type, the result is of that type and value category and it is a
+bit-field if the second or the third operand is a bit-field, or if both are
+bit-fields.
+
+[para]
+[:en]
+Otherwise, the result is a prvalue.
+
+[:en]
+If the second and third operands do not have the same type, and either has
+(possibly cv-qualified) class type, overload resolution is used to determine the
+conversions (if any) to be applied to the operands ([#over.match.oper],
+[#over.built]).
+
+[:en]
+If the overload resolution fails, the program is ill-formed.
+
+[:en]
+Otherwise, the conversions thus determined are applied, and the converted
+operands are used in place of the original operands for the remainder of this
+section.
+
+[para]
+[:en]
+Lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
+function-to-pointer ([#conv.func]) standard conversions are performed on the
+second and third operands.
+
+[:en]
+After those conversions, one of the following shall hold:
+
+[list]
+[item]
+[:en]
+The second and third operands have the same type; the result is of that type.
+
+[:en]
+If the operands have class type, the result is a prvalue temporary of the result
+type, which is copy-initialized from either the second operand or the third
+operand depending on the value of the first operand.
+
+[item]
+[:en]
+The second and third operands have arithmetic or enumeration type; the usual
+arithmetic conversions are performed to bring them to a common type, and the
+result is of that type.
+
+[item]
+[:en]
+One or both of the second and third operands have pointer type; pointer
+conversions ([#conv.ptr]) and qualification conversions ([#conv.qual]) are
+performed to bring them to their composite pointer type (Clause [#expr]).
+
+[:en]
+The result is of the composite pointer type.
+
+[item]
+[:en]
+One or both of the second and third operands have pointer to member type;
+pointer to member conversions ([#conv.mem]) and qualification conversions
+([#conv.qual]) are performed to bring them to their composite pointer type
+(Clause [#expr]).
+
+[:en]
+The result is of the composite pointer type.
+
+[item]
+[:en]
+Both the second and third operands have type [`std::nullptr_t] or one has that
+type and the other is a null pointer constant.
+
+[:en]
+The result is of type [`std::nullptr_t].

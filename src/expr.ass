@@ -1,0 +1,158 @@
+﻿[section#expr.ass
+    [:en] Assignment and compound assignment operators
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!assignment and compound assignment]]
+
+[para]
+[:en]
+[%operator[!assignment]]
+[%[`=][see assignment operator]]
+[%operator[![`+=]]]
+[%operator[![`-=]]]
+[%operator[![`*=]]]
+[%operator[![`/=]]]
+[%operator[![`%=]]]
+[%operator[![`<<=]]]
+[%operator[![`>>=]]]
+[%operator[![`&=]]]
+[%operator[![`^=]]]
+[%operator[![`|=]]]
+The assignment operator ([`=]) and the compound assignment operators all group
+right-to-left.
+[%assignment[!and lvalue]]
+
+All require a modifiable lvalue as their left operand and return an lvalue
+referring to the left operand.
+
+[:en]
+The result in all cases is a bit-field if the left operand is a bit-field.
+
+[:en]
+In all cases, the assignment is sequenced after the [%value computation] value
+computation of the right and left operands, and before the value computation of
+the assignment expression.
+
+[:en]
+With respect to an indeterminately-sequenced function call, the operation of a
+compound assignment is a single evaluation.
+
+[enter:note]
+[:en]
+Therefore, a function call shall not intervene between the lvalue-to-rvalue
+conversion and the side effect associated with any single compound assignment
+operator.
+[exit:note]
+
+[syntax]
+[rule assignment-expression]
+    [| conditional-expression ]
+    [| logical-or-expression assignment-operator initializer-clause ]
+    [| throw-expression ]
+[rule:end]
+
+[rule:oneof assignment-operator [:zh_CN] ]
+    [| =  *=  /=  %=  +=  -=  >>=  <<=  &=  ^=  |= ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+In simple assignment ([`=]), the value of the expression replaces that of the
+object referred to by the left operand.
+
+[para]
+[:en]
+[%assignment[!conversion by]]
+If the left operand is not of class type, the expression is implicitly converted
+(Clause [#conv]) to the cv-unqualified type of the left operand.
+
+[para]
+[:en]
+[%class object[!assignment to]]
+[%type[!incomplete]]
+If the left operand is of class type, the class shall be complete.
+
+[:en]
+Assignment to objects of a class is defined by the copy/move assignment operator
+([#class.copy], [#over.ass]).
+
+[para]
+[enter:note]
+[:en]
+For class objects, assignment is not in general the same as initialization
+([#dcl.init], [#class.ctor], [#class.init], [#class.copy]).
+[exit:note]
+
+[para]
+[:en]
+[%reference[!assignment to]]
+When the left operand of an assignment operator is a bit-field that cannot
+represent the value of the expression, the resulting value of the bit-field is
+[%@impldef value of bit-field that cannot represent [!assigned value]]
+implementation-defined.
+
+[para]
+[:en]
+The behavior of an expression of the form [`E1] [$op][`=] [`E2] is equivalent to
+[`E1 = E1] [$op] [`E2] except that [`E1] is evaluated only once.
+
+[:en]
+In [`+=] and [`-=], [`E1] shall either have arithmetic type or be a pointer to a
+possibly cv-qualified completely-defined object type.
+
+[:en]
+In all other cases, [`E1] shall have arithmetic type.
+
+[para]
+[:en]
+If the value being stored in an object is read via another object that overlaps
+in any way the storage of the first object, then the overlap shall be exact and
+the two objects shall have the same type, otherwise the behavior is undefined.
+
+[enter:note]
+[:en]
+This restriction applies to the relationship between the left and right sides of
+the assignment operation; it is not a statement about how the target of the
+assignment may be aliased in general.
+
+[:en]
+See [#basic.lval].
+[exit:note]
+
+[para]
+[:en]
+A [~braced-init-list] may appear on the right-hand side of
+
+[list]
+[item]
+[:en]
+an assignment to a scalar, in which case the initializer list shall have at most
+a single element.
+
+[:en]
+The meaning of [`x={v}], where [`T] is the scalar type of the expression [`x],
+is that of [`x=T{v}].
+
+[:en]
+The meaning of [`x={}] is [`x=T{}].
+
+[item]
+[:en]
+an assignment to an object of class type, in which case the initializer list is
+passed as the argument to the assignment operator function selected by overload
+resolution ([#over.ass], [#over.match]).
+[list:end]
+
+[enter:example]
+[codeblock]
+complex<double> z;
+z = { 1,2 };              // [:en] meaning [`z.operator=({1,2})]
+z += { 1, 2 };            // [:en] meaning [`z.operator+=({1,2})]
+int a, b;
+a = b = { 1 };            // [:en] meaning [`a=b=1;]
+a = { 1 } = b;            // [:en] syntax error
+[codeblock:end]
+[exit:example]

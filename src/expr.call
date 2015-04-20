@@ -1,0 +1,324 @@
+﻿[section#expr.call
+    [:en] Function call
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!function call]]
+[%operator[!function call]]
+[%[`()][see operator [!function call]]]
+A function call is a postfix expression followed by parentheses containing a
+possibly empty, comma-separated list of [~initializer-clause]s which constitute
+the arguments to the function.
+
+[:en]
+The postfix expression shall have function type or pointer to function type.
+
+[:en]
+For a call to a non-member function or to a static member function, the postfix
+expression shall be either an lvalue that refers to a function (in which case
+the function-to-pointer standard conversion ([#conv.func]) is suppressed on the
+postfix expression), or it shall have pointer to function type.
+
+[:en]
+Calling a function through an expression whose function type has a language
+linkage that is different from the language linkage of the function type of the
+called function[=']s definition is undefined ([#dcl.link]).
+
+[:en]
+For a call to a non-static member function, the postfix expression shall be an
+implicit ([#class.mfct.non-static], [#class.static]) or explicit class member
+access ([#expr.ref]) whose [~id-expression] is a function member name, or a
+pointer-to-member expression ([#expr.mptr.oper]) selecting a function member;
+the call is as a member of the class object referred to by the object
+expression.
+
+[:en]
+In the case of an implicit class member access, the implied object is the one
+pointed to by [`this].
+
+[enter:note]
+[:en]
+a member function call of the form [`f()] is interpreted as [`(*this).f()] (see
+[#class.mfct.non-static]).
+[exit:note]
+
+[:en]
+If a function or member function name is used, the name can be overloaded
+(Clause [#over]), in which case the appropriate function shall be selected
+according to the rules in [#over.match].
+
+[:en]
+If the selected function is non-virtual, or if the [~id-expression] in the class
+member access expression is a [~qualified-id], that function is called.
+
+[:en]
+Otherwise, its final overrider ([#class.virtual]) in the dynamic type of the
+object expression is called; such a call is referred to as a [+virtual function
+call].
+
+[enter:note]
+[:en]
+the dynamic type is the type of the object referred to by the current value of
+the object expression.
+
+[:en]
+[#class.cdtor] describes the behavior of virtual function calls when the object
+expression refers to an object under construction or destruction.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+If a function or member function name is used, and name lookup ([#basic.lookup])
+does not find a declaration of that name, the program is ill-formed.
+
+[:en]
+No function is implicitly declared by such a call.
+[exit:note]
+
+[para]
+[:en]
+If the [~postfix-expression] designates a destructor ([#class.dtor]), the type
+of the function call expression is [`void]; otherwise, the type of the function
+call expression is the return type of the statically chosen function (i.e.,
+ignoring the [`virtual] keyword), even if the type of the function actually
+called is different.
+
+[:en]
+[%type[!incomplete]]
+This return type shall be an object type, a reference type or [$cv] [`void].
+
+[para]
+[:en]
+[%function argument[see argument]]]
+[%function parameter[see parameter]]]
+[%initialization[!parameter]]
+When a function is called, each parameter ([#dcl.fct]) shall be initialized
+([#dcl.init], [#class.copy], [#class.ctor]) with its corresponding argument.
+
+[enter:note]
+[:en]
+Such initializations are indeterminately sequenced with respect to each other
+([#intro.execution])
+[exit:note]
+
+[:en]
+If the function is a non-static member function, the [`this] parameter of the
+function ([#class.this]) shall be initialized with a pointer to the object of
+the call, converted as if by an explicit type conversion ([#expr.cast]).
+
+[enter:note]
+[:en]
+There is no access or ambiguity checking on this conversion; the access checking
+and disambiguation are done as part of the (possibly implicit) class member
+access operator.
+
+[:en]
+See [#class.member.lookup], [#class.access.base], and [#expr.ref].
+[exit:note]
+
+[:en]
+When a function is called, the parameters that have object type shall have
+completely-defined object type.
+
+[enter:note]
+[:en]
+this still allows a parameter to be a pointer or reference to an incomplete
+class type.
+
+[:en]
+However, it prevents a passed-by-value parameter to have an incomplete class
+type.
+[exit:note]
+
+[:en]
+During the initialization of a parameter, an implementation may avoid the
+construction of extra temporaries by combining the conversions on the associated
+argument and/or the construction of temporaries with the initialization of the
+parameter (see [#class.temporary]).
+
+[:en]
+The lifetime of a parameter ends when the function in which it is defined
+returns.
+
+[:en]
+The initialization and destruction of each parameter occurs within the context
+of the calling function.
+
+[enter:example]
+[:en]
+the access of the constructor, conversion functions or destructor is checked at
+the point of call in the calling function.
+
+[:en]
+If a constructor or destructor for a function parameter throws an exception, the
+search for a handler starts in the scope of the calling function; in particular,
+if the function called has a [~function-try-block] (Clause [#except]) with a
+handler that could handle the exception, this handler is not considered.
+[exit:example]
+
+[:en]
+The value of a function call is the value returned by the called function except
+in a virtual function call if the return type of the final overrider is
+different from the return type of the statically chosen function, the value
+returned from the final overrider is converted to the return type of the
+statically chosen function.
+
+[para]
+[enter:note]
+[:en]
+[%type checking[!argument]]
+[%function call]
+[%argument passing]
+[%value[!call by]]
+[%reference[!call by]]
+[%argument[!reference]]
+a function can change the values of its non-const parameters, but these changes
+cannot affect the values of the arguments except where a parameter is of a
+reference type ([#dcl.ref]); if the reference is to a const-qualified type,
+[`const_cast] is required to be used to cast away the constness in order to
+modify the argument[=']s value.
+
+[:en]
+Where a parameter is of [`const] reference type a temporary object is introduced
+if needed ([#dcl.type], [#lex.literal], [#lex.string], [#dcl.array],
+[#class.temporary]).
+
+[:en]
+In addition, it is possible to modify the values of nonconstant objects through
+pointer parameters.
+[exit:note]
+
+[para]
+[:en]
+[%declaration[!ellipsis in function]]
+[%parameter list[!variable]]
+A function can be declared to accept fewer arguments (by declaring default
+arguments ([#dcl.fct.default])) or more arguments (by using the ellipsis,
+[`...], or a function parameter pack ([#dcl.fct])) than the number of parameters
+in the function definition ([#dcl.fct.def]).
+
+[enter:note]
+[:en]
+this implies that, except where the ellipsis ([`...]) or a function parameter
+pack is used, a parameter is available for each argument.
+[exit:note]
+
+[para]
+[:en]
+[%ellipsis[!conversion sequence]]
+When there is no parameter for a given argument, the argument is passed in such
+a way that the receiving function can obtain the value of the argument by
+invoking [`va_arg] ([#support.runtime]).
+
+[enter:note]
+[:en]
+This paragraph does not apply to arguments passed to a function parameter pack.
+
+[:en]
+Function parameter packs are expanded during template instantiation
+([#temp.variadic]), thus each such argument has a corresponding parameter when a
+function template specialization is actually called.
+[exit:note]
+
+[:en]
+The lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
+function-to-pointer ([#conv.func]) standard conversions are performed on the
+argument expression.
+
+[:en]
+An argument that has (possibly cv-qualified) type [`std::nullptr_t] is converted
+to type [`void*] ([#conv.ptr]).
+
+[:en]
+After these conversions, if the argument does not have arithmetic, enumeration,
+pointer, pointer to member, or class type, the program is ill-formed.
+
+[:en]
+Passing a potentially-evaluated argument of class type (Clause [#class]) having
+a non-trivial copy constructor, a non-trivial move constructor, or a non-trivial
+destructor, with no corresponding parameter, is conditionally-supported with
+[%@impldef passing argument of class type through ellipsis]
+implementation-defined semantics.
+
+[:en]
+If the argument has integral or enumeration type that is subject to the integral
+promotions ([#conv.prom]), or a floating point type that is subject to the
+floating point promotion ([#conv.fpprom]), the value of the argument is
+converted to the promoted type before the call.
+
+[:en]
+These promotions are referred to as the [+default argument promotions].
+
+[para]
+[:en]
+[%evaluation[!order of argument]]
+[%evaluation[!unspecified order of function call]]
+
+[enter:note]
+[:en]
+The evaluations of the postfix expression and of the arguments are all
+unsequenced relative to one another.
+
+[:en]
+[%evaluation[!unspecified order of argument]]
+All side effects of argument evaluations are sequenced before the function is
+entered (see [#intro.execution]).
+[exit:note]
+
+[para]
+[:en]
+[%function call[!recursive]]
+Recursive calls are permitted, except to the [`main] function
+([#basic.start.main]).
+
+[para]
+[:en]
+A function call is an lvalue if the result type is an lvalue reference type or
+an rvalue reference to function type, an xvalue if the result type is an rvalue
+reference to object type, and a prvalue otherwise.
+
+[para]
+[:en]
+If a function call is a prvalue of object type:
+
+[list]
+[item]
+[:en@~]
+if the function call is either
+
+[list]
+[item]
+[:en@~]
+the operand of a [~decltype-specifier] or
+[item]
+[:en@~]
+the right operand of a comma operator that is the operand of a
+[~decltype-specifier],
+[list:end]
+
+[:en@~]
+a temporary object is not introduced for the prvalue.
+
+[:en]
+The type of the prvalue may be incomplete.
+
+[enter:note]
+[:en]
+as a result, storage is not allocated for the prvalue and it is not destroyed;
+thus, a class type is not instantiated as a result of being the type of a
+function call in this context.
+
+[:en]
+This is true regardless of whether the expression uses function call notation or
+operator notation ([#over.match.oper]).
+[exit:note]
+
+[enter:note]
+[:en]
+unlike the rule for a [~decltype-specifier] that considers whether an
+[~id-expression] is parenthesized ([#dcl.type.simple]), parentheses have no
+special meaning in this context.
+[exit:note]

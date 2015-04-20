@@ -1,0 +1,41 @@
+﻿[section#expr.log.and
+    [:en] Logical AND operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!logical AND]]
+[%operator[!logical AND]]
+[%[`&&][see logical AND operator]]
+
+[syntax]
+[rule logical-and-expression]
+    [| inclusive-or-expression ]
+    [| logical-and-expression [`&&] inclusive-or-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The [`&&] operator groups left-to-right.
+
+[:en]
+The operands are both contextually converted to [`bool] (Clause [#conv]).
+
+[:en]
+The result is [`true] if both operands are [`true] and [`false] otherwise.
+
+[:en]
+Unlike [`&], [`&&] guarantees left-to-right evaluation: the second operand is
+not evaluated if the first operand is [`false].
+
+[para]
+[:en]
+The result is a [`bool].
+
+[:en]
+[%operator[!side effects and logical AND]]
+If the second expression is evaluated, every [%value computation] value
+computation and [%side effects] side effect associated with the first expression
+is sequenced before every value computation and side effect associated with the
+second expression.

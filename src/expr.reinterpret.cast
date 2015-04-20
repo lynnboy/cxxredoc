@@ -1,0 +1,226 @@
+﻿[section#expr.reinterpret.cast
+    [:en] Reinterpret cast
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!reinterpret cast]]
+[%cast[!reinterpret]]
+The result of the expression [`reinterpret_cast<T>(v)] is the result of
+converting the expression [`v] to type [`T].
+
+[:en]
+[%cast[!reinterpret[!lvalue]]]
+[%cast[!lvalue]]
+If [`T] is an lvalue reference type or an rvalue reference to function type, the
+result is an lvalue; if [`T] is an rvalue reference to object type, the result
+is an xvalue; otherwise, the result is a prvalue and the lvalue-to-rvalue
+([#conv.lval]), array-to-pointer ([#conv.array]), and function-to-pointer
+([#conv.func]) standard conversions are performed on the expression [`v].
+
+[:en]
+Conversions that can be performed explicitly using [`reinterpret_cast] are
+listed below.
+
+[:en]
+No other conversion can be performed explicitly using [`reinterpret_cast].
+
+[para]
+[:en]
+The [`reinterpret_cast] operator shall not cast away constness
+([#expr.const.cast]).
+
+[:en]
+An expression of integral, enumeration, pointer, or pointer-to-member type can
+be explicitly converted to its own type; such a cast yields the value of its
+operand.
+
+[para]
+[enter:note]
+[:en]
+The mapping performed by [`reinterpret_cast] might, or might not, produce a
+representation different from the original value.
+[exit:note]
+
+[para]
+[:en]
+[%cast[!reinterpret[!pointer to integer]]]
+[%cast[!pointer to integer]]
+A pointer can be explicitly converted to any integral type large enough to hold
+it.
+
+[:en]
+[%conversion[!implementation defined pointer integer]]
+The mapping function is implementation-defined.
+
+[enter:note]
+[:en]
+It is intended to be unsurprising to those who know the addressing structure of
+the underlying machine.
+[exit:note]
+
+[:en]
+A value of type [`std::nullptr_t] can be converted to an integral type; the
+conversion has the same meaning and validity as a conversion of [`(void*)0] to
+the integral type.
+
+[enter:note]
+[:en]
+A [`reinterpret_cast] cannot be used to convert a value of any type to the type
+[`std::nullptr_t].
+[exit:note]
+
+[para]
+[:en]
+[%cast[!reinterpret[!integer to pointer]]]
+[%cast[!integer to pointer]]
+A value of integral type or enumeration type can be explicitly converted to a
+pointer.
+
+[:en]
+A pointer converted to an integer of sufficient size (if any such exists on the
+implementation) and back to the same pointer type will have its original value;
+[%conversion[!implementation defined pointer integer]]
+mappings between pointers and integers are otherwise
+[%@impldef conversions between pointers and integers] implementation-defined.
+
+[enter:note]
+[:en]
+Except as described in [#basic.stc.dynamic.safety], the result of
+such a conversion will not be a safely-derived pointer value.
+[exit:note]
+
+[para]
+[:en]
+[%cast[!reinterpret[!pointer-to-function]]]
+[%cast[!pointer-to-function]]
+[%cast[!undefined pointer-to-function]]
+A function pointer can be explicitly converted to a function pointer of a
+different type.
+
+[:en]
+[%function call[!undefined]]
+The effect of calling a function through a pointer to a function type
+([#dcl.fct]) that is not the same as the type used in the definition of the
+function is undefined.
+
+[:en]
+Except that converting a prvalue of type ["pointer to [`T1]] to the type
+["pointer to [`T2]] (where [`T1] and [`T2] are function types) and back to its
+original type yields the original pointer value, the result of such a pointer
+conversion is unspecified.
+
+[enter:note]
+[:en]
+see also [#conv.ptr] for more details of pointer conversions.
+[exit:note]
+
+[para]
+[:en]
+An object pointer can be explicitly converted to an object pointer of a
+different type.
+
+[footnote]
+[:en]
+The types may have different [$cv]-qualifiers, subject to the overall
+restriction that a [`reinterpret_cast] cannot cast away constness.
+[footnote:end]
+
+[:en]
+When a prvalue [`v] of object pointer type is converted to the object pointer
+type ["pointer to [$cv] [`T]], the result is [`static_cast<[$cv]
+T*>(static_cast<[$cv] void*>(v))].
+
+[:en]
+Converting a prvalue of type ["pointer to [`T1]] to the type ["pointer to [`T2]]
+(where [`T1] and [`T2] are object types and where the alignment requirements of
+[`T2] are no stricter than those of [`T1]) and back to its original type yields
+the original pointer value.
+
+[para]
+[:en]
+Converting a function pointer to an object pointer type or vice versa is
+conditionally-supported.
+
+[:en]
+The meaning of such a conversion is [$@impldef converting function pointer to
+object pointer and vice versa] implementation-defined, except that if an
+implementation supports conversions in both directions, converting a prvalue of
+one type to the other type and back, possibly with different cv-qualification,
+shall yield the original pointer value.
+
+[para]
+[:en]
+The null pointer value ([#conv.ptr]) is converted to the null pointer value of
+the destination type.
+
+[enter:note]
+[:en]
+A null pointer constant of type [`std::nullptr_t] cannot be converted to a
+pointer type, and a null pointer constant of integral type is not necessarily
+converted to a null pointer value.
+[exit:note]
+
+[para]
+[:en]
+[%cast[!reinterpret[!pointer-to-member]]]
+[%cast[!pointer-to-member]]
+A prvalue of type ["pointer to member of [`X] of type [`T1]] can be explicitly
+converted to a prvalue of a different type ["pointer to member of [`Y] of type
+[`T2]] if [`T1] and [`T2] are both function types or both object types.
+
+[footnote]
+[:en]
+[`T1] and [`T2] may have different [$cv]-qualifiers, subject to the overall
+restriction that a [`reinterpret_cast] cannot cast away constness.
+[footnote:end]
+
+[:en]
+The null member pointer value ([#conv.mem]) is converted to the
+null member pointer value of the destination type. The result of this
+conversion is unspecified, except in the following cases:
+
+[list]
+[item]
+[:en]
+converting a prvalue of type ["pointer to member function] to a different
+pointer to member function type and back to its original type yields the
+original pointer to member value.
+
+[item]
+[:en]
+converting a prvalue of type ["pointer to data member of [`X] of type [`T1]] to
+the type ["pointer to data member of [`Y] of type [`T2]] (where the alignment
+requirements of [`T2] are no stricter than those of [`T1]) and back to its
+original type yields the original pointer to member value.
+[list:end]
+
+[para]
+[:en]
+[%cast[!reinterpret[!reference]]]
+[%cast[!reference]]
+A glvalue expression of type [`T1] can be cast to the type ["reference to [`T2]]
+if an expression of type ["pointer to [`T1]] can be explicitly converted to the
+type ["pointer to [`T2]] using a [`reinterpret_cast].
+
+[:en]
+The result refers to the same object as the source glvalue, but with the
+specified type.
+
+[enter:note]
+[:en]
+That is, for lvalues, a reference cast [`reinterpret_cast<T&>(x)] has the same
+effect as the conversion [`*reinterpret_cast<T*>(&x)] with the built-in [`&] and
+[`*] operators (and similarly for [`reinterpret_cast<T&&>(x)]).
+[exit:note]
+
+[:en]
+No temporary is created, no copy is made, and constructors ([#class.ctor]) or
+conversion functions ([#class.conv]) are not called.
+
+[footnote]
+[:en]
+[%type pun]
+This is sometimes referred to as a [+type pun].
+[footnote:end]

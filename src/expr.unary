@@ -1,0 +1,106 @@
+﻿[section#expr.unary
+    [:en] Unary expressions
+    [:zh_CN]
+]
+
+[%:begin#expression.unary
+    [:en] expression [! unary]
+]
+
+[para]
+[:en]
+Expressions with unary operators group right-to-left.
+
+[%
+    [:en] expression[!unary]
+]
+[%
+    [:en] operator[!unary]
+]
+[%
+    [:en] operator[![`sizeof]]
+]
+[%
+    [:en] operator[!cast]
+]
+
+[syntax]
+[rule unary-expression]
+    [| postfix-expression ]
+    [| [`++] cast-expression ]
+    [| [`--] cast-expression ]
+    [| unary-operator cast-expression ]
+    [| [`sizeof] unary-expression ]
+    [| [`sizeof] [`(] type-id [`)] ]
+    [| [`sizeof] [`...] [`(] identifier [`)] ]
+    [| [`alignof] [`(] type-id [`)] ]
+    [| noexcept-expression ]
+    [| new-expression ]
+    [| delete-expression ]
+[rule:end]
+[syntax:end]
+
+[%
+    [:en] operator [! indirection]
+]
+[%
+    [:en] [`*] [see operator [! indirection]]
+]
+[%
+    [:en] operator [! address-of]
+]
+[%
+    [:en] [`&] [see operator [! address-of]]
+]
+[%
+    [:en] operator [! unary minus]
+]
+[%
+    [:en] [`-] [see operator [! unary minus]]
+]
+[%
+    [:en] operator [! unary plus]
+]
+[%
+    [:en] [`+] [see operator [! unary plus]]
+]
+[%
+    [:en] operator [! logical negation]
+]
+[%
+    [:en] [`!] [see operator [! logical negation]]
+]
+[%
+    [:en] operator [! one[=']s complement]
+]
+[%
+    [:en] [`~] [see operator [! one[=']s complement]]
+]
+[%
+    [:en] operator [! increment]
+]
+[%
+    [:en] operator [! decrement]
+]
+
+[syntax]
+[rule:oneof unary-operator [:zh_CN] ]
+    [| *  &  +  -  !  ~ ]
+[rule:end]
+[syntax:end]
+
+[include expr.unary.op]
+
+[include expr.pre.incr]
+
+[include expr.sizeof]
+
+[include expr.new]
+
+[include expr.delete]
+
+[include expr.alignof]
+
+[include expr.unary.noexcept]
+
+[%:end#expression.unary]

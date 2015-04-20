@@ -1,0 +1,52 @@
+﻿[section#expr.type.conv
+    [:en] Explicit type conversion (functional notation)
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!cast]]
+[%explicit type conversion[see casting]]
+[%type conversion[!explicit][see casting]]
+[%conversion explicit type[see casting]]
+[%casting]
+A [~simple-type-specifier] ([#dcl.type.simple]) or [~typename-specifier]
+([#temp.res]) followed by a parenthesized [~expression-list] constructs a value
+of the specified type given the expression list.
+
+[:en]
+If the expression list is a single expression, the type conversion expression is
+equivalent (in definedness, and if defined in meaning) to the corresponding cast
+expression ([#expr.cast]).
+
+[:en]
+[%type[!incomplete]]
+If the type specified is a class type, the class type shall be complete.
+
+[:en]
+If the expression list specifies more than a single value, the type shall be a
+class with a suitably declared constructor ([#dcl.init], [#class.ctor]), and the
+expression [`T(x1, x2, ...)] is equivalent in effect to the declaration
+[`T t(x1, x2, ...);] for some invented temporary variable [`t], with the result
+being the value of [`t] as a prvalue.
+
+[para]
+[:en]
+The expression [`T()], where [`T] is a [~simple-type-specifier] or
+[~typename-specifier] for a non-array complete object type or the (possibly
+cv-qualified) [`void] type, creates a prvalue of the specified type, whose value
+is that produced by value-initializing ([#dcl.init]) an object of type [`T]; no
+initialization is done for the [`void()] case.
+
+[enter:note]
+[:en]
+if [`T] is a non-class type that is cv-qualified, the [~cv-qualifier]s are
+discarded when determining the type of the resulting prvalue (Clause [#expr]).
+[exit:note]
+
+[para]
+[:en]
+Similarly, a [~simple-type-specifier] or [~typename-specifier] followed by a
+[~braced-init-list] creates a temporary object of the specified type
+direct-list-initialized ([#dcl.init.list]) with the specified
+[~braced-init-list], and its value is that temporary object as a prvalue.

@@ -1,0 +1,45 @@
+﻿[section#expr.sub
+    [:en] Subscripting
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%operator[!subscripting]]
+[%[`[`]][see operator [!subscripting]]]
+A postfix expression followed by an expression in square brackets is a postfix
+expression.
+
+[:en]
+One of the expressions shall have the type ["array of [`T]] or ["pointer to
+[`T]] and the other shall have unscoped enumeration or integral type.
+
+[:en]
+The result is of type ["[`T].]
+
+[:en]
+[%type[!incomplete]]
+The type ["[`T]] shall be a completely-defined object type.
+
+[footnote]
+[:en]
+This is true even if the subscript operator is used in the following common
+idiom: [`&x[0`]].
+[footnote:end]
+
+[:en]
+The expression [`E1[E2`]] is identical (by definition) to [`*((E1)+(E2))]
+
+[enter:note]
+[:en]
+see [#expr.unary] and [#expr.add] for details of [`*] and [`+] and [#dcl.array]
+for details of arrays.
+[exit:note]
+
+[:en@~]
+, except that in the case of an array operand, the result is an lvalue if that
+operand is an lvalue and an xvalue otherwise.
+
+[para]
+[:en]
+A [~braced-init-list] shall not be used with the built-in subscript operator.

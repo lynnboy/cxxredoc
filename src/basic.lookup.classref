@@ -65,7 +65,6 @@ At least one of the lookups shall find a name that refers to (possibly
 应该至少有一个查找过程能够找到代表（可能被 [=cv]-限定的）[`T] 的名字。
 
 [enter:example]
-
 [codeblock]
 struct A { };
 
@@ -78,7 +77,8 @@ void B::f(::A* a) {
   a->~A();                      // [:en] OK: lookup in [`*a] finds the injected-class-name
                                 // [|:zh_CN] OK：在 [`*a] 中的查找找到了注入类名
 }
-[codeblock:end][exit:example]
+[codeblock:end]
+[exit:example]
 
 [para]
 [:en]

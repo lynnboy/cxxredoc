@@ -1,0 +1,24 @@
+﻿[section#expr.xor
+    [:en] Bitwise exclusive OR operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!bitwise exclusive OR]]
+[%operator[!bitwise exclusive OR]]
+[%[`^][see bitwise exclusive OR operator]]
+
+[syntax]
+[rule exclusive-or-expression]
+    [| and-expression ]
+    [| exclusive-or-expression [`^] and-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The usual arithmetic conversions are performed; the result is the bitwise
+exclusive [em@sc OR] function of the operands.
+
+[:en]
+The operator applies only to integral or unscoped enumeration operands.

@@ -1,0 +1,77 @@
+﻿[section#expr.post.incr
+    [:en] Increment and decrement
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!increment]]
+[%operator[!increment]]
+[%[`++][see operator [!increment]]]
+[%postfix [`++]]
+The value of a postfix [`++] expression is the value of its operand.
+
+[enter:note]
+[:en]
+the value obtained is a copy of the original value
+[exit:note]
+
+[:en]
+The operand shall be a modifiable lvalue.
+
+[:en]
+The type of the operand shall be an arithmetic type or a pointer to a complete
+object type.
+
+[:en]
+The value of the operand object is modified by adding [`1] to it,
+[%increment[![`bool]]]
+[%deprecated features]
+unless the object is of type [`bool], in which case it is set to [`true].
+
+[enter:note]
+[:en]
+this use is deprecated, see Annex [#depr].
+[exit:note]
+
+[:en]
+The [%value computation] value computation of the [`++] expression is sequenced
+before the modification of the operand object.
+
+[:en]
+With respect to an indeterminately-sequenced function call, the operation of
+postfix [`++] is a single evaluation.
+
+[enter:note]
+[:en]
+Therefore, a function call shall not intervene between the lvalue-to-rvalue
+conversion and the side effect associated with any single postfix ++ operator.
+[exit:note]
+
+[:en]
+The result is a prvalue.
+
+[:en]
+The type of the result is the cv-unqualified version of the type of the operand.
+
+[:en]
+If the operand is a bit-field that cannot represent the incremented value, the
+resulting value of the bit-field is [%@impldef value of bit-field that cannot
+represent[!incremented value]] implementation-defined.
+
+[:en]
+See also [#expr.add] and [#expr.ass].
+
+[para]
+[:en]
+[%expression[!decrement]]
+[%operator[!decrement]]
+[%[`--][see operator [!decrement]]]
+[%postfix [`--]]
+The operand of postfix [`--] is decremented analogously to the postfix [`++]
+operator, except that the operand shall not be of type [`bool].
+
+[enter:note]
+[:en]
+For prefix increment and decrement, see [#expr.pre.incr].
+[exit:note]

@@ -1,0 +1,69 @@
+﻿[section#expr.comma
+    [:en] Comma operator
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!comma]]
+[%operator[!comma]]
+[%[`,][see comma operator]]
+[%sequencing operator[see comma operator]]
+
+[para]
+[:en]
+The comma operator groups left-to-right.
+
+[syntax]
+[rule expression [:zh_CN] ]
+    [| assignment-expression ]
+    [| expression [`,] assignment-expression ]
+[rule:end]
+[syntax:end]
+
+[:en]
+A pair of expressions separated by a comma is evaluated left-to-right; the left
+expression is a discarded-value expression (Clause [#expr]).
+
+[footnote]
+[:en]
+However, an invocation of an overloaded comma operator is an ordinary function
+call; hence, the evaluations of its argument expressions are unsequenced
+relative to one another (see [#intro.execution]).
+[footnote:end]
+
+[:en]
+Every [%value computation] value computation and side effect associated with the
+left expression is sequenced before every value computation and side effect
+associated with the right expression.
+
+[:en]
+[%operator[!side effects and comma]]
+The type and value of the result are the type and value of the right operand;
+the result is of the same value category as its right operand, and is a
+bit-field if its right operand is a glvalue and a bit-field.
+
+[:en]
+If the value of the right operand is a temporary ([#class.temporary]), the
+result is that temporary.
+
+[para]
+[:en]
+In contexts where comma is given a special meaning,
+[enter:example]
+[:en@~]
+in lists of arguments to functions ([#expr.call]) and lists of initializers
+([#dcl.init])
+[exit:example]
+
+[:en@~]
+the comma operator as described in Clause [#expr] can appear only in
+parentheses.
+
+[enter:example]
+[codeblock]
+f(a, (t=3, t+2), c);
+[codeblock:end]
+
+[:en]
+has three arguments, the second of which has the value [`5].
+[exit:example]

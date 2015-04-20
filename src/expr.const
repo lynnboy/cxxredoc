@@ -1,0 +1,356 @@
+﻿[section#expr.const
+    [:en] Constant expressions
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!constant]]
+
+[para]
+[:en]
+Certain contexts require expressions that satisfy additional requirements as
+detailed in this sub-clause; other contexts have different semantics depending
+on whether or not an expression satisfies these requirements.
+
+[:en]
+Expressions that satisfy these requirements are called [+constant expressions].
+
+[enter:note]
+[:en]
+Constant expressions can be evaluated during translation.
+[exit:note]
+
+[syntax]
+[rule constant-expression [:zh_CN] ]
+    [| conditional-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+A [~conditional-expression] [`e] is a [+core constant expression] unless the
+evaluation of [`e], following the rules of the abstract machine
+([#intro.execution]), would evaluate one of the following expressions:
+
+[list]
+[item]
+[:en]
+[`this] ([#expr.prim.general]), except in a [`constexpr] function or a
+[`constexpr] constructor that is being evaluated as part of [`e];
+
+[item]
+[:en]
+an invocation of a function other than a [`constexpr] constructor for a literal
+class, a [`constexpr] function, or an implicit invocation of a trivial
+destructor ([#class.dtor])
+
+[enter:note]
+[:en]
+Overload resolution ([#over.match]) is applied as usual
+[exit:note]
+
+[:en@~]
+;
+
+[item]
+[:en]
+an invocation of an undefined [`constexpr] function or an undefined [`constexpr]
+constructor;
+
+[item]
+[:en]
+an expression that would exceed the implementation-defined limits (see Annex
+[#implimits]);
+
+[item]
+[:en]
+an operation that would have undefined behavior
+
+[enter:note]
+[:en]
+including, for example, signed integer overflow (Clause [#expr]), certain
+pointer arithmetic ([#expr.add]), division by zero ([#expr.mul]), or certain
+shift operations ([#expr.shift])
+[exit:note]
+
+[:en@~]
+;
+
+[item]
+[:en]
+a [~lambda-expression] ([#expr.prim.lambda]);
+
+[item]
+[:en]
+an lvalue-to-rvalue conversion ([#conv.lval]) unless it is applied to
+
+[list]
+[item]
+[:en]
+a non-volatile glvalue of integral or enumeration type that refers to a complete
+non-volatile const object with a preceding initialization, initialized with a
+constant expression, or
+
+[item]
+[:en]
+a non-volatile glvalue that refers to a subobject of a string literal
+([#lex.string]), or
+
+[item]
+a non-volatile glvalue that refers to a non-volatile object defined with
+[`constexpr], or that refers to a non-mutable sub-object of such an object, or
+
+[item]
+a non-volatile glvalue of literal type that refers to a non-volatile object
+whose lifetime began within the evaluation of [`e];
+[list:end]
+
+[item]
+[:en]
+an lvalue-to-rvalue conversion ([#conv.lval]) or modification ([#expr.ass],
+[#expr.post.incr], [#expr.pre.incr]) that is applied to a glvalue that refers to
+a non-active member of a union or a subobject thereof;
+
+[item]
+[:en]
+an [~id-expression] that refers to a variable or data member of reference type
+unless the reference has a preceding initialization and either
+
+[list]
+[item]
+[:en]
+it is initialized with a constant expression or
+
+[item]
+[:en]
+it is a non-static data member of an object whose lifetime began within the
+evaluation of [`e];
+[list:end]
+
+[item]
+[:en]
+in a [~lambda-expression], a reference to [`this] or to a variable with
+automatic storage duration defined outside that [~lambda-expression], where the
+reference would be an odr-use ([#basic.def.odr], [#expr.prim.lambda]);
+
+[item]
+[:en]
+a conversion from type [$cv] [`void *] to a pointer-to-object type;
+
+[item]
+[:en]
+a dynamic cast ([#expr.dynamic.cast]);
+
+[item]
+[:en]
+a [`reinterpret_cast] ([#expr.reinterpret.cast]);
+
+[item]
+[:en]
+a pseudo-destructor call ([#expr.pseudo]);
+
+[item]
+[:en]
+modification of an object ([#expr.ass], [#expr.post.incr], [#expr.pre.incr])
+unless it is applied to a non-volatile lvalue of literal type that refers to a
+non-volatile object whose lifetime began within the evaluation of [`e];
+
+[item]
+[:en]
+a typeid expression ([#expr.typeid]) whose operand is a glvalue of a polymorphic
+class type;
+
+[item]
+[:en]
+a [~new-expression] ([#expr.new]);
+
+[item]
+[:en]
+a [~delete-expression] ([#expr.delete]);
+
+[item]
+[:en]
+a relational ([#expr.rel]) or equality ([#expr.eq]) operator where the result is
+unspecified; or
+
+[item]
+[:en]
+a [~throw-expression] ([#expr.throw]).
+[list:end]
+
+[enter:example]
+[codeblock]
+int x;                              // [:en] not constant
+struct A {
+  constexpr A(bool b) : m(b?42:x) { }
+  int m;
+};
+constexpr int v = A(true).m;        // [:en] OK: constructor call initializes
+                                    // [:en@~] [`m] with the value [`42]
+constexpr int w = A(false).m;       // [:en] error: initializer for [`m] is
+                                    // [:en@~] [`x], which is non-constant
+
+constexpr int f1(int k) {
+  constexpr int x = k;              // [:en] error: [`x] is not initialized by a
+                                    // [:en@~] constant expression because lifetime of [`k]
+                                    // [:en@~] began outside the initializer of [`x]
+  return x;
+}
+constexpr int f2(int k) {
+  int x = k;                        // [:en] OK: not required to be a constant expression
+                                    // [:en@~] because [`x] is not [`constexpr]
+  return x;
+}
+
+constexpr int incr(int &n) {
+  return ++n;
+}
+constexpr int g(int k) {
+  constexpr int x = incr(k);        // [:en] error: [`incr(k)] is not a core constant
+                                    // [:en@~] expression because lifetime of [`k]
+                                    // [:en@~] began outside the expression [`incr(k)]
+  return x;
+}
+constexpr int h(int k) {
+  int x = incr(k);                  // [:en] OK: [`incr(k)] is not required to be a core
+                                    // [:en@~] constant expression
+  return x;
+}
+constexpr int y = h(1);             // [:en] OK: initializes [`y] with the value [`2]
+                                    // [:en@~] [`h(1)] is a core constant expression because
+                                    // [:en@~] the lifetime of [`k] begins inside [`h(1)]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An [+integral constant expression] is an expression of integral or unscoped
+enumeration type, implicitly converted to a prvalue, where the converted
+expression is a core constant expression.
+
+[enter:note]
+[:en]
+Such expressions may be used as array bounds ([#dcl.array], [#expr.new]), as
+bit-field lengths ([#class.bit]), as enumerator initializers if the underlying
+type is not fixed ([#dcl.enum]), and as alignments ([#dcl.align]).
+[exit:note]
+
+[para]
+[:en]
+A [+converted constant expression] of type [`T] is an expression, implicitly
+converted to type [`T], where the converted expression is a constant expression
+and the implicit conversion sequence contains only
+
+[list]
+[item]
+[:en@~] user-defined conversions,
+[item]
+[:en@~] lvalue-to-rvalue conversions ([#conv.lval]),
+[item]
+[:en@~] array-to-pointer conversions ([#conv.array]),
+[item]
+[:en@~] function-to-pointer conversions ([#conv.func]),
+[item]
+[:en@~] qualification conversions ([#conv.qual]),
+[item]
+[:en@~] integral promotions ([#conv.prom]),
+[item]
+[:en@~] integral conversions ([#conv.integral]) other than narrowing conversions
+([#dcl.init.list]),
+[item]
+[:en@~] null pointer conversions ([#conv.ptr]) from [`std::nullptr_t], and
+[item]
+[:en@~] null member pointer conversions ([#conv.mem]) from [`std::nullptr_t],
+[list:end]
+
+[:en@~]
+and where the reference binding (if any) binds directly.
+
+[enter:note]
+[:en]
+such expressions may be used in [`new] expressions ([#expr.new]), as case
+expressions ([#stmt.switch]), as enumerator initializers if the underlying type
+is fixed ([#dcl.enum]), as array bounds ([#dcl.array]), and as non-type template
+arguments ([#temp.arg]).
+[exit:note]
+
+[para]
+[:en]
+A [+constant expression] is either a glvalue core constant expression whose
+value refers to an entity that is a permitted result of a constant expression
+(as defined below), or a prvalue core constant expression whose value is an
+object where, for that object and its subobjects:
+
+[list]
+[item]
+[:en]
+each non-static data member of reference type refers to an entity that is a
+permitted result of a constant expression, and
+
+[item]
+[:en]
+if the object or subobject is of pointer type, it contains the address of an
+object with static storage duration, the address past the end of such an object
+([#expr.add]), the address of a function, or a null pointer value.
+[list:end]
+
+[:en]
+[%constant expression[!permitted result of]]
+An entity is a [+permitted result of a constant expression] if it is an object
+with static storage duration that is either not a temporary object or is a
+temporary object whose value satisfies the above constraints, or it is a
+function.
+
+[para]
+[enter:note]
+[:en]
+Since this International Standard imposes no restrictions on the accuracy of
+floating-point operations, it is unspecified whether the evaluation of a
+floating-point expression during translation yields the same result as the
+evaluation of the same expression (or the same operations on the same values)
+during program execution.
+
+[footnote]
+[:en]
+Nonetheless, implementations are encouraged to provide consistent results,
+irrespective of whether the evaluation was performed during translation and/or
+during program execution.
+[footnote:end]
+
+[enter:example]
+[codeblock]
+bool f() {
+    char array[1 + int(1 + 0.2 - 0.1 - 0.1)];  // [:en] Must be evaluated during translation
+    int size = 1 + int(1 + 0.2 - 0.1 - 0.1);   // [:en] May be evaluated at runtime
+    return sizeof(array) == size;
+}
+[codeblock:end]
+
+[:en]
+It is unspecified whether the value of [`f()] will be [`true] or [`false].
+[exit:example]
+
+[exit:note]
+
+[para]
+[:en]
+If an expression of literal class type is used in a context where an integral
+constant expression is required, then that expression is contextually implicitly
+converted (Clause [#conv]) to an integral or unscoped enumeration type and the
+selected conversion function shall be [`constexpr].
+
+[enter:example]
+[codeblock]
+struct A {
+  constexpr A(int i) : val(i) { }
+  constexpr operator int() const { return val; }
+  constexpr operator long() const { return 43; }
+private:
+  int val;
+};
+template<int> struct X { };
+constexpr A a = 42;
+X<a> x;             // [:en] OK: unique conversion to [`int]
+int ary[a];         // [:en] error: ambiguous conversion
+[codeblock:end]
+[exit:example]

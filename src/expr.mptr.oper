@@ -1,0 +1,115 @@
+﻿[section#expr.mptr.oper
+    [:en] Pointer-to-member operators
+]
+
+[para]
+[:en]
+[%expression[!pointer-to-member]]
+[%pointer to member]
+[%operator[!pointer to member]]
+[%[`.*][see pointer to member operator]]
+[%operator[!pointer to member]]
+[%[`->*][see pointer to member operator]]
+The pointer-to-member operators [`->*] and [`.*] group left-to-right.
+
+[syntax]
+[rule pm-expression [:zh_CN] ]
+    [| cast-expression ]
+    [| pm-expression [`.*] cast-expression ]
+    [| pm-expression [`->*] cast-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The binary operator [`.*] binds its second operand, which shall be of type
+["pointer to member of [`T]] to its first operand, which shall be of class [`T]
+or of a class of which [`T] is an unambiguous and accessible base class.
+
+[:en]
+The result is an object or a function of the type specified by the second
+operand.
+
+[para]
+[:en]
+The binary operator [`->*] binds its second operand, which shall be of type
+["pointer to member of [`T]] to its first operand, which shall be of type
+["pointer to [`T]] or ["pointer to a class of which [`T] is an unambiguous and
+accessible base class.]
+
+[:en]
+The expression [`E1->*E2] is converted into the equivalent form [`(*(E1)).*E2].
+
+[para]
+[:en]
+Abbreviating [+pm-expression][`.*][+cast-expression] as [`E1.*E2], [`E1] is
+called the [+object expression].
+
+[:en]
+If the dynamic type of [`E1] does not contain the member to which [`E2] refers,
+the behavior is undefined.
+
+[para]
+The restrictions on [$cv]-qualification, and the manner in which the
+[$cv]-qualifiers of the operands are combined to produce the [$cv]-qualifiers of
+the result, are the same as the rules for [`E1.E2] given in [#expr.ref].
+
+[enter:note]
+[:en]
+it is not possible to use a pointer to member that refers to a [`mutable] member
+to modify a [`const] class object.
+
+[:en]
+For example,
+
+[codeblock]
+struct S {
+  S() : i(0) { }
+  mutable int i;
+};
+void f()
+{
+const S cs;
+int S::* pm = &S::i;            // [`pm] refers to [`mutable] member [`S::i]
+cs.*pm = 88;                    // ill-formed: [`cs] is a [`const] object
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[%function[!pointer to member]]
+If the result of [`.*] or [`->*] is a function, then that result can be used
+only as the operand for the function call operator [`()].
+
+[enter:example]
+
+[codeblock]
+(ptr_to_obj->*ptr_to_mfct)(10);
+[codeblock:end]
+
+[:en]
+calls the member function denoted by [`ptr_to_mfct] for the object
+pointed to by [`ptr_to_obj].
+[exit:example]
+
+[:en]
+In a [`.*] expression whose object expression is an rvalue, the program is
+ill-formed if the second operand is a pointer to member function with
+[~ref-qualifier] [`&].
+
+[:en]
+In a [`.*] expression whose object expression is an lvalue, the program is
+ill-formed if the second operand is a pointer to member function with
+[~ref-qualifier] [`&&].
+
+[:en]
+The result of a [`.*] expression whose second operand is a pointer to a data
+member is an lvalue if the first operand is an lvalue and an xvalue otherwise.
+
+[:en]
+The result of a [`.*] expression whose second operand is a pointer to a member
+function is a prvalue.
+
+[:en]
+If the second operand is the null pointer to member value ([#conv.mem]), the
+behavior is undefined.

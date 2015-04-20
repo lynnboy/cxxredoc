@@ -1,0 +1,26 @@
+﻿[section#expr.alignof
+    [:en] Alignof
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[![`alignof]]]
+An [`alignof] expression yields the alignment requirement of its operand type.
+
+[:en]
+The operand shall be a [~type-id] representing a complete object type, or an
+array thereof, or a reference to one of those types.
+
+[para]
+[:en]
+The result is an integral constant of type [`std::size_t].
+
+[para]
+[:en]
+When [`alignof] is applied to a reference type, the result is the alignment of
+the referenced type.
+
+[:en]
+When [`alignof] is applied to an array type, the result is the alignment of the
+element type.

@@ -1,0 +1,66 @@
+﻿[section#expr.mul
+    [:en] Multiplicative operators
+    [:zh_CN]
+]
+
+[:en]
+[%expression[!multiplicative operators]]
+[%operator[!multiplicative]]
+
+[para]
+[:en]
+The multiplicative operators [`*], [`/], and [`%] group left-to-right.
+
+[:en]
+[%operator[!multiplication]]
+[%[`*][see multiplication operator]]
+[%operator[!division]]
+[%[`/][see division operator]]
+[%operator[!remainder]]
+[%[`%][see remainder operator]]
+[%remainder operator[see remainder operator]]
+
+[syntax]
+[rule multiplicative-expression [:zh_CN] ]
+    [| pm-expression ]
+    [| multiplicative-expression [`*] pm-expression ]
+    [| multiplicative-expression [`/] pm-expression ]
+    [| multiplicative-expression [`%] pm-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The operands of [`*] and [`/] shall have arithmetic or unscoped enumeration
+type; the operands of [`%] shall have integral or unscoped enumeration type.
+
+[:en]
+The usual arithmetic conversions are performed on the operands and determine the
+type of the result.
+
+[para]
+[:en]
+The binary [`*] operator indicates multiplication.
+
+[para]
+[:en]
+The binary [`/] operator yields the quotient, and the binary [`%] operator
+yields the remainder from the division of the first expression by the second.
+
+[:en]
+[%zero[!undefined division by]]
+If the second operand of [`/] or [`%] is zero the behavior is undefined.
+
+[:en]
+For integral operands the [`/] operator yields the algebraic quotient with any
+fractional part discarded;
+
+[footnote]
+[:en]
+This is often called truncation towards zero.
+[footnote:end]
+
+[:en]
+if the quotient [`a/b] is representable in the type of the result, [`(a/b)*b +
+a%b] is equal to [`a]; otherwise, the behavior of both [`a/b] and [`a%b] is
+undefined.

@@ -1,0 +1,43 @@
+﻿[section#expr.pseudo
+    [:en] Pseudo destructor call
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!pseudo-destructor call]]
+[%call[!pseudo destructor]]
+[%pseudo-destructor-name]
+The use of a [~pseudo-destructor-name] after a dot [`.] or arrow [`->] operator
+represents the destructor for the non-class type denoted by [~type-name] or
+[~decltype-specifier].
+
+[:en]
+The result shall only be used as the operand for the function call operator
+[`()], and the result of such a call has type [`void].
+
+[:en]
+The only effect is the evaluation of the [~postfix-expression] before the dot or
+arrow.
+
+[para]
+[:en]
+The left-hand side of the dot operator shall be of scalar type.
+
+[:en]
+The left-hand side of the arrow operator shall be of pointer to scalar type.
+
+[:en]
+This scalar type is the object type. The [$cv]-unqualified versions of the
+object type and of the type designated by the [~pseudo-destructor-name] shall be
+the same type.
+
+[:en]
+Furthermore, the two [~type-name]s in a [~pseudo-destructor-name] of the form
+
+[syntax:explanation]
+[~:opt nested-name-specifier] [~type-name] [`::] [`~] [~type-name]
+[syntax:end]
+
+[:en@~]
+shall designate the same scalar type.

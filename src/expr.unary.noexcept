@@ -1,0 +1,27 @@
+﻿[section#expr.unary.noexcept
+    [:en] [`noexcept] operator
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[![`noexcept]]]
+The [`noexcept] operator determines whether the evaluation of its operand, which
+is an unevaluated operand (Clause [#expr]), can throw an exception
+([#except.throw]).
+
+[syntax]
+[rule noexcept-expression [:zh_CN] ]
+    [| [`noexcept] [`(] expression [`)] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The result of the [`noexcept] operator is a constant of type [`bool] and is a
+prvalue.
+
+[para]
+[:en]
+The result of the [`noexcept] operator is [`true] if the set of potential
+exceptions of the expression ([#except.spec]) is empty, and [`false] otherwise.

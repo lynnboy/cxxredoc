@@ -1,0 +1,165 @@
+﻿[section#expr.dynamic.cast
+    [:en] Dynamic cast
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!dynamic cast]]
+[%cast[!dynamic]]
+The result of the expression [`dynamic_cast<T>(v)] is the result of converting
+the expression [`v] to type [`T].
+
+[:en]
+[%type[!incomplete]]
+[`T] shall be a pointer or reference to a complete class type, or ["pointer to
+[$cv] [`void].] The [`dynamic_cast] operator shall not cast away constness
+([#expr.const.cast]).
+
+[para]
+[:en]
+If [`T] is a pointer type, [`v] shall be a prvalue of a pointer to complete
+class type, and the result is a prvalue of type [`T].
+
+[:en]
+If [`T] is an lvalue reference type, [`v] shall be an lvalue of a complete class
+type, and the result is an lvalue of the type referred to by [`T].
+
+[:en]
+If [`T] is an rvalue reference type, [`v] shall be an expression having a
+complete class type, and the result is an xvalue of the type referred to by
+[`T].
+
+[para]
+[:en]
+If the type of [`v] is the same as [`T], or it is the same as [`T] except that
+the class object type in [`T] is more cv-qualified than the class object type in
+[`v], the result is [`v] (converted if necessary).
+
+[para]
+[:en]
+If the value of [`v] is a null pointer value in the pointer case, the result is
+the null pointer value of type [`T].
+
+[para]
+[:en]
+If [`T] is ["pointer to [$cv1] [`B]] and [`v] has type ["pointer to [$cv2] [`D]]
+such that [`B] is a base class of [`D], the result is a pointer to the unique
+[`B] subobject of the [`D] object pointed to by [`v].
+
+[:en]
+Similarly, if [`T] is ["reference to [$cv1] [`B]] and [`v] has type [$cv2] [`D]
+such that [`B] is a base class of
+[`D], the result is the unique [`B] subobject of the [`D] object referred to by
+[`v].
+
+[footnote]
+[:en]
+The most derived object ([#intro.object]) pointed or referred to by [`v] can
+contain other [`B] objects as base classes, but these are ignored.
+[footnote:end]
+
+[:en]
+The result is an lvalue if [`T] is an lvalue reference, or an xvalue if [`T] is
+an rvalue reference.
+
+[:en]
+In both the pointer and reference cases, the program is ill-formed if [$cv2] has
+greater cv-qualification than [$cv1] or if [`B] is an inaccessible or ambiguous
+base class of [`D].
+
+[enter:example]
+[codeblock]
+struct B { };
+struct D : B { };
+void foo(D* dp) {
+  B*  bp = dynamic_cast<B*>(dp);    // [:en] equivalent to [`B* bp = dp;]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, [`v] shall be a pointer to or a glvalue of a polymorphic type
+([#class.virtual]).
+
+[para]
+[:en]
+If [`T] is ["pointer to [$cv] [`void],] then the result is a pointer to the most
+derived object pointed to by [`v].
+
+[:en]
+Otherwise, a run-time check is applied to see if the object pointed or referred
+to by [`v] can be converted to the type pointed or referred to by [`T].
+
+[para]
+[:en]
+If [`C] is the class type to which [`T] points or refers, the run-time check
+logically executes as follows:
+
+[list]
+[item]
+[:en]
+If, in the most derived object pointed (referred) to by [`v], [`v] points
+(refers) to a [`public] base class subobject of a [`C] object, and if only one
+object of type [`C] is derived from the subobject pointed (referred) to by [`v]
+the result points (refers) to that [`C] object.
+
+[item]
+[:en]
+Otherwise, if [`v] points (refers) to a [`public] base class subobject of the
+most derived object, and the type of the most derived object has a base class,
+of type [`C], that is unambiguous and [`public], the result points (refers) to
+the [`C] subobject of the most derived object.
+
+[item]
+[:en]
+Otherwise, the run-time check [+fails].
+[list:end]
+
+[para]
+[:en]
+The value of a failed cast to pointer type is the null pointer value of the
+required result type.
+
+[:en]
+A failed cast to reference type throws an exception ([#except.throw]) of a type
+that would match a handler ([#except.handle]) of type [`std::bad_cast]
+([#bad.cast]).
+
+[%[`bad_cast]]
+[%@library bad_cast]
+[enter:example]
+[codeblock]
+class A { virtual void f(); };
+class B { virtual void g(); };
+class D : public virtual A, private B { };
+void g() {
+  D   d;
+  B*  bp = (B*)&d;                  // [:en] cast needed to break protection
+  A*  ap = &d;                      // [:en] public derivation, no cast needed
+  D&  dr = dynamic_cast<D&>(*bp);   // [:en] fails
+  ap = dynamic_cast<A*>(bp);        // [:en] fails
+  bp = dynamic_cast<B*>(ap);        // [:en] fails
+  ap = dynamic_cast<A*>(&d);        // [:en] succeeds
+  bp = dynamic_cast<B*>(&d);        // [:en] ill-formed (not a run-time check)
+}
+
+class E : public D, public B { };
+class F : public E, public D { };
+void h() {
+  F   f;
+  A*  ap  = &f;                     // [:en] succeeds: finds unique [`A]
+  D*  dp  = dynamic_cast<D*>(ap);   // [:en] fails: yields [`0]
+                                    // [:en@~] [`f] has two [`D] subobjects
+  E*  ep  = (E*)ap;                 // [:en] ill-formed: cast from virtual base
+  E*  ep1 = dynamic_cast<E*>(ap);   // [:en] succeeds
+}
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+[#class.cdtor] describes the behavior of a [`dynamic_cast] applied to an object
+under construction or destruction.
+[exit:note]

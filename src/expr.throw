@@ -1,0 +1,63 @@
+﻿[section#expr.throw
+    [:en] Throwing an exception
+    [:zh_CN]
+]
+
+[:en]
+[%expression[![`throw]]]
+[%exception handling[!throwing]]
+[%[`throw]]
+
+[syntax]
+[rule throw-expression]
+    [| [`throw] [~:opt assignment-expression] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+A [~throw-expression] is of type [`void].
+
+[para]
+[:en]
+Evaluating a [~throw-expression] with an operand throws an exception
+([#except.throw]); the type of the exception object is determined by removing
+any top-level [~cv-qualifiers] from the static type of the operand and adjusting
+the type from ["array of [`T]] or ["function returning [`T]] to ["pointer to
+[`T]] or ["pointer to function returning [`T],] respectively.
+
+[para]
+[:en]
+[%exception handling[!rethrow]]
+A [~throw-expression] with no operand rethrows the currently handled exception
+([#except.handle]).
+
+[:en]
+The exception is reactivated with the existing exception object; no new
+exception object is created.
+
+[:en]
+The exception is no longer considered to be caught.
+
+[enter:example]
+[:en]
+Code that must be executed because of an exception, but cannot
+completely handle the exception itself, can be written like this:
+[codeblock]
+try {
+    // ...
+} catch (...) {     // [:en] catch all exceptions
+  // [:en] respond (partially) to exception
+  throw;            // [:en] pass the exception to some
+                    // [:en@~] other handler
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%exception handling[!rethrow]]
+[%exception handling[![`terminate()] called]]
+[%[`terminate()][!called]]
+If no exception is presently being handled, evaluating a [~throw-expression]
+with no operand calls [`std::terminate()] ([#except.terminate]).

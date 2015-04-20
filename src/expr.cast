@@ -1,0 +1,138 @@
+﻿[section#expr.cast
+    [:en] Explicit type conversion (cast notation)
+    [:zh_CN]
+]
+
+[%:begin#expression.cast
+    [:en] expression [! cast]
+]
+
+[para]
+[:en]
+The result of the expression [`(T)] [~cast-expression] is of type [`T].
+
+[:en]
+The result is an lvalue if [`T] is an lvalue reference type or an rvalue
+reference to function type and an xvalue if [`T] is an rvalue reference to
+object type; otherwise the result is a prvalue.
+
+[enter:note]
+[:en]
+if [`T] is a non-class type that is cv-qualified, the [~cv-qualifiers] are
+discarded when determining the type of the resulting prvalue; see Clause
+[#expr].
+[exit:note]
+
+[para]
+[:en]
+An explicit type conversion can be expressed using functional notation
+([#expr.type.conv]), a type conversion operator ([`dynamic_cast],
+[`static_cast], [`reinterpret_cast], [`const_cast]), or the [+cast] notation.
+
+[syntax]
+[rule cast-expression [:zh_CN] ]
+    [| unary-expression ]
+    [| [`(] type-id [`)] cast-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Any type conversion not mentioned below and not explicitly defined by the user
+([#class.conv]) is ill-formed.
+
+[para]
+[:en]
+The conversions performed by
+
+[list]
+[:en]
+[%cast[!const]]
+[%cast[!static]]
+[%cast[!reinterpret]]
+[item]
+[:en@~] a [`const_cast] ([#expr.const.cast]),
+[item]
+[:en@~] a [`static_cast] ([#expr.static.cast]),
+[item]
+[:en@~] a [`static_cast] followed by a [`const_cast],
+[item]
+[:en@~] a [`reinterpret_cast] ([#expr.reinterpret.cast]), or
+[item]
+[:en@~] a [`reinterpret_cast] followed by a [`const_cast],
+[list:end]
+
+[:en@~]
+can be performed using the cast notation of explicit type conversion.
+
+[:en]
+The same semantic restrictions and behaviors apply, with the exception that in
+performing a [`static_cast] in the following situations the conversion is valid
+even if the base class is inaccessible:
+
+[list]
+[item]
+[:en]
+a pointer to an object of derived class type or an lvalue or rvalue of derived
+class type may be explicitly converted to a pointer or reference to an
+unambiguous base class type, respectively;
+
+[item]
+[:en]
+a pointer to member of derived class type may be explicitly converted to a
+pointer to member of an unambiguous non-virtual base class type;
+
+[item]
+[:en]
+a pointer to an object of an unambiguous non-virtual base class type, a glvalue
+of an unambiguous non-virtual base class type, or a pointer to member of an
+unambiguous non-virtual base class type may be explicitly converted to a
+pointer, a reference, or a pointer to member of a derived class type,
+respectively.
+[list:end]
+
+[:en]
+If a conversion can be interpreted in more than one of the ways listed above,
+the interpretation that appears first in the list is used, even if a cast
+resulting from that interpretation is ill-formed.
+
+[:en]
+If a conversion can be interpreted in more than one way as a [`static_cast]
+followed by a [`const_cast], the conversion is ill-formed.
+
+[enter:example]
+[codeblock]
+struct A { };
+struct I1 : A { };
+struct I2 : A { };
+struct D : I1, I2 { };
+A* foo( D* p ) {
+  return (A*)( p ); // [:en] ill-formed [`static_cast] interpretation
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%class[!cast to incomplete]]
+The operand of a cast using the cast notation can be a prvalue of type ["pointer
+to incomplete class type].
+
+[:en]
+The destination type of a cast using the cast notation can be ["pointer to
+incomplete class type].
+
+[:en]
+If both the operand and destination types are class types and one or both are
+incomplete, it is unspecified whether the [`static_cast] or the
+[`reinterpret_cast] interpretation is used, even if there is an inheritance
+relationship between the two classes.
+
+[enter:note]
+[:en]
+For example, if the classes were defined later in the translation unit, a
+multi-pass compiler would be permitted to interpret a cast between pointers to
+the classes as if the class types were complete at the point of the cast.
+[exit:note]
+
+[%:end#expression.cast]

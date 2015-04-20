@@ -1,0 +1,331 @@
+﻿[section#expr.prim.general
+    [:en] General
+    [:zh_CN]
+]
+
+[syntax]
+[rule primary-expression [:zh_CN] ]
+    [| literal ]
+    [| [`this] ]
+    [| [`(] expression [`)] ]
+    [| id-expression ]
+    [| lambda-expression ]
+    [| fold-expression ]
+[rule:end]
+
+[rule id-expression [:zh_CN] ]
+    [| unqualified-id ]
+    [| qualified-id ]
+[rule:end]
+
+[rule unqualified-id [:zh_CN] ]
+    [| identifier ]
+    [| operator-function-id ]
+    [| conversion-function-id ]
+    [| literal-operator-id ]
+    [| [`~] class-name ]
+    [| [`~] decltype-specifier ]
+    [| template-id ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+A [%literal] [%constant] [~literal] is a primary expression.
+
+[:en]
+Its type depends on its form ([#lex.literal]).
+
+[:en]
+A string literal is an lvalue; all other literals are prvalues.
+
+[para]
+[%[`this]]
+[:en]
+The keyword [`this] names a pointer to the object for which a non-static member
+function ([#class.this]) is invoked or a non-static data member[=']s initializer
+([#class.mem]) is evaluated.
+
+[para]
+[:en]
+If a declaration declares a member function or member function template of a
+class [`X], the expression [`this] is a prvalue of type ["pointer to
+[~cv-qualifier-seq] [`X]] between the optional [~cv-qualifer-seq] and the end of
+the [~function-definition], [~member-declarator], or [~declarator].
+
+[:en]
+It shall not appear before the optional [~cv-qualifier-seq] and it shall not
+appear within the declaration of a static member function (although its type and
+value category are defined within a static member function as they are within a
+non-static member function).
+
+[enter:note]
+[:en]
+this is because declaration matching does not occur until the complete
+declarator is known.
+[exit:note]
+
+[:en]
+Unlike the object expression in other contexts, [`*this] is not required to be
+of complete type for purposes of class member access ([#expr.ref]) outside the
+member function body.
+
+[enter:note]
+[:en]
+only class members declared prior to the declaration are visible.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct A {
+  char g();
+  template<class T> auto f(T t) -> decltype(t + g())
+    { return t + g(); }
+};
+template auto A::f(int t) -> decltype(t + g());
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, if a [~member-declarator] declares a non-static data member
+([#class.mem]) of a class [`X], the expression [`this] is a prvalue of type
+["pointer to [`X]] within the optional [~brace-or-equal-initializer].
+
+[:en]
+It shall not appear elsewhere in the [~member-declarator].
+
+[para]
+[:en]
+The expression [`this] shall not appear in any other context.
+
+[enter:example]
+[codeblock]
+class Outer {
+  int a[sizeof(*this)];               // [:en] error: not inside a member function
+                                      // [|:zh_CN]
+  unsigned int sz = sizeof(*this);    // [:en] OK: in [~brace-or-equal-initializer]
+                                      // [|:zh_CN]
+
+  void f() {
+    int b[sizeof(*this)];             // [:en] OK
+                                      // [|:zh_CN]
+
+    struct Inner {
+      int c[sizeof(*this)];           // [:en] error: not inside a member function of [`Inner]
+                                      // [|:zh_CN]
+    };
+  }
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%expression[!parenthesized]]
+A parenthesized expression is a primary expression whose type and value are
+identical to those of the enclosed expression.
+
+[:en]
+The presence of parentheses does not affect whether the expression is an lvalue.
+
+[:en]
+The parenthesized expression can be used in exactly the same contexts as those
+where the enclosed expression can be used, and with the same meaning, except as
+otherwise indicated.
+
+[para]
+[:en]
+[%name] [%id-expression]
+An [~id-expression] is a restricted form of a [~primary-expression].
+
+[enter:note]
+[:en]
+an [~id-expression] can appear after [`.] and [`->] operators ([#expr.ref]).
+[exit:note]
+
+[para]
+[:en]
+[%identifier]
+An [~identifier] is an [~id-expression] provided it has been suitably declared
+(Clause [#dcl.dcl]).
+
+[enter:note]
+[:en]
+for [~operator-function-id]s, see [#over.oper]; for [~conversion-function-id]s,
+see [#class.conv.fct]; for [~literal-operator-id]s, see [#over.literal]; for
+[~template-id]s, see [#temp.names].
+
+[:en]
+A [~class-name] or [~decltype-specifier] prefixed by [`~] denotes a destructor;
+see [#class.dtor].
+
+[:en]
+Within the definition of a non-static member function, an [~identifier] that
+names a non-static member is transformed to a class member access expression
+([#class.mfct.non-static]).
+
+[exit:note]
+[:en]
+The type of the expression is the type of the [~identifier].
+
+[:en]
+The result is the entity denoted by the identifier.
+
+[:en]
+The result is an lvalue if the entity is a function, variable, or data member
+and a prvalue otherwise.
+
+[syntax]
+
+[%
+    [:en] operator[!scope resolution]
+]
+[%
+    [:en] [`::] [see scope resolution operator]
+]
+
+[rule qualified-id [:zh_CN] ]
+    [| nested-name-specifier [`:opt template] unqualified-id ]
+[rule:end]
+
+[%
+    [:en] operator [!scope resolution]
+]
+[%
+    [:en] name hiding
+]
+
+[rule nested-name-specifier [:zh_CN] ]
+    [| [`::] ]
+    [| type-name [`::] ]
+    [| namespace-name [`::] ]
+    [| decltype-specifier [`::] ]
+    [| nested-name-specifier identifier [`::] ]
+    [| nested-name-specifier [`:opt template] simple-template-id [`::] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The type denoted by a [~decltype-specifier] in a [~nested-name-specifier] shall
+be a class or enumeration type.
+
+[para]
+[:en]
+A [~nested-name-specifier] that denotes a class, optionally followed by the
+keyword [`template] ([#temp.names]), and then followed by the name of a member
+of either that class ([#class.mem]) or one of its base classes (Clause
+[#class.derived]), is a [%id[!qualified]] [~qualified-id]; [#class.qual]
+describes name lookup for class members that appear in [~qualified-ids].
+
+[:en]
+The result is the member.
+
+[:en]
+The type of the result is the type of the member.
+
+[:en]
+The result is an lvalue if the member is a static member function or a data
+member and a prvalue otherwise.
+
+[enter:note]
+[:en]
+a class member can be referred to using a [~qualified-id] at any point in its
+potential scope ([#basic.scope.class]).
+[exit:note]
+
+[:en]
+Where [~class-name] [`::~] [~class-name] is used, the two [~class-name]s shall
+refer to the same class; this notation names the destructor ([#class.dtor]).
+
+[:en]
+The form [`~] [~decltype-specifier] also denotes the destructor, but it shall
+not be used as the [~unqualified-id] in a [~qualified-id].
+
+[enter:note]
+[:en]
+a [~typedef-name] that names a class is a [~class-name] ([#class.name]).
+[exit:note]
+
+[para]
+[:en]
+The [~nested-name-specifier] [`::] names the global namespace.
+
+[:en]
+A [~nested-name-specifier] that names a namespace ([#basic.namespace]), followed
+by the name of a member of that namespace (or the name of a member of a
+namespace made visible by a [~using-directive]), is a [%id[!qualified]]
+[~qualified-id]; [#namespace.qual] describes name lookup for namespace members
+that appear in [~qualified-ids].
+
+[:en]
+The result is the member.
+
+[:en]
+The type of the result is the type of the member.
+
+[:en]
+The result is an lvalue if the member is a function or a variable and a prvalue
+otherwise.
+
+[para]
+[:en]
+A [~nested-name-specifier] that denotes an enumeration ([#dcl.enum]), followed
+by the name of an enumerator of that enumeration, is a [~qualified-id] that
+refers to the enumerator.
+
+[:en]
+The result is the enumerator.
+
+[:en]
+The type of the result is the type of the enumeration.
+
+[:en]
+The result is a prvalue.
+
+[para]
+[:en]
+In a [~qualified-id], if the [~unqualified-id] is a [~conversion-function-id],
+its [~conversion-type-id] shall denote the same type in both the context in
+which the entire [~qualified-id] occurs and in the context of the class denoted
+by the [~nested-name-specifier].
+
+[para]
+[:en]
+An [~id-expression] that denotes a non-static data member or non-static member
+function of a class can only be used:
+
+[list]
+[item]
+[:en@~]
+as part of a class member access ([#expr.ref]) in which the object expression
+refers to the member[=']s class
+
+[footnote]
+[:en]
+This also applies when the object expression is an implicit [`(*this)]
+([#class.mfct.non-static]).
+[footnote:end]
+
+[:en@~]
+or a class derived from that class, or
+
+[item]
+[:en@~]
+to form a pointer to member ([#expr.unary.op]), or
+
+[item]
+[:en@~]
+if that [~id-expression] denotes a non-static data member and it appears in an
+unevaluated operand.
+
+[enter:example]
+[codeblock]
+struct S {
+  int m;
+};
+int i = sizeof(S::m);           // OK
+int j = sizeof(S::m + 42);      // OK
+[codeblock:end]
+[exit:example]
+[list:end]

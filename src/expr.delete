@@ -1,0 +1,248 @@
+﻿[section#expr.delete
+    [:en] Delete
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[![`delete]]]
+[%[`delete]]
+The [~delete-expression] operator destroys a most derived object
+([#intro.object]) or array created by a [~new-expression].
+
+[syntax]
+[rule delete-expression [:zh_CN] ]
+    [| [`:opt ::] [`delete] cast-expression ]
+    [| [`:opt ::] [`delete] [`[] [``]] cast-expression ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The first alternative is for non-array objects, and the second is for arrays.
+
+[:en]
+Whenever the [`delete] keyword is immediately followed by empty square brackets,
+it shall be interpreted as the second alternative.
+
+[footnote]
+[:en]
+A lambda expression with a [~lambda-introducer] that consists of empty square
+brackets can follow the [`delete] keyword if the lambda expression is enclosed
+in parentheses.
+[footnote:end]
+
+[:en]
+The operand shall be of pointer to object type or of class type.
+
+[:en]
+If of class type, the operand is contextually implicitly converted (Clause
+[#conv]) to a pointer to object type.
+
+[footnote]
+[:en]
+This implies that an object cannot be deleted using a pointer of type [`void*]
+because [`void] is not an object type.
+[footnote:end]
+
+[:en]
+The [~delete-expression][=']s result has type [`void].
+
+[para]
+[:en]
+[%[`delete][!object]]
+If the operand has a class type, the operand is converted to a pointer type by
+calling the above-mentioned conversion function, and the converted operand is
+used in place of the original operand for the remainder of this section.
+
+[:en]
+[%object[!delete]]
+In the first alternative ([+delete object]), the value of the operand of
+[`delete] may be a null pointer value, a pointer to a non-array object created
+by a previous [~new-expression], or a pointer to a subobject ([#intro.object])
+representing a base class of such an object (Clause [#class.derived]).
+
+[:en]
+If not, the behavior is undefined.
+
+[:en]
+[%array[![`delete]]]
+[%[`delete][!array]]
+In the second alternative ([+delete array]), the value of the operand of
+[`delete] may be a null pointer value or a pointer value that resulted from a
+previous array [~new-expression].
+
+[footnote]
+[:en]
+For non-zero-length arrays, this is the same as a pointer to the first element
+of the array created by that [~new-expression].
+
+[:en]
+Zero-length arrays do not have a first element.
+[footnote:end]
+
+[:en]
+If not, the behavior is undefined.
+
+[enter:note]
+[:en]
+this means that the syntax of the [~delete-expression] must match the type of
+the object allocated by [`new], not the syntax of the [~new-expression].
+[exit:note]
+
+[enter:note]
+[:en]
+a pointer to a [`const] type can be the operand of a [~delete-expression]; it is
+not necessary to cast away the constness ([#expr.const.cast]) of the pointer
+expression before it is used as the operand of the [~delete-expression].
+[exit:note]
+
+[para]
+[:en]
+[%[`delete][!undefined]]
+In the first alternative ([+delete object]), if the static type of the object to
+be deleted is different from its dynamic type, the static type shall be a base
+class of the dynamic type of the object to be deleted and the static type shall
+have a virtual destructor or the behavior is undefined.
+
+[:en]
+In the second alternative ([+delete array]) if the dynamic type of the object to
+be deleted differs from its static type, the behavior is undefined.
+
+[para]
+[:en]
+The [~cast-expression] in a [~delete-expression] shall be evaluated exactly
+once.
+
+[para]
+[:en]
+[%type[!incomplete]]
+If the object being deleted has incomplete class type at the point of deletion
+and the complete class has a non-trivial destructor or a deallocation function,
+the behavior is undefined.
+
+[para]
+[:en]
+[%[`delete][!destructor and]]
+If the value of the operand of the [~delete-expression] is not a null pointer
+value, the [~delete-expression] will invoke the destructor (if any) for the
+object or the elements of the array being deleted.
+
+[:en]
+In the case of an array, the elements will be destroyed in order of decreasing
+address (that is, in reverse order of the completion of their constructor; see
+[#class.base.init]).
+
+[para]
+[:en]
+If the value of the operand of the [~delete-expression] is not a null pointer
+value, then:
+
+[list]
+[item]
+[:en]
+If the allocation call for the [~new-expression] for the object to be deleted
+was not omitted and the allocation was not extended ([#expr.new]), the
+[~delete-expression] shall call a deallocation function
+([#basic.stc.dynamic.deallocation]).
+
+[:en]
+The value returned from the allocation call of the [~new-expression] shall be
+passed as the first argument to the deallocation function.
+
+[item]
+[:en]
+Otherwise, if the allocation was extended or was provided by extending the
+allocation of another [~new-expression], and the [~delete-expression] for every
+other pointer value produced by a [~new-expression] that had storage provided by
+the extended [~new-expression] has been evaluated, the [~delete-expression]
+shall call a deallocation function.
+
+[:en]
+The value returned from the allocation call of the extended [~new-expression]
+shall be passed as the first argument to the deallocation function.
+
+[item]
+[:en]
+Otherwise, the [~delete-expression] will not call a
+[%function[!deallocation]]
+[%deallocation[see [`delete]]]
+[%[`delete]]
+[+deallocation function] ([#basic.stc.dynamic.deallocation]).
+[list:end]
+
+[:en]
+Otherwise, it is unspecified whether the deallocation function will be called.
+
+[enter:note]
+[:en]
+The deallocation function is called regardless of whether the destructor for the
+object or some element of the array throws an exception.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+An implementation provides default definitions of the global deallocation
+functions [`operator delete()] for non-arrays ([#new.delete.single]) and
+[%operator [see [`delete]]]
+[%[`operator delete]]
+[`operator delete[`]()] for arrays ([#new.delete.array]).
+
+[:en]
+A [=Cpp] program can provide alternative definitions of these functions
+([#replacement.functions]), and/or class-specific versions ([#class.free]).
+[exit:note]
+
+[para]
+[:en]
+When the keyword [`delete] in a [~delete-expression] is preceded by the unary
+[`::] operator, the deallocation function[=']s name is looked up in global
+scope.
+
+[:en]
+Otherwise, the lookup considers class-specific deallocation functions
+([#class.free]).
+
+[:en]
+If no class-specific deallocation function is found, the deallocation
+function[=']s name is looked up in global scope.
+
+[para]
+[:en]
+If deallocation function lookup finds both a usual deallocation function with
+only a pointer parameter and a usual deallocation function with both a pointer
+parameter and a size parameter, the function to be called is selected as
+follows:
+
+[list]
+[item]
+[:en]
+If the type is complete and if, for the second alternative (delete array) only,
+the operand is a pointer to a class type with a non-trivial destructor or a
+(possibly multi-dimensional) array thereof, the function with two parameters is
+selected.
+
+[item]
+[:en]
+Otherwise, it is unspecified which of the two deallocation functions is
+selected.
+[list:end]
+
+[para]
+[:en]
+When a [~delete-expression] is executed, the selected deallocation function
+shall be called with the address of the block of storage to be reclaimed as its
+first argument and (if the two-parameter deallocation function is used) the size
+of the block as its second argument.
+[footnote]
+
+[:en]
+If the static type of the object to be deleted is complete and is different from
+the dynamic type, and the destructor is not virtual, the size might be
+incorrect, but that case is already undefined, as stated above.
+[footnote:end]
+
+[para]
+[:en]
+Access and ambiguity control are done for both the deallocation function and the
+destructor ([#class.dtor], [#class.free]).

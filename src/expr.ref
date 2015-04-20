@@ -1,0 +1,192 @@
+﻿[section#expr.ref
+    [:en] Class member access
+    [:zh_CN]
+]
+
+[para]
+[:en]
+[%expression[!class member access]]
+[%access control[!class member]]
+[%syntax[!class member]]
+[%semantics[!class member]]
+[%operator[!class member access]]
+[%[`.][see operator [!class member access]]]
+[%dot operator[see operator [!class member access]]]
+[%operator[!class member access]]
+[%[`->][see operator [!class member access]]]
+[%arrow operator[see operator [!class member access]]]
+A postfix expression followed by a dot [`.] or an arrow [`->], optionally
+followed by the keyword [`template] ([#temp.names]), and then followed by an
+[~id-expression], is a postfix expression.
+
+[:en]
+The postfix expression before the dot or arrow is evaluated;
+
+[footnote]
+[:en]
+If the class member access expression is evaluated, the subexpression evaluation
+happens even if the result is unnecessary to determine the value of the entire
+postfix expression, for example if the [~id-expression] denotes a static member.
+[footnote:end]
+
+[:en]
+the result of that evaluation, together with the [~id-expression], determines
+the result of the entire postfix expression.
+
+[para]
+[:en]
+[%type[!incomplete]]
+For the first option (dot) the first expression shall have complete class type.
+
+[:en]
+For the second option (arrow) the first expression shall have pointer to
+complete class type.
+
+[:en]
+The expression [`E1->E2] is converted to the equivalent form [`(*(E1)).E2]; the
+remainder of [#expr.ref] will address only the first option (dot).
+
+[footnote]
+[:en]
+Note that [`(*(E1))] is an lvalue.
+[footnote:end]
+
+[:en]
+In either case, the [~id-expression] shall name a member of the class or of one
+of its base classes.
+
+[enter:note]
+[:en]
+because the name of a class is inserted in its class scope (Clause [#class]),
+the name of a class is also considered a nested member of that class.
+[exit:note]
+
+[enter:note]
+[:en]
+[#basic.lookup.classref] describes how names are looked up after the [`.] and
+[`->] operators.
+[exit:note]
+
+[para]
+[:en]
+Abbreviating [+postfix-expression.id-expression] as [`E1.E2], [`E1] is called
+the [def object expression].
+
+[:en]
+The type and value category of [`E1.E2] are determined as follows.
+
+[:en]
+In the remainder of [#expr.ref], [$cq] represents either [`const] or the absence
+of [`const] and [$vq] represents either [`volatile] or the absence of
+[`volatile].
+
+[:en]
+[$cv] represents an arbitrary set of cv-qualifiers, as defined in
+[#basic.type.qualifier].
+
+[para]
+[:en]
+If [`E2] is declared to have type ["reference to [`T],] then [`E1.E2] is an
+lvalue; the type of [`E1.E2] is [`T].
+
+[:en]
+Otherwise, one of the following rules applies.
+
+[list]
+[item]
+[:en]
+If [`E2] is a static data member and the type of [`E2] is [`T], then [`E1.E2] is
+an lvalue; the expression designates the named member of the class. The type of
+[`E1.E2] is [`T].
+
+[item]
+[:en]
+If [`E2] is a non-static data member and the type of [`E1] is ["[$cq1 vq1]
+[`X]], and the type of [`E2] is ["[$cq2 vq2] [`T]], the expression designates
+the named member of the object designated by the first expression.
+
+[:en]
+If [`E1] is an lvalue, then [`E1.E2] is an lvalue; otherwise [`E1.E2] is an
+xvalue.
+
+[:en]
+Let the notation [$vq12] stand for the ["union] of [$vq1] and [$vq2]; that is,
+if [$vq1] or [$vq2] is [`volatile], then [$vq12] is [`volatile].
+
+[:en]
+Similarly, let the notation [$cq12] stand for the ["union] of [$cq1] and [$cq2];
+that is, if [$cq1] or [$cq2] is [`const], then [$cq12] is [`const].
+
+[:en]
+If [`E2] is declared to be a [`mutable] member, then the type of [`E1.E2] is
+["[$vq12] [`T]].
+
+[:en]
+If [`E2] is not declared to be a [`mutable] member, then the type of [`E1.E2] is
+["[$cq12] [$vq12] [`T]].
+
+[item]
+[:en]
+If [`E2] is a (possibly overloaded) member function, function overload
+resolution ([#over.match]) is used to determine whether [`E1.E2] refers to a
+static or a non-static member function.
+
+[list]
+[item]
+[:en]
+If it refers to a static member function and the type of [`E2] is ["function of
+parameter-type-list returning [`T]], then [`E1.E2] is an lvalue; the expression
+designates the static member function.
+
+[:en]
+The type of [`E1.E2] is the same type as that of [`E2], namely ["function of
+parameter-type-list returning [`T]].
+
+[item]
+[:en]
+Otherwise, if [`E1.E2] refers to a non-static member function and the type of
+[`E2] is ["function of parameter-type-list [$cv] [~:opt ref-qualifier] returning
+[`T]], then [`E1.E2] is a prvalue.
+
+[:en]
+The expression designates a non-static member function.
+
+[:en]
+The expression can be used only as the left-hand operand of a member function
+call ([#class.mfct]).
+
+[enter:note]
+[:en]
+Any redundant set of parentheses surrounding the expression is ignored
+([#expr.prim]).
+[exit:note]
+
+[:en]
+The type of [`E1.E2] is ["function of parameter-type-list [$cv] returning [`T]].
+[list:end]
+
+[item]
+[:en]
+If [`E2] is a nested type, the expression [`E1.E2] is ill-formed.
+
+[item]
+[:en]
+If [`E2] is a member enumerator and the type of [`E2] is [`T], the expression
+[`E1.E2] is a prvalue.
+
+[:en]
+The type of [`E1.E2] is [`T].
+[list:end]
+
+[para]
+[:en]
+If [`E2] is a non-static data member or a non-static member function, the
+program is ill-formed if the class of which [`E2] is directly a member is an
+ambiguous base ([#class.member.lookup]) of the naming class
+([#class.access.base]) of [`E2].
+
+[enter:note]
+[:en]
+The program is also ill-formed if the naming class is an ambiguous base of the
+class type of the object expression; see [#class.access.base].
+[exit:note]

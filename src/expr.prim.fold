@@ -1,0 +1,80 @@
+﻿[section#expr.prim.fold
+    [:en] Fold expressions
+    [:zh_CN]
+]
+
+[%:begin#expression.fold
+    [:en] expression [! fold]
+]
+
+[para]
+[:en]
+A fold expression performs a fold of a template parameter pack
+([#temp.variadic]) over a binary operator.
+
+[syntax]
+[rule fold-expression [:zh_CN] ]
+    [| [`(] cast-expression fold-operator [`...] [`)] ]
+    [| [`(] [`...] fold-operator cast-expression [`)] ]
+    [| [`(] cast-expression fold-operator [`...] fold-operator cast-expression [`)] ]
+[rule:end]
+
+[rule:oneof@aligned fold-operator [:zh_CN] ]
+    [|  +   -   *   /   %   ^   &   |   <<  >>      ]
+    [|  +=  -=  *=  /=  %=  ^=  &=  |=  <<= >>= =   ]
+    [|  ==  !=  <   >   <=  >=  &&  ||  ,   .*  ->* ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%fold[!unary]]
+An expression of the form [`(...] [$op] [`e)] where [$op] is a [~fold-operator]
+is called a [def unary left fold].
+
+[:en]
+An expression of the form [`(e] [$op] [`...)] where [$op] is a [~fold-operator]
+is called a [def unary right fold].
+
+[:en]
+Unary left folds and unary right folds are collectively called [def unary folds
+[%unary fold]].
+
+[:en]
+In a unary fold, the [~cast-expression] shall contain an unexpanded parameter
+pack ([#temp.variadic]).
+
+[para]
+[:en]
+[%fold[!binary]]
+An expression of the form [`(e1] [$op1] [`...] [$op2] [`e2)] where [$op1] and
+[$op2] are [~fold-operator]s is called a [def binary fold].
+
+[:en]
+In a binary fold, [$op1] and [$op2] shall be the same [~fold-operator], and
+either [`e1] shall contain an unexpanded parameter pack or [`e2] shall contain
+an unexpanded parameter pack, but not both.
+
+[:en]
+If [`e2] contains an unexpanded parameter pack, the expression is called a [def
+binary left fold].
+
+[:en]
+If [`e1] contains an unexpanded parameter pack, the expression is called a [def
+binary right fold].
+
+[enter:example]
+[codeblock]
+template<typename ...Args>
+bool f(Args ...args) {
+  return (true && ... && args); // OK
+}
+
+template<typename ...Args>
+bool f(Args ...args) {
+  return (args + ... + args); // [:en] error: both operands contain unexpanded parameter packs
+}
+[codeblock:end]
+[exit:example]
+
+[%:end#expression.fold]
