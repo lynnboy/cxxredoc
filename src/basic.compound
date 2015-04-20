@@ -1,44 +1,71 @@
 ﻿[section#basic.compound
     [:en] Compound types
-    [:zh_CN] 
+    [:zh_CN] 组合类型
 ]
 
 [para]
 [:en]
 [%type[!compound]]
 Compound types can be constructed in the following ways:
+[:zh_CN]
+[%类型[!组合～]]
+组合类型可通过如下方式构成：
 
 [list]
 [item]
+[:en]
 [%type[!array]]
 [+arrays] of objects of a given type, [#dcl.array];
+[:zh_CN]
+[%类型[!数组～]]
+给定类型对象的[+数组]，[#dcl.array]；
 
 [item]
+[:en]
 [%type[!function]]
 [+functions], which have parameters of given types and return [`void] or
 references or objects of a given type, [#dcl.fct];
+[:zh_CN]
+[%类型[!函数～]]
+具有给定类型的形参，并返回 [`void] 或给定类型的引用或对象的[+函数]，[#dcl.fct]；
 
 [item]
+[:en]
 [%type[!pointer]]
 [+pointers] to [`void] or objects or functions (including static members of
 classes) of a given type, [#dcl.ptr];
+[:zh_CN]
+[%类型[!指针～]]
+指向 [`void] 或者给定类型的对象或函数（包括类的静态成员）的指针，[#dcl.ptr]；
 
 [item]
 [:en]
 [%reference] [%reference[!lvalue]] [%reference[!rvalue]]
 [%lvalue reference] [%rvalue reference]
 [+references] to objects or functions of a given type, [#dcl.ref].
+[:zh_CN]
+[%引用] [%引用[!左值～]] [%引用[!右值～]]
+[%左值引用] [%右值引用]
+给定类型的对象或函数的引用，[#dcl.ref]。
 
 [:en]
 There are two types of references:
+[:zh_CN]
+有两种类型的引用：
+
 [list]
 [item]
 [:en@~]
 [+lvalue reference]
+[:zh_CN@~]
+[+左值引用]
+
 [item]
 [:en@~]
 [+rvalue reference]
+[:zh_CN@~]
 [list:end]
+[+右值引用]
 
 [item]
 [:en]
@@ -47,135 +74,208 @@ There are two types of references:
 a set of types, enumerations and functions for manipulating these objects
 ([#class.mfct]), and a set of restrictions on the access to these entities
 (Clause [#class.access]);
+[:zh_CN]
+[%类]
+[+类]，包含一个各种类型的对象的序列（第 [#class] 条），一组类型，枚举，和用于
+操作这些对象的函数（[#class.mfct]），以及一组针对这些实体的访问限制（第
+[#class.access] 条）；
 
 [item]
-[:en]
 [%[`union]]
+[:en]
 [+unions], which are classes capable of containing objects of different types at
 different times, [#class.union];
+[:zh_CN]
+[+联合]，是能够在不同时间包含不同类型的对象的类，[#class.union]；
 
 [item]
-[:en]
 [%[`enum]]
+[:en]
 [+enumerations], which comprise a set of named constant values.
+[:zh_CN]
+[+枚举]，由一组具名常量值构成。
 
 [:en]
 Each distinct enumeration constitutes a different
 [%type[!enumerated]] [+enumerated type], [#dcl.enum];
+[:zh_CN]
+每个独立的枚举都构成一个不同的 [%类型[!枚举～]] [+枚举类型]，[#dcl.enum]；
 
 [item]
 [:en]
-[%member pointer to [see pointer to member]]
-[%pointer to member]
+[%member pointer to [see pointer to member]] [%pointer to member]
 [+pointers to non-static]
+[:zh_CN]
+[%指向成员的指针[!成员指针]] [%成员指针]
+[+指向非静态]
 
 [footnote]
+[:en]
 Static class members are objects or functions, and pointers to them are ordinary
 pointers to objects or functions.
+[:zh_CN]
+静态类成员就是对象或函数，而且指向它们的指针就是普通的指向对象或函数的指针。
 [footnote:end]
 
-[:en]
+[:en@~]
 [+class members], which identify members of a given type within objects of a
 given class, [#dcl.mptr].
+[:zh_CN@~]
+[+类成员的指针]，在给定类的对象中识别给定类型的成员，[#dcl.mptr]。
 [list:end]
 
 [para]
 [:en]
 These methods of constructing types can be applied recursively; restrictions are
 mentioned in [#dcl.ptr], [#dcl.array], [#dcl.fct], and [#dcl.ref].
+[:zh_CN]
+这些类型构成方法可以递归应用；在 [#dcl.ptr]，[#dcl.array]，[#dcl.fct]，和
+[#dcl.ref] 中提到其限制。
 
 [:en]
 Constructing a type such that the number of bytes in its object representation
 exceeds the maximum value representable in the type [`std::size_t]
 ([#support.types]) is ill-formed.
+[:zh_CN]
+构成在其对象表示中的字节数超出类型 [`std::size_t]（[#support.types]）的可表示的
+最大值的类型，是非良构的。
 
 [para]
 [:en]
 [%terminology[!pointer]]
 The type of a pointer to [`void] or a pointer to an object type is called an
 [def object pointer type].
+[:zh_CN]
+[%术语[!指针]]
+[`void] 指针类型或指向对象类型的指针被称为[def 对象指针类型]。
 
 [enter:note]
 [:en]
 A pointer to [`void] does not have a pointer-to-object type, however, because
 [`void] is not an object type.
+[:zh_CN]
+[`void] 指针没有所谓指向对象的指针类型，这是因为 [`void] 不是对象类型。
 [exit:note]
 
 [:en]
 The type of a pointer that can designate a function is called a [def function
 pointer type].
+[:zh_CN]
+能够代表函数的指针类型被称为[def 函数指针类型]。
 
 [:en]
 A pointer to objects of type [`T] is referred to as a ["pointer to [`T].]
+[:zh_CN]
+指向 [`T] 类型的对象的指针被称为“[`T] 的指针”。
 
 [enter:example]
 [:en]
 a pointer to an object of type [`int] is referred to as ["pointer to [`int]] and
 a pointer to an object of class [`X] is called a ["pointer to [`X].]
+[:zh_CN]
+指向类型 [`int] 的对象的指针被称为“[`int] 指针”，而指向类 [`X] 的对象的指针被
+称为“[`X] 指针”。
 [exit:example]
 
 [:en]
 Except for pointers to static members, text referring to ["pointers] does not
 apply to pointers to members.
+[:zh_CN]
+除了指向静态成员的指针外，提及“指针”的文字不适用与成员指针。
 
 [:en]
 Pointers to incomplete types are allowed although there are restrictions on what
 can be done with them ([#basic.align]).
+[:zh_CN]
+允许指向不完整类型的指针，但对用它们能做什么有限制（[#basic.align]）。
 
 [:en]
 [%address]
 A valid value of an object pointer type represents either the address of a byte
 in memory ([#intro.memory]) or a null pointer ([#conv.ptr]).
+[:zh_CN]
+[%地址]
+有效的对象指针类型的值，要么表示内存中某个字节的地址（[#intro.memory]），要么为
+空指针（[#conv.ptr]）。
 
 [:en]
 If an object of type [`T] is located at an address [`A], a pointer of type [$cv]
 [`T*] whose value is the address [`A] is said to [+point to] that object,
 regardless of how the value was obtained.
+[:zh_CN]
+若类型 [`T] 的某个对象位于地址 [`A]，则类型为 [$cv] [`T*] 且值为 [`A] 的指针被
+称为[+指向]该对象，无论其值是如何获得的。
 
 [enter:note]
 [:en]
 For instance, the address one past the end of an array ([#expr.add]) would be
 considered to point to an unrelated object of the array[=']s element type that
 might be located at that address.
+[:zh_CN]
+比如，可将超过数组结尾后一个的地址（[#expr.add]），看作指向该数组的元素类型的，
+一个不相关的、可能定位于该地址的对象。
 
 [:en]
 There are further restrictions on pointers to objects with dynamic storage
 duration; see [#basic.stc.dynamic.safety].
+[:zh_CN]
+对于指向具有动态存储期的对象的指针还有进一步的限制；参见
+[#basic.stc.dynamic.safety]。
 [exit:note]
 
 [:en]
 The value representation of pointer types is [%@impldef value representation of
 pointer types] implementation-defined.
+[:zh_CN]
+指针类型的值表示是[%@impldef 指针类型的值表示]由实现定义的。
 
 [:en]
 Pointers to layout-compatible types shall have the same value representation and
 alignment requirements ([#basic.align]).
+[:zh_CN]
+指向布局兼容类型的指针应当具有相同的值表示和对齐要求（[#basic.align]）。
 
 [enter:note]
 [:en]
 Pointers to over-aligned types ([#basic.align]) have no special representation,
 but their range of valid values is restricted by the extended alignment
 requirement.
+[:zh_CN]
+指向过量对齐类型（[#basic.align]）的指针没有特殊的表示，但其扩展对齐要求限制了
+它们的有效值的范围。
 
 [:en]
 This International Standard specifies only two ways of obtaining such a pointer:
 taking the address of a valid object with an over-aligned type, and using one of
 the runtime pointer alignment functions.
+[:zh_CN]
+本国际标准仅指定了两种获取这种指针的方式：获取具有过量对齐类型的有效对象的地址，
+以及使用运行时指针对齐函数之一。
 
 [:en]
 An implementation may provide other means of obtaining a valid pointer value for
-an over-aligned type.[exit:note]
+an over-aligned type.
+[:zh_CN]
+实现可以提供获取过量对齐类型的有效指针值的其它方式。
+[exit:note]
 
 [para]
 [:en]
-[%pointer [seealso [`void*]]]
-[%[`void*][!type]]
+[%pointer [seealso [`void*]]] [%[`void*][!type]]
 A pointer to [$cv]-qualified ([#basic.type.qualifier]) or [$cv]-unqualified
 [`void] can be used to point to objects of unknown type.
+[:zh_CN]
+[%指针 [seealso [`void*]]] [%[`void*][!类型]]
+指向 [$cv]-限定的（[#basic.type.qualifier]）或 [$cv]-未限定的 [`void] 的指针，
+可用于指向未知类型的对象。
 
 [:en]
 Such a pointer shall be able to hold any object pointer.
+[:zh_CN]
+这种指针应当能持有任何对象指针。
 
 [:en]
 An object of type [$cv] [`void*] shall have the same representation and
 alignment requirements as [$cv] [`char*].
+[:zh_CN]
+类型 [$cv] [`void*] 的对象应当与 [$cv] [`char*] 具有相同的表示和对齐要求。

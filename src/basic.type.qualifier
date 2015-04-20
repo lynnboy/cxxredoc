@@ -1,55 +1,81 @@
 ﻿[section#basic.type.qualifier
     [:en] CV-qualifiers
-    [:zh_CN] 
+    [:zh_CN] CV-限定符
 ]
 
 [para]
+[%[`const]] [%[`volatile]]
 [:en]
-[%cv-qualifier] [%[`const]] [%[`volatile]]
+[%cv-qualifier]
 A type mentioned in [#basic.fundamental] and [#basic.compound] is a
 [+cv-unqualified type].
+[:zh_CN]
+[%cv-限定符]
+[#basic.fundamental] 和 [#basic.compound] 中提到的类型是 [+cv-未限定的类型]。
 
 [:en]
 Each type which is a cv-unqualified complete or incomplete object type or is
 [`void] ([#basic.types]) has three corresponding cv-qualified versions of its
-type: a [~const-qualified] version, a [+volatile-qualified] version, and a
+type: a [+const-qualified] version, a [+volatile-qualified] version, and a
 [+const-volatile-qualified] version.
+[:zh_CN]
+每个 cv-未限定的完整或不完整对象类型或 [`void]（[#basic.types]），都有本类型的
+cv-限定的三个对应版本：一个 [~const-限定的]版本，一个 [+volatile-限定的]版本，
+和一个 [+const-volatile-限定的]版本。
 
 [:en]
 The term [+object type] ([#intro.object]) includes the cv-qualifiers specified
 in the [~decl-specifier-seq] ([#dcl.spec]), [~declarator] (Clause [#dcl.decl]),
 [~type-id] ([#dcl.name]), or [~new-type-id] ([#expr.new]) when the object is
 created.
+[:zh_CN]
+术语[+对象类型]（[#intro.object]）包括创建对象时，在[~声明说明符序列]
+（[#dcl.spec]），[~声明符]（第 [#dcl.decl] 条），[~类型标识]（[#dcl.name]），
+或者[~new-类型标识]（[#expr.new]）中所指定的 cv-限定符。
 
 [list]
 [item]
 [:en]
 A [+const object] is an object of type [`const T] or a non-mutable subobject of
 such an object.
+[:zh_CN]
+[+const 对象] 是 [`const T] 类型的对象或这种对象的非 mutable 子对象。
 
 [item]
 [:en]
 A [+volatile object] is an object of type [`volatile T], a subobject of such an
 object, or a mutable subobject of a const volatile object.
+[:zh_CN]
+[+volatile 对象] 是 [`volatile T] 类型的对象，这种对象的子对象，或者 const
+volatile 对象的 mutable 子对象。
 
 [item]
 [:en]
 A [+const volatile object] is an object of type [`const volatile T], a
 non-mutable subobject of such an object, a const subobject of a volatile object,
 or a non-mutable volatile subobject of a const object.
-
+[:zh_CN]
+[+const volatile 对象] 是 [`const volatile T] 类型的对象，这种对象的非 mutable
+子对象，volatile 对象的 const 子对象，或者 const 对象的非 mutable 的 volatile
+子对象。
 [list:end]
 
 [:en]
 The cv-qualified or cv-unqualified versions of a type are distinct types;
 however, they shall have the same representation and alignment requirements
 ([#basic.align]).
+[:zh_CN]
+类型的 cv-限定的或 cv-未限定的版本是独立的类型；然而它们应当具有相同的表示和对齐
+要求（[#basic.align]）。
 
 [footnote]
 [:en]
 The same representation and alignment requirements are meant to imply
 interchangeability as arguments to functions, return values from functions, and
 non-static data members of unions.
+[:zh_CN]
+相同的表示和对齐要求意味着作为函数实参，函数返回值和联合的非静态数据成员时的可
+互换性。
 [footnote:end]
 
 [para]
@@ -57,38 +83,52 @@ non-static data members of unions.
 [%array[![`const]]]
 A compound type ([#basic.compound]) is not cv-qualified by the cv-qualifiers (if
 any) of the types from which it is compounded.
+[:zh_CN]
+[%数组[![`const]]]
+组合类型（[#basic.compound]）并不被组成它的类型的 cv-限定符（如果有）所 cv-限定
+。
 
 [:en]
 Any cv-qualifiers applied to an array type affect the array element type, not
 the array type ([#dcl.array]).
+[:zh_CN]
+施加在数组类型上的任何 cv-限定符都作用于数组元素的类型，而不是该数组类型
+（[#dcl.array]）。
 
 [para]
 [:en]
 See [#dcl.fct] and [#class.this] regarding function types that have
 [~cv-qualifier]s.
+[:zh_CN]
+有关带有 [~cv-限定符]的函数类型，参见 [#dcl.fct] 和 [#class.this]。
 
 [para]
 [:en]
 There is a partial ordering on cv-qualifiers, so that a type can be said to be
-[~more cv-qualified] than another.
+[+more cv-qualified] than another.
+[:zh_CN]
+Cv-限定符有（部分的）顺序，故可称一个类型比另一个[+更加 cv-限定的]。
 
 [:en]
 Table [#tab:relations.on.const.and.volatile] shows the relations that constitute
 this ordering.
+[:zh_CN]
+表 [#tab:relations.on.const.and.volatile] 列出构成这个顺序的关系。
 
 [table:grid@simple#tab:relations.on.const.and.volatile
     [:en] Relations on [`const] and [`volatile]
+    [:zh_CN] [`const] 和 [`volatile] 的关系
     [columns
         [column@center]
         [column@center]
         [column@center]
     ]
 ]
-[|] [:en] [em no cv-qualifier]
+[|] [:en] [em no cv-qualifier] [:zh_CN] [em 无 cv-限定符]
                 [|] [$<]    [|] [`const]
-[|] [:en] [em no cv-qualifier]
+[|] [:en] [em no cv-qualifier] [:zh_CN] [em 无 cv-限定符]
                 [|] [$<]    [|] [`volatile]
-[|] [:en] [em no cv-qualifier]
+[|] [:en] [em no cv-qualifier] [:zh_CN] [em 无 cv-限定符]
                 [|] [$<]    [|] [`const volatile]
 [|] [`const]    [|] [$<]    [|] [`const volatile]
 [|] [`volatile] [|] [$<]    [|] [`const volatile]
@@ -100,35 +140,54 @@ In this International Standard, the notation [$cv] (or [$cv1], [$cv2], etc.),
 used in the description of types, represents an arbitrary set of cv-qualifiers,
 i.e., one of {[`const]}, {[`volatile]}, {[`const], [`volatile]}, or the empty
 set.
+[:zh_CN]
+在本国际标准中，类型的描述中记法 [$cv]（或 [$cv1]、[$cv2] 等）代表任意一组
+cv-限定符，也就是 {[`const]}，{[`volatile]}，{[`const]，[`volatile]} 之一或者
+空集。
 
 [:en]
 [%cv-qualifier[!top-level]]
 For a type [$cv] [`T], the [+top-level cv-qualifiers] of that type are those
 denoted by [$cv].
+[:zh_CN]
+[%cv-限定符[!顶层～]]
+对于类型 [$cv] [`T]，由 [$cv] 代表该类型的[+顶层 cv-限定符]。
 
 [enter:example]
 [:en]
 The type corresponding to the [~type-id] [`const int&] has no top-level
 cv-qualifiers.
+[:zh_CN]
+对应于[~类型标识] [`const int&] 的类型没有顶层 cv-限定符。
 
 [:en]
 The type corresponding to the [~type-id] [`volatile int * const] has the
 top-level cv-qualifier [`const].
+[:zh_CN]
+对应于[~类型标识] [`volatile int * const] 的类型的顶层 cv-限定符为 [`const]。
 
 [:en]
 For a class type [`C], the type corresponding to the [~type-id] [`void (C::*
 volatile)(int) const] has the top-level cv-qualifier [`volatile].
+[:zh_CN]
+对应于[~类型标识] [`void (C::* volatile)(int) const] 的类型的顶层 cv-限定符为
+[`volatile]。
 [exit:example]
 
 [para]
 [:en]
 Cv-qualifiers applied to an array type attach to the underlying element type, so
-the notation ["[+cv] [`T],] where [`T] is an array type, refers to an array
+the notation ["[$cv] [`T],] where [`T] is an array type, refers to an array
 whose elements are so-qualified.
+[:zh_CN]
+施加在数组类型上的 cv-限定符作用于其底层元素类型，故记法“[$cv] [`T]”，其中 [`T]
+为数组类型，代表其元素被如此限定的数组。
 
 [:en]
 An array type whose elements are cv-qualified is also considered to have the
 same cv-qualifications as its elements.
+[:zh_CN]
+元素类型被 cv-限定的数组类型，也被当作具有与其元素相同的 cv-限定性。
 
 [enter:example]
 
@@ -142,4 +201,7 @@ const CA arr2 = { 0 };
 [:en]
 The type of both [`arr1] and [`arr2] is ["array of 5 [`const char],] and the
 array type is considered to be [`const]-qualified.
+[:zh_CN]
+[`arr1] 和 [`arr2] 的类型均为“5 个 [`const char] 的数组”，且其数组类型被当作是
+[`const]-限定的。
 [exit:example]

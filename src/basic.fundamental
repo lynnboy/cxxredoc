@@ -1,172 +1,240 @@
 ﻿[section#basic.fundamental
     [:en] Fundamental types
-    [:zh_CN] 
+    [:zh_CN] 基础类型
 ]
 
 [para]
 [:en]
-[%type[!fundamental]]
-[%type[!integral]]
-[%type[!floating point]]
-[%type[!implementation-defined [`sizeof]]]
-[%type[!Boolean]]
-[%type[![`char]]]
-[%type[!character]]
-[%type[!narrow character]]
+[%type[!fundamental]] [%type[!integral]] [%type[!floating point]]
+[%type[!implementation-defined [`sizeof]]] [%type[!Boolean]]
+[%type[![`char]]] [%type[!character]] [%type[!narrow character]]
 Objects declared as characters ([`char]) shall be large enough to store any
 member of the implementation[=']s basic character set.
+[:zh_CN]
+[%类型[!基础～]] [%类型[!整型～]] [%类型[!浮点～]]
+[%类型[!由实现定义的 [`sizeof] ～]] [%类型[!布尔～]]
+[%类型[![`char]]] [%类型[!字符～]] [%类型[!窄字符～]]
+声明为字符（[`char]）的对象的大小应足够存储该实现的基本字符集中的任何成员。
 
 [:en]
 If a character from this set is stored in a character object, the integral value
 of that character object is equal to the value of the single character literal
 form of that character.
+[:zh_CN]
+若此集合中的字符被存储在某个字符对象中，则该字符对象的整数值等于该字符的单字符
+字面量形式的值。
 
 [:en]
 It is [%@impldef signedness of [`char]] implementation-defined whether a [`char]
 object can hold negative values.
+[:zh_CN]
+[`char] 对象是否可以持有负值是[%@impldef [`char]的符号]由实现定义的。
 
 [:en]
 [%[`char][!implementation-defined sign of]]
-[%type[![`signed char]]]
-[%type[![`unsigned char]]]
+[%type[![`signed char]]] [%type[![`unsigned char]]]
 Characters can be explicitly declared [`unsigned] or [`signed].
+[:zh_CN]
+[%[`char][!由实现定义的符号]]
+[%类型[![`signed char]]] [%类型[![`unsigned char]]]
+字符可以明确声明为 [`unsigned] 或 [`signed]。
 
 [:en]
 [%character[![`signed]]]
 Plain [`char], [`signed char], and [`unsigned char] are three distinct types,
 collectively called [+narrow character types].
+[:zh_CN]
+[%字符[![`signed]]]
+普通的 [`char]，[`signed char] 和 [`unsigned char] 是三个不同的类型，统称为
+[+窄字符类型]。
 
 [:en]
 A [`char], a [`signed char], and an [`unsigned char] occupy the same amount of
 storage and have the same alignment requirements ([#basic.align]); that is, they
 have the same object representation.
+[:zh_CN]
+[`char]，[`signed char]，以及 [`unsigned char] 占据相同数量的存储且带有相同的
+对齐要求（[#basic.align]）；就是说，它们具有相同的对象表示。
 
 [:en]
 For narrow character types, all bits of the object representation participate in
 the value representation.
+[:zh_CN]
+对于窄字符类型，其对象表示中的所有位都参与其值表示。
 
 [:en]
 For unsigned narrow character types, each possible bit pattern of the value
 representation represents a distinct number.
+[:zh_CN]
+对于无符号窄字符类型，其值表示中的所有可能的位模式都表示独立的数值。
 
 [:en]
 These requirements do not hold for other types.
+[:zh_CN]
+其他类型不受这些规定的约束。
 
 [:en]
 In any particular implementation, a plain [`char] object can take on either the
 same values as a [`signed char] or an [`unsigned char]; which one is [%@impldef
 representation of [`char]] implementation-defined.
+[:zh_CN]
+在任何特定的实现中，普通 [`char] 对象可以承担与 [`signed char] 或 [`unsigned
+char] 相同的值；具体是哪一个是[%@impldef [`char] 的表示方式]由实现定义的。
 
 [:en]
 For each value [$i] of type [`unsigned char] in the range 0 to 255 inclusive,
 there exists a value [$j] of type [`char] such that the result of an integral
 conversion ([#conv.integral]) from [$i] to [`char] is [$j], and the result of an
 integral conversion from [$j] to [`unsigned char] is [$i].
+[:zh_CN]
+对于在范围 0 到 255（含）中的每个 [`unsigned char] 类型的值 [$i]，存在一个对应的
+[`char] 类型的值 [$j]，使得从 [$i] 向 [`char] 的整型转换（[#conv.integral]）的
+结果是 [$j]，并且从 [$j] 向 [`unsigned char] 的整型转换的结果是 [$i]。
 
 [para]
 [:en]
-[%type[!standard signed integer]]
-[%standard signed integer type]
+[%type[!standard signed integer]] [%standard signed integer type]
 There are five [+standard signed integer types]:
+[:zh_CN]
+[%类型[!标准有符号整数～]] [%标准有符号整数类型]
+有五种[+标准有符号整数类型]：
 
 [:en]
-[%type[![`signed char]]]
-[%type[![`short]]]
-[%type[![`int]]]
-[%type[![`long]]]
+[%type[![`signed char]]] [%type[![`short]]] [%type[![`int]]] [%type[![`long]]]
 [%type[![`long long]]]
 ["[`signed char]], ["[`short int]], ["[`int]], ["[`long int]], and ["[`long long
 int]].
+[:zh_CN]
+[%类型[![`signed char]]] [%类型[![`short]]] [%类型[![`int]]] [%类型[![`long]]]
+[%类型[![`long long]]]
+“[`signed char]”、“[`short int]”、“[`int]”、“[`long int]”和“[`long long int]”。
 
 [:en]
 In this list, each type provides at least as much storage as those preceding it
 in the list.
+[:zh_CN]
+在这个列表里，每个类型都提供至少为列表中在它之前的类型的存储大小。
 
 [:en]
-[%type[!extended signed integer]]
-[%extended signed integer type]
-[%type[!signed integer]]
-[%signed integer type]
+[%type[!extended signed integer]] [%extended signed integer type]
+[%type[!signed integer]] [%signed integer type]
 There may also be [%@impldef extended signed integer types]
 implementation-defined [+extended signed integer types].
+[:zh_CN]
+[%类型[!扩充有符号整数～]] [%扩充有符号整数类型]
+[%类型[!有符号整数～]] [%有符号整数类型]
+还可以有[%@impldef 扩充有符号整数类型]由实现定义的[+扩充有符号整数类型]。
 
 [:en]
 The standard and extended signed integer types are collectively called [+signed
 integer types].
+[:zh_CN]
+标准和扩充有符号整数类型统称为[+有符号整数类型]。
 
 [:en]
 [%integral type[!implementation-defined [`sizeof]]]
 Plain [`int]s have the natural size suggested by the architecture of the
 execution environment%
+[:zh_CN]
+[%整型类型[!由实现定义的 [`sizeof]～]]
+普通 [`int] 具有其执行环境的架构所建议的天然大小
 
 [footnote]
 [:en]
 [`int] must also be large enough to contain any value in the range
 [=crange[INT_MIN,INT_MAX]], as defined in the header [`<climits>].
+[:zh_CN]
+[`int] 的大小必须足够包含范围 [=crange[INT_MIN,INT_MAX]]（在头文件 [`<climits>]
+中定义）中的任何值。
 [footnote:end]
 
 [:en@~]
 ; the other signed integer types are provided to meet special needs.
+[:zh_CN@~]
+；其他有符号整数类型是为满足特殊需要而提供的。
 
 [para]
 [:en]
 [%type[![`unsigned]]]
 For each of the standard signed integer types, there exists a corresponding (but
 different)
-[%type[!standard unsigned integer]]
-[%standard unsigned integer type]
+[%type[!standard unsigned integer]] [%standard unsigned integer type]
 [+standard unsigned integer type]:
-[%type[![`unsigned char]]]
-[%type[![`unsigned short]]]
-[%type[![`unsigned int]]]
-[%type[![`unsigned long]]]
-[%type[![`unsigned long long]]]
+[%type[![`unsigned char]]] [%type[![`unsigned short]]] [%type[![`unsigned int]]]
+[%type[![`unsigned long]]] [%type[![`unsigned long long]]]
 ["[`unsigned char]], ["[`unsigned short int]], ["[`unsigned int]], ["[`unsigned
 long int]], and ["[`unsigned long long int]], each of which occupies the same
 amount of storage and has the same alignment requirements ([#basic.align]) as
 the corresponding signed integer type
+[:zh_CN]
+[%类型[![`unsigned]]]
+对于每种标准有符号整数类型，都存在对应的（但不同的）
+[%类型[!标准无符号整数～]] [%标准无符号整数类型]
+[+标准无符号整数类型]：
+[%类型[![`unsigned char]]] [%类型[![`unsigned short]]] [%类型[![`unsigned int]]]
+[%类型[![`unsigned long]]] [%类型[![`unsigned long long]]]
+“[`unsigned char]”，“[`unsigned short int]”，“[`unsigned int]”，“[`unsigned long
+int]”，和 “[`unsigned long long int]”，其中每个都与其对应有符号整数类型占据相同
+数量的存储且带有相同的对齐要求（[#basic.align]）
 
 [footnote]
 [:en]
 See [#dcl.type.simple] regarding the correspondence between types and the
 sequences of [~type-specifier]s that designate them.
+[:zh_CN]
+关于类型和代表它们的[~类型说明符]的序列之间的对应关系，参见 [#dcl.type.simple]。
 [footnote:end]
 
 [:en@~]
 ; that is, each signed integer type has the same object representation as
 its corresponding unsigned integer type.
+[:zh_CN@~]
+；就是说，每种有符号整数类型和它对应的无符号整数类型具有相同的对象表示。
 
 [:en]
-[%type[!extended unsigned integer]]
-[%extended unsigned integer type]
-[%type[!unsigned integer]]
-[%unsigned integer type]
+[%type[!extended unsigned integer]] [%extended unsigned integer type]
+[%type[!unsigned integer]] [%unsigned integer type]
 Likewise, for each of the extended signed integer types there exists a
 corresponding [+extended unsigned integer type] with the same amount of storage
 and alignment requirements.
+[:zh_CN]
+[%类型[!扩充无符号整数～]] [%扩充无符号整数类型]
+[%类型[!无符号整数～]] [%无符号整数类型]
+同样，对于每种扩充有符号整数类型，都存在对应的具有相同数量的存储和对齐要求的
+[+扩充无符号整数类型]。
 
 [:en]
 The standard and extended unsigned integer types are collectively called
 [+unsigned integer types].
+[:zh_CN]
+标准和扩充无符号整数类型统称为[+无符号整数类型]。
 
 [:en]
 The range of non-negative values of a [+signed integer] type is a subrange of
 the corresponding [+unsigned integer] type, and the value representation of each
 corresponding signed/unsigned type shall be the same.
+[:zh_CN]
+[+有符号整数]类型的非负值范围是其对应[+无符号整数]类型的子范围，且每个对应的有
+符号/无符号类型的值表示应当相同。
 
 [:en]
-[%type[!standard integer]]
-[%standard integer type]
-[%type[!extended integer]]
-[%extended integer type]
+[%type[!standard integer]] [%standard integer type]
+[%type[!extended integer]] [%extended integer type]
 The standard signed integer types and standard unsigned integer types are
 collectively called the [+standard integer types], and the extended signed
 integer types and extended unsigned integer types are collectively called the
 [+extended integer types].
+[:zh_CN]
+[%类型[!标准整数～]] [%标准整数类型]
+[%类型[!扩充整数～]] [%扩充整数类型]
+标准有符号整数类型和标准无符号整数类型统称为[+标准整数类型]，而扩充有符号整数
+类型和扩充无符号整数类型统称为[+扩充整数类型]。
 
 [:en]
 The signed and unsigned integer types shall satisfy the constraints given in the
 C standard, section 5.2.4.2.1.
+[:zh_CN]
+有符号和无符号整数类型应当符合 C 标准的 5.2.4.2.1 小节中给出的规定。
 
 [para]
 [:en]
@@ -174,6 +242,10 @@ C standard, section 5.2.4.2.1.
 Unsigned integers shall obey the laws of arithmetic modulo [$2[^n]] where [$n]
 is the number of bits in the value representation of that particular size of
 integer.
+[:zh_CN]
+[%算数[![`unsigned]]]
+无符号整数应遵循算术模 [$2[^n]] 法则，其中 [$n] 为特定大小的整数的值表示中的位的
+数量。
 
 [footnote]
 [:en]
@@ -181,70 +253,99 @@ This implies that unsigned arithmetic does not overflow because a result that
 cannot be represented by the resulting unsigned integer type is reduced modulo
 the number that is one greater than the largest value that can be represented by
 the resulting unsigned integer type.
+[:zh_CN]
+这意味着无符号算术不会溢出，因为无法被作为结果的无符号整数类型所表示的结果，会
+按照比这个作为结果的无符号整数类型可以表示的最大值大一的数取模而缩减。
 [footnote:end]
 
 [para]
 [:en]
-[%type[![`char16_t]]]
-[%type[![`char32_t]]]
+[%type[![`char16_t]]] [%type[![`char32_t]]]
 [%[`wchar_t][!implementation-defined]]
-[%type[![`wchar_t]]]
-[%type[!underlying [`wchar_t]]]
+[%type[![`wchar_t]]] [%type[!underlying [`wchar_t]]]
 Type [`wchar_t] is a distinct type whose values can represent distinct codes for
 all members of the largest extended character set specified among the supported
 locales ([#locale]).
+[:zh_CN]
+[%类型[![`char16_t]]] [%类型[![`char32_t]]]
+[%[`wchar_t][!由实现定义的～]] [%类型[![`wchar_t]]] [%类型[![`wchar_t] 底层～]]
+[`wchar_t] 类型，是其值可以用于表示在所支持的区域（[#locale]）之间最大的扩展字符
+集的所有成员的不同编码的一个独立类型。
 
 [:en]
 Type [`wchar_t] shall have the same size, signedness, and alignment requirements
 ([#basic.align]) as one of the other integral types, called its [def underlying
 type].
+[:zh_CN]
+[`wchar_t] 类型应具有与其他整数类型之一相同的大小、符号性和对齐要求
+（[#basic.align]），该类型被称为其 [def 底层类型]。
 
 [:en]
 Types [`char16_t] and [`char32_t] denote distinct types with the same size,
 signedness, and alignment as [`uint_least16_t] and [`uint_least32_t],
 respectively, in [`<cstdint>], called the underlying types.
+[:zh_CN]
+[`char16_t] 和 [`char32_t] 类型分别代表与 [`<cstdint>] 中的 [`uint_least16_t] 和
+[`uint_least32_t] 大小、符号性和对齐相同的独立类型，并被称为它们的底层类型。
 
 [para]
 [:en]
 [%Boolean type]
 Values of type [`bool] are either [`true] or [`false].
+[:zh_CN]
+[%布尔类型]
+[`bool] 类型的值是 [`true] 和 [`false]。
 
 [footnote]
 [:en]
 Using a [`bool] value in ways described by this International Standard as
 ["undefined,] such as by examining the value of an uninitialized automatic
 object, might cause it to behave as if it is neither [`true] nor [`false].
+[:zh_CN]
+以在本国际标准中描述为“未定义的”方式使用 [`bool] 值，比如检查未初始化的自动对象
+的值，可能导致它表现为既不是 [`true] 也不是 [`false]。
 [footnote:end]
 
 [enter:note]
 [:en]
 There are no [`signed], [`unsigned], [`short], or [`long bool] types or values.
+[:zh_CN]
+不存在 [`signed]，[`unsigned]，[`short]，或者 [`long bool] 的类型或值。
 [exit:note]
 
 [:en]
 Values of type [`bool] participate in integral promotions ([#conv.prom]).
+[:zh_CN]
+[`bool] 类型的值参与整型提升（[#conv.prom]）。
 
 [para]
 [:en]
 Types [`bool], [`char], [`char16_t], [`char32_t], [`wchar_t], and the signed and
-unsigned integer types are collectively called
-[%integral type]
-[+integral] types.
+unsigned integer types are collectively called [%integral type] [+integral]
+types.
+[:zh_CN]
+类型 [`bool]，[`char]，[`char16_t]，[`char32_t]，[`wchar_t]，以及有符号和无符号
+整数类型统称[%整型类型][整型]类型。
 
 [footnote]
 [:en]
 Therefore, enumerations ([#dcl.enum]) are not integral; however, enumerations
 can be promoted to integral types as specified in [#conv.prom].
+[:zh_CN]
+因此，枚举（[#dcl.enum]）不是整型；然而，可以按照 [#conv.prom] 所述把枚举提升为
+整型类型。
 [footnote:end]
 
 [:en]
-A synonym for integral type is
-[%integer type]
-[+integer type].
+A synonym for integral type is [%integer type] [+integer type].
+[:zh_CN]
+[%整数类型][+整数类型]是整型类型的同义词。
 
 [:en]
 The representations of integral types shall define values by use of a pure
 binary numeration system.
+[:zh_CN]
+整型类型的表示应当用纯二进制数值系统来定义其值。
 
 [footnote]
 [:en]
@@ -252,66 +353,101 @@ A positional representation for integers that uses the binary digits 0 and 1, in
 which the values represented by successive bits are additive, begin with 1, and
 are multiplied by successive integral power of 2, except perhaps for the bit
 with the highest position.
+[:zh_CN]
+以二进制数字 0 和 1 按位置进行的整数表示方法，其中相继的各个位所代表的值相加，
+它们从 1 开始，并乘以 2 的相继的整数指数，其中可能排除最高位置的位。
 
 [:en]
 (Adapted from the [cite American National Dictionary for Information Processing
 Systems].)
+[:zh_CN]
+（采用自<cite>《美国国家信息处理系统辞典》</cite>。）
 [footnote:end]
 
 [enter:example]
 [:en]
 this International Standard permits 2[=']s complement, 1[=']s complement and
 signed magnitude representations for integral types.
+[:zh_CN]
+本国际标准允许整型类型采用二的补码、一的补码以及符号量值表示。
 [exit:example]
 
 [para]
 [:en]
 [%floating point type]
 There are three [+floating point] types:
-[%type[![`float]]]
-[`float],
-[%type[![`double]]]
-[`double], and
-[%type[![`long double]]]
-[`long double].
+[%type[![`float]]] [`float],
+[%type[![`double]]] [`double], and
+[%type[![`long double]]] [`long double].
+[:zh_CN]
+[%浮点类型]
+有三种[+浮点]类型：
+[%类型[![`float]]] [`float]，
+[%类型[![`double]]] [`double]，以及
+[%类型[![`long double]]] [`long double]。
 
 [:en]
 The type [`double] provides at least as much precision as [`float], and the type
 [`long double] provides at least as much precision as [`double].
+[:zh_CN]
+[`double] 类型至少提供 [`float] 的精度，而 [`long double] 类型至少提供 [`double]
+的精度。
 
 [:en]
 The set of values of the type [`float] is a subset of the set of values of the
 type [`double]; the set of values of the type [`double] is a subset of the set
-of values of the type [`long] [`double].
+of values of the type [`long double].
+[:zh_CN]
+[`float] 类型的值集是 [`double] 类型的值集的子集；[`double] 类型的值集是 [`long
+double] 类型的值集的子集
 
 [:en]
 The value representation of floating-point types is [%@impldef value
 representation of floating-point types] implementation-defined.
 [%floating point type[!implementation-defined]]
+[:zh_CN]
+浮点类型的值表示是[%@impldef 浮点类型的值表示]由实现定义的。
+[%浮点类型[!由实现定义的～]]
 
 [:en]
 [%type[!arithmetic]]
 [+Integral] and [+floating] types are collectively called [+arithmetic] types.
+[:zh_CN]
+[%类型[!算数～]]
+[+整型]和[+浮点]类型统称为[+算数]类型。
 
 [:en]
 [%[`numeric_limits][!specializations for arithmetic types]]
 Specializations of the standard template [`std::numeric_limits]
 ([#support.limits]) shall specify the maximum and minimum values of each
 arithmetic type for an implementation.
+[:zh_CN]
+[%[`numeric_limits][!算数类型的特例]]
+标准模板 [`std::numeric_limits]（[#support.limits]）的特例应当指出实现中每种算术
+类型的最大值和最小值。
 
 [para]
 [:en]
 [%type[![`void]]]
 The [`void] type has an empty set of values.
+[:zh_CN]
+[%类型[![`void]]]
+[`void] 类型值集为空。
 
 [:en]
 The [`void] type is an incomplete type that cannot be completed.
+[:zh_CN]
+[`void] 类型是不能被补全的不完整类型。
 
 [:en]
 It is used as the return type for functions that do not return a value.
+[:zh_CN]
+它被用于不返回值的函数的返回类型。
 
 [:en]
 Any expression can be explicitly converted to type [$cv] [`void] ([#expr.cast]).
+[:zh_CN]
+任意表达式可被显式转换为 [$cv] [`void]（[#expr.cast]）。
 
 [:en]
 An expression of type [`void] shall be used only as an expression statement
@@ -320,22 +456,34 @@ or third operand of [`?:] ([#expr.cond]), as the operand of [`typeid],
 [`noexcept], or [`decltype], as the expression in a return statement
 ([#stmt.return]) for a function with the return type [`void], or as the operand
 of an explicit conversion to type [$cv] [`void].
+[:zh_CN]
+[`void] 类型的表达式只能用作表达式语句（[#stmt.expr]），逗号表达式的操作数
+（[#expr.comma]），[`?:] 的第二或第三操作数（[#expr.cond]），[`typeid]，
+[`noexcept]，或 [`decltype] 的操作数，具有返回类型为 [`void] 的函数的返回语句中
+的表达式（[#stmt.return]），或向类型 [$cv] [`void] 的显式转换的操作数。
 
 [para]
 [:en]
 A value of type [`std::nullptr_t] is a null pointer constant ([#conv.ptr]).
+[:zh_CN]
+[`std::nullptr_t] 类型的值是空指针常量（[#conv.ptr]）。
 
 [:en]
 Such values participate in the pointer and the pointer to member conversions
 ([#conv.ptr], [#conv.mem]).
+[:zh_CN]
+这种值参与指针转换和成员指针转换（[#conv.ptr]，[#conv.mem]）。
 
 [:en]
 [`sizeof(std::nullptr_t)] shall be equal to [`sizeof(void*)].
+[:zh_CN]
+[`sizeof(std::nullptr_t)] 应当等于 [`sizeof(void*)]。
 
 [para]
 [enter:note]
- 
 [:en]
 Even if the implementation defines two or more basic types to have the same
 value representation, they are nevertheless different types.
+[:zh_CN]
+即使两个或多个基本类型被实现定义为具有相同的值表示，它们仍为不同类型。
 [exit:note]

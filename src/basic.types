@@ -1,10 +1,11 @@
 ﻿[section#basic.types
     [:en] Types
-    [:zh_CN] 
+    [:zh_CN] 类型
 ]
 
 [%:begin#type
     [:en] type
+    [:zh_CN] 类型
 ]
 
 [para]
@@ -12,17 +13,24 @@
 [:en]
 [#basic.types] and the subclauses thereof impose requirements on implementations
 regarding the representation of types.
+[:zh_CN]
+[#basic.types] 及其子条款对实现施加了关于类型的表示的规定。
 
 [:en]
 There are two kinds of types: fundamental types and compound types.
+[:zh_CN]
+类型有两种：基础类型和组合类型。
 
 [:en]
 Types describe objects ([#intro.object]), references ([#dcl.ref]), or functions
 ([#dcl.fct]).
+[:zh_CN]
+类型用于描述对象（[#intro.object]）、引用（[#dcl.ref]）或函数（[#dcl.fct]）。
 [exit:note]
 
 [%:begin#object.byte.copying
     [:en] object [!byte copying and]
+    [:zh_CN] 对象 [!按字节复制与～]
 ]
 
 [para]
@@ -31,27 +39,42 @@ Types describe objects ([#intro.object]), references ([#dcl.ref]), or functions
 For any object (other than a base-class subobject) of trivially copyable type
 [`T], whether or not the object holds a valid value of type [`T], the underlying
 bytes ([#intro.memory]) making up the object can be copied into an array of
-[`char] or [`unsigned] [`char].
+[`char] or [`unsigned char].
+[:zh_CN]
+[%类型[!可平凡复制的～]]
+对于任何可平凡复制类型 [`T] 的（不是基类子对象的）对象，无论该对象是否持有类型
+[`T] 的有效值，都可以将底层组成该对象的字节（[#intro.memory]）复制到一个 [`char]
+或 [`unsigned char] 数组中。
 
 [footnote]
 [:en]
 By using, for example, the library functions ([#headers]) [`std::memcpy] or
 [`std::memmove].
+[:zh_CN]
+通过使用（比如）程序库函数（[#headers]）[`std::memory] 或 [`std::memmove]。
 [footnote:end]
 
 [:en]
-If the content of the array of [`char] or [`unsigned] [`char] is copied back
-into the object, the object shall subsequently hold its original value.
+If the content of the array of [`char] or [`unsigned char] is copied back into
+the object, the object shall subsequently hold its original value.
+[:zh_CN]
+若将该 [`char] 或 [`unsigned char] 数组的内容复制回该对象，则随后该对象应持有它
+原来的值。
 
 [enter:example]
 [codeblock]
 #define N sizeof(T)
 char buf[N];
 T obj;                          // [:en] [`obj] initialized to its original value
+                                // [|:zh_CN] 初始化 [`obj] 为其初始值
 std::memcpy(buf, &obj, N);      // [:en] between these two calls to [`std::memcpy],
+                                // [|:zh_CN] 在这两次对 [`std::memory] 的调用之间，
                                 // [:en@~] [`obj] might be modified
+                                // [|:zh_CN@~] [`obj] 可能被改动
 std::memcpy(&obj, buf, N);      // [:en] at this point, each subobject of [`obj] of scalar type
+                                // [|:zh_CN] 此处，[`obj] 的每个标量类型子对象
                                 // [:en@~] holds its original value
+                                // [|:zh_CN@~] 都持有其初始值
 [codeblock:end]
 [exit:example]
  
@@ -61,24 +84,35 @@ For any trivially copyable type [`T], if two pointers to [`T] point to distinct
 [`T] objects [`obj1] and [`obj2], where neither [`obj1] nor [`obj2] is a
 base-class subobject, if the underlying bytes ([#intro.memory]) making up
 [`obj1] are copied into [`obj2],
+[:zh_CN]
+对于任意可平凡复制类型 [`T]，如果两个指向 [`T] 的指针指向不同的 [`T] 对象
+[`obj1] 和 [`obj2]，其中 [`obj1] 和 [`obj2] 都不是基类子对象，若将构成 [`obj1]
+的底层字节（[#intro.memory]）复制给 [`obj2]，
 
 [footnote]
 [:en]
 By using, for example, the library functions ([#headers]) [`std::memcpy] or
 [`std::memmove].
+[:zh_CN]
+通过使用（比如）程序库函数（[#headers]）[`std::memory] 或 [`std::memmove]。
 [footnote:end]
 
 [:en]
 [`obj2] shall subsequently hold the same value as [`obj1].
+[:zh_CN]
+则 [`obj2] 随后应当持有与 [`obj1] 相同的值。
 
 [enter:example]
 [codeblock]
 T* t1p;
 T* t2p;
     // [:en] provided that [`t2p] points to an initialized object ...
+    // [|:zh_CN] 假设 [`t2p] 指向一个未初始化的对象……
 std::memcpy(t1p, t2p, sizeof(T));
     // [:en] at this point, every subobject of trivially copyable type in [`*t1p] contains
+    // [|:zh_CN] 此处，[`t1p] 中的每个可平凡复制类型的子对象包含
     // [:en@~] the same value as the corresponding subobject in [`*t2p]
+    // [|:zh_CN@~] [`*t2p] 中对应子对象相同的值
 [codeblock:end]
 [exit:example]
 
@@ -87,23 +121,33 @@ std::memcpy(t1p, t2p, sizeof(T));
 [para]
 [:en]
 The [%representation[!object]] [def object representation] of an object of type
-[`T] is the sequence of [+N] [`unsigned] [`char] objects taken up by the object
-of type [`T], where [+N] equals [`sizeof(T)].
+[`T] is the sequence of [$N] [`unsigned char] objects taken up by the object of
+type [`T], where [$N] equals [`sizeof(T)].
+[:zh_CN]
+类型 [`T] 的对象的[%表示[!对象～]][def 对象表示]，是被类型 [`T] 的这个对象所占据
+的 [$N] 个 [`unsigned char] 对象的序列，其中 [$N] 等于 [`sizeof(T)]。
 
 [:en]
 The [%representation[!value]] [def value representation] of an object is the set
 of bits that hold the value of type [`T].
+[:zh_CN]
+对象的[%表示[!值～]][def 值表示]，是持有类型 [`T] 的值的位的集合。
 
 [:en]
 For trivially copyable types, the value representation is a set of bits in the
 object representation that determines a [def value], which is one discrete
 element of an [%@impldef values of a trivially copyable type]
 implementation-defined set of values.
+[:zh_CN]
+对于可平凡复制类型，其值表示是在其对象表示中决定其[def 值]的位的集合，而这个值
+是某个[%@impldef 可平凡复制类型的值]由实现定义的值的集合中的一个离散元素。
 
 [footnote]
 [:en]
 The intent is that the memory model of [=Cpp] is compatible with that of ISO/IEC
 9899 Programming Language C.
+[:zh_CN]
+这是为了使 [=Cpp] 的内存模型兼容于 ISO/IEC 9899 程序设计语言 C。
 [footnote:end]
 
 [para]
@@ -113,67 +157,104 @@ The intent is that the memory model of [=Cpp] is compatible with that of ISO/IEC
 A class that has been declared but not defined, an enumeration type in certain
 contexts ([#dcl.enum]), or an array of unknown size or of incomplete element
 type, is an [def incompletely-defined object type].
+[:zh_CN]
+[%类型[!不完整～]] [%类型[!定义不完整的对象～]] [%对象类型[!定义不完整的～]]
+已声明但未定义的类，某些特定语境中的枚举类型（[#dcl.enum]），或者未知大小或元素
+类型不完整的数组，是[def 不完整定义的对象类型]。
 
 [footnote]
 [:en]
 The size and layout of an instance of an incompletely-defined object type is
 unknown.
+[:zh_CN]
+不完整定义的对象类型的实例的大小和布局是未知的。
 [footnote:end]
 
 [:en]
 Incompletely-defined object types and the void types are [+incomplete types]
 ([#basic.fundamental]).
+[:zh_CN]
+不完整定义的对象类型和 void 类型是[+不完整类型]（[#basic.fundamental]）。
 
 [:en]
 Objects shall not be defined to have an incomplete type.
+[:zh_CN]
+对象不能定义为不完整类型。
 
 [para]
 [:en]
 A class type (such as ["[`class X]]) might be incomplete at one point in a
 translation unit and complete later on; the type ["[`class X]] is the same type
 at both points.
+[:zh_CN]
+类类型（如“[`class X]”）可能在翻译单元中的某处是不完整的，但可在后面补全；这两处
+的类型“[`class X]”是同一个类型。
 
 [:en]
 The declared type of an array object might be an array of incomplete class type
 and therefore incomplete; if the class type is completed later on in the
 translation unit, the array type becomes complete; the array type at those two
 points is the same type.
+[:zh_CN]
+用于声明数组对象的类型可能是不完整类类型的数组，此时它是不完整的；若这个类类型在
+翻译单元中的后面被补全，则该数组类型也变完整；这两点处的数组类型是同一个类型。
 
 [:en]
 The declared type of an array object might be an array of unknown bound and
 therefore be incomplete at one point in a translation unit and complete later
 on; the array types at those two points (["array of unknown bound of [`T]] and
-["array of [`N] [`T]]) are different types.
+["array of [$N] [`T]]) are different types.
+[:zh_CN]
+用于声明数组对象的类型可能是未知大小的数组，此时它在翻译单元中的某处是不完整的，
+但可在后面补全；这两点处的数组类型（“边界未知的 [`T] 的数组”和“[$N] 个 [`T] 的
+数组”）是不同的类型。
 
 [:en]
 The type of a pointer to array of unknown size, or of a type defined by a
 [`typedef] declaration to be an array of unknown size, cannot be completed.
+[:zh_CN]
+指向未知大小的数组的指针的类型，或用 [`typedef] 声明式定义为未知大小的数组的类型
+不能被补全。
 
 [enter:example]
-[% [:en] type[!example of incomplete]]
+[% [:en] type[!example of incomplete] [:zh_CN] 类型[!不完整～的例子]]
 [codeblock]
 class X;                        // [:en] [`X] is an incomplete type
+                                // [|:zh_CN] [`X] 是不完整类型
 extern X* xp;                   // [:en] [`xp] is a pointer to an incomplete type
-extern int arr[];               // [:en] the type of arr is incomplete
+                                // [|:zh_CN] [`xp] 是不完整类型的指针
+extern int arr[];               // [:en] the type of [`arr] is incomplete
+                                // [|:zh_CN] [`arr] 的类型不完整
 typedef int UNKA[];             // [:en] [`UNKA] is an incomplete type
+                                // [|:zh_CN] [`UNKA] 是不完整类型
 UNKA* arrp;                     // [:en] [`arrp] is a pointer to an incomplete type
+                                // [|:zh_CN] [`arrp] 是不完整类型的指针
 UNKA** arrpp;
 
 void foo() {
   xp++;                         // [:en] ill-formed: [`X] is incomplete
+                                // [|:zh_CN] 非良构：[`X] 不完整
   arrp++;                       // [:en] ill-formed: incomplete type
+                                // [|:zh_CN] 非良构：不完整类型
   arrpp++;                      // [:en] OK: sizeof [`UNKA*] is known
+                                // [|:zh_CN] OK：[`UNKA*] 大小未知
 }
 
 struct X { int i; };            // [:en] now [`X] is a complete type
+                                // [|:zh_CN] 此处 [`X] 是完整类型
 int  arr[10];                   // [:en] now the type of [`arr] is complete
+                                // [|:zh_CN] 此处 [`arr] 的类型完整
 
 X x;
 void bar() {
   xp = &x;                      // [:en] OK; type is ["pointer to [`X]]
+                                // [|:zh_CN] OK；类型为“[`X] 的指针”
   arrp = &arr;                  // [:en] ill-formed: different types
+                                // [|:zh_CN] 非良构：不同的类型
   xp++;                         // [:en] OK:  [`X] is complete
+                                // [|:zh_CN] OK；[`X] 完整
   arrp++;                       // [:en] ill-formed: [`UNKA] can[=']t be completed
+                                // [|:zh_CN] 非良构：[`UNKA] 无法补全
 }
 [codeblock:end]
 [exit:example]
@@ -183,6 +264,8 @@ void bar() {
 [:en]
 The rules for declarations and expressions describe in which contexts incomplete
 types are prohibited.
+[:zh_CN]
+在关于声明式和表达式的规则中说明了何种语境禁止不完整类型。
 [exit:note]
 
 [para]
@@ -190,6 +273,10 @@ types are prohibited.
 [%object type]
 An [def object type] is a (possibly cv-qualified) type that is not a function
 type, not a reference type, and not a void type.
+[:zh_CN]
+[%对象类型]
+不是函数类型，不是引用类型，且不是 void 类型的（可能被 cv-限定的）类型是
+[def 对象类型]。
 
 [para]
 [:en]
@@ -197,76 +284,117 @@ Arithmetic types ([#basic.fundamental]), enumeration types, pointer types,
 pointer to member types ([#basic.compound]), [`std::nullptr_t], and cv-qualified
 versions of these types ([#basic.type.qualifier]) are collectively called
 [%scalar type] [+scalar types].
+[:zh_CN]
+算术类型（[#basic.fundamental]）、枚举类型、指针类型，成员指针类型
+（[#basic.compound]），[`std::nullptr_t]，以及这些类型被 cv-限定的版本
+（[#basic.type.qualifier]）统称为[%标量类型][+标量类型]。
 
 [:en]
 Scalar types, POD classes (Clause [#class]), arrays of such types and
-[~cv-qualified] versions of these types ([#basic.type.qualifier]) are
+[+cv-qualified] versions of these types ([#basic.type.qualifier]) are
 collectively called [%type[!POD]] [+POD types].
+[:zh_CN]
+标量类型、POD-类（第 [#class] 条），这些类型的数组以及这些类型被 [+cv-限定的]
+版本（[#basic.type.qualifier]）统称为 [%类型[!POD～]][+POD 类型]。
 
 [:en]
 Cv-unqualified scalar types, trivially copyable class types (Clause [#class]),
 arrays of such types, and non-volatile const-qualified versions of these types
 ([#basic.type.qualifier]) are collectively called [def trivially copyable
 types].
+[:zh_CN]
+cv-未限定的标量类型、可平凡复制的类类型（第 [#class] 条），这些类型的数组，以及
+这些类型被 非 volatile 的 const-限定的版本（[#basic.type.qualifier]）统称为
+[def 可平凡复制的类型]。
 
 [:en]
 Scalar types, trivial class types (Clause [#class]), arrays of such types and
 cv-qualified versions of these types ([#basic.type.qualifier]) are collectively
 called [def trivial types].
+[:zh_CN]
+标量类型、平凡类类型（第 [#class] 条），这些类型的数组，以及这些类型被 cv-限定的
+版本（[#type.qualifier]）统称为[def 平凡类型]。
 
 [:en]
 Scalar types, standard-layout class types (Clause [#class]), arrays of such
 types and cv-qualified versions of these types ([#basic.type.qualifier]) are
 collectively called [def standard-layout types].
+[:zh_CN]
+标量类型、标准布局类类型（第 [#class] 条），这些类型的数组，以及这些类型被
+cv-限定的版本（[#basic.type.qualifier]）统称为[def 标准布局类型]。
 
 [para]
 [:en]
 A type is a [def literal type] if it is:
+[:zh_CN]
+若某个类型满足如下条件，则它是[def 字面量类型]：
 
 [list]
 [item]
-[:en]
+[:en@~]
 [`void]; or
+[:zh_CN@~]
+[`void]；或者
 
 [item]
-[:en]
+[:en@~]
 a scalar type; or
+[:zh_CN@~]
+标量类型；或者
 
 [item]
-[:en]
+[:en@~]
 a reference type; or
+[:zh_CN@~]
+引用类型；或者
 
 [item]
-[:en]
+[:en@~]
 an array of literal type; or
+[:zh_CN@~]
+字面量类型的数组；或者
 
 [item]
-[:en]
+[:en@~]
 a class type (Clause [#class]) that has all of the following properties:
+[:zh_CN@~]
+带有如下全部性质的类类型（第 [#class] 条）：
 
 [list]
 [item]
-[:en]
+[:en@~]
 it has a trivial destructor,
+[:zh_CN@~]
+带有平凡的析构函数，
 
 [item]
-[:en]
+[:en@~]
 it is an aggregate type ([#dcl.init.aggr]) or has at least one [`constexpr]
 constructor or constructor template that is not a copy or move constructor, and
+[:zh_CN@~]
+是聚合类型（[#dcl.init.aggr]），或者具有至少一个不是复制或移动构造函数的
+[`constexpr] 构造函数或构造函数模板，以及
 
 [item]
-[:en]
-all of its non-static data members and base classes are
-of non-volatile literal types.
+[:en@~]
+all of its non-static data members and base classes are of non-volatile literal
+types.
+[:zh_CN@~]
+其所有非静态数据成员和基类都是非 volatile 字面量类型。
 [list:end]
 [list:end]
 
 [para]
 [:en]
 [%layout-compatible type]
-Two types [$cv1] [`T1] and [%cv2] [`T2] are [def layout-compatible] types if
+Two types [$cv1] [`T1] and [$cv2] [`T2] are [def layout-compatible] types if
 [`T1] and [`T2] are the same type, layout-compatible enumerations ([#dcl.enum]),
 or layout-compatible standard-layout class types ([#class.mem]).
+[:zh_CN]
+[%布局兼容类型]
+若两个类型 [`T1] 和 [`T2] 是相同类型，布局兼容的枚举（[#dcl.enum]），或布局兼容
+的标准布局类类型（[#class.mem]），则 [$cv1] [`T1] 和 [$cv2] [`T2] 是[def 布局
+兼容的]类型。
 
 [include basic.fundamental]
 

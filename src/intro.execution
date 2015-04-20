@@ -499,7 +499,7 @@ evaluations executed by a single thread ([#intro.multithread]), which induces
 a partial order among those evaluations.
 [:zh_CN]
 [def 按顺序早于]关系是在单个线程（[#intro.multithread]）中执行的求值之间的非对
-称的、可传递的对偶关系，它在这些求值之间引入了偏序。
+称的、可传递的对偶关系，它在这些求值之间引入了部分顺序。
 
 [:en]
 Given any two evaluations [$A] and [$B], if [$A] is sequenced before [$B], then
