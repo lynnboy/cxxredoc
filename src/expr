@@ -1,21 +1,28 @@
 ﻿[section:chapter#expr
     [:en] Expressions
-    [:zh_CN]
+    [:zh_CN] 表达式
 ]
 
-[:en]
 [% [`operator new] [seealso [`new]] ]
 [% [`operator delete] [seealso [`delete]] ]
-[% usual arithmetic conversions [see conversion [!usual arithmetic]] ]
-[% [`==] [see equality operator] ]
-[% [`!=] [see inequality operator] ]
-[% [`static_cast] [see cast [!static]] ]
-[% [`dynamic_cast] [see cast [!dynamic]] ]
-[% [`const_cast] [see cast [!const]] ]
-[% [`reinterpret_cast] [see cast [!reinterpret]] ]
+[% [:en] usual arithmetic conversions [see conversion [!usual arithmetic]]
+   [:zh_CN] 一般算数转换 [see 转换[!一般算数～]] ]
+[% [:en] [`==] [see equality operator]
+   [:zh_CN] [`==] [see 相等运算符 ] ]
+[% [:en] [`!=] [see inequality operator]
+   [:zh_CN] [`!=] [see 不相等运算符 ] ]
+[% [:en] [`static_cast] [see cast [!static]]
+   [:zh_CN] [`static_cast] [see 强制转换 [!静态]] ]
+[% [:en] [`dynamic_cast] [see cast [!dynamic]]
+   [:zh_CN] [`dynamic_cast] [see 强制转换 [!动态]] ]
+[% [:en] [`const_cast] [see cast [!const]]
+   [:zh_CN] [`const_cast] [see 强制转换[!常量]] ]
+[% [:en] [`reinterpret_cast] [see cast [!reinterpret]]
+   [:zh_CN] [`reinterpret_cast] [see 强制转换[!重解释]] ]
 
 [%:begin#expression
     [:en] expression
+    [:zh_CN] 表达式
 ]
 
 [para]
@@ -23,63 +30,93 @@
 [:en]
 Clause [#expr] defines the syntax, order of evaluation, and meaning of
 expressions.
+[:zh_CN]
+第 [#expr] 条定义了表达式的语法、求值顺序及其含义。
 
 [footnote]
 [:en]
 The precedence of operators is not directly specified, but it can be derived
 from the syntax.
+[:zh_CN]
+各运算符的优先级并未直接指定，但可以从其语法中导出。
 [footnote:end]
 
 [:en]
 An expression is a sequence of operators and operands that specifies a
 computation.
+[:zh_CN]
+表达式是用以指定某项计算的运算符和操作数的序列。
 
 [:en]
 An expression can result in a value and can cause side effects.
+[:zh_CN]
+表达式可以产生值也可以造成副作用。
 [exit:note]
 
 [para]
-[:en]
-[%operator[!overloaded]]
 [enter:note]
 [:en]
+[%operator[!overloaded]]
 Operators can be overloaded, that is, given meaning when applied to expressions
 of class type (Clause [#class]) or enumeration type ([#dcl.enum]).
+[:zh_CN]
+[%运算符[!重载]]
+可以对运算符进行重载，这是指，指定它在应用于类类型（第 [#class] 条）或枚举类型
+（[#dcl.enum]）的表达式上时的含义。
 
 [:en]
 Uses of overloaded operators are transformed into function calls as described in
 [#over.oper].
+[:zh_CN]
+对重载运算符的使用，将按照 [#over.oper] 所述转换为函数调用。
 
 [:en]
 Overloaded operators obey the rules for syntax specified in Clause [#expr], but
 the requirements of operand type, value category, and evaluation order are
 replaced by the rules for function call.
+[:zh_CN]
+重载运算符遵循在第 [#expr] 条中指定的语法规则，但关于操作数类型、值的类别和求值
+顺序的规定，则替换为对函数调用的规则。
 
 [:en]
 Relations between operators, such as [`++a] meaning [`a+=1], are not guaranteed
 for overloaded operators ([#over.oper]), and are not guaranteed for operands of
 type [`bool].
+[:zh_CN]
+运算符之间的关系，如 [`++a] 意为 [`a+=1]，不保证在重载运算符（[#over.oper]）上
+仍然保持，也不保证在类型 [`bool] 的操作数上保持。
 [exit:note]
 
 [para]
 [:en]
 Clause [#expr] defines the effects of operators when applied to types for which
 they have not been overloaded.
+[:zh_CN]
+第 [#expr] 条中定义了运算符施加在并未对其进行重载的类型上时的效果。
 
 [:en]
 Operator overloading shall not modify the rules for the [+built-in operators],
 that is, for operators applied to types for which they are defined by this
 Standard.
+[:zh_CN]
+运算符重载不应当改变[+内建运算符]（就是说，施加于由本标准所定义的类型上的运算符
+）的规则。
 
 [:en]
 However, these built-in operators participate in overload resolution, and as
 part of that process user-defined conversions will be considered where necessary
 to convert the operands to types appropriate for the built-in operator.
+[:zh_CN]
+然而，这些内建运算符参与重载决议，而且作为这个过程中的一部分，在须要把操作数转换
+为适用于内建运算符的类型时，还要考察自定义转换。
 
 [:en]
 If a built-in operator is selected, such conversions will be applied to the
 operands before the operation is considered further according to the rules in
 Clause [#expr]; see [#over.match.oper], [#over.built].
+[:zh_CN]
+如果选取了内建运算符，则将在按照第 [#expr] 条的规则进一步考察其操作之前，对操作
+数应用这些转换；参见 [#over.match.oper]，[#over.built]。
 
 [para]
 [:en]
@@ -91,16 +128,29 @@ Clause [#expr]; see [#over.match.oper], [#over.built].
 If during the evaluation of an expression, the result is not mathematically
 defined or not in the range of representable values for its type, the behavior
 is undefined.
+[:zh_CN]
+[%异常[!算术～]]
+[%异常[!未定义的算术～]]
+[%溢出[!未定义的]]
+[%零[!未定义的除以～]]
+[%零[!余数未定义的]]
+对表达式进行求值时，如果其结果在数学上无定义，或不在其类型的可表示的值的范围内，
+则其行为是未定义的。
 
 [enter:note]
 [:en]
 [%overflow]
 most existing implementations of [=Cpp] ignore integer overflows.
+[:zh_CN]
+大多数现存的 [=Cpp] 实现都忽略整数溢出。
 
 [:en]
 Treatment of division by zero, forming a remainder using a zero divisor, and all
 floating point exceptions vary among machines, and is usually adjustable by a
 library function.
+[:zh_CN]
+对于被零除，用零除数获取余数，以及所有的浮点异常的处理在不同机器之间都有所不同，
+且通常可以通过库函数来进行调整。
 [exit:note]
 
 [para]
@@ -108,16 +158,26 @@ library function.
 [%expression[!reference]]
 If an expression initially has the type ["reference to [`T]] ([#dcl.ref],
 [#dcl.init.ref]), the type is adjusted to [`T] prior to any further analysis.
+[:zh_CN]
+[%表达式[!引用～]]
+如果某表达式起初具有类型“[`T] 的引用”（[#dcl.ref]，[#dcl.init.ref]），则该类型在
+进行任何进一步分析之前被调整为 [`T]。
 
 [:en]
 The expression designates the object or function denoted by the reference, and
 the expression is an lvalue or an xvalue, depending on the expression.
+[:zh_CN]
+该表达式代表由此引用所指代的对象或函数，且该表达式是一个左值或一个临限值（依赖于
+表达式）。
 
 [para]
 [:en]
 If a prvalue initially has the type ["[$cv] [`T],] where [`T] is a
 cv-unqualified non-class, non-array type, the type of the expression is adjusted
 to [`T] prior to any further analysis.
+[:zh_CN]
+如果纯右值起初具有类型“[$cv] [`T]”，其中 [`T] 为 cv-未限定的非类非数组类型，则
+表达式的类型在进行任何进一步分析之前被调整为 [`T]。
 
 [para]
 [:en]
@@ -125,31 +185,47 @@ to [`T] prior to any further analysis.
 [enter:note]
 [:en]
 An expression is an xvalue if it is:
+[:zh_CN]
+下列表达式是临限值：
+
 [list]
 [item]
 [:en]
 the result of calling a function, whether implicitly or explicitly, whose return
 type is an rvalue reference to object type,
+[:zh_CN]
+隐式或显式调用函数的结果，其返回类型是指代对象类型的右值引用，
 
 [item]
 [:en]
 a cast to an rvalue reference to object type,
+[:zh_CN]
+强制转换为指代对象类型的右值引用，
 
 [item]
 [:en]
 a class member access expression designating a non-static data member of
 non-reference type in which the object expression is an xvalue, or
+[:zh_CN]
+代表某个非引用类型的非静态数据成员的类成员访问表达式，其中的对象表达式是临限值，
+或者
 
 [item]
 [:en]
 a [`.*] pointer-to-member expression in which the first operand is an xvalue and
 the second operand is a pointer to data member.
+[:zh_CN]
+[`.*] 成员指针表达式，其中的第一个操作数为临限值，且其第二个操作数为指向数据成员
+的指针。
 [list:end]
 
 [:en]
 In general, the effect of this rule is that named rvalue references are treated
 as lvalues and unnamed rvalue references to objects are treated as xvalues;
 rvalue references to functions are treated as lvalues whether named or not.
+[:zh_CN]
+大体上，这条规则的效果是将具名右值引用当作左值，将指代对象的无名右值引用当作临限
+值；而指代函数的右值引用无论是否有名字都被当作左值。
 [exit:note]
 
 [enter:example]
@@ -167,25 +243,41 @@ A&& ar = static_cast<A&&>(a);
 [:en]
 The expressions [`f()], [`f().m], [`static_cast<A&&>(a)], and [`a + a] are
 xvalues.
+[:zh_CN]
+表达式 [`f()]，[`f().m]，[`static_cast<A&&>(a)]，以及 [`a + a] 都是临限值。
 
 [:en]
 The expression [`ar] is an lvalue.
+[:zh_CN]
+表达式 [`ar] 是左值。
 [exit:example]
 
 [para]
 [:en]
 In some contexts, [def unevaluated operands [%unevaluated operand]] appear
 ([#expr.typeid], [#expr.sizeof], [#expr.unary.noexcept], [#dcl.type.simple]).
+[:zh_CN]
+一些语境中将出现[def 免求值操作数]（[#expr.typeid]，[#expr.sizeof]，
+[#expr.unary.noexcept]，[#dcl.type.simple]）。
 
 [:en]
-An unevaluated operand is not evaluated. An unevaluated operand is considered a
-full-expression.
+An unevaluated operand is not evaluated.
+[:zh_CN]
+免求值操作数不被求值。
+
+[:en]
+An unevaluated operand is considered a full-expression.
+[:zh_CN]
+免求值操作数被当做全表达式。
 
 [enter:note]
 [:en]
 In an unevaluated operand, a non-static class member may be named ([#expr.prim])
 and naming of objects or functions does not, by itself, require that a
 definition be provided ([#basic.def.odr]).
+[:zh_CN]
+在免求值操作数中，可以指名非静态类成员（[#expr.prim]），而对对象或函数提及名字
+本身，并不需要对其提供定义（[#basic.def.odr]）。
 [exit:note]
 
 [para]
@@ -194,6 +286,10 @@ Whenever a glvalue expression appears as an operand of an operator that expects
 a prvalue for that operand, the lvalue-to-rvalue ([#conv.lval]),
 array-to-pointer ([#conv.array]), or function-to-pointer ([#conv.func]) standard
 conversions are applied to convert the expression to a prvalue.
+[:zh_CN]
+一旦将泛左值表达式作为操作数，而运算符预期其操作数为纯右值时，就对该表达式实施
+左值向右值（[#conv.lval]）、数组向指针（[#conv.array]）或函数向指针
+（[#conv.func]）标准转换，将其转换为纯右值。
 
 [enter:note]
 [:en]
@@ -201,6 +297,9 @@ because cv-qualifiers are removed from the type of an expression of non-class
 type when the expression is converted to a prvalue, an lvalue expression of type
 [`const int] can, for example, be used where a prvalue expression of type [`int]
 is required.
+[:zh_CN]
+因为非类类型的表达式在向纯右值转换时要移除其 cv-限定符，因此，如类型 [`const
+int] 这样的左值表达式，可以用在需要类型 [`int] 的纯右值表达式之处。
 [exit:note]
 
 [para]
@@ -208,13 +307,21 @@ is required.
 [%conversion[!usual arithmetic]]
 Many binary operators that expect operands of arithmetic or enumeration type
 cause conversions and yield result types in a similar way.
+[:zh_CN]
+[%转换[!一般算术～]]
+许多预期其操作数为算术或枚举类型的二元运算符，都以相似方式引发转换和产生其结果
+类型。
 
 [:en]
 The purpose is to yield a common type, which is also the type of the result.
+[:zh_CN]
+其目标是生成一个一般类型，同时也是其结果类型。
 
 [:en]
 This pattern is called the [+usual arithmetic conversions], which are defined as
 follows:
+[:zh_CN]
+这种模式被称为[+一般算术转换]，其定义如下：
 
 [list]
 [item]
@@ -222,47 +329,68 @@ follows:
 If either operand is of scoped enumeration type ([#dcl.enum]), no conversions
 are performed; if the other operand does not have the same type, the expression
 is ill-formed.
+[:zh_CN]
+如果任何操作数是有作用域枚举类型（[#dcl.enum]），则不进行任何转换；若有另一个
+操作数具有不同的类型，则表达式非良构。
 
 [item]
 [:en]
 If either operand is of type [`long double], the other shall be converted to
 [`long double].
+[:zh_CN]
+如果任何操作数的类型为 [`long double]，则另一个操作数应当转换为 [`long double]。
 
 [item]
 [:en]
 Otherwise, if either operand is [`double], the other shall be converted to
 [`double].
+[:zh_CN]
+否则，如果任何操作数为 [`double]，则另一个操作数应当转换为 [`double]。
 
 [item]
 [:en]
 Otherwise, if either operand is [`float], the other shall be converted to
 [`float].
+[:zh_CN]
+否则，如果任何操作数为 [`float]，则另一个操作数应当转换为 [`float]。
 
 [item]
 [:en]
 Otherwise, the integral promotions ([#conv.prom]) shall be performed on both
 operands.
+[:zh_CN]
+否则，应当对两个操作数实施整型提升（[#conv.prom]）。
 
 [footnote]
 [:en]
 As a consequence, operands of type [`bool], [`char16_t], [`char32_t],
 [`wchar_t], or an enumerated type are converted to some integral type.
+[:zh_CN]
+其结果是，类型 [`bool]，[`char16_t]，[`char32_t]，[`wchar_t]，或枚举类型的操作数
+都被转换为某种整型类型。
 [footnote:end]
 
 [:en]
 Then the following rules shall be applied to the promoted operands:
+[:zh_CN]
+然后应当对被提升的操作数应用如下规则：
 
 [list]
 
 [item]
 [:en]
 If both operands have the same type, no further conversion is needed.
+[:zh_CN]
+如果两个操作数具有相同类型，则不作进一步转换。
 
 [item]
 [:en]
 Otherwise, if both operands have signed integer types or both have unsigned
 integer types, the operand with the type of lesser integer conversion rank shall
 be converted to the type of the operand with greater rank.
+[:zh_CN]
+否则，若两个操作数都具有有符号整数类型或都具有无符号整数类型，则具有更小整数转换
+等级的类型的操作数应当被转换为具有更大等级的类型。
 
 [item]
 [:en]
@@ -270,6 +398,9 @@ Otherwise, if the operand that has unsigned integer type has rank greater than
 or equal to the rank of the type of the other operand, the operand with signed
 integer type shall be converted to the type of the operand with unsigned integer
 type.
+[:zh_CN]
+否则，若具有无符号整数类型的操作数的等级大于等于另一个操作数的类型的等级，则具有
+有符号整数类型的操作数应当被转换为具有无符号整数类型的操作数的类型。
 
 [item]
 [:en]
@@ -277,77 +408,116 @@ Otherwise, if the type of the operand with signed integer type can represent all
 of the values of the type of the operand with unsigned integer type, the operand
 with unsigned integer type shall be converted to the type of the operand with
 signed integer type.
+[:zh_CN]
+否则，若具有有符号整数类型的操作数的类型，能够表示具有无符号整数类型的操作数的
+类型的全部值，则具有无符号整数类型的操作数应当被转换为具有有符号整数类型的操作数
+的类型。
 
 [item]
 [:en]
 Otherwise, both operands shall be converted to the unsigned integer type
 corresponding to the type of the operand with signed integer type.
+[:zh_CN]
+否则，两个操作数都应当被转换为与具有有符号整数类型的操作数的类型相对应的无符号
+整数类型。
 [list:end]
 [list:end]
 
 [para]
 [:en]
 In some contexts, an expression only appears for its side effects.
+[:zh_CN]
+在某些语境中出现的表达式，只会发生副作用。
 
 [:en]
 Such an expression is called a [def discarded-value expression].
+[:zh_CN]
+这种表达式被称为[def 弃值表达式]。
 
 [:en]
 The expression is evaluated and its value is discarded.
+[:zh_CN]
+这种表达式被求值，而其值被丢弃。
 
 [:en]
 The array-to-pointer ([#conv.array]) and function-to-pointer ([#conv.func])
 standard conversions are not applied.
+[:zh_CN]
+不对其实施数组向指针（[#conv.array]）和函数向指针（[#conv.func]）标准转换。
 
 [:en]
 The lvalue-to-rvalue conversion ([#conv.lval]) is applied if and only if the
 expression is a glvalue of volatile-qualified type and it is one of the
 following:
+[:zh_CN]
+仅当表达式是由 volatile-限定的类型的左值，且具有下列形式之一时，才对其实施左值向
+右值转换（[#conv.lval]）：
 
 [list]
 [item]
 [:en@~]
 [`(] [~expression] [`)], where [~expression] is one of these expressions,
+[:zh_CN@~]
+[`(] [~表达式] [`)]，其中[~表达式]是以下表达式之一，
 
 [item]
 [:en@~]
 [~id-expression] ([#expr.prim.general]),
+[:zh_CN@~]
+[~标识表达式]（[#expr.prim.general]，
 
 [item]
 [:en@~]
 subscripting ([#expr.sub]),
+[:zh_CN@~]
+下标（[#expr.sub]），
 
 [item]
 [:en@~]
 class member access ([#expr.ref]),
+[:zh_CN@~]
+类成员访问（[#expr.ref]），
 
 [item]
 [:en@~]
 indirection ([#expr.unary.op]),
+[:zh_CN@~]
+间接（[#expr.unary.op]），
 
 [item]
 [:en@~]
 pointer-to-member operation ([#expr.mptr.oper]),
+[:zh_CN@~]
+成员指针操作（[#expr.mptr.oper]），
 
 [item]
 [:en@~]
 conditional expression ([#expr.cond]) where both the second and the third
 operands are one of these expressions, or
+[:zh_CN@~]
+第二个和第三个操作数均为以上之一的条件表达式（[#expr.cond]，或者
 
 [item]
 [:en@~]
 comma expression ([#expr.comma]) where the right operand is one of these
 expressions.
+[:zh_CN@~]
+右操作数为以上之一的逗号表达式（[#expr.comma]）。
 [list:end]
 
 [enter:note]
 [:en]
 Using an overloaded operator causes a function call; the above covers only
 operators with built-in meaning.
+[:zh_CN]
+重载运算符的使用导致函数调用；以上仅覆盖内建运算符的情况。
 
 [:en]
 If the lvalue is of class type, it must have a volatile copy constructor to
 initialize the temporary that is the result of the lvalue-to-rvalue conversion.
+[:zh_CN]
+如果左值具有类类型，则它必须具有有效的复制构造函数以对作为左值向右值转换的结果的
+临时对象进行初始化。
 [exit:note]
 
 [para]
@@ -355,55 +525,80 @@ initialize the temporary that is the result of the lvalue-to-rvalue conversion.
 The values of the floating operands and the results of floating expressions may
 be represented in greater precision and range than that required by the type;
 the types are not changed thereby.
+[:zh_CN]
+浮点操作数的值和浮点表达式的结果，可用比其类型所需更大的精度和范围来表示；但这并
+不会改变它的类型。
 
 [footnote]
 [:en]
 The cast and assignment operators must still perform their specific conversions
 as described in [#expr.cast], [#expr.static.cast] and [#expr.ass].
+[:zh_CN]
+强制转换和赋值运算符必须仍然实施在 [#expr.cast]，[#expr.static.cast] 和
+[#expr.ass] 中说明的它们的特定转换。
 [footnote:end]
 
 [para]
 [:en]
 The [+cv-combined type] of two types [`T1] and [`T2] is a type [`T3] similar to
 [`T1] whose cv-qualification signature ([#conv.qual]) is:
+[:zh_CN]
+两个类型 [`T1] 和 [`T2] 的 [+cv-合并类型] [`T3] 与 [`T1] 相似，其 cv-限定性签名
+（[#conv.qual]）是：
 
 [list]
 [item]
 [:en@~]
-for every [$j > 0], [$cv[_3,j]] is the union of [$cv[_1,j]] and [$cv[_2,j]];
+对于每个 [$j > 0]，[$cv[_3,j]] 为 [$cv[_1,j]] 和 [$cv[_2,j]] 的并集；
+[:zh_CN@~]
 
 [item]
 [:en@~]
 if the resulting [$cv[_3,j]] is different from [$cv[_1,j]] or [$cv[_2,j]], then
 [`const] is added to every [$cv[_3,k]] for [$0 < k < j].
+[:zh_CN@~]
+若所得的 [$cv[_3,j]] 与 [$cv[_1,j]] 或 [$cv[_2,j]] 不同，则对 [$0 < k < j] 的
+每个 [$cv[_3,k]] 向其添加 [`const]。
 [list:end]
 
 [enter:note]
 [:en]
 Given similar types [`T1] and [`T2], this construction ensures that both can be
 converted to [`T3].
+[:zh_CN]
+给定相似类型 [`T1] 和 [`T2]，这种构造保证它们均可以转换为 [`T3]。
 [exit:note]
 
 [:en]
 The [+composite pointer type] of two operands [`p1] and [`p2] having types [`T1]
 and [`T2], respectively, where at least one is a pointer or pointer to member
 type or [`std::nullptr_t], is:
+[:zh_CN]
+两个分别具有类型 [`T1] 和 [`T2]（其中至少一个是指针或成员指针类型或者
+[`std::nullptr_t]）的操作数 [`p1] 和 [`p2] 的[+组合指针类型]是：
 
 [list]
 [item]
 [:en]
 if both [`p1] and [`p2] are null pointer constants, [`std::nullptr_t];
+[:zh_CN]
+当 [`p1] 和 [`p2] 都是空指针常量时，为 [`std::nullptr_t]；
 
 [item]
 [:en]
 if either [`p1] or [`p2] is a null pointer constant, [`T2] or [`T1],
 respectively;
+[:zh_CN]
+当 [`p1] 或 [`p2] 是空指针常量时，分别是 [`T2] 或 [`T1]；
 
 [item]
 [:en]
 if [`T1] or [`T2] is ["pointer to [$cv1] [`void]] and the other type is
 ["pointer to [$cv2] [`T]], ["pointer to [$cv12] [`void]], where [$cv12] is the
 union of [$cv1] and [$cv2];
+[:zh_CN]
+当 [`T1] 或 [`T2] 是 “[$cv1] [`void] 指针”且另一个类型为“[$cv2] [`T] 指针”时，为
+“[$cv12] [`void] 指针”，其中 [$cv12] 为 [$cv1] 和 [$cv2] 的并集；
 
 [item]
 [:en]
@@ -411,6 +606,10 @@ if [`T1] is ["pointer to [$cv1] [`C1]] and [`T2] is ["pointer to [$cv2] [`C2]],
 where [`C1] is reference-related to [`C2] or [`C2] is reference-related to [`C1]
 ([#dcl.init.ref]), the cv-combined type of [`T1] and [`T2] or the cv-combined
 type of [`T2] and [`T1], respectively;
+[:zh_CN]
+当 [`T1] 是“[$cv1] [`C1] 指针”且 [`T2] 是“[$cv2] [`C2] 指针”，其中 [`C1] 与
+[`C2] 引用相关或者 [`C2] 与 [`C1] 引用相关（[#dcl.init.ref]）时，分别为 [`T1] 和
+[`T2] 的 cv-合并类型或者 [`T2] 与 [`T1] 的 cv-合并类型；
 
 [item]
 [:en]
@@ -419,16 +618,24 @@ if [`T1] is ["pointer to member of [`C1] of type [$cv1] [`U1]] and [`T2] is
 reference-related to [`C2] or [`C2] is reference-related to [`C1]
 ([#dcl.init.ref]), the cv-combined type of [`T2] and [`T1] or the cv-combined
 type of [`T1] and [`T2], respectively;
+[:zh_CN]
+当 [`T1] 是“[`C1] 中类型 [$cv1] [`U1] 的成员指针”且 [`T2] 是“[`C2] 中类型 [$cv2]
+[`U2] 的成员指针”，其中 [`C1] 与 [`C2] 引用相关或者 [`C2] 与 [`C1] 引用相关
+（[#dcl.init.ref]）时，分别为 [`T2] 和 [`T1] 的 cv-合并类型或者 [`T1] 与 [`T2]
+的 cv-合并类型；
 
 [item]
 [:en]
 if [`T1] and [`T2] are similar types ([#conv.qual]), the cv-combined type of
 [`T1] and [`T2];
+[:zh_CN]
+当 [`T1] 和 [`T2] 是相似类型（[#conv.qual]）时，则为 [`T1] 和 [`T2] 的 cv-合并
+类型；
 
 [item]
 [:en]
-otherwise, a program that necessitates the determination of a composite pointer
-type is ill-formed.
+否则，需要确定其组合指针类型的程序是非良构的。
+[:zh_CN]
 [list:end]
 
 [enter:example]
@@ -443,6 +650,9 @@ typedef const int **pci;
 The composite pointer type of [`p] and [`q] is ["pointer to [`const void]]; the
 composite pointer type of [`pi] and [`pci] is ["pointer to [`const] pointer to
 [`const int]].
+[:zh_CN]
+[`p] 和 [`q] 的组合指针类型为“[`const void] 的指针”；[`pi] 和 [`pci] 的组合指针
+类型为“[`const int] 指针的 [`const] 指针”。
 [exit:example]
 
 [include expr.prim]

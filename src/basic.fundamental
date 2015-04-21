@@ -243,7 +243,7 @@ Unsigned integers shall obey the laws of arithmetic modulo [$2[^n]] where [$n]
 is the number of bits in the value representation of that particular size of
 integer.
 [:zh_CN]
-[%算数[![`unsigned]]]
+[%算术[![`unsigned]]]
 无符号整数应遵循算术模 [$2[^n]] 法则，其中 [$n] 为特定大小的整数的值表示中的位的
 数量。
 
@@ -413,8 +413,8 @@ representation of floating-point types] implementation-defined.
 [%type[!arithmetic]]
 [+Integral] and [+floating] types are collectively called [+arithmetic] types.
 [:zh_CN]
-[%类型[!算数～]]
-[+整型]和[+浮点]类型统称为[+算数]类型。
+[%类型[!算术～]]
+[+整型]和[+浮点]类型统称为[+算术]类型。
 
 [:en]
 [%[`numeric_limits][!specializations for arithmetic types]]
@@ -422,7 +422,7 @@ Specializations of the standard template [`std::numeric_limits]
 ([#support.limits]) shall specify the maximum and minimum values of each
 arithmetic type for an implementation.
 [:zh_CN]
-[%[`numeric_limits][!算数类型的特例]]
+[%[`numeric_limits][!算术类型的特例]]
 标准模板 [`std::numeric_limits]（[#support.limits]）的特例应当指出实现中每种算术
 类型的最大值和最小值。
 

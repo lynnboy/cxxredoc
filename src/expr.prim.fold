@@ -1,25 +1,28 @@
 ﻿[section#expr.prim.fold
     [:en] Fold expressions
-    [:zh_CN]
+    [:zh_CN] 折叠表达式
 ]
 
 [%:begin#expression.fold
     [:en] expression [! fold]
+    [:zh_CN] 表达式 [! 折叠～]
 ]
 
 [para]
 [:en]
 A fold expression performs a fold of a template parameter pack
 ([#temp.variadic]) over a binary operator.
+[:zh_CN]
+折叠表达式按二元运算符对模板形参包组（[#temp.variadic]）实施折叠操作。
 
 [syntax]
-[rule fold-expression [:zh_CN] ]
+[rule fold-expression [:zh_CN] 折叠表达式 ]
     [| [`(] cast-expression fold-operator [`...] [`)] ]
     [| [`(] [`...] fold-operator cast-expression [`)] ]
     [| [`(] cast-expression fold-operator [`...] fold-operator cast-expression [`)] ]
 [rule:end]
 
-[rule:oneof@aligned fold-operator [:zh_CN] ]
+[rule:oneof@aligned fold-operator [:zh_CN] 折叠运算符 ]
     [|  +   -   *   /   %   ^   &   |   <<  >>      ]
     [|  +=  -=  *=  /=  %=  ^=  &=  |=  <<= >>= =   ]
     [|  ==  !=  <   >   <=  >=  &&  ||  ,   .*  ->* ]
@@ -31,37 +34,59 @@ A fold expression performs a fold of a template parameter pack
 [%fold[!unary]]
 An expression of the form [`(...] [$op] [`e)] where [$op] is a [~fold-operator]
 is called a [def unary left fold].
+[:zh_CN]
+[%折叠[!一元～]]
+形式为 [`(...] [$op] [`e)] 的表达式，其中 [$op] 是[~折叠运算符]，被称为[def 一元
+左折叠]。
 
 [:en]
 An expression of the form [`(e] [$op] [`...)] where [$op] is a [~fold-operator]
 is called a [def unary right fold].
+[:zh_CN]
+形式为 [`(e] [$op] [`...)] 的表达式，其中 [$op] 是[~折叠运算符]，被称为[def 一元
+右折叠]。
 
 [:en]
 Unary left folds and unary right folds are collectively called [def unary folds
 [%unary fold]].
+[:zh_CN]
+一元左折叠和一元右折叠统称为[def 一元折叠]。
 
 [:en]
 In a unary fold, the [~cast-expression] shall contain an unexpanded parameter
 pack ([#temp.variadic]).
+[:zh_CN]
+一元折叠中，[~强制转换表达式]应当包含一个未展开的形参包组（[#temp.variadic]）。
 
 [para]
 [:en]
 [%fold[!binary]]
 An expression of the form [`(e1] [$op1] [`...] [$op2] [`e2)] where [$op1] and
 [$op2] are [~fold-operator]s is called a [def binary fold].
+[:zh_CN]
+[%折叠[!二元～]]
+形式为 [`(e1] [$op1] [`...] [$op2] [`e2)] 的表达式，其中 [$op1] 和 [$op2] 都是
+[~折叠运算符]，被称为[def 二元折叠]。
 
 [:en]
 In a binary fold, [$op1] and [$op2] shall be the same [~fold-operator], and
 either [`e1] shall contain an unexpanded parameter pack or [`e2] shall contain
 an unexpanded parameter pack, but not both.
+[:zh_CN]
+二元折叠中，[$op1] 和 [$op2] 应当是相同的[~折叠运算符]，且要么 [`e1] 包含一个
+未展开的形参包组，要么 [`e2] 包含一个未展开的形参包组，但不能同时包含。
 
 [:en]
 If [`e2] contains an unexpanded parameter pack, the expression is called a [def
 binary left fold].
+[:zh_CN]
+若 [`e2] 包含为展开的形参包组，则表达式被称为[def 二元左折叠]。
 
 [:en]
 If [`e1] contains an unexpanded parameter pack, the expression is called a [def
 binary right fold].
+[:zh_CN]
+若 [`e1] 包含为展开的形参包组，则表达式被称为[def 二元右折叠]。
 
 [enter:example]
 [codeblock]
@@ -73,6 +98,7 @@ bool f(Args ...args) {
 template<typename ...Args>
 bool f(Args ...args) {
   return (args + ... + args); // [:en] error: both operands contain unexpanded parameter packs
+                              // [|:zh_CN] 错误：两个操作数都包含未展开的形参包组
 }
 [codeblock:end]
 [exit:example]

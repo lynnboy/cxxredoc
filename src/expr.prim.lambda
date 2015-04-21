@@ -1,14 +1,18 @@
 ﻿[section#expr.prim.lambda
     [:en] Lambda expressions
+    [:zh_CN] Lambda 表达式
 ]
 
 [%:begin#expression.lambda
     [:en] expression [!lambda]
+    [:zh_CN] 表达式 [!lambda～]
 ]
 
 [para]
 [:en]
 Lambda expressions provide a concise way to create simple function objects.
+[:zh_CN]
+Lambda 表达式提供了创建简单函数对象的一种简洁方式。
 
 [enter:example]
 [codeblock]
@@ -24,47 +28,47 @@ void abssort(float* x, unsigned N) {
 [exit:example]
 
 [syntax]
-[rule lambda-expression [:zh_CN] ]
+[rule lambda-expression [:zh_CN] lambda-表达式 ]
     [| lambda-introducer [~:opt lambda-declarator] compound-statement ]
 [rule:end]
 
-[rule lambda-introducer [:zh_CN] ]
+[rule lambda-introducer [:zh_CN] lambda-引导符 ]
     [| [`[] [~:opt lambda-capture] [``]] ]
 [rule:end]
 
-[rule lambda-capture [:zh_CN] ]
+[rule lambda-capture [:zh_CN] lambda-捕获式 ]
     [| capture-default ]
     [| capture-list ]
     [| capture-default [`,] capture-list ]
 [rule:end]
 
-[rule capture-default [:zh_CN] ]
+[rule capture-default [:zh_CN] 默认捕获符 ]
     [| [`&] ]
     [| [`=] ]
 [rule:end]
 
-[rule capture-list [:zh_CN] ]
+[rule capture-list [:zh_CN] 捕获式列表 ]
     [| capture [`:opt ...] ]
     [| capture-list [`,] capture [`:opt ...] ]
 [rule:end]
 
-[rule capture [:zh_CN] ]
+[rule capture [:zh_CN] 捕获式 ]
     [| simple-capture ]
     [| init-capture ]
 [rule:end]
 
-[rule simple-capture [:zh_CN] ]
+[rule simple-capture [:zh_CN] 简单捕获式 ]
     [| identifier ]
     [| [`&] identifier ]
     [| [`this] ]
 [rule:end]
 
-[rule init-capture [:zh_CN] ]
+[rule init-capture [:zh_CN] 带初始化捕获式 ]
     [| identifier initializer ]
     [| [`&] identifier initializer ]
 [rule:end]
 
-[rule lambda-declarator [:zh_CN] ]
+[rule lambda-declarator [:zh_CN] lambda-声明符 ]
     [| [`(] parameter-declaration-clause [`)] [`:opt mutable]
         [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
     [| [~:opt trailing-return-type] ]
@@ -75,24 +79,35 @@ void abssort(float* x, unsigned N) {
 [:en]
 The evaluation of a [~lambda-expression] results in a prvalue temporary
 ([#class.temporary]).
+[:zh_CN]
+对 [~lambda-表达式]的求值产生纯右值临时对象（[#class.temporary]）。
 
 [:en]
 This temporary is called the [def closure object].
+[:zh_CN]
+这个临时对象被称为[def 闭包对象]。
 
 [:en]
 A [~lambda-expression] shall not appear in an unevaluated operand (Clause
 [#expr]), in a [~template-argument], in an [~alias-declaration], in a typedef
 declaration, or in the declaration of a function or function template outside
 its function body and default arguments.
+[:zh_CN]
+[~lambda-表达式]不能出现于免求值操作数中（第 [#expr] 条），[~模板实参]，[~别名
+声明式]，typedef 声明式，或处于函数或函数模板的声明式中的函数体和默认实参之外。
 
 [enter:note]
 [:en]
 The intention is to prevent lambdas from appearing in a signature.
+[:zh_CN]
+其意图是防止签名之中出现 lambda 表达式。
 [exit:note]
 
 [enter:note]
 [:en]
 A closure object behaves like a function object ([#function.objects]).
+[:zh_CN]
+闭包对象的行为类似于函数对象（[#function.objects]）。
 [exit:note]
 
 [para]
@@ -100,68 +115,102 @@ A closure object behaves like a function object ([#function.objects]).
 The type of the [~lambda-expression] (which is also the type of the closure
 object) is a unique, unnamed non-union class type [=--] called the [def closure
 type] [=--] whose properties are described below.
+[:zh_CN]
+[~lambda-表达式]的类型（同样也是闭包对象的类型），是唯一的、无名的非联合的类类型
+——称之为[def 闭包类型]，下文对其性质进行了描述。
 
 [:en]
 This class type is neither an aggregate ([#dcl.init.aggr]) nor a literal type
 ([#basic.types]).
+[:zh_CN]
+这个类类型既不是聚合（[#dcl.init.aggr]）也不是字面量类型（[#basic.types]）。
 
 [:en]
 The closure type is declared in the smallest block scope, class scope, or
 namespace scope that contains the corresponding [~lambda-expression].
+[:zh_CN]
+闭包类型是在包含其对应的 [~lambda-表达式]的最小的块作用域、类作用域或命名空间
+作用域之中声明的。
 
 [enter:note]
 [:en]
 This determines the set of namespaces and classes associated with the closure
 type ([#basic.lookup.argdep]).
+[:zh_CN]
+这决定了闭包类型所关联的命名空间和类的集合（[#basic.lookup.argdep]）。
 
 [:en]
 The parameter types of a [~lambda-declarator] do not affect these associated
 namespaces and classes.
+[:zh_CN]
+[~lambda-声明符]中的形参类型对这些关联的命名空间和类没有影响。
 [exit:note]
 
 [:en]
 An implementation may define the closure type differently from what is described
 below provided this does not alter the observable behavior of the program other
 than by changing:
+[:zh_CN]
+实现可以对闭包类型进行与下文的描述不同的定义，但要求这不能改变除以下各项之外的
+程序的可观察行为：
 
 [list]
 [item]
 [:en@~]
 the size and/or alignment of the closure type,
+[:zh_CN@~]
+闭包类型的大小和/或对齐，
 
 [item]
 [:en@~]
 whether the closure type is trivially copyable (Clause [#class]),
+[:zh_CN@~]
+闭包类型是否是可平凡复制的（第 [#class] 条），
 
 [item]
 [:en@~]
 whether the closure type is a standard-layout class (Clause [#class]), or
+[:zh_CN@~]
+闭包类型是否是标准布局类（第 [#class] 条），
 
 [item]
 [:en@~]
 whether the closure type is a POD class (Clause [#class]).
+[:zh_CN@~]
+闭包类型是否是 POD 类（第 [#class] 条）。
 [list:end]
 
 [:en]
 An implementation shall not add members of rvalue reference type to the closure
 type.
+[:zh_CN]
+实现不应向闭包类型添加右值引用类型的成员。
 
 [para]
 [:en]
 If a [~lambda-expression] does not include a [~lambda-declarator], it is as if
 the [~lambda-declarator] were [`()].
+[:zh_CN]
+如果 [~lambda-表达式]中不包含 [~lambda-声明符]，则如同其 [~lambda-声明符]为
+[`()]。
 
 [:en]
 The lambda return type is [`auto], which is replaced by the
 [~trailing-return-type] if provided and/or deduced from [`return] statements as
 described in [#dcl.spec.auto].
+[:zh_CN]
+lambda 的返回类型为 [`auto]，并根据 [#dcl.spec.auto] 的说明被替换为其[~尾部返回
+类型]（如果有）和/或从 [`return] 语句中进行推断。
 
 [enter:example]
 [codeblock]
 auto x1 = [](int i){ return i; };     // [:en] OK: return type is [`int]
+                                      // [|:zh_CN] OK：返回类型为 [`int]
 auto x2 = []{ return { 1, 2 }; };     // [:en] error: deducing return type from [~braced-init-list]
+                                      // [|:zh_CN] 错误：从[~花括号初始化列表]推断返回类型
 int j;
 auto x3 = []()->auto&& { return j; }; // [:en] OK: return type is [`int&]
+                                      // [|:zh_CN] OK：返回类型为 [`int&]
 [codeblock:end]
 [exit:example]
 
@@ -171,16 +220,27 @@ The closure type for a non-generic [~lambda-expression] has a public inline
 function call operator ([#over.call]) whose parameters and return type are
 described by the [~lambda-expression][=']s [~parameter-declaration-clause] and
 [~trailing-return-type] respectively.
+[:zh_CN]
+非通用[~lambda-表达式]的闭包类型具有一个公用的内联函数调用运算符（[#over.call]）
+，其形参和返回类型分别由该 [~lambda-表达式]的[~形参声明子句]和[~尾部返回类型]
+说明。
 
 [:en]
 For a generic lambda, the closure type has a public inline function call
 operator member template ([#temp.mem]) whose [~template-parameter-list] consists
 of one invented type [~template-parameter] for each occurrence of [`auto] in the
 lambda[=']s [~parameter-declaration-clause], in order of appearance.
+[:zh_CN]
+对于通用 lambda，其闭包类型具有一个公用的内联函数调用运算符成员模板
+（[#temp.mem]），其[~模板形参列表]由对该 lambda 的[~形参声明子句]中出现的每个
+[`auto] 按照出现顺序引入虚构的类型[~模板形参]所构成。
 
 [:en]
 The invented type [~template-parameter] is a parameter pack if the corresponding
 [~parameter-declaration] declares a function parameter pack ([#dcl.fct]).
+[:zh_CN]
+如果的[~形参声明式]声明了函数形参集，则对应的虚构的类型[~模板形参]是形参集
+（[#dcl.fct]）。
 
 [:en]
 The return type and function parameters of the function call operator template
@@ -188,15 +248,18 @@ are derived from the [~lambda-expression][=']s [~trailing-return-type] and
 [~parameter-declaration-clause] by replacing each occurrence of [`auto] in the
 [~decl-specifier]s of the [~parameter-declaration-clause] with the name of the
 corresponding invented [~template-parameter].
+[:zh_CN]
+函数调用运算符模板的返回类型和函数形参，从该[~lambda-表达式]的[~尾部返回类型]和
+[~形参声明子句]，通过将[~形参声明子句]的[~声明说明符]中的每个 [`auto]，替换为
+其对应的虚构[~模板形参]的名字而衍生出来。
 
 [enter:example]
 [codeblock]
   auto glambda = [](auto a, auto&& b) { return a < b; };
-  bool b = glambda(3, 3.14);                                  // [:en] OK
-                                                              // [|:zh_CN] OK
+  bool b = glambda(3, 3.14);                                  // OK
   auto vglambda = [](auto printer) {
      return [=](auto&& ... ts) {                              // [:en] OK: [`ts] is a function parameter pack
-                                                              // [|:zh_CN]
+                                                              // [|:zh_CN] OK：[`ts] 是函数形参集
          printer(std::forward<decltype(ts)>(ts)...);
 
          return [=]() {
@@ -207,9 +270,9 @@ corresponding invented [~template-parameter].
   auto p = vglambda( [](auto v1, auto v2, auto v3)
                          { std::cout << v1 << v2 << v3; } );
   auto q = p(1, 'a', 3.14);                                   // [:en] OK: outputs [`1a3.14]
-                                                              // [|:zh_CN]
+                                                              // [|:zh_CN] OK：输出 [`1a3.14]
   q();                                                        // [:en] OK: outputs [`1a3.14]
-                                                              // [|:zh_CN]
+                                                              // [|:zh_CN] OK：输出 [`1a3.14]
 [codeblock:end]
 [exit:example]
 
@@ -217,22 +280,33 @@ corresponding invented [~template-parameter].
 This function call operator or operator template is declared [`const]
 ([#class.mfct.non-static]) if and only if the [~lambda-expression][=']s
 [~parameter-declaration-clause] is not followed by [`mutable].
+[:zh_CN]
+函数调用运算符和运算符模板，当且仅当[~lambda-表达式]的[~形参声明子句]不跟着
+[`mutable] 时，被声明为 [`const]。
 
 [:en]
 It is neither virtual nor declared [`volatile].
+[:zh_CN]
+它既不是虚函数，也不被声明为 [`volatile]。
 
 [:en]
 Any [~exception-specification] specified on a [~lambda-expression] applies to
 the corresponding function call operator or operator template.
+[:zh_CN]
+[~lambda-表达式]中给出的[~异常说明]应用于函数调用运算符或运算符模板。
 
 [:en]
 An [~attribute-specifier-seq] in a [~lambda-declarator] appertains to the type
 of the corresponding function call operator or operator template.
+[:zh_CN]
+[~lambda-声明符]中的[~特性说明符序列]属于函数调用运算符或运算符模板的类型。
 
 [enter:note]
 [:en]
 Names referenced in the [~lambda-declarator] are looked up in the context in
 which the [~lambda-expression] appears.
+[:zh_CN]
+[~lambda-声明符]中所引用的名字，是在出现该[~lambda-表达式]的语境中进行查找的。
 [exit:note]
 
 [para]
@@ -242,56 +316,84 @@ The closure type for a non-generic [~lambda-expression] with no
 function to pointer to function with [=Cpp] language linkage ([#dcl.link])
 having the same parameter and return types as the closure type[=']s function
 call operator.
+[:zh_CN]
+没有 [~lambda-捕获式]的非通用 [~lambda-表达式]的闭包类型，具有一个公用的非虚非
+显式的 const 转换函数，转换为指向具有同其闭包类型的函数调用运算符相同的形参和
+返回类型的函数的指针。
 
 [:en]
 The value returned by this conversion function shall be the address of a
 function that, when invoked, has the same effect as invoking the closure
 type[=']s function call operator.
+[:zh_CN]
+这个转换函数返回的值应当为某个函数的地址，当调用它时，与调用闭包类型的函数调用
+运算符具有相同的效果。
 
 [:en]
 For a generic lambda with no [~lambda-capture], the closure type has a public
 non-virtual non-explicit const conversion function template to pointer to
 function.
+[:zh_CN]
+没有 [~lambda-捕获式]的通用 lambda 的闭包类型，具有一个公用的非虚非显式的 const
+转换为函数指针的转换函数模板。
 
 [:en]
 The conversion function template has the same invented
 [~template-parameter-list], and the pointer to function has the same parameter
 types, as the function call operator template.
+[:zh_CN]
+该转换函数模板带有相同的虚构的[~模板形参列表]，而该函数指针与其函数调用运算符
+模板具有相同的形参类型。
 
 [:en]
 The return type of the pointer to function shall behave as if it were a
 [~decltype-specifier] denoting the return type of the corresponding function
 call operator template specialization.
+[:zh_CN]
+该函数指针的返回类型，应当表现为如同它是代表其所对应的函数调用运算符模板的特例的
+返回类型的[~decltype-说明符]。
 
 [enter:note]
 [:en]
 If the generic lambda has no [~trailing-return-type] or the
 [~trailing-return-type] contains a placeholder type, return type deduction of
 the corresponding function call operator template specialization has to be done.
+[:zh_CN]
+如果通用 lambda 没有[~尾部返回类型]或其[~尾部返回类型]包含占位类型，则必须对其所
+对应的函数调用运算符模板的特例进行返回类型推断。
 
 [:en]
 The corresponding specialization is that instantiation of the function call
 operator template with the same template arguments as those deduced for the
 conversion function template.
+[:zh_CN]
+所对应的特例，就是与转换函数模板所推断的相同模板实参，进行的函数调用运算符模板
+实例化。
 
 [:en]
 Consider the following:
+[:zh_CN]
+考虑：
 
 [codeblock]
 auto glambda = [](auto a) { return a; };
 int (*fp)(int) = glambda;
 [codeblock:end]
 
-[:en]
+[:en@~]
 The behavior of the conversion function of [`glambda] above is like
 that of the following conversion function:
+[:zh_CN@~]
+上述 [`glambda] 的转换函数的行为与以下转换函数相似：
 
 [codeblock]
 struct Closure {
   template<class T> auto operator()(T t) const { ... }
   template<class T> static auto lambda_call_operator_invoker(T a) {
     // [:en] forwards execution to [`operator()(a)] and therefore has
+    // [|:zh_CN] 转发执行给 [`operator()(a)]，且
     // [:en@~] the same return type deduced
+    // [|:zh_CN@~] 与其推断的返回类型相同
     ...
   }
   template<class T> using fptr_t =
@@ -316,8 +418,11 @@ void h(char (*)(int))   { }  // #4
 auto glambda = [](auto a) { return a; };
 f1(glambda);  // OK
 f2(glambda);  // [:en] error: ID is not convertible
+              // [|:zh_CN] 错误：ID 不能进行转换
 g(glambda);   // [:en] error: ambiguous
+              // [|:zh_CN] 错误：由歧义
 h(glambda);   // [:en] OK: calls #3 since it is convertible from ID
+              // [|:zh_CN] OK：调用 #3，由于可以从 ID 进行转换
 int& (*fpi)(int*) = [](auto* a) -> auto& { return *a; }; // OK
 [codeblock:end]
 [exit:example]
@@ -327,21 +432,31 @@ The value returned by any given specialization of this conversion function
 template shall be the address of a function that, when invoked, has the same
 effect as invoking the generic lambda[=']s corresponding function call operator
 template specialization.
+[:zh_CN]
+该转换函数模板的任何给定特例所返回的值，都应当为某个函数的地址，当调用它时，与
+调用该通用 lambda 的对应函数调用运算符模板特例具有相同的效果。
 
 [enter:note]
 [:en]
 This will result in the implicit instantiation of the generic lambda[=']s body.
+[:zh_CN]
+这将导致该通用 lambda 的函数体进行隐式的实例化。
 
 [:en]
 The instantiated generic lambda[=']s return type and parameter types shall match
 the return type and parameter types of the pointer to function.
+[:zh_CN]
+所实例化的通用 lambda 的返回类型和形参类型，应当与该函数指针的返回类型和形参类型
+相匹配。
 [exit:note]
 
 [enter:example]
 [codeblock]
 auto GL = [](auto a) { std::cout << a; return a; };
 int (*GL_int)(int) = GL;  // [:en] OK: through conversion function template
+                          // [|:zh_CN] OK：通过转换函数模板
 GL_int(3);                // [:en] OK: same as [`GL(3)]
+                          // [|:zh_CN] OK：与 [`GL(3)] 相同
 [codeblock:end]
 [exit:example]
 
@@ -353,6 +468,12 @@ The [~lambda-expression][=']s [~compound-statement] yields the [~function-body]
 transforming [~id-expression]s referring to non-static class members into class
 member access expressions using [`(*this)] ([#class.mfct.non-static]), the
 [~compound-statement] is considered in the context of the [~lambda-expression].
+[:zh_CN]
+由[~lambda-表达式]的[~组合语句]生成函数调用运算符的[~函数体]（[#dcl.fct.def]），
+但在进行名字查找时（[#basic.lookup]），当确定 [`this] 的类型和值
+（[#class.this]），以及使用 [`(*this)] 将指代非静态类成员的[~标识表达式]变形为
+类成员访问表达式（[#class.mfct.non-static]）时，将[~组合语句]当作处于该
+[~lambda-表达式]所在的语境之中进行。
 
 [enter:example]
 [codeblock]
@@ -362,7 +483,9 @@ struct S1 {
   void f() {
     [=]()->int {
       return operator()(this->x + y); // [:en] equivalent to [`S1::operator()(this->x + (*this).y)]
+                                      // [|:zh_CN] 等价于 [`S1::operator()(this->x + (*this).y)]
                                       // [:en@~] [`this] has type [`S1*]
+                                      // [|:zh_CN@~] [`this] 类型为 [`S1*]
     };
   }
 };
@@ -373,20 +496,32 @@ struct S1 {
 Further, a variable [`__func__] is implicitly defined at the beginning of the
 [~compound-statement] of the [~lambda-expression], with semantics as described
 in [#dcl.fct.def.general].
+[:zh_CN]
+此外，变量 [`__func__] 在 [~lambda-表达式]的[~组合语句]的开头被隐含地定义，并
+具有如 [#dcl.fct.def.general] 所说明的语义。
 
 [para]
 [:en]
 If a [~lambda-capture] includes a [~capture-default] that is [`&], no identifier
 in a [~simple-capture] of that [~lambda-capture] shall be preceded by [`&].
+[:zh_CN]
+如果 [~lambda-捕获式]中包含的[~默认捕获符]是 [`&]，则在 [~lambda-捕获式]之中的
+标识符前面不应当有 [`&]。
 
 [:en]
 If a [~lambda-capture] includes a [~capture-default] that is [`=], each
 [~simple-capture] of that [~lambda-capture] shall be of the form ["[`&]
 [~identifier]].
+[:zh_CN]
+如果 [~lambda-捕获式]中包含的[~默认捕获符]是 [`=]，则 [~lambda-捕获式]中的每个
+[~简单捕获式]都应当具有“[`&] [~标识符]”的形式。
 
 [:en]
 Ignoring appearances in [~initializer]s of [~init-capture]s, an identifier or
 [`this] shall not appear more than once in a [~lambda-capture].
+[:zh_CN]
+除[~带初始化捕获式]中出现的[~标识符]之外，在一个 [~lambda-捕获式] 之中，标识符
+或者 [`this] 不能多次出现。
 
 [enter:example]
 [codeblock]
@@ -394,8 +529,11 @@ struct S2 { void f(int i); };
 void S2::f(int i) {
   [&, i]{ };    // OK
   [&, &i]{ };   // [:en] error: [`i] preceded by [`&] when [`&] is the default
+                // [|:zh_CN] 错误：当 [`&] 为默认时 [`i] 之前带有 [`&]
   [=, this]{ }; // [:en] error: [`this] when [`=] is the default
+                // [|:zh_CN] 错误：当 [`=] 为默认时出现 [`this]
   [i, i]{ };    // [:en] error: [`i] repeated
+                // [|:zh_CN] 错误：重复了 [`i]
 }
 [codeblock:end]
 [exit:example]
@@ -406,14 +544,23 @@ A [~lambda-expression] whose smallest enclosing scope is a block scope
 ([#basic.scope.block]) is a [def local lambda expression]; any other
 [~lambda-expression] shall not have a [~capture-default] or [~simple-capture] in
 its [~lambda-introducer].
+[:zh_CN]
+最小的外围作用域是块作用域（[#basic.scope.local]）的 [~lambda-表达式]是[def 局部
+lambda 表达式]；任何其他 [~lambda-表达式]的 [~lambda-引导符]中都不能包含[~默认
+捕获符]或[~简单捕获式]。
 
 [:en]
 The [def reaching scope] of a local lambda expression is the set of enclosing
 scopes up to and including the innermost enclosing function and its parameters.
+[:zh_CN]
+局部 lambda 表达式的[def 可达作用域]，为其外围作用域的集合，直到并包括其最内层
+外围函数及其形参。
 
 [enter:note]
 [:en]
 This reaching scope includes any intervening [~lambda-expression]s.
+[:zh_CN]
+可达作用域中包括介于其间的任意 [~lambda-表达式]。
 [exit:note]
 
 [para]
@@ -421,17 +568,27 @@ This reaching scope includes any intervening [~lambda-expression]s.
 The [~identifier] in a [~simple-capture] is looked up using the usual rules for
 unqualified name lookup ([#basic.lookup.unqual]); each such lookup shall find an
 entity.
+[:zh_CN]
+使用未限定名查找的常规规则对[~简单捕获式]中的[~标识符]进行查找
+（[#basic.lookup.unqual]）；每次这种查找都应当找到该局部 lambda 表达式的可达作用
+域中的某个具有自动存储期的变量。
 
 [:en]
 An entity that is designated by a [~simple-capture] is said to be [def
 explicitly captured], and shall be [`this] or a variable with automatic storage
 duration declared in the reaching scope of the local lambda expression.
+[:zh_CN]
+由[~简单捕获式]所代表的实体称为被[def 显式捕获]，且应当为 [`this] 或者声明与该
+局部 lambda 表达式的可达作用域之中的具有自动存储期的变量。
 
 [para]
 [:en]
 An [~init-capture] behaves as if it declares and explicitly captures a variable
 of the form ["[`auto] [~init-capture] [`;]] whose declarative region is the
 [~lambda-expression][=']s [~compound-statement], except that:
+[:zh_CN]
+[~带初始化捕获式]表现为如同它声明并显式捕获某个形式为“[`auto] [~带初始化捕获式]
+[`;]”的变量，其声明区为该[~lambda-表达式]的[~组合语句]，但是：
 
 [list]
 [item]
@@ -440,17 +597,26 @@ if the capture is by copy (see below), the non-static data member declared for
 the capture and the variable are treated as two different ways of referring to
 the same object, which has the lifetime of the non-static data member, and no
 additional copy and destruction is performed, and
+[:zh_CN]
+若该捕获式为复制捕获（见下文），则为该捕获式声明的非静态数据成员和这个变量被当作
+指代相同对象的两个不同方式，具有非静态数据成员的生存期，并且不进行其他复制和销毁
+操作，并且
 
 [item]
 [:en]
 if the capture is by reference, the variable[=']s lifetime ends when the closure
 object[=']s lifetime ends.
+[:zh_CN]
+若该捕获式为引用捕获，则该变量的生存期在闭包对象的生存期结束时结束。
 [list:end]
 
 [enter:note]
 [:en]
 This enables an [~init-capture] like ["[`x = std::move(x)]]; the second ["[`x]]
 must bind to a declaration in the surrounding context.
+[:zh_CN]
+这样就允许[~带初始化捕获式]“[`x = std::move(x)]”；其第二个“[`x]”必须绑定到其外围
+语境中的某个声明式。
 [exit:note]
 
 [enter:example]
@@ -460,6 +626,7 @@ auto y = [&r = x, x = x+1]()->int {
             r += 2;
             return x+2;
          }();  // [:en] Updates [`::x] to 6, and initializes [`y] to 7.
+               // [|:zh_CN] 更新 [`::x] 为 6，并初始化 [`y] 为 7。
 [codeblock:end]
 [exit:example]
 
@@ -468,21 +635,30 @@ auto y = [&r = x, x = x+1]()->int {
 A [~lambda-expression] with an associated [~capture-default] that does not
 explicitly capture [`this] or a variable with automatic storage duration (this
 excludes any [~id-expression] that has been found to refer to an
-[~init-capture][=']s associated
-[%implicit capture[!definition of]] non-static data member), is said to
-[+implicitly capture] the entity (i.e., [`this] or a variable) if the
-[~compound-statement]:
+[~init-capture][=']s associated non-static data member), is said to
+[%implicit capture[!definition of]][+implicitly capture] the entity (i.e.,
+[`this] or a variable) if the [~compound-statement]:
+[:zh_CN]
+当关联了[~默认捕获符]的[~lambda-表达式]，并未明确捕获 [`this] 或者具有自动存储期
+的变量（这不包括任何被发现指代某个[~带初始化捕获式]所关联的非静态数据成员的
+[~标识表达式]），且其[~组合语句]符合如下情况时，称其[%隐式捕获[!～的定义]]
+[+隐式捕获]该实体（亦即 [`this] 或者变量）：
 
 [list]
 [item]
 [:en@~]
 odr-uses ([#basic.def.odr]) the entity, or
+[:zh_CN@~]
+ODR-式使用（[#basic.def.odr]）了该实体，或者
 
 [item]
 [:en@~]
 names the entity in a potentially-evaluated expression ([#basic.def.odr]) where
 the enclosing full-expression depends on a generic lambda parameter declared
 within the reaching scope of the [~lambda-expression].
+[:zh_CN@~]
+在潜在求值表达式（[#basic.def.odr]）中涉及该实体，包含它的全表达式依赖于该
+[~lambda-表达式]的可达作用域中所声明的某个通用 lambda 形参。
 [list:end]
 
 [enter:example]
@@ -493,11 +669,13 @@ void test() {
   const int x = 17;
   auto g = [](auto a) {
     f(x);  // [:en] OK: calls #1, does not capture [`x]
+           // [|:zh_CN] OK：调用 #1，并未捕获 [`x]
   };
 
   auto g2 = [=](auto a) {
     int selector[sizeof(a) == 1 ? 1 : 2]{};
     f(x, selector);  // [:en] OK: is a dependent expression, so captures [`x]
+                     // [|:zh_CN] OK：这是待决表达式，并捕获 [`x]
   };
 }
 [codeblock:end]
@@ -506,38 +684,60 @@ void test() {
 [:en]
 All such implicitly captured entities shall be declared within the reaching
 scope of the lambda expression.
+[:zh_CN]
+所有这些隐式捕获的实体应当在该 lambda 表达式的可达作用域中进行了声明。
 
 [enter:note]
 [:en]
 The implicit capture of an entity by a nested [~lambda-expression] can cause its
 implicit capture by the containing [~lambda-expression] (see below).
+[:zh_CN]
+在嵌套的 [~lambda-表达式]中对某个实体进行隐式捕获，会造成在包含它的 [~lambda-表
+达式]中对其隐式捕获（见下文）。
 
 [:en]
 Implicit odr-uses of [`this] can result in implicit capture.
+[:zh_CN]
+对 [`this] 进行隐含的 ODR-式使用会造成隐式捕获。
 [exit:note]
 
 [para]
 [:en]
 An entity is [def captured] if it is captured explicitly or implicitly.
+[:zh_CN]
+若某个实体被显式或隐式捕获，则它被[def 捕获]。
 
 [:en]
 An entity captured by a [~lambda-expression] is odr-used ([#basic.def.odr]) in
 the scope containing the [~lambda-expression].
-
+[:zh_CN]
+由某个 [~lambda-表达式]所捕获的实体，是在包含该 [~lambda-表达式]的作用域中被
+ODR-式使用的（[#basic.def.odr]）。
+    
 [:en]
 If [`this] is captured by a local lambda expression, its nearest enclosing
 function shall be a non-static member function.
+[:zh_CN]
+若某个局部 lambda 表达式捕获了 [`this]，则其最内层外围函数应当是一个非静态成员
+函数。
 
 [:en]
 If a [~lambda-expression] or an instantiation of the function call operator
 template of a generic lambda odr-uses ([#basic.def.odr]) [`this] or a variable
 with automatic storage duration from its reaching scope, that entity shall be
 captured by the [~lambda-expression].
+[:zh_CN]
+若某个 [~lambda-表达式]或某个通用 lambda 的函数调用运算符模板的实例化中，ODR-式
+使用（[#basic.def.odr]）了 [`this]，或其可达作用域中的某个具有自动存储期的变量，
+则该实体应当被这个 [~lambda-表达式]所捕获。
 
 [:en]
 If a [~lambda-expression] captures an entity and that entity is not defined or
 captured in the immediately enclosing lambda expression or function, the program
 is ill-formed.
+[:zh_CN]
+如果 [~lambda-表达式]捕获了某个实体，而该实体并未在其直接外围 lambda 表达式或
+函数中定义或捕获，则程序非良构。
 
 [enter:example]
 [codeblock]
@@ -547,8 +747,11 @@ void f1(int i) {
     int const M = 30;
     auto m2 = [i]{
       int x[N][M];              // [:en] OK: [`N] and [`M] are not odr-used
+                                // [|:zh_CN] OK：[`N] 和 [`M] 未被 ODR-式使用
       x[0][0] = i;              // [:en] OK: [`i] is explicitly captured by [`m2]
+                                // [|:zh_CN] OK：[`i] 由 [`m2] 显式捕获
                                 // [:en@~] and implicitly captured by [`m1]
+                                // [|:zh_CN@~] 并由 [`m1] 所隐式捕获
     };
   };
   struct s1 {
@@ -558,13 +761,21 @@ void f1(int i) {
       int j = 40;
       auto m3 = [this,m] {
         auto m4 = [&,j] {       // [:en] error: [`j] not captured by [`m3]
+                                // [|:zh_CN] 错误：[`j] 未被 [`m3] 捕获
           int x = n;            // [:en] error: [`n] implicitly captured by [`m4]
+                                // [|:zh_CN] 错误：[`n] 被 [`m4] 隐式捕获
                                 // [:en@~] but not captured by [`m3]
+                                // [|:zh_CN@~] 但未被 [`m3] 所捕获
           x += m;               // [:en] OK: [`m] implicitly captured by [`m4]
+                                // [|:zh_CN] OK：[`m] 被 [`m4] 隐式捕获
                                 // [:en@~] and explicitly captured by [`m3]
+                                // [|:zh_CN@~] 并被 [`m3] 显式捕获
           x += i;               // [:en] error: [`i] is outside of the reaching scope
+                                // [|:zh_CN] 错误：[`i] 不在可达作用域中
           x += f;               // [:en] OK: [`this] captured implicitly by [`m4]
+                                // [|:zh_CN] OK：[`this] 被 [`m4] 隐式捕获
                                 // [:en@~] and explicitly by [`m3]
+                                // [|:zh_CN@~] 并被 [`m3] 显式捕获
         };
       };
     }
@@ -577,14 +788,19 @@ void f1(int i) {
 [:en]
 A [~lambda-expression] appearing in a default argument shall not implicitly or
 explicitly capture any entity.
+[:zh_CN]
+出现于默认实参中的 [~lambda-表达式]，不应隐式或显式捕获任何实体。
 
 [enter:example]
 [codeblock]
 void f2() {
   int i = 1;
   void g1(int = ([i]{ return i; })());        // [:en] ill-formed
+                                              // [|:zh_CN] 非良构
   void g2(int = ([i]{ return 0; })());        // [:en] ill-formed
+                                              // [|:zh_CN] 非良构
   void g3(int = ([=]{ return i; })());        // [:en] ill-formed
+                                              // [|:zh_CN] 非良构
   void g4(int = ([=]{ return 0; })());        // OK
   void g5(int = ([]{ return sizeof i; })());  // OK
 }
@@ -593,64 +809,95 @@ void f2() {
 
 [para]
 [:en]
-An entity is [+captured by copy [%captured [!by copy]]] if it is implicitly
+An entity is [def captured by copy [%captured [!by copy]]] if it is implicitly
 captured and the [~capture-default] is [`=] or if it is explicitly captured with
 a capture that is not of the form [`&] [~identifier] or [`&] [~identifier]
 [~initializer].
+[:zh_CN]
+如果某个实体被隐式捕获且[~默认捕获符]是 [`=]，或者如果它不被形式为 [`&]
+[~标识符]或 [`&] [~标识符] [~初始化式] 的捕获式所显式捕获，则它被[def 复制捕获
+[%捕获[!复制～]]。
 
 [:en]
 For each entity captured by copy, an unnamed non-static data member is declared
 in the closure type.
+[:zh_CN]
+对于每个复制捕获的实体，在闭包类型中都声明了一个无名的非静态数据成员。
 
 [:en]
 The declaration order of these members is unspecified.
+[:zh_CN]
+这些成员的声明顺序是未指明的。
 
 [:en]
 The type of such a data member is the type of the corresponding captured entity
 if the entity is not a reference to an object, or the referenced type otherwise.
+[:zh_CN]
+这种数据成员，如果所对应的被捕获实体不是对象的引用，则其类型为该实体的类型，否则
+就是被引用的类型。
 
 [enter:note]
 [:en]
 If the captured entity is a reference to a function, the corresponding data
 member is also a reference to a function.
+[:zh_CN]
+如果所捕获的实体是指代函数的引用，则其对应的数据成员也是指代函数的引用。
 [exit:note]
 
 [:en]
 A member of an anonymous union shall not be captured by copy.
+[:zh_CN]
+匿名联合的成员不能被复制捕获。
 
 [para]
 [:en]
 An entity is [+captured by reference [% captured [!by reference]]] if it is
 implicitly or explicitly captured but not captured by copy.
+[:zh_CN]
+如果某个实体被隐式或显式捕获，但不是被复制捕获，则它被[def 引用捕获 [%捕获
+[!引用～]]]。
 
 [:en]
 It is unspecified whether additional unnamed non-static data members are
 declared in the closure type for entities captured by reference.
+[:zh_CN]
+是否为被引用捕获的实体在闭包类型中声明额外的无名静态数据成员是未指明的。
 
 [:en]
 A member of an anonymous union shall not be captured by reference.
+[:zh_CN]
+匿名联合的成员不能被引用捕获。
 
 [para]
 [:en]
 If a [~lambda-expression] [`m2] captures an entity and that entity is captured
 by an immediately enclosing [~lambda-expression] [`m1], then [`m2][=']s capture
 is transformed as follows:
+[:zh_CN]
+若 [~lambda-表达式] [`m2] 捕获某个实体，且该实体被其直接外围 [~lambda-表达式]
+[`m1] 所捕获，则对 [`m2] 的捕获进行下述变换：
 
 [list]
 [item]
 [:en@~]
 if [`m1] captures the entity by copy, [`m2] captures the corresponding
 non-static data member of [`m1][=']s closure type;
+[:zh_CN@~]
+若 [`m1] 复制捕获该实体，则 [`m2] 捕获 [`m1] 的闭包类型的对应非静态数据成员；
 
 [item]
 [:en@~]
 if [`m1] captures the entity by reference, [`m2] captures the same entity
 captured by [`m1].
+[:zh_CN@~]
+若 [`m1] 引用捕获该实体，则 [`m2] 捕获 [`m1] 所捕获的相同实体。
 [list:end]
 
 [enter:example]
 [:en]
 the nested lambda expressions and invocations below will output [`123234].
+[:zh_CN]
+下述的嵌套 lambda 表达式及其调用将会输出 [`123234]。
 
 [codeblock]
 int a = 1, b = 1, c = 1;
@@ -674,25 +921,37 @@ Every [~id-expression] within the [~compound-statement] of a
 [~lambda-expression] that is an odr-use ([#basic.def.odr]) of an entity captured
 by copy is transformed into an access to the corresponding unnamed data member
 of the closure type.
+[:zh_CN]
+[~lambda-表达式]的[~组合语句]中，每个 ODR-式使用（[#basic.def.odr]）被复制捕获的
+实体的[~标识表达式]，均被变换为对其闭包类型的对应无名数据成员的访问。
 
 [enter:note]
 [:en]
 An [~id-expression] that is not an odr-use refers to the original entity, never
 to a member of the closure type.
+[:zh_CN]
+不进行 ODR-式使用的[~标识表达式]，指代原来的实体，而并非指代闭包类型的成员。
 
 [:en]
 Furthermore, such an [~id-expression] does not cause the implicit capture of the
 entity.
+[:zh_CN]
+此外，这种[~标识表达式]并不会导致对该实体的隐式捕获。
 [exit:note]
 
 [:en]
 If [`this] is captured, each odr-use of [`this] is transformed into an access to
 the corresponding unnamed data member of the closure type, cast ([#expr.cast])
 to the type of [`this].
+[:zh_CN]
+如果捕获了 [`this]，对 [`this] 的每次 ODR-式使用，均被变换为对其闭包类型的对应
+无名数据成员的访问，并强制转换（[#expr.cast]）为 [`this] 的类型。
 
 [enter:note]
 [:en]
 The cast ensures that the transformed expression is a prvalue.
+[:zh_CN]
+这个强制转换保证所变换的表达式是纯右值。
 [exit:note]
 
 [enter:example]
@@ -702,8 +961,11 @@ void g() {
   const int N = 10;
   [=] {
     int arr[N];             // [:en] OK: not an odr-use, refers to automatic variable
+                            // [|:zh_CN] OK：不是 ODR-式使用，指代自动变量
     f(&N);                  // [:en] OK: causes [`N] to be captured; [`&N] points to the
+                            // [|:zh_CN] OK：导致 [`N] 被捕获；[`&N] 指向
                             // [:en@~] corresponding member of the closure type
+                            // [|:zh_CN@~] 闭包类型的对应成员
   };
 }
 [codeblock:end]
@@ -716,17 +978,27 @@ Every occurrence of [`decltype((x))] where [`x] is a possibly parenthesized
 as if [`x] were transformed into an access to a corresponding data member of the
 closure type that would have been declared if [`x] were an odr-use of the
 denoted entity.
+[:zh_CN]
+若 [`x] 为可能带有括号的[~标识表达式]，并指名某个自动存储期的实体，则每个
+[`decltype((x))] 均被当作如同：当 [`x] 为对其所代表的实体的 ODR-式使用时，将
+[`x] 变换为对所应声明的闭包类型的对应数据成员的访问。
 
 [enter:example]
 [codeblock]
 void f3() {
   float x, &r = x;
   [=] {                     // [:en] [`x] and [`r] are not captured (appearance in a [`decltype] operand is not an odr-use)
+                            // [|:zh_CN] [`x] 和 [`r] 并未被捕获（出现在 [`decltype] 的操作数中并非 ODR-式使用）
     decltype(x) y1;         // [:en] [`y1] has type [`float]
+                            // [|:zh_CN] [`y1] 的类型为 [`float]
     decltype((x)) y2 = y1;  // [:en] [`y2] has type [`float const&] because this lambda
+                            // [|:zh_CN] [`y2] 的类型为 [`float const&]，这是由于该 lambda
                             // [:en@~] is not [`mutable] and [`x] is an lvalue
+                            // [|:zh_CN@~] 不是 [`mutable] 而且 [`x] 是左值
     decltype(r) r1 = y1;    // [:en] [`r1] has type [`float&] (transformation not considered)
+                            // [|:zh_CN] [`r1] 的类型为 [`float&]（不须变换）
     decltype((r)) r2 = y2;  // [:en] [`r2] has type [`float const&]
+                            // [|:zh_CN] [`r2] 的类型为 [`float const&]
   };
 }
 [codeblock:end]
@@ -736,27 +1008,39 @@ void f3() {
 [:en]
 The closure type associated with a [~lambda-expression] has no default
 constructor and a deleted copy assignment operator.
+[:zh_CN]
+与 [~lambda-表达式]相关联的闭包类型，没有默认构造函数，并具有一个作废的复制赋值
+运算符。
 
 [:en]
 It has a defaulted copy constructor and a defaulted move constructor
 ([#class.copy]).
+[:zh_CN]
+它具有预置的复制构造函数和预置的移动构造函数（[#class.copy]）。
 
 [enter:note]
 [:en]
 These special member functions are implicitly defined as usual, and might
 therefore be defined as deleted.
+[:zh_CN]
+这些特殊成员函数以常规方式进行隐式定义，并可能因此被定义为作废的。
 [exit:note]
 
 [para]
 [:en]
 The closure type associated with a [~lambda-expression] has an
 implicitly-declared destructor ([#class.dtor]).
+[:zh_CN]
+与 [~lambda-表达式]相关联的闭包类型，具有隐式声明的析构函数（[#class.dtor]）。
 
 [para]
 [:en]
 A member of a closure type shall not be explicitly instantiated ([#temp.inst]),
 explicitly specialized ([#temp.explicit]), or named in a [`friend] declaration
 ([#class.friend]).
+[:zh_CN]
+闭包类型的成员不能被显式实例化（[#temp.inst]），显式特化（[#temp.explicit]），
+或者在 [`friend] 声明式中被指名（[#class.friend]）。
 
 [para]
 [:en]
@@ -765,19 +1049,29 @@ copy are used to direct-initialize each corresponding non-static data member of
 the resulting closure object, and the non-static data members corresponding to
 the [~init-capture]s are initialized as indicated by the corresponding
 [~initializer] (which may be copy- or direct-initialization).
+[:zh_CN]
+当求值 [~lambda-表达式]时，用其所复制捕获的实体对所产生的闭包对象中的每个对应的
+非静态数据成员进行直接初始化，而对应于[~带初始化捕获式]的非静态数据成员由其对应
+[~初始化式]所初始化（可能为复制初始化或者直接初始化）。
 
 [:en]
 (For array members, the array elements are direct-initialized in increasing
 subscript order.)
+[:zh_CN]
+（对于数组成员，以下标增长顺序对数组成员进行直接初始化。）
 
 [:en]
 These initializations are performed in the (unspecified) order in which the
 non-static data members are declared.
+[:zh_CN]
+这些初始化，是以非静态数据成员的（未指明的）声明顺序进行的。
 
 [enter:note]
 [:en]
 This ensures that the destructions will occur in the reverse order of the
 constructions.
+[:zh_CN]
+这保证了其析构将以其构造的相反顺序发生。
 [exit:note]
 
 [para]
@@ -786,15 +1080,22 @@ constructions.
 If an entity is implicitly or explicitly captured by reference, invoking the
 function call operator of the corresponding [~lambda-expression] after the
 lifetime of the entity has ended is likely to result in undefined behavior.
+[:zh_CN]
+若某个实体被隐式或显式地引用捕获，则在该实体的生存期结束之后，调用对应的
+[~lambda-表达式]的函数调用运算符，将会导致未定义行为。
 [exit:note]
 
 [para]
 [:en]
 A [~simple-capture] followed by an ellipsis is a pack expansion
 ([#temp.variadic]).
+[:zh_CN]
+后面跟着省略号的[~简单捕获式]是包组展开式（[#temp.variadic]）。
 
 [:en]
 An [~init-capture] followed by an ellipsis is ill-formed.
+[:zh_CN]
+后面跟着省略号的[~带初始化捕获式]非良构。
 
 [enter:example]
 [codeblock]

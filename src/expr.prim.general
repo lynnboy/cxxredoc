@@ -1,10 +1,10 @@
 ﻿[section#expr.prim.general
     [:en] General
-    [:zh_CN]
+    [:zh_CN] 概述
 ]
 
 [syntax]
-[rule primary-expression [:zh_CN] ]
+[rule primary-expression [:zh_CN] 初等表达式 ]
     [| literal ]
     [| [`this] ]
     [| [`(] expression [`)] ]
@@ -13,12 +13,12 @@
     [| fold-expression ]
 [rule:end]
 
-[rule id-expression [:zh_CN] ]
+[rule id-expression [:zh_CN] 标识表达式 ]
     [| unqualified-id ]
     [| qualified-id ]
 [rule:end]
 
-[rule unqualified-id [:zh_CN] ]
+[rule unqualified-id [:zh_CN] 未限定标识 ]
     [| identifier ]
     [| operator-function-id ]
     [| conversion-function-id ]
@@ -32,12 +32,18 @@
 [para]
 [:en]
 A [%literal] [%constant] [~literal] is a primary expression.
+[:zh_CN]
+[%字面量] [%常量] [~字面量]是初等表达式。
 
 [:en]
 Its type depends on its form ([#lex.literal]).
+[:zh_CN]
+其类型依赖于其形式（[#lex.literal]）。
 
 [:en]
 A string literal is an lvalue; all other literals are prvalues.
+[:zh_CN]
+字符串字面量是左值；其他所有字面量都是纯右值。
 
 [para]
 [%[`this]]
@@ -45,6 +51,9 @@ A string literal is an lvalue; all other literals are prvalues.
 The keyword [`this] names a pointer to the object for which a non-static member
 function ([#class.this]) is invoked or a non-static data member[=']s initializer
 ([#class.mem]) is evaluated.
+[:zh_CN]
+关键字 [`this] 命名了一个指针，指向用以调用非静态成员函数的对象（[#class.this]）
+，或者指向对其执行某个非静态数据成员的初始化式（[#class.mem]）的对象。
 
 [para]
 [:en]
@@ -52,27 +61,42 @@ If a declaration declares a member function or member function template of a
 class [`X], the expression [`this] is a prvalue of type ["pointer to
 [~cv-qualifier-seq] [`X]] between the optional [~cv-qualifer-seq] and the end of
 the [~function-definition], [~member-declarator], or [~declarator].
+[:zh_CN]
+如果某个声明式声明了类 [`X] 的成员函数或成员函数模板，则表达式 [`this]，位于其
+可选的 [~cv-限定符序列]，与[~函数定义式]、[~成员声明符]或[~声明符]的结尾之间时，
+是“指向 [~cv-限定符序列] [`X] 的指针”类型的纯右值。
 
 [:en]
 It shall not appear before the optional [~cv-qualifier-seq] and it shall not
 appear within the declaration of a static member function (although its type and
 value category are defined within a static member function as they are within a
 non-static member function).
+[:zh_CN]
+它不应出现于其可选的 [~cv-限定符序列]之前，而且它还不能出现于某个静态成员函数的
+声明式之内（虽然在静态成员函数中它的类型和值的类别，是与在非静态成员函数之中一样
+是有定义的）。
 
 [enter:note]
 [:en]
 this is because declaration matching does not occur until the complete
 declarator is known.
+[:zh_CN]
+这是因为直到了解了完整的声明符后才会进行声明式的匹配。
 [exit:note]
 
 [:en]
 Unlike the object expression in other contexts, [`*this] is not required to be
 of complete type for purposes of class member access ([#expr.ref]) outside the
 member function body.
+[:zh_CN]
+与对象表达式在其他语境下的情况不同，[`*this] 在成员函数体之外用于进行类成员访问
+（[#expr.ref]）时，并不需要具有完整类型。
 
 [enter:note]
 [:en]
 only class members declared prior to the declaration are visible.
+[:zh_CN]
+只有在该声明式之前声明的类成员是可见的。
 [exit:note]
 
 [enter:example]
@@ -91,29 +115,36 @@ template auto A::f(int t) -> decltype(t + g());
 Otherwise, if a [~member-declarator] declares a non-static data member
 ([#class.mem]) of a class [`X], the expression [`this] is a prvalue of type
 ["pointer to [`X]] within the optional [~brace-or-equal-initializer].
+[:zh_CN]
+否则，如果某个[~成员声明符]声明了类 [`X] 的非静态数据成员（[#class.mem]），则
+表达式 [`this]，位于其可选的[~花括号或等号初始化式]之中时，是“[`X] 的指针”类型的
+纯右值。
 
 [:en]
 It shall not appear elsewhere in the [~member-declarator].
+[:zh_CN]
+它不应出现于这个[~成员声明符]的其他地方。
 
 [para]
 [:en]
 The expression [`this] shall not appear in any other context.
+[:zh_CN]
+表达式 [`this] 不应出现于其他任何语境之中。
 
 [enter:example]
 [codeblock]
 class Outer {
   int a[sizeof(*this)];               // [:en] error: not inside a member function
-                                      // [|:zh_CN]
+                                      // [|:zh_CN] 错误：并非位于成员函数中
   unsigned int sz = sizeof(*this);    // [:en] OK: in [~brace-or-equal-initializer]
-                                      // [|:zh_CN]
+                                      // [|:zh_CN] OK：位于[~花括号或等号初始化式]中
 
   void f() {
-    int b[sizeof(*this)];             // [:en] OK
-                                      // [|:zh_CN]
+    int b[sizeof(*this)];             // OK
 
     struct Inner {
       int c[sizeof(*this)];           // [:en] error: not inside a member function of [`Inner]
-                                      // [|:zh_CN]
+                                      // [|:zh_CN] 错误：并未位于 [`Inner] 的成员函数中
     };
   }
 };
@@ -125,23 +156,36 @@ class Outer {
 [%expression[!parenthesized]]
 A parenthesized expression is a primary expression whose type and value are
 identical to those of the enclosed expression.
+[:zh_CN]
+[%表达式[!带括号的～]]
+带括号的表达式是初等表达式，其类型和值与被括号所包围的表达式一致。
 
 [:en]
 The presence of parentheses does not affect whether the expression is an lvalue.
+[:zh_CN]
+括号的出现对该表达式是否是左值没有影响。
 
 [:en]
 The parenthesized expression can be used in exactly the same contexts as those
 where the enclosed expression can be used, and with the same meaning, except as
 otherwise indicated.
+[:zh_CN]
+除非另外指明，带括号的表达式可用在与被括号所包围的表达式完全相同的语境中，并具有
+相同含义。
 
 [para]
 [:en]
 [%name] [%id-expression]
 An [~id-expression] is a restricted form of a [~primary-expression].
+[:zh_CN]
+[%名字] [%标识表达式]
+[~标识表达式]是[~初等表达式]的一种受限形式。
 
 [enter:note]
 [:en]
 an [~id-expression] can appear after [`.] and [`->] operators ([#expr.ref]).
+[:zh_CN]
+[~标识表达式]可处于 [`.] 和 [`->] 运算符（[#expr.ref]）之后。
 [exit:note]
 
 [para]
@@ -149,54 +193,76 @@ an [~id-expression] can appear after [`.] and [`->] operators ([#expr.ref]).
 [%identifier]
 An [~identifier] is an [~id-expression] provided it has been suitably declared
 (Clause [#dcl.dcl]).
+[:zh_CN]
+[%标识符]
+[~标识符]是已经进行适当声明（第 [#dcl.dcl] 条）的[~标识表达式]。
 
 [enter:note]
 [:en]
 for [~operator-function-id]s, see [#over.oper]; for [~conversion-function-id]s,
 see [#class.conv.fct]; for [~literal-operator-id]s, see [#over.literal]; for
 [~template-id]s, see [#temp.names].
+[:zh_CN]
+对于[~运算符函数标识]，参见 [#over.oper]；对于[~转换函数标识]，参见
+[#class.conv.fct]；对于[~字面量运算符标识]，参见 [#over.literal]；对于
+[~模板标识]，参见 [#temp.names]。
 
 [:en]
 A [~class-name] or [~decltype-specifier] prefixed by [`~] denotes a destructor;
 see [#class.dtor].
+[:zh_CN]
+带 [`~] 前缀的[~类名]或者 [~decltype-说明符]代表析构函数；见 [#class.dtor]。
 
 [:en]
 Within the definition of a non-static member function, an [~identifier] that
 names a non-static member is transformed to a class member access expression
 ([#class.mfct.non-static]).
-
+[:zh_CN]
+在非静态成员函数的定义式之中，指名非静态成员的[~标识符]被变换为类成员访问表达式
+（[#class.mfct.non-static]）。
 [exit:note]
+
 [:en]
 The type of the expression is the type of the [~identifier].
+[:zh_CN]
+表达式的类型为该[~标识符]的类型。
 
 [:en]
 The result is the entity denoted by the identifier.
+[:zh_CN]
+其结果为由该标识符所代表的实体。
 
 [:en]
 The result is an lvalue if the entity is a function, variable, or data member
 and a prvalue otherwise.
+[:zh_CN]
+如果此实体是函数、变量或数据成员，则结果是左值，否则就是纯右值。
 
 [syntax]
 
 [%
     [:en] operator[!scope resolution]
+    [:zh_CN] 运算符 [!作用域解析～]
 ]
 [%
     [:en] [`::] [see scope resolution operator]
+    [:zh_CN] [`::] [see 作用域解析运算符]
 ]
 
-[rule qualified-id [:zh_CN] ]
+[rule qualified-id [:zh_CN] 限定标识 ]
     [| nested-name-specifier [`:opt template] unqualified-id ]
 [rule:end]
 
 [%
     [:en] operator [!scope resolution]
+    [:zh_CN] 运算符 [!作用域解析～]
 ]
 [%
     [:en] name hiding
+    [:zh_CN] 名字隐藏
 ]
 
-[rule nested-name-specifier [:zh_CN] ]
+[rule nested-name-specifier [:zh_CN] 嵌套名说明符 ]
     [| [`::] ]
     [| type-name [`::] ]
     [| namespace-name [`::] ]
@@ -209,6 +275,8 @@ and a prvalue otherwise.
 [:en]
 The type denoted by a [~decltype-specifier] in a [~nested-name-specifier] shall
 be a class or enumeration type.
+[:zh_CN]
+[~嵌套名说明符]中的[~decltype-说明符]所代表的类型应当是类或枚举类型。
 
 [para]
 [:en]
@@ -217,39 +285,61 @@ keyword [`template] ([#temp.names]), and then followed by the name of a member
 of either that class ([#class.mem]) or one of its base classes (Clause
 [#class.derived]), is a [%id[!qualified]] [~qualified-id]; [#class.qual]
 describes name lookup for class members that appear in [~qualified-ids].
+[:zh_CN]
+代表某个类的[~嵌套名说明符]，可选地跟着关键字 [`template]（[#temp.names]），再
+跟着该类或其基类（第 [#class.derived] 条）之一的某个成员（[#class.mem]）的名字，
+构成[%标识[!限定～]][~限定标识]；[#class.qual] 描述了对出现于[~限定标识]之中的
+类成员名字所进行的查找。
 
 [:en]
 The result is the member.
+[:zh_CN]
+其结果是这个成员。
 
 [:en]
 The type of the result is the type of the member.
+[:zh_CN]
+其结果的类型是该成员的类型。
 
 [:en]
 The result is an lvalue if the member is a static member function or a data
 member and a prvalue otherwise.
+[:zh_CN]
+如果该成员是静态的成员函数或数据成员，则结果是左值，否则为纯右值。
 
 [enter:note]
 [:en]
 a class member can be referred to using a [~qualified-id] at any point in its
 potential scope ([#basic.scope.class]).
+[:zh_CN]
+类成员可在其潜作用域（[#basic.scope.class]）的任意点处用[~限定标识]提及。
 [exit:note]
 
 [:en]
 Where [~class-name] [`::~] [~class-name] is used, the two [~class-name]s shall
 refer to the same class; this notation names the destructor ([#class.dtor]).
+[:zh_CN]
+一旦使用了[~类名] [`::~] [~类名]，这两个[~类名]就应当涉指相同的类；而这个记法就
+指名了其析构函数（[#class.dtor]）。
 
 [:en]
 The form [`~] [~decltype-specifier] also denotes the destructor, but it shall
 not be used as the [~unqualified-id] in a [~qualified-id].
+[:zh_CN]
+形式 [`~] [~decltype-说明符]也可用于代表析构函数，但它不能用作[~限定标识]之中的[~未限定标识]。
 
 [enter:note]
 [:en]
 a [~typedef-name] that names a class is a [~class-name] ([#class.name]).
+[:zh_CN]
+指名了类的 [~typedef-名]是[~类名]（[#class.name]）。
 [exit:note]
 
 [para]
 [:en]
 The [~nested-name-specifier] [`::] names the global namespace.
+[:zh_CN]
+[~嵌套名说明符] [`::] 指名全局命名空间。
 
 [:en]
 A [~nested-name-specifier] that names a namespace ([#basic.namespace]), followed
@@ -257,31 +347,51 @@ by the name of a member of that namespace (or the name of a member of a
 namespace made visible by a [~using-directive]), is a [%id[!qualified]]
 [~qualified-id]; [#namespace.qual] describes name lookup for namespace members
 that appear in [~qualified-ids].
+[:zh_CN]
+指名某个命名空间（[#basic.namespace]）的[~嵌套名说明符]，并跟着该命名空间的某个
+成员的名字（或由于 [~using-指令]而变得可见的某个命名空间的成员的名字），构成
+[~限定标识]；[#namespace.qual] 说明对出现于[~限定标识]之中的命名空间成员名字所
+进行的查找。
 
 [:en]
 The result is the member.
+[:zh_CN]
+其结果是该成员。
 
 [:en]
 The type of the result is the type of the member.
+[:zh_CN]
+其结果的类型是该成员的类型。
 
 [:en]
 The result is an lvalue if the member is a function or a variable and a prvalue
 otherwise.
+[:zh_CN]
+如果该成员是函数或变量，则结果是左值，否则为纯右值。
 
 [para]
 [:en]
 A [~nested-name-specifier] that denotes an enumeration ([#dcl.enum]), followed
 by the name of an enumerator of that enumeration, is a [~qualified-id] that
 refers to the enumerator.
+[:zh_CN]
+代表某个枚举的[~嵌套名说明符]（[#dcl.enum]），后面跟着该枚举的某个枚举符的名字，
+构成代表该枚举符的[~限定标识]。
 
 [:en]
 The result is the enumerator.
+[:zh_CN]
+其结果为该枚举符。
 
 [:en]
 The type of the result is the type of the enumeration.
+[:zh_CN]
+其结果的类型为该枚举的类型。
 
 [:en]
 The result is a prvalue.
+[:zh_CN]
+该结果为纯右值。
 
 [para]
 [:en]
@@ -289,35 +399,51 @@ In a [~qualified-id], if the [~unqualified-id] is a [~conversion-function-id],
 its [~conversion-type-id] shall denote the same type in both the context in
 which the entire [~qualified-id] occurs and in the context of the class denoted
 by the [~nested-name-specifier].
+[:zh_CN]
+在[~限定标识]中，如果其[~未限定标识]是[~转换函数标识]，则该[~转换类型标识]在整个
+[~限定标识]所在的语境，和由[~嵌套名说明符]所代表的类的语境中，都应当代表相同的
+类型。
 
 [para]
 [:en]
 An [~id-expression] that denotes a non-static data member or non-static member
 function of a class can only be used:
+[:zh_CN]
+代表类的非静态数据成员或非静态成员函数的[~标识表达式]，仅可按如下方式使用：
 
 [list]
 [item]
 [:en@~]
 as part of a class member access ([#expr.ref]) in which the object expression
 refers to the member[=']s class
+[:zh_CN@~]
+作为类成员访问（[#expr.ref]）的一部分，其中的对象表达式涉指该成员所在类
 
 [footnote]
 [:en]
 This also applies when the object expression is an implicit [`(*this)]
 ([#class.mfct.non-static]).
+[:zh_CN]
+这在以隐含的 [`(*this)] 作为对象表达式（[#class.mfct.non-static]）时同样适用。
 [footnote:end]
 
 [:en@~]
 or a class derived from that class, or
+[:zh_CN@~]
+或从这个类派生的类，或者
 
 [item]
 [:en@~]
 to form a pointer to member ([#expr.unary.op]), or
+[:zh_CN@~]
+用以构成成员指针（[#expr.unary.op]），或者
 
 [item]
 [:en@~]
 if that [~id-expression] denotes a non-static data member and it appears in an
 unevaluated operand.
+[:zh_CN@~]
+该[~标识表达式]代表某个非静态数据成员，并且它出现于某个免求值操作数之中。
 
 [enter:example]
 [codeblock]
