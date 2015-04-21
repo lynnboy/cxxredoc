@@ -1,6 +1,6 @@
 ﻿[section#expr.pseudo
     [:en] Pseudo destructor call
-    [:zh_CN]
+    [:zh_CN] 伪析构函数调用
 ]
 
 [para]
@@ -11,29 +11,52 @@
 The use of a [~pseudo-destructor-name] after a dot [`.] or arrow [`->] operator
 represents the destructor for the non-class type denoted by [~type-name] or
 [~decltype-specifier].
+[:zh_CN]
+[%表达式[!伪析构函数调用～]]
+[%调用[!伪析构函数～]]
+[%伪析构函数名]
+在点 [`.] 或箭头 [`->] 运算符之后使用的[~伪析构函数名]，表示由[~类型名]或
+[~decltype-说明符]所代表的非类类型的析构函数。
 
 [:en]
 The result shall only be used as the operand for the function call operator
 [`()], and the result of such a call has type [`void].
+[:zh_CN]
+其结果只能用作函数调用运算符 [`()] 的操作数，且这种调用的结果类型为 [`void]。
 
 [:en]
 The only effect is the evaluation of the [~postfix-expression] before the dot or
 arrow.
+[:zh_CN]
+其仅有效果是对点或箭头之前的[~后缀表达式]的求值。
 
 [para]
 [:en]
 The left-hand side of the dot operator shall be of scalar type.
+[:zh_CN]
+点运算符的左边应当为标量类型。
 
 [:en]
 The left-hand side of the arrow operator shall be of pointer to scalar type.
+[:zh_CN]
+箭头运算符的左边应当为指向标量类型的指针。
 
 [:en]
-This scalar type is the object type. The [$cv]-unqualified versions of the
-object type and of the type designated by the [~pseudo-destructor-name] shall be
-the same type.
+This scalar type is the object type.
+[:zh_CN]
+此标量类型就是其对象类型。
+
+[:en]
+The [$cv]-unqualified versions of the object type and of the type designated by
+the [~pseudo-destructor-name] shall be the same type.
+[:zh_CN]
+对象类型，以及由[~伪析构函数名]所代表的类型，它们的 [$cv]-未限定版本应当是相同的
+类型。
 
 [:en]
 Furthermore, the two [~type-name]s in a [~pseudo-destructor-name] of the form
+[:zh_CN]
+此外，在形式为
 
 [syntax:explanation]
 [~:opt nested-name-specifier] [~type-name] [`::] [`~] [~type-name]
@@ -41,3 +64,5 @@ Furthermore, the two [~type-name]s in a [~pseudo-destructor-name] of the form
 
 [:en@~]
 shall designate the same scalar type.
+[:zh_CN]
+的[~伪析构函数名]中的两个[~类型名]应当代表相同的标量类型。

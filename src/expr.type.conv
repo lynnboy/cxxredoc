@@ -1,6 +1,6 @@
 ﻿[section#expr.type.conv
     [:en] Explicit type conversion (functional notation)
-    [:zh_CN]
+    [:zh_CN] 显式类型转换（函数式记法）
 ]
 
 [para]
@@ -13,15 +13,29 @@
 A [~simple-type-specifier] ([#dcl.type.simple]) or [~typename-specifier]
 ([#temp.res]) followed by a parenthesized [~expression-list] constructs a value
 of the specified type given the expression list.
+[:zh_CN]
+[%表达式[!强制转换～]]
+[%显式类型转换[see 强制转换]]
+[%类型转换[!显式～][see 强制转换]]
+[%转换[!显式类型～][see 强制转换]]
+[%强制转换]
+后面跟着带括号的[~表达式列表]的[~简单类型说明符]（[#dcl.type.simple]）或
+[~typename-说明符]（[#temp.res]），利用这个表达式列表构造一个所指定类型的值。
 
 [:en]
 If the expression list is a single expression, the type conversion expression is
 equivalent (in definedness, and if defined in meaning) to the corresponding cast
 expression ([#expr.cast]).
+[:zh_CN]
+若表达式列表是单个表达式，则类型转换表达式（其是否有定义，且若其含义有定义时）
+等价于其所对应的强制转换表达式（[#expr.cast]）。
 
 [:en]
 [%type[!incomplete]]
 If the type specified is a class type, the class type shall be complete.
+[:zh_CN]
+[%类型[!不完整～]]
+若所指定的类型是类类型，则该类类型应当为完整的。
 
 [:en]
 If the expression list specifies more than a single value, the type shall be a
@@ -29,6 +43,10 @@ class with a suitably declared constructor ([#dcl.init], [#class.ctor]), and the
 expression [`T(x1, x2, ...)] is equivalent in effect to the declaration
 [`T t(x1, x2, ...);] for some invented temporary variable [`t], with the result
 being the value of [`t] as a prvalue.
+[:zh_CN]
+若表达式列表指定了多个值，则其类型应当为声明了合适的构造函数的类（[#dcl.init]，
+[#class.ctor]），且表达式 [`T(x1, x2, ...)] 的效果等价于对某个虚构的临时变量
+[`t] 的声明式 [`T t(x1, x2, ...);]，并以 [`t] 的值作为纯右值成为其结果。
 
 [para]
 [:en]
@@ -37,11 +55,18 @@ The expression [`T()], where [`T] is a [~simple-type-specifier] or
 cv-qualified) [`void] type, creates a prvalue of the specified type, whose value
 is that produced by value-initializing ([#dcl.init]) an object of type [`T]; no
 initialization is done for the [`void()] case.
+[:zh_CN]
+表达式 [`T()]，其中 [`T] 为表示非数组的完全对象类型的[~简单类型说明符]或
+[~typename-说明符]或（可能被 cv-限定的）[`void] 类型，创建所指定类型的纯右值，并
+进行值初始化（[#dcl.init]）；[`void()] 的情况不作初始化。
 
 [enter:note]
 [:en]
 if [`T] is a non-class type that is cv-qualified, the [~cv-qualifier]s are
 discarded when determining the type of the resulting prvalue (Clause [#expr]).
+[:zh_CN]
+若 [`T] 为被 cv-限定的非类类型，则在确定结果纯右值（[#basic.lval]）的类型时忽略
+它的 [~cv-限定符]。
 [exit:note]
 
 [para]
@@ -50,3 +75,7 @@ Similarly, a [~simple-type-specifier] or [~typename-specifier] followed by a
 [~braced-init-list] creates a temporary object of the specified type
 direct-list-initialized ([#dcl.init.list]) with the specified
 [~braced-init-list], and its value is that temporary object as a prvalue.
+[:zh_CN]
+相似地，后面跟着[~花括号初始化列表]的[~简单类型说明符]或 [~typename-说明符]，
+创建所指定类型的临时对象，并用所指定的[~花括号初始化列表]进行直接列表初始化
+（[#dcl.init.list]），其值为该临时对象的纯右值。

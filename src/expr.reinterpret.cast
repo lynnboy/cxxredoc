@@ -1,6 +1,6 @@
 ﻿[section#expr.reinterpret.cast
     [:en] Reinterpret cast
-    [:zh_CN]
+    [:zh_CN] 重解释强制转换
 ]
 
 [para]
@@ -9,6 +9,10 @@
 [%cast[!reinterpret]]
 The result of the expression [`reinterpret_cast<T>(v)] is the result of
 converting the expression [`v] to type [`T].
+[:zh_CN]
+[%表达式[!重解释强制转换]]
+[%强制转换[!重解释～]]
+表达式 [`reinterpret_cast<T>(v)] 的结果是把表达式 [`v] 转换为类型 [`T]。
 
 [:en]
 [%cast[!reinterpret[!lvalue]]]
@@ -18,29 +22,47 @@ result is an lvalue; if [`T] is an rvalue reference to object type, the result
 is an xvalue; otherwise, the result is a prvalue and the lvalue-to-rvalue
 ([#conv.lval]), array-to-pointer ([#conv.array]), and function-to-pointer
 ([#conv.func]) standard conversions are performed on the expression [`v].
+[:zh_CN]
+[%强制转换[!重解释～[!lvalue]]]
+[%强制转换[!lvalue]]
+若 [`T] 为左值引用类型或者函数右值引用类型，则结果是左值；若 [`T] 为对象右值引用
+类型，则结果是临限值；否则其结果是右值，且在表达式 [`v] 上实施左值向右值
+（[#conv.lval]）、数组向指针（[#conv.array]）和函数向指针（[#conv.func]）标准
+转换。
 
 [:en]
 Conversions that can be performed explicitly using [`reinterpret_cast] are
 listed below.
+[:zh_CN]
+可显式使用 [`reinterpret_cast] 实施的转换列出如下。
 
 [:en]
 No other conversion can be performed explicitly using [`reinterpret_cast].
+[:zh_CN]
+不存在可以显式使用 [`reinterpret_cast] 实施的其他转换。
 
 [para]
 [:en]
 The [`reinterpret_cast] operator shall not cast away constness
 ([#expr.const.cast]).
+[:zh_CN]
+[`reinterpret_cast] 运算符不能强制移除常量性（[#expr.const.cast]）。
 
 [:en]
 An expression of integral, enumeration, pointer, or pointer-to-member type can
 be explicitly converted to its own type; such a cast yields the value of its
 operand.
+[:zh_CN]
+整型、枚举、指针或成员指针类型的表达式可以被显式转换为其自身的类型；这种强制转换
+产生其操作数的值。
 
 [para]
 [enter:note]
 [:en]
 The mapping performed by [`reinterpret_cast] might, or might not, produce a
 representation different from the original value.
+[:zh_CN]
+由 [`reinterpret_cast] 实施的映射，可能会，也可能不会产生与原值不同的表示。
 [exit:note]
 
 [para]
@@ -49,26 +71,40 @@ representation different from the original value.
 [%cast[!pointer to integer]]
 A pointer can be explicitly converted to any integral type large enough to hold
 it.
+[:zh_CN]
+[%强制转换[!重解释～[!指针向整数～]]]
+[%强制转换[!指针向整数～]]
+指针可显式转换为足够包含它的任意整型类型。
 
 [:en]
 [%conversion[!implementation defined pointer integer]]
 The mapping function is implementation-defined.
+[:zh_CN]
+[%转换[!实现定义的指针整数～]]
+其映射函数是由实现定义的。
 
 [enter:note]
 [:en]
 It is intended to be unsurprising to those who know the addressing structure of
 the underlying machine.
+[:zh_CN]
+旨在使熟悉底层机器的地址结构的人不会感到奇怪。
 [exit:note]
 
 [:en]
 A value of type [`std::nullptr_t] can be converted to an integral type; the
 conversion has the same meaning and validity as a conversion of [`(void*)0] to
 the integral type.
+[:zh_CN]
+[`std::nullptr_t] 类型的值可以转换为整型类型；这个转换的含义和有效性与将
+[`(void*)0] 转换为这个整型类型是相同的。
 
 [enter:note]
 [:en]
 A [`reinterpret_cast] cannot be used to convert a value of any type to the type
 [`std::nullptr_t].
+[:zh_CN]
+不能用 [`reinterpret_cast] 把任何类型的值转换为 [`std::nullptr_t] 类型。
 [exit:note]
 
 [para]
@@ -77,6 +113,10 @@ A [`reinterpret_cast] cannot be used to convert a value of any type to the type
 [%cast[!integer to pointer]]
 A value of integral type or enumeration type can be explicitly converted to a
 pointer.
+[:zh_CN]
+[%强制转换[!重解释～[!整数向指针～]]]
+[%强制转换[!整数向指针～]]
+整型类型或枚举类型的值可被显式转换为指针。
 
 [:en]
 A pointer converted to an integer of sufficient size (if any such exists on the
@@ -84,11 +124,19 @@ implementation) and back to the same pointer type will have its original value;
 [%conversion[!implementation defined pointer integer]]
 mappings between pointers and integers are otherwise
 [%@impldef conversions between pointers and integers] implementation-defined.
+[:zh_CN]
+指针转换为足够大小的整数（如果在此实现上存在任何这种转换）再转换回相同指针类型，
+将具有其原来的值；
+[%转换[!由实现定义的指针整数～]]
+指针和整数间的其他映射是[%@impldef 指针和整数之间的转换]由实现定义的。
 
 [enter:note]
 [:en]
-Except as described in [#basic.stc.dynamic.safety], the result of
-such a conversion will not be a safely-derived pointer value.
+Except as described in [#basic.stc.dynamic.safety], the result of such a
+conversion will not be a safely-derived pointer value.
+[:zh_CN]
+但如在 [#basic.stc.dynamic.safety] 中所描述的，这种转换的结果将不是安全衍生指针
+值。
 [exit:note]
 
 [para]
@@ -98,50 +146,79 @@ such a conversion will not be a safely-derived pointer value.
 [%cast[!undefined pointer-to-function]]
 A function pointer can be explicitly converted to a function pointer of a
 different type.
+[:zh_CN]
+[%强制转换[!重解释～[!函数指针]]]
+[%强制转换[!函数指针]]
+[%强制转换[!未定义的函数指针～]]
+函数指针可被显式转换为不同类型的函数指针。
 
 [:en]
 [%function call[!undefined]]
 The effect of calling a function through a pointer to a function type
 ([#dcl.fct]) that is not the same as the type used in the definition of the
 function is undefined.
+[:zh_CN]
+[%函数调用[!未定义的～]]
+通过指向与用以定义该函数的类型（[#dcl.fct]）不同的函数类型的指针来调用函数的效果
+是未定义的。
 
 [:en]
 Except that converting a prvalue of type ["pointer to [`T1]] to the type
 ["pointer to [`T2]] (where [`T1] and [`T2] are function types) and back to its
 original type yields the original pointer value, the result of such a pointer
 conversion is unspecified.
+[:zh_CN]
+除了把“[`T1] 的指针”类型的纯右值转换为类型“[`T2] 的指针”（其中 [`T1] 和 [`T2]
+是函数类型）再转换回其原类型，将产生其原来的指针值之外，这种指针转换的结果是未
+指明的。
 
 [enter:note]
 [:en]
 see also [#conv.ptr] for more details of pointer conversions.
+[:zh_CN]
+对于指针转换的细节，另见 [#conv.ptr]。
 [exit:note]
 
 [para]
 [:en]
 An object pointer can be explicitly converted to an object pointer of a
 different type.
+[:zh_CN]
+对象指针可显式转换为不同类型的对象指针。
 
 [footnote]
 [:en]
 The types may have different [$cv]-qualifiers, subject to the overall
 restriction that a [`reinterpret_cast] cannot cast away constness.
+[:zh_CN]
+在满足 [`reinterpret_cast] 不能强制移除常量性的总体限制下，这些类型可以具有不同
+的 cv-限定符。
 [footnote:end]
 
 [:en]
 When a prvalue [`v] of object pointer type is converted to the object pointer
 type ["pointer to [$cv] [`T]], the result is [`static_cast<[$cv]
 T*>(static_cast<[$cv] void*>(v))].
+[:zh_CN]
+当把对象指针类型的纯右值 [`v] 转换为对象指针类型“[$cv] [`T] 的指针”，则其结果为
+[`static_cast<[$cv] T*>(static_cast<[$cv] void*>(v))]。
 
 [:en]
 Converting a prvalue of type ["pointer to [`T1]] to the type ["pointer to [`T2]]
 (where [`T1] and [`T2] are object types and where the alignment requirements of
 [`T2] are no stricter than those of [`T1]) and back to its original type yields
 the original pointer value.
+[:zh_CN]
+把“[`T1] 的指针”类型的纯右值转换为类型“[`T2] 的指针”（其中 [`T1] 和 [`T2] 为对象
+类型且 [`T2] 的对齐要求不比 [`T1] 更严格）再转换回其原始类型，将产生其原来的指针
+值。
 
 [para]
 [:en]
 Converting a function pointer to an object pointer type or vice versa is
 conditionally-supported.
+[:zh_CN]
+把函数指针转换为对象指针类型或与此相反是有条件支持的。
 
 [:en]
 The meaning of such a conversion is [$@impldef converting function pointer to
@@ -149,17 +226,26 @@ object pointer and vice versa] implementation-defined, except that if an
 implementation supports conversions in both directions, converting a prvalue of
 one type to the other type and back, possibly with different cv-qualification,
 shall yield the original pointer value.
+[:zh_CN]
+此种转换的含义是[%@impldef 将函数指针转换为对象指针或相反]由实现定义的，此外若
+实现对转换的两种方向都支持，则从一个类型的纯右值转换为另一个类型，再转换回可能带
+有不同的 cv-限定性的原类型，应当产生原来的指针值。
 
 [para]
 [:en]
 The null pointer value ([#conv.ptr]) is converted to the null pointer value of
 the destination type.
+[:zh_CN]
+空指针值（[#conv.ptr]）转换为目标类型的空指针值。
 
 [enter:note]
 [:en]
 A null pointer constant of type [`std::nullptr_t] cannot be converted to a
 pointer type, and a null pointer constant of integral type is not necessarily
 converted to a null pointer value.
+[:zh_CN]
+不能把 [`std::nullptr_t] 类型的空指针常量转换为某个指针类型，而整型类型的空指针
+常量不必转换为空指针值。
 [exit:note]
 
 [para]
@@ -169,17 +255,32 @@ converted to a null pointer value.
 A prvalue of type ["pointer to member of [`X] of type [`T1]] can be explicitly
 converted to a prvalue of a different type ["pointer to member of [`Y] of type
 [`T2]] if [`T1] and [`T2] are both function types or both object types.
+[:zh_CN]
+[%强制转换[!重解释～[!成员指针]]]
+[%强制转换[!成员指针]]
+若 [`T1] 和 [`T2] 都为函数类型或都为对象类型，则“指向 [`X] 中类型为 [`T1] 的成员
+的指针”类型的纯右值可显式转换为不同的类型“指向 [`Y] 中类型为 [`T2] 的成员的指针”
+的纯右值。
 
 [footnote]
 [:en]
 [`T1] and [`T2] may have different [$cv]-qualifiers, subject to the overall
 restriction that a [`reinterpret_cast] cannot cast away constness.
+[:zh_CN]
+在满足 [`reinterpret_cast] 不能强制移除常量性的总体限制下，[`T1] 和 [`T2] 可以
+具有不同的 [$cv]-限定符。
 [footnote:end]
 
 [:en]
-The null member pointer value ([#conv.mem]) is converted to the
-null member pointer value of the destination type. The result of this
-conversion is unspecified, except in the following cases:
+The null member pointer value ([#conv.mem]) is converted to the null member
+pointer value of the destination type.
+[:zh_CN]
+空成员指针值（[#conv.mem]）转换为目标类型的空成员指针值。
+
+[:en]
+The result of this conversion is unspecified, except in the following cases:
+[:zh_CN]
+除如下情况外，此转换的结果是未指明的：
 
 [list]
 [item]
@@ -187,6 +288,9 @@ conversion is unspecified, except in the following cases:
 converting a prvalue of type ["pointer to member function] to a different
 pointer to member function type and back to its original type yields the
 original pointer to member value.
+[:zh_CN]
+把“成员函数指针”类型的纯右值转换为不同的成员函数指针类型再转换回其原类型，将产生
+原来的成员指针值。
 
 [item]
 [:en]
@@ -194,6 +298,10 @@ converting a prvalue of type ["pointer to data member of [`X] of type [`T1]] to
 the type ["pointer to data member of [`Y] of type [`T2]] (where the alignment
 requirements of [`T2] are no stricter than those of [`T1]) and back to its
 original type yields the original pointer to member value.
+[:zh_CN]
+把“指向 [`X] 中类型为 [`T1] 的数据成员的指针”类型的纯右值转换为类型“指向 [`Y] 中
+类型为 [`T2] 的数据成员的指针”（其中 [`T2] 的对齐要求不比 [`T1] 更严格）再转换回
+其原类型，将产生原来的成员指针值。
 [list:end]
 
 [para]
@@ -203,24 +311,41 @@ original type yields the original pointer to member value.
 A glvalue expression of type [`T1] can be cast to the type ["reference to [`T2]]
 if an expression of type ["pointer to [`T1]] can be explicitly converted to the
 type ["pointer to [`T2]] using a [`reinterpret_cast].
+[:zh_CN]
+[%强制转换[!重解释～[!引用]]]
+[%强制转换[!引用]]
+如果“[`T1] 的指针”类型的表达式可用 [`reinterpret_cast] 显式转换为类型“[`T2] 的
+指针”，则 [`T1] 类型的泛左值表达式可被强制转换成类型“[`T2] 的引用”。
 
 [:en]
 The result refers to the same object as the source glvalue, but with the
 specified type.
+[:zh_CN]
+其结果以所指定的类型与源左值指代相同的对象。
 
 [enter:note]
 [:en]
 That is, for lvalues, a reference cast [`reinterpret_cast<T&>(x)] has the same
 effect as the conversion [`*reinterpret_cast<T*>(&x)] with the built-in [`&] and
 [`*] operators (and similarly for [`reinterpret_cast<T&&>(x)]).
+[:zh_CN]
+就是说，对于左值，引用强制转换 [`reinterpret_cast<T&>(x)] 与用内建 [`&] 和 [`*]
+运算符进行的转换 [`*reinterpret_cast<T*>(&x)] 效果相同，
+[`reinterpret_cast<T&&>(x)] 与此类似。
 [exit:note]
 
 [:en]
 No temporary is created, no copy is made, and constructors ([#class.ctor]) or
 conversion functions ([#class.conv]) are not called.
+[:zh_CN]
+不创建临时对象，不进行复制，不调用构造函数（[#class.ctor]）或转换函数
+（[#class.conv]）。
 
 [footnote]
 [:en]
 [%type pun]
 This is sometimes referred to as a [+type pun].
+[:zh_CN]
+[%类型双关]
+有时候这被称为[+类型双关]。
 [footnote:end]

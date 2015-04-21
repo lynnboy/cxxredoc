@@ -1,6 +1,6 @@
 ﻿[section#expr.const.cast
     [:en] Const cast
-    [:zh_CN]
+    [:zh_CN] 常量性强制转换
 ]
 
 [para]
@@ -8,6 +8,10 @@
 [%expression[!const cast]]
 [%cast[!const]]
 The result of the expression [`const_cast<T>(v)] is of type [`T].
+[:zh_CN]
+[%表达式[!const 强制转换～]]
+[%强制转换[!const～]]
+表达式 [`const_cast<T>(v)] 的结果为类型 [`T]。
 
 [:en]
 If [`T] is an lvalue reference to object type, the result is an lvalue; if [`T]
@@ -15,36 +19,55 @@ is an rvalue reference to object type, the result is an xvalue; otherwise, the
 result is a prvalue and the lvalue-to-rvalue ([#conv.lval]), array-to-pointer
 ([#conv.array]), and function-to-pointer ([#conv.func]) standard conversions are
 performed on the expression [`v].
+[:zh_CN]
+若 [`T] 为对象左值引用类型，则其结果是左值；若 [`T] 为对象右值引用类型，则其结果
+是临限值；否则其结果是纯右值，且对表达式 [`v] 实施左值向右值（[#conv.lval]）、
+数组向指针（[#conv.array]）和函数向指针（[#conv.func]）标准转换。
 
 [:en]
 Conversions that can be performed explicitly using [`const_cast] are listed
 below.
+[:zh_CN]
+可显式使用 [`const_cast] 实施的转换列出如下。
 
 [:en]
 No other conversion shall be performed explicitly using [`const_cast].
+[:zh_CN]
+不存在可以显式使用 [`const_cast] 实施的其他转换。
 
 [para]
 [enter:note]
 [:en]
 Subject to the restrictions in this section, an expression may be cast to its
 own type using a [`const_cast] operator.
+[:zh_CN]
+在本节中的限制下，表达式可用 [`const_cast] 运算符强制转换为其自身的类型。
 [exit:note]
 
 [para]
 [:en]
 For two similar types [`T1] and [`T2] ([#conv.qual]), a prvalue of type [`T1]
 may be explicitly converted to the type [`T2] using a [`const_cast].
+[:zh_CN]
+对于两个相似类型 [`T1] 和 [`T2]（[#conv.qual]），[`T1] 类型的纯右值可以用
+[`const_cast] 显式转换为类型 [`T2]。
 
 [:en]
 The result of a [`const_cast] refers to the original entity.
+[:zh_CN]
+[`const_cast] 的结果指代原实体。
 
 [enter:example]
 [codeblock]
 typedef int *A[3];               // [:en] array of 3 pointer to [`int]
+                                 // [|:zh_CN] 3 个 [`int] 的指针的数组
 typedef const int *const CA[3];  // [:en] array of 3 const pointer to [`const int]
+                                 // [|:zh_CN] 3 个 [`const int] 的 const 指针的数组
 
 CA &&r = A{}; // [:en] OK, reference binds to temporary array object after qualification conversion to type [`CA]
+              // [|:zh_CN] OK，引用绑定到经由限定性转换为类型 [`CA] 的临时数组对象
 A &&r1 = const_cast<A>(CA{});   // [:en] error: temporary array decayed to pointer
+                                // [|:zh_CN] 错误：临时数组退化为指针
 A &&r2 = const_cast<A&&>(CA{}); // OK
 [codeblock:end]
 [exit:example]
@@ -54,35 +77,52 @@ A &&r2 = const_cast<A&&>(CA{}); // OK
 For two object types [`T1] and [`T2], if a pointer to [`T1] can be explicitly
 converted to the type ["pointer to [`T2]] using a [`const_cast], then the
 following conversions can also be made:
+[:zh_CN]
+对于两个对象类型 [`T1] 和 [`T2]，如果 [`T1] 的指针可以用 [`const_cast] 显式转换
+为“[`T2] 的指针”，则下列转换也可以进行：
 
 [list]
 [item]
 [:en]
 an lvalue of type [`T1] can be explicitly converted to an lvalue of type [`T2]
 using the cast [`const_cast<T2&>];
+[:zh_CN]
+类型 [`T1] 的左值可以用强制转换 [`const_cast<T2&>] 显式转换为类型 [`T2] 的左值；
 
 [item]
 [:en]
 a glvalue of type [`T1] can be explicitly converted to an xvalue of type [`T2]
 using the cast [`const_cast<T2&&>]; and
+[:zh_CN]
+类型 [`T1] 的泛左值可以用强制转换 [`const_cast<T2&&>] 显式转换为类型 [`T2] 的
+临限值；并且
 
 [item]
 [:en]
 if [`T1] is a class type, a prvalue of type [`T1] can be explicitly converted to
 an xvalue of type [`T2] using the cast [`const_cast<T2&&>].
+[:zh_CN]
+若 [`T1] 为类类型，则类型 [`T1] 的纯右值可以用强制转换 [`const_cast<T2&&>] 显式
+转换为类型 [`T2] 的临限值；并且
 [list:end]
 
 [:en]
 The result of a reference [`const_cast] refers to the original object.
+[:zh_CN]
+引用的 [`const_cast] 结果指代原对象。
 
 [para]
 [:en]
 A null pointer value ([#conv.ptr]) is converted to the null pointer value of the
 destination type.
+[:zh_CN]
+空指针值（[#conv.ptr]）转换为目标类型的空指针值。
 
 [:en]
 The null member pointer value ([#conv.mem]) is converted to the null member
 pointer value of the destination type.
+[:zh_CN]
+空成员指针值（[#conv.mem]）转换为目标类型的空成员指针值。
 
 [para]
 [enter:note]
@@ -90,14 +130,21 @@ pointer value of the destination type.
 Depending on the type of the object, a write operation through the pointer,
 lvalue or pointer to data member resulting from a [`const_cast] that casts away
 a const-qualifier
+[:zh_CN]
+依赖于对象的类型，通过用 [`const_cast] 强制移除 const-限定符
 
 [footnote]
 [:en]
 [`const_cast] is not limited to conversions that cast away a const-qualifier.
+[:zh_CN]
+[`const_cast] 并不限定于强制移除 const-限定符的转换。
 [footnote:end]
 
 [:en@~]
 may produce undefined behavior ([#dcl.type.cv]).
+[:zh_CN@~]
+产生的指针、左值或数据成员指针进行写操作，可能产生未定义的行为（[#dcl.type.cv]）
+。
 [exit:note]
 
 [para]
@@ -107,6 +154,11 @@ A conversion from a type [`T1] to a type [`T2] [def casts away constness
 [%casting away constness]] if [`T1] and [`T2] are different, there is a
 cv-decomposition ([#conv.qual]) of [`T1] yielding [$n] such that [`T2] has a
 cv-decomposition of the form
+[:zh_CN]
+[%[`const][!强制移除～]]
+将类型 [`T1] 转换为 [`T2]，符合以下条件时称其 [def 强制移除常量性]：如果 [`T1]
+和 [`T2] 不同，并存在 [`T1] 的 cv-分解式（[#conv.qual]）得到 [$n]，使得 [`T2]
+具有如下形式的 cv-分解式
 
 [syntax:explanation]
 [$cv[_0][^2]] [$P[_0][^2]] [$cv[_1][^2]] [$P[_1][^2]] [=cdots] [$cv[_n-1][^2]] [$P[_n-1][^2]] [$cv[_n][^2]] [`U][_2],
@@ -114,6 +166,8 @@ cv-decomposition of the form
 
 [:en@~]
 and there is no qualification conversion that converts [`T1] to
+[:zh_CN@~]
+并且不存在将 [`T1] 转换为以下形式的限定性转换
 
 [syntax:explanation]
 [$cv[_0][^2]] [$P[_0][^1]] [$cv[_1][^2]] [$P[_1][^1]] [=cdots] [$cv[_n-1][^2]] [$P[_n-1][^1]] [$cv[_n][^2]] [`U][_1].
@@ -126,19 +180,31 @@ reference cast or casting from an expression of type [`T1] to an xvalue of type
 [`T2] using an rvalue reference cast casts away constness if a cast from a
 prvalue of type ["pointer to [`T1]] to the type ["pointer to [`T2]] casts away
 constness.
+[:zh_CN]
+如果从“[`T1] 的指针”类型的纯右值向类型“[`T2] 的指针”的强制转换中强制移除常量性，
+则用左值引用强制转换将 [`T1] 类型的左值强制转换为类型 [`T2] 的左值时，或者用右值
+引用强制转换将 [`T1] 类型的表达式强制转换为类型 [`T2] 的临限值时，将强制移除常量
+性。
 
 [para]
 [enter:note]
 [:en]
 some conversions which involve only changes in cv-qualification cannot be done
 using [`const_cast].
+[:zh_CN]
+某些只涉及 cv-限定性中的改变的转换并不能用 [`const_cast] 完成。
 
 [:en]
 For instance, conversions between pointers to functions are not covered because
 such conversions lead to values whose use causes undefined behavior.
+[:zh_CN]
+例如，它并不涵盖函数指针之间的转换，因为这些转换会产生使用时导致未定义行为的值。
 
 [:en]
 For the same reasons, conversions between pointers to member functions, and in
 particular, the conversion from a pointer to a const member function to a
 pointer to a non-const member function, are not covered.
+[:zh_CN]
+由于相同的原因，它也不涵盖成员函数指针之间的转换，尤其是从指向 const 成员函数的
+指针向指向非 const 成员函数的指针的转换。
 [exit:note]

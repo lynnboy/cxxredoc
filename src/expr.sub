@@ -1,6 +1,6 @@
 ﻿[section#expr.sub
     [:en] Subscripting
-    [:zh_CN]
+    [:zh_CN] 下标
 ]
 
 [para]
@@ -9,37 +9,60 @@
 [%[`[`]][see operator [!subscripting]]]
 A postfix expression followed by an expression in square brackets is a postfix
 expression.
+[:zh_CN]
+[%运算符[!下标～]]
+[%[`[`]][see 运算符[!下标～]]]
+后缀表达式后面跟着被围在方括号中的表达式，构成后缀表达式。
 
 [:en]
 One of the expressions shall have the type ["array of [`T]] or ["pointer to
 [`T]] and the other shall have unscoped enumeration or integral type.
+[:zh_CN]
+其中的两个表达式之一应具有类型“[`T] 的数组”或“[`T] 的指针”，而另一个应具有无作用
+域枚举或整型类型。
 
 [:en]
 The result is of type ["[`T].]
+[:zh_CN]
+其结果类型为“[`T]”。
 
 [:en]
 [%type[!incomplete]]
 The type ["[`T]] shall be a completely-defined object type.
+[:zh_CN]
+[%类型[!不完整～]]
+类型“[`T]”应当是完整定义的对象类型。
 
 [footnote]
 [:en]
 This is true even if the subscript operator is used in the following common
 idiom: [`&x[0`]].
+[:zh_CN]
+即使是以下这种常见用法中使用的下标运算符也是如此：[`&x[0`]]。
 [footnote:end]
 
 [:en]
 The expression [`E1[E2`]] is identical (by definition) to [`*((E1)+(E2))]
+[:zh_CN]
+表达式 [`E1[E2`]]（被定义为）是等价于 [`*((E1)+(E2))]
 
 [enter:note]
 [:en]
 see [#expr.unary] and [#expr.add] for details of [`*] and [`+] and [#dcl.array]
 for details of arrays.
+[:zh_CN]
+有关 [`*] 和 [`+] 的细节参见 [#expr.unary] 和 [#expr.add]，有关数组的细节参见
+[#dcl.array]。
 [exit:note]
 
 [:en@~]
 , except that in the case of an array operand, the result is an lvalue if that
 operand is an lvalue and an xvalue otherwise.
+[:zh_CN@~]
+，但对于数组操作数，当该操作数是左值时其结果为左值，否则为临限值。
 
 [para]
 [:en]
 A [~braced-init-list] shall not be used with the built-in subscript operator.
+[:zh_CN]
+不能在内建下标运算符中使用[~花括号初始化列表]。

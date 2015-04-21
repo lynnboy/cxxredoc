@@ -133,13 +133,13 @@ class type, its type is considered the [def most derived class], to distinguish
 it from the class type of any base class subobject;
 [:zh_CN]
 如果完整对象、数据成员（[#class.mem]）或数组元素为类类型，那么它的类型被称为
-[def 最外层派生类]，以区别于任何基类子对象的类类型；
+[def 全派生类]，以区别于任何基类子对象的类类型；
 
 [:en]
 an object of a most derived class type or of a non-class type is called a
 [def most derived object].
 [:zh_CN]
-最外层派生类类型的，或非类类型的对象被称为[def 最外层派生对象]。
+全派生类类型的，或非类类型的对象被称为[def 全派生对象]。
 
 [para]
 [:en]
@@ -147,8 +147,8 @@ an object of a most derived class type or of a non-class type is called a
 Unless it is a bit-field ([#class.bit]), a most derived object shall have a
 non-zero size and shall occupy one or more bytes of storage.
 [:zh_CN]
-[%最外层派生对象 [!位字段]]
-除非作为位字段（[#class.bit]），否则最外层派生对象的大小不应为零，并应当占据
+[%全派生对象 [!位字段]]
+除非作为位字段（[#class.bit]），否则全派生对象的大小不应为零，并应当占据
 一个或多个字节的存储。
 
 [:en]
@@ -169,8 +169,8 @@ occupy contiguous bytes of storage.
 Unless an object is a bit-field or a base class subobject of zero size, the
 address of that object is the address of the first byte it occupies.
 [:zh_CN]
-[index 最外层派生对象 [sub 位字段]]
-[index 最外层派生对象 [sub 零大小子对象]]
+[index 全派生对象 [sub 位字段]]
+[index 全派生对象 [sub 零大小子对象]]
 除非某个对象是位字段或者是零大小的基类子对象，否则该对象的地址就是它所占据的
 第一个字节的地址。
 

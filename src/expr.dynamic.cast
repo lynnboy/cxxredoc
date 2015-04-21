@@ -1,72 +1,110 @@
 ﻿[section#expr.dynamic.cast
     [:en] Dynamic cast
-    [:zh_CN]
+    [:zh_CN] 动态强制转换
 ]
 
 [para]
 [:en]
-[%expression[!dynamic cast]]
-[%cast[!dynamic]]
+[%expression[!dynamic cast]] [%cast[!dynamic]]
 The result of the expression [`dynamic_cast<T>(v)] is the result of converting
 the expression [`v] to type [`T].
+[:zh_CN]
+[%表达式[!动态强制转换～]] [%强制转换[!动态～]]
+表达式 [`dynamic_cast<T>(v)] 的结果是把表达式 [`v] 转换为类型 [`T]。
 
 [:en]
 [%type[!incomplete]]
 [`T] shall be a pointer or reference to a complete class type, or ["pointer to
-[$cv] [`void].] The [`dynamic_cast] operator shall not cast away constness
-([#expr.const.cast]).
+[$cv] [`void].]
+[:zh_CN]
+[%类型[!不完整～]]
+[`T] 应当是指向完整的类类型的指针或引用，或是“指向 [$cv] [`void] 的指针”。
+
+[:en]
+The [`dynamic_cast] operator shall not cast away constness ([#expr.const.cast]).
+[:zh_CN]
+[`dynamic_cast] 运算符不能强制移除常量性（[#expr.const.cast]）。
 
 [para]
 [:en]
 If [`T] is a pointer type, [`v] shall be a prvalue of a pointer to complete
 class type, and the result is a prvalue of type [`T].
+[:zh_CN]
+若 [`T] 为指针类型，则 [`v] 应当是指向完整的类类型的指针的纯右值，而其结果则为
+类型 [`T] 的纯右值。
 
 [:en]
 If [`T] is an lvalue reference type, [`v] shall be an lvalue of a complete class
 type, and the result is an lvalue of the type referred to by [`T].
+[:zh_CN]
+若 [`T] 为左值引用类型，则 [`v] 应当是完整的类类型的左值，而其结果则为由 [`T]
+所指代的类型的左值。
 
 [:en]
 If [`T] is an rvalue reference type, [`v] shall be an expression having a
 complete class type, and the result is an xvalue of the type referred to by
 [`T].
+[:zh_CN]
+若 [`T] 为右值引用类型，则 [`v] 应当是具有完整的类类型的表达式，而其结果则为由
+[`T] 所指代的类型的临限值。
 
 [para]
 [:en]
 If the type of [`v] is the same as [`T], or it is the same as [`T] except that
 the class object type in [`T] is more cv-qualified than the class object type in
 [`v], the result is [`v] (converted if necessary).
+[:zh_CN]
+若 [`v] 的类型与 [`T] 相同，或它与 [`T] 除了在 [`T] 中的对象类类型比在 [`v]
+中的对象类类型更受 cv-限定之外都相同，则其结果为 [`v]（并进行必要的转换）。
 
 [para]
 [:en]
 If the value of [`v] is a null pointer value in the pointer case, the result is
 the null pointer value of type [`T].
+[:zh_CN]
+若在指针的情况中 [`v] 的值是空指针值，则其结果为类型 [`T] 的空指针值。
 
 [para]
 [:en]
 If [`T] is ["pointer to [$cv1] [`B]] and [`v] has type ["pointer to [$cv2] [`D]]
 such that [`B] is a base class of [`D], the result is a pointer to the unique
 [`B] subobject of the [`D] object pointed to by [`v].
+[:zh_CN]
+若 [`T] 为“指向 [$cv1] [`B] 的指针”而 [`v] 具有类型“指向 [$cv2] [`D] 的指针”，
+其中 [`B] 为 [`D] 的基类，则其结果为指向由 [`v] 所指的 [`D] 对象的唯一 [`B]
+子对象的指针。
 
 [:en]
 Similarly, if [`T] is ["reference to [$cv1] [`B]] and [`v] has type [$cv2] [`D]
 such that [`B] is a base class of
 [`D], the result is the unique [`B] subobject of the [`D] object referred to by
 [`v].
+[:zh_CN]
+相似地，若 [`T] 为“到 [$cv1] [`B] 的引用”而 [`v] 具有类型 [$cv2] [`D]，其中 [`B]
+为 [`D] 的基类，则其结果为由 [`v] 所指代的 [`D] 对象的唯一 [`B] 子对象。
 
 [footnote]
 [:en]
 The most derived object ([#intro.object]) pointed or referred to by [`v] can
 contain other [`B] objects as base classes, but these are ignored.
+[:zh_CN]
+由 [`v] 所指向或指代的全派生对象（[#intro.object]）可包含作为基类的其他 [`B]
+对象，但它们被忽略。
 [footnote:end]
 
 [:en]
 The result is an lvalue if [`T] is an lvalue reference, or an xvalue if [`T] is
 an rvalue reference.
+[:zh_CN]
+当 [`T] 为左值引用时其结果为左值，当 [`T] 为右值引用时则为临限值。
 
 [:en]
 In both the pointer and reference cases, the program is ill-formed if [$cv2] has
 greater cv-qualification than [$cv1] or if [`B] is an inaccessible or ambiguous
 base class of [`D].
+[:zh_CN]
+在指针和引用这两种情况中，若 [$cv2] 的 cv-限定性比 [$cv1] 更强，或者若 [`B] 是
+[`D] 的不可访问的或有歧义的基类，则程序非良构。
 
 [enter:example]
 [codeblock]
@@ -74,6 +112,7 @@ struct B { };
 struct D : B { };
 void foo(D* dp) {
   B*  bp = dynamic_cast<B*>(dp);    // [:en] equivalent to [`B* bp = dp;]
+                                    // [|:zh_CN] 等价于 [`B* bp = dp;]
 }
 [codeblock:end]
 [exit:example]
@@ -82,20 +121,30 @@ void foo(D* dp) {
 [:en]
 Otherwise, [`v] shall be a pointer to or a glvalue of a polymorphic type
 ([#class.virtual]).
+[:zh_CN]
+否则，[`v] 应当是指向多态类型（[#class.virtual]）的指针或者是多态类型的泛左值。
 
 [para]
 [:en]
 If [`T] is ["pointer to [$cv] [`void],] then the result is a pointer to the most
 derived object pointed to by [`v].
+[:zh_CN]
+若 [`T] 为“指向 [$cv] [`void] 的指针”，则其结果为指向由 [`v] 所指的最终派生对象
+的指针。
 
 [:en]
 Otherwise, a run-time check is applied to see if the object pointed or referred
 to by [`v] can be converted to the type pointed or referred to by [`T].
+[:zh_CN]
+否则，实施运行时检查以获知由 [`v] 所指向或指代的对象是否可以转换为由 [`T] 所指向
+或指代的类型。
 
 [para]
 [:en]
 If [`C] is the class type to which [`T] points or refers, the run-time check
 logically executes as follows:
+[:zh_CN]
+若 [`T] 所指向或指代的类类型为 [`C]，则逻辑上运行时检查的执行如下：
 
 [list]
 [item]
@@ -104,6 +153,10 @@ If, in the most derived object pointed (referred) to by [`v], [`v] points
 (refers) to a [`public] base class subobject of a [`C] object, and if only one
 object of type [`C] is derived from the subobject pointed (referred) to by [`v]
 the result points (refers) to that [`C] object.
+[:zh_CN]
+如果，在由 [`v] 所指向（指代）的全派生对象中，[`v] 指向（指代）了 [`C] 对象的
+[`public] 基类子对象，且若仅有一个类型 [`C] 的对象派生自由 [`v] 所指向（指代）的
+子对象，则其结果指向（指代）该 [`C] 对象。
 
 [item]
 [:en]
@@ -111,24 +164,36 @@ Otherwise, if [`v] points (refers) to a [`public] base class subobject of the
 most derived object, and the type of the most derived object has a base class,
 of type [`C], that is unambiguous and [`public], the result points (refers) to
 the [`C] subobject of the most derived object.
+[:zh_CN]
+否则，若 [`v] 指向（指代）全派生对象的 [`public] 基类子对象，且全派生对象的类型
+具有类型为 [`C] 的无歧义 [`public] 基类，则其结果指向（指代）全派生对象的 [`C]
+子对象。
 
 [item]
 [:en]
 Otherwise, the run-time check [+fails].
+[:zh_CN]
+否则，运行时检查[+失败]。
 [list:end]
 
 [para]
 [:en]
 The value of a failed cast to pointer type is the null pointer value of the
 required result type.
+[:zh_CN]
+向指针类型所进行的失败的强制转换的值，为所求结果类型的空指针值。
 
 [:en]
 A failed cast to reference type throws an exception ([#except.throw]) of a type
 that would match a handler ([#except.handle]) of type [`std::bad_cast]
 ([#bad.cast]).
+[:zh_CN]
+向引用类型所进行的失败的强制转换，将抛出（[#except.throw]）其类型能够与类型
+[`std::bad_cast]（[#bad.cast]）的处理器相匹配（[#except.handle]）的异常。
 
 [%[`bad_cast]]
 [%@library bad_cast]
+
 [enter:example]
 [codeblock]
 class A { virtual void f(); };
@@ -137,12 +202,19 @@ class D : public virtual A, private B { };
 void g() {
   D   d;
   B*  bp = (B*)&d;                  // [:en] cast needed to break protection
+                                    // [|:zh_CN] 需要强制转换以打破保护
   A*  ap = &d;                      // [:en] public derivation, no cast needed
+                                    // [|:zh_CN] 公用派生，无须强制转换
   D&  dr = dynamic_cast<D&>(*bp);   // [:en] fails
+                                    // [|:zh_CN] 失败
   ap = dynamic_cast<A*>(bp);        // [:en] fails
+                                    // [|:zh_CN] 失败
   bp = dynamic_cast<B*>(ap);        // [:en] fails
+                                    // [|:zh_CN] 失败
   ap = dynamic_cast<A*>(&d);        // [:en] succeeds
+                                    // [|:zh_CN] 成功
   bp = dynamic_cast<B*>(&d);        // [:en] ill-formed (not a run-time check)
+                                    // [|:zh_CN] 非良构（不是运行时检查）
 }
 
 class E : public D, public B { };
@@ -150,10 +222,15 @@ class F : public E, public D { };
 void h() {
   F   f;
   A*  ap  = &f;                     // [:en] succeeds: finds unique [`A]
+                                    // [|:zh_CN] 成功：找到了唯一的 [`A]
   D*  dp  = dynamic_cast<D*>(ap);   // [:en] fails: yields [`0]
+                                    // [|:zh_CN] 失败：产生 [`0]
                                     // [:en@~] [`f] has two [`D] subobjects
+                                    // [|:zh_CN@~] [`f] 具有两个 [`D] 子对象
   E*  ep  = (E*)ap;                 // [:en] ill-formed: cast from virtual base
+                                    // [|:zh_CN] 非良构：从虚基类进行强制转换
   E*  ep1 = dynamic_cast<E*>(ap);   // [:en] succeeds
+                                    // [|:zh_CN] 成功
 }
 [codeblock:end]
 [exit:example]
@@ -162,4 +239,6 @@ void h() {
 [:en]
 [#class.cdtor] describes the behavior of a [`dynamic_cast] applied to an object
 under construction or destruction.
+[:zh_CN]
+[#class.cdtor] 说明对处于构造或析构之中的对象实施 [`dynamic_cast] 时的行为。
 [exit:note]

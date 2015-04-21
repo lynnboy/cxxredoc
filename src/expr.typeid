@@ -8,27 +8,38 @@
 [%expression[!type identification]]
 [%[`typeid]]
 The result of a [`typeid] expression is an lvalue of static type
-
-[%[`type_info]]
-[%@library type_info]
-[:en]
+[%[`type_info]] [%@library type_info]
 [`const std::type_info] ([#type.info]) and dynamic type [`const std::type_info]
-or [`const] [+name] where [+name] is an [%@impldef derived type for [`typeid]]
+or [`const] [$name] where [$name] is an [%@impldef derived type for [`typeid]]
 implementation-defined class publicly derived from [`std::type_info] which
 preserves the behavior described in [#type.info].
+[:zh_CN]
+[%表达式[!类型标识～]]
+[%[`typeid]]
+[`typeid] 表达式的结果是静态类型为
+[%[`type_info]] [%@library type_info]
+[`const std::type_info]（[#type.info]）而动态类型为 [`const std::type_info] 或
+[`const] [$name] 的表达式，其中 [$name] 是[%@impldef [`typeid] 的派生类型]
+由实现定义的公用派生于 [`std::type_info]，并维持 [#type.info] 说明的行为的类。
 
 [footnote]
 [:en]
 The recommended name for such a class is [`extended_type_info].
+[:zh_CN]
+为这样的类推荐的名字是 [`extended_type_info]。
 [footnote:end]
 
 [:en]
 The lifetime of the object referred to by the lvalue extends to the end of the
 program.
+[:zh_CN]
+此左值所指代的对象的生存期持续到程序结束。
 
 [:en]
 Whether or not the destructor is called for the [`std::type_info] object at the
 end of the program is unspecified.
+[:zh_CN]
+在程序结束处是否调用 [`std::type_info] 对象的析构函数是未指明的。
 
 [para]
 [:en]
@@ -36,15 +47,24 @@ When [`typeid] is applied to a glvalue expression whose type is a polymorphic
 class type ([#class.virtual]), the result refers to a [`std::type_info] object
 representing the type of the most derived object ([#intro.object]) (that is, the
 dynamic type) to which the glvalue refers.
+[:zh_CN]
+当向类型为多态类类型（[#class.virtual]）的泛左值表达式应用 [`typeid] 时，其结果
+指代一个 [`std::type_info] 对象，代表这个泛左值所指代的全派生对象
+（[#intro.object]）的类型（也就是其动态类型）。
 
 [:en]
 If the glvalue expression is obtained by applying the unary [`*] operator to a
 pointer
+[:zh_CN]
+如果此泛左值表达式是通过向指针应用一元 [`*] 运算符获得的
 
 [footnote]
 [:en]
 If [`p] is an expression of pointer type, then [`*p], [`(*p)], [`*(p)],
 [`((*p))], [`*((p))], and so on all meet this requirement.
+[:zh_CN]
+若 [`p] 是指针类型的表达式，则 [`*p]、[`(*p)]、[`*(p)]、[`((*p))]、[`*((p))]
+等等都满足此规定。
 [footnote:end]
 
 [:en]
@@ -52,45 +72,71 @@ and the pointer is a null pointer value ([#conv.ptr]), the [`typeid] expression
 throws an exception ([#except.throw]) of a type that would match a handler of
 type [%[`bad_typeid]] [%@library bad_typeid] [`std::bad_typeid] exception
 ([#bad.typeid]).
+[:zh_CN]
+，而该指针又是空指针值（[#conv.ptr]），则 [`typeid] 表达式将抛出
+（[#except.throw]）能够与 [%[`bad_typeid]] [%@library bad_typeid]
+[`std::bad_typeid] 类型（[#bad.typeid]）的处理器相匹配的异常。
 
 [para]
 [:en]
 When [`typeid] is applied to an expression other than a glvalue of a polymorphic
 class type, the result refers to a [`std::type_info] object representing the
 static type of the expression.
+[:zh_CN]
+当向不是多态类类型泛左值的表达式应用 [`typeid] 时，其结果指代一个代表该表达式的
+静态类型的 [`std::type_info] 对象。
 
 [:en]
 Lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) conversions are not applied to the
 expression.
+[:zh_CN]
+不对此表达式实施左值向右值（[#conv.lval]）、数组向指针（[#conv.array]）和函数向
+指针（[#conv.func]）转换。
 
 [:en]
 [%type[!incomplete]]
 If the type of the expression is a class type, the class shall be
 completely-defined.
+[:zh_CN]
+[%类型[!不完整～]]
+若表达式的类型是类类型，则该类应当为完整定义的。
 
 [:en]
 The expression is an unevaluated operand (Clause [#expr]).
+[:zh_CN]
+表达式是非求值操作数（第 [#expr] 条）。
 
 [para]
 [:en]
 When [`typeid] is applied to a [~type-id], the result refers to a
 [`std::type_info] object representing the type of the [~type-id].
+[:zh_CN]
+当向[~类型标识]应用 [`typeid] 时，其结果指代一个代表该[~类型标识]的类型的
+[`std::type_info] 对象。
 
 [:en]
 If the type of the [~type-id] is a reference to a possibly [$cv]-qualified type,
 the result of the [`typeid] expression refers to a [`std::type_info] object
 representing the [$cv]-unqualified referenced type.
+[:zh_CN]
+如果该[~类型标识]的类型是到可能被 [$cv]-限定的类型的引用，则 [`typeid] 表达式的
+结果指代表示 [$cv]-未限定的被引用类型的 [`std::type_info] 对象。
 
 [:en]
 If the type of the [~type-id] is a class type or a reference to a class type,
 the class shall be completely-defined.
+[:zh_CN]
+如果该[~类型标识]的类型是类类型或到类类型的引用，则该类应当是完整定义的。
 
 [para]
 [:en]
 If the type of the expression or [~type-id] is a cv-qualified type, the result
 of the [`typeid] expression refers to a [`std::type_info] object representing
 the cv-unqualified type.
+[:zh_CN]
+如果表达式或者[~类型标识]是 cv-限定的类型，则 [`typeid] 表达式的结果指代表示
+cv-未限定类型的 [`std::type_info] 对象。
 
 [enter:example]
 [codeblock]
@@ -99,9 +145,13 @@ D d1;
 const D d2;
 
 typeid(d1) == typeid(d2);       // [:en] yields [`true]
+                                // [|:zh_CN] 产生 [`true]
 typeid(D)  == typeid(const D);  // [:en] yields [`true]
+                                // [|:zh_CN] 产生 [`true]
 typeid(D)  == typeid(d2);       // [:en] yields [`true]
+                                // [|:zh_CN] 产生 [`true]
 typeid(D)  == typeid(const D&); // [:en] yields [`true]
+                                // [|:zh_CN] 产生 [`true]
 [codeblock:end]
 [exit:example]
 
@@ -109,10 +159,15 @@ typeid(D)  == typeid(const D&); // [:en] yields [`true]
 [:en]
 If the header [`<typeinfo>] ([#type.info]) is not included prior to a use of
 [`typeid], the program is ill-formed.
+[:zh_CN]
+若未在使用 [`typeid] 之前包含头文件 [`<typeinfo>]（[#type.info]），则程序非良构
+。
 
 [para]
 [enter:note]
 [:en]
 [#class.cdtor] describes the behavior of [`typeid] applied to an object under
 construction or destruction.
+[:zh_CN]
+[#class.cdtor] 说明向处于构造或析构之中的对象应用 [`typeid] 时的行为。
 [exit:note]

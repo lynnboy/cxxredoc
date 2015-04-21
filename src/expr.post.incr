@@ -1,77 +1,111 @@
 ﻿[section#expr.post.incr
     [:en] Increment and decrement
-    [:zh_CN]
+    [:zh_CN] 增量和减量
 ]
 
 [para]
 [:en]
-[%expression[!increment]]
-[%operator[!increment]]
-[%[`++][see operator [!increment]]]
-[%postfix [`++]]
+[%expression[!increment]] [%operator[!increment]]
+[%[`++][see operator [!increment]]] [%postfix [`++]]
 The value of a postfix [`++] expression is the value of its operand.
+[:zh_CN]
+[%表达式[!增量～]] [%运算符[!增量～]]
+[%[`++][see 运算符 [!增量～]]] [%后置 [`++]]
+后置 [`++] 表达式的值是其操作数的值。
 
 [enter:note]
 [:en]
 the value obtained is a copy of the original value
+[:zh_CN]
+所获取的值是原值的副本
 [exit:note]
 
 [:en]
 The operand shall be a modifiable lvalue.
+[:zh_CN]
+该操作数应当是可改动的左值。
 
 [:en]
 The type of the operand shall be an arithmetic type or a pointer to a complete
 object type.
+[:zh_CN]
+该操作数的类型应当是算术类型或指向完整的对象类型的指针。
 
 [:en]
 The value of the operand object is modified by adding [`1] to it,
-[%increment[![`bool]]]
-[%deprecated features]
+[%increment[![`bool]]] [%deprecated features]
 unless the object is of type [`bool], in which case it is set to [`true].
+[:zh_CN]
+该操作数对象的值通过对其加 [`1] 而改变，
+[%增量[![`bool]]] [%摒弃的功能特性]
+除非该对象类型为 [`bool]，这种情况下它被设置为 [`true]。
 
 [enter:note]
 [:en]
 this use is deprecated, see Annex [#depr].
+[:zh_CN]
+这种用法是被摒弃的，见附录 [#depr]
 [exit:note]
 
 [:en]
 The [%value computation] value computation of the [`++] expression is sequenced
 before the modification of the operand object.
+[:zh_CN]
+[`++] 表达式的[%值计算]值计算按顺序早于其操作数对象的更改。
 
 [:en]
 With respect to an indeterminately-sequenced function call, the operation of
 postfix [`++] is a single evaluation.
+[:zh_CN]
+对于某个顺序不确定的函数调用来说，后置 [`++] 的操作是单个的求值。
 
 [enter:note]
 [:en]
 Therefore, a function call shall not intervene between the lvalue-to-rvalue
 conversion and the side effect associated with any single postfix ++ operator.
+[:zh_CN]
+因此，函数调用中不能在与任何单个后置 [`++] 运算符相关联的左值向右值转换及其副作
+用之间产生交错。
 [exit:note]
 
 [:en]
 The result is a prvalue.
+[:zh_CN]
+其结果是纯右值。
 
 [:en]
 The type of the result is the cv-unqualified version of the type of the operand.
+[:zh_CN]
+其结果的类型为此操作数的类型的 cv-未限定版本。
 
 [:en]
 If the operand is a bit-field that cannot represent the incremented value, the
 resulting value of the bit-field is [%@impldef value of bit-field that cannot
 represent[!incremented value]] implementation-defined.
+[:zh_CN]
+若其操作数是无法表示增量后的值的位字段，则其结果的位字段值是[%@impldef 无法表示
+的位字段[!增量后的值]]由实现定义的。
 
 [:en]
 See also [#expr.add] and [#expr.ass].
+[:zh_CN]
+另见 [#expr.add] 和 [#expr.ass]。
 
 [para]
 [:en]
-[%expression[!decrement]]
-[%operator[!decrement]]
-[%[`--][see operator [!decrement]]]
-[%postfix [`--]]
+[%expression[!decrement]] [%operator[!decrement]]
+[%[`--][see operator [!decrement]]] [%postfix [`--]]
 The operand of postfix [`--] is decremented analogously to the postfix [`++]
 operator, except that the operand shall not be of type [`bool].
+[:zh_CN]
+[%表达式[!减量～]] [%运算符[!减量～]]
+[%[`--][see 运算符 [!减量～]]] [%后置 [`--]]
+与后置 [`++] 运算符类似，后置 [`--] 的操作数被减量，但其操作数不应为类型
+[`bool]。
 
 [enter:note]
 [:en]
 For prefix increment and decrement, see [#expr.pre.incr].
+[:zh_CN]
+关于前置增量和减量，参见 [#expr.pre.incr]。
 [exit:note]

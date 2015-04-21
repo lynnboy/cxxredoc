@@ -1,18 +1,21 @@
 ﻿[section#expr.post
     [:en] Postfix expressions
-    [:zh_CN]
+    [:zh_CN] 后缀表达式
 ]
 
 [%:begin#expression.postfix
     [:en] expression [! postfix]
+    [:zh_CN] 表达式 [! 后缀～]
 ]
 
 [para]
 [:en]
 Postfix expressions group left-to-right.
+[:zh_CN]
+后缀表达式按从左向右分组。
 
 [syntax]
-[rule postfix-expression [:zh_CN] ]
+[rule postfix-expression [:zh_CN] 后缀表达式 ]
     [| primary-expression ]
     [| postfix-expression [`[] expression [``]] ]
     [| postfix-expression [`[] braced-init-list [``]] ]
@@ -35,11 +38,11 @@ Postfix expressions group left-to-right.
     [| [`typeid] [`(] type-id [`)] ]
 [rule:end]
 
-[rule expression-list [:zh_CN] ]
+[rule expression-list [:zh_CN] 表达式列表 ]
     initializer-list
 [rule:end]
 
-[rule pseudo-destructor-name [:zh_CN] ]
+[rule pseudo-destructor-name [:zh_CN] 伪析构函数名 ]
     [| [~:opt nested-name-specifier] type-name [`::] [`~] type-name ]
     [| nested-name-specifier [`template] simple-template-id [`::] [`~] type-name ]
     [| [`~] type-name ]
@@ -53,6 +56,10 @@ Postfix expressions group left-to-right.
 The [`>] token following the [~type-id] in a [`dynamic_cast], [`static_cast],
 [`reinterpret_cast], or [`const_cast] may be the product of replacing a [`>>]
 token by two consecutive [`>] tokens ([#temp.names]).
+[:zh_CN]
+在 [`dynamic_cast]、[`static_cast]、[`reinterpret_cast] 或 [`const_cast] 中跟在
+[~类型标识]后面的 [`>] 标记，可能是通过把 [`>>] 标记替换为两个相邻的 [`>] 标记
+（[#temp.names]）所产生的。
 [exit:note]
 
 [include expr.sub]

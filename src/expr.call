@@ -1,30 +1,43 @@
 ﻿[section#expr.call
     [:en] Function call
-    [:zh_CN]
+    [:zh_CN] 函数调用
 ]
 
 [para]
 [:en]
-[%expression[!function call]]
-[%operator[!function call]]
+[%expression[!function call]] [%operator[!function call]]
 [%[`()][see operator [!function call]]]
 A function call is a postfix expression followed by parentheses containing a
 possibly empty, comma-separated list of [~initializer-clause]s which constitute
 the arguments to the function.
+[:zh_CN]
+[%表达式[!函数调用～]] [%运算符[!函数调用～]]
+[%[`()][see 运算符 [!函数调用～]]]
+函数调用是后缀表达式后面跟着括号，其中包含可能为空的，用逗号分隔的[~初始化式
+子句]的列表，以构成传给函数的实参。
 
 [:en]
 The postfix expression shall have function type or pointer to function type.
+[:zh_CN]
+该后缀表达式应当具有函数类型或函数指针类型。
 
 [:en]
 For a call to a non-member function or to a static member function, the postfix
 expression shall be either an lvalue that refers to a function (in which case
 the function-to-pointer standard conversion ([#conv.func]) is suppressed on the
 postfix expression), or it shall have pointer to function type.
+[:zh_CN]
+对于非成员函数或静态成员函数的调用，其后缀表达式要么是指代函数的左值（这种情况下
+抑制了该后缀表达式上的函数向指针标准转换（[#conv.func]）），要么它应当具有函数
+指针类型。
 
 [:en]
 Calling a function through an expression whose function type has a language
 linkage that is different from the language linkage of the function type of the
 called function[=']s definition is undefined ([#dcl.link]).
+[:zh_CN]
+如果用于调用函数的表达式的函数类型所具有的语言连接，与被调用函数所定义的类型的
+语言连接不相同，则调用是未定义的（[#dcl.link]）。
 
 [:en]
 For a call to a non-static member function, the postfix expression shall be an
@@ -33,39 +46,63 @@ access ([#expr.ref]) whose [~id-expression] is a function member name, or a
 pointer-to-member expression ([#expr.mptr.oper]) selecting a function member;
 the call is as a member of the class object referred to by the object
 expression.
+[:zh_CN]
+对于非静态成员函数的调用，其后缀表达式应当是隐式（[#class.mfct.non-static]，
+[#class.static]）或显式的类成员访问（[#expr.ref]），且其[~标识表达式]应当是函数
+成员名，或选取某个函数成员的成员指针表达式（[#expr.mptr.oper]）；这个调用就代表
+由对象表达式所指代的类对象的成员。
 
 [:en]
 In the case of an implicit class member access, the implied object is the one
 pointed to by [`this].
+[:zh_CN]
+在隐式类成员访问的情况下，所隐含的对象就是由 [`this] 所指向的那个。
 
 [enter:note]
 [:en]
 a member function call of the form [`f()] is interpreted as [`(*this).f()] (see
 [#class.mfct.non-static]).
+[:zh_CN]
+形式为 [`f()] 的成员函数调用被判读为 [`(*this).f()]（参见
+[#class.mfct.non-static]）。
 [exit:note]
 
 [:en]
 If a function or member function name is used, the name can be overloaded
 (Clause [#over]), in which case the appropriate function shall be selected
 according to the rules in [#over.match].
+[:zh_CN]
+如果使用了函数或成员函数名，则该名字可以是重载的（第 [#over] 条），这种情况下
+应当按 [#over.match] 中的规则选取适当的函数。
 
 [:en]
 If the selected function is non-virtual, or if the [~id-expression] in the class
 member access expression is a [~qualified-id], that function is called.
+[:zh_CN]
+如果所选择的函数是非虚的，或者如果类成员访问表达式中的[~标识表达式]是个[~限定
+标识]，则调用该函数。
 
 [:en]
 Otherwise, its final overrider ([#class.virtual]) in the dynamic type of the
 object expression is called; such a call is referred to as a [+virtual function
 call].
+[:zh_CN]
+否则，调用它在对象表达式的动态类型中的最终覆盖函数（[#class.virtual]）；这种调用
+被称为[+虚函数调用]。
 
 [enter:note]
 [:en]
 the dynamic type is the type of the object referred to by the current value of
 the object expression.
+[:zh_CN]
+动态类型是由该对象表达式的当前值所代表的对象的类型。
 
 [:en]
 [#class.cdtor] describes the behavior of virtual function calls when the object
 expression refers to an object under construction or destruction.
+[:zh_CN]
+[#class.cdtor] 说明当对象表达式指代处于构造或析构之中的对象时进行虚函数调用的
+行为。
 [exit:note]
 
 [para]
@@ -73,9 +110,14 @@ expression refers to an object under construction or destruction.
 [:en]
 If a function or member function name is used, and name lookup ([#basic.lookup])
 does not find a declaration of that name, the program is ill-formed.
+[:zh_CN]
+若使用了某函数或成员函数的名字，而名字查找（[#basic.lookup]）并未找到该名字的
+声明式，则程序非良构。
 
 [:en]
 No function is implicitly declared by such a call.
+[:zh_CN]
+此种调用不会隐式声明函数。
 [exit:note]
 
 [para]
@@ -85,10 +127,17 @@ of the function call expression is [`void]; otherwise, the type of the function
 call expression is the return type of the statically chosen function (i.e.,
 ignoring the [`virtual] keyword), even if the type of the function actually
 called is different.
+[:zh_CN]
+若[~后缀表达式]代表一个析构函数（[#class.dtor]），则函数调用表达式的类型是
+[`void]；否则，函数调用表达式的类型是其静态地（就是说，忽略 [`virtual] 关键字）
+选取的函数的返回类型，无论实际调用的函数的类型是否有所不同。
 
 [:en]
 [%type[!incomplete]]
 This return type shall be an object type, a reference type or [$cv] [`void].
+[:zh_CN]
+[%类型[!不完整～]]
+此类型应当是对象类型、引用类型或类型 [`void]。
 
 [para]
 [:en]
@@ -97,40 +146,62 @@ This return type shall be an object type, a reference type or [$cv] [`void].
 [%initialization[!parameter]]
 When a function is called, each parameter ([#dcl.fct]) shall be initialized
 ([#dcl.init], [#class.copy], [#class.ctor]) with its corresponding argument.
+[:zh_CN]
+[%函数实参[see 实参]]]
+[%函数形参[see 形参]]]
+[%初始化[!形参的～]]
+当调用函数时，每个形参（[#dcl.fct]）都应当由其所对应的实参来初始化（[#dcl.init]
+，[#class.copy]，[#class.ctor]）。
 
 [enter:note]
 [:en]
 Such initializations are indeterminately sequenced with respect to each other
 ([#intro.execution])
+[:zh_CN]
+这种初始化互相之间是顺序不确定的（[#intro.execution]）。
 [exit:note]
 
 [:en]
 If the function is a non-static member function, the [`this] parameter of the
 function ([#class.this]) shall be initialized with a pointer to the object of
 the call, converted as if by an explicit type conversion ([#expr.cast]).
+[:zh_CN]
+如果该函数是非静态成员函数，则函数的 [`this] 形参（[#class.this]）应当由指向此
+调用中的对象的指针来初始化，并且进行如同显式类型转换（[#expr.cast]）的转换。
 
 [enter:note]
 [:en]
 There is no access or ambiguity checking on this conversion; the access checking
 and disambiguation are done as part of the (possibly implicit) class member
 access operator.
+[:zh_CN]
+此转换并不进行访问或歧义检查；访问检查和歧义消解是作为（可能隐式的）类成员访问
+运算符的一部分完成的。
 
 [:en]
 See [#class.member.lookup], [#class.access.base], and [#expr.ref].
+[:zh_CN]
+参见 [#class.member.lookup]，[#class.access.base] 和 [#expr.ref]。
 [exit:note]
 
 [:en]
 When a function is called, the parameters that have object type shall have
 completely-defined object type.
+[:zh_CN]
+当调用函数时，具有对象类型的形参应当具有完整定义的对象类型。
 
 [enter:note]
 [:en]
 this still allows a parameter to be a pointer or reference to an incomplete
 class type.
+[:zh_CN]
+这仍然允许形参为指向不完全类类型的指针或引用。
 
 [:en]
 However, it prevents a passed-by-value parameter to have an incomplete class
 type.
+[:zh_CN]
+然而，它防止了按值传递的形参具有不完全的类类型。
 [exit:note]
 
 [:en]
@@ -138,25 +209,39 @@ During the initialization of a parameter, an implementation may avoid the
 construction of extra temporaries by combining the conversions on the associated
 argument and/or the construction of temporaries with the initialization of the
 parameter (see [#class.temporary]).
+[:zh_CN]
+在形参的初始化过程中，实现可以通过将其所关联的实参上所进行的转换和/或临时对象的
+构造，与该形参的初始化合并起来，以避免构造额外的临时对象（见
+[#class.temporary]）。
 
 [:en]
 The lifetime of a parameter ends when the function in which it is defined
 returns.
+[:zh_CN]
+形参的生存期结束于定义了它的函数返回之时。
 
 [:en]
 The initialization and destruction of each parameter occurs within the context
 of the calling function.
+[:zh_CN]
+每个形参的初始化和析构都发生于调用方函数的语境之中。
 
 [enter:example]
 [:en]
 the access of the constructor, conversion functions or destructor is checked at
 the point of call in the calling function.
+[:zh_CN]
+对其构造函数、转换函数或析构函数的访问检查，是在调用方函数中的调用点处进行的。
 
 [:en]
 If a constructor or destructor for a function parameter throws an exception, the
 search for a handler starts in the scope of the calling function; in particular,
 if the function called has a [~function-try-block] (Clause [#except]) with a
 handler that could handle the exception, this handler is not considered.
+[:zh_CN]
+若某个函数形参的构造函数或析构函数抛出异常，则对处理器的搜索开始于调用方函数的
+作用域中；特别地，当被调函数具有带有能够处理该异常的处理器的[~函数-try-块]（第
+[#except] 条）时，并不考虑这个处理器。
 [exit:example]
 
 [:en]
@@ -165,30 +250,41 @@ in a virtual function call if the return type of the final overrider is
 different from the return type of the statically chosen function, the value
 returned from the final overrider is converted to the return type of the
 statically chosen function.
+[:zh_CN]
+函数调用的值是被调函数所返回的值，此外在虚函数调用中，当最终覆盖函数的返回类型与
+静态选取的函数的返回类型不同时，从最终覆盖函数返回的值要转换为静态选取的函数的
+返回类型。
 
 [para]
 [enter:note]
 [:en]
-[%type checking[!argument]]
-[%function call]
-[%argument passing]
-[%value[!call by]]
-[%reference[!call by]]
-[%argument[!reference]]
+[%type checking[!argument]] [%function call] [%argument passing]
+[%value[!call by]] [%reference[!call by]] [%argument[!reference]]
 a function can change the values of its non-const parameters, but these changes
 cannot affect the values of the arguments except where a parameter is of a
 reference type ([#dcl.ref]); if the reference is to a const-qualified type,
 [`const_cast] is required to be used to cast away the constness in order to
 modify the argument[=']s value.
+[:zh_CN]
+[%类型检查[!实参]] [%函数调用] [%实参传递]
+[%值[!按～调用]] [%引用[!按～调用]] [%实参[!引用～]]
+函数可以改变其非 const 形参的值，但除非形参为引用类型（[#dcl.ref]），否则这些
+改变不能影响实参的值；若此引用指代了被 const-限定的类型，则需要用 [`const_cast]
+强制移除其常量性才能改变实参的值。
 
 [:en]
 Where a parameter is of [`const] reference type a temporary object is introduced
 if needed ([#dcl.type], [#lex.literal], [#lex.string], [#dcl.array],
 [#class.temporary]).
+[:zh_CN]
+当形参是 [`const] 引用类型时，根据需要会引入一个临时对象（[#dcl.type]，
+[#lex.literal]，[#lex.string]，[#dcl.array]，[#class.temporary]）。
 
 [:en]
 In addition, it is possible to modify the values of nonconstant objects through
 pointer parameters.
+[:zh_CN]
+另外，通过指针形参改动非常量对象的值也是可行的。
 [exit:note]
 
 [para]
@@ -199,11 +295,19 @@ A function can be declared to accept fewer arguments (by declaring default
 arguments ([#dcl.fct.default])) or more arguments (by using the ellipsis,
 [`...], or a function parameter pack ([#dcl.fct])) than the number of parameters
 in the function definition ([#dcl.fct.def]).
+[:zh_CN]
+[%声明式[!函数～中的省略号]]
+[%参数列表[!可变的～]]
+可以将函数声明为接受比在函数定义式（[#dcl.fct.def]）中的形参数量更少的实参（通过
+声明默认实参（[#dcl.fct.default]））或更多的实参（通过使用省略号 [`...]，或者
+函数形参包组（[#dcl.fct]））。
 
 [enter:note]
 [:en]
 this implies that, except where the ellipsis ([`...]) or a function parameter
 pack is used, a parameter is available for each argument.
+[:zh_CN]
+这意味着，除了使用省略号（[`...]）或函数形参包组的情况外，每个实参对应一个形参。
 [exit:note]
 
 [para]
@@ -212,29 +316,46 @@ pack is used, a parameter is available for each argument.
 When there is no parameter for a given argument, the argument is passed in such
 a way that the receiving function can obtain the value of the argument by
 invoking [`va_arg] ([#support.runtime]).
+[:zh_CN]
+[%省略号[!～转换序列]]
+当给定实参没有对应的形参时，该实参的传递方式为，接受它的函数可通过调用 [`va_arg]
+（[#support.runtime]）来获取该实参的值。
 
 [enter:note]
 [:en]
 This paragraph does not apply to arguments passed to a function parameter pack.
+[:zh_CN]
+本段并不适用于向函数形参包组所传递的实参。
 
 [:en]
 Function parameter packs are expanded during template instantiation
 ([#temp.variadic]), thus each such argument has a corresponding parameter when a
 function template specialization is actually called.
+[:zh_CN]
+函数形参包组在模板实例化中进行了展开（[#temp.variadic]），因而当一个函数模板特例
+被实际调用时，每个这种实参均有一个与其对应的形参。
 [exit:note]
 
 [:en]
 The lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) standard conversions are performed on the
 argument expression.
+[:zh_CN]
+对实参实施左值向右值（[#conv.lval]）、数组向指针（[#conv.array]）和函数向指针
+（[#conv.func]）标准转换。
 
 [:en]
 An argument that has (possibly cv-qualified) type [`std::nullptr_t] is converted
 to type [`void*] ([#conv.ptr]).
+[:zh_CN]
+具有（可能被 cv-限定的）[`std::nullptr_t] 类型的实参被转换为 [`void*] 类型
+（[#conv.ptr]）。
 
 [:en]
 After these conversions, if the argument does not have arithmetic, enumeration,
 pointer, pointer to member, or class type, the program is ill-formed.
+[:zh_CN]
+在这些转换之后，若该实参不具有算术、枚举、指针、成员指针或类类型，则程序非良构。
 
 [:en]
 Passing a potentially-evaluated argument of class type (Clause [#class]) having
@@ -242,30 +363,44 @@ a non-trivial copy constructor, a non-trivial move constructor, or a non-trivial
 destructor, with no corresponding parameter, is conditionally-supported with
 [%@impldef passing argument of class type through ellipsis]
 implementation-defined semantics.
+[:zh_CN]
+对潜在求值的带有非平凡复制构造函数、非平凡移动构造函数或非平凡析构函数的类类型
+（第 [#class] 条）的实参，进行没有对应形参的传递，是有条件支持的，并具有
+[%@impldef 通过省略号传递类类型的实参]由实现定义的语义。
 
 [:en]
 If the argument has integral or enumeration type that is subject to the integral
 promotions ([#conv.prom]), or a floating point type that is subject to the
 floating point promotion ([#conv.fpprom]), the value of the argument is
 converted to the promoted type before the call.
+[:zh_CN]
+若实参具有符合整型提升（[#conv.prom]）的整型或枚举类型，或符合浮点提升
+（[#conv.fpprom]）的浮点类型，则实参的值就在进行调用之前转换为所提升的类型。
 
 [:en]
 These promotions are referred to as the [+default argument promotions].
+[:zh_CN]
+这些提升被称为[+默认实参提升]。
 
 [para]
+[enter:note]
 [:en]
 [%evaluation[!order of argument]]
 [%evaluation[!unspecified order of function call]]
-
-[enter:note]
-[:en]
 The evaluations of the postfix expression and of the arguments are all
 unsequenced relative to one another.
+[:zh_CN]
+[%求值[!实参的～]]
+[%求值[!未指明的函数调用的～顺序]]
+后缀表达式和各实参表达式的求值之间是无顺序的。
 
 [:en]
 [%evaluation[!unspecified order of argument]]
 All side effects of argument evaluations are sequenced before the function is
 entered (see [#intro.execution]).
+[:zh_CN]
+[%求值[!未知名的实参～顺序]]
+实参求值的所有副作用，均按顺序早于函数进入之时（参见 [#intro.execution]）。
 [exit:note]
 
 [para]
@@ -273,47 +408,70 @@ entered (see [#intro.execution]).
 [%function call[!recursive]]
 Recursive calls are permitted, except to the [`main] function
 ([#basic.start.main]).
+[:zh_CN]
+[%函数调用[!递归～]]
+除了 [`main] 函数（[#basic.start.main]）之外，允许函数的递归调用。
 
 [para]
 [:en]
 A function call is an lvalue if the result type is an lvalue reference type or
 an rvalue reference to function type, an xvalue if the result type is an rvalue
 reference to object type, and a prvalue otherwise.
+[:zh_CN]
+当函数的返回类型是左值引用类型或指代函数的右值引用类型时，函数调用是左值，当其返回类型是指代对象的右值引用类型时，是临限值，否则就是纯右值。
 
 [para]
 [:en]
 If a function call is a prvalue of object type:
+[:zh_CN]
+如果函数调用是对象类型的纯右值：
 
 [list]
 [item]
 [:en@~]
 if the function call is either
+[:zh_CN@~]
+若函数调用为
 
 [list]
 [item]
 [:en@~]
 the operand of a [~decltype-specifier] or
+[:zh_CN@~]
+[~decltype-说明符]的操作数，或者
+
 [item]
 [:en@~]
 the right operand of a comma operator that is the operand of a
 [~decltype-specifier],
+[:zh_CN@~]
+作为 [~decltype-说明符]的操作数的逗号运算符的右操作数，
 [list:end]
 
 [:en@~]
 a temporary object is not introduced for the prvalue.
+[:zh_CN@~]
+则不会为这个纯右值引入临时对象。
 
 [:en]
 The type of the prvalue may be incomplete.
+[:zh_CN]
+这个纯右值的类型可以是不完整的。
 
 [enter:note]
 [:en]
 as a result, storage is not allocated for the prvalue and it is not destroyed;
 thus, a class type is not instantiated as a result of being the type of a
 function call in this context.
+[:zh_CN]
+这导致不会为这个纯右值分配存储，且它不会被销毁；因此，类类型作为这种语境中的函数
+调用的类型，并不会导致实例创建。
 
 [:en]
 This is true regardless of whether the expression uses function call notation or
 operator notation ([#over.match.oper]).
+[:zh_CN]
+无论表达式中使用的是函数调用语法还是运算符语法（[#over.match.oper]）都是如此。
 [exit:note]
 
 [enter:note]
@@ -321,4 +479,14 @@ operator notation ([#over.match.oper]).
 unlike the rule for a [~decltype-specifier] that considers whether an
 [~id-expression] is parenthesized ([#dcl.type.simple]), parentheses have no
 special meaning in this context.
+[:zh_CN]
+与需要考虑[~标识表达式]是否带有括号的 [~decltype-说明符]（[#dcl.type.simple]）
+不同，这种语境中的括号并没有特殊的含义。
 [exit:note]
+
+[item]
+[:en]
+otherwise, the type of the prvalue shall be complete.
+[:zh_CN]
+否则，纯右值的类型应当是完整的。
+[list:end]

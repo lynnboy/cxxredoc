@@ -114,7 +114,7 @@ the same as the behavior of an object whose lifetime has started and not ended.
 [#class.base.init] and [#class.cdtor] describe the behavior of objects during
 the construction and destruction phases.
 [:zh_CN]
-[#class.base.init] 和 [#class.cdtor] 描述了处于构造和析构阶段中的对象的行为。
+[#class.base.init] 和 [#class.cdtor] 描述了处于构造和析构过程中的对象的行为。
 [exit:note]
 
 [para]
@@ -370,8 +370,8 @@ the original object was a most derived object ([#intro.object]) of type [`T] and
 the new object is a most derived object of type [`T] (that is, they are not base
 class subobjects).
 [:zh_CN]
-原对象曾是类型 [`T] 的最终派生对象（[#intro.object]），且新对象是类型 [`T] 的
-最终派生对象（就是说，他们不是基类子对象）。
+原对象曾是类型 [`T] 的全派生对象（[#intro.object]），且新对象是类型 [`T] 的全
+派生对象（就是说，他们不是基类子对象）。
 
 [enter:example]
 

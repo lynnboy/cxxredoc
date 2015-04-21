@@ -1,6 +1,6 @@
 ﻿[section#expr.ref
     [:en] Class member access
-    [:zh_CN]
+    [:zh_CN] 类成员访问
 ]
 
 [para]
@@ -18,118 +18,194 @@
 A postfix expression followed by a dot [`.] or an arrow [`->], optionally
 followed by the keyword [`template] ([#temp.names]), and then followed by an
 [~id-expression], is a postfix expression.
+[:zh_CN]
+[%表达式[!类成员访问～]]
+[%访问控制[!类成员]]
+[%语法[!类成员]]
+[%语义[!类成员]]
+[%运算符[!类成员访问～]]
+[%[`.][see 运算符 [!类成员访问～]]]
+[%点运算符[see 运算符 [!类成员访问]]]
+[%运算符[!类成员访问～]]
+[%[`->][see 运算符 [!类成员访问]]]
+[%箭头运算符[see 运算符 [!类成员访问]]]
+后缀表达式后面跟着点 [`.] 或箭头 [`->]，可选地跟着关键字 [`template]
+（[#temp.names]），再跟着[~标识表达式]，是后缀表达式。
 
 [:en]
 The postfix expression before the dot or arrow is evaluated;
+[:zh_CN]
+对点和箭头之前的后缀表达式进行求值；
 
 [footnote]
 [:en]
 If the class member access expression is evaluated, the subexpression evaluation
 happens even if the result is unnecessary to determine the value of the entire
 postfix expression, for example if the [~id-expression] denotes a static member.
+[:zh_CN]
+如果对类成员访问表达式进行求值，则即使子表达式的结果对于确定整个后缀表达式的值
+不是必要的，也会对其进行求值，例如当[~标识表达式]代表静态成员时。
 [footnote:end]
 
 [:en]
 the result of that evaluation, together with the [~id-expression], determines
 the result of the entire postfix expression.
+[:zh_CN]
+此求值的结果，和[~标识表达式]一起，决定了整个后缀表达式的结果。
 
 [para]
 [:en]
 [%type[!incomplete]]
 For the first option (dot) the first expression shall have complete class type.
+[:zh_CN]
+[%类型[!不完整～]]
+第一种情况（点）中，第一个表达式应当具有完整的类类型。
 
 [:en]
 For the second option (arrow) the first expression shall have pointer to
 complete class type.
+[:zh_CN]
+第二种情况（箭头）中，第一个表达式应当具有指向完整的类的指针的类型。
 
 [:en]
 The expression [`E1->E2] is converted to the equivalent form [`(*(E1)).E2]; the
 remainder of [#expr.ref] will address only the first option (dot).
+[:zh_CN]
+表达式 [`E1->E2] 被转换为其等价形式 [`(*(E1)).E2]；[#expr.ref] 的余下部分仅仅
+关注第一种情况（点）。
 
 [footnote]
 [:en]
 Note that [`(*(E1))] is an lvalue.
+[:zh_CN]
+注意 [`(*(E1))] 是左值。
 [footnote:end]
 
 [:en]
 In either case, the [~id-expression] shall name a member of the class or of one
 of its base classes.
+[:zh_CN]
+在这些情况中，[~标识表达式]应当指名该类或其基类之一的某个成员。
 
 [enter:note]
 [:en]
 because the name of a class is inserted in its class scope (Clause [#class]),
 the name of a class is also considered a nested member of that class.
+[:zh_CN]
+因为类的名字插入到其类作用域之中（第 [#class] 条），故类的名字也被看作此类的一个
+嵌套成员。
 [exit:note]
 
 [enter:note]
 [:en]
 [#basic.lookup.classref] describes how names are looked up after the [`.] and
 [`->] operators.
+[:zh_CN]
+[#basic.lookup.classref] 说明 [`.] 和 [`->] 运算符之后的名字如何进行查找。
 [exit:note]
 
 [para]
 [:en]
 Abbreviating [+postfix-expression.id-expression] as [`E1.E2], [`E1] is called
 the [def object expression].
+[:zh_CN]
+将[~后缀表达式].[~标识表达式]简记为 [`E1.E2]，[`E1] 被称为[def 对象表达式]。
 
 [:en]
 The type and value category of [`E1.E2] are determined as follows.
+[:zh_CN]
+[`E1.E2] 的类型和值类别确定如下。
 
 [:en]
 In the remainder of [#expr.ref], [$cq] represents either [`const] or the absence
 of [`const] and [$vq] represents either [`volatile] or the absence of
 [`volatile].
+[:zh_CN]
+在 [#expr.ref] 的余下部分中，[$cq] 表示 [`const] 或没有 [`const]；而 [$vq] 表示
+[`volatile] 或没有 [`volatile]。
 
 [:en]
 [$cv] represents an arbitrary set of cv-qualifiers, as defined in
 [#basic.type.qualifier].
+[:zh_CN]
+[$cv] 表示 cv-限定符的任意集合，正如 [#basic.type.qualifier] 中的定义。
 
 [para]
 [:en]
 If [`E2] is declared to have type ["reference to [`T],] then [`E1.E2] is an
 lvalue; the type of [`E1.E2] is [`T].
+[:zh_CN]
+若声明 [`E2] 的类型为“[`T] 的引用”，则 [`E1.E2] 是左值；[`E1.E2] 的类型为 [`T]。
 
 [:en]
 Otherwise, one of the following rules applies.
+[:zh_CN]
+否则，就采用如下规则之一。
 
 [list]
 [item]
 [:en]
 If [`E2] is a static data member and the type of [`E2] is [`T], then [`E1.E2] is
-an lvalue; the expression designates the named member of the class. The type of
+an lvalue; the expression designates the named member of the class.
+The type of
+[:zh_CN]
+若 [`E2] 是静态数据成员，而 [`E2] 的类型为 [`T]，则 [`E1.E2] 是左值；该表达式
+代表该类的被指名的成员。
+
+[:en]
 [`E1.E2] is [`T].
+[:zh_CN]
+[`E1.E2] 的类型是 [`T]。
 
 [item]
 [:en]
 If [`E2] is a non-static data member and the type of [`E1] is ["[$cq1 vq1]
 [`X]], and the type of [`E2] is ["[$cq2 vq2] [`T]], the expression designates
 the named member of the object designated by the first expression.
+[:zh_CN]
+若 [`E2] 是非静态数据成员，而 [`E1] 的类型是“[$cq1 vq1] [`X]”，且 [`E2] 的类型是
+“[$cq2 vq2] [`T]”，则该表达式代表由第一个表达式代表的对象的被指名的成员。
 
 [:en]
 If [`E1] is an lvalue, then [`E1.E2] is an lvalue; otherwise [`E1.E2] is an
 xvalue.
+[:zh_CN]
+若 [`E1] 是左值，则 [`E1.E2] 是左值；否则 [`E1.E2] 是临限值。
 
 [:en]
 Let the notation [$vq12] stand for the ["union] of [$vq1] and [$vq2]; that is,
 if [$vq1] or [$vq2] is [`volatile], then [$vq12] is [`volatile].
+[:zh_CN]
+令记号 [$vq12] 代表 [$vq1] 和 [$vq2] 的“并”；就是说，若 [$vq1] 或 [$vq2] 是
+[`volatile]，则 [$vq12] 是 [`volatile]。
 
 [:en]
 Similarly, let the notation [$cq12] stand for the ["union] of [$cq1] and [$cq2];
 that is, if [$cq1] or [$cq2] is [`const], then [$cq12] is [`const].
+[:zh_CN]
+相似地，令记号 [$cq12] 代表 [$cq1] 和 [$cq2] 的“并”；就是说，若 [$cq1] 或 [$cq2]
+是 [`const]，则 [$cq12] 是 [`const]。
 
 [:en]
 If [`E2] is declared to be a [`mutable] member, then the type of [`E1.E2] is
 ["[$vq12] [`T]].
+[:zh_CN]
+若声明 [`E2] 为 [`mutable] 成员，则 [`E1.E2] 的类型为“[$vq12] [`T]”。
 
 [:en]
 If [`E2] is not declared to be a [`mutable] member, then the type of [`E1.E2] is
 ["[$cq12] [$vq12] [`T]].
+[:zh_CN]
+若 [`E2] 未被声明为 [`mutable] 成员，则 [`E1.E2] 的类型为“[$cq12 vq12] [`T]”。
 
 [item]
 [:en]
 If [`E2] is a (possibly overloaded) member function, function overload
 resolution ([#over.match]) is used to determine whether [`E1.E2] refers to a
 static or a non-static member function.
+[:zh_CN]
+若 [`E2] 为（可能重载的）成员函数，则使用函数重载决议（[#over.match]）来确定
+[`E1.E2] 是否代表静态或非静态成员函数。
 
 [list]
 [item]
@@ -137,45 +213,67 @@ static or a non-static member function.
 If it refers to a static member function and the type of [`E2] is ["function of
 parameter-type-list returning [`T]], then [`E1.E2] is an lvalue; the expression
 designates the static member function.
+[:zh_CN]
+若它代表静态成员函数，且 [`E2] 的类型为“返回 [`T] 的（形参类型列表）函数”，则
+[`E1.E2] 是左值；此表达式代表该静态成员函数。
 
 [:en]
 The type of [`E1.E2] is the same type as that of [`E2], namely ["function of
 parameter-type-list returning [`T]].
+[:zh_CN]
+[`E1.E2] 的类型与 [`E2] 相同，就是“返回 [`T] 的（形参类型列表）函数”。
 
 [item]
 [:en]
 Otherwise, if [`E1.E2] refers to a non-static member function and the type of
 [`E2] is ["function of parameter-type-list [$cv] [~:opt ref-qualifier] returning
 [`T]], then [`E1.E2] is a prvalue.
+[:zh_CN]
+否则，若 [`E1.E2] 代表非静态成员函数，且 [`E2] 的类型为“返回 [`T] 的（形参类型
+列表）[$cv] [~:opt 引用限定符] 函数”，则 [`E1.E2] 是纯右值。
 
 [:en]
 The expression designates a non-static member function.
+[:zh_CN]
+此表达式代表该非静态成员函数。
 
 [:en]
 The expression can be used only as the left-hand operand of a member function
 call ([#class.mfct]).
+[:zh_CN]
+此表达式只能用作成员函数调用（[#class.mfct]）的左操作数。
 
 [enter:note]
 [:en]
 Any redundant set of parentheses surrounding the expression is ignored
 ([#expr.prim]).
+[:zh_CN]
+忽略包围该表达式的任何多余括号组（[#expr.prim]）。
 [exit:note]
 
 [:en]
 The type of [`E1.E2] is ["function of parameter-type-list [$cv] returning [`T]].
+[:zh_CN]
+[`E1.E2] 的类型为“返回 [`T] 的（形参类型列表）[$cv] 函数”。
 [list:end]
 
 [item]
 [:en]
 If [`E2] is a nested type, the expression [`E1.E2] is ill-formed.
+[:zh_CN]
+若 [`E2] 为嵌套类型，则表达式 [`E1.E2] 非良构。
 
 [item]
 [:en]
 If [`E2] is a member enumerator and the type of [`E2] is [`T], the expression
 [`E1.E2] is a prvalue.
+[:zh_CN]
+若 [`E2] 为成员枚举符，且 [`E2] 的类型为 [`T]，则表达式 [`E1.E2] 是纯右值。
 
 [:en]
 The type of [`E1.E2] is [`T].
+[:zh_CN]
+[`E1.E2] 的类型为 [`T]。
 [list:end]
 
 [para]
@@ -184,9 +282,16 @@ If [`E2] is a non-static data member or a non-static member function, the
 program is ill-formed if the class of which [`E2] is directly a member is an
 ambiguous base ([#class.member.lookup]) of the naming class
 ([#class.access.base]) of [`E2].
+[:zh_CN]
+若 [`E2] 为非静态数据成员或非静态成员函数，则当以 [`E2] 作为直接成员的类是指名
+[`E2] 的类（[#class.access.base]）的有歧义基类（[#class.member.lookup]）时，程序
+非良构。
 
 [enter:note]
 [:en]
 The program is also ill-formed if the naming class is an ambiguous base of the
 class type of the object expression; see [#class.access.base].
+[:zh_CN]
+如果所指明的类是对象表达式的类类型的一个有歧义基类，程序也是非良构的；参见
+[#class.access.base]。
 [exit:note]

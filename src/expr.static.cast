@@ -1,29 +1,35 @@
 ﻿[section#expr.static.cast
     [:en] Static cast
-    [:zh_CN]
+    [:zh_CN] 静态强制转换
 ]
 
 [para]
 [:en]
-[%expression[!static cast]]
-[%cast[!static]]
+[%expression[!static cast]] [%cast[!static]]
 The result of the expression [`static_cast<T>(v)] is the result of converting
 the expression [`v] to type [`T].
+[:zh_CN]
+[%表达式[!静态强制转换～]] [%强制转换[!静态～]]
+表达式 [`static_cast<T>(v)] 的结果是把表达式 [`v] 转换为类型 [`T]。
 
 [:en]
-[%cast[!static[!lvalue]]]
-[%cast[!lvalue]]
+[%cast[!static[!lvalue]]] [%cast[!lvalue]]
 If [`T] is an lvalue reference type or an rvalue reference to function type, the
 result is an lvalue; if [`T] is an rvalue reference to object type, the result
 is an xvalue; otherwise, the result is a prvalue.
+[:zh_CN]
+[%强制转换[!静态～[!左值]]] [%强制转换[!左值]]
+若 [`T] 为左值引用类型或者函数类型的右值引用，则结果是左值；若 [`T] 为对象类型的
+右值引用类型，则结果是临限值；否则结果是纯右值。
 
 [:en]
 The [`static_cast] operator shall not cast away constness ([#expr.const.cast]).
+[:zh_CN]
+[`static_cast] 运算符不能强制移除常量性（[#expr.const.cast]）。
 
 [para]
 [:en]
-[%cast[!static[!reference]]]
-[%cast[!reference]]
+[%cast[!static[!reference]]] [%cast[!reference]]
 An lvalue of type ["[$cv1] [`B],] where [`B] is a class type, can be cast to
 type ["reference to [$cv2] [`D],] where [`D] is a class derived (Clause
 [#class.derived]) from [`B], if a valid standard conversion from ["pointer to
@@ -31,20 +37,37 @@ type ["reference to [$cv2] [`D],] where [`D] is a class derived (Clause
 cv-qualification as, or greater cv-qualification than, [$cv1], and [`B] is
 neither a virtual base class of [`D] nor a base class of a virtual base class of
 [`D].
+[:zh_CN]
+[%强制转换[!静态～[!引用]]] [%强制转换[!引用]]
+当存在从“[`D] 的指针”向“[`B] 的指针”的合法标准转换（[#conv.ptr]）（其中 [`B] 为
+类类型，[`D] 为派生（第 [#class.derived] 条）于 [`B] 的类），[$cv2] 具有与
+[$cv1] 相同的 cv-限定性，或更强的 cv-限定性，且 [`B] 既不是 [`D] 的虚基类也不是
+[`D] 的虚基类的基类时，“[$cv1] [`B]”类型的左值，可被强制转换为类型“[$cv2] [`D]
+的引用”。
 
 [:en]
 The result has type ["[$cv2] [`D].]
+[:zh_CN]
+其结果类型为“[$cv2] [`D]”。
 
 [:en]
 An xvalue of type ["[$cv1] [`B]] may be cast to type ["rvalue reference to
 [$cv2] [`D]] with the same constraints as for an lvalue of type ["[$cv1] [`B].]
+[:zh_CN]
+“[$cv1] [`B]”类型的临限值可被强制转换为类型“[$cv2] [`D] 的右值引用”，其中所受
+约束与“[$cv1] [`B]”类型的左值相同。
 
 [:en]
 If the object of type ["[$cv1] [`B]] is actually a subobject of an object of
 type [`D], the result refers to the enclosing object of type [`D].
+[:zh_CN]
+若“[$cv1] [`B]”类型的对象实际上是类型 [`D] 的对象的子对象，则其结果指代这个外围
+的 [`D] 类型的对象。
 
 [:en]
 Otherwise, the behavior is undefined.
+[:zh_CN]
+否则，其行为是未定义的。
 
 [enter:example]
 [codeblock]
@@ -54,6 +77,7 @@ D d;
 B &br = d;
 
 static_cast<D&>(br);            // [:en] produces lvalue to the original [`d] object
+                                // [|:zh_CN] 产生代表原 [`d] 对象的左值
 [codeblock:end]
 [exit:example]
 
@@ -62,6 +86,10 @@ static_cast<D&>(br);            // [:en] produces lvalue to the original [`d] ob
 A glvalue, class prvalue, or array prvalue of type ["[$cv1] [`T1]] can be cast
 to type ["rvalue reference to [$cv2] [`T2]] if ["[$cv2] [`T2]] is
 reference-compatible with ["[$cv1] [`T1]] ([#dcl.init.ref]).
+[:zh_CN]
+如果“[$cv2] [`T2]”与“[$cv1] [`T1]”引用兼容（[#dcl.init.ref]），则类型“[$cv1]
+[`T1]”的泛左值，类的纯右值，或数组纯右值可以被强制转换为类型“[$cv2] [`T2] 的右值
+引用”。
 
 [:en]
 If the value is not a bit-field, the result refers to the object or the
@@ -69,44 +97,68 @@ specified base class subobject thereof; otherwise, the lvalue-to-rvalue
 conversion ([#conv.lval]) is applied to the bit-field and the resulting prvalue
 is used as the [~expression] of the [`static_cast] for the remainder of this
 section.
+[:zh_CN]
+若该值不是位字段，则其结果指代该对象或其指定的基类子对象；否则，对位字段实施左值
+向右值转换（[#conv.lval]），并将产生的纯右值用作 [`static_cast]的[~表达式]再考察
+本节的余下部分。
 
 [:en]
 If [`T2] is an inaccessible (Clause [#class.access]) or ambiguous
 ([#class.member.lookup]) base class of [`T1], a program that necessitates such a
 cast is ill-formed.
+[:zh_CN]
+如果 [`T2] 是 [`T1] 的不可访问的（第 [#class.access] 条）或有歧义的（[#class.member.lookup]）基类，则需要进行这种强制转换的程序是非良构的。
 
 [para]
 [:en]
 An expression [`e] can be explicitly converted to a type [`T] using a
 [`static_cast] of the form [`static_cast<T>(e)] if the declaration [`T t(e);]
 is well-formed, for some invented temporary variable [`t] ([#dcl.init]).
+[:zh_CN]
+如果某个虚构的临时变量 [`t] 的声明式 [`T t(e);] 是良构的（[#dcl.init]），那么
+表达式 [`e] 可用形式为 [`static_cast<T>(e)] 的 [`static_cast] 显式转换为类型
+[`T]。
 
 [:en]
 The effect of such an explicit conversion is the same as performing the
 declaration and initialization and then using the temporary variable as the
 result of the conversion.
+[:zh_CN]
+这种显式转换的效果，与实施声明和初始化并把该临时变量当作转换的结果是相同的。
 
 [:en]
 The expression [`e] is used as a glvalue if and only if the initialization uses
 it as a glvalue.
+[:zh_CN]
+当且仅当表达式 [`e] 在这个初始化中也被用作泛左值时，它才被用作泛左值。
 
 [para]
 [:en]
 Otherwise, the [`static_cast] shall perform one of the conversions listed below.
+[:zh_CN]
+否则，[`static_cast] 应当实施下列转换之一。
 
 [:en]
 No other conversion shall be performed explicitly using a [`static_cast].
+[:zh_CN]
+不存在可以显式使用 [`static_cast] 实施的其他转换。
 
 [para]
 [:en]
 Any expression can be explicitly converted to type [$cv] [`void], in which case
 it becomes a discarded-value expression (Clause [#expr]).
+[:zh_CN]
+任何表达式都能显式转换为类型 [$cv] [`void]，此时它是一个弃值表达式（第 [#expr]
+条）。
 
 [enter:note]
 [:en]
 however, if the value is in a temporary object ([#class.temporary]), the
 destructor for that object is not executed until the usual time, and the value
 of the object is preserved for the purpose of executing the destructor.
+[:zh_CN]
+然而，若该值存于临时对象（[#class.temporary]）中，则此对象的析构函数，直到通常会
+执行的时刻才执行，并且其间为执行析构函数而保持该对象的值。
 [exit:note]
 
 [para]
@@ -116,10 +168,17 @@ an lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]),
 function-to-pointer ([#conv.func]), null pointer ([#conv.ptr]), null member
 pointer ([#conv.mem]), or boolean ([#conv.bool]) conversion, can be performed
 explicitly using [`static_cast].
+[:zh_CN]
+不含有左值向右值（[#conv.lval]），数组向指针（[#conv.array]），函数向指针
+（[#conv.func]），空指针（[#conv.ptr]），空成员指针（[#conv.mem]），和布尔
+（[#conv.bool]）转换的标准转换序列（第 [#conv] 条）的逆向转换，都可以通过显示
+使用 [`static_cast] 来实施。
 
 [:en]
 A program is ill-formed if it uses [`static_cast] to perform the inverse of an
 ill-formed standard conversion sequence.
+[:zh_CN]
+若程序使用 [`static_cast] 来实施非良构的标准转换序列的逆向转换，则它是非良构的。
 
 [enter:example]
 [codeblock]
@@ -127,7 +186,9 @@ struct B { };
 struct D : private B { };
 void f() {
   static_cast<D*>((B*)0);               // [:en] Error: B is a private base of D.
+                                        // [|:zh_CN] 错误：B 是 D 的私有基类
   static_cast<int B::*>((int D::*)0);   // [:en] Error: B is a private base of D.
+                                        // [|:zh_CN] 错误：B 是 D 的私有基类
 }
 [codeblock:end]
 [exit:example]
@@ -136,32 +197,50 @@ void f() {
 [:en]
 The lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) conversions are applied to the operand.
+[:zh_CN]
+对操作数实施左值向右值（[#conv.lval]）、数组向指针（[#conv.array]）和函数向指针
+（[#conv.func]）转换。
 
 [:en]
 Such a [`static_cast] is subject to the restriction that the explicit conversion
 does not cast away constness ([#expr.const.cast]), and the following additional
 rules for specific cases:
+[:zh_CN]
+此种 [`static_cast] 受到显式转换不能强制移除常量性（[#expr.const.cast]）的限制，
+且在特定情况下还有如下规则：
 
 [para]
 [:en]
 A value of a scoped enumeration type ([#dcl.enum]) can be explicitly converted
 to an integral type.
+[:zh_CN]
+有作用域枚举类型（[#dcl.enum]）的值可被显式转换为整型类型。
 
 [:en]
 When that type is [$cv] [`bool], the resulting value is [`false] if the original
 value is zero and [`true] for all other values.
+[:zh_CN]
+若该类型是 [$cv] [`bool]，则当原值为零时结果值是 [`false]，其他所有值都为
+[`true]。
 
 [:en]
 For the remaining integral types, the value is unchanged if the original value
 can be represented by the specified type.
+[:zh_CN]
+对于余下的所有整型类型，若原值可由所指定的类型表示，则该值保持不变。
 
 [:en]
 Otherwise, the resulting value is unspecified.
+[:zh_CN]
+否则，结果值是未指明的。
 
 [:en]
 A value of a scoped enumeration type can also be explicitly converted to a
 floating-point type; the result is the same as that of converting from the
 original value to the floating-point type.
+[:zh_CN]
+有作用域枚举类型的值还可以被显式转换为浮点类型；其结果与将其原始值转换为浮点类型
+的结果相同。
 
 [para]
 [:en]
@@ -169,27 +248,39 @@ original value to the floating-point type.
 [%enumeration type[![`static_cast][!conversion to]]]
 A value of integral or enumeration type can be explicitly converted to a
 complete enumeration type.
+[:zh_CN]
+[%枚举类型[!转换为]]
+[%枚举类型[![`static_cast][!转换为]]]
+整型或枚举类型的值可被显式转换为完整的枚举类型。
 
 [:en]
 The value is unchanged if the original value is within the range of the
 enumeration values ([#dcl.enum]).
+[:zh_CN]
+若原值处于此枚举‌值范围内，则该值保持不变（[#dcl.enum]）。
 
 [:en]
 Otherwise, the behavior is undefined.
+[:zh_CN]
+否则，其行为是未定义的。
 
 [:en]
 A value of floating-point type can also be explicitly converted to an
 enumeration type.
+[:zh_CN]
+浮点类型的值也可被转换为枚举类型。
 
 [:en]
 The resulting value is the same as converting the original value to the
 underlying type of the enumeration ([#conv.fpint]), and subsequently to the
 enumeration type.
+[:zh_CN]
+其结果值与将原始值转换为这个枚举的底层类型（[#conv.fpint]），然后转换为该枚举
+类型的结果相同。
 
 [para]
 [:en]
-[%cast[!base class]]
-[%cast[!derived class]]
+[%cast[!base class]] [%cast[!derived class]]
 A prvalue of type ["pointer to [$cv1] [`B],] where [`B] is a class type, can be
 converted to a prvalue of type ["pointer to [$cv2] [`D],] where [`D] is a class
 derived (Clause [#class.derived]) from [`B], if a valid standard conversion from
@@ -197,18 +288,32 @@ derived (Clause [#class.derived]) from [`B], if a valid standard conversion from
 same cv-qualification as, or greater cv-qualification than, [$cv1], and [`B] is
 neither a virtual base class of [`D] nor a base class of a virtual base class of
 [`D].
+[:zh_CN]
+[%强制转换[!基类]] [%强制转换[!派生类]]
+当存在从“[`D] 的指针”到“[`B] 的指针”的合法标准转换（[#conv.ptr]）（其中 [`B] 为
+类类型，[`D] 为派生（第 [#class.derived] 条）于 [`B] 的类），[$cv2] 具有与
+[$cv1] 相同的 cv-限定性，或更强的 cv-限定性，且 [`B] 既不是 [`D] 的虚基类又不是
+[`D] 的虚基类的基类时，“[$cv1] [`B] 指针”类型的纯右值，可被转换为类型“[$cv2]
+[`D] 的指针”的纯右值。
 
 [:en]
 The null pointer value ([#conv.ptr]) is converted to the null pointer value of
 the destination type.
+[:zh_CN]
+空指针值（[#conv.ptr]）转换为目标类型的空指针值。
 
 [:en]
 If the prvalue of type ["pointer to [$cv1] [`B]] points to a [`B] that is
 actually a subobject of an object of type [`D], the resulting pointer points to
 the enclosing object of type [`D].
+[:zh_CN]
+若类型“指向 [$cv1] [`B] 的指针”的纯右值所指的 [`B] 对象实际上是类型 [`D] 对象的
+子对象，则结果指针指向这个外围的类型 [`D] 对象。
 
 [:en]
 Otherwise, the behavior is undefined.
+[:zh_CN]
+否则，其行为是未定义的。
 
 [para]
 [:en]
@@ -219,27 +324,50 @@ where [`B] is a base class (Clause [#class.derived]) of [`D], if a valid
 standard conversion from ["pointer to member of [`B] of type [`T]] to ["pointer
 to member of [`D] of type [`T]] exists ([#conv.mem]), and [$cv2] is the same
 cv-qualification as, or greater cv-qualification than, [$cv1].
+[:zh_CN]
+[%强制转换[!成员指针]]
+当存在从“指向 [`B] 中类型为 [`T] 的成员的指针”到“指向 [`D] 中类型为 [`T] 的成员
+的指针”的合法标准转换（[#conv.mem]）（其中 [`B] 为 [`D] 的基类（第
+[#class.derived] 条）），[$cv2] 具有与 [$cv1] 相同的 cv-限定性，或更强的 cv-限定
+性时，“指向 [`D] 中类型为 [$cv1] [`T] 的成员的指针”类型的纯右值可被转换为“指向
+[`B] 中类型为 [$cv2] [`T] 的成员的指针”类型的纯右值。
 
 [footnote]
 [:en]
 Function types (including those used in pointer to member function types) are
 never cv-qualified; see [#dcl.fct].
+[:zh_CN]
+函数类型（包括指向成员函数的指针类型中的函数类型）总不是被 cv-限定的；参见
+[#dcl.fct]。
 [footnote:end]
 
 [:en]
 The null member pointer value ([#conv.mem]) is converted to the null member
 pointer value of the destination type.
+[:zh_CN]
+空成员指针值（[#conv.mem]）转换为目标类型的空成员指针值。
 
 [:en]
 If class [`B] contains the original member, or is a base or derived class of the
 class containing the original member, the resulting pointer to member points to
-the original member. Otherwise, the behavior is undefined.
+the original member.
+[:zh_CN]
+若类 [`B] 包含原成员，或它是包含原成员的类的基类或派生类，则结果成员指针指向这个
+原成员。
+
+[:en]
+Otherwise, the behavior is undefined.
+[:zh_CN]
+否则，其行为是未定义的。
 
 [enter:note]
 [:en]
 although class [`B] need not contain the original member, the dynamic type of
 the object with which indirection through the pointer to member is performed
 must contain the original member; see [#expr.mptr.oper].
+[:zh_CN]
+虽然类 [`B] 不必包含原成员，但用以对该成员指针进行间接的对象的动态类型必须包含此
+原成员；见 [#expr.mptr.oper]。
 [exit:note]
 
 [para]
@@ -247,27 +375,41 @@ must contain the original member; see [#expr.mptr.oper].
 A prvalue of type ["pointer to [$cv1] [`void]] can be converted to a prvalue of
 type ["pointer to [$cv2] [`T],] where [`T] is an object type and [$cv2] is the
 same cv-qualification as, or greater cv-qualification than, [$cv1].
+[:zh_CN]
+“指向 [$cv1] [`void] 的指针”类型的纯右值可被转换为类型“指向 [$cv2] [`T] 的指针”
+的纯右值，其中 [`T] 为对象类型且 [$cv2] 具有与 [$cv1] 相同的 cv-限定性或更强的 cv-限定性。
 
 [:en]
 The null pointer value is converted to the null pointer value of the destination
 type.
+[:zh_CN]
+空指针值转换为目标类型的空指针值。
 
 [:en]
 If the original pointer value represents the address [`A] of a byte in memory
 and [`A] satisfies the alignment requirement of [`T], then the resulting pointer
 value represents the same address as the original pointer value, that is, [`A].
+[:zh_CN]
+若原指针值表示内存中的某个字节地址 [`A]，且 [`A] 满足 [`T] 的对齐要求，则其结果
+指针值与原指针值表示相同的地址，就是 [`A]。
 
 [:en]
 The result of any other such pointer conversion is unspecified.
+[:zh_CN]
+任何其他这种指针转换的结果是未指明的。
 
 [:en]
 A value of type pointer to object converted to ["pointer to [$cv] [`void]] and
 back, possibly with different cv-qualification, shall have its original value.
+[:zh_CN]
+对象指针类型的值，转换为“指向 [$cv] [`void] 的指针”再转换回（可能带有不同 cv-限
+定性的）原指针类型，将仍具有它原来的值。
 
 [enter:example]
 [codeblock]
 T* p1 = new T;
 const T* p2 = static_cast<const T*>(static_cast<void*>(p1));
 bool b = p1 == p2;  // [:en] [`b] will have the value [`true].
+                    // [|:zh_CN] [`b] 的值将为 [`true]。
 [codeblock:end]
 [exit:example]
