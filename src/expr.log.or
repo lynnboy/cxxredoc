@@ -1,15 +1,19 @@
 ﻿[section#expr.log.or
     [:en] Logical OR operator
-    [:zh_CN]
+    [:zh_CN] 逻辑或运算符
 ]
 
 [:en]
 [%expression[!logical OR]]
 [%operator[!logical OR]]
 [%[`||][see logical OR operator]]
+[:zh_CN]
+[%表达式[!逻辑或～]]
+[%运算符[!逻辑或～]]
+[%[`||][see 逻辑或运算符]]
 
 [syntax]
-[rule logical-or-expression]
+[rule logical-or-expression [:zh_CN] 逻辑或表达式 ]
     [| logical-and-expression ]
     [| logical-or-expression [`||] logical-and-expression ]
 [rule:end]
@@ -18,20 +22,31 @@
 [para]
 [:en]
 The [`||] operator groups left-to-right.
+[:zh_CN]
+[`||] 运算符按从左向右分组。
 
 [:en]
 The operands are both contextually converted to [`bool] (Clause [#conv]).
+[:zh_CN]
+其操作数都按语境转换为 [`bool]（第 [#conv] 条）。
 
 [:en]
 It returns [`true] if either of its operands is [`true], and [`false] otherwise.
+[:zh_CN]
+若有任何操作数为 [`true] 则其结果为 [`true]，相反则为 [`false]。
 
 [:en]
 Unlike [`|], [`||] guarantees left-to-right evaluation; moreover, the second
 operand is not evaluated if the first operand evaluates to [`true].
+[:zh_CN]
+与 [`|] 不同，[`||] 保证从左向右进行求值；此外，若第一个操作数为 [`true] 则第二
+个操作数就不求值。
 
 [para]
 [:en]
 The result is a [`bool].
+[:zh_CN]
+其结果为 [`bool]。
 
 [:en]
 [%operator[!side effects and logical OR]]
@@ -39,3 +54,7 @@ If the second expression is evaluated, every [%value computation] value
 computation and [%side effects] side effect associated with the first expression
 is sequenced before every value computation and side effect associated with the
 second expression.
+[:zh_CN]
+[%运算符[!副作用和逻辑或～]]
+若第二个表达式被求值，则任何与第一个表达式相关联的[%值计算]值计算和[%副作用]副作
+用都按顺序早于任何与第二个表达式相关联的值计算和副作用。

@@ -1,15 +1,19 @@
 ﻿[section#expr.log.and
     [:en] Logical AND operator
-    [:zh_CN]
+    [:zh_CN] 逻辑与运算符
 ]
 
 [:en]
 [%expression[!logical AND]]
 [%operator[!logical AND]]
 [%[`&&][see logical AND operator]]
+[:zh_CN]
+[%表达式[!逻辑与～]]
+[%运算符[!逻辑与～]]
+[%[`&&][see 逻辑与运算符]]
 
 [syntax]
-[rule logical-and-expression]
+[rule logical-and-expression [:zh_CN] 逻辑与表达式 ]
     [| inclusive-or-expression ]
     [| logical-and-expression [`&&] inclusive-or-expression ]
 [rule:end]
@@ -18,20 +22,31 @@
 [para]
 [:en]
 The [`&&] operator groups left-to-right.
+[:zh_CN]
+[`&&] 运算符按从左向右分组。
 
 [:en]
 The operands are both contextually converted to [`bool] (Clause [#conv]).
+[:zh_CN]
+其操作数都按语境转换为 [`bool]（第 [#conv] 条）。
 
 [:en]
 The result is [`true] if both operands are [`true] and [`false] otherwise.
+[:zh_CN]
+若两个操作数都为 [`true] 则其结果为 [`true]，相反则为 [`false]。
 
 [:en]
 Unlike [`&], [`&&] guarantees left-to-right evaluation: the second operand is
 not evaluated if the first operand is [`false].
+[:zh_CN]
+与 [`&] 不同，[`&&] 保证从左向右进行求值：若第一个操作数为 [`false] 则第二个操作
+数就不求值。
 
 [para]
 [:en]
 The result is a [`bool].
+[:zh_CN]
+其结果为 [`bool]。
 
 [:en]
 [%operator[!side effects and logical AND]]
@@ -39,3 +54,7 @@ If the second expression is evaluated, every [%value computation] value
 computation and [%side effects] side effect associated with the first expression
 is sequenced before every value computation and side effect associated with the
 second expression.
+[:zh_CN]
+[%运算符[!副作用和逻辑与～]]
+若第二个表达式被求值，则任何与第一个表达式相关联的[%值计算]值计算和[%副作用]副作
+用都按顺序早于任何与第二个表达式相关联的值计算和副作用。

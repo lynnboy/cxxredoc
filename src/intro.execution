@@ -413,6 +413,7 @@ considered to be part of the full-expression.
 为了满足某个表达式所在的语言构造的要求，而对该表达式的结果实施的类型转换，
 也被当作全表达式的一部分。
 
+[para:~]
 [enter:example]
 
 [codeblock]
@@ -603,6 +604,7 @@ concurrent computations.
 下一小节中，对潜在并发的计算施加了与此类似但更加复杂的限制。
 [exit:note]
 
+[para:~]
 [enter:example]
 [codeblock]
 void f(int, int);
@@ -623,6 +625,7 @@ void g(int i, int* v) {
 [codeblock:end]
 [exit:example]
 
+[para:~]
 [:en]
 When calling a function (whether or not the function is inline), every
 [%value computation] value computation and [%side effects] side effect

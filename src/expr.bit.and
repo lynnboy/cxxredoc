@@ -1,6 +1,6 @@
 ﻿[section#expr.bit.and
     [:en] Bitwise AND operator
-    [:zh_CN]
+    [:zh_CN] 按位与运算符
 ]
 
 [:en]
@@ -8,9 +8,14 @@
 [%operator[!bitwise]]
 [%operator[!bitwise AND]]
 [%[`&][see bitwise AND operator]]
+[:zh_CN]
+[%表达式[!按位与～]]
+[%运算符[!按位～]]
+[%运算符[!按位与～]]
+[%[`&][see 按位与运算符]]
 
 [syntax]
-[rule and-expression]
+[rule and-expression [:zh_CN] 与表达式 ]
     [| equality-expression ]
     [| and-expression [`&] equality-expression ]
 [rule:end]
@@ -20,6 +25,10 @@
 [:en]
 The usual arithmetic conversions are performed; the result is the bitwise
 [em@sc AND] function of the operands.
+[:zh_CN]
+实施一般算术转换；其结果为操作数的按位与函数。
 
 [:en]
 The operator applies only to integral or unscoped enumeration operands.
+[:zh_CN]
+该运算符仅适用于整型或无作用域枚举操作数。

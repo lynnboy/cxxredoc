@@ -1,15 +1,19 @@
 ﻿[section#expr.xor
     [:en] Bitwise exclusive OR operator
-    [:zh_CN]
+    [:zh_CN] 按位异或运算符
 ]
 
 [:en]
 [%expression[!bitwise exclusive OR]]
 [%operator[!bitwise exclusive OR]]
 [%[`^][see bitwise exclusive OR operator]]
+[:zh_CN]
+[%表达式[!按位异或～]]
+[%运算符[!按位异或～]]
+[%[`^][see 按位异或运算符]]
 
 [syntax]
-[rule exclusive-or-expression]
+[rule exclusive-or-expression [:zh_CN] 异或表达式 ]
     [| and-expression ]
     [| exclusive-or-expression [`^] and-expression ]
 [rule:end]
@@ -19,6 +23,10 @@
 [:en]
 The usual arithmetic conversions are performed; the result is the bitwise
 exclusive [em@sc OR] function of the operands.
+[:zh_CN]
+实施一般算术转换；其结果为操作数的按位异或函数。
 
 [:en]
 The operator applies only to integral or unscoped enumeration operands.
+[:zh_CN]
+该运算符仅适用于整型或无作用域枚举操作数。
