@@ -1,0 +1,66 @@
+﻿[section#stmt.while
+    [:en] The [`while] statement
+]
+
+[:en]
+[%statement[![`while]]]
+
+[para]
+[:en]
+In the [`while] statement the substatement is executed repeatedly until the
+value of the condition ([#stmt.select]) becomes [`false].
+
+[:en]
+The test takes place before each execution of the substatement.
+
+[para]
+[:en]
+[%statement[!declaration in [`while]]]
+When the condition of a [`while] statement is a declaration, the scope of the
+variable that is declared extends from its point of declaration
+([#basic.scope.pdecl]) to the end of the [`while] [~statement].
+
+[:en]
+A [`while] statement of the form
+
+[codeblock:notation]
+while (T t = x) [~statement]
+[codeblock:end]
+
+[:en@~]
+is equivalent to
+
+[codeblock:notation]
+label:
+{                   // [:en] start of condition scope
+  T t = x;
+  if (t) {
+    [~statement]
+    goto label;
+  }
+}                   // [:en] end of condition scope
+[codeblock:end]
+
+[:en]
+The variable created in a condition is destroyed and created with each iteration
+of the loop.
+
+[enter:example]
+[codeblock]
+struct A {
+  int val;
+  A(int i) : val(i) { }
+  ~A() { }
+  operator bool() { return val != 0; }
+};
+int i = 1;
+while (A a = i) {
+  // ...
+  i = 0;
+}
+[codeblock:end]
+
+[:en]
+In the while-loop, the constructor and destructor are each called twice, once
+for the condition that succeeds and once for the condition that fails.
+[exit:example]

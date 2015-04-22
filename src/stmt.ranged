@@ -1,0 +1,105 @@
+﻿[section#stmt.ranged
+    [:en] The range-based [`for] statement
+]
+
+[%  [:en] statement[!range based [`for]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+For a range-based [`for] statement of the form
+
+[syntax:explanation]
+[`for] [`(] [~for-range-declaration] [`:] [~expression] [`)] [~statement]
+[syntax:end]
+
+[:en@~]
+let [$range-init] be equivalent to the [~expression] surrounded
+by parentheses
+
+[footnote]
+[:en]
+this ensures that a top-level comma operator cannot be reinterpreted as a
+delimiter between [~init-declarator]s in the declaration of [`__range].
+[footnote:end]
+
+[syntax:explanation]
+[`(] [~expression] [`)]
+[syntax:end]
+
+[:en@~]
+and for a range-based [`for] statement of the form
+
+[syntax:explanation]
+[`for] [`(] [~for-range-declaration] [`:] [~braced-init-list] [`)] [~statement]
+[syntax:end]
+
+[:en@~]
+let [$range-init] be equivalent to the [~braced-init-list].
+
+[:en]
+In each case, a range-based [`for] statement is equivalent to
+
+[codeblock:notation]
+{
+  auto && __range = range-init;
+  for ( auto __begin = begin-expr,
+             __end = end-expr;
+        __begin != __end;
+        ++__begin ) {
+    [~for-range-declaration] = *__begin;
+    [~statement]
+  }
+}
+[codeblock:end]
+
+[:en]
+where [`__range], [`__begin], and [`__end] are variables defined for exposition
+only, and [`_RangeT] is the type of the [~expression], and [$begin-expr] and
+[$end-expr] are determined as follows:
+
+[list]
+[item]
+[:en]
+if [`_RangeT] is an array type, [$begin-expr] and [$end-expr] are [`__range] and
+[`__range + __bound], respectively, where [`__bound] is the array bound.
+
+[:en]
+If [`_RangeT] is an array of unknown size or an array of incomplete type, the
+program is ill-formed;
+
+[item]
+[:en]
+if [`_RangeT] is a class type, the [~unqualified-id]s [`begin] and [`end] are
+looked up in the scope of class [`_RangeT] as if by class member access lookup
+([#basic.lookup.classref]), and if either (or both) finds at least one
+declaration, [$begin-expr] and [$end-expr] are [`__range.begin()] and
+[`__range.end()], respectively;
+
+[item]
+[:en]
+otherwise, [$begin-expr] and [$end-expr] are [`begin(__range)] and
+[`end(__range)], respectively, where [`begin] and [`end] are looked up in the
+associated namespaces ([#basic.lookup.argdep]).
+
+[enter:note]
+[:en]
+Ordinary unqualified lookup ([#basic.lookup.unqual]) is not performed.
+[exit:note]
+[list:end]
+
+[enter:example]
+[codeblock]
+int array[5] = { 1, 2, 3, 4, 5 };
+for (int& x : array)
+  x *= 2;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In the [~decl-specifier-seq] of a [~for-range-declaration], each
+[~decl-specifier] shall be either a [~type-specifier] or [`constexpr].
+
+[:en]
+The [~decl-specifier-seq] shall not define a class or enumeration.

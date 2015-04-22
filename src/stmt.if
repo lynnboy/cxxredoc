@@ -1,0 +1,28 @@
+﻿[section#stmt.if
+    [:en] The [`if] statement
+]
+
+[%  [:en] statement[![`if]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+If the condition ([#stmt.select]) yields [`true] the first substatement is
+executed.
+
+[:en]
+If the [`else] part of the selection statement is present and the condition
+yields [`false], the second substatement is executed.
+
+[:en]
+If the first substatement is reached via a label, the condition is not evaluated
+and the second substatement is not executed.
+
+[:en]
+In the second form of [`if] statement (the one including [`else]), if the first
+substatement is also an [`if] statement then that inner [`if] statement shall
+contain an [`else] part.
+
+[footnote]
+In other words, the [`else] is associated with the nearest un-elsed [`if].
+[footnote:end]

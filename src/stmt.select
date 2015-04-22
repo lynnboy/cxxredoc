@@ -1,0 +1,146 @@
+﻿[section#stmt.select
+    [:en] Selection statements
+]
+
+[%:begin#statement.selection
+    [:en] statement [!selection]
+]
+
+[para]
+[:en]
+Selection statements choose one of several flows of control.
+
+[:en]
+[%statement[![`if]]]
+[%statement[![`switch]]]
+
+[syntax]
+[rule selection-statement [:zh_CN] ]
+    [| [`if] [`(] condition [`)] statement ]
+    [| [`if] [`(] condition [`)] statement [`else] statement ]
+    [| [`switch] [`(] condition [`)] statement ]
+[rule:end]
+
+[rule condition [:zh_CN] ]
+    [| expression ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator [`=] initializer-clause ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator braced-init-list
+[rule:end]
+[syntax:end]
+
+[:en]
+See [#dcl.meaning] for the optional [~attribute-specifier-seq] in a condition.
+
+[:en]
+In Clause [#stmt.stmt], the term [+substatement] refers to the contained
+[~statement] or [~statement]s that appear in the syntax notation.
+
+[:en]
+[%scope[![~selection-statement]]]
+The substatement in a [~selection-statement] (each substatement, in the [`else]
+form of the [`if] statement) implicitly defines a block scope ([#basic.scope]).
+
+[:en]
+If the substatement in a selection-statement is a single statement and not a
+[~compound-statement], it is as if it was rewritten to be a compound-statement
+containing the original substatement.
+
+[enter:example]
+[codeblock]
+if (x)
+  int i;
+[codeblock:end]
+
+[:en]
+can be equivalently rewritten as
+
+[codeblock]
+if (x) {
+  int i;
+}
+[codeblock:end]
+
+[:en]
+Thus after the [`if] statement, [`i] is no longer in scope.
+[exit:example]
+
+[para]
+[:en]
+[%[~condition]s[!rules for]]
+The rules for [~condition]s apply both to [~selection-statement]s and to the
+[`for] and [`while] statements ([#stmt.iter]).
+
+[:en]
+The [~declarator] shall not specify a function or an array.
+
+[:en]
+The [~decl-specifier-seq] shall not define a class or enumeration.
+
+[:en]
+If the [`auto] [~type-specifier] appears in the [~decl-specifier-seq], the type
+of the identifier being declared is deduced from the initializer as described in
+[#dcl.spec.auto].
+
+[para]
+[:en]
+[%statement[!declaration in [`if]]]
+[%statement[!declaration in [`switch]]]
+A name introduced by a declaration in a [~condition] (either introduced by the
+[~decl-specifier-seq] or the [~declarator] of the condition) is in scope from
+its point of declaration until the end of the substatements controlled by the
+condition.
+
+[:en]
+If the name is re-declared in the outermost block of a substatement controlled
+by the condition, the declaration that re-declares the name is ill-formed.
+
+[enter:example]
+[codeblock]
+if (int x = f()) {
+  int x;            // [:en] ill-formed, redeclaration of [`x]
+}
+else {
+  int x;            // [:en] ill-formed, redeclaration of [`x]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The value of a [~condition] that is an initialized declaration in a statement
+other than a [`switch] statement is the value of the declared variable
+contextually converted to [`bool] (Clause [#conv]).
+
+[:en]
+If that conversion is ill-formed, the program is ill-formed.
+
+[:en]
+The value of a [~condition] that is an initialized declaration in a [`switch]
+statement is the value of the declared variable if it has integral or
+enumeration type, or of that variable implicitly converted to integral or
+enumeration type otherwise.
+
+[:en]
+The value of a [~condition] that is an expression is the value of the
+expression, contextually converted to [`bool] for statements other than
+[`switch]; if that conversion is ill-formed, the program is ill-formed.
+
+[:en]
+The value of the condition will be referred to as simply ["the condition] where
+the usage is unambiguous.
+
+[para]
+[:en]
+If a [~condition] can be syntactically resolved as either an expression or the
+declaration of a block-scope name, it is interpreted as a declaration.
+
+[para]
+[:en]
+In the [~decl-specifier-seq] of a [~condition], each [~decl-specifier] shall be
+either a [~type-specifier] or [`constexpr].
+
+[include stmt.if]
+
+[include stmt.switch]
+
+[%:end#statement.selection]

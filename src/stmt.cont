@@ -1,0 +1,51 @@
+﻿[section#stmt.cont
+    [:en] The [`continue] statement
+]
+
+[%  [:en] statement[![`continue]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`continue] statement shall occur only in an
+[%[~iteration-statement]] [~iteration-statement]
+and causes control to pass to the loop-continuation portion of the smallest
+enclosing [~iteration-statement], that is, to the end of the loop.
+
+[:en]
+More precisely, in each of the statements
+
+[/\begin{minipage}{.30\hsize}/]
+[codeblock]
+while (foo) {
+  {
+    // ...
+  }
+contin: ;
+}
+[codeblock:end]
+[/\end{minipage}
+\begin{minipage}{.30\hsize}/]
+[codeblock]
+do {
+  {
+    // ...
+  }
+contin: ;
+} while (foo);
+[codeblock:end]
+[/\end{minipage}
+\begin{minipage}{.30\hsize}/]
+[codeblock]
+for (;;) {
+  {
+    // ...
+  }
+contin: ;
+}
+[codeblock:end]
+[/\end{minipage}/]
+
+[:en@~]
+a [`continue] not contained in an enclosed iteration statement is equivalent to
+[`goto contin].

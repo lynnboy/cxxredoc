@@ -1,0 +1,96 @@
+﻿[section#stmt.iter
+    [:en] Iteration statements
+]
+
+[%:begin#statement.iteration
+    [:en] statement[!iteration]
+]
+
+[para]
+[:en]
+Iteration statements specify looping.
+
+[:en]
+[%statement[![`while]]]
+[%statement[![`do]]]
+[%statement[![`for]]]
+
+[syntax]
+[rule iteration-statement [:zh_CN] ]
+    [| [`while] [`(] condition [`)] statement ]
+    [| [`do] statement [`while] [`(] expression [`)] [`;] ]
+    [| [`for] [`(] for-init-statement [~:opt condition] [`;] [~:opt expression] [`)] statement ]
+    [| [`for] [`(] for-range-declaration [`:] for-range-initializer [`)] statement ]
+[rule:end]
+
+[rule for-init-statement [:zh_CN] ]
+    [| expression-statement ]
+    [| simple-declaration ]
+[rule:end]
+
+[rule for-range-declaration [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator ]
+[rule:end]
+
+[rule for-range-initializer [:zh_CN] ]
+    [| expression ]
+    [| braced-init-list ]
+[rule:end]
+[syntax:end]
+
+[:en]
+See [#dcl.meaning] for the optional [~attribute-specifier-seq] in a
+[~for-range-declaration].
+
+[enter:note]
+[:en]
+A [~for-init-statement] ends with a semicolon.
+[exit:note]
+
+[para]
+[:en]
+The substatement in an [~iteration-statement] implicitly defines a block scope
+([#basic.scope]) which is entered and exited each time through the loop.
+
+[:en]
+[%scope[![~iteration-statement]]]
+If the substatement in an iteration-statement is a single statement and not a
+[~compound-statement], it is as if it was rewritten to be a compound-statement
+containing the original statement.
+
+[enter:example]
+[codeblock]
+while (--x >= 0)
+  int i;
+[codeblock:end]
+
+[:en]
+can be equivalently rewritten as
+
+[codeblock]
+while (--x >= 0) {
+  int i;
+}
+[codeblock:end]
+
+[para]
+[:en]
+Thus after the [`while] statement, [`i] is no longer in scope.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+The requirements on [~condition]s in iteration statements are described in
+[#stmt.select].
+[exit:note]
+
+[include stmt.while]
+
+[include stmt.do]
+
+[include stmt.for]
+
+[include stmt.ranged]
+
+[%:end#statement.iteration]

@@ -1,0 +1,96 @@
+﻿[section#stmt.switch
+    [:en] The [`switch] statement
+]
+
+[%  [:en] statement[![`switch]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`switch] statement causes control to be transferred to one of several
+statements depending on the value of a condition.
+
+[para]
+[:en]
+The condition shall be of integral type, enumeration type, or class type.
+
+[:en]
+If of class type, the condition is contextually implicitly converted (Clause
+[#conv]) to an integral or enumeration type.
+
+[:en]
+If the (possibly converted) type is subject to integral promotions
+([#conv.prom]), the condition is converted to the promoted type. 
+
+[:en]
+Any statement within the [`switch] statement can be labeled with one or more
+case labels as follows:
+
+[%  [:en] label[![`case]]
+    [:zh_CN] ]
+[syntax:explanation]
+[`case] [~constant-expression] [`:]
+[syntax:end]
+
+[:en]
+where the [~constant-expression] shall be a converted constant expression
+([#expr.const]) of the adjusted type of the switch condition.
+
+[:en]
+No two of the case constants in the same switch shall have the same value after
+conversion.
+
+[para]
+[:en]
+[%label[![`default]]]
+There shall be at most one label of the form
+
+[codeblock]
+default :
+[codeblock:end]
+
+[:en]
+within a [`switch] statement.
+
+[para]
+[:en]
+Switch statements can be nested; a [`case] or [`default] label is associated
+with the smallest switch enclosing it.
+
+[para]
+[:en]
+When the [`switch] statement is executed, its condition is evaluated and
+compared with each case constant.
+
+[:en]
+[%label[![`case]]]
+If one of the case constants is equal to the value of the condition, control is
+passed to the statement following the matched case label.
+
+[:en]
+If no case constant matches the condition, and if there is a
+[%label[![`default]]] [`default] label, control passes to the statement labeled
+by the default label.
+
+[:en]
+If no case matches and if there is no [`default] then none of the statements in
+the switch is executed.
+
+[para]
+[:en]
+[`case] and [`default] labels in themselves do not alter the flow of control,
+which continues unimpeded across such labels.
+
+[:en]
+To exit from a switch, see [`break], [#stmt.break].
+
+[enter:note]
+[:en]
+Usually, the substatement that is the subject of a switch is compound and
+[`case] and [`default] labels appear on the top-level statements contained
+within the (compound) substatement, but this is not required.
+
+[:en]
+[%statement[!declaration in [`switch]]]
+Declarations can appear in the substatement of a [~switch-statement].
+[exit:note]

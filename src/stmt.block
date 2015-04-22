@@ -1,0 +1,31 @@
+﻿[section#stmt.block
+    [:en] Compound statement or block
+]
+
+[:en]
+[%statement[!compound]]
+[%[`{}][!block statement]]
+
+[para]
+[:en]
+So that several statements can be used where one is expected, the compound
+statement (also, and equivalently, called ["block]) is provided.
+
+[syntax]
+[rule compound-statement [:zh_CN] ]
+    [| [`{] [~:opt statement-seq] [`}] ]
+[rule:end]
+
+[rule statement-seq [:zh_CN] ]
+    [| statement ]
+    [| statement-seq statement ]
+[rule:end]
+[syntax:end]
+
+[:en]
+A compound statement defines a block scope ([#basic.scope]).
+
+[enter:note]
+[:en]
+A declaration is a [~statement] ([#stmt.dcl]).
+[exit:note]

@@ -1,0 +1,15 @@
+﻿[section#stmt.goto
+    [:en] The [`goto] statement
+]
+
+[%  [:en] statement[![`goto]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`goto] statement unconditionally transfers control to the statement labeled
+by the identifier.
+
+[:en]
+The identifier shall be a [%label] label ([#stmt.label]) located in the current
+function.

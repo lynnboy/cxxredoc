@@ -1,0 +1,38 @@
+﻿[section#stmt.expr
+    [:en] Expression statement
+]
+
+[:en]
+[%statement[!expression]]
+
+[para]
+[:en]
+Expression statements have the form
+
+[syntax]
+[rule expression-statement [:zh_CN] ]
+    [| [~:opt expression] [`;] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The expression is a discarded-value expression (Clause [#expr]).
+
+[:en]
+All [%side effects] side effects from an expression statement are completed
+before the next statement is executed.
+
+[:en]
+[%statement[!null]] [%statement[!empty]]
+An expression statement with the expression missing is called a null statement.
+
+[enter:note]
+[:en]
+Most statements are expression statements [=--] usually assignments or function
+calls.
+
+[:en]
+A null statement is useful to carry a label just before the [`\] of a compound
+statement and to supply a null body to an iteration statement such as a [`while]
+statement ([#stmt.while]).
+[exit:note]

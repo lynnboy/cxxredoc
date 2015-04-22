@@ -1,0 +1,128 @@
+﻿[section#stmt.ambig
+    [:en] Ambiguity resolution
+]
+
+[%  [:en] ambiguity[!declaration versus expression]
+    [:zh_CN] ]
+
+[para]
+[:en]
+There is an ambiguity in the grammar involving [~expression-statement]s and
+[~declaration]s:
+
+[:en]
+An [~expression-statement] with a function-style explicit type conversion
+([#expr.type.conv]) as its leftmost subexpression can be indistinguishable from
+a [~declaration] where the first [~declarator] starts with a [`(].
+
+[:en]
+In those cases the [~statement] is a [~declaration].
+
+[para]
+[enter:note]
+[:en]
+If the [~statement] cannot syntactically be a [~declaration], there is no
+ambiguity, so this rule does not apply.
+
+[:en]
+The whole [~statement] might need to be examined to determine whether this is
+the case.
+
+[:en]
+This resolves the meaning of many examples.
+
+[enter:example]
+[:en]
+Assuming [`T] is a [~simple-type-specifier] ([#dcl.type]),
+
+[codeblock]
+T(a)->m = 7;        // [:en] expression-statement
+T(a)++;             // [:en] expression-statement
+T(a,5)<<c;          // [:en] expression-statement
+
+T(*d)(int);         //  [:en] declaration
+T(e)[5];            //  [:en] declaration
+T(f) = { 1, 2 };    //  [:en] declaration
+T(*g)(double(3));   //  [:en] declaration
+[codeblock:end]
+
+[:en]
+In the last example above, [`g], which is a pointer to [`T], is initialized to
+[`double(3)].
+
+[:en]
+This is of course ill-formed for semantic reasons, but that does not affect the
+syntactic analysis.
+[exit:example]
+
+[:en]
+The remaining cases are [~declaration]s.
+
+[enter:example]
+[codeblock]
+class T {
+  // ...
+public:
+  T();
+  T(int);
+  T(int, int);
+};
+T(a);               //  [:en] declaration
+T(*b)();            //  [:en] declaration
+T(c)=7;             //  [:en] declaration
+T(d),e,f=3;         //  [:en] declaration
+extern int h;
+T(g)(h,2);          //  [:en] declaration
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+The disambiguation is purely syntactic; that is, the meaning of the names
+occurring in such a statement, beyond whether they are [~type-name]s or not, is
+not generally used in or changed by the disambiguation.
+
+[:en]
+Class templates are instantiated as necessary to determine if a qualified name
+is a [~type-name].
+
+[:en]
+Disambiguation precedes parsing, and a statement disambiguated as a declaration
+may be an ill-formed declaration.
+
+[:en]
+If, during parsing, a name in a template parameter is bound differently than it
+would be bound during a trial parse, the program is ill-formed.
+
+[:en]
+No diagnostic is required.
+
+[enter:note]
+[:en]
+This can occur only when the name is declared earlier in the declaration.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct T1 {
+  T1 operator()(int x) { return T1(x); }
+  int operator=(int x) { return x; }
+  T1(int) { }
+};
+struct T2 { T2(int){ } };
+int a, (*(*b)(T2))(int), c, d;
+
+void f() {
+  // disambiguation requires this to be parsed as a declaration:
+  T1(a) = 3,
+  T2(4),                        // [:en] [`T2] will be declared as
+  (*(*b)(T2(c)))(int(d));       // [:en@~] a variable of type [`T1]
+                                // [:en@~] but this will not allow
+                                // [:en@~] the last part of the
+                                // [:en@~] declaration to parse
+                                // [:en@~] properly since it depends
+                                // [:en@~] on [`T2] being a type-name
+}
+[codeblock:end]
+[exit:example]

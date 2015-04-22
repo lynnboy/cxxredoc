@@ -1,0 +1,53 @@
+﻿[section:chapter#stmt.stmt
+    [:en] Statements
+]
+
+[%:begin#statement
+    [:en] statement
+]
+
+[/
+%gram: \rSec1[gram.stmt]{Statements}
+%gram:
+/]
+
+[%  [:en] block statement [see statement, compound]
+    [:zh_CN] ]
+
+[para]
+[:en]
+Except as indicated, statements are executed in sequence.
+
+[syntax]
+[rule statement [:zh_CN] ]
+    [| labeled-statement ]
+    [| [~:opt attribute-specifier-seq] expression-statement ]
+    [| [~:opt attribute-specifier-seq] compound-statement ]
+    [| [~:opt attribute-specifier-seq] selection-statement ]
+    [| [~:opt attribute-specifier-seq] iteration-statement ]
+    [| [~:opt attribute-specifier-seq] jump-statement ]
+    [| declaration-statement ]
+    [| [~:opt attribute-specifier-seq] try-block ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the respective statement.
+
+[include stmt.label]
+
+[include stmt.expr]
+
+[include stmt.block]
+
+[include stmt.select]
+
+[include stmt.iter]
+
+[include stmt.jump]
+
+[include stmt.dcl]
+
+[include stmt.ambig]
+
+[%:end#statement]

@@ -1,0 +1,14 @@
+﻿[section#stmt.break
+    [:en] The [`break] statement
+]
+
+[%  [:en] statement[![`break]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`break] statement shall occur only in an
+[%[~iteration-statement]] [%statement[![`switch]]]
+[~iteration-statement] or a [`switch] statement and causes termination of the
+smallest enclosing [~iteration-statement] or [`switch] statement; control passes
+to the statement following the terminated statement, if any.

@@ -1,0 +1,68 @@
+﻿[section#stmt.jump
+    [:en] Jump statements
+]
+
+[%  [:en] statement[!jump]
+    [:zh_CN] ]
+
+[para]
+[:en]
+[%statement[!jump]]
+Jump statements unconditionally transfer control.
+
+[:en]
+[%statement[![`break]]]
+[%statement[![`continue]]]
+[%[`return] statement[see [`return]]]
+[%[`return]]
+[%statement[![`goto]]]
+
+[syntax]
+[rule jump-statement [:zh_CN] ]
+    [| [`break] [`;] ]
+    [| [`continue] [`;] ]
+    [| [`return] [~:opt expression] [`;] ]
+    [| [`return] braced-init-list [`;] ]
+    [| [`goto] identifier [`;] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%local variable[!destruction of]]
+[%scope[!destructor and exit from]]
+On exit from a scope (however accomplished), objects with automatic storage
+duration ([#basic.stc.auto]) that have been constructed in that scope are
+destroyed in the reverse order of their construction.
+
+[enter:note]
+[:en]
+For temporaries, see [#class.temporary].
+[exit:note]
+
+[:en]
+Transfer out of a loop, out of a block, or back past an initialized variable
+with automatic storage duration involves the destruction of objects with
+automatic storage duration that are in scope at the point transferred from but
+not at the point transferred to.
+
+[:en]
+(See [#stmt.dcl] for transfers into blocks).
+
+[enter:note]
+[:en]
+However, the program can be terminated (by calling
+[%[`exit]] [%@library exit]
+[`std::exit()] or
+[%[`abort]] [%@library abort]
+[`std::abort()] ([#support.start.term]), for example) without destroying class
+objects with automatic storage duration.
+[exit:note]
+
+[include stmt.break]
+
+[include stmt.cont]
+
+[include stmt.return]
+
+[include stmt.goto]

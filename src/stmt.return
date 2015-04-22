@@ -1,0 +1,66 @@
+﻿[section#stmt.return
+    [:en] The [`return] statement
+]
+
+[%[`return]]
+[%  [:en] function return[see [`return]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+A function returns to its caller by the [`return] statement.
+
+[para]
+[:en]
+The [~expression] or [~braced-init-list] of a return statement is called its
+operand.
+
+[:en]
+A return statement with no operand shall be used only in a function whose return
+type is [$cv] [`void], a constructor ([#class.ctor]), or a destructor
+([#class.dtor]).
+
+[:en]
+[%[`return][!constructor and]]
+A return statement with an operand of type [`void] shall be used only in a
+function whose return type is [$cv] [`void].
+
+[:en]
+A return statement with any other operand shall be used only in a function
+whose return type is not [$cv] [`void];
+
+[:en]
+[%conversion[!return type]]
+the return statement initializes the object or reference to be returned by
+copy-initialization ([#dcl.init]) from the operand.
+
+[enter:note]
+[:en]
+A return statement can involve the construction and copy or move of a temporary
+object ([#class.temporary]).
+
+[:en]
+A copy or move operation associated with a return statement may be elided or
+considered as an rvalue for the purpose of overload resolution in selecting a
+constructor ([#class.copy]).
+[exit:note]
+
+[enter:example]
+[codeblock]
+std::pair<std::string,int> f(const char* p, int x) {
+  return {p,x};
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+Flowing off the end of a function is equivalent to a [`return] with no value;
+this results in undefined behavior in a value-returning function.
+
+[para]
+[:en]
+The copy-initialization of the returned entity is sequenced before the
+destruction of temporaries at the end of the full-expression established by the
+operand of the return statement, which, in turn, is sequenced before the
+destruction of local variables ([#stmt.jump]) of the block enclosing the return
+statement.
