@@ -1,19 +1,26 @@
 ﻿[section#expr.rel
     [:en] Relational operators
-    [:zh_CN]
+    [:zh_CN] 关系运算符
 ]
 
 [:en]
 [%expression[!relational operators]]
 [%operator[!relational]]
+[:zh_CN]
+[%表达式[!关系运算符～]]
+[%运算符[!关系～]]
 
 [para]
 [:en]
 The relational operators group left-to-right.
+[:zh_CN]
+关系运算符按从左向右分组。
 
 [enter:example]
 [:en]
 [`a<b<c] means [`(a<b)<c] and [em not] [`(a<b)&&(b<c)].
+[:zh_CN]
+[`a<b<c] 意为 [`(a<b)<c] 而[em 不]是 [`(a<b)&&(b<c)]。
 [exit:example]
 
 [:en]
@@ -25,9 +32,18 @@ The relational operators group left-to-right.
 [%[`<=][see less than or equal to operator]]
 [%operator[!greater than or equal to]]
 [%[`>=][see greater than or equal operator]]
+[:zh_CN]
+[%运算符[!小于～]]
+[%[`<][see 小于运算符～]]
+[%运算符[!大于～]]
+[%[`>][see 大于运算符～]]
+[%运算符[!小于或等于～]]
+[%[`<=][see 小于或等于运算符～]]
+[%运算符[!大于或等于～]]
+[%[`>=][see 大于或等于运算符～]]
 
 [syntax]
-[rule relational-expression ]
+[rule relational-expression [:zh_CN] 关系表达式 ]
     [| shift-expression ]
     [| relational-expression [`<] shift-expression ]
     [| relational-expression [`>] shift-expression ]
@@ -38,51 +54,77 @@ The relational operators group left-to-right.
 
 [:en]
 The operands shall have arithmetic, enumeration, or pointer type.
+[:zh_CN]
+其操作数应当具有算术、枚举或指针类型。
 
 [:en]
 The operators [`<] (less than), [`>] (greater than), [`<=] (less than or equal
 to), and [`>=] (greater than or equal to) all yield [`false] or [`true].
+[:zh_CN]
+运算符 [`<]（小于）、[`>]（大于）、[`<=]（小于等于）和 [`>=]（大于等于）都产生
+[`false] 或 [`true]。
 
 [:en]
 The type of the result is [`bool].
+[:zh_CN]
+其结果的类型为 [`bool]。
 
 [para]
 [:en]
 The usual arithmetic conversions are performed on operands of arithmetic or
 enumeration type.
+[:zh_CN]
+对算术或枚举类型的操作数实施一般算术转换。
 
 [:en]
 If both operands are pointers, pointer conversions ([#conv.ptr]) and
 qualification conversions ([#conv.qual]) are performed to bring them to their
 composite pointer type (Clause [#expr]).
+[:zh_CN]
+若两个操作数均为指针，则实施指针转换（[#conv.ptr]）和限定性转换（[#conv.qual]）
+以将它们变为它们的合成指针类型（第 [#expr] 条）。
 
 [:en]
 After conversions, the operands shall have the same type.
+[:zh_CN]
+在转换之后，两个操作数应当具有相同类型。
 
 [para]
 [:en]
 Comparing pointers to objects
+[:zh_CN]
+比较两个对象指针
 
 [footnote]
 [:en]
 An object that is not an array element is considered to belong to a
 single-element array for this purpose; see [#expr.unary.op].
+[:zh_CN]
+此处将不是数组元素的对象当作属于单元素数组；参见 [#expr.unary.op]。
 [footnote:end]
 
 [:en@~]
 is defined as follows:
+[:zh_CN@~]
+被定义如下：
 
 [list]
 [item]
 [:en]
 If two pointers point to different elements of the same array, or to subobjects
 thereof, the pointer to the element with the higher subscript compares greater.
+[:zh_CN]
+若两个指针指向同一个数组的不同元素或其子对象，则指向带有更大下标的元素的指针在
+比较中较大。
 
 [item]
 [:en]
 If one pointer points to an element of an array, or to a subobject thereof, and
 another pointer points one past the last element of the array, the latter
 pointer compares greater.
+[:zh_CN]
+若其中一个指向数组元素或其子对象，而另一个指针指向该数组越过最后元素一个位置，则
+后一个在比较中较大。
 
 [item]
 [:en]
@@ -90,23 +132,38 @@ If two pointers point to different non-static data members of the same object,
 or to subobjects of such members, recursively, the pointer to the later declared
 member compares greater provided the two members have the same access control
 (Clause [#class.access]) and provided their class is not a union.
+[:zh_CN]
+若两个指针指向同一个对象的不同非静态数据成员，或分别指向这些成员的子对象，则当
+两个成员具有相同访问控制（第 [#class.access] 条）且它们所在类不是联合时，指向更
+晚声明的成员的指针在比较中更大。
 [list:end]
 
 [para]
 [:en]
 If two operands [`p] and [`q] compare equal ([#expr.eq]), [`p<=q] and [`p>=q]
 both yield [`true] and [`p<q] and [`p>q] both yield [`false].
+[:zh_CN]
+若两个操作数 [`p] 和 [`q] 比较为相等（[#expr.eq]），则 [`p<=q] 和 [`p>=q] 都产生
+[`true] 且 [`p<q] 和 [`p>q] 都产生 [`false]。
 
 [:en]
 Otherwise, if a pointer [`p] compares greater than a pointer [`q], [`p>=q],
 [`p>q], [`q<=p], and [`q<p] all yield [`true] and [`p<=q], [`p<q], [`q>=p], and
 [`q>p] all yield [`false].
+[:zh_CN]
+否则，若指针 [`p] 与 [`q] 比较更大，则 [`p>=q]、[`p>q]、[`q<=p] 和 [`q<p] 都将
+产生 [`true] 而 [`p<=q]、[`p<q]、[`q>=p] 和 [`q>p] 都将产生 [`false]。
 
 [:en]
 Otherwise, the result of each of the operators is unspecified.
+[:zh_CN]
+否则，这些运算符的结果是未指明的。
 
 [para]
 [:en]
 If both operands (after conversions) are of arithmetic or enumeration type, each
 of the operators shall yield [`true] if the specified relationship is true and
 [`false] if it is false.
+[:zh_CN]
+如果两个操作数（在转换之后）都是算术或枚举类型，则当每个运算符所指定的关系为真时
+应当产生 [`true]，如果为假则产生 [`false]。

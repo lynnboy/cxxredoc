@@ -1,6 +1,6 @@
 ﻿[section#expr.shift
     [:en] Shift operators
-    [:zh_CN]
+    [:zh_CN] 移位运算符
 ]
 
 [para]
@@ -8,18 +8,26 @@
 [%expression[!left-shift-operator]]
 [%expression[!right-shift-operator]]
 [%shift operator[see left shift operator][see right shift operator]]
-[%operator right shift[see right shift operator]]
-[%operator left shift[see left shift operator]]
+[%operator [!right shift][see right shift operator]]
+[%operator [!left shift][see left shift operator]]
 The shift operators [`<<] and [`>>] group left-to-right.
+[:zh_CN]
+[%表达式[!左移运算符]]
+[%表达式[!右移运算符]]
+[%移位运算符[see 左移运算符][see 右移运算符]]
+[%运算符 [!右移][see 右移运算符]]
+[%运算符 [!左移][see 左移运算符]]
+移位运算符 [`<<] 和 [`>>] 按从左向右分组。
 
 [:en]
-[%left shift operator]
-[%[`<<][see left shift operator]]
-[%right shift operator]
-[%[`>>][see right shift operator]]
+[%left shift operator] [%[`<<][see left shift operator]]
+[%right shift operator] [%[`>>][see right shift operator]]
+[:zh_CN]
+[%左移运算符] [%[`<<][see 左移运算符]]
+[%右移运算符] [%[`>>][see 右移运算符]]
 
 [syntax]
-[rule shift-expression [:zh_CN] ]
+[rule shift-expression [:zh_CN] 移位表达式 ]
     [| additive-expression ]
     [| shift-expression [`<<] additive-expression ]
     [| shift-expression [`>>] additive-expression ]
@@ -29,42 +37,67 @@ The shift operators [`<<] and [`>>] group left-to-right.
 [:en]
 The operands shall be of integral or unscoped enumeration type and integral
 promotions are performed.
+[:zh_CN]
+其操作数应当为整型或无作用域枚举类型，并实施整型提升。
 
 [:en]
 The type of the result is that of the promoted left operand.
+[:zh_CN]
+其结果的类型为提升后的左操作数的类型。
 
 [:en]
 [%left shift[!undefined]]
 The behavior is undefined if the right operand is negative, or greater than or
 equal to the length in bits of the promoted left operand.
+[:zh_CN]
+[%左移[!未定义的～]]
+当右操作数为负数，或大于等于被提升的左操作数的位长时，其行为是未定义的。
 
 [para]
 [:en]
 The value of [`E1 << E2] is [`E1] left-shifted [`E2] bit positions; vacated bits
 are zero-filled.
+[:zh_CN]
+[`E1 << E1] 的值为 [`E1] 左移 [`E2] 个位位置；遗留位用零填补。
 
 [:en]
 If [`E1] has an unsigned type, the value of the result is
 [$[`E1][=times]2[^[`E2]]], reduced modulo one more than the maximum value
 representable in the result type.
+[:zh_CN]
+若 [`E1] 具有无符号类型，则其结果的值为 [$[`E1][=times]2[^[`E2]]]，并以其结果
+类型能够表示的最大值大一的值取模。
 
 [:en]
 Otherwise, if [`E1] has a signed type and non-negative value, and
 [$[`E1][=times]2[^[`E2]]] is representable in the corresponding unsigned type of
 the result type, then that value, converted to the result type, is the resulting
 value; otherwise, the behavior is undefined.
+[:zh_CN]
+否则，若 [`E1] 具有有符号类型和非负值，且其结果类型对应的无符号类型可以表示
+[$[`E1][=times]2[^[`E2]]]，则该值被转换为结果类型即为其结果值；否则，其行为是未
+定义的。
 
 [para]
 [:en]
 The value of [`E1 >> E2] is [`E1] right-shifted [`E2] bit positions.
+[:zh_CN]
+[`E1 >> E2] 的值为 [`E1] 右移 [`E2] 个位位置。
 
 [:en]
 If [`E1] has an unsigned type or if [`E1] has a signed type and a non-negative
 value, the value of the result is the integral part of the quotient of
 [$[`E1]/2[^[`E2]]].
+[:zh_CN]
+若 [`E1] 为无符号类型或者若 [`E1] 为有符号类型的非负值，则其结果为
+[$[`E1]/2[^[`E2]]]。
 
 [:en]
 If [`E1]
 [%right shift[!implementation defined]]
 has a signed type and a negative value, the resulting value is
 [%@impldef result of right shift of negative value] implementation-defined.
+[:zh_CN]
+若 [`E1]]
+[%右移[!由实现定义的～]]
+为有符号类型的负值，则其结果是[%@impldef 负值的右移结果]由实现定义的。
