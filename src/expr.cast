@@ -1,26 +1,35 @@
 ﻿[section#expr.cast
     [:en] Explicit type conversion (cast notation)
-    [:zh_CN]
+    [:zh_CN] 显式类型转换（强制转换记法）
 ]
 
 [%:begin#expression.cast
     [:en] expression [! cast]
+    [:zh_CN] 表达式 [! 强制转～]
 ]
 
 [para]
 [:en]
 The result of the expression [`(T)] [~cast-expression] is of type [`T].
+[:zh_CN]
+表达式 [`(T)] [~强制转换表达式]的结果类型为 [`(T)]。
 
 [:en]
 The result is an lvalue if [`T] is an lvalue reference type or an rvalue
 reference to function type and an xvalue if [`T] is an rvalue reference to
 object type; otherwise the result is a prvalue.
+[:zh_CN]
+若 [`(T)] 为左值引用类型或者函数右值引用类型则结果为左值，若 [`(T)] 为对象右值
+引用类型则结果为临限值；否则为纯右值。
 
 [enter:note]
 [:en]
 if [`T] is a non-class type that is cv-qualified, the [~cv-qualifiers] are
 discarded when determining the type of the resulting prvalue; see Clause
 [#expr].
+[:zh_CN]
+若 [`T] 为被 cv-限定的非类类型，则在确定结果纯右值的类型时忽略其 [~cv-限定符]；
+参见第 [#expr] 条。
 [exit:note]
 
 [para]
@@ -28,9 +37,12 @@ discarded when determining the type of the resulting prvalue; see Clause
 An explicit type conversion can be expressed using functional notation
 ([#expr.type.conv]), a type conversion operator ([`dynamic_cast],
 [`static_cast], [`reinterpret_cast], [`const_cast]), or the [+cast] notation.
+[:zh_CN]
+显式类型转换可用函数式记法（[#expr.type.conv]），类型转换运算符（[`dynamic_cast]
+、[`static_cast]、[`reinterpret_cast]、[`const_cast]），或[+强制转换]记法表达。
 
 [syntax]
-[rule cast-expression [:zh_CN] ]
+[rule cast-expression [:zh_CN] 强制转换表达式 ]
     [| unary-expression ]
     [| [`(] type-id [`)] cast-expression ]
 [rule:end]
@@ -40,35 +52,51 @@ An explicit type conversion can be expressed using functional notation
 [:en]
 Any type conversion not mentioned below and not explicitly defined by the user
 ([#class.conv]) is ill-formed.
+[:zh_CN]
+任何未在下文中提及的，且并未被用户明确定义（[#class.conv]）的类型转换是非良构的
+。
 
 [para]
 [:en]
 The conversions performed by
+[:zh_CN]
+由
 
 [list]
 [:en]
 [%cast[!const]]
 [%cast[!static]]
 [%cast[!reinterpret]]
+[:zh_CN]
 [item]
 [:en@~] a [`const_cast] ([#expr.const.cast]),
+[:zh_CN@~] [`const_cast]（[#expr.const.cast]），
 [item]
 [:en@~] a [`static_cast] ([#expr.static.cast]),
+[:zh_CN@~] [`static_cast]（[#expr.static.cast]），
 [item]
 [:en@~] a [`static_cast] followed by a [`const_cast],
+[:zh_CN@~] [`static_cast] 跟着 [`const_cast]，
 [item]
 [:en@~] a [`reinterpret_cast] ([#expr.reinterpret.cast]), or
+[:zh_CN@~] [`reinterpret_cast]（[#expr.reinterpret.cast]），或
 [item]
 [:en@~] a [`reinterpret_cast] followed by a [`const_cast],
+[:zh_CN@~] [`reinterpret_cast] 跟着 [`const_cast]，
 [list:end]
 
 [:en@~]
 can be performed using the cast notation of explicit type conversion.
+[:zh_CN@~]
+所实施的转换，均可用显式类型转换的强制转换记法来实施。
 
 [:en]
 The same semantic restrictions and behaviors apply, with the exception that in
 performing a [`static_cast] in the following situations the conversion is valid
 even if the base class is inaccessible:
+[:zh_CN]
+它们适用相同的语义限制和行为，其例外是，当在如下情况中实施 [`static_cast] 时，
+即使其基类不可访问，这个转换也是有效的：
 
 [list]
 [item]
@@ -76,11 +104,16 @@ even if the base class is inaccessible:
 a pointer to an object of derived class type or an lvalue or rvalue of derived
 class type may be explicitly converted to a pointer or reference to an
 unambiguous base class type, respectively;
+[:zh_CN]
+指向派生类类型的对象的指针，或派生类类型的左值或右值，可分别被显式转换为指向无
+歧义基类类型的指针或引用；
 
 [item]
 [:en]
 a pointer to member of derived class type may be explicitly converted to a
 pointer to member of an unambiguous non-virtual base class type;
+[:zh_CN]
+指向派生类类型的成员的指针，可被显式转换为指向无歧义非虚基类类型的成员的指针；
 
 [item]
 [:en]
@@ -89,16 +122,25 @@ of an unambiguous non-virtual base class type, or a pointer to member of an
 unambiguous non-virtual base class type may be explicitly converted to a
 pointer, a reference, or a pointer to member of a derived class type,
 respectively.
+[:zh_CN]
+指向无歧义非虚基类类型的对象的指针，无歧义非虚基类类型的泛左值，或指向无歧义非虚
+基类类型的成员的指针，可分别被显式转换为指向派生类类型的指针，引用，或成员指针。
 [list:end]
 
 [:en]
 If a conversion can be interpreted in more than one of the ways listed above,
 the interpretation that appears first in the list is used, even if a cast
 resulting from that interpretation is ill-formed.
+[:zh_CN]
+若某个转换可以用上述列出的方式中的多于一种来进行解释，则即使从首先出现于列表中的
+解释方式所造成的强制转换是非良构的，也要使用这个解释方式。
 
 [:en]
 If a conversion can be interpreted in more than one way as a [`static_cast]
 followed by a [`const_cast], the conversion is ill-formed.
+[:zh_CN]
+若某个转换可用多于一种 [`static_cast] 跟着 [`const_cast] 的方式进行解释，则该
+转换是非良构的。
 
 [enter:example]
 [codeblock]
@@ -108,6 +150,7 @@ struct I2 : A { };
 struct D : I1, I2 { };
 A* foo( D* p ) {
   return (A*)( p ); // [:en] ill-formed [`static_cast] interpretation
+                    // [|:zh_CN] 非良构的 [`static_cast] 解释
 }
 [codeblock:end]
 [exit:example]
@@ -117,22 +160,34 @@ A* foo( D* p ) {
 [%class[!cast to incomplete]]
 The operand of a cast using the cast notation can be a prvalue of type ["pointer
 to incomplete class type].
+[:zh_CN]
+[%类[!强制转换不完整～]]
+使用强制转换记法进行的强制转换的操作数可以是“不完整类类型的指针”类型的纯右值。
 
 [:en]
 The destination type of a cast using the cast notation can be ["pointer to
 incomplete class type].
+[:zh_CN]
+使用强制转换记法进行的强制转换的目标类型可以是“不完整类类型的指针”。
 
 [:en]
 If both the operand and destination types are class types and one or both are
 incomplete, it is unspecified whether the [`static_cast] or the
 [`reinterpret_cast] interpretation is used, even if there is an inheritance
 relationship between the two classes.
+[:zh_CN]
+如果操作数和目标类型都是类类型，并且其中的一个或者二者都是不完整的，则使用
+[`static_cast] 还是 [`reinterpret_cast] 来进行解释是未指明的，即使在两个类之间
+存在继承关系也是如此。
 
 [enter:note]
 [:en]
 For example, if the classes were defined later in the translation unit, a
 multi-pass compiler would be permitted to interpret a cast between pointers to
 the classes as if the class types were complete at the point of the cast.
+[:zh_CN]
+例如，若这些类是在翻译单元的后面被定义的，就允许多遍编译器按照如同这些类类型在进
+行强制转换之处已经被定义那样，来对在指向这些类的指针之间进行的强制转换进行解释。
 [exit:note]
 
 [%:end#expression.cast]
