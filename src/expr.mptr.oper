@@ -1,19 +1,22 @@
 ﻿[section#expr.mptr.oper
     [:en] Pointer-to-member operators
+    [:zh_CN] 成员指针运算符
 ]
 
 [para]
 [:en]
-[%expression[!pointer-to-member]]
-[%pointer to member]
-[%operator[!pointer to member]]
-[%[`.*][see pointer to member operator]]
-[%operator[!pointer to member]]
-[%[`->*][see pointer to member operator]]
+[%expression[!pointer-to-member]] [%pointer to member]
+[%operator[!pointer to member]] [%[`.*][see pointer to member operator]]
+[%operator[!pointer to member]] [%[`->*][see pointer to member operator]]
 The pointer-to-member operators [`->*] and [`.*] group left-to-right.
+[:zh_CN]
+[%表达式[!成员指针～]] [%成员指针]
+[%运算符[!成员指针～]] [%[`.*][see 成员指针运算符]]
+[%运算符[!成员指针～]] [%[`->*][see 成员指针运算符]]
+成员指针运算符 [`->*] 和 [`.*] 按从左向右分组。
 
 [syntax]
-[rule pm-expression [:zh_CN] ]
+[rule pm-expression [:zh_CN] pm-表达式 ]
     [| cast-expression ]
     [| pm-expression [`.*] cast-expression ]
     [| pm-expression [`->*] cast-expression ]
@@ -25,10 +28,16 @@ The pointer-to-member operators [`->*] and [`.*] group left-to-right.
 The binary operator [`.*] binds its second operand, which shall be of type
 ["pointer to member of [`T]] to its first operand, which shall be of class [`T]
 or of a class of which [`T] is an unambiguous and accessible base class.
+[:zh_CN]
+二元运算符 [`.*] 向其第一个操作数（类型应当为类 [`T] 或者以 [`T] 为无歧义可访问
+基类的类）绑定其第二个操作数（类型应当为“指向 [`T] 的成员的指针”），其中 [`T]
+是完全定义的类类型。
 
 [:en]
 The result is an object or a function of the type specified by the second
 operand.
+[:zh_CN]
+其结果为由第二个操作数指定其类型的对象或函数。
 
 [para]
 [:en]
@@ -36,31 +45,49 @@ The binary operator [`->*] binds its second operand, which shall be of type
 ["pointer to member of [`T]] to its first operand, which shall be of type
 ["pointer to [`T]] or ["pointer to a class of which [`T] is an unambiguous and
 accessible base class.]
+[:zh_CN]
+二元运算符 [`->*] 向其第一个操作数（类型应当为“[`T] 的指针”或“指向以 [`T] 为无
+歧义可访问基类的类的指针”）绑定其第二个操作数（类型应当为“指向 [`T] 的成员的
+指针”），其中 [`T] 为完整定义的类类型。
 
 [:en]
 The expression [`E1->*E2] is converted into the equivalent form [`(*(E1)).*E2].
+[:zh_CN]
+表达式 [`E1->*E2] 被转换为其等价形式 [`(*(E1)).*E2]。
 
 [para]
 [:en]
-Abbreviating [+pm-expression][`.*][+cast-expression] as [`E1.*E2], [`E1] is
+Abbreviating [~pm-expression][`.*][~cast-expression] as [`E1.*E2], [`E1] is
 called the [+object expression].
+[:zh_CN]
+将[~pm-表达式][`.*][~强制转换表达式]简记为 [`E1.*E2]，[`E1]被称为[+对象表达式]。
 
 [:en]
 If the dynamic type of [`E1] does not contain the member to which [`E2] refers,
 the behavior is undefined.
+[:zh_CN]
+若 [`E1] 的动态类型并不包含 [`E2] 所指代的成员，则其行为是未定义的。
 
 [para]
+[:en]
 The restrictions on [$cv]-qualification, and the manner in which the
 [$cv]-qualifiers of the operands are combined to produce the [$cv]-qualifiers of
 the result, are the same as the rules for [`E1.E2] given in [#expr.ref].
+[:zh_CN]
+对 [$cv]-限定性的限制，以及对操作数的 [$cv]-限定符进行组合以产生结果的 [$cv]-限
+定符的方式，与在 [#expr.ref] 中给出的针对 [`E1.E2] 的规则相同。
 
 [enter:note]
 [:en]
 it is not possible to use a pointer to member that refers to a [`mutable] member
 to modify a [`const] class object.
+[:zh_CN]
+不可能使用指代 [`mutable] 成员的成员指针来改动 [`const] 类对象。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 struct S {
@@ -70,16 +97,22 @@ struct S {
 void f()
 {
 const S cs;
-int S::* pm = &S::i;            // [`pm] refers to [`mutable] member [`S::i]
-cs.*pm = 88;                    // ill-formed: [`cs] is a [`const] object
+int S::* pm = &S::i;            // [:en] [`pm] refers to [`mutable] member [`S::i]
+                                // [|:zh_CN] [`pm] 指代 [`mutable] 成员 [`S::i]
+cs.*pm = 88;                    // [:en] ill-formed: [`cs] is a [`const] object
+                                // [|:zh_CN] 非良构：[`cs] 是 [`const] 对象
 }
 [codeblock:end]
 [exit:note]
 
 [para]
+[:en]
 [%function[!pointer to member]]
 If the result of [`.*] or [`->*] is a function, then that result can be used
 only as the operand for the function call operator [`()].
+[:zh_CN]
+[%函数[!成员～指针]]
+若 [`.*] 或 [`->*] 的结果是函数，则其结果只能用作函数调用运算符 [`()] 的操作数。
 
 [enter:example]
 
@@ -90,26 +123,41 @@ only as the operand for the function call operator [`()].
 [:en]
 calls the member function denoted by [`ptr_to_mfct] for the object
 pointed to by [`ptr_to_obj].
+[:zh_CN]
+对 [`ptr_to_obj] 所指向的对象调用由 [`ptr_to_mfct] 指代的成员函数。
 [exit:example]
 
 [:en]
 In a [`.*] expression whose object expression is an rvalue, the program is
 ill-formed if the second operand is a pointer to member function with
 [~ref-qualifier] [`&].
+[:zh_CN]
+在对象表达式为右值的 [`.*] 表达式中，如果其第二个操作数为带有[~引用限定符] [`&]
+的成员函数指针，则程序非良构。
 
 [:en]
 In a [`.*] expression whose object expression is an lvalue, the program is
 ill-formed if the second operand is a pointer to member function with
 [~ref-qualifier] [`&&].
+[:zh_CN]
+在对象表达式是左值的 [`.*] 表达式中，如果其第二个操作数为带有[~引用限定符] [`&&]
+的成员函数指针，则程序非良构。
 
 [:en]
 The result of a [`.*] expression whose second operand is a pointer to a data
 member is an lvalue if the first operand is an lvalue and an xvalue otherwise.
+[:zh_CN]
+第二个操作数为指向数据成员的指针的 [`.*] 表达式的结果，与其第一个操作数的值类别
+（[#basic.lval]）相同。
 
 [:en]
 The result of a [`.*] expression whose second operand is a pointer to a member
 function is a prvalue.
+[:zh_CN]
+第二个操作数为指向成员函数的指针的 [`.*] 表达式的结果是纯右值。
 
 [:en]
 If the second operand is the null pointer to member value ([#conv.mem]), the
 behavior is undefined.
+[:zh_CN]
+若第二个操作数是空成员指针值（[#conv.mem]），则其行为是未定义的。
