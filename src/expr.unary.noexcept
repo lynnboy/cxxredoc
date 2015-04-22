@@ -1,6 +1,6 @@
 ﻿[section#expr.unary.noexcept
     [:en] [`noexcept] operator
-    [:zh_CN]
+    [:zh_CN] [`noexcept] 运算符
 ]
 
 [para]
@@ -9,9 +9,13 @@
 The [`noexcept] operator determines whether the evaluation of its operand, which
 is an unevaluated operand (Clause [#expr]), can throw an exception
 ([#except.throw]).
+[:zh_CN]
+[%表达式[![`noexcept]]]
+[`noexcept] 运算符确定其操作数是否能够抛出异常（[#except.throw]），其操作数为
+免求值操作数（第 [#expr] 条）。
 
 [syntax]
-[rule noexcept-expression [:zh_CN] ]
+[rule noexcept-expression [:zh_CN] noexcept-表达式 ]
     [| [`noexcept] [`(] expression [`)] ]
 [rule:end]
 [syntax:end]
@@ -20,8 +24,13 @@ is an unevaluated operand (Clause [#expr]), can throw an exception
 [:en]
 The result of the [`noexcept] operator is a constant of type [`bool] and is a
 prvalue.
+[:zh_CN]
+[`noexcept] 运算符的结果是类型 [`bool] 的常量，而且是纯右值。
 
 [para]
 [:en]
 The result of the [`noexcept] operator is [`true] if the set of potential
 exceptions of the expression ([#except.spec]) is empty, and [`false] otherwise.
+[:zh_CN]
+若其表达式的潜在异常集合为空，[`noexcept] 运算符的结果就为 [`true]，否则为
+[`false]。

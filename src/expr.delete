@@ -1,17 +1,20 @@
 ﻿[section#expr.delete
     [:en] Delete
-    [:zh_CN]
+    [:zh_CN] delete
 ]
 
 [para]
 [:en]
-[%expression[![`delete]]]
-[%[`delete]]
+[%expression[![`delete]]] [%[`delete]]
 The [~delete-expression] operator destroys a most derived object
 ([#intro.object]) or array created by a [~new-expression].
+[:zh_CN]
+[%表达式[![`delete]]] [%[`delete]]
+[~delete-表达式]运算符销毁由 [~new-表达式]所创建的全派生对象（[#intro.object]）
+或数组。
 
 [syntax]
-[rule delete-expression [:zh_CN] ]
+[rule delete-expression [:zh_CN] delete-表达式 ]
     [| [`:opt ::] [`delete] cast-expression ]
     [| [`:opt ::] [`delete] [`[] [``]] cast-expression ]
 [rule:end]
@@ -19,33 +22,48 @@ The [~delete-expression] operator destroys a most derived object
 
 [:en]
 The first alternative is for non-array objects, and the second is for arrays.
+[:zh_CN]
+第一种方式处理非数组对象，第二种方式处理数组。
 
 [:en]
 Whenever the [`delete] keyword is immediately followed by empty square brackets,
 it shall be interpreted as the second alternative.
+[:zh_CN]
+当 [`delete] 关键字后面紧跟空的方括号时，应当将它判读为第二种方式。
 
 [footnote]
 [:en]
 A lambda expression with a [~lambda-introducer] that consists of empty square
 brackets can follow the [`delete] keyword if the lambda expression is enclosed
 in parentheses.
+[:zh_CN]
+带有由空方括号构成的 [~lambda-引导符]的 lambda 表达式，在由括号括起来后可以跟在
+[`delete] 关键字后面。
 [footnote:end]
 
 [:en]
 The operand shall be of pointer to object type or of class type.
+[:zh_CN]
+其操作数的应当为对象指针类型或类类型。
 
 [:en]
 If of class type, the operand is contextually implicitly converted (Clause
 [#conv]) to a pointer to object type.
+[:zh_CN]
+若其为类类型，则其操作数被按语境隐式转换（第 [#conv] 条）为对象指针类型。
 
 [footnote]
 [:en]
 This implies that an object cannot be deleted using a pointer of type [`void*]
 because [`void] is not an object type.
+[:zh_CN]
+这意味着由于 [`void] 不是对象类型，所以不能使用 [`void*] 类型的指针删除对象。
 [footnote:end]
 
 [:en]
 The [~delete-expression][=']s result has type [`void].
+[:zh_CN]
+[~delete-表达式]的结果类型为 [`void]。
 
 [para]
 [:en]
@@ -53,6 +71,10 @@ The [~delete-expression][=']s result has type [`void].
 If the operand has a class type, the operand is converted to a pointer type by
 calling the above-mentioned conversion function, and the converted operand is
 used in place of the original operand for the remainder of this section.
+[:zh_CN]
+[%[`delete][!对象]]
+若操作数具有类类型，则该操作数通过调用前面提到的转换函数转换为指针类型，且在本节
+的剩余部分中使用这个经转换的操作数替代原操作数。
 
 [:en]
 [%object[!delete]]
@@ -60,9 +82,16 @@ In the first alternative ([+delete object]), the value of the operand of
 [`delete] may be a null pointer value, a pointer to a non-array object created
 by a previous [~new-expression], or a pointer to a subobject ([#intro.object])
 representing a base class of such an object (Clause [#class.derived]).
+[:zh_CN]
+[%对象[!删除]]
+第一种方式（[+删除对象]）中，[`delete] 的操作数的值应当是空指针值，指向由之前的
+[~new-表达式]所创建的非数组对象的指针，或者指向代表这个类对象的某个基类（第
+[#class.derived] 条）的子对象（[#intro.object]）的指针。
 
 [:en]
 If not, the behavior is undefined.
+[:zh_CN]
+否则，其行为就是未定义的。
 
 [:en]
 [%array[![`delete]]]
@@ -70,23 +99,37 @@ If not, the behavior is undefined.
 In the second alternative ([+delete array]), the value of the operand of
 [`delete] may be a null pointer value or a pointer value that resulted from a
 previous array [~new-expression].
+[:zh_CN]
+[%数组[![`delete]]]
+[%[`delete][!数组]]
+第二种方式（[+删除数组]）中，[`delete] 的操作数的值可以为空指针值，或某个早前的
+数组 [~new-表达式]所产生的指针值。
 
 [footnote]
 [:en]
 For non-zero-length arrays, this is the same as a pointer to the first element
 of the array created by that [~new-expression].
+[:zh_CN]
+对于非零长数组，这与指向由该 [~new-表达式]创建的数组的第一个元素的指针相同。
 
 [:en]
 Zero-length arrays do not have a first element.
+[:zh_CN]
+零长数组没有第一个元素。
 [footnote:end]
 
 [:en]
 If not, the behavior is undefined.
+[:zh_CN]
+否则，其行为就是未定义的。
 
 [enter:note]
 [:en]
 this means that the syntax of the [~delete-expression] must match the type of
 the object allocated by [`new], not the syntax of the [~new-expression].
+[:zh_CN]
+这意味着 [~delete-表达式]的语法必须与被 [`new] 分配的对象的类型相匹配，而不是与
+[~new-表达式]的语法相匹配。
 [exit:note]
 
 [enter:note]
@@ -94,6 +137,9 @@ the object allocated by [`new], not the syntax of the [~new-expression].
 a pointer to a [`const] type can be the operand of a [~delete-expression]; it is
 not necessary to cast away the constness ([#expr.const.cast]) of the pointer
 expression before it is used as the operand of the [~delete-expression].
+[:zh_CN]
+指向 [`const] 类型的指针可作为 [~delete-表达式]的操作数；在将该指针表达式用作
+[~delete-表达式]的操作数前，不必强制移除它的常量性（[#expr.const.cast]）。
 [exit:note]
 
 [para]
@@ -103,15 +149,25 @@ In the first alternative ([+delete object]), if the static type of the object to
 be deleted is different from its dynamic type, the static type shall be a base
 class of the dynamic type of the object to be deleted and the static type shall
 have a virtual destructor or the behavior is undefined.
+[:zh_CN]
+[%[`delete][!未定义的]]
+第一种方式（[+删除对象]）中，若所要删除的对象的静态类型与其动态类型不同，则其
+静态类型应当是所要删除的对象的动态类型的基类，且这个静态类型应当带有虚析构函数，
+否则其行为是未定义的。
 
 [:en]
 In the second alternative ([+delete array]) if the dynamic type of the object to
 be deleted differs from its static type, the behavior is undefined.
+[:zh_CN]
+第二种方式（[+删除数组]）中，若所要删除的对象的动态类型与其静态类型不同，则其
+行为是未定义的。
 
 [para]
 [:en]
 The [~cast-expression] in a [~delete-expression] shall be evaluated exactly
 once.
+[:zh_CN]
+[~delete-表达式]中的[~强制转换表达式]应当恰好进行一次求值。
 
 [para]
 [:en]
@@ -119,6 +175,10 @@ once.
 If the object being deleted has incomplete class type at the point of deletion
 and the complete class has a non-trivial destructor or a deallocation function,
 the behavior is undefined.
+[:zh_CN]
+[%类型[!不完整～]]
+若将要删除的对象在删除点具有不完整类类型，而其完整类带有非平凡的析构函数或回收
+函数，则其行为是未定义的。
 
 [para]
 [:en]
@@ -126,16 +186,25 @@ the behavior is undefined.
 If the value of the operand of the [~delete-expression] is not a null pointer
 value, the [~delete-expression] will invoke the destructor (if any) for the
 object or the elements of the array being deleted.
+[:zh_CN]
+[%[`delete][!析构函数与～]]
+若 [~delete-表达式]的操作数的值不是空指针值，则该 [~delete-表达式]将调用所要删除
+的对象或数组元素的析构函数（如果有）。
 
 [:en]
 In the case of an array, the elements will be destroyed in order of decreasing
 address (that is, in reverse order of the completion of their constructor; see
 [#class.base.init]).
+[:zh_CN]
+在数组的情况中，其元素将按地址下降顺序（即与它们的构造函数的完成顺序相反；参见
+[#class.base.init]）进行销毁。
 
 [para]
 [:en]
 If the value of the operand of the [~delete-expression] is not a null pointer
 value, then:
+[:zh_CN]
+若 [~delete-表达式]的操作数的值不是空指针值，则有：
 
 [list]
 [item]
@@ -144,10 +213,16 @@ If the allocation call for the [~new-expression] for the object to be deleted
 was not omitted and the allocation was not extended ([#expr.new]), the
 [~delete-expression] shall call a deallocation function
 ([#basic.stc.dynamic.deallocation]).
+[:zh_CN]
+若所删除对象的 [~new-表达式]所调用的分配函数并未被省略且其分配未被扩展
+（[#expr.new]），则该 [~delete-表达式]应当调用回收函数
+（[#basic.stc.dynamic.deallocation]）。
 
 [:en]
 The value returned from the allocation call of the [~new-expression] shall be
 passed as the first argument to the deallocation function.
+[:zh_CN]
+其 [~new-表达式]的分配调用所返回的值应当作为第一个实参传递给回收函数。
 
 [item]
 [:en]
@@ -156,41 +231,59 @@ allocation of another [~new-expression], and the [~delete-expression] for every
 other pointer value produced by a [~new-expression] that had storage provided by
 the extended [~new-expression] has been evaluated, the [~delete-expression]
 shall call a deallocation function.
+[:zh_CN]
+否则，若其分配被扩展或者由另一个 [~new-表达式]的分配所提供，且由被扩展的
+[~new-表达式]提供存储的所有其他 [~new-表达式]产生的指针值的 [~delete-表达式]都
+已经进行了求值，则该 [~delete-表达式]应当调用回收函数。
 
 [:en]
 The value returned from the allocation call of the extended [~new-expression]
 shall be passed as the first argument to the deallocation function.
+[:zh_CN]
+由被扩展的 [~new-表达式]的分配调用所返回的值应当作为第一个实参传递给分配函数。
 
 [item]
 [:en]
 Otherwise, the [~delete-expression] will not call a
-[%function[!deallocation]]
-[%deallocation[see [`delete]]]
-[%[`delete]]
+[%function[!deallocation]] [%deallocation[see [`delete]]] [%[`delete]]
 [+deallocation function] ([#basic.stc.dynamic.deallocation]).
+[:zh_CN]
+否则，该 [~delete-表达式] 不会调用
+[%函数[!回收～]] [%回收[see [`delete]]] [%[`delete]]
+[+回收函数]（[#basic.stc.dynamic.deallocation]）。
 [list:end]
 
 [:en]
 Otherwise, it is unspecified whether the deallocation function will be called.
+[:zh_CN]
+否则，是否调用回收函数是未指明的。
 
 [enter:note]
 [:en]
 The deallocation function is called regardless of whether the destructor for the
 object or some element of the array throws an exception.
+[:zh_CN]
+无论是否在对象或数组的某些元素的析构函数中抛出异常，都将调用回收函数。
 [exit:note]
 
 [para]
 [enter:note]
 [:en]
+[%operator [see [`delete]]] [%[`operator delete]]
 An implementation provides default definitions of the global deallocation
 functions [`operator delete()] for non-arrays ([#new.delete.single]) and
-[%operator [see [`delete]]]
-[%[`operator delete]]
 [`operator delete[`]()] for arrays ([#new.delete.array]).
+[:zh_CN]
+[%运算符 [see [`delete]]] [%[`operator delete]]
+实现提供全局回收函数 [`operator delete()]（非数组，[#new.delete.single]）和
+[`operator delete[`]()]（数组，[#new.delete.array]）的缺省定义。
 
 [:en]
 A [=Cpp] program can provide alternative definitions of these functions
 ([#replacement.functions]), and/or class-specific versions ([#class.free]).
+[:zh_CN]
+[=Cpp] 程序可以提供这些函数的替代定义（[#replacement.functions]），和/或特定于类
+的版本（[#class.free]）。
 [exit:note]
 
 [para]
@@ -198,14 +291,21 @@ A [=Cpp] program can provide alternative definitions of these functions
 When the keyword [`delete] in a [~delete-expression] is preceded by the unary
 [`::] operator, the deallocation function[=']s name is looked up in global
 scope.
+[:zh_CN]
+若 [~delete-表达式]中的关键字 [`delete] 之前有一元 [`::] 运算符，则在全局作用域
+中查找回收函数的名字。
 
 [:en]
 Otherwise, the lookup considers class-specific deallocation functions
 ([#class.free]).
+[:zh_CN]
+否则，其查找考察特定于类的回收函数（[#class.free]）。
 
 [:en]
 If no class-specific deallocation function is found, the deallocation
 function[=']s name is looked up in global scope.
+[:zh_CN]
+如果没有找到特定于类的回收函数，则在全局作用域中查找回收函数的名字。
 
 [para]
 [:en]
@@ -213,6 +313,9 @@ If deallocation function lookup finds both a usual deallocation function with
 only a pointer parameter and a usual deallocation function with both a pointer
 parameter and a size parameter, the function to be called is selected as
 follows:
+[:zh_CN]
+如果回收函数的查找同时找到了仅有一个指针形参的常规回收函数，和带有指针形参和大小
+形参的常规回收函数，则对所调用的函数进行如下选择：
 
 [list]
 [item]
@@ -221,11 +324,16 @@ If the type is complete and if, for the second alternative (delete array) only,
 the operand is a pointer to a class type with a non-trivial destructor or a
 (possibly multi-dimensional) array thereof, the function with two parameters is
 selected.
+[:zh_CN]
+若其为完全类型，且（仅对于第二种情况，删除数组）若其操作数是指向带有非平凡析构
+函数的类类型或其（可能多维的）数组的指针，则选择带有两个形参的函数。
 
 [item]
 [:en]
 Otherwise, it is unspecified which of the two deallocation functions is
 selected.
+[:zh_CN]
+否则，选择两个回收函数中的哪一个是未指明的。
 [list:end]
 
 [para]
@@ -234,15 +342,23 @@ When a [~delete-expression] is executed, the selected deallocation function
 shall be called with the address of the block of storage to be reclaimed as its
 first argument and (if the two-parameter deallocation function is used) the size
 of the block as its second argument.
-[footnote]
+[:zh_CN]
+当执行 [~delete-表达式]时，应当将所回收的存储块的地址作为第一个实参，并（如果
+使用双形参回收函数）将存储块的大小作为第二个实参调用所选择的回收函数。
 
+[footnote]
 [:en]
 If the static type of the object to be deleted is complete and is different from
 the dynamic type, and the destructor is not virtual, the size might be
 incorrect, but that case is already undefined, as stated above.
+[:zh_CN]
+若所删除对象的静态类型完整且与其静态类型不同，并且其析构函数不是虚函数，则其大小
+可能不正确，但这种情况下已经如上文所述是未定义的。
 [footnote:end]
 
 [para]
 [:en]
 Access and ambiguity control are done for both the deallocation function and the
 destructor ([#class.dtor], [#class.free]).
+[:zh_CN]
+对回收函数和析构函数（[#class.dtor]，[#class.free]）都进行访问控制和歧义控制。

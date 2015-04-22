@@ -1,31 +1,38 @@
 ﻿[section#expr.unary
     [:en] Unary expressions
-    [:zh_CN]
+    [:zh_CN] 一元表达式
 ]
 
 [%:begin#expression.unary
     [:en] expression [! unary]
+    [:zh_CN] 表达式 [! 一元～]
 ]
 
 [para]
 [:en]
 Expressions with unary operators group right-to-left.
+[:zh_CN]
+带有一元运算符的表达式按从左向右分组。
 
 [%
     [:en] expression[!unary]
+    [:zh_CN] 表达式 [! 一元～]
 ]
 [%
     [:en] operator[!unary]
+    [:zh_CN] 运算符 [! 一元～]
 ]
 [%
     [:en] operator[![`sizeof]]
+    [:zh_CN] 运算符[![`sizeof]]
 ]
 [%
     [:en] operator[!cast]
+    [:zh_CN] 运算符[!强制转换～]
 ]
 
 [syntax]
-[rule unary-expression]
+[rule unary-expression [:zh_CN] 一元表达式 ]
     [| postfix-expression ]
     [| [`++] cast-expression ]
     [| [`--] cast-expression ]
@@ -40,51 +47,37 @@ Expressions with unary operators group right-to-left.
 [rule:end]
 [syntax:end]
 
-[%
-    [:en] operator [! indirection]
-]
-[%
-    [:en] [`*] [see operator [! indirection]]
-]
-[%
-    [:en] operator [! address-of]
-]
-[%
-    [:en] [`&] [see operator [! address-of]]
-]
-[%
-    [:en] operator [! unary minus]
-]
-[%
-    [:en] [`-] [see operator [! unary minus]]
-]
-[%
-    [:en] operator [! unary plus]
-]
-[%
-    [:en] [`+] [see operator [! unary plus]]
-]
-[%
-    [:en] operator [! logical negation]
-]
-[%
-    [:en] [`!] [see operator [! logical negation]]
-]
-[%
-    [:en] operator [! one[=']s complement]
-]
-[%
-    [:en] [`~] [see operator [! one[=']s complement]]
-]
-[%
-    [:en] operator [! increment]
-]
-[%
-    [:en] operator [! decrement]
-]
+[%  [:en] operator [! indirection]
+    [:zh_CN] 运算符 [! 间接～] ]
+[%  [:en] [`*] [see operator [! indirection]]
+    [:zh_CN] [`*] [see 运算符 [! 间接～]] ]
+[%  [:en] operator [! address-of]
+    [:zh_CN] 运算符 [! 取地址～] ]
+[%  [:en] [`&] [see operator [! address-of]]
+    [:zh_CN] [`&] [see 运算符 [! 取地址～]] ]
+[%  [:en] operator [! unary minus]
+    [:zh_CN] 运算符 [! 一元减～] ]
+[%  [:en] [`-] [see operator [! unary minus]]
+    [:zh_CN] [`-] [see 运算符 [! 一元减～]] ]
+[%  [:en] operator [! unary plus]
+    [:zh_CN] 运算符 [! 一元加～] ]
+[%  [:en] [`+] [see operator [! unary plus]]
+    [:zh_CN] [`+] [see 运算符 [! 一元减～]] ]
+[%  [:en] operator [! logical negation]
+    [:zh_CN] 运算符 [! 逻辑非～] ]
+[%  [:en] [`!] [see operator [! logical negation]]
+    [:zh_CN] [`|] [see 运算符 [! 逻辑非～]] ]
+[%  [:en] operator [! one[=']s complement]
+    [:zh_CN] 运算符 [! 一的补码～]]
+[%  [:en] [`~] [see operator [! one[=']s complement]]
+    [:zh_CN] [`~] [see 运算符 [! 一的补码～]] ]
+[%  [:en] operator [! increment]
+    [:zh_CN] 运算符 [! 增量～] ]
+[%  [:en] operator [! decrement]
+    [:zh_CN] 运算符 [! 减量～]] ]
 
 [syntax]
-[rule:oneof unary-operator [:zh_CN] ]
+[rule:oneof unary-operator [:zh_CN] 一元运算符 ]
     [| *  &  +  -  !  ~ ]
 [rule:end]
 [syntax:end]

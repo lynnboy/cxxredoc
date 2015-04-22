@@ -1,26 +1,38 @@
 ﻿[section#expr.alignof
     [:en] Alignof
-    [:zh_CN]
+    [:zh_CN] alignof
 ]
 
 [para]
 [:en]
 [%expression[![`alignof]]]
 An [`alignof] expression yields the alignment requirement of its operand type.
+[:zh_CN]
+[%表达式[![`alignof]]]
+[`alignof] 表达式生成其操作数类型的对齐要求。
 
 [:en]
 The operand shall be a [~type-id] representing a complete object type, or an
 array thereof, or a reference to one of those types.
+[:zh_CN]
+其操作数应当为[~类型标识]，表示完整的对象类型或其数组，或表示指代完整的对象类型
+的引用。
 
 [para]
 [:en]
 The result is an integral constant of type [`std::size_t].
+[:zh_CN]
+其结果为 [`std::size_t] 类型的整型常量。
 
 [para]
 [:en]
 When [`alignof] is applied to a reference type, the result is the alignment of
 the referenced type.
+[:zh_CN]
+当 [`alignof] 施加于引用类型时，其结果为被指代的类型的对齐。
 
 [:en]
 When [`alignof] is applied to an array type, the result is the alignment of the
 element type.
+[:zh_CN]
+当 [`alignof] 应用于数组类型时，其结果为元素类型的对齐。

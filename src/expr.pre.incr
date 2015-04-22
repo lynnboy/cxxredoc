@@ -1,56 +1,73 @@
 ﻿[section#expr.pre.incr
     [:en] Increment and decrement
-    [:zh_CN]
+    [:zh_CN] 增量和减量
 ]
 
 [para]
 [:en]
-[%expression[!increment]]
-[%expression[!decrement]]
-The operand of prefix [`++]
-[%operator[!increment]]
-[%prefix [`++]]
-is modified by adding [`1],
-[%increment[![`bool]]]
-[%prefix [`--]]
-[%deprecated features]
+[%expression[!increment]] [%expression[!decrement]]
+The operand of prefix [`++] [%operator[!increment]] [%prefix [`++]] is modified
+by adding [`1],
+[%increment[![`bool]]] [%prefix [`--]] [%deprecated features]
 or set to [`true] if it is [`bool] (this use is deprecated).
+[:zh_CN]
+[%表达式[!增量～]] [%表达式[!减量～]]
+前置 [`++] [%运算符[!增量～]] [%前置 [`++]] 的操作数通过加 [`1] 而改变，
+[%增量[![`bool]]] [%前置 [`--]] [%摒弃的功能特性]
+或者当其类型为 [`bool] 时，将值设为 [`true]（这种用法是被摒弃的）。
 
 [:en]
 The operand shall be a modifiable lvalue.
+[:zh_CN]
+其操作数应当为可改动的左值。
 
 [:en]
 The type of the operand shall be an arithmetic type or a pointer to a
 completely-defined object type.
+[:zh_CN]
+操作数的类型应当是算术类型或指向完整定义的对象类型的指针。
 
 [:en]
 The result is the updated operand; it is an lvalue, and it is a bit-field if the
 operand is a bit-field.
+[:zh_CN]
+其结果为更新后的操作数；它是左值，且若操作数为位字段，则它也是位字段。
 
 [:en]
 If [`x] is not of type [`bool], the expression [`++x] is equivalent to [`x+=1]
 [%operator[![`+=]]]
+[:zh_CN]
+若 [`x] 的类型不是 [`bool]，则表达式 [`++x] 与 [`x+=1] 等价。
 
 [enter:note]
 [:en]
 See the discussions of addition ([#expr.add]) and assignment operators
 ([#expr.ass]) for information on conversions.
+[:zh_CN]
+有关类型转换的信息参见加法（[expr.add]）和赋值运算符（[#expr.ass]）的讨论。
 [exit:note]
 
 [para]
 [:en]
-The operand of prefix
-[%operator[!decrement]]
-[`--] is modified by subtracting [`1].
+The operand of prefix [%operator[!decrement]] [`--] is modified by subtracting
+[`1].
+[:zh_CN]
+前置 [%运算符[!减量]][`--] 的操作数通过减 [`1] 而改变。
 
 [:en]
 The operand shall not be of type [`bool].
+[:zh_CN]
+其操作数类型不能为 [`bool]。
 
 [:en]
 The requirements on the operand of prefix [`--] and the properties of its result
 are otherwise the same as those of prefix [`++].
+[:zh_CN]
+对前置 [`--] 的操作数和其结果的其他属性的规定与前置 [`++] 相同。
 
 [enter:note]
 [:en]
 For postfix increment and decrement, see [#expr.post.incr].
+[:zh_CN]
+关于后置增量和减量，参见 [#expr.post.incr]。
 [exit:note]

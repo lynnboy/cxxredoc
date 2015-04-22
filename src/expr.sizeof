@@ -1,42 +1,62 @@
 ﻿[section#expr.sizeof
     [:en] Sizeof
-    [:zh_CN]
+    [:zh_CN] sizeof
 ]
 
 [para]
 [:en]
-[%expression[![`sizeof]]]
-[%operator[![`sizeof]]]
-[%byte]
+[%expression[![`sizeof]]] [%operator[![`sizeof]]] [%byte]
 The [`sizeof] operator yields the number of bytes in the object representation
 of its operand.
+[:zh_CN]
+[%表达式[![`sizeof]]] [%运算符[![`sizeof]]] [%字节]
+[`sizeof] 运算符产生其操作数的对象表示中的字节数。
 
 [:en]
 The operand is either an expression, which is an unevaluated operand (Clause
 [#expr]), or a parenthesized [~type-id].
+[:zh_CN]
+其操作数要么是表达式（它是免求值操作数（第 [#expr] 条）），要么是带括号的[~类型
+标识]。
 
 [:en]
 [%type[!incomplete]]
 The [`sizeof] operator shall not be applied to an expression that has function
 or incomplete type, to the parenthesized name of such types, or to a glvalue
 that designates a bit-field.
+[:zh_CN]
+[%类型[!不完整～]]
+[`sizeof] 运算符不能被施加于具有函数或不完整类型的表达式上，在声明完全部枚举符
+之前施加于底层类型未固定的枚举类型上，这些类型的带括号的名字上，或者代表位字段的
+泛左值上。
 
 [:en]
 [`sizeof(char)], [`sizeof(signed char)] and [`sizeof(unsigned char)] are [`1].
+[:zh_CN]
+[`sizeof(char)]、[`sizeof(signed char)] 和 [`sizeof(unsigned char)] 为 [`1]。
 
 [:en]
 The result of [`sizeof] applied to any other fundamental type
 ([#basic.fundamental]) is [%@impldef [`sizeof] applied to fundamental types
 other than [`char], [`signed char], and [`unsigned char]]implementation-defined.
+[:zh_CN]
+对任何其他基础类型（[#basic.fundamental]）施加 [`sizeof] 的结果是
+[%@impldef 对除 [`char]、[`signed char] 和 [`unsigned char] 以外的基础类型施加
+[`sizeof]]由实现定义的。
 
 [enter:note]
 [:en]
 in particular, [`sizeof(bool)], [`sizeof(char16_t)], [`sizeof(char32_t)], and
 [`sizeof(wchar_t)] are implementation-defined.
+[:zh_CN]
+特别地，[`sizeof(bool)]，[`sizeof(char16_t)]，[`sizeof(char32_t)]，和
+[`sizeof(wchar_t)] 是由实现定义的。
 
 [footnote]
 [:en]
 [`sizeof(bool)] is not required to be [`1].
+[:zh_CN]
+[`sizeof(bool)] 不必为 [`1]。
 [footnote:end]
 
 [exit:note]
@@ -45,6 +65,9 @@ in particular, [`sizeof(bool)], [`sizeof(char16_t)], [`sizeof(char32_t)], and
 [:en]
 See [#intro.memory] for the definition of [+byte] and [#basic.types] for the
 definition of [+object representation].
+[:zh_CN]
+有关[+字节]的定义，参见 [#intro.memory]；有关[+对象表示]的定义，参见
+[#basic.types]。
 [exit:note]
 
 [para]
@@ -52,56 +75,86 @@ definition of [+object representation].
 [%reference[![`sizeof]]]
 When applied to a reference or a reference type, the result is the size of the
 referenced type.
+[:zh_CN]
+[%引用[![`sizeof]]]
+当施加于引用或引用类型时，其结果为被引用类型的大小。
 
 [:en]
 [%class object[![`sizeof]]]
 When applied to a class, the result is the number of bytes in an object of that
 class including any padding required for placing objects of that type in an
 array.
+[:zh_CN]
+[%类对象[![`sizeof]]]
+当施加于类时，其结果为此类的对象的字节数，其中包括在数组中放置此类型的对象时所需
+的任何填充。
 
 [:en]
 The size of a most derived class shall be greater than zero ([#intro.object]).
+[:zh_CN]
+全派生类的大小应当大于零（[#intro.object]）。
 
 [:en]
 The result of applying [`sizeof] to a base class subobject is the size of the
 base class type.
+[:zh_CN]
+对基类子对象施加 [`sizeof] 的结果是该基类类型的大小。
 
 [footnote]
 [:en]
 The actual size of a base class subobject may be less than the result of
 applying [`sizeof] to the subobject, due to virtual base classes and less strict
 padding requirements on base class subobjects.
+[:zh_CN]
+由于虚基类和基类子对象上较弱的填充要求的关系，基类子对象的实际大小可能小于对该
+子对象应用 [`sizeof] 所获取的值。
 [footnote:end]
 
 [:en]
 [%array[![`sizeof]]]
 When applied to an array, the result is the total number of bytes in the array.
+[:zh_CN]
+[%数组[![`sizeof]]]
+当施加于数组时，其结果为该数组的字节总数。
 
 [:en]
 This implies that the size of an array of [$n] elements is [$n] times the size
 of an element.
+[:zh_CN]
+这意味着 [$n] 个元素的数组的大小为 [$n] 倍的元素大小。
 
 [para]
 [:en]
 The [`sizeof] operator can be applied to a pointer to a function, but shall not
 be applied directly to a function.
+[:zh_CN]
+[`sizeof] 运算符可被施加于指向函数的指针，但不能直接施加于函数。
 
 [para]
 [:en]
 The lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) standard conversions are not applied to the
 operand of [`sizeof].
+[:zh_CN]
+[`sizeof] 的操作数上不实施左值向右值（[#conv.lval]）、数组向指针
+（[#conv.array]）和函数向指针（[#conv.func]）标准转换。
 
 [para]
 [:en]
 The identifier in a [`sizeof...] expression shall name a parameter pack.
+[:zh_CN]
+[`sizeof...] 表达式中的标识符应当指名一个形参包组。
 
 [:en]
 The [`sizeof...] operator yields the number of arguments provided for the
 parameter pack [~identifier].
+[:zh_CN]
+[`sizeof...] 运算符产生形参包组[~标识符]中所提供的实参个数。
 
 [:en]
 A [`sizeof...] expression is a pack expansion ([#temp.variadic]).
+[:zh_CN]
+[`sizeof...] 表达式是包组展开式（[#temp.variadic]）。
 
 [enter:example]
 [codeblock]
@@ -115,12 +168,16 @@ struct count {
 [para]
 [:en]
 The result of [`sizeof] and [`sizeof...] is a constant of type [`std::size_t].
+[:zh_CN]
+[`sizeof] 和 [`sizeof...] 的结果为 [`std::size_t] 类型的常量。
 
 [enter:note]
-[:en]
 [%[`size_t]]
 [%@library size_t]
+[:en]
 [`std::size_t] is defined in the standard header
-[%[`<cstddef>] [sortas cstddef]]
-[`<cstddef>] ([#support.types]).
+[%[`<cstddef>] [sortas cstddef]] [`<cstddef>] ([#support.types]).
+[:zh_CN]
+[`std::size_t] 定义于标准头文件
+[%[`<cstddef>] [sortas cstddef]] [`<cstddef>]（[#support.types]）。
 [exit:note]

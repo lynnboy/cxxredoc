@@ -5,71 +5,110 @@
 
 [para]
 [:en]
-[%expression[!unary operator]]
-[%operator[!unary]]
+[%expression[!unary operator]] [%operator[!unary]]
 The unary [`*] operator performs [+indirection]:
-[%dereferencing[seealso indirection]]
-[%indirection]
+[%dereferencing[seealso indirection]] [%indirection]
 the expression to which it is applied shall be a pointer to an object type, or a
 pointer to a function type and the result is an lvalue referring to the object
 or function to which the expression points.
+[:zh_CN]
+[%表达式[!一元运算符～]] [%运算符[!一元～]]
+一元 [`*] 运算符实施[+间接]：
+[%解引用[seealso 间接]] [%间接]
+其所应用的表达式应当是指向对象类型的指针，或指向函数类型的指针，并且其结果为左值
+，指代该表达式所指向的对象或函数。
 
 [:en]
 If the type of the expression is ["pointer to [`T],] the type of the result is
 ["[`T].]
+[:zh_CN]
+若表达式的类型为“指向 [`T] 的指针”，则其结果的类型为“[`T]”。
 
 [enter:note]
 [:en]
 [%type[!incomplete]]
 indirection through a pointer to an incomplete type (other than [$cv] [`void])
-is valid. The lvalue thus obtained can be used in limited ways (to initialize a
-reference, for example); this lvalue must not be converted to a prvalue, see
+is valid.
+[:zh_CN]
+[%类型[!不完整～]]
+可以对指向不完全类型（除了 [$cv] [`void]）的指针进行解间接。
+
+[:en]
+The lvalue thus obtained can be used in limited ways (to initialize a reference,
+for example); this lvalue must not be converted to a prvalue, see
 [#conv.lval].
+[:zh_CN]
+所获得的左值可以被以有限的方式使用（如用以初始化引用）；此左值不能转换为纯右值，
+见 [#conv.lval]。
 [exit:note]
 
 [para]
 [:en]
 The result of each of the following unary operators is a prvalue.
+[:zh_CN]
+下述每种一元运算符的结果均为纯右值。
 
 [para]
 [:en]
 [%name[!address of cv-qualified]]
 [%expression[!pointer to member constant]]
 The result of the unary [`&] operator is a pointer to its operand.
+[:zh_CN]
+[%名字[!cv-限定的～的地址]]
+[%表达式[!成员指针常量～]]
+一元 [`&] 运算符的结果为指向其操作数的指针。
 
 [:en]
 The operand shall be an lvalue or a [~qualified-id].
+[:zh_CN]
+该操作数应当是左值或[~限定标识]。
 
 [:en]
 If the operand is a [~qualified-id] naming a non-static or variant member [`m]
 of some class [`C] with type [`T], the result has type ["pointer to member of
 class [`C] of type [`T]] and is a prvalue designating [`C::m].
+[:zh_CN]
+若其操作数是指名了某个类 [`C] 的类型为 [`T] 的非静态成员 [`m] 的[~限定标识]，则
+其结果的类型为“指向的 [`C] 的类型为 [`T] 的成员的指针”，且是一个代表 [`C::m] 的
+纯右值。
 
 [:en]
 Otherwise, if the type of the expression is [`T], the result has type ["pointer
 to [`T]] and is a prvalue that is the address of the designated object
 ([#intro.memory]) or a pointer to the designated function.
+[:zh_CN]
+否则，若表达式的类型为 [`T]，则其结果的类型为“[`T] 的指针”，且是一个其所代表的
+对象的地址（[#intro.memory]），或指向其所代表的函数的指针的纯右值。
 
 [enter:note]
 [:en]
 In particular, the address of an object of type ["[$cv] [`T]] is ["pointer to
 [$cv] [`T]], with the same cv-qualification.
+[:zh_CN]
+特别是，类型为“[$cv] [`T]”的对象的地址，是“指向 [$cv] [`T] 的指针”，并带有相同的
+cv-限定性。
 [exit:note]
 
 [:en]
 For purposes of pointer arithmetic ([#expr.add]) and comparison ([#expr.rel],
 [#expr.eq]), an object that is not an array element whose address is taken in
 this way is considered to belong to an array with one element of type [`T].
+[:zh_CN]
+为进行指针算数（[#expr.add]）和比较（[#expr.rel]，[#expr.eq]），以这种方式取地址
+的非数组元素对象，被当作是 [`T] 类型的单个元素的数组。
 
 [enter:example]
 [codeblock]
 struct A { int i; };
 struct B : A { };
 ... &B::i ...       // [:en] has type [`int A::*]
+                    // [|:zh_CN] 类型为 [`int A::*]
 int a;
 int* p1 = &a;
 int* p2 = p1 + 1;   // [:en] defined behavior
+                    // [|:zh_CN] 有定义行为
 bool b = p2 > p1;   // [:en] defined behavior, with value [`true]
+                    // [|:zh_CN] 有定义行为，值为 [`true]
 [codeblock:end]
 [exit:example]
 
@@ -78,28 +117,42 @@ bool b = p2 > p1;   // [:en] defined behavior, with value [`true]
 a pointer to member formed from a [`mutable] non-static data member ([#dcl.stc])
 does not reflect the [`mutable] specifier associated with the non-static data
 member.
+[:zh_CN]
+由 [`mutable] 非静态数据成员（[#dcl.stc]）构成的成员指针，并不反映与该非静态数据
+成员关联的 [`mutable] 说明符。
 [exit:note]
 
 [para]
 [:en]
 A pointer to member is only formed when an explicit [`&] is used and its operand
 is a [~qualified-id] not enclosed in parentheses.
+[:zh_CN]
+仅当显式使用 [`&] 且其操作数为未被括号包围的[~限定标识]时才可构成成员指针。
 
 [enter:note]
 [:en]
 that is, the expression [`&(qualified-id)], where the [~qualified-id] is
 enclosed in parentheses, does not form an expression of type ["pointer to
 member.]
+[:zh_CN]
+就是说，表达式 [`&(qualified-id)]，其中[~限定标识]被括号包围，并不构成类型“成员
+指针”的表达式。
 
 [:en]
 Neither does [`qualified-id], because there is no implicit conversion from a
 [~qualified-id] for a non-static member function to the type ["pointer to member
 function] as there is from an lvalue of function type to the type ["pointer to
 function] ([#conv.func]).
+[:zh_CN]
+[`qualified-id] 也不行，因为不存在如同从函数类型的左值向类型“指向函数的指针”
+（[#conv.func]）那样的，从非静态成员函数的[~限定标识]向类型“指向成员函数的指针”
+的隐式转换。
 
 [:en]
 Nor is [`&unqualified-id] a pointer to member, even within the scope of the
 [~unqualified-id][=']s class.
+[:zh_CN]
+即使处于[~未限定标识]的类的作用域中，[`&unqualified-id] 也不是成员指针。
 [exit:note]
 
 [para]
@@ -107,9 +160,14 @@ Nor is [`&unqualified-id] a pointer to member, even within the scope of the
 If [`&] is applied to an lvalue of incomplete class type and the complete type
 declares [`operator&()], it is unspecified whether the operator has the built-in
 meaning or the operator function is called.
+[:zh_CN]
+当对不完整类类型的左值应用 [`&] 的地址，但其完整类型声明了 [`operator&()]，则该
+运算符具有内建含义还是调用运算符函数是未指明的。
 
 [:en]
 The operand of [`&] shall not be a bit-field.
+[:zh_CN]
+[`&] 的操作数不能是位字段。
 
 [para]
 [:en]
@@ -117,12 +175,19 @@ The operand of [`&] shall not be a bit-field.
 The address of an overloaded function (Clause [#over]) can be taken only in a
 context that uniquely determines which version of the overloaded function is
 referred to (see [#over.over]).
+[:zh_CN]
+[%重载函数[!～的地址]]
+仅在可以唯一确定涉指哪个重载函数的语境中（参见 [#over.over]），才可取得重载函数
+（第 [#over] 条）的地址。
 
 [enter:note]
 [:en]
 since the context might determine whether the operand is a static or non-static
 member function, the context can also affect whether the expression has type
 ["pointer to function] or ["pointer to member function.]
+[:zh_CN]
+由于语境可以确定其操作数是静态还是非静态成员函数，故该语境也会影响该表达式所具有
+的类型是“函数指针”还是“成员函数指针”。
 [exit:note]
 
 [para]
@@ -130,28 +195,46 @@ member function, the context can also affect whether the expression has type
 [%operator[!unary plus]]
 The operand of the unary [`+] operator shall have arithmetic, unscoped
 enumeration, or pointer type and the result is the value of the argument.
+[:zh_CN]
+[%运算符[!一元加～]]
+一元 [`+] 运算符的操作数应当具有算术、无作用域枚举或指针类型，且其结果为其实参的
+值。
 
 [:en]
 Integral promotion is performed on integral or enumeration operands.
+[:zh_CN]
+对整型或枚举操作数实施整型提升。
 
 [:en]
 The type of the result is the type of the promoted operand.
+[:zh_CN]
+其结果的类型为操作数提升后的类型。
 
 [para]
 [:en]
 [%operator[!unary minus]]
 The operand of the unary [`-] operator shall have arithmetic or unscoped
 enumeration type and the result is the negation of its operand.
+[:zh_CN]
+[%运算符[!一元减～]]
+一元 [`-] 运算符的操作数应当具有算术或无作用域枚举类型，且其结果为其操作数的相反
+数。
 
 [:en]
 Integral promotion is performed on integral or enumeration operands.
+[:zh_CN]
+对整型或枚举操作数实施整型提升。
 
 [:en]
 The negative of an unsigned quantity is computed by subtracting its value from
 [$2[^n]], where [$n] is the number of bits in the promoted operand.
+[:zh_CN]
+无符号量的相反数按照用 [$2[^n]] 减去其值求得，其中 [$n] 为被提升的操作数的位数。
 
 [:en]
 The type of the result is the type of the promoted operand.
+[:zh_CN]
+其结果的类型为操作数提升后的类型。
 
 [para]
 [:en]
@@ -159,23 +242,43 @@ The type of the result is the type of the promoted operand.
 The operand of the logical negation operator [`!] is contextually converted to
 [`bool] (Clause [#conv]); its value is [`true] if the converted operand is
 [`false] and [`false] otherwise.
+[:zh_CN]
+[%运算符[!逻辑非～]]
+逻辑非运算符 [`|] 的操作数被按语境转换为 [`bool]（第 [#conv] 条）；若被转换的操
+作数为 [`false] 则其值为 [`true]，否则为 [`false]。
 
 [:en]
 The type of the result is [`bool].
+[:zh_CN]
+其结果的类型为 [`bool]。
 
 [para]
 [:en]
 [%operator[!one[=']s complement]]
 The operand of [`~] shall have integral or unscoped enumeration type; the result
-is the one[=']s complement of its operand. Integral promotions are performed.
+is the one[=']s complement of its operand.
+[:zh_CN]
+[%运算符[!一的补码～]]
+[`~] 的操作数应当具有整型或无作用域枚举类型；结果为其操作数的一的补码。
+
+[:en]
+Integral promotions are performed.
+[:zh_CN]
+对其实施整型提升。
 
 [:en]
 The type of the result is the type of the promoted operand.
+[:zh_CN]
+其结果的类型为操作数提升后的类型。
 
 [:en]
 There is an ambiguity in the [~unary-expression] [`~X()], where [`X] is a
 [~class-name] or [~decltype-specifier].
+[:zh_CN]
+[~一元表达式] [`~X()] 中存在歧义，其中 [`X] 可以为[~类名]或 [~decltype-说明符]。
 
 [:en]
 The ambiguity is resolved in favor of treating [`~] as a unary complement rather
 than treating [`~X] as referring to a destructor.
+[:zh_CN]
+此歧义通过将 [`~] 当作一元补码，而不是将 [`~X] 当作代表析构函数而得到解决。
