@@ -1,15 +1,19 @@
 ﻿[section#expr.throw
     [:en] Throwing an exception
-    [:zh_CN]
+    [:zh_CN] 异常的抛出
 ]
 
 [:en]
 [%expression[![`throw]]]
 [%exception handling[!throwing]]
 [%[`throw]]
+[:zh_CN]
+[%表达式[![`throw]]]
+[%异常处理[!抛出]]
+[%[`throw]]
 
 [syntax]
-[rule throw-expression]
+[rule throw-expression [:zh_CN] throw-表达式 ]
     [| [`throw] [~:opt assignment-expression] ]
 [rule:end]
 [syntax:end]
@@ -17,6 +21,8 @@
 [para]
 [:en]
 A [~throw-expression] is of type [`void].
+[:zh_CN]
+[~throw-表达式]的类型为 [`void]。
 
 [para]
 [:en]
@@ -25,31 +31,49 @@ Evaluating a [~throw-expression] with an operand throws an exception
 any top-level [~cv-qualifiers] from the static type of the operand and adjusting
 the type from ["array of [`T]] or ["function returning [`T]] to ["pointer to
 [`T]] or ["pointer to function returning [`T],] respectively.
+[:zh_CN]
+以一个操作数求值[~throw-表达式]抛出一个异常（[#except.throw]）；异常对象的类型是
+通过移除操作数的静态类型的顶层[~cv-限定符]，再将类型从“[`T] 的数组”或“返回 [`T]
+的函数”分别调整为“[`T] 的指针”或“指向返回 [`T] 的函数的指针”而确定的。
 
 [para]
 [:en]
 [%exception handling[!rethrow]]
 A [~throw-expression] with no operand rethrows the currently handled exception
 ([#except.handle]).
+[:zh_CN]
+[%异常处理[!重新抛出]]
+没有操作数的 [~throw-表达式]重新抛出当前处理的异常（[#except.handle]）。
 
 [:en]
 The exception is reactivated with the existing exception object; no new
 exception object is created.
+[:zh_CN]
+异常被已经存在的异常对象重新激活；不创建新的异常对象。
 
 [:en]
 The exception is no longer considered to be caught.
+[:zh_CN]
+异常不再当作是已被捕获的。
 
 [enter:example]
 [:en]
 Code that must be executed because of an exception, but cannot
 completely handle the exception itself, can be written like this:
+[:zh_CN]
+当发生某异常时必须被执行但仍不能完全处理该异常的代码可以被写成：
+
 [codeblock]
 try {
     // ...
 } catch (...) {     // [:en] catch all exceptions
+                    // [|:zh_CN] 捕获所有异常
   // [:en] respond (partially) to exception
+  // [|:zh_CN] （部分地）响应异常
   throw;            // [:en] pass the exception to some
+                    // [|:zh_CN] 将异常传递给某个
                     // [:en@~] other handler
+                    // [|:zh_CN@~] 其他处理器
 }
 [codeblock:end]
 [exit:example]
@@ -61,3 +85,9 @@ try {
 [%[`terminate()][!called]]
 If no exception is presently being handled, evaluating a [~throw-expression]
 with no operand calls [`std::terminate()] ([#except.terminate]).
+[:zh_CN]
+[%异常处理[!重新抛出]]
+[%异常处理[!调用 [`terminate()]]]
+[%[`terminate()][!调用]]
+若当前没有被处理的异常，则执行没有操作数的[~throw-表达式]将调用
+[`std::terminate()]（[#except.terminate]）。
