@@ -1,10 +1,12 @@
 ﻿[section#expr.ass
     [:en] Assignment and compound assignment operators
-    [:zh_CN]
+    [:zh_CN] 赋值与组合赋值运算符
 ]
 
 [:en]
 [%expression[!assignment and compound assignment]]
+[:zh_CN]
+[%表达式[!赋值与组合赋值～]]
 
 [para]
 [:en]
@@ -22,38 +24,66 @@
 [%operator[![`|=]]]
 The assignment operator ([`=]) and the compound assignment operators all group
 right-to-left.
-[%assignment[!and lvalue]]
+[:zh_CN]
+[%运算符[!赋值～]]
+[%[`=][see 赋值运算符]]
+[%运算符[![`+=]]]
+[%运算符[![`-=]]]
+[%运算符[![`*=]]]
+[%运算符[![`/=]]]
+[%运算符[![`%=]]]
+[%运算符[![`<<=]]]
+[%运算符[![`>>=]]]
+[%运算符[![`&=]]]
+[%运算符[![`^=]]]
+[%运算符[![`|=]]]
+赋值运算符（[`=]）和组合赋值运算符都按从右向左分组。
 
+[:en]
+[%assignment[!and lvalue]]
 All require a modifiable lvalue as their left operand and return an lvalue
 referring to the left operand.
+[:zh_CN]
+[%赋值[!～与左值]]
+它们都要求可改动的左值作为其左操作数，且返回指代其左操作数的左值。
 
 [:en]
 The result in all cases is a bit-field if the left operand is a bit-field.
+[:zh_CN]
+在左操作数是位字段的任何情况下，其结果均为位字段。
 
 [:en]
 In all cases, the assignment is sequenced after the [%value computation] value
 computation of the right and left operands, and before the value computation of
 the assignment expression.
+[:zh_CN]
+在任何情况下，赋值操作均按顺序晚于其右操作数和左操作数的[%值计算]值计算，且按
+顺序早于赋值表达式的值计算。
 
 [:en]
 With respect to an indeterminately-sequenced function call, the operation of a
 compound assignment is a single evaluation.
+[:zh_CN]
+对于顺序不确定的函数调用来说，组合赋值的操作是单个的求值。
 
 [enter:note]
 [:en]
 Therefore, a function call shall not intervene between the lvalue-to-rvalue
 conversion and the side effect associated with any single compound assignment
 operator.
+[:zh_CN]
+因此，函数调用不能介入与任何单个组合赋值运算符相关联的左值向右值转换和副作用之间
+。
 [exit:note]
 
 [syntax]
-[rule assignment-expression]
+[rule assignment-expression [:zh_CN] 赋值表达式 ]
     [| conditional-expression ]
     [| logical-or-expression assignment-operator initializer-clause ]
     [| throw-expression ]
 [rule:end]
 
-[rule:oneof assignment-operator [:zh_CN] ]
+[rule:oneof assignment-operator [:zh_CN] 赋值运算符 ]
     [| =  *=  /=  %=  +=  -=  >>=  <<=  &=  ^=  |= ]
 [rule:end]
 [syntax:end]
@@ -62,28 +92,43 @@ operator.
 [:en]
 In simple assignment ([`=]), the value of the expression replaces that of the
 object referred to by the left operand.
+[:zh_CN]
+在简单赋值（[`=]）中，表达式的值替换了由其左操作数所指代的对象的值。
 
 [para]
 [:en]
 [%assignment[!conversion by]]
 If the left operand is not of class type, the expression is implicitly converted
 (Clause [#conv]) to the cv-unqualified type of the left operand.
+[:zh_CN]
+[%赋值[!～中转换]]
+若左操作数不为类类型，则表达式被隐式转换（第 [#conv] 条）为其左操作数的 cv-未
+限定的类型。
 
 [para]
 [:en]
 [%class object[!assignment to]]
 [%type[!incomplete]]
 If the left operand is of class type, the class shall be complete.
+[:zh_CN]
+[%类对象[!向～赋值]]
+[%类型[!不完整～]]
+若左操作数为类类型，则该类应当是完整的。
 
 [:en]
 Assignment to objects of a class is defined by the copy/move assignment operator
 ([#class.copy], [#over.ass]).
+[:zh_CN]
+对类对象的赋值由复制/移动赋值运算符（[#class.copy]，[#over.ass]）来定义。
 
 [para]
 [enter:note]
 [:en]
 For class objects, assignment is not in general the same as initialization
 ([#dcl.init], [#class.ctor], [#class.init], [#class.copy]).
+[:zh_CN]
+对于类对象来说，一般情况下赋值与初始化并不相同（[#dcl.init]，[#class.ctor]，
+[#class.init]，[#class.copy]）。
 [exit:note]
 
 [para]
@@ -93,66 +138,102 @@ When the left operand of an assignment operator is a bit-field that cannot
 represent the value of the expression, the resulting value of the bit-field is
 [%@impldef value of bit-field that cannot represent [!assigned value]]
 implementation-defined.
+[:zh_CN]
+[%引用[!向～赋值]]
+当赋值运算符的左操作数是位字段，并无法表示表达式的值时，其结果的位字段值是
+[%@impldef 无法表示的位字段的值 [!被赋值后的值]]由实现定义的。
 
 [para]
 [:en]
-The behavior of an expression of the form [`E1] [$op][`=] [`E2] is equivalent to
+The behavior of an expression of the form [`E1] [$op][`= `E2] is equivalent to
 [`E1 = E1] [$op] [`E2] except that [`E1] is evaluated only once.
+[:zh_CN]
+形式为 [`E1] [$op][`= `E2] 的表达式的行为与 [`E1 = E1] [$op] [`E2] 等价，但
+[`E1] 仅被求值一次。
 
 [:en]
 In [`+=] and [`-=], [`E1] shall either have arithmetic type or be a pointer to a
 possibly cv-qualified completely-defined object type.
+[:zh_CN]
+在 [`+=] 和 [`-=] 中，[`E1] 应当具有算术类型，或是指向可能被 cv-限定的完整定义的
+对象类型的指针。
 
 [:en]
 In all other cases, [`E1] shall have arithmetic type.
+[:zh_CN]
+在其他任何情况下，[`E1] 都应当具有算术类型。
 
 [para]
 [:en]
 If the value being stored in an object is read via another object that overlaps
 in any way the storage of the first object, then the overlap shall be exact and
 the two objects shall have the same type, otherwise the behavior is undefined.
+[:zh_CN]
+若向一个对象中存储的值，是从以某种方式与第一个对象的存储相重叠的另一个对象中访问
+获取的，则这种重叠必须是精确的，并且两个对象应当具有相同类型，否则其行为是未定义
+的。
 
 [enter:note]
 [:en]
 This restriction applies to the relationship between the left and right sides of
 the assignment operation; it is not a statement about how the target of the
 assignment may be aliased in general.
+[:zh_CN]
+这条限制适用于赋值操作中的左边和右边之间的关系；它并不是一般性地对如何对赋值的
+目标进行别名引用的陈述。
 
 [:en]
 See [#basic.lval].
+[:zh_CN]
+参见 [#basic.lval]。
 [exit:note]
 
 [para]
 [:en]
 A [~braced-init-list] may appear on the right-hand side of
+[:zh_CN]
+[~花括号初始化列表]能够出现在下列赋值的右侧：
 
 [list]
 [item]
 [:en]
 an assignment to a scalar, in which case the initializer list shall have at most
 a single element.
+[:zh_CN]
+对标量的赋值，这种情况下，初始化式列表最多能包含单个元素。
 
 [:en]
 The meaning of [`x={v}], where [`T] is the scalar type of the expression [`x],
 is that of [`x=T{v}].
+[:zh_CN]
+若 [`T] 是表达式 [`x] 的标量类型，则 [`x={v}] 的意思就是 [`x=T{v}]。
 
 [:en]
 The meaning of [`x={}] is [`x=T{}].
+[:zh_CN]
+[`x={}] 的意思就是 [`x=T{}]。
 
 [item]
 [:en]
 an assignment to an object of class type, in which case the initializer list is
 passed as the argument to the assignment operator function selected by overload
 resolution ([#over.ass], [#over.match]).
+[:zh_CN]
+对类类型的对象的赋值，这种情况下，初始化式列表作为实参被传递给由由重载决议
+（[#over.ass]，[#over.match]）所选择的赋值运算符函数。
 [list:end]
 
 [enter:example]
 [codeblock]
 complex<double> z;
 z = { 1,2 };              // [:en] meaning [`z.operator=({1,2})]
+                          // [:|zh_CN] 意为 [`z.operator=({1,2})]
 z += { 1, 2 };            // [:en] meaning [`z.operator+=({1,2})]
+                          // [:|zh_CN] 意为 [`z.operator+=({1,2})]
 int a, b;
 a = b = { 1 };            // [:en] meaning [`a=b=1;]
+                          // [:|zh_CN] 意为 [`a=b=1;]
 a = { 1 } = b;            // [:en] syntax error
+                          // [:|zh_CN] 语法错误
 [codeblock:end]
 [exit:example]
