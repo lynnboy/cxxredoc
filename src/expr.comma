@@ -8,10 +8,17 @@
 [%operator[!comma]]
 [%[`,][see comma operator]]
 [%sequencing operator[see comma operator]]
+[:zh_CN]
+[%表达式[!逗号]]
+[%运算符[!逗号]]
+[%[`,][see 逗号运算符]]
+[%序列运算符[see 逗号运算符]]
 
 [para]
 [:en]
 The comma operator groups left-to-right.
+[:zh_CN]
+逗号运算符按从左向右分组。
 
 [syntax]
 [rule expression [:zh_CN] ]
@@ -23,41 +30,63 @@ The comma operator groups left-to-right.
 [:en]
 A pair of expressions separated by a comma is evaluated left-to-right; the left
 expression is a discarded-value expression (Clause [#expr]).
+[:zh_CN]
+一对由逗号分隔的表达式从左向右求值，其左边的表达式是弃值表达式（第 [#expr] 条）
+。
 
 [footnote]
 [:en]
 However, an invocation of an overloaded comma operator is an ordinary function
 call; hence, the evaluations of its argument expressions are unsequenced
 relative to one another (see [#intro.execution]).
+[:zh_CN]
+然而，对某个重载逗号运算符的调用是普通的函数调用；因此，其实参表达式的求值之间是
+无顺序的（参见 [#intro.execution]）。
 [footnote:end]
 
 [:en]
+[%operator[!side effects and comma]]
 Every [%value computation] value computation and side effect associated with the
 left expression is sequenced before every value computation and side effect
 associated with the right expression.
+[:zh_CN]
+[%运算符[!副作用与逗号～]]
+任何与左边的表达式相关联的[%值计算]值计算和副作用都按顺序早于任何与右边的表达式
+相关联的值计算和副作用。
 
 [:en]
-[%operator[!side effects and comma]]
 The type and value of the result are the type and value of the right operand;
 the result is of the same value category as its right operand, and is a
 bit-field if its right operand is a glvalue and a bit-field.
+[:zh_CN]
+其结果的类型和值是右操作数的类型和值；其结果与其右操作数具有相同的值类别，若右
+操作数是泛左值位字段则其结果为位字段。
 
 [:en]
 If the value of the right operand is a temporary ([#class.temporary]), the
 result is that temporary.
+[:zh_CN]
+若右操作数的值时临时对象（[#class.temporary]），则结果是该临时对象。
 
 [para]
 [:en]
 In contexts where comma is given a special meaning,
+[:zh_CN]
+在逗号具有特殊含义的语境中，
+
 [enter:example]
 [:en@~]
 in lists of arguments to functions ([#expr.call]) and lists of initializers
 ([#dcl.init])
+[:zh_CN@~]
+在函数的实参列表（[#expr.call]）和初始化式列表（[#dcl.init]）中
 [exit:example]
 
 [:en@~]
 the comma operator as described in Clause [#expr] can appear only in
 parentheses.
+[:zh_CN@~]
+第 [#expr] 条中所描述的逗号运算符只能出现在括号里。
 
 [enter:example]
 [codeblock]
@@ -66,4 +95,6 @@ f(a, (t=3, t+2), c);
 
 [:en]
 has three arguments, the second of which has the value [`5].
+[:zh_CN]
+有三个实参，第二个的值是 [`5]。
 [exit:example]
