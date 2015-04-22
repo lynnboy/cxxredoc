@@ -1,15 +1,19 @@
 ﻿[section#expr.cond
     [:en] Conditional operator
-    [:zh_CN]
+    [:zh_CN] 条件运算符
 ]
 
 [:en]
 [%expression[!conditional operator]]
 [%operator[!conditional expression]]
 [%[`?:][see conditional expression operator]]
+[:zh_CN]
+[%表达式[!条件运算符～]]
+[%运算符[!条件表达式～]]
+[%[`?:][see 条件表达式运算符]]
 
 [syntax]
-[rule conditional-expression]
+[rule conditional-expression [:zh_CN] 条件表达式 ]
     [| logical-or-expression ]
     [| logical-or-expression [`?] expression [`:] assignment-expression ]
 [rule:end]
@@ -18,47 +22,72 @@
 [para]
 [:en]
 Conditional expressions group right-to-left.
+[:zh_CN]
+条件表达式按从右向左分组。
 
 [:en]
 The first expression is contextually converted to [`bool] (Clause [#conv]).
+[:zh_CN]
+第一个表达式被按语境转换为 [`bool]（第 [#conv] 条）。
 
 [:en]
 It is evaluated and if it is [`true], the result of the conditional expression
 is the value of the second expression, otherwise that of the third expression.
+[:zh_CN]
+对它求值，若它为 [`true] 则条件表达式的结果为第二个表达式的值，否则就是第三个
+表达式的值。
 
 [:en]
 Only one of the second and third expressions is evaluated.
+[:zh_CN]
+第二个和第三个表达式之中只有一个被求值。
 
 [:en]
 Every [%value computation] value computation and side effect associated with the
 first expression is sequenced before every value computation and side effect
 associated with the second or third expression.
+[:zh_CN]
+任何与第一个表达式相关联的[%值计算]值计算和副作用都按顺序早于任何与第二个或第三
+个表达式相关联的值计算和副作用。
 
 [para]
 [:en]
 If either the second or the third operand has type [`void], one of the following
 shall hold:
+[:zh_CN]
+若第二个或第三个操作数具有类型 [`void]，则应满足如下之一：
 
 [list]
 [:en]
 [%conditional-expression[!throw-expression in]]
+[:zh_CN]
+[%条件表达式[!～中的 throw-表达式]]
 [item]
 [:en]
 The second or the third operand (but not both) is a (possibly parenthesized)
 [~throw-expression] ([#expr.throw]); the result is of the type and value
 category of the other.
+[:zh_CN]
+第二个或第三个操作数（但不同时）是（可能带有括号的）[~throw-表达式]
+（[#except.throw]）；其结果具有另一个操作数的类型和值类别。
 
 [:en]
 The [~conditional-expression] is a bit-field if that operand is a bit-field.
+[:zh_CN]
+若该操作数是位字段则该[~条件表达式]是位字段。
 
 [item]
 [:en]
 Both the second and the third operands have type [`void]; the result is of type
 [`void] and is a prvalue.
+[:zh_CN]
+第二个和第三个操作数都具有类型 [`void]；其结果类型为 [`void] 且为纯右值。
 
 [enter:note]
 [:en]
 This includes the case where both operands are [~throw-expression]s.
+[:zh_CN]
+这包括两个操作数都是 [~throw-表达式]的情况。
 [exit:note]
 [list:end]
 
@@ -68,11 +97,18 @@ Otherwise, if the second and third operand have different types and either has
 (possibly cv-qualified) class type, or if both are glvalues of the same value
 category and the same type except for cv-qualification, an attempt is made to
 convert each of those operands to the type of the other.
+[:zh_CN]
+否则，若第二个或第三个操作数具有不同类型，且其中任何一个具有（可能被 cv-限定的）
+类类型，或者若二者均为具有相同的值类别的泛左值，且除了 cv-限定性之外具有相同的
+类型，则尝试将其中每一个操作数转换为另一个操作数的类型。
 
 [:en]
 The process for determining whether an operand expression [`E1] of type [`T1]
 can be converted to match an operand expression [`E2] of type [`T2] is defined
 as follows:
+[:zh_CN]
+如下所定义的过程用于确定是否可以将类型为 [`T1] 的操作数表达式 [`E1] 转换为与类型
+为 [`T2] 的操作数表达式 [`E2] 相匹配：
 
 [list]
 [item]
@@ -81,17 +117,27 @@ If [`E2] is an lvalue: [`E1] can be converted to match [`E2] if [`E1] can be
 implicitly converted (Clause [#conv]) to the type ["lvalue reference to [`T2]],
 subject to the constraint that in the conversion the reference must bind
 directly ([#dcl.init.ref]) to an lvalue.
+[:zh_CN]
+若 [`E2] 为左值：若 [`E1] 可被隐式转换（第 [#conv] 条）为类型“[`T2] 的左值引用”
+（遵循在转换中引用必须与某个左值直接绑定（[#dcl.init.ref]）的约束），则可以转换
+[`E1] 使之与 [`E2] 相匹配。
 
 [item]
 [:en]
 If [`E2] is an xvalue: [`E1] can be converted to match [`E2] if [`E1] can be
 implicitly converted to the type ["rvalue reference to [`T2]], subject to the
 constraint that the reference must bind directly.
+[:zh_CN]
+若 [`E2] 为临限值：若 [`E1] 可被隐式转换为类型“[`T2] 的右值引用”（遵循在转换中
+引用必须直接绑定的约束），则可以转换 [`E1] 使之与 [`E2] 相匹配。
 
 [item]
 [:en]
 If [`E2] is a prvalue or if neither of the conversions above can be done and at
 least one of the operands has (possibly cv-qualified) class type:
+[:zh_CN]
+若 [`E1] 为纯右值，或上述转换均不可行，而至少一个操作数具有（可能被 cv-限定的）
+类类型时：
 
 [list]
 [item]
@@ -101,11 +147,18 @@ or one is a base class of the other: [`E1] can be converted to match [`E2] if
 the class of [`T2] is the same type as, or a base class of, the class of [`T1],
 and the cv-qualification of [`T2] is the same cv-qualification as, or a greater
 cv-qualification than, the cv-qualification of [`T1].
+[:zh_CN]
+若 [`E1] 和 [`E2] 都具有类类型，且其底层类类型相同或一个为另一个的基类：若 [`T2]
+的类与 [`T1] 相同或是其基类，且 [`T2] 的 cv-限定性与 [`T1] 的 cv-限定性相同或
+比之具有更强的 cv-限定性，则可以转换 [`E1] 使之与 [`E2] 相匹配。
 
 [:en]
 If the conversion is applied, [`E1] is changed to a prvalue of type [`T2] by
 copy-initializing a temporary of type [`T2] from [`E1] and using that temporary
 as the converted operand.
+[:zh_CN]
+若实施了该转换，则 [`E1] 被转换为类型 [`T2] 的纯右值，其中用 [`E1] 复制初始化
+[`T2] 类型的临时对象并以该临时对象作为转换后的操作数。
 
 [item]
 [:en]
@@ -115,6 +168,11 @@ the other): [`E1] can be converted to match [`E2] if [`E1] can be implicitly
 converted to the type that [`E2] would have after applying the lvalue-to-rvalue
 ([#conv.lval]), array-to-pointer ([#conv.array]), and function-to-pointer
 ([#conv.func]) standard conversions.
+[:zh_CN]
+否则（若 [`E1] 或 [`E2] 具有非类类型，或它们都为类类型但其底层类不相同，或互不为
+基类）：若 [`E1] 可被隐式转换为对表达式 [`E2] 实施左值向右值（[#conv.lval]）、
+数组向指针（[#conv.array]）和函数向指针（[#conv.func]）标准转换后所具有的类型，
+则可以转换 [`E1] 使之与 [`E2] 相匹配。
 [list:end]
 [list:end]
 
@@ -122,19 +180,29 @@ converted to the type that [`E2] would have after applying the lvalue-to-rvalue
 Using this process, it is determined whether the second operand can be converted
 to match the third operand, and whether the third operand can be converted to
 match the second operand.
+[:zh_CN]
+使用此过程，确定了是否可转换第二个操作数以与第三个操作数相匹配，以及是否可转换
+第三个操作数使之与第二个操作数相匹配。
 
 [:en]
 If both can be converted, or one can be converted but the conversion is
 ambiguous, the program is ill-formed.
+[:zh_CN]
+若它们都可被转换，或其中一个可被转换但其转换是有歧义的，则程序非良构。
 
 [:en]
 If neither can be converted, the operands are left unchanged and further
 checking is performed as described below.
+[:zh_CN]
+若都不能被转换，则操作数保持不变且实施下面所述的进一步检查。
 
 [:en]
 If exactly one conversion is possible, that conversion is applied to the chosen
 operand and the converted operand is used in place of the original operand for
 the remainder of this section.
+[:zh_CN]
+若恰好有一个转换可能进行，则对被选的操作数实施该转换，且在本节的余下部分中用所
+转换的操作数替代原操作数。
 
 [para]
 [:en]
@@ -142,58 +210,89 @@ If the second and third operands are glvalues of the same value category and
 have the same type, the result is of that type and value category and it is a
 bit-field if the second or the third operand is a bit-field, or if both are
 bit-fields.
+[:zh_CN]
+若第二个和第三个操作数是相同值类别的泛左值且具有相同类型，则其结果为该类型和该值
+类别，且若第二个或第三个操作数是位字段或都是位字段，则其结果为位字段。
 
 [para]
 [:en]
 Otherwise, the result is a prvalue.
+[:zh_CN]
+否则，其结果为纯右值。
 
 [:en]
 If the second and third operands do not have the same type, and either has
 (possibly cv-qualified) class type, overload resolution is used to determine the
 conversions (if any) to be applied to the operands ([#over.match.oper],
 [#over.built]).
+[:zh_CN]
+若第二个和第三个操作数类型不同，且其中有（可能被 cv-限定的）类类型，则使用重载
+决议以确定用以应用到操作数上的转换（如果有）（[#over.match.oper]，
+[#over.built]）。
 
 [:en]
 If the overload resolution fails, the program is ill-formed.
+[:zh_CN]
+如果此重载决议失败，则程序非良构。
 
 [:en]
 Otherwise, the conversions thus determined are applied, and the converted
 operands are used in place of the original operands for the remainder of this
 section.
+[:zh_CN]
+否则，实施其所确定的转换，在本节的余下部分中用经过转换的操作数替代原操作数。
 
 [para]
 [:en]
 Lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) standard conversions are performed on the
 second and third operands.
+[:zh_CN]
+对第二个和第三个操作数实施左值向右值（[#conv.lval]）、数组向指针
+（[#conv.array]）和函数向指针（[#conv.func]）标准转换。
 
 [:en]
 After those conversions, one of the following shall hold:
+[:zh_CN]
+在这些转换之后，应该符合如下情况之一：
 
 [list]
 [item]
 [:en]
 The second and third operands have the same type; the result is of that type.
+[:zh_CN]
+第二个和第三个操作数具有相同类型；其结果为该类型。
 
 [:en]
 If the operands have class type, the result is a prvalue temporary of the result
 type, which is copy-initialized from either the second operand or the third
 operand depending on the value of the first operand.
+[:zh_CN]
+若操作数均为类类型，则结果为结果类型的纯右值临时对象，它依据第一个操作数的值用
+第二个操作数或第三个操作数进行复制初始化。
 
 [item]
 [:en]
 The second and third operands have arithmetic or enumeration type; the usual
 arithmetic conversions are performed to bring them to a common type, and the
 result is of that type.
+[:zh_CN]
+第二个和第三个操作数具有算术或枚举类型；对其实施一般算术转换以将它们变为某个一般
+类型，而其结果为该类型。
 
 [item]
 [:en]
 One or both of the second and third operands have pointer type; pointer
 conversions ([#conv.ptr]) and qualification conversions ([#conv.qual]) are
 performed to bring them to their composite pointer type (Clause [#expr]).
+[:zh_CN]
+第二个和第三个操作数之一或都具有指针类型；实施指针转换（[#conv.ptr]）和限定性
+转换（[#conv.qual]）以将它们变为它们的合成指针类型（第 [#expr] 条）。
 
 [:en]
 The result is of the composite pointer type.
+[:zh_CN]
+其结果为该合成指针类型。
 
 [item]
 [:en]
@@ -201,14 +300,26 @@ One or both of the second and third operands have pointer to member type;
 pointer to member conversions ([#conv.mem]) and qualification conversions
 ([#conv.qual]) are performed to bring them to their composite pointer type
 (Clause [#expr]).
+[:zh_CN]
+第二个和第三个操作数之一或都具有成员指针类型；实施成员指针转换（[#conv.ptr]）和
+限定性转换（[#conv.qual]）以将它们变为它们的合成指针类型（第 [#expr] 条）。
 
 [:en]
 The result is of the composite pointer type.
+[:zh_CN]
+其结果为该合成指针类型。
 
 [item]
 [:en]
 Both the second and third operands have type [`std::nullptr_t] or one has that
 type and the other is a null pointer constant.
+[:zh_CN]
+第二个和第三个操作数均具有类型 [`std::nullptr_t]，或其中之一具有该类型而另一个
+为空指针常量。
 
 [:en]
 The result is of type [`std::nullptr_t].
+[:zh_CN]
+其结果具有类型 [`std::nullptr_t]。
+
+[list:end]
