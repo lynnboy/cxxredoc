@@ -1,27 +1,32 @@
 ﻿[section#expr.mul
     [:en] Multiplicative operators
-    [:zh_CN]
+    [:zh_CN] 乘性运算符
 ]
 
 [:en]
-[%expression[!multiplicative operators]]
-[%operator[!multiplicative]]
+[%expression[!multiplicative operators]] [%operator[!multiplicative]]
+[:zh_CN]
+[%表达式[!乘性运算符～]] [%运算符[!乘性～]]
 
 [para]
 [:en]
 The multiplicative operators [`*], [`/], and [`%] group left-to-right.
+[:zh_CN]
+乘性运算符 [`*]、[`/] 和 [`%] 按从左向右分组。
 
 [:en]
-[%operator[!multiplication]]
-[%[`*][see multiplication operator]]
-[%operator[!division]]
-[%[`/][see division operator]]
-[%operator[!remainder]]
-[%[`%][see remainder operator]]
+[%operator[!multiplication]] [%[`*][see multiplication operator]]
+[%operator[!division]] [%[`/][see division operator]]
+[%operator[!remainder]] [%[`%][see remainder operator]]
 [%remainder operator[see remainder operator]]
+[:zh_CN]
+[%运算符[!乘法～]] [%[`*][see 乘法运算符]]
+[%运算符[!出发～]] [%[`/][see 除法运算符]]
+[%运算符[!求余～]] [%[`%][see 求余运算符]]
+[%求余运算符[see 求余运算符]]
 
 [syntax]
-[rule multiplicative-expression [:zh_CN] ]
+[rule multiplicative-expression [:zh_CN] 乘性运算符 ]
     [| pm-expression ]
     [| multiplicative-expression [`*] pm-expression ]
     [| multiplicative-expression [`/] pm-expression ]
@@ -33,34 +38,54 @@ The multiplicative operators [`*], [`/], and [`%] group left-to-right.
 [:en]
 The operands of [`*] and [`/] shall have arithmetic or unscoped enumeration
 type; the operands of [`%] shall have integral or unscoped enumeration type.
+[:zh_CN]
+[`*] 和 [`/] 的操作数应当具有算术或无作用域枚举类型；[`%] 的操作数应当具有整型或
+无作用域枚举类型。
 
 [:en]
 The usual arithmetic conversions are performed on the operands and determine the
 type of the result.
+[:zh_CN]
+对操作数实施一般算术转换并确定结果的类型。
 
 [para]
 [:en]
 The binary [`*] operator indicates multiplication.
+[:zh_CN]
+二元 [`*] 运算符表示乘法。
 
 [para]
 [:en]
 The binary [`/] operator yields the quotient, and the binary [`%] operator
 yields the remainder from the division of the first expression by the second.
+[:zh_CN]
+二元 [`/] 运算符产生由第一个表达式被第二个所除的商，而二元 [`%] 运算符产生其余数
+。
 
 [:en]
 [%zero[!undefined division by]]
 If the second operand of [`/] or [`%] is zero the behavior is undefined.
+[:zh_CN]
+[%零[!未定义的除以～]]
+若 [`/] 或 [`%] 的第二个操作数为零则其行为是未定义的。
 
 [:en]
 For integral operands the [`/] operator yields the algebraic quotient with any
 fractional part discarded;
+[:zh_CN]
+[`/] 运算符对整型操作数产生算术商并丢弃分数部分；
 
 [footnote]
 [:en]
 This is often called truncation towards zero.
+[:zh_CN]
+这通常被称为向零截断。
 [footnote:end]
 
 [:en]
 if the quotient [`a/b] is representable in the type of the result, [`(a/b)*b +
 a%b] is equal to [`a]; otherwise, the behavior of both [`a/b] and [`a%b] is
 undefined.
+[:zh_CN]
+若 [`a/b] 的商可以由结果类型表示，则 [`(a/b)*b + a%b] 等于 [`a]；否则 [`a/b] 和
+[`a%b] 的行为都是未定义的。

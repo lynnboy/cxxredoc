@@ -1,28 +1,34 @@
 ﻿[section#expr.add
     [:en] Additive operators
-    [:zh_CN]
+    [:zh_CN] 加性运算符
 ]
 
 [:en]
-[%expression[!additive operators]]
-[%operator[!additive]]
+[%expression[!additive operators]] [%operator[!additive]]
+[:zh_CN]
+[%表达式[!加性运算符～]] [%运算符[!加性～]]
 
 [para]
 [:en]
 The additive operators [`+] and [`-] group left-to-right.
+[:zh_CN]
+加性运算符 [`+] 和 [`-] 按从左向右分组。
 
 [:en]
 The usual arithmetic conversions are performed for operands of arithmetic or
 enumeration type.
+[:zh_CN]
+对算术或枚举类型的操作数实施一般算术转换。
 
 [:en]
-[%addition operator]
-[%[`+][see addition operator]]
-[%subtraction operator]
-[%[`-][see subtraction operator]]
+[%addition operator] [%[`+][see addition operator]]
+[%subtraction operator] [%[`-][see subtraction operator]]
+[:zh_CN]
+[%加法运算符] [%[`+][see 加法运算符]]
+[%减法运算符] [%[`-][see 减法运算符]]
 
 [syntax]
-[rule additive-expression [:zh_CN] ]
+[rule additive-expression [:zh_CN] 加性运算符 ]
     [| multiplicative-expression ]
     [| additive-expression [`+] multiplicative-expression ]
     [| additive-expression [`-] multiplicative-expression ]
@@ -34,96 +40,149 @@ enumeration type.
 For addition, either both operands shall have arithmetic or unscoped enumeration
 type, or one operand shall be a pointer to a completely-defined object type and
 the other shall have integral or unscoped enumeration type.
+[:zh_CN]
+[%不完整]
+对于加法，两个操作数应当都具有算术或无作用域枚举类型，或者一个操作数应当是指向
+完整定义的对象类型的指针，而另一个为整型或无作用域枚举类型。
 
 [para]
 [:en]
 For subtraction, one of the following shall hold:
+[:zh_CN]
+对于减法，应符合下列情况之一：
 
 [list]
 [item]
 [:en]
 both operands have arithmetic or unscoped enumeration type; or
+[:zh_CN]
+两个操作数都具有算术或无作用域枚举类型；或
 
 [item]
 [:en]
 [%arithmetic[!pointer]]
 both operands are pointers to cv-qualified or cv-unqualified versions of the
 same completely-defined object type; or
+[:zh_CN]
+[%算术[!指针～]]
+两个操作数都是指向相同的完整定义的对象类型的，同样被 cv-限定或 cv-未限定的版本的
+指针；或
 
 [item]
 [:en]
 the left operand is a pointer to a completely-defined object type and the right
 operand has integral or unscoped enumeration type.
+[:zh_CN]
+左操作数是指向完整定义的对象类型的指针，而右操作数具有整型或无作用域枚举类型。
 [list:end]
 
 [para]
 [:en]
 The result of the binary [`+] operator is the sum of the operands.
+[:zh_CN]
+二元 [`+] 运算符的结果为其操作数的和。
 
 [:en]
 The result of the binary [`-] operator is the difference resulting from the
 subtraction of the second operand from the first.
+[:zh_CN]
+二元 [`-] 运算符的结果为用第一个操作数减去第二个的差。
 
 [para]
 [:en]
 [%arithmetic[!pointer]]
 When an expression that has integral type is added to or subtracted from a
 pointer, the result has the type of the pointer operand.
+[:zh_CN]
+[%算术[!指针～]]
+当向指针加上或减去具有整型类型的表达式时，其结果具有该指针操作数的类型。
 
 [:en]
 If the pointer operand points to an element of an array object
+[:zh_CN]
+若该指针操作数指向数组对象的元素
 
 [footnote]
 [:en]
 An object that is not an array element is considered to belong to a
 single-element array for this purpose; see [#expr.unary.op].
+[:zh_CN]
+这种情况中，不是数组元素的对象被当作属于一个单元素数组；参见 [#expr.unary.op]。
 [footnote:end]
 
 [:en@~]
 , and the array is large enough, the result points to an element offset from the
 original element such that the difference of the subscripts of the resulting and
 original array elements equals the integral expression.
+[:zh_CN@~]
+，且该数组足够大，则其结果指向从原元素偏移的元素，使得原数组元素与结果数组元素的
+下标的差等于该整型表达式。
 
 [:en]
-In other words, if the expression [`P] points to the $i$-th element of an array
+In other words, if the expression [`P] points to the [$i]-th element of an array
 object, the expressions [`(P)+N] (equivalently, [`N+(P)]) and [`(P)-N] (where
 [`N] has the value [$n]) point to, respectively, the [$i+n]-th and [$i-n]-th
 elements of the array object, provided they exist.
+[:zh_CN]
+换句话说，若表达式 [`P] 指向某个数组对象的第 [$i] 个元素，则表达式 [`(P)+N]
+（等价地，[`N+(P)]）和 [`(P)-N]（其中 [`N] 的值为 [$n]）分别指向（倘若它们存在）
+该数组对象的第 [$i+n] 个和第 [$i-n] 个元素。
 
 [:en]
 Moreover, if the expression [`P] points to the last element of an array object,
 the expression [`(P)+1] points one past the last element of the array object,
 and if the expression [`Q] points one past the last element of an array object,
 the expression [`(Q)-1] points to the last element of the array object.
+[:zh_CN]
+此外，若表达式 [`P] 指向某个数组对象的末尾元素，则表达式 [`(P)+1] 指向该数组对象
+的越过末尾元素一个位置，而若表达式 [`Q] 指向某个数组对象的越过末尾元素一个位置，
+则表达式 [`(Q)-1] 指向该数组对象的末尾元素。
 
 [:en]
 If both the pointer operand and the result point to elements of the same array
 object, or one past the last element of the array object, the evaluation shall
 not produce an overflow; otherwise, the behavior is undefined.
+[:zh_CN]
+若其指针操作数和结果都指向同一个数组对象中的元素，或该数组对象的越过末尾元素一个
+位置，则其求值不应产生溢出；否则，其行为是未定义的。
 
 [para]
 [:en]
 [%[`ptrdiff_t][!implementation defined type of]]
 [%subtraction[!implementation defined pointer]]
-[%[`ptrdiff_t]]
-[%[`<cstddef>][sortas cstddef]]
+[%[`ptrdiff_t]] [%[`<cstddef>][sortas cstddef]]
 [%comparison[!undefined pointer]]
 When two pointers to elements of the same array object are subtracted, the
 result is the difference of the subscripts of the two array elements.
+[:zh_CN]
+[%[`ptrdiff_t][!由实现定义的～类型]]
+[%减法[!由实现定义的指针～]]
+[%[`ptrdiff_t]] [%[`<cstddef>][sortas cstddef]]
+[%比较[!未定义的指针～]]
+当两个指向同一个数组对象的指针相减时，其结果为这两个数组元素的下标的差。
 
 [:en]
 The type of the result is an [%@impldef type of [`ptrdiff_t]] signed integral
 type; this type shall be the same type that is defined as [`std::ptrdiff_t] in
 the [`<cstddef>] header ([#support.types]).
+[:zh_CN]
+其结果的类型是[%@impldef 类型 [`ptrdiff_t]]由实现定义的整型类型；此类型应当与在
+[`<cstddef>] 头文件（[#support.types]）中定义的 [`std::ptrdiff_t] 为相同类型。
 
 [:en]
 As with any other arithmetic overflow, if the result does not fit in the space
 provided, the behavior is undefined.
+[:zh_CN]
+与任何其他的算术溢出一样，若其结果不能适合于所提供的空间，则其行为是未定义的。
 
 [:en]
 In other words, if the expressions [`P] and [`Q] point to, respectively, the
 [$i]-th and [$j]-th elements of an array object, the expression [`(P)-(Q)] has
 the value [$i-j] provided the value fits in an object of type [`std::ptrdiff_t].
+[:zh_CN]
+换句话说，若表达式 [`P] 和 [`Q] 分别指向某个数组对象的第 [$i] 个和第 [$j] 个元素
+，则表达式 [`(P)-(Q)] 的值（倘若该值适合于类型 [`std::ptrdiff_t] 的对象）为
+[$i-j]。
 
 [:en]
 Moreover, if the expression [`P] points either to an element of an array object
@@ -133,27 +192,46 @@ the same value as [`((Q)-(P))+1] and as [`-((P)-((Q)+1))], and has the value
 zero if the expression [`P] points one past the last element of the array
 object, even though the expression [`(Q)+1] does not point to an element of the
 array object.
+[:zh_CN]
+此外，若表达式 [`P] 指向某个数组对象的元素或该数组对象的越过末尾元素一个位置，且
+表达式 [`Q] 指向同一个数组对象的末尾元素，则表达式 [`((Q)+1)-(P)] 的值与
+[`((Q)-(P))+1] 和 [`-((P)-((Q)+1))] 相同，而若表达式 [`P] 指向该数组对象的越过
+末尾元素一个位置，则即使表达式 [`(Q)+1] 并不指向该数组的元素，其值也为零。
 
 [:en]
 Unless both pointers point to elements of the same array object, or one past the
 last element of the array object, the behavior is undefined.
+[:zh_CN]
+除非两个指针都指向同一个数组对象的元素，或越过末尾元素一个位置，否则其行为是未
+定义的。
 
 [footnote]
 [:en]
 Another way to approach pointer arithmetic is first to convert the pointer(s) to
-character pointer(s): In this scheme the integral value of the expression added
-to or subtracted from the converted pointer is first multiplied by the size of
-the object originally pointed to, and the resulting pointer is converted back to
-the original type.
+character pointer(s):
+[:zh_CN]
+指针算术的另一种方式是先把指针转换为字符指针：
+
+[:en]
+In this scheme the integral value of the expression added to or subtracted from
+the converted pointer is first multiplied by the size of the object originally
+pointed to, and the resulting pointer is converted back to the original type.
+[:zh_CN]
+在这种方案中，被转换的指针上所加上或减去的表达式的整型值，首先被乘以原来所指向的
+对象的大小，且结果指针被转换为其原来的类型。
 
 [:en]
 For pointer subtraction, the result of the difference between the character
 pointers is similarly divided by the size of the object originally pointed to.
+[:zh_CN]
+对于指针减法，字符指针之间的差也与之相似地被原来所指向的对象的大小所除。
 
 [:en]
 When viewed in this way, an implementation need only provide one extra byte
 (which might overlap another object in the program) just after the end of the
 object in order to satisfy the ["one past the last element] requirements.
+[:zh_CN]
+当按照这种观点看待时，实现为满足“越过末尾元素一个位置”规定只须紧跟对象的末尾之后提供一个额外字节（它可能与程序中的另一个对象重叠）。
 [footnote:end]
 
 [para]
@@ -161,19 +239,29 @@ object in order to satisfy the ["one past the last element] requirements.
 For addition or subtraction, if the expressions [`P] or [`Q] have type ["pointer
 to [$cv] [`T]], where [`T] and the array element type are not similar
 ([#conv.qual]), the behavior is undefined.
+[:zh_CN]
+对于加法或减法，若表达式 [`P] 或 [`Q] 类型为“指向 [$cv] [`T] 的指针”，其中 [`T]
+与数组元素类型不相似（[#conv.qual]），则其行为是未定义的。
 
 [enter:note]
 [:en]
 In particular, a pointer to a base class cannot be used for pointer arithmetic
 when the array contains objects of a derived class type.
+[:zh_CN]
+特别是，当数组包含派生类类型的对象时，不能用指向基类的指针进行指针算术。
 [exit:note]
 
 [para]
 [:en]
 If the value 0 is added to or subtracted from a pointer value, the result
 compares equal to the original pointer value.
+[:zh_CN]
+对指针值加上或减去 0 值，其结果与原来的指针值相比较是相等的。
 
 [:en]
 If two pointers point to the same object or both point one past the end of the
 same array or both are null, and the two pointers are subtracted, the result
 compares equal to the value 0 converted to the type [`std::ptrdiff_t].
+[:zh_CN]
+若两个指针指向同一个对象，或者指向同一个数组的越过末尾一个位置，或者它们都为空，
+则将两个指针相减的结果与转换为 [`std::ptrdiff_t] 类型后的 0 值相比较是相等的。
