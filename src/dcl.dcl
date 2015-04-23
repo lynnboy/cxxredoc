@@ -129,7 +129,7 @@ declaration.
 [para]
 [:en]
 Except where otherwise specified, the meaning of an [~attribute-declaration] is
-[%@impldef meaning of attribute declaration].
+[%@impldef meaning of attribute declaration] implementation-defined.
 
 [para]
 [:en]

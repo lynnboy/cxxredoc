@@ -102,7 +102,7 @@ The [~attribute-token] determines additional requirements on the
 
 [:en]
 The use of an [~attribute-scoped-token] is conditionally-supported, with
-[%@impldef behavior of attribute scoped token] behavior.
+[%@impldef behavior of attribute scoped token] implementation-defined behavior.
 
 [enter:note]
 [:en]
@@ -132,7 +132,8 @@ No [~attribute-specifier-seq] shall appertain to an explicit instantiation
 [para]
 [:en]
 For an [~attribute-token] not specified in this International Standard, the
-behavior is [%@impldef behavior of non-standard attributes].
+behavior is [%@impldef behavior of non-standard attributes]
+implementation-defined.
 
 [para]
 [:en]

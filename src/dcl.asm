@@ -19,7 +19,7 @@ An [`asm] declaration has the form
 
 [:en]
 The [`asm] declaration is conditionally-supported; its meaning is
-[%@impldef meaning of [`asm] declaration].
+[%@impldef meaning of [`asm] declaration] implementation-defined.
 
 [enter:note]
 [:en]

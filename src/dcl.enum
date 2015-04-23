@@ -254,10 +254,10 @@ If no integral type can represent all the enumerator values, the enumeration is
 ill-formed.
 
 [:en]
-It is [%@impldef underlying type for enumeration] which integral type is used as
-the underlying type except that the underlying type shall not be larger than
-[`int] unless the value of an enumerator cannot fit in an [`int] or [`unsigned
-int].
+It is [%@impldef underlying type for enumeration] implementation-defined which
+integral type is used as the underlying type except that the underlying type
+shall not be larger than [`int] unless the value of an enumerator cannot fit in
+an [`int] or [`unsigned int].
 
 [:en]
 If the [~enumerator-list] is empty, the underlying type is as if the enumeration
