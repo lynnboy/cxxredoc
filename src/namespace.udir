@@ -1,0 +1,243 @@
+﻿[section#namespace.udir
+    [:en] Using directive
+]
+[%:begin#using.directive
+    [:en] using-directive
+]
+
+[syntax]
+[rule using-directive [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] [`using] [`namespace] [~:opt nested-name-specifier] namespace-name [`;] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+A [~using-directive] shall not appear in class scope, but may appear in
+namespace scope or in block scope.
+
+[enter:note]
+[:en]
+When looking up a [~namespace-name] in a [~using-directive], only namespace
+names are considered, see [#basic.lookup.udir].
+[exit:note]
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the [~using-directive].
+
+[para]
+[:en]
+A [~using-directive] specifies that the names in the nominated namespace can be
+used in the scope in which the [~using-directive] appears after the
+[~using-directive].
+
+[:en]
+During unqualified name lookup ([#basic.lookup.unqual]), the names appear as if
+they were declared in the nearest enclosing namespace which contains both the
+[~using-directive] and the nominated namespace.
+
+[enter:note]
+[:en]
+In this context, ["contains] means ["contains directly or indirectly].
+[exit:note]
+
+[para]
+[:en]
+A [~using-directive] does not add any members to the declarative region in which
+it appears.
+
+[enter:example]
+[codeblock]
+namespace A {
+  int i;
+  namespace B {
+    namespace C {
+      int i;
+    }
+    using namespace A::B::C;
+    void f1() {
+      i = 5;        // [:en] OK, [`C::i] visible in [`B] and hides [`A::i]
+    }
+  }
+  namespace D {
+    using namespace B;
+    using namespace C;
+    void f2() {
+      i = 5;        // [:en] ambiguous, [`B::C::i] or [`A::i]?
+    }
+  }
+  void f3() {
+    i = 5;          // [:en] uses [`A::i]
+  }
+}
+void f4() {
+  i = 5;            // [:en] ill-formed; neither [`i] is visible
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+For unqualified lookup ([#basic.lookup.unqual]), the [~using-directive] is
+transitive: if a scope contains a [~using-directive] that nominates a second
+namespace that itself contains [~using-directive]s, the effect is as if the
+[~using-directive]s from the second namespace also appeared in the first.
+
+[enter:note]
+[:en]
+For qualified lookup, see [#namespace.qual].
+[exit:note]
+
+[enter:example]
+[codeblock]
+namespace M {
+  int i;
+}
+
+namespace N {
+  int i;
+  using namespace M;
+}
+
+void f() {
+  using namespace N;
+  i = 7;            // [:en] error: both [`M::i] and [`N::i] are visible
+}
+[codeblock:end]
+
+[:en]
+For another example,
+
+[codeblock]
+namespace A {
+  int i;
+}
+namespace B {
+  int i;
+  int j;
+  namespace C {
+    namespace D {
+      using namespace A;
+      int j;
+      int k;
+      int a = i;    // [:en] [`B::i] hides [`A::i]
+    }
+    using namespace D;
+    int k = 89;     // [:en] no problem yet
+    int l = k;      // [:en] ambiguous: [`C::k] or [`D::k]
+    int m = i;      // [:en] [`B::i] hides [`A::i]
+    int n = j;      // [:en] [`D::j] hides [`B::j]
+  }
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a namespace is extended ([#namespace.def]) after a [~using-directive] for
+that namespace is given, the additional members of the extended namespace and
+the members of namespaces nominated by [~using-directive]s in the extending
+[~namespace-definition] can be used after the extending [~namespace-definition].
+
+[para]
+[:en]
+If name lookup finds a declaration for a name in two different namespaces, and
+the declarations do not declare the same entity and do not declare functions,
+the use of the name is ill-formed.
+
+[enter:note]
+[:en]
+In particular, the name of a variable, function or enumerator does not hide the
+name of a class or enumeration declared in a different namespace.
+
+[:en]
+For example,
+
+[codeblock]
+namespace A {
+  class X { };
+  extern "C"   int g();
+  extern "C++" int h();
+}
+namespace B {
+  void X(int);
+  extern "C"   int g();
+  extern "C++" int h(int);
+}
+using namespace A;
+using namespace B;
+
+void f() {
+  X(1);             // [:en] error: name [`X] found in two namespaces
+  g();              // [:en] OK: name [`g] refers to the same entity
+  h();              // [:en] OK: overload resolution selects [`A::h]
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+[%overloading[!using directive and]]
+During overload resolution, all functions from the transitive search are
+considered for argument matching.
+
+[:en]
+The set of declarations found by the transitive search is unordered.
+
+[enter:note]
+[:en]
+In particular, the order in which namespaces were considered and the
+relationships among the namespaces implied by the [~using-directive]s do not
+cause preference to be given to any of the declarations found by the search.
+[exit:note]
+
+[:en]
+An ambiguity exists if the best match finds two functions with the same
+signature, even if one is in a namespace reachable through [~using-directive]s
+in the namespace of the other.
+
+[footnote]
+[:en]
+During name lookup in a class hierarchy, some ambiguities may be resolved by
+considering whether one member hides the other along some paths
+([#class.member.lookup]).
+
+[:en]
+There is no such disambiguation when considering the set of names found as a
+result of following [~using-directive]s.
+[footnote:end]
+
+[enter:example]
+[codeblock]
+namespace D {
+  int d1;
+  void f(char);
+}
+using namespace D;
+
+int d1;             // [:en] OK: no conflict with [`D::d1]
+
+namespace E {
+  int e;
+  void f(int);
+}
+
+namespace D {       // [:en] namespace extension
+  int d2;
+  using namespace E;
+  void f(int);
+}
+
+void f() {
+  d1++;             // [:en] error: ambiguous [`::d1] or [`D::d1]?
+  ::d1++;           // OK
+  D::d1++;          // OK
+  d2++;             // OK: [`D::d2]
+  e++;              // OK: [`E::e]
+  f(1);             // [:en] error: ambiguous: [`D::f(int)] or [`E::f(int)]?
+  f('a');           // OK: [`D::f(char)]
+}
+[codeblock:end]
+[exit:example]
+
+[%:end#using.directive]

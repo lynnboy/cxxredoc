@@ -1,0 +1,117 @@
+﻿[section#dcl.type
+    [:en] Type specifiers
+]
+
+[%  [:en] specifier[!type][see type specifier]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The type-specifiers are
+
+[:en]
+[%type[![`const]]]
+[%type[![`volatile]]]
+
+[syntax]
+[rule type-specifier [:zh_CN] ]
+    [| trailing-type-specifier ]
+    [| class-specifier ]
+    [| enum-specifier ]
+[rule:end]
+
+[rule trailing-type-specifier [:zh_CN] ]
+    [| simple-type-specifier ]
+    [| elaborated-type-specifier ]
+    [| typename-specifier ]
+    [| cv-qualifier ]
+[rule:end]
+
+[rule type-specifier-seq [:zh_CN] ]
+    [| type-specifier [~:opt attribute-specifier-seq] ]
+    [| type-specifier type-specifier-seq ]
+[rule:end]
+
+[rule trailing-type-specifier-seq [:zh_CN] ]
+    [| trailing-type-specifier [~:opt attribute-specifier-seq] ]
+    [| trailing-type-specifier trailing-type-specifier-seq ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The optional [~attribute-specifier-seq] in a [~type-specifier-seq] or a
+[~trailing-type-specifier-seq] appertains to the type denoted by the preceding
+[~type-specifier]s ([#dcl.meaning]).
+
+[:en]
+The [~attribute-specifier-seq] affects the type only for the declaration it
+appears in, not other declarations involving the same type.
+
+[para]
+[:en]
+As a general rule, at most one [~type-specifier] is allowed in the complete
+[~decl-specifier-seq] of a [~declaration] or in a [~type-specifier-seq] or
+[~trailing-type-specifier-seq].
+
+[:en]
+The only exceptions to this rule are the following:
+
+[list]
+[item]
+[:en] [`const] can be combined with any type specifier except itself.
+
+[item]
+[:en] [`volatile] can be combined with any type specifier except itself.
+
+[item]
+[:en] [`signed] or [`unsigned] can be combined with [`char], [`long], [`short],
+or [`int].
+
+[item]
+[:en] [`short] or [`long] can be combined with [`int].
+
+[item]
+[:en] [`long] can be combined with [`double].
+
+[item]
+[:en] [`long] can be combined with [`long].
+[list:end]
+
+[para]
+[:en]
+Except in a declaration of a constructor, destructor, or conversion function, at
+least one [~type-specifier] that is not a [~cv-qualifier] shall appear in a
+complete [~type-specifier-seq] or a complete [~decl-specifier-seq].
+
+[footnote]
+[:en]
+There is no special provision for a [~decl-specifier-seq] that lacks a
+[~type-specifier] or that has a [~type-specifier] that only specifies
+[~cv-qualifier]s.
+
+[:en]
+The ["implicit int] rule of C is no longer supported.
+[footnote:end]
+
+[:en]
+A [~type-specifier-seq] shall not define a class or enumeration unless it
+appears in the [~type-id] of an [~alias-declaration] ([#dcl.typedef]) that is
+not the [~declaration] of a [~template-declaration].
+
+[para]
+[enter:note]
+[:en]
+[~enum-specifier]s, [~class-specifier]s, and [~typename-specifier]s are
+discussed in [#dcl.enum], Clause [#class], and [#temp.res], respectively.
+
+[:en]
+The remaining [~type-specifier]s are discussed in the rest of this section.
+[exit:note]
+
+[include dcl.type.cv]
+
+[include dcl.type.simple]
+
+[include dcl.type.elab]
+
+[include dcl.spec.auto]

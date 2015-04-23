@@ -1,0 +1,299 @@
+﻿[section#dcl.constexpr
+    [:en] The [`constexpr] specifier
+]
+
+[%  [:en] specifier[![`constexpr]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`constexpr] specifier shall be applied only to the definition of a variable
+or variable template, the declaration of a function or function template, or the
+declaration of a static data member of a literal type ([#basic.types]).
+
+[:en]
+If any declaration of a function or function template has a [`constexpr]
+specifier, then all its declarations shall contain the [`constexpr] specifier.
+
+[enter:note]
+[:en]
+An explicit specialization can differ from the template declaration with respect
+to the [`constexpr] specifier.
+[exit:note]
+
+[enter:note]
+[:en]
+Function parameters cannot be declared [`constexpr].
+[exit:note]
+
+[enter:example]
+[codeblock]
+constexpr void square(int &x);  // [:en] OK: declaration
+constexpr int bufsz = 1024;     // [:en] OK: definition
+constexpr struct pixel {        // [:en] error: [`pixel] is a type
+  int x;
+  int y;
+  constexpr pixel(int);         // [:en] OK: declaration
+}; 
+constexpr pixel::pixel(int a)
+  : x(a), y(x)                  // [:en] OK: definition
+  { square(x); }
+constexpr pixel small(2);       // [:en] error: [`square] not defined, so [`small(2)]
+                                // [:en@~] not constant ([#expr.const]) so [`constexpr] not satisfied
+
+constexpr void square(int &x) { // [:en] OK: definition
+  x *= x;
+}
+constexpr pixel large(4);       // [:en] OK: [`square] defined
+int next(constexpr int x) {     // [:en] error: not for parameters
+     return x + 1;
+} 
+extern constexpr int memsz;     // [:en] error: not a definition 
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [`constexpr] specifier used in the declaration of a function that is not a
+constructor declares that
+function to be a [def constexpr function[%specifier[![`constexpr][!function]]]].
+
+[:en]
+Similarly, a [`constexpr] specifier used in  a constructor declaration declares
+that constructor to be a [def constexpr constructor[%specifier[![`constexpr]
+[!constructor]]]].
+
+[:en]
+[`constexpr] functions and [`constexpr] constructors are implicitly [`inline]
+([#dcl.fct.spec]).
+
+[para]
+[:en]
+[%specifier[![`constexpr][!function]]]
+[%constexpr function]
+The definition of a [`constexpr] function shall satisfy the following
+constraints:
+
+[list]
+[item]
+[:en]
+it shall not be virtual ([#class.virtual]);
+
+[item]
+its return type shall be a literal type;
+
+[item]
+each of its parameter types shall be a literal type;
+
+[item]
+its [~function-body] shall be [`= delete], [`= default], or a
+[~compound-statement] that does not contain
+
+[list]
+[item]
+[:en] an [~asm-definition],
+[item]
+[:en] a [`goto] statement,
+[item]
+[:en] a [~try-block], or
+[item]
+[:en] a definition of a variable of non-literal type or of static or thread
+storage duration or for which no initialization is performed.
+[list:end]
+
+[list:end]
+
+[enter:example]
+[codeblock]
+constexpr int square(int x) 
+  { return x * x; }             // OK
+constexpr long long_max() 
+  { return 2147483647; }        // OK
+constexpr int abs(int x) {
+  if (x < 0)
+    x = -x;
+  return x;                     // OK
+}
+constexpr int first(int n) {
+  static int value = n;         // [:en] error: variable has static storage duration
+  return value;
+}
+constexpr int uninit() {
+  int a;                        // [:en] error: variable is uninitialized
+  return a;
+}
+constexpr int prev(int x)
+  { return --x; }               // OK
+constexpr int g(int x, int n) { // OK
+  int r = 1;
+  while (--n > 0) r *= x;
+  return r;
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%specifier[![`constexpr][!constructor]]]
+The definition of a [`constexpr] constructor shall satisfy the following
+constraints:
+
+[list]
+[item]
+[:en]
+the class shall not have any virtual base classes;
+
+[item]
+[:en]
+each of the parameter types shall be a literal type;
+
+[item]
+[:en]
+its [~function-body] shall not be a [~function-try-block];
+[list:end]
+
+[:en]
+In addition, either its [~function-body] shall be [`= delete], or it shall
+satisfy the following constraints:
+
+[list]
+[item]
+[:en]
+either its [~function-body] shall be [`= default], or the [~compound-statement]
+of its [~function-body] shall satisfy the constraints for a [~function-body] of
+a [`constexpr] function;
+
+[item]
+[:en]
+every non-variant non-static data member and base class sub-object shall be
+initialized ([#class.base.init]);
+
+[item]
+[:en]
+if the class is a union having variant members ([#class.union]), exactly one of
+them shall be initialized;
+
+[item]
+[:en]
+if the class is a union-like class, but is not a union, for each of its
+anonymous union members having variant members, exactly one of them shall be
+initialized;
+
+[item]
+[:en]
+for a non-delegating constructor, every constructor selected to initialize
+non-static data members and base class sub-objects shall be a [`constexpr]
+constructor;
+
+[item]
+[:en]
+for a delegating constructor, the target constructor shall be a [`constexpr]
+constructor.
+[list:end]
+
+[enter:example]
+[codeblock]
+struct Length { 
+  constexpr explicit Length(int i = 0) : val(i) { }
+private: 
+  int val; 
+}; 
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+For a non-template, non-defaulted [`constexpr] function or a non-template,
+non-defaulted, non-inheriting [`constexpr] constructor, if no argument values
+exist such that an invocation of the function or constructor could be an
+evaluated subexpression of a core constant expression ([#expr.const]), or, for a
+constructor, a constant initializer for some object ([#basic.start.init]), the
+program is ill-formed; no diagnostic required.
+
+[enter:example]
+[codeblock]
+constexpr int f(bool b)
+  { return b ? throw 0 : 0; }               // OK
+constexpr int f() { return f(true); }       // [:en] ill-formed, no diagnostic required
+
+struct B {
+  constexpr B(int x) : i(0) { }             // [:en] [`x] is unused
+  int i;
+};
+
+int global;
+
+struct D : B {
+  constexpr D() : B(global) { }             // [:en] ill-formed, no diagnostic required
+                                            // [:en@~] lvalue-to-rvalue conversion on non-constant [`global]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the instantiated template specialization of a [`constexpr] function template
+or member function of a class template would fail to satisfy the requirements
+for a [`constexpr] function or [`constexpr] constructor, that specialization is
+still a [`constexpr] function or [`constexpr] constructor, even though a call to
+such a function cannot appear in a constant expression.
+
+[:en]
+If no specialization of the template would satisfy the requirements for a
+[`constexpr] function or [`constexpr] constructor when considered as a
+non-template function or constructor, the template is ill-formed; no diagnostic
+required.
+
+[para]
+[:en]
+A call to a [`constexpr] function produces the same result as a call to an
+equivalent non-[`constexpr] function in all respects except that a call to a
+[`constexpr] function can appear in a constant expression.
+
+[para]
+[:en]
+The [`constexpr] specifier has no effect on the type of a [`constexpr] function
+or a [`constexpr] constructor.
+
+[enter:example]
+[codeblock]
+constexpr int bar(int x, int y) // OK 
+    { return x + y + x*y; } 
+// ... 
+int bar(int x, int y)           // [:en] error: redefinition of [`bar]
+    { return x * 2 + 3 * y; } 
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [`constexpr] specifier used in an object declaration declares the object as
+[`const].
+
+[:en]
+Such an object shall have literal type and shall be initialized.
+
+[:en]
+If it is initialized by a constructor call, that call shall be a constant
+expression ([#expr.const]).
+
+[:en]
+Otherwise, or if a [`constexpr] specifier is used in a reference declaration,
+every full-expression that appears in its initializer shall be a constant
+expression
+
+[enter:note]
+[:en]
+Each implicit conversion used in converting the initializer expressions and each
+constructor call used for the initialization is part of such a full-expression.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct pixel { 
+  int x, y; 
+}; 
+constexpr pixel ur = { 1294, 1024 };// OK
+constexpr pixel origin;             // [:en] error: initializer missing 
+[codeblock:end]
+[exit:example]

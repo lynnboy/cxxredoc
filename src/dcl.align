@@ -1,0 +1,142 @@
+﻿[section#dcl.align
+    [:en] Alignment specifier
+]
+
+[%  [:en] attribute[!alignment]
+    [:zh_CN] ]
+
+[para]
+[:en]
+An [~alignment-specifier] may be applied to a variable or to a class data
+member, but it shall not be applied to a bit-field, a function parameter, an
+[~exception-declaration] ([#except.handle]), or a variable declared with the
+[`register] storage class specifier.
+
+[:en]
+An [~alignment-specifier] may also be applied to the declaration or definition
+of a class (in an [~elaborated-type-specifier] ([#dcl.type.elab]) or
+[~class-head] (Clause [#class]), respectively) and to the declaration or
+definition of an enumeration (in an [~opaque-enum-declaration] or [~enum-head],
+respectively ([#dcl.enum])).
+
+[:en]
+An [~alignment-specifier] with an ellipsis is a pack expansion
+([#temp.variadic]).
+
+[para]
+[:en]
+When the [~alignment-specifier] is of the form [`alignas(]
+[~constant-expression] [`)]:
+
+[list]
+[item]
+[:en]
+the [~constant-expression] shall be an integral constant expression
+
+[item]
+[:en]
+if the constant expression evaluates to a fundamental alignment, the alignment
+requirement of the declared entity shall be the specified fundamental alignment
+
+[item]
+[:en]
+if the constant expression evaluates to an extended alignment and the
+implementation supports that alignment in the context of the declaration, the
+alignment of the declared entity shall be that alignment
+
+[item]
+[:en]
+if the constant expression evaluates to an extended alignment and the
+implementation does not support that alignment in the context of the
+declaration, the program is ill-formed
+
+[item]
+[:en]
+if the constant expression evaluates to zero, the alignment specifier shall have
+no effect
+
+[item]
+[:en]
+otherwise, the program is ill-formed.
+[list:end]
+
+[para]
+[:en]
+When the [~alignment-specifier] is of the form [`alignas(] [~type-id] [`)], it
+shall have the same effect as [`alignas(alignof(][~type-id][`))]
+([#expr.alignof]).
+
+[para]
+[:en]
+When multiple [~alignment-specifier]s are specified for an entity, the alignment
+requirement shall be set to the strictest specified alignment.
+
+[para]
+[:en]
+The combined effect of all [~alignment-specifier]s in a declaration shall not
+specify an alignment that is less strict than the alignment that would be
+required for the entity being declared if all [~alignment-specifier]s
+appertaining to that entity were omitted.
+
+[enter:example]
+[codeblock]
+struct alignas(8) S {};
+struct alignas(1) U {
+  S s;
+};   // [:en] Error: [`U] specifies an alignment that is less strict than
+     // [:en@~] if the [`alignas(1)] were omitted.
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the defining declaration of an entity has an [~alignment-specifier], any
+non-defining declaration of that entity shall either specify equivalent
+alignment or have no [~alignment-specifier].
+
+[:en]
+Conversely, if any declaration of an entity has an [~alignment-specifier], every
+defining declaration of that entity shall specify an equivalent alignment.
+
+[:en]
+No diagnostic is required if declarations of an entity have different
+[~alignment-specifier]s in different translation units.
+
+[para:~]
+[enter:example]
+[codeblock]
+// [:en] Translation unit #1:
+struct S { int x; } s, p = &s;
+
+// [:en] Translation unit #2:
+struct alignas(16) S;           // [:en] error: definition of [`s] lacks alignment; no
+extern S* p;                    // [:en@~] diagnostic required
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[:en]
+An aligned buffer with an alignment requirement of [`A] and holding [`N]
+elements of type [`T] other than [`char], [`signed char], or [`unsigned char]
+can be declared as:
+
+[codeblock]
+alignas(T) alignas(A) T buffer[N];
+[codeblock:end]
+
+[:en]
+Specifying [`alignas(T)] ensures that the final requested alignment will not be
+weaker than [`alignof(T)], and therefore the program will not be ill-formed.
+[exit:example]
+
+[para]
+[enter:example]
+[codeblock]
+alignas(double) void f();                         // [:en] error: alignment applied to function
+alignas(double) unsigned char c[sizeof(double)];  // [:en] array of characters, suitably aligned for a [`double]
+extern unsigned char c[sizeof(double)];           // [:en] no [`alignas] necessary
+alignas(float)
+  extern unsigned char c[sizeof(double)];         // [:en] error: different alignment in declaration
+[codeblock:end]
+[exit:example]

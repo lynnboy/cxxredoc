@@ -1,0 +1,48 @@
+﻿[section#namespace.unnamed
+    [:en] Unnamed namespaces
+]
+
+[%  [:en] namespace[!unnamed]
+    [:zh_CN] ]
+
+[para]
+[:en]
+An [~unnamed-namespace-definition] behaves as if it were replaced by
+
+[syntax:explanation]
+[`:opt inline] [`namespace] [$@bi unique] [`{ /* empty body */ }] [br]
+[`using namespace] [$@bi unique] [`;] [br]
+[`namespace] [$@bi unique] [`{] [~namespace-body] [`}]
+[syntax:end]
+
+[:en@~]
+where [`inline] appears if and only if it appears in the
+[~unnamed-namespace-definition] and all occurrences of [$@bi unique] in a
+translation unit are replaced by the same identifier, and this identifier
+differs from all other identifiers in the translation unit.
+
+[:en]
+The optional [~attribute-specifier-seq] in the [~unnamed-namespace-definition]
+appertains to [$@bi unique].
+
+[enter:example]
+[codeblock]
+namespace { int i; }            // [$@bi unique][`::i]
+void f() { i++; }               // [$@bi unique][`::i++]
+
+namespace A {
+  namespace {
+    int i;                      // [`A::][$@bi unique][`::i]
+    int j;                      // [`A::][$@bi unique][`::j]
+  }
+  void g() { i++; }             // [`A::][$@bi unique][`::i++]
+}
+
+using namespace A;
+void h() {
+  i++;                          // error: [$@bi unique][`::i] or [`A::][$@bi unique][`::i]
+  A::i++;                       // [`A::][$@bi unique][`::i]
+  j++;                          // [`A::][$@bi unique][`::j]
+}
+[codeblock:end]
+[exit:example]

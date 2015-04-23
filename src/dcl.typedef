@@ -1,0 +1,207 @@
+﻿[section#dcl.typedef
+    [:en] The [`typedef] specifier
+]
+
+[%  [:en] specifier[![`typedef]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+Declarations containing the [~decl-specifier] [`typedef] declare identifiers
+that can be used later for naming fundamental ([#basic.fundamental]) or compound
+([#basic.compound]) types.
+
+[:en]
+The [`typedef] specifier shall not be combined in a [~decl-specifier-seq] with
+any other kind of specifier except a [~type-specifier], and it shall not be used
+in the [~decl-specifier-seq] of a [~parameter-declaration] ([#dcl.fct]) nor in
+the [~decl-specifier-seq] of a [~function-definition] ([#dcl.fct.def]).
+
+[syntax]
+[rule typedef-name [:zh_CN] ]
+    [| identifier ]
+[rule:end]
+[syntax:end]
+
+[:en]
+A name declared with the [`typedef] specifier becomes a [~typedef-name].
+
+[:en]
+Within the scope of its declaration, a [~typedef-name] is syntactically
+equivalent to a keyword and names the type associated with the identifier in the
+way described in Clause [#dcl.decl].
+
+[:en]
+[%declaration[![`typedef] as type]]
+[%equivalence[!type]]
+[%synonym[!type name as]]
+A [~typedef-name] is thus a synonym for another type.
+
+[:en]
+A [~typedef-name] does not introduce a new type the way a class declaration
+([#class.name]) or enum declaration does.
+
+[enter:example]
+[%example[![`typedef]]]
+after
+
+[codeblock]
+typedef int MILES, *KLICKSP;
+[codeblock:end]
+
+[:en@~]
+the constructions
+
+[codeblock]
+MILES distance;
+extern KLICKSP metricp;
+[codeblock:end]
+
+[:en@~]
+are all correct declarations; the type of [`distance] is [`int] and that of
+[`metricp] is ["pointer to [`int].]
+[exit:example]
+
+[para]
+[:en]
+A [~typedef-name] can also be introduced by an [~alias-declaration].
+
+[:en]
+The [~identifier] following the [`using] keyword becomes a [~typedef-name] and
+the optional [~attribute-specifier-seq] following the [~identifier] appertains
+to that [~typedef-name].
+
+[:en]
+It has the same semantics as if it were introduced by the [`typedef] specifier.
+
+[:en]
+In particular, it does not define a new type and it shall not appear in the
+[~type-id].
+
+[enter:example]
+[codeblock]
+using handler_t = void (*)(int);
+extern handler_t ignore;
+extern void (*ignore)(int);         // [:en] redeclare [`ignore]
+using cell = pair<void*, cell*>;    // [:en] ill-formed
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%redefinition[![`typedef]]]
+In a given non-class scope, a [`typedef] specifier can be used to redefine the
+name of any type declared in that scope to refer to the type to which it already
+refers.
+
+[enter:example]
+[codeblock]
+typedef struct s { /* ... */ } s;
+typedef int I;
+typedef int I;
+typedef I I;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In a given class scope, a [`typedef] specifier can be used to redefine any
+[~class-name] declared in that scope that is not also a [~typedef-name] to refer
+to the type to which it already refers.
+
+[enter:example]
+[codeblock]
+struct S {
+  typedef struct A { } A;       // OK
+  typedef struct B B;           // OK
+  typedef A A;                  // [:en] error
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [`typedef] specifier is used to redefine in a given scope an entity that
+can be referenced using an [~elaborated-type-specifier], the entity can continue
+to be referenced by an [~elaborated-type-specifier] or as an enumeration or
+class name in an enumeration or class definition respectively.
+
+[enter:example]
+[codeblock]
+struct S;
+typedef struct S S;
+int main() {
+  struct S* p;                  // OK
+}
+struct S { };                   // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In a given scope, a [`typedef] specifier shall not be used to redefine the name
+of any type declared in that scope to refer to a different type.
+
+[enter:example]
+[codeblock]
+class complex { /* ... */ };
+typedef int complex;            // [:en] error: redefinition
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Similarly, in a given scope, a class or enumeration shall not be declared with
+the same name as a [~typedef-name] that is declared in that scope and refers to
+a type other than the class or enumeration itself.
+
+[enter:example]
+[codeblock]
+typedef int complex;
+class complex { /* ... */ };    // [:en] error: redefinition
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[%class name[![`typedef]]]
+A [~typedef-name] that names a class type, or a cv-qualified version thereof, is
+also a [~class-name] ([#class.name]).
+
+[:en]
+If a [~typedef-name] is used to identify the subject of an
+[~elaborated-type-specifier] ([#dcl.type.elab]), a class definition (Clause
+[#class]), a constructor declaration ([#class.ctor]), or a destructor
+declaration ([#class.dtor]), the program is ill-formed.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct S {
+  S();
+  ~S();
+};
+
+typedef struct S T;
+
+S a = T();                      // OK
+struct T * p;                   // [:en] error
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%class name[![`typedef]]]
+[%enum name[![`typedef]]]
+[%class[!unnamed]]
+If the typedef declaration defines an unnamed class (or enum), the first
+[~typedef-name] declared by the declaration to be that class type (or enum type)
+is used to denote the class type (or enum type) for linkage purposes only
+([#basic.link]).
+
+[enter:example]
+[codeblock]
+typedef struct { } *ps, S;      // [:en] [`s] is the class name for linkage purposes
+[codeblock:end]
+[exit:example]

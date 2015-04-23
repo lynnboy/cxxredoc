@@ -1,0 +1,202 @@
+﻿[section#namespace.def
+    [:en] Namespace definition
+]
+
+[:en]
+[%definition[!namespace]]
+[%namespace[!definition]]
+
+[para]
+[:en]
+The grammar for a [~namespace-definition] is
+
+[syntax]
+[rule namespace-name [:zh_CN] ]
+    [| identifier ]
+    [| namespace-alias ]
+[rule:end]
+
+[rule namespace-definition [:zh_CN] ]
+    [| named-namespace-definition ]
+    [| unnamed-namespace-definition ]
+    [| nested-namespace-definition ]
+[rule:end]
+
+[rule named-namespace-definition [:zh_CN] ]
+    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq] identifier [`{] namespace-body [`}] ]
+[rule:end]
+
+[rule unnamed-namespace-definition [:zh_CN] ]
+    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq] [`{] namespace-body [`}] ]
+[rule:end]
+
+[rule nested-namespace-definition [:zh_CN] ]
+    [| [`namespace] enclosing-namespace-specifier [`::] identifier [`{] namespace-body [`}] ]
+[rule:end]
+
+[rule enclosing-namespace-specifier [:zh_CN] ]
+    [| identifier ]
+    [| enclosing-namespace-specifier [`::] identifier ]
+[rule:end]
+
+[rule namespace-body [:zh_CN] ]
+    [| [~:opt declaration-seq] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Every [~namespace-definition] shall appear in the global scope or in a namespace
+scope ([#basic.scope.namespace]).
+
+[para]
+[:en]
+In a [~named-namespace-definition], the [~identifier] is the name of the
+namespace.
+
+[:en]
+If the [~identifier], when looked up ([#basic.lookup.unqual]), refers to a
+[~namespace-name] (but not a [~namespace-alias]) introduced in the declarative
+region in which the [~named-namespace-definition] appears, the
+[~namespace-definition]
+[%extend[see namespace, extend]]
+[def extends [%namespace[!extend]]] the previously-declared namespace.
+
+[:en]
+Otherwise, the [~identifier] is introduced as a [~namespace-name] into the
+declarative region in which the [~named-namespace-definition] appears.
+
+[para]
+[:en]
+Because a [~namespace-definition] contains [~declaration]s in its
+[~namespace-body] and a [~namespace-definition] is itself a [~declaration], it
+follows that [~namespace-definitions] can be nested.
+
+[enter:example]
+[codeblock]
+namespace Outer {
+  int i;
+  namespace Inner {
+    void f() { i++; }           // [`Outer::i]
+    int i;
+    void g() { i++; }           // [`Inner::i]
+  }
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The [+enclosing namespaces] of a declaration are those namespaces in which the
+declaration lexically appears, except for a redeclaration of a namespace member
+outside its original namespace (e.g., a definition as specified in
+[#namespace.memdef]).
+
+[:en]
+Such a redeclaration has the same enclosing namespaces as the original
+declaration.
+
+[enter:example]
+[codeblock]
+namespace Q {
+  namespace V {
+    void f();   // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+    class C { void m(); };
+  }
+  void V::f() { // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+    extern void h();  // [:en@~] ... so this declares [`Q::V::h]
+  }
+  void V::C::m() { // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+  }
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the optional initial [`inline] keyword appears in a [~namespace-definition]
+for a particular namespace, that namespace is declared to be an [+inline
+namespace].
+
+[:en]
+The [`inline] keyword may be used on a [~namespace-definition] that extends a
+namespace only if it was previously used on the [~namespace-definition] that
+initially declared the [~namespace-name] for that namespace.
+
+[para]
+[:en]
+The optional [~attribute-specifier-seq] in a [~named-namespace-definition]
+appertains to the namespace being defined or extended.
+
+[para]
+[:en]
+Members of an inline namespace can be used in most respects as though they were
+members of the enclosing namespace.
+
+[:en]
+Specifically, the inline namespace and its enclosing namespace are both added to
+the set of associated namespaces used in argument-dependent lookup
+([#basic.lookup.argdep]) whenever one of them is, and a [~using-directive]
+([#namespace.udir]) that names the inline namespace is implicitly inserted into
+the enclosing namespace as for an unnamed namespace ([#namespace.unnamed]).
+
+[:en]
+Furthermore, each member of the inline namespace can subsequently be partially
+specialized ([#temp.class.spec]), explicitly instantiated ([#temp.explicit]), or
+explicitly specialized ([#temp.expl.spec]) as though it were a member of the
+enclosing namespace.
+
+[:en]
+Finally, looking up a name in the enclosing namespace via explicit qualification
+([#namespace.qual]) will include members of the inline namespace brought in by
+the [~using-directive] even if there are declarations of that name in the
+enclosing namespace.
+
+[para]
+[:en]
+These properties are transitive: if a namespace [`N] contains an inline
+namespace [`M], which in turn contains an inline namespace [`O], then the
+members of [`O] can be used as though they were members of [`M] or [`N].
+
+[:en]
+The [+inline namespace set] of [`N] is the transitive closure of all inline
+namespaces in [`N].
+
+[:en]
+The [+enclosing namespace set] of [`O] is the set of namespaces consisting of
+the innermost non-inline namespace enclosing an inline namespace [`O], together
+with any intervening inline namespaces.
+
+[para]
+[:en]
+A [~nested-namespace-definition] with an [~enclosing-namespace-specifier] [`E],
+[~identifier] [`I] and [~namespace-body] [`B] is equivalent to
+
+[codeblock:notation]
+namespace E { namespace I { B } }
+[codeblock:end]
+
+[enter:example]
+[codeblock]
+namespace A::B::C {
+  int i;
+}
+[codeblock:end]
+
+[:en]
+The above has the same effect as:
+
+[codeblock]
+namespace A {
+  namespace B {
+    namespace C {
+      int i;
+    }
+  }
+}
+[codeblock:end]
+[exit:example]
+
+[include namespace.unnamed]
+
+[include namespace.memdef]

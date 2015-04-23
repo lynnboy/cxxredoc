@@ -1,0 +1,56 @@
+﻿[section#dcl.attr.noreturn
+    [:en] Noreturn attribute
+]
+
+[%  [:en] attribute[!noreturn]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [~attribute-token] [`noreturn] specifies that a function does not return.
+
+[:en]
+It shall appear at most once in each [~attribute-list] and no
+[~attribute-argument-clause] shall be present.
+
+[:en]
+The attribute may be applied to the [~declarator-id] in a function declaration.
+
+[:en]
+The first declaration of a function shall specify the [`noreturn] attribute if
+any declaration of that function specifies the [`noreturn] attribute.
+
+[:en]
+If a function is declared with the [`noreturn] attribute in one translation unit
+and the same function is declared without the [`noreturn] attribute in another
+translation unit, the program is ill-formed; no diagnostic required.
+
+[para]
+[:en]
+If a function [`f] is called where [`f] was previously declared with the
+[`noreturn] attribute and [`f] eventually returns, the behavior is undefined.
+
+[enter:note]
+[:en]
+The function may terminate by throwing an exception.
+[exit:note]
+
+[enter:note]
+[:en]
+Implementations are encouraged to issue a warning if a function marked
+[`[[noreturn`]`]] might return.
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+[[ noreturn ]] void f() {
+  throw "error";        // OK
+}
+
+[[ noreturn ]] void q(int i) { // [:en] behavior is undefined if called with an argument [`<= 0]
+  if (i > 0)
+    throw "positive";
+}
+[codeblock:end]
+[exit:example]

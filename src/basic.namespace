@@ -1,0 +1,33 @@
+﻿[section#basic.namespace
+    [:en] Namespaces
+]
+[%:begin#namespaces
+    [:en] namespaces
+]
+
+[para]
+[:en]
+A namespace is an optionally-named declarative region.
+
+[:en]
+The name of a namespace can be used to access entities declared in that
+namespace; that is, the members of the namespace.
+
+[:en]
+Unlike other declarative regions, the definition of a namespace can be split
+over several parts of one or more translation units.
+
+[para]
+[:en]
+The outermost declarative region of a translation unit is a namespace; see
+[#basic.scope.namespace].
+
+[include namespace.def]
+
+[include namespace.alias]
+
+[include namespace.udecl]
+
+[include namespace.udir]
+
+[%:end#namespaces]

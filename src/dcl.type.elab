@@ -1,0 +1,100 @@
+﻿[section#dcl.type.elab
+    [:en] Elaborated type specifiers
+]
+
+[:en]
+[%type specifier[!elaborated]]
+[%[`typename]]
+[%type specifier[![`enum]]]
+
+[syntax]
+[rule elaborated-type-specifier [:zh_CN] ]
+    [| class-key [~:opt attribute-specifier-seq] [~:opt nested-name-specifier] identifier ]
+    [| class-key simple-template-id ]
+    [| class-key nested-name-specifier [`:opt template] simple-template-id ]
+    [| [`enum] [~:opt nested-name-specifier] identifier ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%class name[!elaborated]]
+[%name[!elaborated[![`enum]]]]
+An [~attribute-specifier-seq] shall not appear in an
+[~elaborated-type-specifier] unless the latter is the sole constituent of a
+declaration.
+
+[:en]
+If an [~elaborated-type-specifier] is the sole constituent of a declaration, the
+declaration is ill-formed unless it is an explicit specialization
+([#temp.expl.spec]), an explicit instantiation ([#temp.explicit]) or it has one
+of the following forms:
+
+[syntax:explanation]
+[| [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;] ]
+[| [`friend] [~class-key] [`:opt ::] [~identifier] [`;] ]
+[| [`friend] [~class-key] [`:opt ::] [~simple-template-id] [`;] ]
+[| [`friend] [~class-key] [~nested-name-specifier] identifier [`;] ]
+[| [`friend] [~class-key] [~nested-name-specifier] [`:opt template] [~simple-template-id] [`;] ]
+[syntax:end]
+
+[:en]
+In the first case, the [~attribute-specifier-seq], if any, appertains
+to the class being declared; the attributes in the
+[~attribute-specifier-seq] are thereafter considered attributes of
+the class whenever it is named.
+
+[para]
+[:en]
+[#basic.lookup.elab] describes how name lookup proceeds for the [~identifier] in
+an [~elaborated-type-specifier].
+
+[:en]
+If the [~identifier] resolves to a [~class-name] or [~enum-name], the
+[~elaborated-type-specifier] introduces it into the declaration the same way a
+[~simple-type-specifier] introduces its [~type-name].
+
+[:en]
+If the [~identifier] resolves to a [~typedef-name] or the [~simple-template-id]
+resolves to an alias template specialization, the [~elaborated-type-specifier]
+is ill-formed.
+
+[enter:note]
+[:en]
+This implies that, within a class template with a template [~type-parameter]
+[`T], the declaration
+
+[codeblock]
+friend class T;
+[codeblock:end]
+
+[:en@~]
+is ill-formed.
+
+However, the similar declaration [`friend T;] is allowed ([#class.friend]).
+[exit:note]
+
+[para]
+[:en]
+The [~class-key] or [`enum] keyword present in the [~elaborated-type-specifier]
+shall agree in kind with the declaration to which the name in the
+[~elaborated-type-specifier] refers.
+
+[:en]
+This rule also applies to the form of [~elaborated-type-specifier] that declares
+a [~class-name] or [`friend] class since it can be construed as referring to the
+definition of the class.
+
+[:en]
+Thus, in any [~elaborated-type-specifier], the [`enum] keyword shall be used to
+refer to an enumeration ([#dcl.enum]), the [`union] [~class-key] shall be used
+to refer to a union (Clause [#class]), and either the [`class] or [`struct]
+[~class-key] shall be used to refer to a class (Clause [#class]) declared using
+the [`class] or [`struct] [~class-key].
+
+[enter:example]
+[codeblock]
+enum class E { a, b };
+enum E x = E::a;                // OK
+[codeblock:end]
+[exit:example]

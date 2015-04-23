@@ -1,0 +1,57 @@
+﻿[section#namespace.alias
+    [:en] Namespace alias
+]
+
+[:en]
+[%namespace[!alias]]
+[%alias[!namespace]]
+[%synonym]
+
+[para]
+[:en]
+A [~namespace-alias-definition] declares an alternate name for a
+namespace according to the following grammar:
+
+[syntax]
+[rule namespace-alias [:zh_CN] ]
+    [| identifier ]
+[rule:end]
+
+[rule namespace-alias-definition [:zh_CN] ]
+    [| [`namespace] identifier [`=] qualified-namespace-specifier [`;] ]
+[rule:end]
+
+[rule qualified-namespace-specifier [:zh_CN] ]
+    [| [~:opt nested-name-specifier] namespace-name ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The [~identifier] in a [~namespace-alias-definition] is a synonym for the name
+of the namespace denoted by the [~qualified-namespace-specifier] and becomes a
+[~namespace-alias].
+
+[enter:note]
+[:en]
+When looking up a [~namespace-name] in a [~namespace-alias-definition], only
+namespace names are considered, see [#basic.lookup.udir].
+[exit:note]
+
+[para]
+[:en]
+In a declarative region, a [~namespace-alias-definition] can be used to redefine
+a [~namespace-alias] declared in that declarative region to refer only to the
+namespace to which it already refers.
+
+[enter:example]
+[:en]
+the following declarations are well-formed:
+
+[codeblock]
+namespace Company_with_very_long_name { /* ... */ }
+namespace CWVLN = Company_with_very_long_name;
+namespace CWVLN = Company_with_very_long_name;          // [:en] OK: duplicate
+namespace CWVLN = CWVLN;
+[codeblock:end]
+[exit:example]

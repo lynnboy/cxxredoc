@@ -1,0 +1,161 @@
+﻿[section#dcl.attr.grammar
+    [:en] Attribute syntax and semantics
+]
+
+[para]
+[:en]
+[%attribute[!syntax and semantics]]
+Attributes specify additional information for various source constructs such as
+types, variables, names, blocks, or translation units.
+
+[syntax]
+[rule attribute-specifier-seq [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] attribute-specifier ]
+[rule:end]
+
+[rule attribute-specifier [:zh_CN] ]
+    [| [`[] [`[] attribute-list [``]] [``]] ]
+    [| alignment-specifier ]
+[rule:end]
+
+[rule alignment-specifier [:zh_CN] ]
+    [| [`alignas] [`(] type-id [`:opt ...] [`)] ]
+    [| [`alignas] [`(] constant-expression [`:opt ...] [`)] ]
+[rule:end]
+
+[rule attribute-list [:zh_CN] ]
+    [| [~:opt attribute] ]
+    [| attribute-list [`,] [~:opt attribute] ]
+    [| attribute [`...] ]
+    [| attribute-list [`,] attribute [`...] ]
+[rule:end]
+
+[rule attribute [:zh_CN] ]
+    [| attribute-token [~:optattribute-argument-clause] ]
+[rule:end]
+
+[rule attribute-token [:zh_CN] ]
+    [| identifier ]
+    [| attribute-scoped-token ]
+[rule:end]
+
+[rule attribute-scoped-token [:zh_CN] ]
+    [| attribute-namespace [`::] identifier ]
+[rule:end]
+
+[rule attribute-namespace [:zh_CN] ]
+    [| identifier ]
+[rule:end]
+
+[rule attribute-argument-clause [:zh_CN] ]
+    [| [`(] balanced-token-seq [`)] ]
+[rule:end]
+
+[rule balanced-token-seq [:zh_CN] ]
+    [| [~:opt balanced-token] ]
+    [| balanced-token-seq balanced-token ]
+[rule:end]
+
+[rule balanced-token [:zh_CN] ]
+    [| [`(] balanced-token-seq [`)] ]
+    [| [`[] balanced-token-seq [``]] ]
+    [| [`{] balanced-token-seq [`}] ]
+    [|:descriptive
+        [:en] any [~token] other than a parenthesis, a bracket, or a brace
+    ]
+[rule:end]
+[syntax:end]
+
+[para]
+[enter:note]
+[:en]
+For each individual attribute, the form of the [~balanced-token-seq] will be specified.
+[exit:note]
+
+[para]
+[:en]
+In an [~attribute-list], an ellipsis may appear only if that [~attribute][=']s
+specification permits it.
+
+[:en]
+An [~attribute] followed by an ellipsis is a pack expansion ([#temp.variadic]).
+
+[:en]
+An [~attribute-specifier] that contains no [~attribute]s has no effect.
+
+[:en]
+The order in which the [~attribute-tokens] appear in an [~attribute-list] is not
+significant.
+
+[:en]
+If a keyword ([#lex.key]) or an alternative token ([#lex.digraph]) that
+satisfies the syntactic requirements of an [~identifier] ([#lex.name]) is
+contained in an [~attribute-token], it is considered an identifier.
+
+[:en]
+No name lookup ([#basic.lookup]) is performed on any of the identifiers
+contained in an [~attribute-token].
+
+[:en]
+The [~attribute-token] determines additional requirements on the
+[~attribute-argument-clause] (if any).
+
+[:en]
+The use of an [~attribute-scoped-token] is conditionally-supported, with
+[%@impldef behavior of attribute scoped token] behavior.
+
+[enter:note]
+[:en]
+Each implementation should choose a distinctive name for the
+[~attribute-namespace] in an [~attribute-scoped-token].
+[exit:note]
+
+[para]
+[:en]
+Each [~attribute-specifier-seq] is said to [def appertain] to some entity or
+statement, identified by the syntactic context where it appears (Clause
+[#stmt.stmt], Clause [#dcl.dcl], Clause [#dcl.decl]).
+
+[:en]
+If an [~attribute-specifier-seq] that appertains to some entity or statement
+contains an [~attribute] that is not allowed to apply to that entity or
+statement, the program is ill-formed.
+
+[:en]
+If an [~attribute-specifier-seq] appertains to a friend declaration
+([#class.friend]), that declaration shall be a definition.
+
+[:en]
+No [~attribute-specifier-seq] shall appertain to an explicit instantiation
+([#temp.explicit]).
+
+[para]
+[:en]
+For an [~attribute-token] not specified in this International Standard, the
+behavior is [%@impldef behavior of non-standard attributes].
+
+[para]
+[:en]
+Two consecutive left square bracket tokens shall appear only when introducing an
+[~attribute-specifier].
+
+[enter:note]
+[:en]
+If two consecutive left square brackets appear where an [~attribute-specifier]
+is not allowed, the program is ill-formed even if the brackets match an
+alternative grammar production.
+[exit:note]
+
+[enter:example]
+[codeblock]
+int p[10];
+void f() {
+  int x = 42, y[5];
+  int(p[[x] { return x; }()]);  // [:en] error: invalid attribute on a nested
+                                // [:en@~] [~declarator-id] and not a function-style cast of
+                                // [:en@~] an element of [`p].
+  y[[] { return 2; }()] = 2;    // [:en] error even though attributes are not allowed
+                                // [:en@~] in this context.
+}
+[codeblock:end]
+[exit:example]

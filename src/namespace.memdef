@@ -1,0 +1,136 @@
+﻿[section#namespace.memdef
+    [:en] Namespace member definitions
+]
+[%  [:en] namespace[!member definition]
+    [:zh_CN] ]
+
+[para]
+[:en]
+A declaration in a namespace [`N] (excluding declarations in nested scopes)
+whose [~declarator-id] is an [~unqualified-id] declares (or redeclares) a member
+of [`N], and may be a definition.
+
+[enter:note]
+[:en]
+An explicit instantiation ([#temp.explicit]) or explicit specialization
+([#temp.expl.spec]) of a template does not introduce a name and thus may be
+declared using an [~unqualified-id] in a member of the enclosing namespace set,
+if the primary template is declared in an inline namespace.
+[exit:note]
+
+[enter:example]
+[codeblock]
+namespace X {
+  void f() { /* ... */ }  // [:en] OK: introduces [`X::f()]
+
+  namespace M {
+    void g();             // [:en] OK: introduces [`X::M::g()]
+  }
+  using M::g;
+  void g();               // [:en] error: conflicts with [`X::M::g()]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Members of a named namespace can also be defined outside that namespace by
+explicit qualification ([#namespace.qual]) of the name being defined, provided
+that the entity being defined was already declared in the namespace and the
+definition appears after the point of declaration in a namespace that encloses
+the declaration[=']s namespace.
+
+[enter:example]
+[codeblock]
+namespace Q {
+  namespace V {
+    void f();
+  }
+  void V::f() { /* ... */ }     // OK
+  void V::g() { /* ... */ }     // [:en] error: [`g()] is not yet a member of [`V]
+  namespace V {
+    void g();
+  }
+}
+
+namespace R {
+  void Q::V::g() { /* ... */ }  // [:en] error: [`R] doesn[=']t enclose [`Q]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [`friend] declaration in a non-local class first declares a class,
+function, class template or function template
+
+[footnote]
+[:en]
+this implies that the name of the class or function is unqualified.
+[footnote:end]
+
+[:en@~]
+the friend is a member of the innermost enclosing namespace.
+
+[:en]
+The [`friend] declaration does not by itself make the name visible to
+unqualified lookup ([#basic.lookup.unqual]) or qualified lookup
+([#basic.lookup.qual]).
+
+[enter:note]
+[:en]
+The name of the friend will be visible in its namespace if a matching
+declaration is provided at namespace scope (either before or after the class
+definition granting friendship).
+[exit:note]
+
+[:en]
+If a friend function or function template is called, its name may be found by
+the name lookup that considers functions from namespaces and classes associated
+with the types of the function arguments ([#basic.lookup.argdep]).
+
+[:en]
+If the name in a [`friend] declaration is neither qualified nor a [~template-id]
+and the declaration is a function or an [~elaborated-type-specifier], the lookup
+to determine whether the entity has been previously declared shall not consider
+any scopes outside the innermost enclosing namespace.
+
+[enter:note]
+[:en]
+The other forms of [`friend] declarations cannot declare a new member of the
+innermost enclosing namespace and thus follow the usual lookup rules.
+[exit:note]
+
+[enter:example]
+[codeblock]
+// [:en] Assume [`f] and [`g] have not yet been declared.
+void h(int);
+template <class T> void f2(T);
+namespace A {
+  class X {
+    friend void f(X);           // [:en] [`A::f(X)] is a friend
+    class Y {
+      friend void g();          // [:en] [`A::g] is a friend
+      friend void h(int);       // [:en] [`A::h] is a friend
+                                // [:en@~] [`::h] not considered
+      friend void f2<>(int);    // [:en] [`::f2<>(int)] is a friend
+    };
+  };
+
+  // [:en] [`A::f], [`A::g] and [`A::h] are not visible here
+  X x;
+  void g() { f(x); }            // [:en] definition of [`A::g]
+  void f(X) @[`\{ /* ... */\]]@       // [:en] definition of [`A::f]
+  void h(int) @[`\{ /* ... */ \]]@    // [:en] definition of [`A::h]
+  // [:en] [`A::f], [`A::g] and [`A::h] are visible here and known to be friends
+}
+
+using A::x;
+
+void h() {
+  A::f(x);
+  A::X::f(x);                   // [:en] error: [`f] is not a member of [`A::X]
+  A::X::Y::g();                 // [:en] error: [`g] is not a member of [`A::X::Y]
+}
+[codeblock:end]
+[exit:example]

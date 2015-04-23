@@ -1,0 +1,481 @@
+﻿[section#namespace.udecl
+    [:en] The [`using] declaration
+]
+
+[%:begin#using.declaration
+    [:en] using-declaration
+]
+
+[para]
+[:en]
+A [~using-declaration] introduces a name into the declarative region in which
+the [~using-declaration] appears.
+
+[syntax]
+[rule using-declaration [:zh_CN] ]
+    [| [`using] [`:opt typename] nested-name-specifier unqualified-id [`;] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The member name specified in a [~using-declaration] is declared in the
+declarative region in which the [~using-declaration] appears.
+
+[enter:note]
+[:en]
+Only the specified name is so declared; specifying an enumeration name in a
+[~using-declaration] does not declare its enumerators in the
+[~using-declaration][=']s declarative region.
+[exit:note]
+
+[:en]
+If a [~using-declaration] names a constructor ([#class.qual]), it implicitly
+declares a set of constructors in the class in which the [~using-declaration]
+appears ([#class.inhctor]); otherwise the name specified in a
+[~using-declaration] is a synonym for a set of declarations in another namespace
+or class.
+
+[para]
+[:en]
+Every [~using-declaration] is a [~declaration] and a [~member-declaration] and
+so can be used in a class definition.
+
+[enter:example]
+[codeblock]
+struct B {
+  void f(char);
+  void g(char);
+  enum E { e };
+  union { int x; };
+};
+
+struct D : B {
+  using B::f;
+  void f(int) { f('c'); }       // [:en] calls [`B::f(char)]
+  void g(int) { g('c'); }       // [:en] recursively calls [`D::g(int)]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In a [~using-declaration] used as a [~member-declaration], the
+[~nested-name-specifier] shall name a base class of the class being defined.
+
+[:en]
+If such a [~using-declaration] names a constructor, the [~nested-name-specifier]
+shall name a direct base class of the class being defined; otherwise it
+introduces the set of declarations found by member name lookup
+([#class.member.lookup], [#class.qual]).
+
+[enter:example]
+[codeblock]
+class C {
+  int g();
+};
+
+class D2 : public B {
+  using B::f;                   // [:en] OK: [`B] is a base of [`D2]
+  using B::e;                   // [:en] OK: [`e] is an enumerator of base [`B]
+  using B::x;                   // [:en] OK: [`x] is a union member of base [`B]
+  using C::g;                   // [:en] error: [`C] isn[=']t a base of [`D2]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Since destructors do not have names, a [~using-declaration] cannot refer to a
+destructor for a base class. Since specializations of member templates for
+conversion functions are not found by name lookup, they are not considered when
+a [~using-declaration] specifies a conversion function ([#temp.mem]).
+[exit:note]
+
+[:en]
+If an assignment operator brought from a base class into a derived class scope
+has the signature of a copy/move assignment operator for the derived class
+([#class.copy]), the [~using-declaration] does not by itself suppress the
+implicit declaration of the derived class assignment operator; the copy/move
+assignment operator from the base class is hidden or overridden by the
+implicitly-declared copy/move assignment operator of the derived class, as
+described below.
+
+[para]
+[:en]
+A [~using-declaration] shall not name a [~template-id].
+
+[enter:example]
+[codeblock]
+struct A {
+  template <class T> void f(T);
+  template <class T> struct X { };
+};
+struct B : A {
+  using A::f<double>;           // [:en] ill-formed
+  using A::X<int>;              // [:en] ill-formed
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~using-declaration] shall not name a namespace.
+
+[para]
+[:en]
+A [~using-declaration] shall not name a scoped enumerator.
+
+[para]
+[:en]
+A [~using-declaration] for a class member shall be a [~member-declaration].
+
+[enter:example]
+[codeblock]
+struct X {
+  int i;
+  static int s;
+};
+
+void f() {
+  using X::i;       // [:en] error: [`X::i] is a class member
+                    // [:en@~] and this is not a member declaration.
+  using X::s;       // [:en] error: [`X::s] is a class member
+                    // [:en@~] and this is not a member declaration.
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Members declared by a [~using-declaration] can be referred to by explicit
+qualification just like other member names ([#namespace.qual]).
+
+[enter:example]
+[codeblock]
+void f();
+
+namespace A {
+  void g();
+}
+
+namespace X {
+  using ::f;        // [:en] global [`f]
+  using A::g;       // [:en] [`A][=']s [`g]
+}
+
+void h()
+{
+  X::f();           // [:en] calls [`::f]
+  X::g();           // [:en] calls [`A::g]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~using-declaration] is a [~declaration] and can therefore be used repeatedly
+where (and only where) multiple declarations are allowed.
+
+[enter:example]
+[codeblock]
+namespace A {
+  int i;
+}
+
+namespace A1 {
+  using A::i;
+  using A::i;       // [:en] OK: double declaration
+}
+
+void f() {
+  using A::i;
+  using A::i;       // [:en] error: double declaration
+}
+
+struct B {
+  int i;
+};
+
+struct X : B {
+  using B::i;
+  using B::i;       // [:en] error: double member declaration
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Members added to the namespace after the [~using-declaration] are not considered
+when a use of the name is made.
+
+[enter:note]
+[:en]
+Thus, additional overloads added after the [~using-declaration] are ignored, but
+default function arguments ([#dcl.fct.default]), default template arguments
+([#temp.param]), and template specializations ([#temp.class.spec],
+[#temp.expl.spec]) are considered.
+[exit:note]
+
+[enter:example]
+[codeblock]
+namespace A {
+  void f(int);
+}
+
+using A::f;         // [:en] [`f] is a synonym for [`A::f];
+                    // [:en@~] that is, for [`A::f(int)].
+namespace A {
+  void f(char);
+}
+
+void foo() {
+  f('a');           // [:en] calls [`f(int)],
+}                   // [:en@~] even though [`f(char)] exists.
+
+void bar() {
+  using A::f;       // [:en] [`f] is a synonym for [`A::f];
+                    // [:en@~] that is, for [`A::f(int)] and [`A::f(char)].
+  f('a');           // [:en] calls [`f(char)]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Partial specializations of class templates are found by looking up the primary
+class template and then considering all partial specializations of that
+template.
+
+[:en]
+If a [~using-declaration] names a class template, partial specializations
+introduced after the [~using-declaration] are effectively visible because the
+primary template is visible ([#temp.class.spec]).
+[exit:note]
+
+[para]
+[:en]
+Since a [~using-declaration] is a declaration, the restrictions on declarations
+of the same name in the same declarative region ([#basic.scope]) also apply to
+[~using-declaration]s.
+
+[enter:example]
+[codeblock]
+namespace A {
+  int x;
+}
+
+namespace B {
+  int i;
+  struct g { };
+  struct x { };
+  void f(int);
+  void f(double);
+  void g(char);     // [:en] OK: hides [`struct g]
+}
+
+void func() {
+  int i;
+  using B::i;       // [:en] error: [`i] declared twice
+  void f(char);
+  using B::f;       // [:en] OK: each [`f] is a function
+  f(3.5);           // [:en] calls [`B::f(double)]
+  using B::g;
+  g('a');           // [:en] calls [`B::g(char)]
+  struct g g1;      // [:en] [`g1] has class type [`B::g]
+  using B::x;
+  using A::x;       // [:en] OK: hides [`struct B::x]
+  x = 99;           // [:en] assigns to [`A::x]
+  struct x x1;      // [:en] [`x1] has class type [`B::x]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a function declaration in namespace scope or block scope has the same name
+and the same parameter-type-list ([#dcl.fct]) as a function introduced by a
+[~using-declaration], and the declarations do not declare the same function, the
+program is ill-formed.
+
+[:en]
+If a function template declaration in namespace scope has the same name,
+parameter-type-list, return type, and template parameter list as a function
+template introduced by a [~using-declaration], the program is ill-formed.
+
+[enter:note]
+[:en]
+Two [~using-declaration]s may introduce functions with the same name and the
+same parameter-type-list.
+
+[:en]
+If, for a call to an unqualified function name, function overload resolution
+selects the functions introduced by such [~using-declaration]s, the function
+call is ill-formed.
+
+[enter:example]
+[codeblock]
+namespace B {
+  void f(int);
+  void f(double);
+}
+namespace C {
+  void f(int);
+  void f(double);
+  void f(char);
+}
+
+void h() {
+  using B::f;       // [:en] [`B::f(int)] and [`B::f(double)]
+  using C::f;       // [:en] [`C::f(int)], [`C::f(double)], and [`C::f(char)]
+  f('h');           // [:en] calls [`C::f(char)]
+  f(1);             // [:en] error: ambiguous: [`B::f(int)] or [`C::f(int)]?
+  void f(int);      // [:en] error: [`f(int)] conflicts with [`C::f(int)] and [`B::f(int)]
+}
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+[%name hiding[!using-declaration and]]
+When a [~using-declaration] brings names from a base class into a derived class
+scope, member functions and member function templates in the derived class
+override and/or hide member functions and member function templates with the
+same name, parameter-type-list ([#dcl.fct]), cv-qualification, and
+[~ref-qualifier] (if any) in a base class (rather than conflicting).
+
+[enter:note]
+[:en]
+For [~using-declaration]s that name a constructor, see [#class.inhctor].
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct B {
+  virtual void f(int);
+  virtual void f(char);
+  void g(int);
+  void h(int);
+};
+
+struct D : B {
+  using B::f;
+  void f(int);      // [:en] OK: [`D::f(int)] overrides [`B::f(int)];
+
+  using B::g;
+  void g(char);     // OK
+
+  using B::h;
+  void h(int);      // [:en] OK: [`D::h(int)] hides [`B::h(int)]
+};
+
+void k(D* p)
+{
+  p->f(1);          // [:en] calls [`D::f(int)]
+  p->f('a');        // [:en] calls [`B::f(char)]
+  p->g(1);          // [:en] calls [`B::g(int)]
+  p->g('a');        // [:en] calls [`D::g(char)]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%overloading[!using-declaration and]]
+For the purpose of overload resolution, the functions which are introduced by a
+[~using-declaration] into a derived class will be treated as though they were
+members of the derived class.
+
+[:en]
+In particular, the implicit [`this] parameter shall be treated as if it were a
+pointer to the derived class rather than to the base class.
+
+[:en]
+This has no effect on the type of the function, and in all other respects the
+function remains a member of the base class.
+
+[para]
+[:en]
+[%access control[!using-declaration and]]
+The access rules for inheriting constructors are specified in [#class.inhctor];
+otherwise all instances of the name mentioned in a [~using-declaration] shall be
+accessible.
+
+[:en]
+In particular, if a derived class uses a [~using-declaration] to access a member
+of a base class, the member name shall be accessible.
+
+[:en]
+If the name is that of an overloaded member function, then all functions named
+shall be accessible.
+
+[:en]
+The base class members mentioned by a [~using-declaration] shall be visible in
+the scope of at least one of the direct base classes of the class where the
+[~using-declaration] is specified.
+
+[enter:note]
+[:en]
+Because a [~using-declaration] designates a base class member (and not a member
+subobject or a member function of a base class subobject), a
+[~using-declaration] cannot be used to resolve inherited member ambiguities.
+
+[:en]
+For example,
+
+[codeblock]
+struct A { int x(); };
+struct B : A { };
+struct C : A {
+  using A::x;
+  int x(int);
+};
+
+struct D : B, C {
+  using C::x;
+  int x(double);
+};
+int f(D* d) {
+  return d->x();    // [:en] ambiguous: [`B::x] or [`C::x]
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+The alias created by the [~using-declaration] has the usual accessibility for a
+[~member-declaration].
+
+[enter:note]
+[:en]
+A [~using-declaration] that names a constructor does not create aliases; see
+[#class.inhctor] for the pertinent accessibility rules.
+[exit:note]
+
+[enter:example]
+[codeblock]
+class A {
+private:
+    void f(char);
+public:
+    void f(int);
+protected:
+    void g();
+};
+
+class B : public A {
+  using A::f;       // [:en] error: [`A::f(char)] is inaccessible
+public:
+  using A::g;       // [:en] [`B::g] is a public synonym for [`A::g]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [~using-declaration] uses the keyword [`typename] and specifies a dependent
+name ([#temp.dep]), the name introduced by the [~using-declaration] is treated
+as a [~typedef-name] ([#dcl.typedef]).
+
+[%:end#using.declaration]

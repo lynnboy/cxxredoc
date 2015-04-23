@@ -1,0 +1,110 @@
+﻿[section#dcl.attr.depend
+    [:en] Carries dependency attribute
+]
+
+[%  [:en] attribute[!carries dependency]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [~attribute-token] [`carries_dependency] specifies dependency propagation
+into and out of functions.
+
+[:en]
+It shall appear at most once in each [~attribute-list] and no
+[~attribute-argument-clause] shall be present.
+
+[:en]
+The attribute may be applied to the [~declarator-id] of a
+[~parameter-declaration] in a function declaration or lambda, in which case it
+specifies that the initialization of the parameter carries a dependency to
+([#intro.multithread]) each lvalue-to-rvalue conversion ([#conv.lval]) of that
+object.
+
+[:en]
+The attribute may also be applied to the [~declarator-id] of a function
+declaration, in which case it specifies that the return value, if any, carries a
+dependency to the evaluation of the function call expression.
+
+[para]
+[:en]
+The first declaration of a function shall specify the [`carries_dependency]
+attribute for its [~declarator-id] if any declaration of the function specifies
+the [`carries_dependency] attribute.
+
+[:en]
+Furthermore, the first declaration of a function shall specify the
+[`carries_dependency] attribute for a parameter if any declaration of that
+function specifies the [`carries_dependency] attribute for that parameter.
+
+[:en]
+If a function or one of its parameters is declared with the
+[`carries_dependency] attribute in its first declaration in one translation unit
+and the same function or one of its parameters is declared without the
+[`carries_dependency] attribute in its first declaration in another translation
+unit, the program is ill-formed; no diagnostic required.
+
+[para]
+[enter:note]
+[:en]
+The [`carries_dependency] attribute does not change the meaning of the program,
+but may result in generation of more efficient code.
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+/* [:en] Translation unit A. */
+
+struct foo { int* a; int* b; };
+std::atomic<struct foo *> foo_head[10];
+int foo_array[10][10];
+
+[[carries_dependency]] struct foo* f(int i) {
+  return foo_head[i].load(memory_order_consume);
+}
+
+int g(int* x, int* y [[carries_dependency]]) {
+  return kill_dependency(foo_array[*x][*y]);
+}
+
+/* [:en] Translation unit B. */
+
+[[carries_dependency]] struct foo* f(int i);
+int g(int* x, int* y [[carries_dependency]]);
+
+int c = 3;
+
+void h(int i) {
+  struct foo* p;
+
+  p = f(i);
+  do_something_with(g(&c, p->a));
+  do_something_with(g(p->a, &c));
+}
+[codeblock:end]
+
+[para]
+[:en]
+The [`carries_dependency] attribute on function [`f] means that the return value
+carries a dependency out of [`f], so that the implementation need not constrain
+ordering upon return from [`f].
+
+[:en]
+Implementations of [`f] and its caller may choose to preserve dependencies
+instead of emitting hardware memory ordering instructions (a.k.a. fences).
+
+[para]
+[:en]
+Function [`g][=']s second parameter has a [`carries_dependency] attribute, but
+its first parameter does not.
+
+[:en]
+Therefore, function [`h][=']s first call to [`g] carries a dependency into [`g],
+but its second call does not.
+
+[:en]
+The implementation might need to insert a fence prior to the second call to
+[`g].
+
+[exit:example]

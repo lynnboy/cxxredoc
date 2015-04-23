@@ -1,0 +1,339 @@
+﻿[section#dcl.spec.auto
+    [:en] [`auto] specifier
+]
+[%  [:en] type specifier[![`auto]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+The [`auto] and [`decltype(auto)] [~type-specifier]s are used to designate a
+placeholder type that will be replaced later by deduction from an initializer.
+
+[:en]
+The [`auto] [~type-specifier] is also used to introduce a function type having a
+[~trailing-return-type] or to signify that a lambda is a generic lambda.
+
+[para]
+[:en]
+The placeholder type can appear with a function declarator in the
+[~decl-specifier-seq], [~type-specifier-seq], [~conversion-function-id], or
+[~trailing-return-type], in any context where such a declarator is valid.
+
+[:en]
+If the function declarator includes a [~trailing-return-type] ([#dcl.fct]), that
+[~trailing-return-type] specifies the declared return type of the function.
+
+[:en]
+Otherwise, the function declarator shall declare a function.
+
+[:en]
+If the declared return type of the function contains a placeholder type, the
+return type of the function is deduced from [`return] statements in the body of
+the function, if any.
+
+[para]
+[:en]
+If the [`auto] [~type-specifier] appears as one of the [~decl-specifier]s in the
+[~decl-specifier-seq] of a [~parameter-declaration] of a [~lambda-expression],
+the [%generic lambda[!definition of]] lambda is a [+generic lambda]
+([#expr.prim.lambda]).
+
+[enter:example]
+[codeblock]
+auto glambda = [](int i, auto a) { return i; }; // [:en] OK: a generic lambda
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The type of a variable declared using [`auto] or [`decltype(auto)] is deduced
+from its initializer.
+
+[:en]
+This use is allowed when declaring variables in a block ([#stmt.block]), in
+namespace scope ([#basic.scope.namespace]), and in a [~for-init-statement]
+([#stmt.for]).
+
+[:en]
+[`auto] or [`decltype(auto)] shall appear as one of the [~decl-specifier]s in
+the [~decl-specifier-seq] and the [~decl-specifier-seq] shall be followed by one
+or more [~init-declarator]s, each of which shall have a non-empty
+[~initializer].
+
+[:en]
+In an [~initializer] of the form
+
+[codeblock:notation]
+( [~expression-list] )
+[codeblock:end]
+
+[:en@~]
+the [~expression-list] shall be a single [~assignment-expression].
+
+[para:~]
+[enter:example]
+[codeblock]
+auto x = 5;                 // [:en] OK: [`x] has type [`int]
+const auto *v = &x, u = 6;  // [:en] OK: [`v] has type [`const int*], [`u] has type [`const int]
+static auto y = 0.0;        // [:en] OK: [`y] has type [`double]
+auto int r;                 // [:en] error: auto is not a [~storage-class-specifier]
+auto f() -> int;            // [:en] OK: [`f] returns [`int]
+auto g() { return 0.0; }    // [:en] OK: [`g] returns [`double]
+auto h();                   // [:en] OK: [`h][=']s return type will be deduced when it is defined
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A placeholder type can also be used in declaring a variable in the [~condition]
+of a selection statement ([#stmt.select]) or an iteration statement
+([#stmt.iter]), in the [~type-specifier-seq] in the [~new-type-id] or [~type-id]
+of a [~new-expression] ([#expr.new]), in a [~for-range-declaration], and in
+declaring a static data member with a [~brace-or-equal-initializer] that appears
+within the [~member-specification] of a class definition ([#class.static.data]).
+
+[para]
+[:en]
+A program that uses [`auto] or [`decltype(auto)] in a context not explicitly
+allowed in this section is ill-formed.
+
+[para]
+[:en]
+When a variable declared using a placeholder type is initialized, or a [`return]
+statement occurs in a function declared with a return type that contains a
+placeholder type, the deduced return type or variable type is determined from
+the type of its initializer.
+
+[:en]
+In the case of a [`return] with no operand or with an operand of type [`void],
+the declared return type shall be [`auto] and the deduced return type is
+[`void].
+
+[:en]
+Otherwise, let [`T] be the declared type of the variable or return type of the
+function.
+
+[:en]
+If the placeholder is the [`auto] [~type-specifier], the deduced type is
+determined using the rules for template argument deduction.
+
+[:en]
+If the initialization is direct-list-initialization then the [~braced-init-list]
+shall contain only a single [~initializer-clause] [`L]. 
+
+[:en]
+If the deduction is for a [`return] statement and the initializer is a
+[~braced-init-list] ([#dcl.init.list]), the program is ill-formed.
+
+[:en]
+Otherwise, obtain [`P] from [`T] by replacing the occurrences of [`auto] with
+either a new invented type template parameter [`U] or, if the initialization is
+copy-list-initialization, with [`std::initializer_list<U>].
+
+[:en]
+Deduce a value for [`U] using the rules of template argument deduction from a
+function call ([#temp.deduct.call]), where [`P] is a function template parameter
+type and the corresponding argument is the initializer, or [`L] in the case of
+direct-list-initialization.
+
+[:en]
+If the deduction fails, the declaration is ill-formed.
+
+[:en]
+Otherwise, the type deduced for the variable or return type is obtained by
+substituting the deduced [`U] into [`P].
+
+[enter:example]
+[codeblock]
+auto x1 = { 1, 2 };         // [:en] [`decltype(x1)] is [`std::initializer_list<int>]
+auto x2 = { 1, 2.0 };       // [:en] error: cannot deduce element type
+auto x3{ 1, 2 };            // [:en] error: not a single element
+auto x4 = { 3 };            // [:en] [`decltype(x4)] is [`std::initializer_list<int>]
+auto x5{ 3 };               // [:en] [`decltype(x5)] is [`int]
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[codeblock]
+const auto &i = expr;
+[codeblock:end]
+
+[:en]
+The type of [`i] is the deduced type of the parameter [`u] in the call
+[`f(expr)] of the following invented function template:
+
+[codeblock]
+template <class U> void f(const U& u);
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[:en]
+If the placeholder is the [`decltype(auto)] [~type-specifier], the declared type
+of the variable or return type of the function shall be the placeholder alone.
+
+[:en]
+The type deduced for the variable or return type is determined as described in
+[#dcl.type.simple], as though the initializer had been the operand of the
+[`decltype].
+
+[enter:example]
+[codeblock]
+int i;
+int&& f();
+auto           x3a = i;        // [`decltype(x3a)] is [`int]
+decltype(auto) x3d = i;        // [`decltype(x3d)] is [`int]
+auto           x4a = (i);      // [`decltype(x4a)] is [`int]
+decltype(auto) x4d = (i);      // [`decltype(x4d)] is [`int&]
+auto           x5a = f();      // [`decltype(x5a)] is [`int]
+decltype(auto) x5d = f();      // [`decltype(x5d)] is [`int&&]
+auto           x6a = { 1, 2 }; // [`decltype(x6a)] is [`std::initializer_list<int>]
+decltype(auto) x6d = { 1, 2 }; // error, [`{ 1, 2 }] is not an expression
+auto          *x7a = &i;       // [`decltype(x7a)] is [`int*]
+decltype(auto)*x7d = &i;       // error, declared type is not plain [`decltype(auto)]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the [~init-declarator-list] contains more than one [~init-declarator], they
+shall all form declarations of variables.
+
+[:en]
+The type of each declared variable is determined as described above, and if the
+type that replaces the placeholder type is not the same in each deduction, the
+program is ill-formed.
+
+[para:~]
+[enter:example]
+[codeblock]
+auto x = 5, *y = &x;        // [:en] OK: [`auto] is [`int]
+auto a = 5, b = { 1, 2 };   // [:en] error: different types for [`auto]
+[codeblock:end]
+[exit:example]%
+
+[para]
+[:en]
+If a function with a declared return type that contains a placeholder type has
+multiple [`return] statements, the return type is deduced for each [`return]
+statement.
+
+[:en]
+If the type deduced is not the same in each deduction, the program is
+ill-formed.
+
+[para]
+[:en]
+If a function with a declared return type that uses a placeholder type has no
+[`return] statements, the return type is deduced as though from a [`return]
+statement with no operand at the closing brace of the function body.
+
+[enter:example]
+[codeblock]
+auto  f() { } // [:en] OK, return type is [`void]
+auto* g() { } // [:en] error, cannot deduce [`auto*] from [`void()]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the type of an entity with an undeduced placeholder type is needed to
+determine the type of an expression, the program is ill-formed.
+
+[:en]
+Once a [`return] statement has been seen in a function, however, the return type
+deduced from that statement can be used in the rest of the function, including
+in other [`return] statements.
+
+[enter:example]
+[codeblock]
+auto n = n;            // [:en] error, [`n][=']s type is unknown
+auto f();
+void g() { &f; }       // [:en] error, [`f][=']s return type is unknown
+auto sum(int i) {
+  if (i == 1)
+    return i;          // [:en] [`sum][=']s return type is [`int]
+  else
+    return sum(i-1)+i; // [:en] OK, [`sum][=']s return type has been deduced
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Return type deduction for a function template with a placeholder in its
+declared type occurs when the definition is instantiated even if the function
+body contains a [`return] statement with a non-type-dependent operand.
+
+[enter:note]
+[:en]
+Therefore, any use of a specialization of the function template will cause an
+implicit instantiation.
+
+[:en]
+Any errors that arise from this instantiation are not in the immediate context
+of the function type and can result in the program being ill-formed.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template <class T> auto f(T t) { return t; }  // [:en] return type deduced at instantiation time
+typedef decltype(f(1)) fint_t;                // [:en] instantiates [`f<int>] to deduce return type
+template<class T> auto f(T* t) { return *t; }
+void g() { int (*p)(int*) = &f; }             // [:en] instantiates both [`f]s to determine return types,
+                                              // [:en@~] chooses second
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Redeclarations or specializations of a function or function template with a
+declared return type that uses a placeholder type shall also use that
+placeholder, not a deduced type.
+
+[enter:example]
+[codeblock]
+auto f();
+auto f() { return 42; } // [:en] return type is [`int]
+auto f();               // OK
+int f();                // [:en] error, cannot be overloaded with [`auto f()]
+decltype(auto) f();     // [:en] error, [`auto] and [`decltype(auto)] don[=']t match
+
+template <typename T> auto g(T t) { return t; } // #1
+template auto g(int);                           // [:en] OK, return type is [`int]
+template char g(char);                          // [:en] error, no matching template
+template<> auto g(double);                      // [:en] OK, forward declaration with unknown return type
+
+template <class T> T g(T t) { return t; } // [:en] OK, not functionally equivalent to #1
+template char g(char);                    // [:en] OK, now there is a matching template
+template auto g(float);                   // [:en] still matches #1
+
+void h() { return g(42); } // [:en] error, ambiguous
+
+template <typename T> struct A {
+  friend T frf(T);
+};
+auto frf(int i) { return i; } // [:en] not a friend of [`A<int>]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A function declared with a return type that uses a placeholder type shall not be
+[`virtual] ([#class.virtual]).
+
+[para]
+[:en]
+An explicit instantiation declaration ([#temp.explicit]) does not cause the
+instantiation of an entity declared using a placeholder type, but it also does
+not prevent that entity from being instantiated as needed to determine its type.
+
+[enter:example]
+[codeblock]
+template <typename T> auto f(T t) { return t; }
+extern template auto f(int); // [:en] does not instantiate [`f<int>]
+int (*p)(int) = f;           // [:en] instantiates [`f<int>] to determine its return type, but an explicit
+                             // [:en@~] instantiation definition is still required somewhere in the program
+[codeblock:end]
+[exit:example]
