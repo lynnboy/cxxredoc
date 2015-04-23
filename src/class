@@ -249,8 +249,8 @@ otherwise, it consists of the type of the first non-static data member of [`X]
 
 [item]
 [:en]
-If [`X] is a union type, the set [$M([`X])] is the union of all
-[$M([`U][_[$i]])] and the set containing all [`U][_[$i]], where each [`U][_[$i]]
+If [`X] is a union type, the set [$M([`X])] is the union of all [$M([`U][_i])]
+and the set containing all [$[`U][_i]], where each [$[`U][_i]]
 is the type of the [$i]th non-static data member of [`X].
 
 [item]

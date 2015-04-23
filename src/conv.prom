@@ -42,13 +42,13 @@ to a prvalue of its underlying type.
 A prvalue of an unscoped enumeration type whose underlying type is not fixed
 ([#dcl.enum]) can be converted to a prvalue of the first of the following types
 that can represent all the values of the enumeration (i.e., the values in the
-range [$b[_[$min]]] to [$b[_[$max]]] as described in [#dcl.enum]): [`int],
-[`unsigned int], [`long int], [`unsigned long int], [`long long int], or
-[`unsigned long long int].
+range [$b[_min]] to [$b[_max]] as described in [#dcl.enum]): [`int], [`unsigned
+int], [`long int], [`unsigned long int], [`long long int], or [`unsigned long
+long int].
 [:zh_CN]
 底层类型未固定的无作用域枚举类型（[#dcl.enum]）的纯右值，可以转换为下列类型中
-首个能够表示该枚举的全部值（也就是，在 [#dcl.enum] 中所述的从 [$b[_[$min]]] 到
-[$b[_[$max]]] 范围内的值）的类型的纯右值：[`int]，[`unsigned int]，[`long int]，
+首个能够表示该枚举的全部值（也就是，在 [#dcl.enum] 中所述的从 [$b[_min]] 到
+[$b[_max]] 范围内的值）的类型的纯右值：[`int]，[`unsigned int]，[`long int]，
 [`unsigned long int]，[`long long int]，或 [`unsigned long long int]。
 
 [:en]

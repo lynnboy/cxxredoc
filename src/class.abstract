@@ -1,0 +1,142 @@
+﻿[section#class.abstract
+    [:en] Abstract classes
+]
+
+[%  [:en] class[!abstract]]
+
+[para]
+[:en]
+The abstract class mechanism supports the notion of a general concept, such as a
+[`shape], of which only more concrete variants, such as [`circle] and [`square],
+can actually be used.
+
+[:en]
+An abstract class can also be used to define an interface for which derived
+classes provide a variety of implementations.
+
+[para]
+[:en]
+An [+abstract class] is a class that can be used only as a base class of some
+other class; no objects of an abstract class can be created except as subobjects
+of a class derived from it.
+
+[:en]
+A class is abstract if it has at least one [+pure virtual function].
+
+[enter:note]
+[:en]
+Such a function might be inherited: see below.
+[exit:note]
+
+[:en]
+[%virtual function[!pure]]
+A virtual function is specified [+pure] by using a [~pure-specifier]
+([#class.mem]) in the function declaration in the class definition.
+
+[:en]
+[%definition[!pure virtual function]]
+A pure virtual function need be defined only if called with, or as if with
+([#class.dtor]), the [~qualified-id] syntax ([#expr.prim]).
+
+[enter:example]
+[%  [:en] example[!pure virtual function]]
+[codeblock]
+class point { /* ... */ };
+class shape {                   // [:en] abstract class
+  point center;
+public:
+  point where() { return center; }
+  void move(point p) { center=p; draw(); }
+  virtual void rotate(int) = 0; // [:en] pure virtual
+  virtual void draw() = 0;      // [:en] pure virtual
+};
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+A function declaration cannot provide both a [~pure-specifier] and a definition
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct C {
+  virtual void f() = 0 { };     // [:en] ill-formed
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%class[!pointer to abstract]]
+An abstract class shall not be used as a parameter type, as a function return
+type, or as the type of an explicit conversion.
+
+[:en]
+Pointers and references to an abstract class can be declared.
+
+[enter:example]
+[codeblock]
+shape x;                        // [:en] error: object of abstract class
+shape* p;                       // OK
+shape f();                      // [:en] error
+void g(shape);                  // [:en] error
+shape& h(shape&);               // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%virtual function[!pure]]
+A class is abstract if it contains or inherits at least one pure virtual
+function for which the final overrider is pure virtual.
+
+[enter:example]
+[codeblock]
+class ab_circle : public shape {
+  int radius;
+public:
+  void rotate(int) { }
+  // [:en] [`ab_circle::draw()] is a pure virtual
+};
+[codeblock:end]
+
+[:en]
+Since [`shape::draw()] is a pure virtual function [`ab_circle::draw()] is a pure
+virtual by default.
+
+[:en]
+The alternative declaration,
+
+[codeblock]
+class circle : public shape {
+  int radius;
+public:
+  void rotate(int) { }
+  void draw();                  // [:en] a definition is required somewhere
+};
+[codeblock:end]
+
+[:en]
+would make class [`circle] nonabstract and a definition of [`circle::draw()]
+must be provided.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+An abstract class can be derived from a class that is not abstract, and a pure
+virtual function may override a virtual function which is not pure.
+[exit:note]
+
+[para]
+[:en]
+[%class[!constructor and abstract]]
+Member functions can be called from a constructor (or destructor) of an abstract
+class;
+
+[:en]
+[%virtual function call[!undefined pure]]
+the effect of making a virtual call ([#class.virtual]) to a pure virtual
+function directly or indirectly for the object being created (or destroyed) from
+such a constructor (or destructor) is undefined.

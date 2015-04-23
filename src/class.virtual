@@ -1,0 +1,405 @@
+﻿[section#class.virtual
+    [:en] Virtual functions
+]
+[%:begin#virtual.function
+    [:en] virtual function
+]
+[%  [:en] type[!polymorphic]]
+[%  [:en] class[!polymorphic]]
+
+[para]
+[:en]
+Virtual functions support dynamic binding and object-oriented programming.
+
+[:en]
+A class that declares or inherits a virtual function is called a [+polymorphic
+class].
+
+[para]
+[:en]
+If a virtual member function [`vf] is declared in a class [`Base] and in a class
+[`Derived], derived directly or indirectly from [`Base], a member function [`vf]
+with the same name, parameter-type-list ([#dcl.fct]), cv-qualification, and
+ref-qualifier (or absence of same) as [`Base::vf] is declared, then
+[`Derived::vf] is also virtual (whether or not it is so declared) and it
+[+overrides]
+
+[footnote]
+[:en]
+A function with the same name but a different parameter list (Clause [#over]) as
+a virtual function is not necessarily virtual and does not override.
+
+[:en]
+The use of the [`virtual] specifier in the declaration of an overriding function
+is legal but redundant (has empty semantics).
+
+[:en]
+Access control (Clause [#class.access]) is not considered in determining
+overriding.
+[footnote:end]
+
+[:en@~]
+[`Base::vf].
+
+[:en]
+For convenience we say that any virtual function overrides itself.
+
+[:en]
+[%overrider[!final]]
+A virtual member function [`C::vf] of a class object [`S] is a [def final
+overrider] unless the most derived class ([#intro.object]) of which [`S] is a
+base class subobject (if any) declares or inherits another member function that
+overrides [`vf].
+
+[:en]
+In a derived class, if a virtual member function of a base class subobject has
+more than one final overrider the program is ill-formed.
+
+[enter:example]
+[codeblock]
+struct A {
+  virtual void f();
+};
+struct B : virtual A {
+  virtual void f();
+};
+struct C : B , virtual A {
+  using A::f;
+};
+
+void foo() {
+  C c;
+  c.f();              // [:en] calls [`B::f], the final overrider
+  c.C::f();           // [:en] calls [`A::f] because of the using-declaration
+}
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[codeblock]
+struct A { virtual void f(); };
+struct B : A { };
+struct C : A { void f(); };
+struct D : B, C { };  // [:en] OK: [`A::f] and [`C::f] are the final overriders
+                      // [:en@~] for the [`B] and [`C] subobjects, respectively
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+A virtual member function does not have to be visible to be overridden,
+for example,
+
+[codeblock]
+struct B {
+  virtual void f();
+};
+struct D : B {
+  void f(int);
+};
+struct D2 : D {
+  void f();
+};
+[codeblock:end]
+
+[:en@~]
+the function [`f(int)] in class [`D] hides the virtual function [`f()] in its
+base class [`B]; [`D::f(int)] is not a virtual function. However, [`f()]
+declared in class [`D2] has the same name and the same parameter list as
+[`B::f()], and therefore is a virtual function that overrides the function
+[`B::f()] even though [`B::f()] is not visible in class [`D2].
+[exit:note]
+
+[para]
+[:en]
+If a virtual function [`f] in some class [`B] is marked with the
+[~virt-specifier] [`final] and in a class [`D] derived from [`B] a function
+[`D::f] overrides [`B::f], the program is ill-formed.
+
+[enter:example]
+[codeblock]
+struct B {
+  virtual void f() const final;
+};
+
+struct D : B {
+  void f() const;     // [:en] error: [`D::f] attempts to override [`final B::f]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a virtual function is marked with the [~virt-specifier] [`override] and
+does not override a member function of a base class, the program is ill-formed.
+
+[enter:example]
+[codeblock]
+struct B {
+  virtual void f(int);
+};
+
+struct D : B {
+  virtual void f(long) override;  // [:en] error: wrong signature overriding [`B::f]
+  virtual void f(int) override;   // OK
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Even though destructors are not inherited, a destructor in a derived class
+overrides a base class destructor declared virtual; see [#class.dtor] and
+[#class.free].
+
+[para]
+[:en]
+The return type of an overriding function shall be either identical to the
+return type of the overridden function or [+covariant] with the classes of the
+functions.
+
+[:en]
+If a function [`D::f] overrides a function [`B::f], the return types of the
+functions are covariant if they satisfy the following criteria:
+
+[list]
+[item]
+[:en]
+both are pointers to classes, both are lvalue references to classes, or both are
+rvalue references to classes
+
+[footnote]
+[:en]
+Multi-level pointers to classes or references to multi-level pointers to classes
+are not allowed.
+[footnote:end]
+
+[item]
+[:en]
+the class in the return type of [`B::f] is the same class as the class in the
+return type of [`D::f], or is an unambiguous and accessible direct or indirect
+base class of the class in the return type of [`D::f]
+
+[item]
+[:en]
+both pointers or references have the same cv-qualification and the class type in
+the return type of [`D::f] has the same cv-qualification as or less
+cv-qualification than the class type in the return type of [`B::f].
+[list:end]
+
+[para]
+[:en]
+If the class type in the covariant return type of [`D::f] differs from that of
+[`B::f], the class type in the return type of [`D::f] shall be complete at the
+point of declaration of [`D::f] or shall be the class type [`D].
+
+[:en]
+When the overriding function is called as the final overrider of the overridden
+function, its result is converted to the type returned by the (statically
+chosen) overridden function ([#expr.call]).
+
+[enter:example]
+[%  [:en] example[!virtual function]]
+[codeblock]
+class B { };
+class D : private B { friend class Derived; };
+struct Base {
+  virtual void vf1();
+  virtual void vf2();
+  virtual void vf3();
+  virtual B*   vf4();
+  virtual B*   vf5();
+  void f();
+};
+
+struct No_good : public Base {
+  D*  vf4();        // [:en] error: [`B] (base class of [`D]) inaccessible
+};
+
+class A;
+struct Derived : public Base {
+    void vf1();     // [:en] virtual and overrides [`Base::vf1()]
+    void vf2(int);  // [:en] not virtual, hides [`Base::vf2()]
+    char vf3();     // [:en] error: invalid difference in return type only
+    D*  vf4();      // [:en] OK: returns pointer to derived class
+    A*  vf5();      // [:en] error: returns pointer to incomplete class
+    void f();
+};
+
+void g() {
+  Derived d;
+  Base* bp = &d;                // [:en] standard conversion:
+                                // [:en@~] [`Derived*] to [`Base*]
+  bp->vf1();                    // [:en] calls [`Derived::vf1()]
+  bp->vf2();                    // [:en] calls [`Base::vf2()]
+  bp->f();                      // [:en] calls [`Base::f()] (not virtual)
+  B*  p = bp->vf4();            // [:en] calls [`Derived::pf()] and converts the
+                                // [:en@~] result to [`B*]
+  Derived*  dp = &d;
+  D*  q = dp->vf4();            // [:en] calls [`Derived::pf()] and does not
+                                // [:en@~] convert the result to [`B*]
+  dp->vf2();                    // [:en] ill-formed: argument mismatch
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+The interpretation of the call of a virtual function depends on the type of the
+object for which it is called (the dynamic type), whereas the interpretation of
+a call of a non-virtual member function depends only on the type of the pointer
+or reference denoting that object (the static type) ([#expr.call]).
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The [`virtual] specifier implies membership, so a virtual function cannot be a
+nonmember ([#dcl.fct.spec]) function.
+
+[:en]
+Nor can a virtual function be a static member, since a virtual function call
+relies on a specific object for determining which function to invoke.
+
+[:en]
+A virtual function declared in one class can be declared a [`friend] in another
+class.
+[exit:note]
+
+[para]
+[:en]
+[%definition[!virtual function]]
+A virtual function declared in a class shall be defined, or declared pure
+([#class.abstract]) in that class, or both; but no diagnostic is required
+([#basic.def.odr]).
+
+[%  [:en] friend[![`virtual] and]]
+
+[para]
+[%multiple inheritance[![`virtual] and]]
+
+[enter:example]
+[:en]
+here are some uses of virtual functions with multiple base classes:
+[%example[!virtual function]]
+
+[codeblock]
+struct A {
+  virtual void f();
+};
+
+struct B1 : A {                 // [:en] note non-virtual derivation
+  void f();
+};
+
+struct B2 : A {
+  void f();
+};
+
+struct D : B1, B2 {             // [:en] [`D] has two separate [`A] subobjects
+};
+
+void foo() {
+  D   d;
+//[`  A*  ap = &d;                ]// [:en] would be ill-formed: ambiguous
+  B1*  b1p = &d;
+  A*   ap = b1p;
+  D*   dp = &d;
+  ap->f();                      // [:en] calls [`D::B1::f]
+  dp->f();                      // [:en] ill-formed: ambiguous
+}
+[codeblock:end]
+
+[:en]
+In class [`D] above there are two occurrences of class [`A] and hence two
+occurrences of the virtual member function [`A::f].
+
+[:en]
+The final overrider of [`B1::A::f] is [`B1::f] and the final overrider of
+[`B2::A::f] is [`B2::f].
+
+[para]
+[:en]
+The following example shows a function that does not have a unique final
+overrider:
+
+[codeblock]
+struct A {
+  virtual void f();
+};
+
+struct VB1 : virtual A {        // [:en] note virtual derivation
+  void f();
+};
+
+struct VB2 : virtual A {
+  void f();
+};
+
+struct Error : VB1, VB2 {       // [:en] ill-formed
+};
+
+struct Okay : VB1, VB2 {
+  void f();
+};
+[codeblock:end]
+
+[:en]
+Both [`VB1::f] and [`VB2::f] override [`A::f] but there is no overrider of both
+of them in class [`Error].
+
+[:en]
+This example is therefore ill-formed.
+
+[:en]
+Class [`Okay] is well formed, however, because [`Okay::f] is a final overrider.
+
+[para]
+[:en]
+The following example uses the well-formed classes from above.
+
+[codeblock]
+struct VB1a : virtual A {       // [:en] does not declare [`f]
+};
+
+struct Da : VB1a, VB2 {
+};
+
+void foe() {
+  VB1a*  vb1ap = new Da;
+  vb1ap->f();                   // [:en] calls [`VB2::f]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%operator[!scope resolution]]
+[%virtual function call]
+Explicit qualification with the scope operator ([#expr.prim]) suppresses the
+virtual call mechanism.
+
+[enter:example]
+[codeblock]
+class B { public: virtual void f(); };
+class D : public B { public: void f(); };
+
+void D::f() { /* ... */ B::f(); }
+[codeblock:end]
+
+[:en]
+Here, the function call in [`D::f] really does call [`B::f] and not [`D::f].
+[exit:example]
+
+[para]
+[:en]
+A function with a deleted definition ([#dcl.fct.def]) shall not override a
+function that does not have a deleted definition.
+
+[:en]
+Likewise, a function that does not have a deleted definition shall not override
+a function with a deleted definition.
+
+[%:end#virtual.function]

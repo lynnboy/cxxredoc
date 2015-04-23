@@ -1,0 +1,234 @@
+﻿[section:chapter#class.derived
+    [:en] Derived classes
+]
+[%:begin#derived.class
+    [:en] derived class
+]
+
+[/
+%gram: \rSec1[gram.derived]{Derived classes}
+%gram:
+/]
+
+[%base class virtual[see virtual base class]]
+[%function, virtual[see virtual function]]
+[%dynamic binding[see virtual function]]
+
+[para]
+[:en]
+[%base class]
+[%inheritance]
+[%multiple inheritance]
+A list of base classes can be specified in a class definition using the
+notation:
+
+[syntax]
+[rule base-clause [:zh_CN] ]
+    [| [`:] base-specifier-list ]
+[rule:end]
+
+[rule base-specifier-list [:zh_CN] ]
+    [| base-specifier [`:opt ...] ]
+    [| base-specifier-list [`,] base-specifier [`:opt ...] ]
+[rule:end]
+
+[rule base-specifier [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] base-type-specifier ]
+    [| [~:opt attribute-specifier-seq] [`virtual] [~:opt access-specifier] base-type-specifier ]
+    [| [~:opt attribute-specifier-seq] access-specifier [`:opt virtual] base-type-specifier ]
+[rule:end]
+
+[rule class-or-decltype [:zh_CN] ]
+    [| [~:opt nested-name-specifier] class-name ]
+    [| decltype-specifier ]
+[rule:end]
+
+[rule base-type-specifier [:zh_CN] ]
+    [| class-or-decltype ]
+[rule:end]
+
+[% [:en] specifier access[see access specifier]]
+[rule access-specifier [:zh_CN] ]
+    [| [`private] ]
+    [| [`protected] ]
+    [| [`public] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the [~base-specifier].
+
+[para]
+[:en]
+[%type[!incomplete]]
+The type denoted by a [~base-type-specifier] shall be a class type that is not
+an incompletely defined class (Clause [#class]); this class is called a
+[%base class[!direct]] [+direct base class] for the class being defined.
+
+[:en]
+[%base class][%derivation[see inheritance]]
+During the lookup for a base class name, non-type names are ignored
+([#basic.scope.hiding]).
+
+[:en]
+If the name found is not a [~class-name], the program is ill-formed.
+
+[:en]
+A class [`B] is a base class of a class [`D] if it is a direct base class of
+[`D] or a direct base class of one of [`D][=']s base classes.
+
+[:en]
+[%base class[!indirect]]
+A class is an [+indirect] base class of another if it is a base class but not a
+direct base class.
+
+[:en]
+A class is said to be (directly or indirectly) [+derived] from its (direct or
+indirect) base classes.
+
+[enter:note]
+[:en]
+See Clause [#class.access] for the meaning of [~access-specifier].
+[exit:note]
+
+[:en]
+[%access control[!base class member]]
+Unless redeclared in the derived class, members of a base class are also
+considered to be members of the derived class.
+
+[:en]
+The base class members are said to be [%inheritance] [+inherited] by the derived
+class.
+
+[:en]
+Inherited members can be referred to in expressions in the same manner as other
+members of the derived class, unless their names are hidden or ambiguous
+([#class.member.lookup]).
+
+[enter:note]
+[:en]
+[%operator[!scope resolution]]
+The scope resolution operator [`::] ([#expr.prim]) can be used to refer to a
+direct or indirect base member explicitly.
+
+[:en]
+This allows access to a name that has been redeclared in the derived class.
+
+[:en]
+A derived class can itself serve as a base class subject to access control; see
+[#class.access.base].
+
+[:en]
+A pointer to a derived class can be implicitly converted to a pointer to an
+accessible unambiguous base class ([#conv.ptr]).
+
+[:en]
+An lvalue of a derived class type can be bound to a reference to an accessible
+unambiguous base class ([#dcl.init.ref]).
+[exit:note]
+
+[para]
+[:en]
+The [~base-specifier-list] specifies the type of the
+[+base class subobjects] contained in an
+object of the derived class type.
+
+[enter:example]
+[%  [:en] example[!derived class]]
+[codeblock]
+struct Base {
+  int a, b, c;
+};
+[codeblock:end]
+
+[codeblock]
+struct Derived : Base {
+  int b;
+};
+[codeblock:end]
+
+[codeblock]
+struct Derived2 : Derived {
+  int c;
+};
+[codeblock:end]
+
+[:en]
+Here, an object of class [`Derived2] will have a subobject of class [`Derived]
+which in turn will have a subobject of class [`Base].
+[exit:example]
+
+[para]
+[:en]
+A [~base-specifier] followed by an ellipsis is a pack expansion
+([#temp.variadic]).
+
+[para]
+[:en]
+The order in which the base class subobjects are allocated in the most derived
+object ([#intro.object]) is unspecified.
+
+[enter:note]
+[:en]
+[%directed acyclic graph[see DAG]]
+[%lattice[see DAG, subobject]]
+a derived class and its base class subobjects can be represented by a directed
+acyclic graph (DAG) where an arrow means ["directly derived from.]
+
+[:en]
+A DAG of subobjects is often referred to as a ["subobject lattice.]
+
+[figure:graphviz@dot#fig:dag
+    [:en] Directed acyclic graph
+    [:zh_CN] 
+]
+digraph dag {
+    graph [nodesep=1.5, rankdir=BT];
+
+    Base [shape=plaintext, height=.1, fontsize=24];
+    Derived1 [shape=plaintext, height=.1, fontsize=24];
+    Derived2 [shape=plaintext, height=.1, fontsize=24];
+
+    Derived2 -> Derived1;
+    Derived1 -> Base;
+}
+[figure:end]
+
+[para]
+[:en]
+The arrows need not have a physical representation in memory.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+Initialization of objects representing base classes can be specified in
+constructors; see [#class.base.init].
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+A base class subobject might have a layout ([#basic.stc]) different from the
+layout of a most derived object of the same type.
+
+[:en]
+A base class subobject might have a polymorphic behavior ([#class.cdtor])
+different from the polymorphic behavior of a most derived object of the same
+type.
+
+[:en]
+A base class subobject may be of zero size (Clause [#class]); however, two
+subobjects that have the same class type and that belong to the same most
+derived object must not be allocated at the same address ([#expr.eq]).
+[exit:note]
+
+[include class.mi]
+
+[include class.member.lookup]
+
+[include class.virtual]
+
+[include class.abstract]
+
+[%:end#derived.class]
