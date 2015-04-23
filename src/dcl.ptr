@@ -1,0 +1,106 @@
+﻿[section#dcl.ptr
+    [:en] Pointers
+]
+
+[%  [:en] declarator[!pointer]]
+
+[para]
+[:en]
+In a declaration [`T D] where [`D] has the form
+
+[syntax:explanation]
+[`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] [`D1]
+[syntax:end]
+
+[:en@~]
+and the type of the identifier in the declaration [`T D1] is
+["[~derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
+is ["[~derived-declarator-type-list cv-qualifier-seq] pointer to [`T].]
+
+[:en]
+[%declaration[!pointer]]
+[%declaration[!constant pointer]]
+The [~cv-qualifier]s apply to the pointer and not to the object pointed to.
+
+[:en]
+Similarly, the optional [~attribute-specifier-seq] ([#dcl.attr.grammar])
+appertains to the pointer and not to the object pointed to.
+
+[para]
+[enter:example]
+[:en]
+the declarations
+[%example[![`const]]]
+[%example[!constant pointer]]
+
+[codeblock]
+const int ci = 10, *pc = &ci, *const cpc = pc, **ppc;
+int i, *p, *const cp = &i;
+[codeblock:end]
+
+[:en@~]
+declare [`ci], a constant integer; [`pc], a pointer to a constant integer;
+[`cpc], a constant pointer to a constant integer; [`ppc], a pointer to a pointer
+to a constant integer; [`i], an integer; [`p], a pointer to integer; and [`cp],
+a constant pointer to integer.
+
+[:en]
+The value of [`ci], [`cpc], and [`cp] cannot be changed after initialization.
+
+[:en]
+The value of [`pc] can be changed, and so can the object pointed to by [`cp].
+
+[:en]
+Examples of some correct operations are
+
+[codeblock]
+i = ci;
+*cp = ci;
+pc++;
+pc = cpc;
+pc = p;
+ppc = &pc;
+[codeblock:end]
+
+[:en]
+Examples of ill-formed operations are
+
+[codeblock]
+ci = 1;             // [:en] error
+ci++;               // [:en] error
+*pc = 2;            // [:en] error
+cp = &ci;           // [:en] error
+cpc++;              // [:en] error
+p = pc;             // [:en] error
+ppc = &p;           // [:en] error
+[codeblock:end]
+
+[:en]
+Each is unacceptable because it would either change the value of an object
+declared [`const] or allow it to be changed through a cv-unqualified pointer
+later, for example:
+
+[codeblock]
+*ppc = &ci;         // [:en] OK, but would make [`p] point to [`ci] ...
+                    // [:en@~] ... because of previous error
+*p = 5;             // [:en] clobber [`ci]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+See also [#expr.ass] and [#dcl.init].
+
+[para]
+[enter:note]
+[:en]
+Forming a pointer to reference type is ill-formed; see [#dcl.ref].
+
+[:en]
+Forming a pointer to function type is ill-formed if the function type has
+[~cv-qualifier]s or a [~ref-qualifier]; see [#dcl.fct].
+
+[:en]
+Since the address of a bit-field ([#class.bit]) cannot be taken, a pointer can
+never point to a bit-field.
+[exit:note]

@@ -1,0 +1,123 @@
+﻿[section#dcl.fct.def.default
+    [:en] Explicitly-defaulted functions
+]
+
+[%  [:en] definition[!function[!explicitly-defaulted]]]
+
+[para]
+[:en]
+A function definition of the form:
+
+[syntax:explanation]
+[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator] [~:opt virt-specifier-seq] [`=] [`default] [`;]
+[syntax:end]
+
+[:en@~]
+is called an [~explicitly-defaulted] definition.
+
+[:en]
+A function that is explicitly defaulted shall
+
+[list]
+[item]
+[:en@~] be a special member function,
+
+[item]
+[:en@~] have the same declared function type (except for possibly differing
+[~ref-qualifier]s and except that in the case of a copy constructor or copy
+assignment operator, the parameter type may be ["reference to non-const [`T]],
+where [`T] is the name of the member function[=']s class) as if it had been
+implicitly declared, and
+
+[item]
+[:en@~] not have default arguments.
+[list:end]
+
+[para]
+[:en]
+An explicitly-defaulted function that is not defined as deleted may be declared
+[`constexpr] only if it would have been implicitly declared as [`constexpr].
+
+[:en]
+If a function is explicitly defaulted on its first declaration,
+
+[list]
+[item]
+[:en@~] it is implicitly considered to be [`constexpr] if the implicit
+declaration would be, and,
+[item]
+[:en@~] it has the same exception specification as if it had been implicitly
+declared ([#except.spec]).
+[list:end]
+
+[para]
+[:en]
+If a function that is explicitly defaulted is declared with an
+[~exception-specification] that is not compatible ([#except.spec]) with the
+exception specification of the implicit declaration, then
+
+[list]
+[item]
+[:en@~] if the function is explicitly defaulted on its first declaration, it is
+defined as deleted;
+[item]
+[:en@~] otherwise, the program is ill-formed.
+[list:end]
+
+[para]
+[enter:example]
+[codeblock]
+struct S {
+  constexpr S() = default;                  // [:en] ill-formed: implicit [`S()] is not [`constexpr]
+  S(int a = 0) = default;                   // [:en] ill-formed: default argument
+  void operator=(const S&) = default;       // [:en] ill-formed: non-matching return type
+  ~S() throw(int) = default;                // [:en] deleted: exception specification does not match
+private:
+  int i;
+  S(S&);                                    // [:en] OK: private copy constructor
+};
+S::S(S&) = default;                         // [:en] OK: defines copy constructor
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Explicitly-defaulted functions and implicitly-declared functions are
+collectively called [def defaulted] functions, and the implementation shall
+provide implicit definitions for them ([#class.ctor] [#class.dtor],
+[#class.copy]), which might mean defining them as deleted.
+
+[:en]
+A function is [def user-provided] if it is user-declared and not explicitly
+defaulted or deleted on its first declaration.
+
+[:en]
+A user-provided explicitly-defaulted function (i.e., explicitly defaulted after
+its first declaration) is defined at the point where it is explicitly defaulted;
+if such a function is implicitly defined as deleted, the program is ill-formed.
+
+[enter:note]
+[:en]
+Declaring a function as defaulted after its first declaration can provide
+efficient execution and concise definition while enabling a stable binary
+interface to an evolving code base.
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+struct trivial {
+  trivial() = default;
+  trivial(const trivial&) = default;
+  trivial(trivial&&) = default;
+  trivial& operator=(const trivial&) = default;
+  trivial& operator=(trivial&&) = default;
+  ~trivial() = default;
+};
+
+struct nontrivial1 {
+  nontrivial1();
+};
+nontrivial1::nontrivial1() = default;           // [:en] not first declaration
+[codeblock:end]
+[exit:example]

@@ -1,0 +1,454 @@
+﻿[section#dcl.init.list
+    [:en] List-initialization
+]
+
+[%:begin#initialization.list.initialization
+    [:en] initialization[!list-initialization]
+]
+
+[para]
+[:en]
+[~List-initialization] is initialization of an object or reference from a
+[~braced-init-list].
+
+[:en]
+Such an initializer is called an [+initializer list], and the comma-separated
+[~initializer-clause]s of the list are called the [+elements] of the initializer
+list.
+
+[:en]
+An initializer list may be empty.
+
+[:en]
+List-initialization can occur in direct-initialization or copy-initialization
+contexts; list-initialization in a direct-initialization context is called
+[~direct-list-initialization] and list-initialization in a copy-initialization
+context is called [~copy-list-initialization].
+
+[enter:note]
+[:en]
+List-initialization can be used
+
+[list]
+[item]
+[:en@~] as the initializer in a variable definition ([#dcl.init])
+[item]
+[:en@~] as the initializer in a [~new-expression] ([#expr.new])
+[item]
+[:en@~] in a return statement ([#stmt.return])
+[item]
+[:en@~] as a [~for-range-initializer] ([#stmt.iter])
+[item]
+[:en@~] as a function argument ([#expr.call])
+[item] as a subscript ([#expr.sub])
+[item]
+[:en@~] as an argument to a constructor invocation ([#dcl.init], [#expr.type.conv])
+[item]
+[:en@~] as an initializer for a non-static data member ([#class.mem])
+[item]
+[:en@~] in a [~mem-initializer] ([#class.base.init])
+[item]
+[:en@~] on the right-hand side of an assignment ([#expr.ass])
+[list:end]
+
+[enter:example]
+[codeblock]
+int a = {1};
+std::complex<double> z{1,2};
+new std::vector<std::string>{"once", "upon", "a", "time"};  // [:en] 4 string elements
+f( {"Nicholas","Annemarie"} );  // [:en] pass list of two elements
+return { "Norah" };             // [:en] return list of one element
+int* e {};                      // [:en] initialization to zero / null pointer
+x = double{1};                  // [:en] explicitly construct a double 
+std::map<std::string,int> anim = { {"bear",4}, {"cassowary",2}, {"tiger",7} };
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+A constructor is an [+initializer-list constructor] if its first parameter is of
+type [`std::initializer_list<E>] or reference to possibly cv-qualified
+[`std::initializer_list<E>] for some type [`E], and either there are no other
+parameters or else all other parameters have default arguments
+([#dcl.fct.default]).
+
+[enter:note]
+[:en]
+Initializer-list constructors are favored over other constructors in
+list-initialization ([#over.match.list]).
+
+[:en]
+Passing an initializer list as the argument to the constructor template
+[`template<class T> C(T)] of a class [`C] does not create an initializer-list
+constructor, because an initializer list argument causes the corresponding
+parameter to be a non-deduced context ([#temp.deduct.call]).
+[exit:note]
+
+[:en]
+The template [`std::initializer_list] is not predefined; if the header
+[`<initializer_list>] is not included prior to a use of [`std::initializer_list]
+[=--] even an implicit use in which the type is not named ([#dcl.spec.auto])
+[=--] the program is ill-formed.
+
+[para]
+[:en]
+List-initialization of an object or reference of type [`T] is defined as
+follows:
+[list]
+
+[item]
+[:en]
+If [`T] is a class type and the initializer list has a single element of type
+[$cv] [`U], where [`U] is [`T] or a class derived from [`T], the object is
+initialized from that element (by copy-initialization for
+copy-list-initialization, or by direct-initialization for
+direct-list-initialization).
+
+[item]
+[:en]
+Otherwise, if [`T] is a character array and the initializer list has a single
+element that is an appropriately-typed string literal ([#dcl.init.string]),
+initialization is performed as described in that section.
+
+[item]
+[:en]
+Otherwise, if [`T] is an aggregate, aggregate initialization is performed
+([#dcl.init.aggr]).
+
+[para:~]
+[enter:example]
+[codeblock]
+double ad[] = { 1, 2.0 };           // OK
+int ai[] = { 1, 2.0 };              // [:en] error: narrowing
+
+struct S2 {
+  int m1;
+  double m2, m3;
+};
+S2 s21 = { 1, 2, 3.0 };             // OK
+S2 s22 { 1.0, 2, 3 };               // [:en] error: narrowing
+S2 s23 { };                         // [:en] OK: default to 0,0,0
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, if the initializer list has no elements and [`T] is a class type with
+a default constructor, the object is value-initialized.
+
+[item]
+[:en]
+Otherwise, if [`T] is a specialization of [`std::initializer_list<E>], a prvalue
+[`initializer_list] object is constructed as described below and used to
+initialize the object according to the rules for initialization of an object
+from a class of the same type ([#dcl.init]).
+
+[item]
+[:en]
+Otherwise, if [`T] is a class type, constructors are considered.
+
+[:en]
+The applicable constructors are enumerated and the best one is chosen through
+overload resolution ([#over.match], [#over.match.list]).
+
+[:en]
+If a narrowing conversion (see below) is required to convert any of the
+arguments, the program is ill-formed.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct S {
+  S(std::initializer_list<double>); // #1
+  S(std::initializer_list<int>);    // #2
+  S();                              // #3
+  // ...
+};
+S s1 = { 1.0, 2.0, 3.0 };           // [:en] invoke #1
+S s2 = { 1, 2, 3 };                 // [:en] invoke #2
+S s3 = { };                         // [:en] invoke #3
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[codeblock]
+struct Map {
+  Map(std::initializer_list<std::pair<std::string,int>>);
+};
+Map ship = {{"Sophie",14}, {"Surprise",28}};
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[codeblock]
+struct S {
+  // [:en] no initializer-list constructors
+  S(int, double, double);           // #1
+  S();                              // #2
+  // ...
+};
+S s1 = { 1, 2, 3.0 };               // [:en] OK: invoke #1
+S s2 { 1.0, 2, 3 };                 // [:en] error: narrowing
+S s3 { };                           // [:en] OK: invoke #2
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, if the initializer list has a single element of type [`E] and either
+[`T] is not a reference type or its referenced type is reference-related to
+[`E], the object or reference is initialized from that element (by
+copy-initialization for copy-list-initialization, or by direct-initialization
+for direct-list-initialization); if a narrowing conversion (see below) is
+required to convert the element to [`T], the program is ill-formed.
+
+[para:~]
+[enter:example]
+[codeblock]
+int x1 {2};                         // OK
+int x2 {2.0};                       // [:en] error: narrowing
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, if [`T] is a reference type, a prvalue temporary of the type
+referenced by [`T] is copy-list-initialized or direct-list-initialized,
+depending on the kind of initialization for the reference, and the reference is
+bound to that temporary.
+
+[enter:note]
+[:en]
+As usual, the binding will fail and the program is ill-formed if the reference
+type is an lvalue reference to a non-const type.
+[exit:note]
+
+[para:~]
+[enter:example]
+[codeblock]
+struct S {
+  S(std::initializer_list<double>); // #1
+  S(const std::string&);            // #2
+  // ...
+};
+const S& r1 = { 1, 2, 3.0 };        // [:en] OK: invoke #1
+const S& r2 { "Spinach" };          // [:en] OK: invoke #2
+S& r3 = { 1, 2, 3 };                // [:en] error: initializer is not an lvalue
+const int& i1 = { 1 };              // OK
+const int& i2 = { 1.1 };            // [:en] error: narrowing
+const int (&iar)[2] = { 1, 2 };     // [:en] OK: [`iar] is bound to temporary array
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, if the initializer list has no elements, the object is
+value-initialized.
+
+[para:~]
+[enter:example]
+[codeblock]
+int** pp {};                        // [:en] initialized to null pointer
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, the program is ill-formed.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct A { int i; int j; };
+A a1 { 1, 2 };                      // [:en] aggregate initialization 
+A a2 { 1.2 };                       // [:en] error: narrowing
+struct B {
+  B(std::initializer_list<int>);
+};
+B b1 { 1, 2 };                      // [:en] creates [`initializer_list<int>] and calls constructor
+B b2 { 1, 2.0 };                    // [:en] error: narrowing
+struct C {
+  C(int i, double j);
+};
+C c1 = { 1, 2.2 };                  // [:en] calls constructor with arguments (1, 2.2) 
+C c2 = { 1.1, 2 };                  // [:en] error: narrowing
+
+int j { 1 };                        // [:en] initialize to 1
+int k { };                          // [:en] initialize to 0
+[codeblock:end]
+[exit:example]
+
+[list:end]
+
+[para]
+[:en]
+Within the [~initializer-list] of a [~braced-init-list], the
+[~initializer-clause]s, including any that result from pack expansions
+([#temp.variadic]), are evaluated in the order in which they appear.
+
+[:en]
+That is, every value computation and side effect associated with a given
+[~initializer-clause] is sequenced before every value computation and side
+effect associated with any [~initializer-clause] that follows it in the
+comma-separated list of the [~initializer-list].
+
+[enter:note]
+[:en]
+This evaluation ordering holds regardless of the semantics of the
+initialization; for example, it applies when the elements of the
+[~initializer-list] are interpreted as arguments of a constructor call, even
+though ordinarily there are no sequencing constraints on the arguments of a
+call.
+[exit:note]
+
+[para]
+[:en]
+An object of type [`std::initializer_list<E>] is constructed from an initializer
+list as if the implementation allocated a temporary array of [$N] elements of
+type [`const E], where [$N] is the number of elements in the initializer list.
+
+[:en]
+Each element of that array is copy-initialized with the corresponding element of
+the initializer list, and the [`std::initializer_list<E>] object is constructed
+to refer to that array.
+
+[enter:note]
+[:en]
+A constructor or conversion function selected for the copy shall be accessible
+(Clause [#class.access]) in the context of the initializer list.
+[exit:note]
+
+[:en]
+If a narrowing conversion is required to initialize any of the elements, the
+program is ill-formed.
+
+[enter:example]
+[codeblock]
+struct X {
+  X(std::initializer_list<double> v);
+};
+X x{ 1,2,3 };
+[codeblock:end]
+
+[:en]
+The initialization will be implemented in a way roughly equivalent to this:
+
+[codeblock]
+const double __a[3] = {double{1}, double{2}, double{3}};
+X x(std::initializer_list<double>(__a, __a+3));
+[codeblock:end]
+
+[:en@~]
+assuming that the implementation can construct an [`initializer_list] object
+with a pair of pointers.
+[exit:example]
+
+[para]
+[:en]
+The array has the same lifetime as any other temporary object
+([#class.temporary]), except that initializing an [`initializer_list] object
+from the array extends the lifetime of the array exactly like binding a
+reference to a temporary.
+
+[enter:example]
+[codeblock]
+typedef std::complex<double> cmplx;
+std::vector<cmplx> v1 = { 1, 2, 3 };
+
+void f() {
+  std::vector<cmplx> v2{ 1, 2, 3 };
+  std::initializer_list<int> i3 = { 1, 2, 3 };
+}
+
+struct A {
+  std::initializer_list<int> i4;
+  A() : i4{ 1, 2, 3 } {}  // [:en] creates an [`A] with a dangling reference
+};
+[codeblock:end]
+
+[:en]
+For [`v1] and [`v2], the [`initializer_list] object is a parameter in a function
+call, so the array created for [`{ 1, 2, 3 }] has full-expression lifetime.
+
+[:en]
+For [`i3], the [`initializer_list] object is a variable, so the array persists
+for the lifetime of the variable.
+
+[:en]
+For [`i4], the [`initializer_list] object is initialized in a constructor[=']s
+[~ctor-initializer], so the array persists only until the constructor exits, and
+so any use of the elements of [`i4] after the constructor exits produces
+undefined behavior.
+[exit:example]
+
+[enter:note]
+[:en]
+The implementation is free to allocate the array in read-only memory if an
+explicit array with the same initializer could be so allocated.
+[exit:note]
+
+[para]
+[:en]
+A [%narrowing conversion] [%conversion[!narrowing]] [+narrowing conversion] is
+an implicit conversion
+
+[list]
+[item]
+[:en]
+from a floating-point type to an integer type, or
+
+[item]
+[:en]
+from [`long double] to [`double] or [`float], or from [`double] to [`float],
+except where the source is a constant expression and the actual value after
+conversion is within the range of values that can be represented (even if it
+cannot be represented exactly), or
+
+[item]
+[:en]
+from an integer type or unscoped enumeration type to a floating-point type,
+except where the source is a constant expression and the actual value after
+conversion will fit into the target type and will produce the original value
+when converted back to the original type, or
+
+[item]
+[:en]
+from an integer type or unscoped enumeration type to an integer type that cannot
+represent all the values of the original type, except where the source is a
+constant expression whose value after integral promotions will fit into the
+target type.
+[list:end]
+
+[enter:note]
+[:en]
+As indicated above, such conversions are not allowed at the top level in
+list-initializations.
+[exit:note]
+
+[enter:example]
+[codeblock]
+int x = 999;              // [:en] x is not a constant expression
+const int y = 999;
+const int z = 99;
+char c1 = x;              // [:en] OK, though it might narrow (in this case, it does narrow)
+char c2{x};               // [:en] error: might narrow
+char c3{y};               // [:en] error: narrows (assuming [`char] is 8 bits)
+char c4{z};               // [:en] OK: no narrowing needed
+unsigned char uc1 = {5};  // [:en] OK: no narrowing needed
+unsigned char uc2 = {-1}; // [:en] error: narrows
+unsigned int ui1 = {-1};  // [:en] error: narrows
+signed int si1 =
+  { (unsigned int)-1 };   // [:en] error: narrows
+int ii = {2.0};           // [:en] error: narrows
+float f1 { x };           // [:en] error: might narrow
+float f2 { 7 };           // [:en] OK: 7 can be exactly represented as a float
+int f(int);
+int a[] =
+  { 2, f(2), f(2.0) };    // [:en] OK: the double-to-int conversion is not at the top level
+[codeblock:end]
+[exit:example]
+
+[%:end#initialization.list.initialization]

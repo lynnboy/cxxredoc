@@ -1,0 +1,189 @@
+﻿[section#dcl.ref
+    [:en] References
+]
+
+[% [:en]declarator[!reference]]
+
+[para]
+In a declaration [`T D] where [`D] has either of the forms
+
+[syntax:explanation]
+[| [`&] [~:opt attribute-specifier-seq] [`D1] ]
+[| [`&&] [~:opt attribute-specifier-seq] [`D1] ]
+[syntax:end]
+
+[:en@~]
+and the type of the identifier in the declaration [`T D1] is
+["[~derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
+is ["[~derived-declarator-type-list] reference to [`T].]
+
+[:en]
+The optional [~attribute-specifier-seq} appertains to the reference type.
+
+[:en]
+Cv-qualified references are ill-formed except when the cv-qualifiers are
+introduced through the use of a [~typedef-name] ([#dcl.typedef], [#temp.param])
+or [~decltype-specifier] ([#dcl.type.simple]), in which case the cv-qualifiers
+are ignored.
+
+[enter:example]
+[codeblock]
+typedef int& A;
+const A aref = 3;   // [:en] ill-formed; lvalue reference to non-[`const] initialized with rvalue
+[codeblock:end]
+
+[:en]
+The type of [`aref] is ["lvalue reference to [`int]], not ["lvalue reference to
+[`const int]].
+[exit:example]
+
+[enter:note]
+[:en]
+A reference can be thought of as a name of an object.
+[exit:note]
+
+[:en]
+[%[`void&]]
+A declarator that specifies the type ["reference to [$cv] [`void]] is
+ill-formed.
+
+
+[para]
+[:en]
+[%lvalue reference]
+[%rvalue reference]
+A reference type that is declared using [`&] is called an [+lvalue reference],
+and a reference type that is declared using [`&&] is called an [+rvalue
+reference].
+
+[:en]
+Lvalue references and rvalue references are distinct types.
+
+[:en]
+Except where explicitly noted, they are semantically equivalent and commonly
+referred to as references.
+
+[para]
+[:en]
+[%declaration[!reference]]
+[%parameter[!reference]]
+[enter:example]
+[codeblock]
+void f(double& a) { a += 3.14; }
+// ...
+double d = 0;
+f(d);
+[codeblock:end]
+
+[:en]
+declares [`a] to be a reference parameter of [`f] so the call [`f(d)] will add
+[`3.14] to [`d].
+
+[codeblock]
+int v[20];
+// ...
+int& g(int i) { return v[i]; }
+// ...
+g(3) = 7;
+[codeblock:end]
+
+[:en]
+declares the function [`g()] to return a reference to an integer so [`g(3)=7]
+will assign [`7] to the fourth element of the array [`v].
+
+[:en]
+For another example,
+
+[codeblock]
+struct link {
+  link* next;
+};
+
+link* first;
+
+void h(link*& p) {  // [:en] [`p] is a reference to pointer
+  p->next = first;
+  first = p;
+  p = 0;
+}
+
+void k() {
+   link* q = new link;
+   h(q);
+}
+[codeblock:end]
+
+[:en]
+declares [`p] to be a reference to a pointer to [`link] so [`h(q)] will leave
+[`q] with the value zero.
+
+[:en]
+See also [#dcl.init.ref].
+[exit:example]
+
+[para]
+[:en]
+It is unspecified whether or not a reference requires storage ([#basic.stc]).
+
+[para]
+[:en]
+[%restriction[!reference]]
+There shall be no references to references, no arrays of references, and no
+pointers to references.
+
+[:en]
+[%initialization[!reference]]
+The declaration of a reference shall contain an [~initializer] ([#dcl.init.ref])
+except when the declaration contains an explicit [`extern] specifier
+([#dcl.stc]), is a class member ([#class.mem]) declaration within a class
+definition, or is the declaration of a parameter or a return type ([#dcl.fct]);
+see [#basic.def].
+
+[:en]
+A reference shall be initialized to refer to a valid object or function.
+
+[enter:note]
+[:en]
+[%reference[!null]]
+in particular, a null reference cannot exist in a well-defined program, because
+the only way to create such a reference would be to bind it to the ["object]
+obtained by indirection through a null pointer, which causes undefined behavior.
+
+[:en]
+As described in [#class.bit], a reference cannot be bound directly to a
+bit-field.
+[exit:note]
+
+[para]
+[:en]
+[%reference collapsing]
+If a [~typedef-name] ([#dcl.typedef], [#temp.param]) or a [~decltype-specifier]
+([#dcl.type.simple]) denotes a type [`TR] that is a reference to a type [`T], an
+attempt to create the type ["lvalue reference to [$cv] [`TR]] creates the type
+["lvalue reference to [`T]], while an attempt to create the type ["rvalue
+reference to [$cv] [`TR]] creates the type [`TR].
+
+[enter:example]
+[codeblock]
+int i;
+typedef int& LRI;
+typedef int&& RRI;
+
+LRI& r1 = i;                    // [:en] [`r1] has the type [`int&]
+const LRI& r2 = i;              // [:en] [`r2] has the type [`int&]
+const LRI&& r3 = i;             // [:en] [`r3] has the type [`int&]
+
+RRI& r4 = i;                    // [:en] [`r4] has the type [`int&]
+RRI&& r5 = 5;                   // [:en] [`r5] has the type [`int&&]
+
+decltype(r2)& r6 = i;           // [:en] [`r6] has the type [`int&]
+decltype(r2)&& r7 = i;          // [:en] [`r7] has the type [`int&]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Forming a reference to function type is ill-formed if the function type has
+[~cv-qualifier]s or a [~ref-qualifier]; see [#dcl.fct].
+[exit:note]

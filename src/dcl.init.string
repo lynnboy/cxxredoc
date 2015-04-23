@@ -1,0 +1,49 @@
+﻿[section#dcl.init.string
+    [:en] Character arrays
+]
+
+[%  [:en] initialization[!character array]]
+
+[para]
+[:en]
+An array of narrow character type ([#basic.fundamental]), [`char16_t] array,
+[`char32_t] array, or [`wchar_t] array can be initialized by a narrow string
+literal, [`char16_t] string literal, [`char32_t] string literal, or wide string
+literal, respectively, or by an appropriately-typed string literal enclosed in
+braces ([#lex.string]).
+
+[:en]
+[%initialization[!character array]]
+Successive characters of the value of the string literal initialize the elements
+of the array.
+
+[enter:example]
+[codeblock]
+char msg[] = "Syntax error on line %s\n";
+[codeblock:end]
+
+[:en]
+shows a character array whose members are initialized with a [~string-literal].
+
+[:en]
+Note that because [`'\n'] is a single character and because a trailing [`'\0']
+is appended, [`sizeof(msg)] is [`25].
+[exit:example]
+
+[para]
+[:en]
+There shall not be more initializers than there are array elements.
+
+[enter:example]
+[codeblock]
+char cv[4] = "asdf";            // error
+[codeblock:end]
+
+[:en]
+is ill-formed since there is no space for the implied trailing [`'\0'].
+[exit:example]
+
+[para]
+[:en]
+If there are fewer initializers than there are array elements, each element not
+explicitly initialized shall be zero-initialized ([#dcl.init]).

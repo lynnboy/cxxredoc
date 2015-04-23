@@ -1,0 +1,142 @@
+﻿[section#dcl.fct.def.general
+    [:en] In general
+]
+
+[para]
+[:en]
+[%body[!function]]
+Function definitions have the form
+
+[%[~function-definition]]
+
+[syntax]
+[rule function-definition [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] declarator [~:opt virt-specifier-seq] function-body ]
+[rule:end]
+
+[rule function-body [:zh_CN] ]
+    [| [~:opt ctor-initializer] compound-statement ]
+    [| function-try-block ]
+    [| [`=] [`default] [`;] ]
+    [| [`=] [`delete] [`;] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+Any informal reference to the body of a function should be interpreted as a
+reference to the non-terminal [~function-body].
+
+[:en]
+The optional [~attribute-specifier-seq] in a [~function-definition] appertains
+to the function.
+
+[:en]
+A [~virt-specifier-seq] can be part of a [~function-definition] only if it is a
+[~member-declaration] ([#class.mem]).
+
+[para]
+[:en]
+The [~declarator] in a [~function-definition] shall have the form
+
+[syntax:explanation]
+[| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
+    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] [~:opt trailing-return-type] ]
+[syntax:end]
+
+[:en@~]
+as described in [#dcl.fct].
+
+[:en]
+A function shall be defined only in namespace or class scope.
+
+[para]
+[enter:example]
+[:en]
+a simple example of a complete function definition is
+
+[%  [:en] example[!function definition]]
+[codeblock]
+int max(int a, int b, int c) {
+  int m = (a > b) ? a : b;
+  return (m > c) ? m : c;
+}
+[codeblock:end]
+
+Here [`int] is the [~decl-specifier-seq]; [`max(int a, int b, int c)] is the
+[~declarator]; [`{ /* ... */ }] is the [~function-body].
+[exit:example]
+
+[para]
+[:en]
+[%initializer[!base class]]
+[%initializer[!member]]
+[%definition[!constructor]]
+A [~ctor-initializer] is used only in a constructor; see [#class.ctor] and
+[#class.init].
+
+[para]
+[enter:note]
+[:en]
+A [~cv-qualifier-seq] affects the type of [`this] in the body of a member
+function; see [#dcl.ref].
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+Unused parameters need not be named.
+
+[:en]
+For example,
+
+[%  [:en] example[!unnamed parameter]]
+[codeblock]
+void print(int a, int) {
+  std::printf("a = %d\n",a);
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+In the [~function-body], a [+function-local predefined variable] denotes a
+block-scope object of static storage duration that is implicitly defined (see
+[#basic.scope.block]).
+
+[para]
+[:en]
+The function-local predefined variable [`__func__] is defined as if a definition
+of the form
+
+[codeblock:notation]
+static const char __func__[] = "[$function-name]";
+[codeblock:end]
+
+[:en@~]
+had been provided, where [$function-name] is an [%@impldef string resulting
+from [`__func__]] implementation-defined string.
+
+[:en]
+It is unspecified whether such a variable has an address distinct from that of
+any other object in the program.
+
+[footnote]
+[:en]
+Implementations are permitted to provide additional predefined variables with
+names that are reserved to the implementation ([#lex.name]).
+
+[:en]
+If a predefined variable is not odr-used ([#basic.def.odr]), its string value
+need not be present in the program image.
+[footnote:end]
+
+[para:~]
+[enter:example]
+[codeblock]
+struct S {
+  S() : s(__func__) { }             // OK
+  const char* s;
+};
+void f(const char* s = __func__);  // [:en] error: [`__func__] is undeclared
+[codeblock:end]
+[exit:example]

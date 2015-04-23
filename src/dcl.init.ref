@@ -1,0 +1,282 @@
+﻿[section#dcl.init.ref
+    [:en] References
+]
+
+[%  [:en] initialization[!reference]]
+
+[para]
+[:en]
+A variable declared to be a [`T&] or [`T&&], that is, ["reference to type [`T]]
+([#dcl.ref]), shall be initialized by an object, or function, of type [`T] or by
+an object that can be converted into a [`T].
+
+[enter:example]
+[codeblock]
+int g(int);
+void f() {
+  int i;
+  int& r = i;                   // [:en] [`r] refers to [`i]
+  r = 1;                        // [:en] the value of [`i] becomes [`1]
+  int* p = &r;                  // [:en] [`p] points to [`i]
+  int& rr = r;                  // [:en] [`rr] refers to what [`r] refers to, that is, to [`i]
+  int (&rg)(int) = g;           // [:en] [`rg] refers to the function [`g]
+  rg(i);                        // [:en] calls function [`g]
+  int a[3];
+  int (&ra)[3] = a;             // [:en] [`ra] refers to the array [`a]
+  ra[1] = i;                    // [:en] modifies [`a[1`]]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A reference cannot be changed to refer to another object after initialization.
+
+[:en]
+[%assignment[!reference]]
+Note that initialization of a reference is treated very differently from
+assignment to it.
+
+[:en]
+[%argument passing[!reference and]]
+Argument passing ([#expr.call]) [%[`return][!reference and]]
+and function value return ([#stmt.return]) are initializations.
+
+[para]
+[:en]
+[%[`extern] reference]]
+The initializer can be omitted for a reference only in a parameter declaration
+([#dcl.fct]), in the declaration of a function return type, in the declaration
+of a class member within its class definition ([#class.mem]), and where the
+[`extern] specifier is explicitly used.
+
+[enter:example]
+[codeblock]
+int& r1;                        // [:en] error: initializer missing
+extern int& r2;                 // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Given types ["[$cv1] [`T1]] and ["[$cv2] [`T2],] ["[$cv1] [`T1]] is
+[%reference-related] [+reference-related] to ["[$cv2] [`T2]] if [`T1] is the
+same type as [`T2], or [`T1] is a base class of [`T2].
+
+[:en]
+["[$cv1] [`T1]] is [%reference-compatible] [+reference-compatible] with ["[$cv2]
+[`T2]] if [`T1] is reference-related to [`T2] and [$cv1] is the same
+cv-qualification as, or greater cv-qualification than, [$cv2].
+
+[:en]
+In all cases where the reference-related or reference-compatible relationship
+of two types is used to establish the validity of a reference binding, and [`T1]
+is a base class of [`T2], a program that necessitates such a binding is
+ill-formed if [`T1] is an inaccessible (Clause [#class.access]) or ambiguous
+([#class.member.lookup]) base class of [`T2].
+
+[para]
+[:en]
+[%binding[!reference]]
+A reference to type ["[$cv1] [`T1]] is initialized by an expression of type
+["[$cv2] [`T2]] as follows:
+
+[list]
+[item]
+[:en]
+If the reference is an lvalue reference and the initializer expression
+
+[list]
+[item]
+[:en@~]
+is an lvalue (but is not a bit-field), and ["[$cv1] [`T1]] is
+reference-compatible with ["[$cv2] [`T2],] or
+
+[item]
+[:en@~]
+has a class type (i.e., [`T2] is a class type), where [`T1] is not
+reference-related to [`T2], and can be converted to an lvalue of type ["[$cv3]
+[`T3],] where ["[$cv1] [`T1]] is reference-compatible with ["[$cv3] [`T3]]
+
+[footnote]
+[:en]
+This requires a conversion function ([#class.conv.fct]) returning a reference
+type.
+[footnote:end]
+
+[:en@~]
+(this conversion is selected by enumerating the applicable conversion functions
+([#over.match.ref]) and choosing the best one through overload resolution
+([#over.match])),
+[list:end]
+
+[:en@~]
+then the reference is bound to the initializer expression lvalue in the first
+case and to the lvalue result of the conversion in the second case (or, in
+either case, to the appropriate base class subobject of the object).
+
+[enter:note]
+[:en]
+The usual lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
+function-to-pointer ([#conv.func]) standard conversions are not needed, and
+therefore are suppressed, when such direct bindings to lvalues are done.
+[exit:note]
+
+[para:~]
+[enter:example]
+[codeblock]
+double d = 2.0;
+double& rd = d;                 // [:en] [`rd] refers to [`d]
+const double& rcd = d;          // [:en] [`rcd] refers to [`d]
+
+struct A { };
+struct B : A { operator int&(); } b;
+A& ra = b;                      // [:en] [`ra] refers to [`A] subobject in [`b]
+const A& rca = b;               // [:en] [`rca] refers to [`A] subobject in [`b]
+int& ir = B();                  // [:en] [`ir] refers to the result of [`B::operator int&]
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise, the reference shall be an lvalue reference to a non-volatile const
+type (i.e., [$cv1] shall be [`const]), or the reference shall be an rvalue
+reference.
+
+[enter:example]
+[codeblock]
+double& rd2 = 2.0;              // [:en] error: not an lvalue and reference not [`const]
+int  i = 2;
+double& rd3 = i;                // [:en] error: type mismatch and reference not [`const]
+[codeblock:end]
+[exit:example]
+
+[list]
+[item]
+[:en]
+If the initializer expression
+
+[list]
+[item]
+[:en@~]
+is an xvalue (but not a bit-field), class prvalue, array prvalue or function
+lvalue and ["[$cv1] [`T1]] is reference-compatible with ["[$cv2] [`T2]], or
+
+[item]
+[:en@~]
+has a class type (i.e., [`T2] is a class type), where [`T1] is not
+reference-related to [`T2], and can be converted to an xvalue, class prvalue, or
+function lvalue of type ["[$cv3] [`T3]], where ["[$cv1] [`T1]] is
+reference-compatible with ["[$cv3] [`T3]] (see [#over.match.ref]),
+[list:end]
+
+[:en@~]
+then the reference is bound to the value of the initializer expression in the
+first case and to the result of the conversion in the second case (or, in either
+case, to an appropriate base class subobject).
+
+[para:~]
+[enter:example]
+[codeblock]
+struct A { };
+struct B : A { } b;
+extern B f();
+const A& rca2 = f();                // [:en] bound to the [`A] subobject of the [`B] rvalue.
+A&& rra = f();                      // [:en] same as above
+struct X {
+  operator B();
+  operator int&();
+} x;
+const A& r = x;                     // [:en] bound to the [`A] subobject of the result of the conversion
+int i2 = 42;
+int&& rri = static_cast<int&&>(i2); // [:en] bound directly to [`i2]
+B&& rrb = x;                        // [:en] bound directly to the result of [`operator B]
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Otherwise:
+
+[list]
+[item]
+[:en]
+If [`T1] or [`T2] is a class type and [`T1] is not reference-related to [`T2],
+user-defined conversions are considered using the rules for copy-initialization
+of an object of type  ["[$cv1] [`T1]] by user-defined conversion ([#dcl.init],
+[#over.match.copy], [#over.match.conv]); the program is ill-formed if the
+corresponding non-reference copy-initialization would be ill-formed.
+
+[:en]
+The result of the call to the conversion function, as described for the
+non-reference copy-initialization, is then used to direct-initialize the
+reference.
+
+[:en]
+For this direct-initialization, user-defined conversions are not considered.
+
+[item]
+[:en]
+Otherwise, a temporary of type ["[$cv1] [`T1]] is created and copy-initialized
+([#dcl.init]) from the initializer expression.
+
+[:en]
+The reference is then bound to the temporary.
+[list:end]
+
+[:en]
+If [`T1] is reference-related to [`T2]:
+
+[list]
+[item]
+[:en@~]
+[$cv1] shall be the same cv-qualification as, or greater cv-qualification than,
+[$cv2]; and
+
+[item]
+[:en@~]
+if the reference is an rvalue reference, the initializer expression shall not be
+an lvalue.
+[list:end]
+
+[enter:example]
+[codeblock]
+struct Banana { };
+struct Enigma { operator const Banana(); };
+struct Alaska { operator Banana&(); };
+void enigmatic() {
+  typedef const Banana ConstBanana;
+  Banana &&banana1 = ConstBanana(); // [:en] ill-formed
+  Banana &&banana2 = Enigma();      // [:en] ill-formed
+  Banana &&banana3 = Alaska();      // [:en] ill-formed
+}
+
+const double& rcd2 = 2;         // [:en] [`rcd2] refers to temporary with value [`2.0]
+double&& rrd = 2;               // [:en] [`rrd] refers to temporary with value [`2.0]
+const volatile int cvi = 1;
+const int& r2 = cvi;            // [:en] error: type qualifiers dropped
+struct A { operator volatile int&(); } a;
+const int& r3 = a;              // [:en] error: type qualifiers dropped
+                                // [:en@~] from result of conversion function
+double d2 = 1.0;
+double&& rrd2 = d2;             // [:en] error: initializer is lvalue of related type
+struct X { operator int&(); };
+int&& rri2 = X();               // [:en] error: result of conversion function is lvalue of related type
+int i3 = 2;
+double&& rrd3 = i3;             // [:en] [`rrd3] refers to temporary with value [`2.0]
+[codeblock:end]
+[exit:example]
+
+[list:end]
+[list:end]
+
+[:en]
+In all cases except the last (i.e., creating and initializing a temporary from
+the initializer expression), the reference is said to \defn{bind directly} to
+the initializer expression.
+
+[para]
+[enter:note]
+[:en]
+[#class.temporary] describes the lifetime of temporaries bound to references.
+[exit:note]

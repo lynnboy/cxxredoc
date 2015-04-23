@@ -1,0 +1,112 @@
+﻿[section#dcl.fct.def.delete
+    [:en] Deleted definitions
+]
+
+[% [:en] definition[!function[!deleted]]]
+
+[para]
+[:en]
+A function definition of the form:
+
+[syntax:explanation]
+[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator] [~:opt virt-specifier-seq] [`=] [`delete] [`;]
+[syntax:end]
+
+[:en@~]
+is called a [+deleted definition].
+
+[:en]
+A function with a deleted definition is also called a [+deleted function].
+
+[para]
+[:en]
+A program that refers to a deleted function implicitly or explicitly, other than
+to declare it, is ill-formed.
+
+[enter:note]
+[:en]
+This includes calling the function implicitly or explicitly and forming a
+pointer or pointer-to-member to the function.
+
+[:en]
+It applies even for references in expressions that are not
+potentially-evaluated.
+
+[:en]
+If a function is overloaded, it is referenced only if the function is selected
+by overload resolution.
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+One can enforce non-default initialization and non-integral initialization with
+
+[codeblock]
+struct onlydouble {
+  onlydouble() = delete;              // [:en] OK, but redundant
+  onlydouble(std::intmax_t) = delete;
+  onlydouble(double);
+};
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[:en]
+One can prevent use of a class in certain [~new-expression]s by using deleted
+definitions of a user-declared [`operator new] for that class.
+
+[codeblock]
+struct sometype {
+  void* operator new(std::size_t) = delete;
+  void* operator new[](std::size_t) = delete;
+};
+sometype* p = new sometype;     // [:en] error, deleted class [`operator new]
+sometype* q = new sometype[3];  // [:en] error, deleted class [`operator new[`]]
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[:en]
+One can make a class uncopyable, i.e. move-only, by using deleted definitions of
+the copy constructor and copy assignment operator, and then providing defaulted
+definitions of the move constructor and move assignment operator.
+
+[codeblock]
+struct moveonly {
+  moveonly() = default;
+  moveonly(const moveonly&) = delete;
+  moveonly(moveonly&&) = default;
+  moveonly& operator=(const moveonly&) = delete;
+  moveonly& operator=(moveonly&&) = default;
+  ~moveonly() = default;
+};
+moveonly* p;
+moveonly q(*p); // [:en] error, deleted copy constructor
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A deleted function is implicitly inline.
+
+[enter:note]
+[:en]
+The one-definition rule ([#basic.def.odr]) applies to deleted definitions.
+[exit:note]
+
+[:en]
+A deleted definition of a function shall be the first declaration of the
+function or, for an explicit specialization of a function template, the first
+declaration of that specialization.
+
+[enter:example]
+[codeblock]
+struct sometype {
+  sometype();
+};
+sometype::sometype() = delete;      // [:en] ill-formed; not first declaration
+[codeblock:end]
+[exit:example]

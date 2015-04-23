@@ -1,0 +1,138 @@
+﻿[section#dcl.meaning
+    [:en] Meaning of declarators
+]
+
+[%:begin#declarator.meaning.of
+    [:en] declarator[!meaning of]
+]
+
+[para]
+[:en]
+A list of declarators appears after an optional (Clause [#dcl.dcl])
+[~decl-specifier-seq] ([#dcl.spec]).
+
+[:en]
+[%declaration[!type]]
+Each declarator contains exactly one [~declarator-id]; it names the identifier
+that is declared.
+
+[:en]
+An [~unqualified-id] occurring in a [~declarator-id] shall be a simple
+[~identifier] except for the declaration of some special functions
+([#class.ctor], [#class.conv], [#class.dtor], [#over.oper]) and for the
+declaration of template specializations or partial specializations
+([#temp.spec]).
+
+[:en]
+When the [~declarator-id] is qualified, the declaration shall refer to a
+previously declared member of the class or namespace to which the qualifier
+refers (or, in the case of a namespace, of an element of the inline namespace
+set of that namespace ([#namespace.def])) or to a specialization thereof; the
+member shall not merely have been introduced by a [~using-declaration] in the
+scope of the class or namespace nominated by the [~nested-name-specifier] of the
+[~declarator-id].
+
+[:en]
+The [~nested-name-specifier] of a qualified [~declarator-id] shall not begin
+with a [~decltype-specifier].
+
+[enter:note]
+[:en]
+If the qualifier is the global [`::] scope resolution operator, the
+[~declarator-id] refers to a name declared in the global namespace scope.
+[exit:note]
+
+[:en]
+The optional [~attribute-specifier-seq] following a [~declarator-id] appertains
+to the entity that is declared.
+
+[para]
+[:en]
+A [`static], [`thread_local], [`extern], [`register], [`mutable], [`friend],
+[`inline], [`virtual], or [`typedef] specifier applies directly to each
+[~declarator-id] in an [~init-declarator-list]; the type specified for each
+[~declarator-id] depends on both the [~decl-specifier-seq] and its
+[~declarator].
+
+[para]
+[:en]
+Thus, a declaration of a particular identifier has the form
+
+[codeblock:notation]
+T D
+[codeblock:end]
+
+[:en@~]
+where [`T] is of the form [~:opt attribute-specifier-seq] [~decl-specifier-seq]
+and [`D] is a declarator.
+
+[:en]
+Following is a recursive procedure for determining the type specified for the
+contained [~declarator-id] by such a declaration.
+
+[para]
+[:en]
+First, the [~decl-specifier-seq] determines a type.
+
+[:en]
+In a declaration
+
+[codeblock:notation]
+T D
+[codeblock:end]
+
+[:en@~]
+the [~decl-specifier-seq] [`T] determines the type [`T].
+
+[enter:example]
+[:en]
+in the declaration
+
+[codeblock]
+int unsigned i;
+[codeblock:end]
+
+[:en@~]
+the type specifiers [`int unsigned] determine the type ["[`unsigned int]]
+([#dcl.type.simple]).
+[exit:example]
+
+[para]
+[:en]
+In a declaration [~:opt attribute-specifier-seq] [`T D] where [`D] is an
+unadorned identifier the type of this identifier is ["[`T]].
+
+[para]
+[:en]
+In a declaration [`T D] where [`D] has the form
+
+[codeblock:notation]
+( D1 )
+[codeblock:end]
+
+[:en@~]
+the type of the contained [~declarator-id] is the same as that of the contained
+[~declarator-id] in the declaration
+
+[codeblock:notation]
+T D1
+[codeblock:end]
+
+[:en]
+[%declaration[!parentheses in]]
+Parentheses do not alter the type of the embedded [~declarator-id], but they can
+alter the binding of complex declarators.
+
+[include dcl.ptr]
+
+[include dcl.ref]
+
+[include dcl.mptr]
+
+[include dcl.array]
+
+[include dcl.fct]
+
+[include dcl.fct.default]
+
+[%:end#declarator.meaning.of]

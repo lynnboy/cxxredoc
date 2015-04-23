@@ -1,0 +1,511 @@
+﻿[section#dcl.init
+    [:en] Initializers
+]
+
+[%:begin#initialization
+    [:en] initialization
+]
+
+[para]
+[:en]
+A declarator can specify an initial value for the identifier being declared.
+
+[:en]
+The identifier designates a variable being initialized.
+
+[:en]
+The process of initialization described in the remainder of [#dcl.init] applies
+also to initializations specified by other syntactic contexts, such as the
+initialization of function parameters with argument expressions ([#expr.call])
+or the initialization of return values ([#stmt.return]).
+
+[syntax]
+[rule initializer [:zh_CN] ]
+    [| brace-or-equal-initializer ]
+    [| [`(] expression-list [`)] ]
+[rule:end]
+
+[rule brace-or-equal-initializer [:zh_CN] ]
+    [| [`=] initializer-clause ]
+    [| braced-init-list ]
+[rule:end]
+
+[rule initializer-clause [:zh_CN] ]
+    [| assignment-expression ]
+    [| braced-init-list ]
+[rule:end]
+
+[rule initializer-list [:zh_CN] ]
+    [| initializer-clause [`:opt ...] ]
+    [| initializer-list [`,] initializer-clause [`:opt ...] ]
+[rule:end]
+
+[rule braced-init-list [:zh_CN] ]
+    [| [`{] initializer-list [`:opt ,] [`}] ]
+    [| [`{] [`}] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+Except for objects declared with the [`constexpr] specifier, for which see
+[#dcl.constexpr], an [~initializer] in the definition of a variable can consist
+of arbitrary
+[%initialization[!automatic object]]
+[%initialization[![`static] object]]
+expressions involving literals and previously declared variables and functions,
+regardless of the variable[=']s storage duration.
+
+[enter:example]
+[codeblock]
+int f(int);
+int a = 2;
+int b = f(a);
+int c(b);
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Default arguments are more restricted; see [#dcl.fct.default].
+
+[para]
+[:en]
+The order of initialization of variables with static storage duration is
+described in [#basic.start] and [#stmt.dcl].
+[exit:note]
+
+[para]
+[:en]
+A declaration of a block-scope variable with external or internal linkage that
+has an [~initializer] is ill-formed.
+
+[para]
+[:en]
+[%initialization[![`static] object]]
+[%initialization[!default]]
+[%variable[!indeterminate uninitialized]]
+[%zero-initialization]
+To [+zero-initialize] an object or reference of type [`T] means:
+
+[list]
+[item]
+[:en]
+if [`T] is a scalar type ([#basic.types]), the object is initialized to the
+value obtained by converting the integer literal [`0] (zero) to [`T];
+
+[footnote]
+[:en]
+As specified in [#conv.ptr], converting an integer literal whose value is [`0]
+to a pointer type results in a null pointer value.
+[footnote:end]
+
+[item]
+[:en]
+if [`T] is a (possibly cv-qualified) non-union class type, each non-static data
+member and each base-class subobject is zero-initialized and padding is
+initialized to zero bits;
+
+[item]
+[:en]
+if [`T] is a (possibly cv-qualified) union type, the object[=']s first
+non-static named data member is zero-initialized and padding is initialized to
+zero bits;
+
+[item]
+[:en]
+if [`T] is an array type, each element is zero-initialized;
+
+[item]
+[:en]
+if [`T] is a reference type, no initialization is performed.
+[list:end]
+
+[para]
+[:en]
+[%default-initialization]
+To [+default-initialize] an object of type [`T] means:
+
+[list]
+[item]
+[:en]
+If [`T] is a (possibly cv-qualified) class type (Clause [#class]), constructors
+are considered.
+
+[:en]
+The applicable constructors are enumerated ([#over.match.ctor]), and the best
+one for the [~initializer] [`()] is chosen through overload resolution
+([#over.match]).
+
+[:en]
+The constructor thus selected is called, with an empty argument list, to
+initialize the object.
+
+[item]
+[:en]
+If [`T] is an array type, each element is default-initialized.
+
+[item]
+[:en]
+Otherwise, no initialization is performed.
+[list:end]
+
+[:en]
+If a program calls for the default initialization of an object of a
+const-qualified type [`T], [`T] shall be a class type with a user-provided
+default constructor.
+
+[para]
+[:en]
+[%value-initialization]
+To [~value-initialize] an object of type [`T] means:
+
+[list]
+[item]
+[:en]
+if [`T] is a (possibly cv-qualified) class type (Clause [#class]) with either no
+default constructor ([#class.ctor]) or a default constructor that is
+user-provided or deleted, then the object is default-initialized;
+
+[item]
+[:en]
+if [`T] is a (possibly cv-qualified) class type without a user-provided or
+deleted default constructor, then the object is zero-initialized and the
+semantic constraints for default-initialization are checked, and if [`T] has a
+non-trivial default constructor, the object is default-initialized;
+
+[item]
+[:en]
+if [`T] is an array type, then each element is value-initialized;
+
+[item]
+[:en]
+otherwise, the object is zero-initialized.
+[list:end]
+
+[:en]
+An object that is value-initialized is deemed to be constructed and thus subject
+to provisions of this International Standard applying to ["constructed] objects,
+objects ["for which the constructor has completed,] etc., even if no constructor
+is invoked for the object[=']s initialization.
+
+[para]
+[:en]
+A program that calls for default-initialization or value-initialization of an
+entity of reference type is ill-formed.
+
+[para]
+[enter:note]
+[:en]
+Every object of static storage duration is zero-initialized at program startup
+before any other initialization takes place.
+
+[:en]
+In some cases, additional initialization is done later.
+[exit:note]
+
+[para]
+[:en]
+An object whose initializer is an empty set of parentheses, i.e., [`()], shall
+be value-initialized.
+
+[para:~]
+[%ambiguity[!function declaration]]
+[enter:note]
+[:en]
+Since [`()] is not permitted by the syntax for [~initializer],
+
+[codeblock]
+X a();
+[codeblock:end]
+
+[:en@~]
+is not the declaration of an object of class [`X], but the declaration of a
+function taking no argument and returning an [`X].
+
+[:en]
+The form [`()] is permitted in certain other initialization contexts
+([#expr.new], [#expr.type.conv], [#class.base.init]).
+[exit:note]
+
+[para]
+[:en]
+[%value[!indeterminate]]
+[%indeterminate value]
+If no initializer is specified for an object, the object is default-initialized.
+
+[:en]
+When storage for an object with automatic or dynamic storage duration is
+obtained, the object has an [+indeterminate value], and if no initialization is
+performed for the object, that object retains an indeterminate value until that
+value is replaced ([#expr.ass]).
+
+[enter:note]
+[:en]
+Objects with static or thread storage duration are zero-initialized, see
+[#basic.start.init].
+[exit:note]
+
+[:en]
+If an indeterminate value is produced by an evaluation, the behavior is
+undefined except in the following cases:
+
+[list]
+[item]
+[:en]
+If an indeterminate value of unsigned narrow character type
+([#basic.fundamental]) is produced by the evaluation of:
+
+[list]
+[item]
+[:en@~] the second or third operand of a conditional expression ([#expr.cond]),
+[item]
+[:en] the right operand of a comma expression ([#expr.comma]),
+[item]
+[:en] the operand of a cast or conversion to an unsigned narrow character type
+([#conv.integral], [#expr.type.conv], [#expr.static.cast], [#expr.cast]), or
+[item]
+[:en] a discarded-value expression (Clause [#expr]),
+[list:end]
+
+[:en@~]
+then the result of the operation is an indeterminate value.
+
+[item]
+[:en]
+If an indeterminate value of unsigned narrow character type is produced by the
+evaluation of the right operand of a simple assignment operator ([#expr.ass])
+whose first operand is an lvalue of unsigned narrow character type, an
+indeterminate value replaces the value of the object referred to by the left
+operand.
+
+[item]
+[:en]
+If an indeterminate value of unsigned narrow character type is produced by the
+evaluation of the initialization expression when initializing an object of
+unsigned narrow character type, that object is initialized to an indeterminate
+value.
+[list:end]
+
+[enter:example]
+[codeblock]
+  int f(bool b) {
+    unsigned char c;
+    unsigned char d = c; // [:en] OK, [`d] has an indeterminate value
+    int e = d;           // [:en] undefined behavior
+    return b ? d : 0;    // [:en] undefined behavior if [`b] is [`true]
+  }
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%initialization[!class member]]
+An initializer for a static member is in the scope of the member[=']s class.
+
+[enter:example]
+[codeblock]
+int a;
+
+struct X {
+  static int a;
+  static int b;
+};
+
+int X::a = 1;
+int X::b = a;       // [`X::b = X::a]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the entity being initialized does not have class type, the [~expression-list]
+in a parenthesized initializer shall be a single expression.
+
+[para]
+[:en]
+[%initialization[!copy]]
+[%initialization[!direct]]
+The initialization that occurs in the [`=] form of a
+[~brace-or-equal-initializer] or [~condition] ([#stmt.select]), as well as in
+argument passing, function return, throwing an exception ([#except.throw]),
+handling an exception ([#except.handle]), and aggregate member initialization
+([#dcl.init.aggr]), is called [def copy-initialization].
+
+[enter:note]
+[:en]
+Copy-initialization may invoke a move ([#class.copy]).
+[exit:note]
+
+[para]
+[:en]
+The initialization that occurs in the forms
+
+[codeblock]
+T x(a);
+T x{a};
+[codeblock:end]
+
+[:en@~]
+as well as in [`new] expressions ([#expr.new]), [`static_cast] expressions
+([#expr.static.cast]), functional notation type conversions ([#expr.type.conv]),
+[~mem-initializer]s ([#class.base.init]), and the [~braced-init-list] form of a
+[~condition] is called [~direct-initialization].
+
+[para]
+[:en]
+The semantics of initializers are as follows.
+
+[:en]
+The [%type[!destination]] [+destination type] is the type of the object or
+reference being initialized and the [+source type] is the type of the
+initializer expression.
+
+[:en]
+If the initializer is not a single (possibly parenthesized) expression, the
+source type is not defined.
+
+[list]
+[item]
+[:en]
+If the initializer is a (non-parenthesized) [~braced-init-list], the object or
+reference is list-initialized ([#dcl.init.list]).
+
+[item]
+[:en]
+If the destination type is a reference type, see [#dcl.init.ref].
+
+[item]
+[:en]
+If the destination type is an array of characters, an array of [`char16_t],
+an array of [`char32_t], or an array of [`wchar_t], and the initializer is a
+string literal, see [#dcl.init.string].
+
+[item]
+[:en]
+If the initializer is [`()], the object is value-initialized.
+
+[item]
+[:en]
+Otherwise, if the destination type is an array, the program is ill-formed.
+
+[item]
+[:en]
+If the destination type is a (possibly cv-qualified) class type:
+
+[list]
+[item]
+[:en]
+If the initialization is direct-initialization, or if it is copy-initialization
+where the cv-unqualified version of the source type is the same class as, or a
+derived class of, the class of the destination, constructors are considered.
+
+[:en]
+The applicable constructors are enumerated ([#over.match.ctor]), and the best
+one is chosen through overload resolution ([#over.match]).
+
+[:en]
+The constructor so selected is called to initialize the object, with the
+initializer expression or [~expression-list] as its argument(s).
+
+[:en]
+If no constructor applies, or the overload resolution is ambiguous, the
+initialization is ill-formed.
+
+[item]
+[:en]
+Otherwise (i.e., for the remaining copy-initialization cases), user-defined
+conversion sequences that can convert from the source type to the destination
+type or (when a conversion function is used) to a derived class thereof are
+enumerated as described in [#over.match.copy], and the best one is chosen
+through overload resolution ([#over.match]).
+
+[:en]
+If the conversion cannot be done or is ambiguous, the initialization is
+ill-formed.
+
+[:en]
+The function selected is called with the initializer expression as its argument;
+if the function is a constructor, the call initializes a temporary of the
+cv-unqualified version of the destination type.
+
+[:en]
+The temporary is a prvalue.
+
+[:en]
+The result of the call (which is the temporary for the constructor case) is then
+used to direct-initialize, according to the rules above, the object that is the
+destination of the copy-initialization.
+
+[:en]
+In certain cases, an implementation is permitted to eliminate the copying
+inherent in this direct-initialization by constructing the intermediate result
+directly into the object being initialized; see [#class.temporary],
+[#class.copy].
+[list:end]
+
+[item]
+[:en]
+Otherwise, if the source type is a (possibly cv-qualified) class type,
+conversion functions are considered.
+
+[:en]
+The applicable conversion functions are enumerated ([#over.match.conv]), and the
+best one is chosen through overload resolution ([#over.match]).
+
+[:en]
+The user-defined conversion so selected is called to convert the initializer
+expression into the object being initialized.
+
+[:en]
+If the conversion cannot be done or is ambiguous, the initialization is
+ill-formed.
+
+[item]
+[:en]
+Otherwise, the initial value of the object being initialized is the (possibly
+converted) value of the initializer expression.
+
+[:en]
+Standard conversions (Clause [#conv]) will be used, if necessary, to convert the
+initializer expression to the cv-unqualified version of the destination type; no
+user-defined conversions are considered.
+
+[:en]
+If the conversion cannot be done, the initialization is ill-formed.
+
+[:en]
+When initializing a bit-field with a value that it cannot represent, the
+resulting value of the bit-field is [%@impldef value of bit-field that cannot
+represent[!initializer]] implementation-defined.
+
+[:en]
+[%initialization[![`const]]]
+[enter:note]
+An expression of type ["[$cv1] [`T]] can initialize an object of type ["[$cv2]
+[`T]] independently of the cv-qualifiers [$cv1] and [$cv2].
+
+[codeblock]
+int a;
+const int b = a;
+int c = b;
+[codeblock:end]
+[exit:note]
+
+[list:end]
+
+[para]
+[:en]
+An [~initializer-clause] followed by an ellipsis is a pack expansion
+([#temp.variadic]).
+
+[include dcl.init.aggr]
+
+[include dcl.init.string]
+
+[include dcl.init.ref]
+
+[include dcl.init.list
+
+[%:end#initialization]

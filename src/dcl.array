@@ -1,0 +1,238 @@
+﻿[section#dcl.array
+    [:en] Arrays
+]
+
+[%  [:en] declarator[!array] ]
+
+[para]
+[:en]
+In a declaration [`T D] where [`D] has the form
+
+[syntax:explanation]
+[`D1] [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq]
+[syntax:end]
+
+[:en@~]
+and the type of the identifier in the declaration [`T D1] is
+["[~derived-declarator-type-list] [`T]], then the type of the identifier of [`D]
+is an array type; if the type of the identifier of [`D] contains the [`auto]
+[~type-specifier], the program is ill-formed.
+
+[:en]
+[`T] is called the array [+element type]; this type shall not be a reference
+type, the (possibly cv-qualified) type [`void], a function type or an abstract
+class type.
+
+[:en]
+[%declaration[!array]]
+If the [~constant-expression] ([#expr.const]) is present, it shall be a
+converted constant expression of type [`std::size_t] and its value shall be
+greater than zero.
+
+[:en]
+The constant expression specifies the [%array[!bound]] [%bound[!of array]]
+[+bound] of (number of elements in) the array.
+
+[:en]
+If the value of the constant expression is [`N], the array has [`N] elements
+numbered [`0] to [`N-1], and the type of the identifier of [`D] is
+["[~derived-declarator-type-list] array of [`N T]].
+
+[:en]
+An object of array type contains a contiguously allocated non-empty set of [`N]
+subobjects of type [`T].
+
+[:en]
+Except as noted below, if the constant expression is omitted, the type of the
+identifier of [`D] is ["[~derived-declarator-type-list] array of unknown bound
+of [`T]], an incomplete object type.
+
+[:en]
+The type ["[~derived-declarator-type-list] array of [`N T]] is a different type
+from the type ["[~derived-declarator-type-list] array of unknown bound of [`T]],
+see [#basic.types].
+
+[:en]
+Any type of the form ["[~cv-qualifier-seq] array of [`N T]] is adjusted to
+["array of [`N] [~cv-qualifier-seq] [`T]], and similarly for ["array of unknown
+bound of [`T]].
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the array.
+
+[enter:example]
+[codeblock]
+typedef int A[5], AA[2][3];
+typedef const A CA;             // [:en] type is ["array of 5 [`const int]]
+typedef const AA CAA;           // [:en] type is ["array of 2 array of 3 [`const int]]
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+An ["array of [`N] [~cv-qualifier-seq] [`T]] has cv-qualified type; see
+[#basic.type.qualifier].
+[exit:note]
+
+[para]
+[:en]
+An array can be constructed from one of the fundamental types (except [`void]),
+from a pointer, from a pointer to member, from a class, from an enumeration
+type, or from another array.
+
+[para]
+[:en]
+When several ["array of] specifications are adjacent, a multidimensional array
+is created; only the first of the constant expressions that specify the bounds
+of the arrays may be omitted.
+
+[:en]
+In addition to declarations in which an incomplete object type is allowed, an
+array bound may be omitted in some cases in the declaration of a function
+parameter ([#dcl.fct]).
+
+[:en]
+An array bound may also be omitted when the declarator is followed by an
+[~initializer] ([#dcl.init]).
+
+[:en]
+In this case the bound is calculated from the number [%array size[!default]] of
+initial elements (say, [`N]) supplied ([#dcl.init.aggr]), and the type of the
+identifier of [`D] is ["array of [`N T].]
+
+[:en]
+Furthermore, if there is a preceding declaration of the entity in the same scope
+in which the bound was specified, an omitted array bound is taken to be the same
+as in that earlier declaration, and similarly for the definition of a static
+data member of a class.
+
+[para]
+[enter:example]
+[:en]
+[%example[!subscripting]]
+[%example[!array]]
+[codeblock]
+float fa[17], *afp[17];
+[codeblock:end]
+
+[:en]
+declares an array of [`float] numbers and an array of pointers to [`float]
+numbers.
+
+[:en]
+[%declarator[!multidimensional array]]
+For another example,
+
+[codeblock]
+static int x3d[3][5][7];
+[codeblock:end]
+
+[:en]
+declares a static three-dimensional array of integers, with rank [$3 [=\times] 5
+[=times] 7].
+
+[:en]
+In complete detail, [`x3d] is an array of three items; each item is an array of
+five arrays; each of the latter arrays is an array of seven integers.
+
+[:en]
+Any of the expressions [`x3d], [`x3d[i`]], [`x3d[i`][j`]], [`x3d[i`][j`][k`]]
+can reasonably appear in an expression.
+
+[:en]
+Finally,
+
+[codeblock]
+extern int x[10];
+struct S {
+  static int y[10];
+};
+
+int x[];                      // [:en] OK: bound is 10
+int S::y[];                   // [:en] OK: bound is 10
+
+void f() {
+  extern int x[];
+  int i = sizeof(x);          // [:en] error: incomplete object type
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+conversions affecting expressions of array type are described in [#conv.array].
+Objects of array types cannot be modified, see [#basic.lval].
+[exit:note]
+
+[para]
+[enter:note]
+Except where it has been declared for a class ([#over.sub]), the subscript
+operator [`[`]] is interpreted in such a way that [`E1[E2`]] is identical to
+[`*((E1)+(E2))].
+
+[:en]
+Because of the conversion rules that apply to [`+], if [`E1] is an array and
+[`E2] an integer, then [`E1[E2`]] refers to the [`E2]-th member of [`E1].
+
+[:en]
+Therefore, despite its asymmetric appearance, subscripting is a commutative
+operation.
+
+[para]
+[:en]
+A consistent rule is followed for [%array[!multidimensional]] multidimensional
+arrays.
+
+[:en]
+If [`E] is an [$n]-dimensional array of rank [$i [=times] j [=times] [=ldots]
+[=times] k], then [`E] appearing in an expression that is subject to the
+array-to-pointer conversion ([#conv.array]) is converted to a pointer to an
+[$(n-1)]-dimensional array with rank [$j [=times] [=ldots] [=times] k].
+
+[:en]
+If the [`*] operator, either explicitly or implicitly as a result of
+subscripting, is applied to this pointer, the result is the pointed-to
+[$(n-1)]-dimensional array, which itself is immediately converted into a
+pointer.
+
+[para]
+[enter:example]
+[:en]
+consider
+
+[codeblock]
+int x[3][5];
+[codeblock:end]
+
+[:en]
+Here [`x] is a [$3 [=times] 5] array of integers.
+
+[:en]
+When [`x] appears in an expression, it is converted to a pointer to (the first
+of three) five-membered arrays of integers.
+
+[:en]
+In the expression [`x[i`]] which is equivalent to [`*(x+i)], [`x] is first
+converted to a pointer as described; then [`x+i] is converted to the type of
+[`x], which involves multiplying [`i] by the length of the object to which the
+pointer points, namely five integer objects.
+
+[:en]
+The results are added and indirection applied to yield an array (of five
+integers), which in turn is converted to a pointer to the first of the integers.
+
+[:en]
+If there is another subscript the same argument applies again; this time the
+result is an integer.
+[exit:example]
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+It follows from all this that arrays in [=Cpp] are stored row-wise (last
+subscript varies fastest) [%array[!storage of]] and that the first subscript in
+the declaration helps determine the amount of storage consumed by an array but
+plays no other part in subscript calculations.
+[exit:note]

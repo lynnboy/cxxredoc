@@ -1,0 +1,212 @@
+﻿[section:chapter#dcl.decl
+    [:en] Declarators
+]
+[%:begin#declarator
+    [:en] declarator
+]
+
+[/
+%gram: \rSec1[gram.decl]{Declarators}
+%gram:
+/]
+
+[:en]
+[%initialization[!class object][seealso constructor]]
+[%[`*][see declarator[!pointer]]]
+[%[`&][see declarator[!reference]]]
+[%[`::*][see declarator[!pointer to member]]]
+[%[`[`]][see declarator[!array]]]
+[%[`()][see declarator[!function]]]
+
+[para]
+[:en]
+A declarator declares a single variable, function, or type, within a
+declaration.
+
+[:en]
+The [~init-declarator-list] appearing in a declaration is a comma-separated
+sequence of declarators, each of which can have an initializer.
+
+[syntax]
+[rule  init-declarator-list [:zh_CN] ]
+    [| init-declarator ]
+    [| init-declarator-list [`,] init-declarator ]
+[rule:end]
+
+[rule init-declarator [:zh_CN] ]
+    [| declarator [~:opt initializer] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The three components of a [~simple-declaration] are the attributes
+([#dcl.attr]), the specifiers ([~decl-specifier-seq]; [#dcl.spec]) and the
+declarators ([~init-declarator-list]).
+
+[:en]
+The specifiers indicate the type, storage class or other properties of the
+entities being declared.
+
+[:en]
+The declarators specify the names of these entities and (optionally) modify the
+type of the specifiers with operators such as [`*] (pointer to) and [`()]
+(function returning).
+
+[:en]
+Initial values can also be specified in a declarator; initializers are discussed
+in [#dcl.init] and [#class.init].
+
+[para]
+[:en]
+Each [~init-declarator]
+in a declaration is analyzed separately as if it was in a declaration by
+itself.
+
+[footnote]
+[:en]
+A declaration with several declarators is usually equivalent to the
+corresponding sequence of declarations each with a single declarator.
+
+[:en]
+That is
+
+[codeblock:notation]
+T  D1, D2, ... Dn;
+[codeblock:end]
+
+[:en@~]
+is usually equivalent to
+
+[codeblock:notation]
+T  D1; T D2; ... T Dn;
+[codeblock:end]
+
+[:en@~]
+where [`T] is a [~decl-specifier-seq] and each [`Di] is an [~init-declarator].
+
+[:en]
+An exception occurs when a name introduced by one of the [~declarator]s hides a
+type name used by the [~decl-specifier]s, so that when the same
+[~decl-specifier]s are used in a subsequent declaration, they do not have the
+same meaning, as in
+
+[codeblock]
+struct S { ... };
+S S, T; // [:en] declare two instances of [`struct S]
+[codeblock:end]
+
+[:en@~]
+which is not equivalent to
+
+[codeblock]
+struct S { ... };
+S S;
+S T; // [:en] error
+[codeblock:end]
+
+[:en]
+Another exception occurs when [`T] is [`auto] ([#dcl.spec.auto]), for example:
+
+[codeblock]
+auto i = 1, j = 2.0; // [:en] error: deduced types for [`i] and [`j] do not match
+[codeblock:end]
+
+[:en]
+as opposed to
+
+[codeblock]
+auto i = 1;    // OK: [`i] deduced to have type [`int]
+auto j = 2.0;  // OK: [`j] deduced to have type [`double]
+[codeblock:end]
+[footnote:end]
+
+[para]
+[:en]
+Declarators have the syntax
+
+[syntax]
+[rule declarator [:zh_CN] ]
+    [| ptr-declarator ]
+    [| noptr-declarator parameters-and-qualifiers trailing-return-type ]
+[rule:end]
+
+[rule ptr-declarator [:zh_CN] ]
+    [| noptr-declarator ]
+    [| ptr-operator ptr-declarator ]
+[rule:end]
+
+[rule noptr-declarator [:zh_CN] ]
+    [| declarator-id [~:opt attribute-specifier-seq] ]
+    [| noptr-declarator parameters-and-qualifiers ]
+    [| noptr-declarator [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq] ]
+    [| [`(] ptr-declarator [`)] ]
+[rule:end]
+
+[rule parameters-and-qualifiers [:zh_CN] ]
+    [`(] parameter-declaration-clause [`)] [~:opt cv-qualifier-seq]
+        [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
+[rule:end]
+
+[rule trailing-return-type [:zh_CN] ]
+    [| [`->] trailing-type-specifier-seq [~:opt abstract-declarator] ]
+[rule:end]
+
+[rule ptr-operator [:zh_CN] ]
+    [| [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] ]
+    [| [`&] [~:opt attribute-specifier-seq] ]
+    [| [`&&] [~:opt attribute-specifier-seq] ]
+    [| nested-name-specifier [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] ]
+[rule:end]
+
+[rule cv-qualifier-seq [:zh_CN] ]
+    [| cv-qualifier [~:opt cv-qualifier-seq] ]
+[rule:end]
+
+[rule cv-qualifier [:zh_CN] ]
+    [| [`const] ]
+    [| [`volatile] ]
+[rule:end]
+
+[rule ref-qualifier [:zh_CN] ]
+    [| [`&] ]
+    [| [`&&] ]
+[rule:end]
+
+[rule declarator-id [:zh_CN] ]
+    [| [`:opt ...] id-expression ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The optional [~attribute-specifier-seq] in a [~trailing-return-type] appertains
+to the indicated return type.
+
+[:en]
+The [~type-id] in a [~trailing-return-type] includes the longest possible
+sequence of [~abstract-declarator]s.
+
+[enter:note]
+[:en]
+This resolves the ambiguous binding of array and function declarators.
+
+[enter:example]
+[codeblock]
+auto f()->int(*)[4];  // [:en] function returning a pointer to array[4] of [`int]
+                      // [:en@~] not function returning array[4] of pointer to [`int]
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[include dcl.name]
+
+[include dcl.ambig.res]
+
+[include dcl.meaning]
+
+[include dcl.fct.def]
+
+[include dcl.init]
+
+[%:end#declarator]

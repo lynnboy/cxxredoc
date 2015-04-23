@@ -1,0 +1,80 @@
+﻿[section#dcl.name
+    [:en] Type names
+]
+
+[para]
+[:en]
+[%type name]
+To specify type conversions explicitly, [%operator[!cast]] and as an argument of
+[`sizeof], [`alignof], [`new], or [`typeid], the name of a type shall be
+specified.
+
+[:en]
+This can be done with a [~type-id], which is syntactically a declaration for a
+variable or function of that type that omits the name of the entity.
+
+[syntax]
+[rule type-id [:zh_CN] ]
+    [| type-specifier-seq [~:opt abstract-declarator] ]
+[rule:end]
+
+[rule abstract-declarator [:zh_CN] ]
+    [| ptr-abstract-declarator ]
+    [| [~:opt noptr-abstract-declarator] parameters-and-qualifiers trailing-return-type ]
+    [| abstract-pack-declarator ]
+[rule:end]
+
+[rule ptr-abstract-declarator [:zh_CN] ]
+    [| noptr-abstract-declarator ]
+    [| ptr-operator [~:opt ptr-abstract-declarator] ]
+[rule:end]
+
+[rule noptr-abstract-declarator [:zh_CN] ]
+    [| [~:opt noptr-abstract-declarator] parameters-and-qualifiers ]
+    [| [~:opt noptr-abstract-declarator] [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq] ]
+    [| [`(] ptr-abstract-declarator [`)] ]
+[rule:end]
+
+[rule abstract-pack-declarator [:zh_CN] ]
+    [| noptr-abstract-pack-declarator ]
+    [| ptr-operator abstract-pack-declarator ]
+[rule:end]
+
+[rule noptr-abstract-pack-declarator [:zh_CN] ]
+    [| noptr-abstract-pack-declarator parameters-and-qualifiers ]
+    [| noptr-abstract-pack-declarator [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq] ]
+    [| [`...] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+It is possible to identify uniquely the location in the [~abstract-declarator]
+where the identifier would appear if the construction were a declarator in a
+declaration.
+
+[:en]
+The named type is then the same as the type of the hypothetical identifier.
+
+[enter:example]
+[%  [:en] example[!type name]]
+[%  [:en] example[!declarator]]
+[codeblock]
+int                 // [`int i]
+int *               // [`int *pi]
+int *[3]            // [`int *p[3`]]
+int (*)[3]          // [`int (*p3i)[3`]]
+int *()             // [`int *f()]
+int (*)(double)     // [`int (*pf)(double)]
+[codeblock:end]
+
+[:en]
+name respectively the types
+["[`int],] ["pointer to [`int],] ["array of 3 pointers to [`int],] ["pointer to
+array of 3 [`int],] ["function of (no parameters) returning pointer to [`int],]
+and ["pointer to a function of ([`double]) returning [`int].]
+[exit:example]
+
+[para]
+[:en]
+A type can also be named (often more easily) by using a [~typedef]
+([#dcl.typedef]).

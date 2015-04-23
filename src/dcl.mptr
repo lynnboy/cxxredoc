@@ -1,0 +1,86 @@
+﻿[section#dcl.mptr
+    [:en] Pointers to members
+]
+
+[%  [:en] declarator[!pointer to member]]
+
+[para]
+[:en]
+In a declaration [`T D] where [`D] has the form
+
+[syntax:explanation]
+[~nested-name-specifier] [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] [`D1]
+[syntax:end]
+
+[:en@~]
+and the [~nested-name-specifier] denotes a class, and the type of the identifier
+in the declaration [`T D1] is ["[~derived-declarator-type-list] [`T]], then the
+type of the identifier of [`D] is ["[~derived-declarator-type-list
+cv-qualifier-seq] pointer to member of class [~nested-name-specifier] of type
+[`T]].
+
+[:en]
+The optional [~attribute-specifier-seq] ([#dcl.attr.grammar]) appertains to the 
+pointer-to-member.
+
+[para]
+[enter:example]
+[%  [:en] example[!pointer to member]]
+[codeblock]
+struct X {
+  void f(int);
+  int a;
+};
+struct Y;
+
+int X::* pmi = &X::a;
+void (X::* pmf)(int) = &X::f;
+double X::* pmd;
+char Y::* pmc;
+[codeblock:end]
+
+[:en]
+declares [`pmi], [`pmf], [`pmd] and [`pmc] to be a pointer to a member of [`X]
+of type [`int], a pointer to a member of [`X] of type [`void(int)], a pointer to
+a member of [`X] of type [`double] and a pointer to a member of [`Y] of type
+[`char] respectively.
+
+[:en]
+The declaration of [`pmd] is well-formed even though [`X] has no members of type
+[`double].
+
+[:en]
+Similarly, the declaration of [`pmc] is well-formed even though [`Y] is an
+incomplete type.
+
+[:en]
+[`pmi] and [`pmf] can be used like this:
+
+[codeblock]
+X obj;
+// ...
+obj.*pmi = 7;       // [:en] assign [`7] to an integer
+                    // [:en@~] member of [`obj]
+(obj.*pmf)(7);      // [:en] call a function member of [`obj]
+                    // [:en@~] with the argument [`7]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A pointer to member shall not point to a static member of a class
+([#class.static]), a member with reference type, or ["[$cv] [`void].]
+
+[para:~]
+[enter:note]
+[:en]
+See also [#expr.unary] and [#expr.mptr.oper].
+
+[:en]
+The type ["pointer to member] is distinct from the type ["pointer], that is, a
+pointer to member is declared only by the pointer to member declarator syntax,
+and never by the pointer declarator syntax.
+
+[:en]
+There is no ["reference-to-member] type in [=Cpp].
+[exit:note]

@@ -1,0 +1,475 @@
+﻿[section#dcl.fct
+    [:en] Functions
+]
+
+[%:begin#declarator.function
+    [:en] declarator[!function]
+]
+
+[para]
+[:en]
+[%type[!function]]
+In a declaration [`T D] where [`D] has the form
+
+[syntax:explanation]
+[| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
+    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
+[syntax:end]
+
+[:en@~]
+and the type of the contained [~declarator-id] in the declaration [`T D1] is
+["[~derived-declarator-type-list] [`T]], the type of the [~declarator-id] in
+[`D] is ["[~derived-declarator-type-list] function of
+([~parameter-declaration-clause]) [~:opt cv-qualifier-seq] [~:opt ref-qualifier]
+returning [`T]].
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the function type.
+
+[para]
+[:en]
+In a declaration [`T D] where [`D] has the form
+
+[syntax:explanation]
+[| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
+    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] [~trailing-return-type] ]
+[syntax:end]
+
+[:en@~]
+and the type of the contained [~declarator-id] in the declaration [`T D1] is
+["[~derived-declarator-type-list] [`T]], [`T] shall be the single
+[~type-specifier] [`auto].
+
+[:en]
+The type of the [~declarator-id] in [`D] is ["[~derived-declarator-type-list]
+function of ([~parameter-declaration-clause]) [~:opt cv-qualifier-seq]
+[~:opt ref-qualifier] returning [~trailing-return-type]].
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the function type.
+
+[para]
+[:en]
+[%type[!function]]
+A type of either form is a [+function type].
+
+[footnote]
+[:en]
+As indicated by syntax, cv-qualifiers are a significant component in function
+return types.
+[footnote:end]
+
+[%  [:en] declaration[!function]]
+[syntax]
+[rule parameter-declaration-clause [:zh_CN] ]
+    [| [~:opt parameter-declaration-list] [`:opt ...] ]
+    [| parameter-declaration-list [`,] [`...] ]
+[rule:end]
+
+[rule parameter-declaration-list [:zh_CN] ]
+    [| parameter-declaration ]
+    [| parameter-declaration-list [`,] parameter-declaration ]
+[rule:end]
+
+[rule parameter-declaration [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator [`=] initializer-clause ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq [~:opt abstract-declarator] ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq [~:opt abstract-declarator] [`=] initializer-clause ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The optional [~attribute-specifier-seq] in a [~parameter-declaration] appertains
+to the parameter.
+
+[para]
+[:en]
+[%declaration[!parameter]]
+The [~parameter-declaration-clause] determines the arguments that can be
+specified, and their processing, when the function is called.
+
+[enter:note]
+[:en]
+[%conversion[!argument]]
+the [~parameter-declaration-clause] is used to convert the arguments specified
+on the function call; see [#expr.call].
+[exit:note]
+
+[:en]
+[%argument list[!empty]]
+If the [~parameter-declaration-clause] is empty, the function takes no
+arguments.
+
+[:en]
+A parameter list consisting of a single unnamed parameter of non-dependent type
+[`void] is equivalent to an empty parameter list.
+
+[:en]
+[%parameter[![`void]]]
+Except for this special case, a parameter shall not have type [$cv] [`void].
+
+[:en]
+If the [~parameter-declaration-clause]
+[%argument type[!unknown]]
+[%[`...][see ellipsis]] [%declaration[!ellipsis in function]]
+[%argument list[!variable]] [%parameter list[!variable]]
+terminates with an ellipsis or a function parameter pack ([#temp.variadic]), the
+number of arguments shall be equal to or greater than the number of parameters
+that do not have a default argument and are not function parameter packs.
+
+[:en]
+Where syntactically correct and where ["[`...]] is not part of an
+[~abstract-declarator], ["[`, ...]] is synonymous with ["[`...]].
+
+[enter:example]
+[:en]
+[%example[!ellipsis]]
+[%example[!variable parameter list]]
+the declaration
+
+[codeblock]
+int printf(const char*, ...);
+[codeblock:end]
+
+[:en@~]
+declares a function that can be called with varying numbers and types of
+arguments.
+
+[codeblock]
+printf("hello world");
+printf("a=%d b=%d", a, b);
+[codeblock:end]
+
+[:en]
+However, the first argument must be of a type that can be converted to a
+[`const char*]
+[exit:example]
+
+[enter:note]
+[:en]
+The standard header [`<cstdarg>] [%[`<cstdarg>][sortas cstdarg]]
+contains a mechanism for accessing arguments passed using the ellipsis
+(see [#expr.call] and [#support.runtime]).
+[exit:note]
+
+[para]
+[:en]
+[%overloading]
+[%type[!function]]
+A single name can be used for several different functions in a single scope;
+this is function overloading (Clause [#over]).
+
+[:en]
+All declarations for a function shall agree exactly in both the return type and
+the parameter-type-list.
+
+[:en]
+The type of a function is determined using the following rules.
+
+[:en]
+The type of each parameter (including function parameter packs) is determined
+from its own [~decl-specifier-seq] and [~declarator].
+
+[:en]
+After determining the type of each parameter, any parameter of type ["array of
+[%array] [%type[!array]] [`T]]
+[%function] [%type[!function]] or ["function returning [`T]]
+is adjusted to be ["pointer to [`T]] or ["pointer to function returning [`T],]
+respectively.
+
+[:en]
+After producing the list of parameter types, any top-level [~cv-qualifier]s
+modifying a parameter type are deleted when forming the function type.
+
+[:en]
+The resulting list of transformed parameter types and the presence or absence of
+the ellipsis or a function parameter pack is the function[=']s
+[~parameter-type-list].
+
+[enter:note]
+[:en]
+This transformation does not affect the types of the parameters.
+
+[:en]
+For example, [`int(*)(const int p, decltype(p)*)] and [`int(*)(int, const int*)]
+are identical types.
+[exit:note]
+
+[para]
+[:en]
+A function type with a [~cv-qualifier-seq] or a [~ref-qualifier] (including a
+type named by [~typedef-name] ([#dcl.typedef], [#temp.param])) shall appear only
+as:
+
+[list]
+[item]
+[:en] the function type for a non-static member function,
+
+[item]
+[:en] the function type to which a pointer to member refers,
+
+[item]
+[:en] the top-level function type of a function typedef declaration or
+[~alias-declaration],
+
+[item]
+[:en] the [~type-id] in the default argument of a [~type-parameter]
+([#temp.param]), or
+
+[item]
+[:en] the [~type-id] of a [~template-argument] for a [~type-parameter]
+([#temp.arg.type]).
+[list:end]
+
+[enter:example]
+[codeblock]
+typedef int FIC(int) const;
+FIC f;              // [:en] ill-formed: does not declare a member function
+struct S {
+  FIC f;            // OK
+};
+FIC S::*pm = &S::f; // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The effect of a [~cv-qualifier-seq] in a function declarator is not the same as
+adding cv-qualification on top of the function type.
+
+[:en]
+In the latter case, the cv-qualifiers are ignored.
+
+[enter:note]
+[:en]
+a function type that has a [~cv-qualifier-seq] is not a cv-qualified type; there
+are no cv-qualified function types.
+[exit:note]
+
+[enter:example]
+[codeblock]
+typedef void F();
+struct S {
+  const F f;        // [:en] OK: equivalent to: [`void f();]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The return type, the parameter-type-list, the [~ref-qualifier], and the
+[~cv-qualifier-seq], but not the default arguments ([#dcl.fct.default]) or the
+exception specification ([#except.spec]), are part of the function type.
+
+[enter:note]
+[:en]
+Function types are checked during the assignments and initializations of
+pointers to functions, references to functions, and pointers to member functions.
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+[%example[!function declaration]]
+the declaration
+
+[codeblock]
+int fseek(FILE*, long, int);
+[codeblock:end]
+
+[:en@~]
+declares a function taking three arguments of the specified types, and returning
+[`int] ([#dcl.type]).
+[exit:example]
+
+[para]
+[:en]
+[%function return type[see return type]]
+[%return type]
+Functions shall not have a return type of type array or function, although they
+may have a return type of type pointer or reference to such things.
+
+[:en]
+There shall be no arrays of functions, although there can be arrays of pointers
+to functions.
+
+[para]
+[:en]
+Types shall not be defined in return or parameter types.
+
+[:en]
+The type of a parameter or the return type for a function definition shall not
+be an incomplete (possibly cv-qualified) class type in the context of the
+function definition unless the function is deleted ([#dcl.fct.def.delete]).
+
+[para]
+[:en]
+[%typedef[!function]]
+A typedef of function type may be used to declare a function but shall not be
+used to define a function ([#dcl.fct.def]).
+
+[enter:example]
+[codeblock]
+typedef void F();
+F  fv;              // [:en] OK: equivalent to [`void fv();]
+F  fv { }           // [:en] ill-formed
+void fv() { }       // [:en] OK: definition of [`fv]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An identifier can optionally be provided as a parameter name; if present in a
+function definition ([#dcl.fct.def]), it names a parameter.
+
+[enter:note]
+[:en]
+In particular, parameter names are also optional in function definitions and
+names used for a parameter in different declarations and the definition of a
+function need not be the same.
+
+[:en]
+If a parameter name is present in a function declaration that is not a
+definition, it cannot be used outside of its function declarator because that is
+the extent of its potential scope ([#basic.scope.proto]).
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+the declaration
+
+[%  [:en] example[!declaration]]
+[codeblock]
+int i,
+    *pi,
+    f(),
+    *fpi(int),
+    (*pif)(const char*, const char*),
+    (*fpif(int))(int);
+[codeblock:end]
+
+[:en@~]
+declares an integer [`i], a pointer [`pi] to an integer, a function [`f] taking
+no arguments and returning an integer, a function [`fpi] taking an integer
+argument and returning a pointer to an integer, a pointer [`pif] to a function
+which takes two pointers to constant characters and returns an integer, a
+function [`fpif] taking an integer argument and returning a pointer to a
+function that takes an integer argument and returns an integer.
+
+[:en]
+It is especially useful to compare [`fpi] and [`pif].
+
+[:en]
+The binding of [`*fpi(int)] is [`*(fpi(int))], so the declaration suggests, and
+the same construction in an expression requires, the calling of a function
+[`fpi], and then using indirection through the (pointer) result to yield an
+integer.
+
+[:en]
+In the declarator [`(*pif)(const char*, const char*)], the extra parentheses are
+necessary to indicate that indirection through a pointer to a function yields a
+function, which is then called.
+[exit:example]
+
+[enter:note]
+[:en]
+Typedefs and [~trailing-return-type]s are sometimes convenient when the return
+type of a function is complex.
+
+[:en]
+For example, the function [`fpif] above could have been declared
+
+[codeblock]
+typedef int  IFUNC(int);
+IFUNC*  fpif(int);
+[codeblock:end]
+
+[:en@~]
+or
+
+[codeblock]
+auto fpif(int)->int(*)(int);
+[codeblock:end]
+
+[:en]
+A [~trailing-return-type] is most useful for a type that would be more
+complicated to specify before the [~declarator-id]:
+
+[codeblock]
+template <class T, class U> auto add(T t, U u) -> decltype(t + u);
+[codeblock:end]
+
+[:en@~]
+rather than
+
+[codeblock]
+template <class T, class U> decltype((*(T*)0) + (*(U*)0)) add(T t, U u);
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+A [+non-template function] is a function that is not a function template
+specialization.
+
+[enter:note]
+[:en]
+A function template is not a function.
+[exit:note]
+
+[para]
+[:en]
+A [~declarator-id] or [~abstract-declarator] containing an ellipsis shall only
+be used in a [~parameter-declaration].
+
+[:en]
+Such a [~parameter-declaration] is a parameter pack ([#temp.variadic]).
+
+[:en]
+When it is part of a [~parameter-declaration-clause], the parameter pack is a
+function parameter pack ([#temp.variadic]).
+
+[enter:note]
+[:en]
+Otherwise, the [~parameter-declaration] is part of a [~template-parameter-list]
+and the parameter pack is a template parameter pack; see [#temp.param].
+[exit:note]
+
+[:en]
+A function parameter pack is a pack expansion ([#temp.variadic]).
+
+[enter:example]
+[codeblock]
+template<typename... T> void f(T (* ...t)(int, int));
+
+int add(int, int);
+float subtract(int, int);
+
+void g() {
+  f(add, subtract);
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+There is a syntactic ambiguity when an ellipsis occurs at the end of a
+[~parameter-declaration-clause] without a preceding comma.
+
+[:en]
+In this case, the ellipsis is parsed as part of the [~abstract-declarator] if
+the type of the parameter either names a template parameter pack that has not
+been expanded or contains [`auto]; otherwise, it is parsed as part of the
+[~parameter-declaration-clause].
+
+[footnote]
+[:en]
+One can explicitly disambiguate the parse either by introducing a comma (so the
+ellipsis will be parsed as part of the [~parameter-declaration-clause]) or by
+introducing a name for the parameter (so the ellipsis will be parsed as part of
+the [~declarator-id]).
+[footnote:end]
+
+[%:end#declarator.function]
