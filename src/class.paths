@@ -1,0 +1,26 @@
+﻿[section#class.paths
+    [:en] Multiple access
+]
+
+[%  [:en] access control[!multiple access]]
+
+[para]
+[:en]
+If a name can be reached by several paths through a multiple inheritance graph,
+the access is that of the path that gives most access.
+
+[enter:example]
+[codeblock]
+class W { public: void f(); };
+class A : private virtual W { };
+class B : public virtual W { };
+class C : public A, public B {
+  void f() { W::f(); }          // OK
+};
+[codeblock:end]
+
+[para]
+[:en]
+Since [`W::f()] is available to [`C::f()] along the public path through [`B],
+access is allowed.
+[exit:example]

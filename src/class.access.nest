@@ -1,0 +1,38 @@
+﻿[section#class.access.nest
+    [:en] Nested classes
+]
+
+[:en]
+[%access control[!nested class]]
+[%member function[!nested class]]
+
+[para]
+[:en]
+A nested class is a member and as such has the same access rights as any other
+member.
+
+[:en]
+The members of an enclosing class have no special access to members of a nested
+class; the usual access rules (Clause [#class.access]) shall be obeyed.
+
+[enter:example]
+[%[:en] example[!nested class definition]]
+[codeblock]
+class E {
+  int x;
+  class B { };
+
+  class I {
+    B b;                        // [:en] OK: [`E::I] can access [`E::B]
+    int y;
+    void f(E* p, int i) {
+      p->x = i;                 // [:en] OK: [`E::I] can access [`E::x]
+    }
+  };
+
+  int g(I* p) {
+    return p->y;                // [:en] error: [`I::y] is private
+  }
+};
+[codeblock:end]
+[exit:example]
