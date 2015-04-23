@@ -1,0 +1,351 @@
+﻿[section#class.mem
+    [:en] Class members
+]
+
+[:en]
+[%declaration[!member]]
+[%data member[see member]]
+
+[syntax]
+[rule member-specification [:zh_CN] ]
+    [| member-declaration [~:opt member-specification] ]
+    [| access-specifier [`:] [~:opt member-specification] ]
+[rule:end]
+
+[rule member-declaration [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~:opt member-declarator-list] [`;] ]
+    [| function-definition ]
+    [| using-declaration ]
+    [| static_assert-declaration ]
+    [| template-declaration ]
+    [| alias-declaration ]
+    [| empty-declaration ]
+[rule:end]
+
+[rule member-declarator-list [:zh_CN] ]
+    [| member-declarator ]
+    [| member-declarator-list [`,] member-declarator ]
+[rule:end]
+
+[rule member-declarator [:zh_CN] ]
+    [| declarator [~:opt virt-specifier-seq] [~:opt pure-specifier] ]
+    [| declarator [~:opt brace-or-equal-initializer] ]
+    [| [~:opt identifier] [~:opt attribute-specifier-seq] [`:] constant-expression ]
+[rule:end]
+
+[rule virt-specifier-seq [:zh_CN] ]
+    [| virt-specifier ]
+    [| virt-specifier-seq virt-specifier ]
+[rule:end]
+
+[rule virt-specifier [:zh_CN] ]
+    [| [`override] ]
+    [| [`final] ]
+[rule:end]
+
+[rule pure-specifier [:zh_CN] ]
+    [| [`=] [`0] ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+[%definition[!class]]
+The [~member-specification] in a class definition declares the full set of
+members of the class; no member can be added elsewhere.
+
+[:en]
+Members of a class are data members, member functions ([#class.mfct]), nested
+types, and enumerators.
+
+[:en]
+Data members and member functions are static or non-static; see [#class.static].
+
+[:en]
+Nested types are classes ([#class.name], [#class.nest]) and enumerations
+([#dcl.enum]) defined in the class, and arbitrary types declared as members by
+use of a typedef declaration ([#dcl.typedef]).
+
+[:en]
+The enumerators of an unscoped enumeration ([#dcl.enum]) defined in the class
+are members of the class.
+
+[:en]
+Except when used to declare friends ([#class.friend]), to declare an unnamed
+bit-field ([#class.bit]), or to introduce the name of a member of a base class
+into a derived class ([#namespace.udecl]), or when the declaration is an
+[~empty-declaration], [~member-declaration]s declare members of the class, and
+each such [~member-declaration] shall declare at least one member name of the
+class.
+
+[:en]
+A member shall not be declared twice in the [~member-specification], except that
+a nested class or member class template can be declared and then later defined,
+and except that an enumeration can be introduced with an
+[~opaque-enum-declaration] and later redeclared with an [~enum-specifier].
+
+[para]
+[:en]
+[%completely defined]
+A class is considered a completely-defined object type ([#basic.types]) (or
+complete type) at the closing [`}] of the [~class-specifier].
+
+[:en]
+Within the class [~member-specification], the class is regarded as complete
+within function bodies, default arguments, [~using-declaration]s introducing
+inheriting constructors ([#class.inhctor]), [~exception-specification]s, and
+[~brace-or-equal-initializer]s for non-static data members (including such
+things in nested classes).
+
+[:en]
+Otherwise it is regarded as incomplete within its own class
+[~member-specification].
+
+[para]
+[enter:note]
+[:en]
+A single name can denote several function members provided their types are
+sufficiently different (Clause [#over]).
+[exit:note]
+
+[para]
+[:en]
+A [~brace-or-equal-initializer] shall appear only in the declaration of a data
+member.
+
+[:en]
+(For static data members, see [#class.static.data]; for non-static data members,
+see [#class.base.init]).
+
+[:en]
+A [~brace-or-equal-initializer] for a non-static data member shall not directly
+or indirectly cause the implicit definition of a defaulted default constructor
+for the enclosing class or the exception specification of that constructor.
+
+[para]
+[:en]
+A member shall not be declared with the [`extern] or [`register]
+[~storage-class-specifier].
+
+[:en]
+Within a class definition, a member shall not be declared with the
+[`thread_local] [~storage-class-specifier] unless also declared [`static].
+
+[para]
+[:en]
+The [~decl-specifier-seq] may be omitted in constructor, destructor, and
+conversion function declarations only; when declaring another kind of member the
+[~decl-specifier-seq] shall contain a [~type-specifier] that is not a
+[~cv-qualifier].
+
+[:en]
+The [~member-declarator-list] can be omitted only after a [~class-specifier] or
+an [~enum-specifier] or in a [`friend] declaration ([#class.friend]).
+
+[:en]
+A [~pure-specifier] shall be used only in the declaration of a virtual function
+([#class.virtual]).
+
+[para]
+[:en]
+The optional [~attribute-specifier-seq] in a [~member-declaration] appertains to
+each of the entities declared by the [~member-declarator]s; it shall not appear
+if the optional [~member-declarator-list] is omitted.
+
+[para]
+[:en]
+A [~virt-specifier-seq] shall contain at most one of each [~virt-specifier].
+
+[:en]
+A [~virt-specifier-seq] shall appear only in the declaration of a virtual member
+function ([#class.virtual]).
+
+[para]
+[:en]
+[%class object[!member]]
+Non-[`static] ([#class.static]) data members shall not have incomplete types.
+
+[:en]
+In particular, a class [`C] shall not contain a non-static member of class [`C],
+but it can contain a pointer or reference to an object of class [`C].
+
+[para]
+[enter:note]
+[:en]
+See [#expr.prim] for restrictions on the use of non-static data members and
+non-static member functions.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The type of a non-static member function is an ordinary function type, and the
+type of a non-static data member is an ordinary object type.
+
+[:en]
+There are no special member function types or data member types.
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+[%example[!class definition]]
+A simple example of a class definition is
+
+[codeblock]
+struct tnode {
+  char tword[20];
+  int count;
+  tnode* left;
+  tnode* right;
+};
+[codeblock:end]
+
+[:en@~]
+which contains an array of twenty characters, an integer, and two pointers to
+objects of the same type.
+
+[:en]
+Once this definition has been given, the declaration
+
+[codeblock]
+tnode s, *sp;
+[codeblock:end]
+
+[:en@~]
+declares [`s] to be a [`tnode] and [`sp] to be a pointer to a [`tnode].
+
+[:en]
+With these declarations, [`sp->count] refers to the [`count] member of the
+object to which [`sp] points; [`s.left] refers to the [`left] subtree pointer of
+the object [`s]; and [`s.right->tword[0`]] refers to the initial character of
+the [`tword] member of the [`right] subtree of [`s].
+[exit:example]
+
+[para]
+[:en]
+[%layout[!class object]]
+Nonstatic data members of a (non-union) class with the same access control
+(Clause [#class.access]) are allocated so that later members have higher
+addresses within a class object.
+
+[:en]
+[%allocation[!unspecified]]
+The order of allocation of non-static data members with different access control
+is unspecified (Clause [#class.access]).
+
+[:en]
+Implementation alignment requirements might cause two adjacent members not to be
+allocated immediately after each other; so might requirements for space for
+managing virtual functions ([#class.virtual]) and virtual base classes
+([#class.mi]).
+
+[para]
+[:en]
+If [`T] is the name of a class, then each of the following shall
+have a name different from [`T]:
+
+[list]
+[item]
+[:en] every static data member of class [`T];
+
+[item]
+[:en] every member function of class [`T]
+
+[enter:note]
+[:en]
+This restriction does not apply to constructors, which do not have names
+([#class.ctor])
+[exit:note]
+
+[:en@~]
+;
+
+[item]
+[:en] every member of class [`T] that is itself a type;
+
+[item]
+[:en] every member template of class [`T];
+
+[item]
+[:en] every enumerator of every member of class [`T] that is an unscoped
+enumerated type; and
+
+[item]
+[:en] every member of every anonymous union that is a member of class [`T].
+[list:end]
+
+[para]
+[:en]
+In addition, if class [`T] has a user-declared constructor ([#class.ctor]),
+every non-static data member of class [`T] shall have a name different from
+[`T].
+
+[para]
+[:en]
+The [def common initial sequence] of two standard-layout struct (Clause
+[#class]) types is the longest sequence of non-static data members and
+bit-fields in declaration order, starting with the first such entity in each of
+the structs, such that corresponding entities have layout-compatible types and
+either neither entity is a bit-field or both are bit-fields with the same width.
+
+[enter:example]
+[codeblock]
+  struct A { int a; char b; };
+  struct B { const int b1; volatile char b2; };
+  struct C { int c; unsigned : 0; char b; };
+  struct D { int d; char b : 4; };
+  struct E { unsigned int e; char b; };
+[codeblock:end]
+
+[:en]
+The common initial sequence of [`A] and [`B] comprises all members of either
+class.
+
+[:en]
+The common initial sequence of [`A] and [`C] and of [`A] and [`D] comprises the
+first member in each case.
+
+[:en]
+The common initial sequence of [`A] and [`E] is empty.
+[exit:example]
+
+[para]
+[:en]
+Two standard-layout struct (Clause [#class]) types are layout-compatible if
+their common initial sequence comprises all members and bit-fields of both
+classes ([#basic.types]).
+
+[para]
+[:en]
+Two standard-layout unions are layout-compatible if they have the same number of
+non-static data members and corresponding non-static data members (in any order)
+have layout-compatible types ([#basic.types]).
+
+[para]
+[:en]
+In a standard-layout union with an active member ([#class.union]) of struct type
+[`T1], it is permitted to read a non-static data member [`m] of another union
+member of struct type [`T2] provided [`m] is part of the common initial sequence
+of [`T1] and [`T2].
+
+[enter:note]
+[:en]
+Reading a volatile object through a non-volatile glvalue has undefined behavior
+([#dcl.type.cv]).
+[exit:note]
+
+[para]
+[:en]
+If a standard-layout class object has any non-static data members, its address
+is the same as the address of its first non-static data member.
+
+[:en]
+Otherwise, its address is the same as the address of its first base class
+subobject (if any).
+
+[enter:note]
+[:en]
+There might therefore be unnamed padding within a standard-layout struct object,
+but not at its beginning, as necessary to achieve appropriate alignment.
+[exit:note]

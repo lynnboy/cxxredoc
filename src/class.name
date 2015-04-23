@@ -1,0 +1,206 @@
+﻿[section#class.name
+    [:en] Class names
+]
+
+[:en]
+[%definition[!class name as type]]
+[%structure tag[see class name]]
+[%equivalence[!type]]
+
+[para]
+[:en]
+A class definition introduces a new type.
+
+[enter:example]
+[codeblock]
+struct X { int a; };
+struct Y { int a; };
+X a1;
+Y a2;
+int a3;
+[codeblock:end]
+
+[:en]
+declares three variables of three different types.
+
+[:en]
+This implies that
+
+[codeblock]
+a1 = a2;                        // [:en] error: [`Y] assigned to [`X]
+a1 = a3;                        // [:en] error: [`int] assigned to [`X]
+[codeblock:end]
+
+[:en@~]
+are type mismatches, and that
+
+[codeblock]
+int f(X);
+int f(Y);
+[codeblock:end]
+
+[:en@~]
+[%overloading]
+declare an overloaded (Clause [#over]) function [`f()] and not simply a single
+function [`f()] twice.
+
+[:en]
+For the same reason,
+
+[codeblock]
+struct S { int a; };
+struct S { int a; };            // [:en] error, double definition
+[codeblock:end]
+
+[:en@~]
+is ill-formed because it defines [`S] twice.
+[exit:example]
+
+[para]
+[:en]
+[%definition[!scope of class]]
+[%class name[!scope of]]
+A class declaration introduces the class name into the scope where
+[%name hiding[!class definition]]
+it is declared and hides any class, variable, function, or other declaration of
+that name in an enclosing scope ([#basic.scope]).
+
+[:en]
+If a class name is declared in a scope where a variable, function, or enumerator
+of the same name is also declared, then when both declarations are in scope, the
+class can be referred to only using an [~elaborated-type-specifier]
+([#basic.lookup.elab]).
+
+[enter:example]
+[codeblock]
+struct stat {
+  // ...
+};
+
+stat gstat;                     // [:en] use plain [`stat] to
+                                // [:en@~] define variable
+
+int stat(struct stat*);         // [:en] redeclare [`stat] as function
+
+void f() {
+  struct stat* ps;              // [:en] [`struct] prefix needed
+                                // [:en@~] to name [`struct stat]
+  stat(ps);                     // [:en] call [`stat()]
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+[%class name[!elaborated]]
+[%declaration[!forward class]]
+A [~declaration] consisting solely of [~class-key] [~identifier][`;] is either a
+redeclaration of the name in the current scope or a forward declaration of the
+identifier as a class name.
+
+[:en]
+It introduces the class name into the current scope.
+
+[enter:example]
+[codeblock]
+struct s { int a; };
+
+void g() {
+  struct s;                     // [:en] hide global [`struct s]
+                                // [:en@~] with a block-scope declaration
+  s* p;                         // [:en] refer to local [`struct s]
+  struct s { char* p; };        // [:en] define local [`struct s]
+  struct s;                     // [:en] redeclaration, has no effect
+}
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+Such declarations allow definition of classes that refer to each other.
+
+[%  [:en] example[!friend]]
+[enter:example]
+[codeblock]
+class Vector;
+
+class Matrix {
+  // ...
+  friend Vector operator*(const Matrix&, const Vector&);
+};
+
+class Vector {
+  // ...
+  friend Vector operator*(const Matrix&, const Vector&);
+};
+[codeblock:end]
+
+[:en]
+Declaration of [`friend]s is described in [#class.friend], operator functions in
+[#over.oper].
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+[%class name[!elaborated]]
+[%elaborated type specifier[see class name[!elaborated]]]
+
+[enter:note]
+[:en]
+An [~elaborated-type-specifier] ([#dcl.type.elab]) can also be used as a
+[~type-specifier] as part of a declaration.
+
+[:en]
+It differs from a class declaration in that if a class of the elaborated name is
+in scope the elaborated name will refer to it.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct s { int a; };
+
+void g(int s) {
+  struct s* p = new struct s;   // [:en] global [`s]
+  p->a = s;                     // [:en] parameter [`s]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[%  [:en] class name[!point of declaration]]
+[enter:note]
+[:en]
+The declaration of a class name takes effect immediately after the [~identifier]
+is seen in the class definition or [~elaborated-type-specifier].
+
+[:en]
+For example,
+
+[codeblock]
+class A * A;
+[codeblock:end]
+
+[:en@~]
+first specifies [`A] to be the name of a class and then redefines it as the name
+of a pointer to an object of that class.
+
+[:en]
+This means that the elaborated form [`class A] must be used to refer to the
+class.
+
+[:en]
+Such artistry with names can be confusing and is best avoided.
+[exit:note]
+
+[para]
+[:en]
+[%class name[![`typedef]]]
+A [~typedef-name] ([#dcl.typedef]) that names a class type, or a cv-qualified
+version thereof, is also a [~class-name].
+
+[:en]
+If a [~typedef-name] that names a cv-qualified class type is used where a
+[~class-name] is required, the cv-qualifiers are ignored.
+
+[:en]
+A [~typedef-name] shall not be used as the [~identifier] in a [~class-head].

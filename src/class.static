@@ -1,0 +1,92 @@
+﻿[section#class.static
+    [:en] Static members
+]
+
+[:en]
+[%member[!static]]
+[%member function[!static]]
+
+[para]
+[:en]
+A data or function member of a class may be declared [`static] in a class
+definition, in which case it is a [+static member] of the class.
+
+[para]
+[:en]
+A [`static] member [`s] of class [`X] may be referred to using the
+[~qualified-id] expression [`X::s]; it is not necessary to use the class member
+access syntax ([#expr.ref]) to refer to a [`static] member.
+
+[:en]
+A [`static] member may be referred to using the class member access syntax, in
+which case the object expression is evaluated.
+
+[enter:example]
+[codeblock]
+struct process {
+  static void reschedule();
+};
+process& g();
+
+void f() {
+  process::reschedule();        // [:en] OK: no object necessary
+  g().reschedule();             // [:en] [`g()] is called
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [`static] member may be referred to directly in the scope of its class or in
+the scope of a class derived (Clause [#class.derived]) from its class; in this
+case, the [`static] member is referred to as if a [~qualified-id] expression was
+used, with the [~nested-name-specifier] of the [~qualified-id] naming the class
+scope from which the static member is referenced.
+
+[enter:example]
+[codeblock]
+int g();
+struct X {
+  static int g();
+};
+struct Y : X {
+  static int i;
+};
+int Y::i = g();                 // equivalent to [`Y::g();]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If an [~unqualified-id] ([#expr.prim]) is used in the definition of a [`static]
+member following the member[=']s [~declarator-id], and name lookup
+([#basic.lookup.unqual]) finds that the [~unqualified-id] refers to a [`static]
+member, enumerator, or nested type of the member[=']s class (or of a base class
+of the member[=']s class), the [~unqualified-id] is transformed into a
+[~qualified-id] expression in which the [~nested-name-specifier] names the class
+scope from which the member is referenced.
+
+[enter:note]
+[:en]
+See [#expr.prim] for restrictions on the use of non-static data members and
+non-static member functions.
+[exit:note]
+
+[para]
+[:en]
+Static members obey the usual class member access rules (Clause
+[#class.access]).
+
+[:en]
+When used in the declaration of a class member, the [`static] specifier shall
+only be used in the member declarations that appear within the
+[~member-specification] of the class definition.
+
+[enter:note]
+[:en]
+It cannot be specified in member declarations that appear in namespace scope.
+[exit:note]
+
+[include class.static.mfct]
+
+[include class.static.data]

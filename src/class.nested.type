@@ -1,0 +1,31 @@
+﻿[section#class.nested.type
+    [:en] Nested type names
+]
+
+[:en]
+[%type name[!nested]]
+[%type name[!nested[!scope of]]]
+
+[para]
+[:en]
+Type names obey exactly the same scope rules as other names.
+
+[:en]
+In particular, type names defined within a class definition cannot be used
+outside their class without qualification.
+
+[enter:example]
+[%[:en] example[!nested type name]]
+[codeblock]
+struct X {
+  typedef int I;
+  class Y { /* ... */ };
+  I a;
+};
+
+I b;                            // [:en] error
+Y c;                            // [:en] error
+X::Y d;                         // OK
+X::I e;                         // OK
+[codeblock:end]
+[exit:example]

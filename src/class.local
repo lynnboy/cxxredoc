@@ -1,0 +1,73 @@
+﻿[section#class.local
+    [:en] Local class declarations
+]
+
+[:en]
+[%declaration[!local class]]
+[%definition[!local class]]
+
+[para]
+[:en]
+A class can be declared within a function definition; such a class is called a
+[+local] class.
+
+[:en]
+The name of a local class is local to its enclosing scope.
+
+[:en]
+[%local class[!scope of]]
+The local class is in the scope of the enclosing scope, and has the same access
+to names outside the function as does the enclosing function.
+
+[:en]
+Declarations in a local class shall not odr-use ([#basic.def.odr]) a variable
+with automatic storage duration from an enclosing scope.
+
+[enter:example]
+[%  [:en] example[!local class]]
+[codeblock]
+int x;
+void f() {
+  static int s ;
+  int x;
+  const int N = 5;
+  extern int q();
+
+  struct local {
+    int g() { return x; }       // [:en] error: odr-use of automatic variable [`x]
+    int h() { return s; }       // OK
+    int k() { return ::x; }     // OK
+    int l() { return q(); }     // OK
+    int m() { return N; }       // [:en] OK: not an odr-use
+    int* n() { return &N; }     // [:en] error: odr-use of automatic variable [`N]
+  };
+}
+
+local* p = 0;                   // [:en] error: [`local] not in scope
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An enclosing function has no special access to members of the local class; it
+obeys the usual access rules (Clause [#class.access]).
+
+[:en]
+[%member function[!local class]]
+Member functions of a local class shall be defined within their class
+definition, if they are defined at all.
+
+[para]
+[:en]
+[%nested class[!local class]]
+If class [`X] is a local class a nested class [`Y] may be declared in class [`X]
+and later defined in the definition of class [`X] or be later defined in the
+same scope as the definition of class [`X].
+
+[:en]
+[%restriction[!local class]]
+A class nested within a local class is a local class.
+
+[para]
+[:en]
+A local class shall not have static data members.

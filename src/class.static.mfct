@@ -1,0 +1,28 @@
+﻿[section#class.static.mfct
+    [:en] Static member functions
+]
+
+[%  [:en] member function[!static]]
+
+[para]
+[enter:note]
+[:en]
+The rules described in [#class.mfct] apply to [`static] member functions.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+A [`static] member function does not have a [`this] pointer ([#class.this]).
+[exit:note]
+
+[:en]
+A [`static] member function shall not be [`virtual].
+
+[:en]
+There shall not be a [`static] and a non-static member function with the same
+name and the same parameter types ([#over.load]).
+
+[:en]
+A [`static] member function shall not be declared [`const], [`volatile], or
+[`const volatile].

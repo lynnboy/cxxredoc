@@ -1,0 +1,121 @@
+﻿[section#class.static.data
+    [:en] Static data members
+]
+
+[%  [:en] member data[!static]]
+
+[para]
+[:en]
+A [`static] data member is not part of the subobjects of a class. If a
+[`static] data member is declared [`thread_local] there is one copy of
+the member per thread. If a [`static] data member is not declared
+[`thread_local] there is one copy of the data member that is shared by all
+the objects of the class.
+
+[para]
+[:en]
+[%initialization[!static member]]
+[%definition[!static member]]
+The declaration of a [`static] data member in its class definition is not a
+definition and may be of an incomplete type other than cv-qualified [`void].
+
+[:en]
+The definition for a [`static] data member shall appear in a namespace scope
+enclosing the member[=']s class definition.
+
+[:en]
+[%operator use[!scope resolution]]
+In the definition at namespace scope, the name of the [`static] data member
+shall be qualified by its class name using the [`::] operator.
+
+[:en]
+The [~initializer] expression in the definition of a [`static] data member is in
+the scope of its class ([#basic.scope.class]).
+
+[enter:example]
+[:en]
+[%example[![`static] member]]
+[codeblock]
+class process {
+  static process* run_chain;
+  static process* running;
+};
+
+process* process::running = get_main();
+process* process::run_chain = running;
+[codeblock:end]
+
+[:en]
+The [`static] data member [`run_chain] of class [`process] is defined in global
+scope; the notation [`process::run_chain] specifies that the member [`run_chain]
+is a member of class [`process] and in the scope of class [`process].
+
+[:en]
+In the [`static] data member definition, the [~initializer] expression refers to
+the [`static] data member [`running] of class [`process].
+[exit:example]
+
+[para:~]
+[enter:note]
+[:en]
+Once the [`static] data member has been defined, it exists even if no objects of
+its class have been created.
+
+[enter:example]
+[:en]
+in the example above, [`run_chain] and [`running] exist even if no objects of
+class [`process] are created by the program.
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+If a non-volatile [`const static] data member is of integral or enumeration
+type, its declaration in the class definition can specify a
+[~brace-or-equal-initializer] in which every [~initializer-clause] that is an
+[~assignment-expression] is a constant expression ([#expr.const]).
+
+[:en]
+A [`static] data member of literal type can be declared in the class definition
+with the [`constexpr] specifier; if so, its declaration shall specify a
+[~brace-or-equal-initializer] in which every [~initializer-clause] that is an
+[~assignment-expression] is a constant expression.
+
+[enter:note]
+[:en]
+In both these cases, the member may appear in constant expressions.
+[exit:note]
+
+[:en]
+The member shall still be defined in a namespace scope if it is odr-used
+([#basic.def.odr]) in the program and the namespace scope definition shall not
+contain an [~initializer].
+
+[para]
+[enter:note]
+[:en]
+There shall be exactly one definition of a [`static] data member that is
+odr-used ([#basic.def.odr]) in a program; no diagnostic is required.
+[exit:note]
+
+[:en]
+Unnamed classes and classes contained directly or indirectly within unnamed
+classes shall not contain [`static] data members.
+
+[para]
+[:en]
+[%restriction[![`static] member local class]]
+[`Static] data members of a class in namespace scope have the linkage of that
+class ([#basic.link]).
+
+[:en]
+A local class shall not have [`static] data members.
+
+[para]
+[:en]
+[`Static] data members are initialized and destroyed exactly like non-local
+variables ([#basic.start.init], [#basic.start.term]).
+
+[para]
+[:en]
+A [`static] data member shall not be [`mutable] ([#dcl.stc]).

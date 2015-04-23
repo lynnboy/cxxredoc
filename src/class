@@ -1,0 +1,389 @@
+﻿[section:chapter#class
+    [:en] Classes
+]
+
+[%:begin#class
+    [:en] class
+]
+
+[/
+%gram: \rSec1[gram.class]{Classes}
+%gram:
+/]
+
+[%  [:en] class[!member function][see member function [!class]]
+    [:zh_CN] ]
+
+[para]
+[:en]
+[%[`{}][!class declaration]]
+[%[`{}][!class definition]]
+[%type[!class and]]
+[%object class[see also class object]]
+A class is a type.
+
+[:en]
+[%name class[see class name]]
+Its name becomes a [~class-name] ([#class.name]) within its scope.
+
+[syntax]
+[rule class-name [:zh_CN] ]
+    [| identifier ]
+    [| simple-template-id ]
+[rule:end]
+[syntax:end]
+
+[:en]
+[~Class-specifier]s and [~elaborated-type-specifier]s ([#dcl.type.elab]) are
+used to make [~class-name]s.
+
+[:en]
+An object of a class consists of a (possibly empty) sequence of members and base
+class objects.
+
+[syntax]
+[rule class-specifier [:zh_CN] ]
+    [| class-head [`{] [~:opt member-specification] [`}] ]
+[rule:end]
+
+[rule class-head [:zh_CN] ]
+    [| class-key [~:opt attribute-specifier-seq] class-head-name [~:opt class-virt-specifier] [~:opt base-clause] ]
+    [| class-key [~:opt attribute-specifier-seq] [~:opt base-clause] ]
+[rule:end]
+
+[rule class-head-name [:zh_CN] ]
+    [| [~:opt nested-name-specifier] class-name ]
+[rule:end]
+
+[rule class-virt-specifier [:zh_CN] ]
+    [| [`final] ]
+[rule:end]
+
+
+[rule class-key [:zh_CN] ]
+    [| [`class] ]
+    [| [`struct] ]
+    [| [`union] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+A [~class-specifier] whose [~class-head] omits the [~class-head-name] defines an
+unnamed class.
+
+[enter:note]
+[:en]
+An unnamed class thus can[=']t be [`final].
+[exit:note]
+
+[para]
+[:en]
+A [~class-name] is inserted into the scope in which it is declared immediately
+after the [~class-name] is seen.
+
+[:en]
+The [~class-name] is also inserted into the scope of the class itself; this is
+known as the [~injected-class-name].
+
+[:en]
+[%[~injected-class-name]]
+For purposes of access checking, the injected-class-name is treated as if it
+were a public member name.
+
+[:en]
+[%definition[!class]]
+A [~class-spe]cifier} is commonly referred to as a class definition.
+
+[:en]
+[%definition[!class]]
+A class is considered defined after the closing brace of its [~class-specifier]
+has been seen even though its member functions are in general not yet defined.
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the class; the attributes
+in the [~attribute-specifier-seq] are thereafter considered attributes of the
+class whenever it is named.
+
+[para]
+[:en]
+If a class is marked with the [~class-virt-specifier] [`final] and it appears
+as a [~base-type-specifier] in a [~base-clause] (Clause [#class.derived]), the
+program is ill-formed.
+
+[:en]
+Whenever a [~class-key] is followed by a [~class-head-name], the [~identifier]
+[`final], and a colon or left brace, [`final] is interpreted as a
+[~class-virt-specifier].
+
+[enter:example]
+[codeblock]
+struct A;
+struct A final {};      // [:en] OK: definition of [`struct A],
+                        // [:en@~] not value-initialization of variable [`final]
+
+struct X {
+ struct C { constexpr operator int() { return 5; } };
+ struct B final : C{};  // [:en] OK: definition of nested class [`B],
+                        // [:en@~] not declaration of a bit-field member [`final]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Complete objects and member subobjects of class type shall have nonzero size.
+
+[footnote]
+[:en]
+Base class subobjects are not so constrained.
+[footnote:end]
+
+[enter:note]
+[:en]
+Class objects can be assigned, passed as arguments to functions, and returned by
+functions (except objects of classes for which copying or moving has been
+restricted; see [#class.copy]).
+
+[:en]
+Other plausible operators, such as equality comparison, can be defined by the
+user; see [#over.oper].
+[exit:note]
+
+[para]
+[:en]
+[%[`struct][![`class] versus]]
+[%structure]
+[%[`union][![`class] versus]]
+A [+union] is a class defined with the [~class-key] [`union];
+[%access control[![`union] default member]]
+it holds at most one data member at a time ([#class.union]).
+
+[enter:note]
+[:en]
+Aggregates of class type are described in [#dcl.init.aggr].
+[exit:note]
+
+[para]
+[:en]
+[%class[!trivial]]
+[%trivial class]
+A [def trivially copyable class] is a class that:
+
+[list]
+[item]
+[:en@~] has no non-trivial copy constructors ([#class.copy]),
+[item]
+[:en@~] has no non-trivial move constructors ([#class.copy]),
+[item]
+[:en@~] has no non-trivial copy assignment operators ([#over.ass],
+[#class.copy]),
+[item]
+[:en@~] has no non-trivial move assignment operators ([#over.ass],
+[#class.copy]), and
+[item]
+[:en@~] has a trivial destructor ([#class.dtor]).
+[list:end]
+
+[:en]
+A [+trivial class] is a class that has a default constructor ([#class.ctor]),
+has no non-trivial default constructors, and is trivially copyable.
+
+[enter:note]
+[:en]
+In particular, a trivially copyable or trivial class does not have virtual
+functions or virtual base classes.
+[exit:note]
+
+[para]
+[:en]
+[%class[!standard-layout]]
+[%standard-layout class]
+A class [`S] is a [~standard-layout class] if it:
+
+[list]
+[item]
+[:en] has no non-static data members of type non-standard-layout class (or
+array of such types) or reference,
+
+[item]
+[:en] has no virtual functions ([#class.virtual]) and no virtual base classes
+([#class.mi]),
+
+[item]
+[:en] has the same access control (Clause [#class.access]) for all non-static
+data members,
+
+[item]
+[:en] has no non-standard-layout base classes,
+
+[item]
+[:en] has at most one base class subobject of any given type,
+
+[item]
+[:en] has all non-static data members and bit-fields in the class and its base
+classes first declared in the same class, and
+
+[item]
+[:en] has no element of the set [$M([`S])] of types (defined below) as a base
+class.
+
+[footnote]
+[:en]
+This ensures that two subobjects that have the same class type and that belong
+to the same most derived object are not allocated at the same address
+([#expr.eq]).
+[footnote:end]
+[list:end]
+
+[:en]
+[$M([`X])] is defined as follows:
+
+[list]
+[item]
+[:en]
+If [`X] is a non-union class type, the set [$M([`X])] is empty if [`X] has no
+(possibly inherited (Clause [#class.derived])) non-static data members;
+otherwise, it consists of the type of the first non-static data member of [`X]
+(where said member may be an anonymous union), [`X][_0], and the elements of
+[$M([`X][_0])].
+
+[item]
+[:en]
+If [`X] is a union type, the set [$M([`X])] is the union of all
+[$M([`U][_[$i]])] and the set containing all [`U][_[$i]], where each [`U][_[$i]]
+is the type of the [$i]th non-static data member of [`X].
+
+[item]
+[:en]
+If [`X] is a non-class type, the set [$M([`X])] is empty.
+[list:end]
+
+[enter:note]
+[:en]
+[$M([`X])] is the set of the types of all non-base-class subobjects that are
+guaranteed in a standard-layout class to be at a zero offset in [`X].
+[exit:note]
+
+[para:~]
+[enter:example]
+[codeblock]
+   struct B { int i; };         // [:en] standard-layout class
+   struct C : B { };            // [:en] standard-layout class
+   struct D : C { };            // [:en] standard-layout class
+   struct E : D { char : 4; };  // [:en] not a standard-layout class
+
+   struct Q {};
+   struct S : Q { };
+   struct T : Q { };
+   struct U : S, T { };         // [:en] not a standard-layout class
+[codeblock:end]
+[exit:example]
+
+[:en]
+[%struct[!standard-layout]]
+[%standard-layout struct]
+[%union[!standard-layout]]
+[%standard-layout union]
+[para]
+[:en]
+A [~standard-layout struct] is a standard-layout class defined with the
+[~class-key] [`struct] or the [~class-key] [`class].
+
+[:en]
+A [~standard-layout union] is a standard-layout class defined with the
+[~class-key] [`union].
+
+[para]
+[enter:note]
+[:en]
+Standard-layout classes are useful for communicating with code written in other
+programming languages.
+
+[:en]
+Their layout is specified in [#class.mem].
+[exit:note]
+
+[para]
+[:en]
+[%POD struct][%POD class][%POD union]
+A [+POD struct]
+
+[footnote]
+[:en]
+The acronym POD stands for ["plain old data].
+[footnote:end]
+
+[:en@~]
+is a non-union class that is both a trivial class and a standard-layout class,
+and has no non-static data members of type non-POD struct, non-POD union (or
+array of such types).
+
+[:en]
+Similarly, a [+POD union] is a union that is both a trivial class and a
+standard-layout class, and has no non-static data members of type non-POD
+struct, non-POD union (or array of such types).
+
+[:en]
+A [+POD class] is a class that is either a POD struct or a POD union.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct N {          // [:en] neither trivial nor standard-layout
+  int i;
+  int j;
+  virtual ~N();
+};
+
+struct T {          // [:en] trivial but not standard-layout
+  int i;
+private: 
+  int j;
+};
+
+struct SL {         // [:en] standard-layout but not trivial
+  int i;
+  int j;
+  ~SL();
+};
+
+struct POD {        // [:en] both trivial and standard-layout
+  int i;
+  int j;
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [~class-head-name] contains a [~nested-name-specifier], the
+[~class-specifier] shall refer to a class that was previously declared directly
+in the class or namespace to which the [~nested-name-specifier] refers, or in an
+element of the inline namespace set ([#namespace.def]) of that namespace (i.e.,
+not merely inherited or introduced by a [~using-declaration]), and the
+[~class-specifier] shall appear in a namespace enclosing the previous
+declaration.
+
+[:en]
+In such cases, the [~nested-name-specifier] of the [~class-head-name] of the
+definition shall not begin with a [~decltype-specifier].
+
+[include class.name]
+
+[include class.mem]
+
+[include class.mfct]
+
+[include class.static]
+
+[include class.union]
+
+[include class.bit]
+
+[include class.nest]
+
+[include class.local]
+
+[include class.nested.type]
+
+[%:end#class]

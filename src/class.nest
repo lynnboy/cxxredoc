@@ -1,0 +1,104 @@
+﻿[section#class.nest
+    [:en] Nested class declarations
+]
+
+[:en]
+[%definition[!nested class]]
+[%class local[see local class]]
+[%class nested[see nested class]]
+
+[para]
+[:en]
+A class can be declared within another class.
+
+[:en]
+A class declared within another is called a [~nested] class.
+
+[:en]
+The name of a nested class is local to its enclosing class.
+
+[:en]
+[%nested class[!scope of]]
+The nested class is in the scope of its enclosing class.
+
+[enter:note]
+[:en]
+See [#expr.prim] for restrictions on the use of non-static data members and
+non-static member functions.
+[exit:note]
+
+[para:~]
+[%  [:en] example[!nested class]]
+[enter:example]
+[codeblock]
+int x;
+int y;
+
+struct enclose {
+  int x;
+  static int s;
+
+  struct inner {
+    void f(int i) {
+      int a = sizeof(x);        // [:en] OK: operand of sizeof is an unevaluated operand
+      x = i;                    // [:en] error: assign to [`enclose::x]
+      s = i;                    // [:en] OK: assign to [`enclose::s]
+      ::x = i;                  // [:en] OK: assign to global [`x]
+      y = i;                    // [:en] OK: assign to global [`y]
+    }
+    void g(enclose* p, int i) {
+      p->x = i;                 // [:en] OK: assign to [`enclose::x]
+    }
+  };
+};
+
+inner* p = 0;                   // [:en] error: [`inner] not in scope
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Member functions and static data members of a nested class can be defined in a
+namespace scope enclosing the definition of their class.
+
+[%  [:en] example[!nested class definition]]
+[enter:example]
+[codeblock]
+struct enclose {
+  struct inner {
+    static int x;
+    void f(int i);
+  };
+};
+
+int enclose::inner::x = 1;
+
+void enclose::inner::f(int i) { /* ... */ }
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If class [`X] is defined in a namespace scope, a nested class [`Y] may be
+declared in class [`X] and later defined in the definition of class [`X] or be
+later defined in a namespace scope enclosing the definition of class [`X].
+
+[%  [:en] example[!nested class forward declaration]]
+[enter:example]
+[codeblock]
+class E {
+  class I1;                     // [:en] forward declaration of nested class
+  class I2;
+  class I1 { };                 // [:en] definition of nested class
+};
+class E::I2 { };                // [:en] definition of nested class
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%friend function[!nested class]]
+Like a member function, a friend function ([#class.friend]) defined within a
+nested class is in the lexical scope of that class; it obeys the same rules for
+name binding as a static member function of that class ([#class.static]), but it
+has no special access rights to members of an enclosing class.

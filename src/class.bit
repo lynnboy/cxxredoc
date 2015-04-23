@@ -1,0 +1,141 @@
+﻿[section#class.bit
+    [:en] Bit-fields
+]
+
+[%  [:en] bit-field]
+
+[para]
+[:en]
+A [~member-declarator] of the form
+
+[syntax:explanation]
+[~:opt identifier] [~:opt attribute-specifier-seq] [`:] [~constant-expression]
+[syntax:end]
+
+[:en]
+[%[`:][!field declaration]]
+[%declaration[!bit-field]]
+specifies a bit-field; its length is set off from the bit-field name by a colon.
+
+[:en]
+The optional [~attribute-specifier-seq] appertains to the entity being declared.
+
+[:en]
+The bit-field attribute is not part of the type of the class member.
+
+[:en]
+The [~constant-expression] shall be an integral constant expression with a value
+greater than or equal to zero.
+
+[:en]
+The value of the integral constant expression may be larger than the number of
+bits in the object representation ([#basic.types]) of the bit-field[=']s type;
+in such cases the extra bits are used as padding bits and do not participate in
+the value representation ([#basic.types]) of the bit-field.
+
+[:en]
+[%allocation[!implementation defined bit-field]]
+Allocation of bit-fields within a class object is [%@impldef allocation of
+bit-fields within a class object] implementation-defined.
+
+[:en]
+[%bit-field[!implementation defined alignment of]]
+Alignment of bit-fields is [%@impldef alignment of bit-fields within a class
+object] implementation-defined.
+
+[:en]
+[%layout[!bit-field]]
+Bit-fields are packed into some addressable allocation unit.
+
+[enter:note]
+[:en]
+Bit-fields straddle allocation units on some machines and not on others.
+
+[:en]
+Bit-fields are assigned right-to-left on some machines, left-to-right on others.
+[exit:note]
+
+[para]
+[:en]
+[%bit-field[!unnamed]]
+A declaration for a bit-field that omits the [~identifier] declares an
+[~unnamed] bit-field.
+
+[:en]
+Unnamed bit-fields are not members and cannot be initialized.
+
+[enter:note]
+[:en]
+An unnamed bit-field is useful for padding to conform to externally-imposed
+layouts.
+[exit:note]
+
+[:en]
+[%bit-field[!zero width of]]
+[%bit-field[!alignment of]]
+As a special case, an unnamed bit-field with a width of zero specifies alignment
+of the next bit-field at an allocation unit boundary.
+
+[:en]
+Only when declaring an unnamed bit-field may the value of the
+[~constant-expression] be equal to zero.
+
+[para]
+[:en]
+[%bit-field[!type of]]
+A bit-field shall not be a static member.
+
+[:en]
+A bit-field shall have integral or enumeration type ([#basic.fundamental]).
+
+[:en]
+[%Boolean]
+A [`bool] value can successfully be stored in a bit-field of any nonzero size.
+
+[:en]
+[%bit-field[!address of]]
+The address-of operator [`&] shall not be applied to a bit-field, so there are
+no pointers to bit-fields.
+
+[:en]
+[%restriction[!bit-field]]
+[%restriction[!address of bit-field]]
+[%restriction[!pointer to bit-field]]
+A non-const reference shall not be bound to a bit-field ([#dcl.init.ref]).
+
+[enter:note]
+[:en]
+If the initializer for a reference of type [`const T&] is an lvalue that refers
+to a bit-field, the reference is bound to a temporary initialized to hold the
+value of the bit-field; the reference is not bound to the bit-field directly.
+
+[:en]
+See [#dcl.init.ref].
+[exit:note]
+
+[para]
+[:en]
+If the value [`true] or [`false] is stored into a bit-field of type [`bool] of
+any size (including a one bit bit-field), the original [`bool] value and the
+value of the bit-field shall compare equal.
+
+[:en]
+If the value of an enumerator is stored into a bit-field of the same enumeration
+type and the number of bits in the bit-field is large enough to hold all the
+values of that enumeration type ([#dcl.enum]), the original enumerator value and
+the value of the bit-field shall compare equal.
+
+[enter:example]
+[codeblock]
+enum BOOL { FALSE=0, TRUE=1 };
+struct A {
+  BOOL b:1;
+};
+A a;
+void f() {
+  a.b = TRUE;
+  if (a.b == TRUE)              // [:en] yields [`true]
+    { /* ... */ }
+}
+[codeblock:end]
+[exit:example]

@@ -1,0 +1,241 @@
+﻿[section#class.union
+    [:en] Unions
+]
+
+[%[`union]}
+
+[para]
+[:en]
+In a union, at most one of the non-static data members can be active at any
+time, that is, the value of at most one of the non-static data members can be
+stored in a union at any time.
+
+[enter:note]
+[:en]
+One special guarantee is made in order to simplify the use of unions:
+
+[:en]
+If a standard-layout union contains several standard-layout structs that share a
+common initial sequence ([#class.mem]), and if an object of this standard-layout
+union type contains one of the standard-layout structs, it is permitted to
+inspect the common initial sequence of any of standard-layout struct members;
+see [#class.mem].
+[exit:note]
+
+[:en]
+The size of a union is sufficient to contain the largest of its non-static data
+members.
+
+[:en]
+Each non-static data member is allocated as if it were the sole member of a
+struct.
+
+[:en]
+All non-static data members of a union object have the same address.
+
+[para]
+[:en]
+[%member function[![`union]]]
+[%constructor[![`union]]]
+[%destructor[![`union]]]
+A union can have member functions (including constructors and destructors),
+[%restriction[![`union]]]
+but not virtual ([#class.virtual]) functions.
+
+[:en]
+A union shall not have base classes.
+
+[:en]
+A union shall not be used as a base class.
+
+[:en]
+[%restriction[![`union]]]
+If a union contains a non-static data member of reference type the program is
+ill-formed.
+
+[enter:note]
+[:en]
+If any non-static data member of a union has a non-trivial default constructor
+([#class.ctor]), copy constructor ([#class.copy]), move constructor
+([#class.copy]), copy assignment operator ([#class.copy]), move assignment
+operator ([#class.copy]), or destructor ([#class.dtor]), the corresponding
+member function of the union must be user-provided or it will be implicitly
+deleted ([#dcl.fct.def.delete]) for the union.
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+Consider the following union:
+
+[codeblock]
+union U {
+  int i;
+  float f;
+  std::string s;
+};
+[codeblock:end]
+
+[:en]
+Since [`std::string] ([#string.classes]) declares non-trivial versions of all of
+the special member functions, [`U] will have an implicitly deleted default
+constructor, copy/move constructor, copy/move assignment operator, and
+destructor.
+
+[:en]
+To use [`U], some or all of these member functions must be user-provided.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+In general, one must use explicit destructor calls and placement new operators
+to change the active member of a union.
+[exit:note]
+
+[enter:example]
+[:en]
+Consider an object [`u] of a [`union] type [`U] having non-static data members
+[`m] of type [`M] and [`n] of type [`N].
+
+[:en]
+If [`M] has a non-trivial destructor and [`N] has a non-trivial constructor (for
+instance, if they declare or inherit virtual functions), the active member of
+[`u] can be safely switched from [`m] to [`n] using the destructor and placement
+new operator as follows:
+
+[codeblock]
+u.m.~M();
+new (&u.n) N;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%[`union][!anonymous]]
+A union of the form
+
+[syntax:explanation]
+[`union] [`{] [~member-specification] [`}] [`;]
+[syntax:end]
+
+[:en@~]
+is called an [def anonymous union]; it defines an unnamed object of unnamed
+type.
+
+[:en]
+Each [~member-declaration] in the [~member-specification] of an anonymous union
+shall either define a non-static data member or be a
+[~static_assert-declaration].
+
+[enter:note]
+[:en]
+Nested types, anonymous unions, and functions cannot be declared within an
+anonymous union.
+[exit:note]
+
+[:en]
+The names of the members of an anonymous union shall be distinct from the names
+of any other entity in the scope in which the anonymous union is declared.
+
+[:en]
+For the purpose of name lookup, after the anonymous union definition, the
+members of the anonymous union are considered to have been defined in the scope
+in which the anonymous union is declared.
+
+[%initialization[![`union]]]
+[enter:example]
+[codeblock]
+void f() {
+  union { int a; const char* p; };
+  a = 1;
+  p = "Jennifer";
+}
+[codeblock:end]
+
+[:en]
+Here [`a] and [`p] are used like ordinary (nonmember) variables, but since they
+are union members they have the same address.
+[exit:example]
+
+[para]
+[:en]
+[%[`union][!global anonymous]]
+[%scope[!anonymous [`union] at namespace]]
+Anonymous unions declared in a named namespace or in the global namespace shall
+be declared [`static].
+
+[:en]
+Anonymous unions declared at block scope shall be declared with any storage
+class allowed for a block-scope variable, or with no storage class.
+
+[:en]
+A storage class is not allowed in a declaration of an anonymous union in a class
+scope.
+
+[:en]
+[%access control[!anonymous [`union]]]
+[%restriction[!anonymous [`union]]]
+An anonymous union shall not have [`private] or [`protected] members (Clause
+[#class.access]).
+
+[:en]
+An anonymous union shall not have function members.
+
+[para]
+[:en]
+A union for which objects, pointers, or references are declared is not an
+anonymous union.
+
+[enter:example]
+[codeblock]
+void f() {
+  union { int aa; char* p; } obj, *ptr = &obj;
+  aa = 1;                         // [:en] error
+  ptr->aa = 1;                    // OK
+}
+[codeblock:end]
+
+[:en]
+The assignment to plain [`aa] is ill-formed since the member name is not visible
+outside the union, and even if it were visible, it is not associated with any
+particular object.
+[exit:example]
+
+[enter:note]
+[:en]
+Initialization of unions with no user-declared constructors is described in
+([#dcl.init.aggr]).
+[exit:note]
+
+[para]
+[:en]
+A [+union-like class] is a union or a class that has an anonymous union as a
+direct member.
+
+[:en]
+A union-like class [`X] has a set of [+variant members].
+
+[:en]
+If [`X] is a union, a non-static data member of [`X] that is not an anonymous
+union is a variant member of [`X].
+
+[:en]
+In addition, a non-static data member of an anonymous union that is a member of
+[`X] is also a variant member of [`X].
+
+[:en]
+At most one variant member of a union may have a [~brace-or-equal-initializer].
+
+[enter:example]
+[codeblock]
+union U {
+  int x = 0;
+  union { };
+  union {
+    int z;
+    int y = 1; // [:en] error: initialization for second variant member of [`U]
+  };
+};
+[codeblock:end]
+[exit:example]

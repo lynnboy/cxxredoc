@@ -1,0 +1,149 @@
+﻿[section#class.mfct
+    [:en] Member functions
+]
+
+[%  [:en] member function[!class]]
+
+[para]
+[:en]
+Functions declared in the definition of a class, excluding those declared with a
+[`friend] specifier ([#class.friend]), are called member functions of that
+class.
+
+[:en]
+A member function may be declared [`static] in which case it is a [+static]
+member function of its class ([#class.static]); otherwise it is a [+non-static]
+member function of its class ([#class.mfct.non-static], [#class.this]).
+
+[para]
+[:en]
+[%member function[!inline]]
+[%definition[!member function]]
+A member function may be defined ([#dcl.fct.def]) in its class definition, in
+which case it is an [+inline] member function ([#dcl.fct.spec]), or it may be
+defined outside of its class definition if it has already been declared but not
+defined in its class definition.
+
+[:en]
+A member function definition that appears outside of the class definition shall
+appear in a namespace scope enclosing the class definition.
+
+[:en]
+Except for member function definitions that appear outside of a class
+definition, and except for explicit specializations of member functions of class
+templates and member function templates ([#temp.spec]) appearing outside of the
+class definition, a member function shall not be redeclared.
+
+[para]
+[:en]
+An [`inline] member function (whether static or non-static) may also be defined
+outside of its class definition provided either its declaration in the class
+definition or its definition outside of the class definition declares the
+function as [`inline].
+
+[enter:note]
+[:en]
+Member functions of a class in namespace scope have the linkage of that class.
+
+[:en]
+Member functions of a local class ([#class.local]) have no linkage.
+
+[:en]
+See [#basic.link].
+[exit:note]
+
+[para]
+[:en]
+There shall be at most one definition of a non-inline member function in a
+program; no diagnostic is required.
+
+[:en]
+There may be more than one [`inline] member function definition in a program.
+
+[:en]
+See [#basic.def.odr] and [#dcl.fct.spec].
+
+[para]
+[:en]
+[%operator[!scope resolution]]
+If the definition of a member function is lexically outside its class
+definition, the member function name shall be qualified by its class name using
+the [`::] operator.
+
+[enter:note]
+[:en]
+A name used in a member function definition (that is, in the
+[~parameter-declaration-clause] including the default arguments
+([#dcl.fct.default]) or in the member function body) is looked up as described
+in [#basic.lookup].
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct X {
+  typedef int T;
+  static T count;
+  void f(T);
+};
+void X::f(T t = count) { }
+[codeblock:end]
+
+[:en]
+The member function [`f] of class [`X] is defined in global scope; the notation
+[`X::f] specifies that the function [`f] is a member of class [`X] and in the
+scope of class [`X].
+
+[:en]
+In the function definition, the parameter type [`T] refers to the typedef member
+[`T] declared in class [`X] and the default argument [`count] refers to the
+static data member [`count] declared in class [`X].
+[exit:example]
+
+[para]
+[:en]
+A [`static] local variable in a member function always refers to the same
+object, whether or not the member function is [`inline].
+
+[para]
+[:en]
+Previously declared member functions may be mentioned in [`friend] declarations.
+
+[para]
+[:en]
+[%local class[!member function in]]
+Member functions of a local class shall be defined inline in their class
+definition, if they are defined at all.
+
+[para]
+[enter:note]
+[:en]
+A member function can be declared (but not defined) using a typedef for a
+function type.
+
+[:en]
+The resulting member function has exactly the same type as it would have if the
+function declarator were provided explicitly, see [#dcl.fct].
+
+[:en]
+For example,
+
+[codeblock]
+typedef void fv(void);
+typedef void fvc(void) const;
+struct S {
+  fv memfunc1;      // [:en] equivalent to: [`void memfunc1(void);]
+  void memfunc2();
+  fvc memfunc3;     // [:en] equivalent to: [`void memfunc3(void) const;]
+};
+fv  S::* pmfv1 = &S::memfunc1;
+fv  S::* pmfv2 = &S::memfunc2;
+fvc S::* pmfv3 = &S::memfunc3;
+[codeblock:end]
+
+[:en]
+Also see [#temp.arg].
+[exit:note]
+
+[include class.mfct.non-static]
+
+[include class.this]
