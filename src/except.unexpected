@@ -1,0 +1,56 @@
+﻿[section#except.unexpected
+    [:en] The [`std::unexpected()] function
+]
+
+[para]
+[%[`unexpected()]]
+[:en]
+If a function with a [~dynamic-exception-specification] exits via an exception
+of a type that is not allowed by its exception specification, the function
+[`std::unexpected()] is called ([#exception.unexpected]) immediately after
+completing the stack unwinding for the former function.
+
+[para]
+[enter:note]
+[:en]
+By default, [`std::unexpected()] calls [`std::terminate()], but a program can
+install its own handler function ([#set.unexpected]).
+
+[:en]
+In either case, the constraints in the following paragraph apply.
+[exit:note]
+
+[para]
+[:en]
+The [`std::unexpected()] function shall not return, but it can throw (or
+rethrow) an exception.
+
+[:en]
+If it throws a new exception which is allowed by the exception specification
+which previously was violated, then the search for another handler will continue
+at the call of the function whose exception specification was violated.
+
+[:en]
+If it exits via an exception of a type that the
+[~dynamic-exception-specification] does not allow, then the following happens:
+
+[%[`bad_exception]]
+[:en]
+If the [~dynamic-exception-specification] does not include the class
+[`std::bad_exception] ([#bad.exception]) then the function [`std::terminate()]
+is called, otherwise the thrown exception is replaced by an
+implementation-defined object of type [`std::bad_exception] and the search for
+another handler will continue at the call of the function whose
+[~dynamic-exception-specification] was violated.
+
+[para]
+[enter:note]
+[:en]
+Thus, a [~dynamic-exception-specification] guarantees that a function exits only
+via an exception of one of the listed types.
+
+[:en]
+If the [~dynamic-exception-specification] includes the type
+[`std::bad_exception] then any exception type not on the list may be replaced by
+[`std::bad_exception] within the function [`std::unexpected()].
+[exit:note]

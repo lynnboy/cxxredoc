@@ -1,0 +1,47 @@
+﻿[section#cpp.stringize
+    [:en] The [`#] operator
+]
+[:en]
+[%[`#] operator]
+[%stringize[see [`#]]
+
+[para]
+[:en]
+Each [`#] preprocessing token in the replacement list for a function-like macro
+shall be followed by a parameter as the next preprocessing token in the
+replacement list.
+
+[para]
+[:en]
+A [def character string literal] is a [~string-literal] with no prefix.
+
+[:en]
+If, in the replacement list, a parameter is immediately preceded by a [`#]
+preprocessing token, both are replaced by a single character string literal
+preprocessing token that contains the spelling of the preprocessing token
+sequence for the corresponding argument.
+
+[:en]
+Each occurrence of white space between the argument[=']s preprocessing tokens
+becomes a single space character in the character string literal.
+
+[:en]
+White space before the first preprocessing token and after the last
+preprocessing token comprising the argument is deleted.
+
+[:en]
+Otherwise, the original spelling of each preprocessing token in the argument is
+retained in the character string literal, except for special handling for
+producing the spelling of string literals and character literals: a [`\]
+character is inserted before each [`"] and [`\] character of a character literal
+or string literal (including the delimiting [`"] characters).
+
+[:en]
+If the replacement that results is not a valid character string literal, the
+behavior is undefined.
+
+[:en]
+The character string literal corresponding to an empty argument is [`""].
+
+[:en]
+The order of evaluation of [`#] and [`##] operators is unspecified.

@@ -1,0 +1,211 @@
+﻿[section:chapter#cpp
+    [:en] Preprocessing directives
+]
+
+[%:begin#preprocessing.directives
+    [:en] preprocessing directives
+]
+
+[:en]
+[%compiler control line[see preprocessing directives]]
+[%control line[see preprocessing directives]]
+[%directive[!preprocessing][see preprocessing directives]]
+
+[/
+%gram: \rSec1[gram.cpp]{Preprocessing directives}
+%gram:
+/]
+
+[para]
+[:en]
+A [def preprocessing directive] consists of a sequence of preprocessing tokens
+that satisfies the following constraints:
+
+[:en]
+The first token in the sequence is a [`#] preprocessing token that (at the start
+of translation phase 4) is either the first character in the source file
+(optionally after white space containing no new-line characters) or that follows
+white space containing at least one new-line character.
+
+[:en]
+The last token in the sequence is the first new-line character that follows the
+first token in the sequence.
+
+[footnote]
+[:en]
+Thus, preprocessing directives are commonly called ["lines.]
+
+[:en]
+These ["lines] have no other syntactic significance, as all white space is
+equivalent except in certain situations during preprocessing (see the [`#]
+character string literal creation operator in [#cpp.stringize], for example).
+[footnote:end]
+
+[:en]
+A new-line character ends the preprocessing directive even if it occurs within
+what would otherwise be an invocation of a function-like macro.
+
+[syntax]
+[rule preprocessing-file [:zh_CN] ]
+    [| [~:opt group] ]
+[rule:end]
+
+[rule group [:zh_CN ] ]
+    [| group-part ]
+    [| group group-part ]
+[rule:end]
+
+[rule group-part [:zh_CN] ]
+    [| if-section ]
+    [| control-line ]
+    [| text-line ]
+    [| [`#] non-directive ]
+[rule:end]
+
+[rule if-section [:zh_CN] ]
+    [| if-group [~:opt elif-groups] [~:opt else-group] endif-line ]
+[rule:end]
+
+[rule@aligned if-group [:zh_CN] ]
+    [| [`#] [`if]       constant-expression new-line [~:opt group] ]
+    [| [`#] [`ifdef]    identifier new-line [~:opt group] ]
+    [| [`#] [`ifndef]   identifier new-line [~:opt group] ]
+[rule:end]
+
+[rule elif-groups [:zh_CN] ]
+    [| elif-group ]
+    [| elif-groups elif-group ]
+[rule:end]
+
+[rule@aligned elif-group [:zh_CN] ]
+    [| [`#] [`elif]     constant-expression new-line [~:opt group] ]
+[rule:end]
+
+[rule@aligned else-group [:zh_CN] ]
+    [| [`#] [`else]     new-line [~:opt group] ]
+[rule:end]
+
+[rule@aligned endif-line [:zh_CN] ]
+    [| [`#] [`endif]    new-line ]
+[rule:end]
+
+[rule@aligned control-line [:zh_CN] ]
+    [| [`#] [`include]  pp-tokens new-line ]
+    [| [`#] [`define]   identifier replacement-list new-line ]
+    [| [`#] [`define]   identifier lparen [~:opt identifier-list] [`)] replacement-list new-line ]
+    [| [`#] [`define]   identifier lparen [`...] [`)] replacement-list new-line ]
+    [| [`#] [`define]   identifier lparen identifier-list, [`...] [`)] replacement-list new-line ]
+    [| [`#] [`undef]    identifier new-line ]
+    [| [`#] [`line]     pp-tokens new-line ]
+    [| [`#] [`error]    [~:opt pp-tokens] new-line ]
+    [| [`#] [`pragma]   [~:opt pp-tokens] new-line ]
+    [| [`#] new-line ]
+[rule:end]
+
+[rule text-line [:zh_CN] ]
+    [| [~:opt pp-tokens] new-line ]
+[rule:end]
+
+[rule non-directive [:zh_CN] ]
+    [| pp-tokens new-line ]
+[rule:end]
+
+[rule lparen [:zh_CN] ]
+    [|:descriptive
+        [:en] a [`(] character not immediately preceded by white-space
+    ]
+[rule:end]
+
+[rule identifier-list [:zh_CN] ]
+    [| identifier ]
+    [| identifier-list [`,] identifier ]
+[rule:end]
+
+[rule replacement-list [:zh_CN] ]
+    [| [~:opt pp-tokens] ]
+[rule:end]
+
+[rule pp-tokens [:zh_CN] ]
+    [| preprocessing-token ]
+    [| pp-tokens preprocessing-token ]
+[rule:end]
+
+[rule new-line [:zh_CN] ]
+    [|:descriptive
+        [:en] the new-line character
+    ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+A text line shall not begin with a [`#] preprocessing token.
+
+[:en]
+A non-directive shall not begin with any of the directive names appearing in the
+syntax.
+
+[para]
+[:en]
+When in a group that is skipped ([#cpp.cond]), the directive syntax is relaxed
+to allow any sequence of preprocessing tokens to occur between the directive
+name and the following new-line character.
+
+[para]
+[:en]
+The only white-space characters that shall appear between preprocessing tokens
+within a preprocessing directive (from just after the introducing [`#]
+preprocessing token through just before the terminating new-line character)
+are space and horizontal-tab (including spaces that have replaced comments or
+possibly other white-space characters in translation phase 3).
+
+[para]
+[:en]
+The implementation can process and skip sections of source files conditionally,
+include other source files, and replace macros.
+
+[:en]
+These capabilities are called [+preprocessing], because conceptually they occur
+before translation of the resulting translation unit.
+
+[para]
+[:en]
+The preprocessing tokens within a preprocessing directive are not subject to
+macro expansion unless otherwise stated.
+
+[para:~]
+[enter:example]
+[:en]
+In:
+
+[codeblock]
+#define EMPTY
+EMPTY   #   include <file.h>
+[codeblock:end]
+
+[:en@~]
+the sequence of preprocessing tokens on the second line is [em not]
+a preprocessing directive, because it does not begin with a [`#] at the start of
+translation phase 4, even though it will do so after the macro [`EMPTY] has been
+replaced.
+[exit:example]
+
+[include cpp.cond]
+
+[include cpp.include]
+
+[include cpp.replace]
+
+[include cpp.line]
+
+[include cpp.error]
+
+[include cpp.pragma]
+
+[include cpp.null]
+
+[include cpp.predefined]
+
+[include cpp.pragma.op]
+
+[%:end#preprocessing.directives]

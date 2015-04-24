@@ -1,0 +1,67 @@
+﻿[section#except.ctor
+    [:en] Constructors and destructors
+]
+[%exception handling[!constructors and destructors]]
+[%stack unwinding[!see exception handling[!constructors and destructors]]]
+[%constructor[!exception handling][see exception handling[!constructors and destructors]]]
+[%destructor[!exception handling][see exception handling[!constructors and destructors]]]
+
+[para]
+[:en]
+[%unwinding[!stack]]
+As control passes from the point where an exception is thrown to a handler,
+destructors are invoked by a process, specified in this section, called
+[def stack unwinding].
+
+[:en]
+If a destructor directly invoked by stack unwinding exits with an exception,
+[`std::terminate] is called ([#except.terminate]).
+
+[enter:note]
+[:en]
+Consequently, destructors should generally catch exceptions and not let them
+propagate out of the destructor.
+[exit:note]
+
+[para]
+[:en]
+The destructor is invoked for each automatic object of class type constructed
+since the try block was entered.
+
+[:en]
+The automatic objects are destroyed in the reverse order of the completion of
+their construction.
+
+[para]
+[:en]
+For an object of class type of any storage duration whose initialization or
+destruction is terminated by an exception, the destructor is invoked for each of
+the object[=']s fully constructed subobjects, that is, for each subobject for
+which the principal constructor ([#class.base.init]) has completed execution
+and the destructor has not yet begun execution, except that in the case of
+destruction, the variant members of a union-like class are not destroyed.
+
+[:en]
+The subobjects are destroyed in the reverse order of the completion of their
+construction.
+
+[:en]
+Such destruction is sequenced before entering a handler of the
+[~function-try-block] of the constructor or destructor, if any.
+
+[para]
+[:en]
+Similarly, if the non-delegating constructor for an object has completed
+execution and a delegating constructor for that object exits with an exception,
+the object[=']s destructor is invoked.
+
+[:en]
+Such destruction is sequenced before entering a handler of the
+[~function-try-block] of a delegating constructor for that object, if any.
+
+[para]
+[enter:note]
+If the object was allocated by a [~new-expression] ([#expr.new]), the matching
+deallocation function ([#basic.stc.dynamic.deallocation]), if any, is called to
+free the storage occupied by the object.
+[exit:note]

@@ -1,0 +1,108 @@
+﻿[section#except.terminate
+    [:en] The [`std::terminate()] function
+]
+
+[para]
+[:en]
+[%[`terminate()]]
+In some situations exception handling must be abandoned for less subtle error
+handling techniques.
+
+[enter:note]
+[:en]
+These situations are:
+
+[%[`terminate()][!called]]
+[list]
+[item]
+[:en] when the exception handling mechanism, after completing the initialization
+of the exception object but before activation of a handler for the exception
+([#except.throw]), calls a function that exits via an exception, or
+
+[item]
+[:en] when the exception handling mechanism cannot find a handler for a thrown
+exception ([#except.handle]), or
+
+[item]
+[:en] when the search for a handler ([#except.handle]) encounters the outermost
+block of a function with a [~noexcept-specification] that does not allow the
+exception ([#except.spec]), or
+
+[item]
+[:en] when the destruction of an object during stack unwinding ([#except.ctor])
+terminates by throwing an exception, or
+
+[item]
+[:en] when initialization of a non-local variable with static or thread storage
+duration ([#basic.start.init]) exits via an exception, or
+
+[item]
+[:en] when destruction of an object with static or thread storage duration exits
+via an exception ([#basic.start.term]), or
+
+[item]
+[:en] when execution of a function registered with [`std::atexit] or
+[`std::at_quick_exit] exits via an exception ([#support.start.term]), or
+
+[item]
+[:en] when a [~throw-expression] ([#expr.throw]) with no operand attempts to
+rethrow an exception and no exception is being handled ([#except.throw]), or
+
+[item]
+[:en] when [`std::unexpected] exits via an exception of a type that is not
+allowed by the previously violated exception specification, and
+[`std::bad_exception] is not included in that exception specification
+([#except.unexpected]), or
+
+[item]
+[:en] when the implementation[=']s default unexpected exception handler is
+called ([#unexpected.handler]), or
+
+[item]
+[:en] when the function [`std::nested_exception::rethrow_nested] is called for
+an object that has captured no exception ([#except.nested]), or
+
+[item]
+[:en] when execution of the initial function of a thread exits via an exception
+([#thread.thread.constr]), or
+
+[item]
+[:en] when the destructor or the copy assignment operator is invoked on an
+object of type [`std::thread] that refers to a joinable thread
+([#thread.thread.destr], [#thread.thread.assign]), or
+
+[item]
+[:en] when a call to a [`wait()], [`wait_until()], or [`wait_for()] function on
+a condition variable ([#thread.condition.condvar],
+[#thread.condition.condvarany]) fails to meet a postcondition.
+
+[list:end]
+
+[exit:note]
+
+[para]
+[:en]
+[%[`terminate()]]
+In such cases, [`std::terminate()] is called ([#exception.terminate]).
+
+[:en]
+In the situation where no matching handler is found, it is [%@impldef stack
+unwinding before call to [`std::terminate()]] implementation-defined whether or
+not the stack is unwound before [`std::terminate()] is called.
+
+[:en]
+In the situation where the search for a handler ([#except.handle]) encounters
+the outermost block of a function with a [~noexcept-specification] that does not
+allow the exception ([#except.spec]), it is [%@impldef whether stack is unwound
+before calling [`std::terminate()] when a [`noexcept] specification is violated]
+implementation-defined whether the stack is unwound, unwound partially, or not
+unwound at all before [`std::terminate()] is called.
+
+[:en]
+In all other situations, the stack shall not be unwound before
+[`std::terminate()] is called.
+
+[:en]
+An implementation is not permitted to finish stack unwinding prematurely based
+on a determination that the unwind process will eventually cause a call to
+[`std::terminate()].

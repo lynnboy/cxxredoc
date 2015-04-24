@@ -1,0 +1,189 @@
+﻿[section:chapter#except
+    [:en] Exception handling
+]
+[%:begin#exception.handling
+    [:en] exception handling
+]
+
+[/
+%gram: \rSec1[gram.except]{Exception handling}
+%gram:
+/]
+
+[% [:en] exception object[see exception handling][see exception object]
+]
+[% [:en] object [!exception][see exception handling][see exception object]
+]
+
+[para]
+[:en]
+Exception handling provides a way of transferring control and information from a
+point in the execution of a thread to an exception handler associated with a
+point previously passed by the execution.
+
+[:en]
+A handler will be invoked only by throwing an exception in code executed in the
+handler[=']s try block or in functions called from the handler[=']s try block.
+
+[syntax]
+[%[`try]]
+[rule try-block [:zh_CN] ]
+    [| [`try] compound-statement handler-seq ]
+[rule:end]
+
+[%[`try]]
+[rule function-try-block [:zh_CN] ]
+    [| [`try] [~:opt ctor-initializer] compound-statement handler-seq ]
+[rule:end]
+
+[rule handler-seq [:zh_CN] ]
+    [| handler [~:opt handler-seq] ]
+[rule:end]
+
+[%[`catch]]
+[rule handler [:zh_CN] ]
+    [| [`catch] [`(] exception-declaration [`)] compound-statement ]
+[rule:end]
+
+[rule exception-declaration [:zh_CN] ]
+    [| [~:opt attribute-specifier-seq] type-specifier-seq declarator ]
+    [| [~:opt attribute-specifier-seq] type-specifier-seq [~:opt abstract-declarator] ]
+    [| [`...] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+The optional [~attribute-specifier-seq] in an [~exception-declaration]
+appertains to the parameter of the catch clause ([#except.handle]).
+
+[para]
+[:en]
+[%exception handling[!try block]]
+[%exception handling[!handler]]
+[%try block[see exception handling[!try block]]]
+[%handler[see exception handling[!handler]]]
+A [~try-block] is a [~statement] (Clause [#stmt.stmt]).
+
+[enter:note]
+[:en]
+Within this Clause ["try block] is taken to mean both [~try-block] and
+[~function-try-block].
+[exit:note]
+
+[para]
+[:en]
+[%exception handling[![`goto]]]
+[%exception handling[![`switch]]]
+[%[`goto][!and try block]]
+[%[`switch][!and try block]]
+[%[`goto][!and handler]]
+[%[`switch][!and handler]]
+A [`goto] or [`switch] statement shall not be used to transfer control into a
+try block or into a handler.
+
+[enter:example]
+[codeblock]
+void f() {
+  goto l1;          // [:en] Ill-formed
+  goto l2;          // [:en] Ill-formed
+  try {
+    goto l1;        // OK
+    goto l2;        // [:en] Ill-formed
+    l1: ;
+  } catch (...) {
+    l2: ;
+    goto l1;        // [:en] Ill-formed
+    goto l2;        // OK
+  }
+}
+
+[codeblock:end]
+[exit:example]
+
+[:en]
+[%[`goto][!and try block]]
+[%[`switch][!and try block]]
+[%[`return][!and try block]]
+[%[`continue][!and try block]]
+[%[`goto][!and handler]]
+[%[`switch][!and handler]]
+[%[`return][!and handler]]
+[%[`continue][!and handler]]
+A [`goto], [`break], [`return], or [`continue] statement can be used to transfer
+control out of a try block or handler.
+
+[:en]
+When this happens, each variable declared in the try block will be destroyed in
+the context that directly contains its declaration.
+
+[enter:example]
+[codeblock
+    special@condition
+]
+lab:  try {
+  T1 t1;
+  try {
+    T2 t2;
+    if (condition)
+      goto lab;
+    } catch(...) { /* handler 2 */ }
+  } catch(...) { /* handler 1 */ }
+[codeblock:end]
+
+[:en]
+Here, executing [`goto lab;] will destroy first [`t2], then [`t1], assuming the
+[$condition] does not declare a variable.
+
+[:en]
+Any exception raised while destroying [`t2] will result in executing
+[$handler 2]; any exception raised while destroying [`t1] will result in
+executing [$handler 1].
+[exit:example]
+
+[para]
+[:en]
+[%function try block[see exception handling [!function try block]]]
+[%exception handling[!function try block]]
+A [~function-try-block] associates a [~handler-seq] with the
+[~ctor-initializer], if present, and the [~compound-statement].
+
+[:en]
+An exception thrown during the execution of the [~compound-statement] or, for
+constructors and destructors, during the initialization or destruction,
+respectively, of the class[=']s subobjects, transfers control to a handler in a
+[~function-try-block] in the same way as an exception thrown during the
+execution of a [~try-block] transfers control to other handlers.
+
+[enter:example]
+[codeblock]
+int f(int);
+class C {
+  int i;
+  double d;
+public:
+  C(int, double);
+};
+
+C::C(int ii, double id)
+try : i(f(ii)), d(id) {
+    // [:en] constructor statements
+}
+catch (...) {
+    // [:en] handles exceptions thrown from the ctor-initializer
+    // [:en@~] and from the constructor statements
+}
+
+[codeblock:end]
+[exit:example]
+
+[include except.throw]
+
+[include except.ctor]
+
+[include except.handle]
+
+[include except.spec]
+
+[include except.special]
+
+[%:end#exception.handling]

@@ -1,0 +1,40 @@
+﻿[section#cpp.rescan
+    [:en] Rescanning and further replacement
+]
+
+[:en]
+[%macro[!rescanning and replacement]]
+[%rescanning and replacement[see macro[!rescanning and replacement]]]
+
+[para]
+[:en]
+After all parameters in the replacement list have been substituted and [`#] and
+[`##] processing has taken place, all placemarker preprocessing tokens are
+removed.
+
+[:en]
+Then the resulting preprocessing token sequence is rescanned, along with all
+subsequent preprocessing tokens of the source file, for more macro names to
+replace.
+
+[para]
+[:en]
+If the name of the macro being replaced is found during this scan of the
+replacement list (not including the rest of the source file[=']s preprocessing
+tokens), it is not replaced.
+
+[:en]
+Furthermore, if any nested replacements encounter the name of the macro being
+replaced, it is not replaced.
+
+[:en]
+These nonreplaced macro name preprocessing tokens are no longer available for
+further replacement even if they are later (re)examined in contexts in which
+that macro name preprocessing token would otherwise have been replaced.
+
+[para]
+[:en]
+The resulting completely macro-replaced preprocessing token sequence is not
+processed as a preprocessing directive even if it resembles one, but all pragma
+unary operator expressions within it are then processed as specified in
+[#cpp.pragma.op] below.
