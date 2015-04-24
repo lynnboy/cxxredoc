@@ -1,0 +1,149 @@
+﻿[section#cpp.include
+    [:en] Source file inclusion
+]
+
+[:en]
+[%preprocessing directives [!header inclusion]]
+[%preprocessing directives [!source-file inclusion]]
+[%inclusion[!source file][see preprocessing directives[!source-file inclusion]]]
+[%[`#include]]
+
+[para]
+[:en]
+A [`#include] directive shall identify a header or source file that can be
+processed by the implementation.
+
+[para]
+[:en]
+[%[`<...>][see preprocessing directive[!header]]]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`include] [`<][~h-char-sequence][`>] [~new-line]
+[syntax:end]
+
+[:en@~]
+searches a sequence of [%@impldef sequence of places searched for a header]
+implementation-defined places for a header identified uniquely by the specified
+sequence between the [`<] and [`>] delimiters, and causes the replacement of
+that directive by the entire contents of the header.
+
+[:en]
+How the places are specified or the header identified is [%@impldef search
+locations for [`<>] header] implementation-defined.
+
+[para]
+[:en]
+[%[`"..."][see preprocessing directives[!source-file inclusion]]]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`include] [`"][~q-char-sequence][`"] [~new-line]
+[syntax:end]
+
+[:en@~]
+causes the replacement of that directive by the entire contents of the source
+file identified by the specified sequence between the [`"] delimiters.
+
+[:en]
+The named source file is searched for in an [%@impldef manner of search for
+included source file] implementation-defined manner.
+
+[:en]
+If this search is not supported, or if the search fails, the directive is
+reprocessed as if it read
+
+[syntax:explanation]
+[`#] [`include] [`<][~h-char-sequence][`>] [~new-line]
+[syntax:end]
+
+[:en@~]
+with the identical contained sequence (including [`>] characters, if any) from
+the original directive.
+
+[para]
+[:en]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`include] [~pp-tokens] [~new-line]
+[syntax:end]
+
+[:en@~]
+(that does not match one of the two previous forms) is permitted.
+
+[:en]
+The preprocessing tokens after [`include] in the directive are processed just as
+in normal text (i.e., each identifier currently defined as a macro name is
+replaced by its replacement list of preprocessing tokens).
+
+[:en]
+If the directive resulting after all replacements does not match one of the two
+previous forms, the behavior is undefined.
+
+[footnote]
+[:en]
+Note that adjacent string literals are not concatenated into a single string
+literal (see the translation phases in [#lex.phases]); thus, an expansion that
+results in two string literals is an invalid directive.
+[footnote:end]
+
+[:en]
+The method by which a sequence of preprocessing tokens between a [`<] and a [`>]
+preprocessing token pair or a pair of [`"] characters is combined into a single
+header name preprocessing token is [%@impldef search locations for [`""] header]
+implementation-defined.
+
+[para]
+[:en]
+The implementation shall provide unique mappings for sequences consisting of one
+or more [~nondigit]s or [~digit]s ([#lex.name]) followed by a period ([`.]) and
+a single [~nondigit].
+
+[:en]
+The first character shall not be a [~digit].
+
+[:en]
+The implementation may ignore distinctions of alphabetical case.
+
+[para]
+A [`#include] preprocessing directive may appear in a source file that has been
+read because of a [`#include] directive in another file, up to an [%@impldef
+nesting limit for [`#include] directives] implementation-defined nesting limit.
+
+[para]
+[enter:note]
+[:en]
+Although an implementation may provide a mechanism for making arbitrary source
+files available to the [`< >] search, in general programmers should use the
+[`< >] form for headers provided with the implementation, and the [`" "] form
+for sources outside the control of the implementation.
+
+[:en]
+For instance:
+
+[codeblock]
+#include <stdio.h>
+#include <unistd.h>
+#include "usefullib.h"
+#include "myprog.h"
+[codeblock:end]
+
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+This illustrates macro-replaced [`#include] directives:
+
+[codeblock]
+#if VERSION == 1
+    #define INCFILE  "vers1.h"
+#elif VERSION == 2
+    #define INCFILE  "vers2.h"   // [:en] and so on
+#else
+    #define INCFILE  "versN.h"
+#endif
+#include INCFILE
+[codeblock:end]
+[exit:example]

@@ -1,0 +1,58 @@
+﻿[section#cpp.pragma.op
+    [:en] Pragma operator
+]
+[:en]
+[%macro[!pragma operator]]
+[%operator[!pragma][see macro[!pragma operator]]]
+
+[:en]
+A unary operator expression of the form:
+
+[syntax:explanation]
+[`_Pragma] [`(] [~string-literal] [`)]
+[syntax:end]
+
+[:en@~]
+is processed as follows:
+
+[:en]
+The string literal is [+destringized] by deleting the [`L] prefix, if present,
+deleting the leading and trailing double-quotes, replacing each escape sequence
+[`\"] by a double-quote, and replacing each escape sequence [`\\] by a single
+backslash.
+
+[:en]
+The resulting sequence of characters is processed through translation phase 3
+to produce preprocessing tokens that are executed as if they were the
+[~pp-tokens] in a pragma directive.
+
+[:en]
+The original four preprocessing tokens in the unary operator expression are
+removed.
+
+[para:~]
+[enter:example]
+
+[codeblock]
+#pragma listing on "..\listing.dir"
+[codeblock:end]
+
+[:en@~]
+can also be expressed as:
+
+[codeblock]
+_Pragma ( "listing on \"..\\listing.dir\"" )
+[codeblock:end]
+
+[:en]
+The latter form is processed in the same way whether it appears literally
+as shown, or results from macro replacement, as in:
+
+[codeblock]
+#define LISTING(x) PRAGMA(listing on #x)
+#define PRAGMA(x) _Pragma(#x)
+
+LISTING( ..\listing.dir )
+[codeblock:end]
+
+[exit:example]

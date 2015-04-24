@@ -1,0 +1,67 @@
+﻿[section#cpp.line
+    [:en] Line control
+]
+
+[:en]
+[%preprocessing directives[!line control]]
+[%[`#line][see preprocessing directives[!line control]]]
+
+[para]
+[:en]
+The string literal of a [`#line] directive, if present, shall be a character
+string literal.
+
+[para]
+The [+line number] of the current source line is one greater than the number of
+new-line characters read or introduced in translation phase 1 ([#lex.phases])
+while processing the source file to the current token.
+
+[para]
+[:en]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`line] [~digit-sequence] [~new-line]
+[syntax:end]
+
+[:en@~]
+causes the implementation to behave as if the following sequence of source lines
+begins with a source line that has a line number as specified by the digit
+sequence (interpreted as a decimal integer).
+
+[:en]
+If the digit sequence specifies zero or a number greater than 2147483647, the
+behavior is undefined.
+
+[para]
+[:en]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`line] [~digit-sequence] [`"] [~:opt s-char-sequence] [`"] [~new-line]
+[syntax:end]
+
+[:en@~]
+sets the presumed line number similarly and changes the presumed name of the
+source file to be the contents of the character string literal.
+
+[para]
+[:en]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`line] [~pp-tokens] [~new-line]
+[syntax:end]
+
+[:en@~]
+(that does not match one of the two previous forms) is permitted.
+
+[:en]
+The preprocessing tokens after [`line] on the directive are processed just as in
+normal text (each identifier currently defined as a macro name is replaced by
+its replacement list of preprocessing tokens).
+
+[:en]
+If the directive resulting after all replacements does not match one of the two
+previous forms, the behavior is undefined; otherwise, the result is processed as
+appropriate.

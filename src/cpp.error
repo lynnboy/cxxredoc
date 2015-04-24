@@ -1,0 +1,18 @@
+﻿[section#cpp.error
+    [:en] Error directive
+]
+[:en]
+[%preprocessing directives[!error]]
+[%[`#error][see preprocessing directives[!error]]
+
+[para]
+[:en]
+A preprocessing directive of the form
+
+[syntax:explanation]
+[`#] [`error] [~:opt pp-tokens] [~new-line]
+[syntax:end]
+
+[:en@~]
+causes the implementation to produce a diagnostic message that includes the
+specified sequence of preprocessing tokens, and renders the program ill-formed.

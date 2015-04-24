@@ -1,0 +1,189 @@
+﻿[section#cpp.cond
+    [:en] Conditional inclusion
+]
+
+[%[:en] preprocessing directive[!conditional inclusion]
+]
+[%[:en] inclusion[!conditional][see preprocessing directive[! conditional inclusion]]
+]
+
+[para]
+[:en]
+The expression that controls conditional inclusion shall be an integral constant
+expression except that identifiers (including those lexically identical to
+keywords) are interpreted as described below
+
+[footnote]
+[:en]
+Because the controlling constant expression is evaluated during translation
+phase 4, all identifiers either are or are not macro names [=--] there simply
+are no keywords, enumeration constants, etc.
+[footnote:end]
+
+[:en@~]
+and it may contain unary operator expressions of the form
+
+[syntax:explanation]
+[`defined] [~identifier]
+[syntax:end]
+
+[:en@~]
+or
+
+[syntax:explanation]
+[`defined] [`(] [~identifier] [`)]
+[syntax:end]
+
+[:en@~]
+which evaluate to [`1] if the identifier is currently defined as a macro name
+(that is, if it is predefined or if it has been the subject of a [`#define]
+preprocessing directive without an intervening [`#undef] directive with the same
+subject identifier), [`0] if it is not.
+
+[para]
+[:en]
+Each preprocessing token that remains (in the list of preprocessing tokens that
+will become the controlling expression) after all macro replacements have
+occurred shall be in the lexical form of a token ([#lex.token]).
+
+[para]
+[:en]
+Preprocessing directives of the forms
+
+[syntax:explanation]
+[rule@aligned]
+[%[`#if]]
+    [| [`#] [`if]       constant-expression new-line [~:opt group] ]
+[%[`#elif]]
+    [| [`#] [`elif]     constant-expression new-line [~:opt group] ]
+[rule:end]
+[syntax:end]
+
+[:en@~]
+check whether the controlling constant expression evaluates to nonzero.
+
+[para]
+[:en]
+Prior to evaluation, macro invocations in the list of preprocessing tokens that
+will become the controlling constant expression are replaced (except for those
+macro names modified by the [`defined] unary operator), just as in normal text.
+
+[:en]
+If the token [`defined] is generated as a result of this replacement process or
+use of the [`defined] unary operator does not match one of the two specified
+forms prior to macro replacement, the behavior is undefined.
+
+[:en]
+After all replacements due to macro expansion and the [`defined] unary operator
+have been performed, all remaining identifiers and keywords
+
+[footnote]
+[:en]
+An alternative token ([#lex.digraph]) is not an identifier, even when its
+spelling consists entirely of letters and underscores.
+
+[:en]
+Therefore it is not subject to this replacement.
+[footnote:end]
+
+[:en@~]
+, except for [`true] and [`false], are replaced with the pp-number [`0], and
+then each preprocessing token is converted into a token.
+
+[:en]
+The resulting tokens comprise the controlling constant expression which is
+evaluated according to the rules of [#expr.const] using arithmetic that has at
+least the ranges specified in [#support.limits].
+
+[:en]
+For the purposes of this token conversion and evaluation all signed and unsigned
+integer types act as if they have the same representation as, respectively,
+[`intmax_t] or [`uintmax_t] ([#cstdint]).
+
+[footnote]
+[:en]
+Thus on an implementation where [`std::numeric_limits<int>::max()] is [`0x7FFF]
+and [`std::numeric_limits<unsigned int>::max()] is [`0xFFFF], the integer
+literal [`0x8000] is signed and positive within a [`#if] expression even though
+it is unsigned in translation phase 7 ([#lex.phases]).
+[footnote:end]
+
+[:en]
+This includes interpreting character literals, which may involve converting
+escape sequences into execution character set members.
+
+[:en]
+Whether the numeric value for these character literals matches the value
+obtained when an identical character literal occurs in an expression (other than
+within a [`#if] or [`#elif] directive) is [%@impldef numeric values of character
+literals in [`#if] directives] implementation-defined.
+
+[footnote]
+[:en]
+Thus, the constant expression in the following [`#if] directive and [`if]
+statement is not guaranteed to evaluate to the same value in these two contexts.
+
+[codeblock]
+    #if 'z' - 'a' == 25
+    if ('z' - 'a' == 25)
+[codeblock:end]
+[footnote:end]
+
+[:en]
+Also, whether a single-character character literal may have a negative value is
+[%@impldef negative value of character literal in preprocessor]
+implementation-defined.
+
+[:en]
+Each subexpression with type [`bool] is subjected to integral promotion before
+processing continues.
+
+[para]
+[:en]
+Preprocessing directives of the forms
+
+[syntax:explanation]
+[rule@aligned ]
+[%[`#ifdef]]
+    [| [`#] [`ifdef]    identifier new-line [~:opt group] ]
+[%[`#ifndef]]
+    [| [`#] [`ifndef]   identifier new-line [~:opt group] ]
+[rule:end]
+[syntax:end]
+
+[:en@~]
+check whether the identifier is or is not currently defined as a macro name.
+
+[:en]
+Their conditions are equivalent to [`#if defined] [~identifier] and [`#if
+!defined] [~identifier] respectively.
+
+[para]
+[:en]
+Each directive[=']s condition is checked in order.
+
+[:en]
+If it evaluates to false (zero), the group that it controls is skipped:
+directives are processed only through the name that determines the directive in
+order to keep track of the level of nested conditionals; the rest of the
+directives[='] preprocessing tokens are ignored, as are the other preprocessing
+tokens in the group.
+
+[:en]
+Only the first group whose control condition evaluates to true (nonzero) is
+processed.
+
+[:en]
+If none of the conditions evaluates to true, and there is a [`#else] [%[`#else]]
+directive, the group controlled by the [`#else] is processed; lacking a [`#else]
+directive, all the groups until the [`#endif] [%[`#endif]] are skipped.
+
+[footnote]
+[:en]
+As indicated by the syntax, a preprocessing token shall not follow a [`#else] or
+[`#endif] directive before the terminating new-line character.
+
+[:en]
+However, comments may appear anywhere in a source file, including within a
+preprocessing directive.
+[footnote:end]
