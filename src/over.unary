@@ -1,0 +1,35 @@
+﻿[section#over.unary
+    [:en] Unary operators
+]
+
+[:en]
+[%unary operator[!overloaded]]
+[%overloading[!unary operator]]
+
+[para]
+[:en]
+A prefix unary operator shall be implemented by a non-static member function
+([#class.mfct]) with no parameters or a non-member function with one parameter.
+
+[%unary operator[!interpretation of]]
+Thus, for any prefix unary operator [`@], [`@x] can be interpreted as either
+[`x.operator@()] or [`operator@(x)].
+
+[:en]
+If both forms of the operator function have been declared, the rules in
+[#over.match.oper] determine which, if any, interpretation is used.
+
+[:en]
+See [#over.inc] for an explanation of the postfix unary operators [`++] and
+[`--].
+
+[para]
+[:en]
+The unary and binary forms of the same operator are considered to have the same
+name.
+
+[enter:note]
+[:en]
+Consequently, a unary operator can hide a binary operator from an enclosing
+scope, and vice versa.
+[exit:note]

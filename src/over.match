@@ -1,0 +1,114 @@
+﻿[section#over.match
+    [:en] Overload resolution
+]
+
+[%:begin#overloading.resolution
+    [:en] overloading [!resolution]
+]
+[%[:en] resolution[see overloading[!resolution]]
+]
+[%[:en] ambiguity[!overloaded function]
+]
+
+[para]
+[:en]
+Overload resolution is a mechanism for selecting the best function to call given
+a list of expressions that are to be the arguments of the call and a set of
+[+candidate functions] that can be called based on the context of the call.
+
+[:en]
+The selection criteria for the best function are the number of arguments, how
+well the arguments match the parameter-type-list of the candidate function, how
+well (for non-static member functions) the object matches the implicit object
+parameter, and certain other properties of the candidate function.
+
+[enter:note]
+[:en]
+The function selected by overload resolution is not guaranteed to be appropriate
+for the context.
+
+[:en]
+Other restrictions, such as the accessibility of the function, can make its use
+in the calling context ill-formed.
+[exit:note]
+
+[para]
+[:en]
+[%overloading[!resolution[!contexts]]]
+Overload resolution selects the function to call in seven distinct contexts
+within the language:
+
+[list]
+[item]
+[:en]
+invocation of a function named in the function call syntax ([#over.call.func]);
+[item]
+[:en]
+invocation of a function call operator, a pointer-to-function conversion
+function, a reference-to-pointer-to-function conversion function, or a
+reference-to-function conversion function on a class object named in the
+function call syntax ([#over.call.object]);
+[item]
+[:en]
+invocation of the operator referenced in an expression ([#over.match.oper]);
+[item]
+[:en]
+invocation of a constructor for default- or direct-initialization ([#dcl.init])
+of a class object ([#over.match.ctor]);
+[item]
+[:en]
+invocation of a user-defined conversion for copy-initialization ([#dcl.init]) of
+a class object ([#over.match.copy]);
+[item]
+[:en]
+invocation of a conversion function for initialization of an object of a
+nonclass type from an expression of class type ([#over.match.conv]); and
+[item]
+[:en]
+invocation of a conversion function for conversion to a glvalue or class prvalue
+to which a reference ([#dcl.init.ref]) will be directly bound
+([#over.match.ref]).
+[list:end]
+
+[:en]
+Each of these contexts defines the set of candidate functions and the list of
+arguments in its own unique way.
+
+[:en]
+But, once the candidate functions and argument lists have been identified, the
+selection of the best function is the same in all cases:
+
+[list]
+[item]
+[:en]
+First, a subset of the candidate functions (those that have the proper number of
+arguments and meet certain other conditions) is selected to form a set of
+[%function[!viable]] viable functions ([#over.match.viable]).
+
+[item]
+[:en]
+Then the best viable function is selected based on the implicit conversion
+sequences ([#over.best.ics]) needed to match each argument to the corresponding
+parameter of each viable function.
+[list:end]
+
+[para]
+[:en]
+If a best viable function exists and is unique, overload resolution succeeds and
+produces it as the result.
+
+[:en]
+Otherwise overload resolution fails and the invocation is ill-formed.
+
+[:en]
+When overload resolution succeeds, and the best viable function is not
+accessible (Clause [#class.access]) in the context in which it is used, the
+program is ill-formed.
+
+[include over.match.funcs]
+
+[include over.match.viable]
+
+[include over.match.best]
+
+[%:end#overloading.resolution]

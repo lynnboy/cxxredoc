@@ -1,0 +1,206 @@
+﻿[section#over.match.best
+    [:en] Best viable function
+]
+[%:begin#overloading.resolution.best.viable.function
+    [:en] overloading[!resolution[!best viable function]]
+]
+
+[para]
+[:en]
+[%conversion[!overload resolution and]]
+Define ICS[$i]([`F]) as follows:
+
+[list]
+[item]
+[:en]
+if [`F] is a static member function, ICS[$:it 1]([`F]) is defined such that
+ICS[$:it 1]([`F]) is neither better nor worse than ICS[$:it 1]([`G]) for any
+function [`G], and, symmetrically, ICS[$:it 1]([`G]) is neither better nor worse
+than ICS[$:it 1]([`F])
+
+[footnote]
+[:en]
+If a function is a static member function, this definition means that the first
+argument, the implied object argument, has no effect in the determination of
+whether the function is better or worse than any other function.
+[footnote:end]
+
+[:en@~]
+; otherwise,
+
+[item]
+[:en]
+let ICS[$i]([`F]) denote the implicit conversion sequence that converts the
+[$i]-th argument in the list to the type of the [$i]-th parameter of viable
+function [`F].
+
+[:en]
+[#over.best.ics] defines the implicit conversion sequences and [#over.ics.rank]
+defines what it means for one implicit conversion sequence to be a better
+conversion sequence or worse conversion sequence than another.
+[list:end]
+
+[:en]
+Given these definitions, a viable function [`F1] is defined to be a [+better]
+function than another viable function [`F2] if for all arguments [$i],
+ICS[$i]([`F1]) is not a worse conversion sequence than ICS[$i]([`F2]), and then
+[list]
+
+[item]
+[:en]
+for some argument [$j], ICS[$j]([`F1]) is a better conversion sequence than
+ICS[$j]([`F2]), or, if not that,
+
+[item]
+[:en]
+the context is an initialization by user-defined conversion (see [#dcl.init],
+[#over.match.conv], and [#over.match.ref]) and the standard conversion sequence
+from the return type of [`F1] to the destination type (i.e., the type of the
+entity being initialized) is a better conversion sequence than the standard
+conversion sequence from the return type of [`F2] to the destination type.
+
+[enter:example]
+[codeblock]
+struct A {
+  A();
+  operator int();
+  operator double();
+} a;
+int i = a;                      // [:en] [`a.operator int()] followed by no conversion
+                                // [:en@~] is better than [`a.operator double()] followed by
+                                // [:en@~] a conversion to [`int]
+float x = a;                    // [:en] ambiguous: both possibilities require conversions,
+                                // [:en@~] and neither is better than the other
+[codeblock:end]
+[exit:example]
+
+[:en@~]
+or, if not that,
+
+[item]
+[:en]
+the context is an initialization by conversion function for direct reference
+binding ([#over.match.ref]) of a reference to function type, the return type of
+[`F1] is the same kind of reference (i.e. lvalue or rvalue) as the reference
+being initialized, and the return type of [`F2] is not
+
+[enter:example]
+[codeblock]
+template <class T> struct A {
+  operator T&();        // #1
+  operator T&&();       // #2
+};
+typedef int Fn();
+A<Fn> a;
+Fn& lf = a;             // [:en] calls #1
+Fn&& rf = a;            // [:en] calls #2
+[codeblock:end]
+
+[exit:example]
+[:en@~]
+or, if not that,
+
+[item]
+[:en]
+[`F1] is not a function template specialization and [`F2] is a function template
+specialization, or, if not that,
+
+[item]
+[:en]
+[`F1] and [`F2] are function template specializations, and the function template
+for [`F1] is more specialized than the template for [`F2] according to the
+partial ordering rules described in [#temp.func.order].
+[list:end]
+
+[para]
+[:en]
+If there is exactly one viable function that is a better function than all other
+viable functions, then it is the one selected by overload resolution; otherwise
+the call is ill-formed
+
+[footnote]
+[:en]
+The algorithm for selecting the best viable function is linear in the number
+of viable functions.
+
+[:en]
+Run a simple tournament to find a function [`W] that is not worse than any
+opponent it faced.
+
+[:en]
+Although another function [`F] that [`W] did not face might be at least as good
+as [`W], [`F] cannot be the best function because at some point in the
+tournament [`F] encountered another function [`G] such that [`F] was not better
+than [`G].
+
+[:en]
+Hence, [`W] is either the best function or there is no best function.
+
+[:en]
+So, make a second pass over the viable functions to verify that [`W] is better
+than all other functions.
+[footnote:end]
+
+[:en@~]
+.
+
+[para:~]
+[enter:example]
+[codeblock]
+void Fcn(const int*,  short);
+void Fcn(int*, int);
+
+int i;
+short s = 0;
+
+void f() {
+  Fcn(&i, s);                   // [:en] is ambiguous because
+                                // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [:en@~] but [`s] [=to] [`short] is also better than [`s] [=to] [`int]
+
+  Fcn(&i, 1L);                  // [:en] calls [`Fcn(int*, int)], because
+                                // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [:en@~] and [`1L] [=to] [`short] and [`1L] [=to] [`int] are indistinguishable
+
+  Fcn(&i,'c');                  // [:en] calls [`Fcn(int*, int)], because
+                                // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [:en@~] and [`c] [=to] [`int] is better than [`c] [=to] [`short]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If the best viable function resolves to a function for which multiple
+declarations were found, and if at least two of these declarations [=--] or the
+declarations they refer to in the case of [~using-declaration]s [=--] specify a
+default argument that made the function viable, the program is ill-formed.
+
+[enter:example]
+[codeblock]
+namespace A {
+  extern "C" void f(int = 5);
+}
+namespace B {
+  extern "C" void f(int = 5);
+}
+
+using A::f;
+using B::f;
+
+void use() {
+  f(3);                         // [:en] OK, default argument was not used for viability
+  f();                          // [:en] Error: found default argument twice
+}
+[codeblock:end]
+[exit:example]
+
+[%:begin#overloading.resolution.implicit.conversions.and
+    [:en] overloading[!resolution[!implicit conversions and]]
+]
+
+[include over.best.ics]
+
+[include over.ics.rank
+
+[%:end#overloading.resolution.implicit.conversions.and]

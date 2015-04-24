@@ -1,0 +1,44 @@
+﻿[section#over.ics.user
+    [:en] User-defined conversion sequences
+]
+
+[para]
+[:en]
+A user-defined conversion sequence consists of an initial standard conversion
+sequence followed by a user-defined conversion ([#class.conv]) followed by a
+second standard conversion sequence.
+
+[:en]
+If the user-defined conversion is specified by a constructor
+([#class.conv.ctor]), the initial standard conversion sequence converts the
+source type to the type required by the argument of the constructor.
+
+[:en]
+If the user-defined conversion is specified by a conversion function
+([#class.conv.fct]), the initial standard conversion sequence converts the
+source type to the implicit object parameter of the conversion function.
+
+[para]
+[:en]
+The second standard conversion sequence converts the result of the user-defined
+conversion to the target type for the sequence.
+
+[:en]
+Since an implicit conversion sequence is an initialization, the special rules
+for initialization by user-defined conversion apply when selecting the best
+user-defined conversion for a user-defined conversion sequence (see
+[#over.match.best] and [#over.best.ics]).
+
+[para]
+[:en]
+If the user-defined conversion is specified by a specialization of a conversion
+function template, the second standard conversion sequence shall have exact
+match rank.
+
+[para]
+[:en]
+A conversion of an expression of class type to the same class type is given
+Exact Match rank, and a conversion of an expression of class type to a base
+class of that type is given Conversion rank, in spite of the fact that a
+constructor (i.e., a user-defined conversion function) is called for those
+cases.

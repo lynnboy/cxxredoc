@@ -1,0 +1,261 @@
+﻿[section#over.load
+    [:en] Overloadable declarations
+]
+[%[:en] overloading[!declarations]]
+
+[para]
+[:en]
+[%overloading[!prohibited]]
+Not all function declarations can be overloaded.
+
+[:en]
+Those that cannot be overloaded are specified here.
+[:en]
+A program is ill-formed if it contains two such non-overloadable declarations in
+the same scope.
+
+[enter:note]
+[:en]
+This restriction applies to explicit declarations in a scope, and between such
+declarations and declarations made through a [~using-declaration]
+([#namespace.udecl]).
+
+[:en]
+It does not apply to sets of functions fabricated as a result of name lookup
+(e.g., because of [~using-directive]s) or overload resolution (e.g., for
+operator functions).
+[exit:note]
+
+[para]
+[:en]
+Certain function declarations cannot be overloaded:
+
+[list]
+[item]
+[:en]
+[%return type[!overloading and]]
+Function declarations that differ only in the return type cannot be overloaded.
+[item]
+[:en]
+[%[`static][!overloading and]]
+Member function declarations with the same name and the same
+[~parameter-type-list] cannot be overloaded if any of them is a [`static] member
+function declaration ([#class.static]).
+
+[:en]
+Likewise, member function template declarations with the same name, the same
+[~parameter-type-list], and the same template parameter lists cannot be
+overloaded if any of them is a [`static] member function template declaration.
+
+[:en]
+The types of the implicit object parameters constructed for the member functions
+for the purpose of overload resolution ([#over.match.funcs]) are not considered
+when comparing parameter-type-lists for enforcement of this rule.
+
+[:en]
+In contrast, if there is no [`static] member function declaration among a set of
+member function declarations with the same name and the same
+parameter-type-list, then these member function declarations can be overloaded
+if they differ in the type of their implicit object parameter.
+
+[enter:example]
+[:en]
+the following illustrates this distinction:
+
+[codeblock]
+class X {
+  static void f();
+  void f();                     // [:en] ill-formed
+  void f() const;               // [:en] ill-formed
+  void f() const volatile;      // [:en] ill-formed
+  void g();
+  void g() const;               // [:en] OK: no static [`g]
+  void g() const volatile;      // [:en] OK: no static [`g]
+};
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Member function declarations with the same name and the same
+[~parameter-type-list] as well as member function template declarations with the
+same name, the same [~parameter-type-list], and the same template parameter
+lists cannot be overloaded if any of them, but not all, have a [~ref-qualifier]
+([#dcl.fct]).
+
+[enter:example]
+[codeblock]
+class Y {
+  void h() &;
+  void h() const &;             // OK
+  void h() &&;                  // [:en] OK, all declarations have a ref-qualifier
+  void i() &;
+  void i() const;               // [:en] ill-formed, prior declaration of [`i]
+                                // [:en@~] has a ref-qualifier
+};
+[codeblock:end]
+[exit:example]
+
+[list:end]
+
+[para]
+[enter:note]
+[:en]
+[%equivalent parameter declarations]
+[%equivalent parameter declarations[!overloading and]]
+As specified in [#dcl.fct], function declarations that have equivalent parameter
+declarations declare the same function and therefore cannot be overloaded:
+
+[list]
+[item]
+[:en]
+[%[`typedef][!overloading and]]
+Parameter declarations that differ only in the use of equivalent typedef
+["types] are equivalent.
+
+[:en]
+A [`typedef] is not a separate type, but only a synonym for another type
+([#dcl.typedef]).
+
+[enter:example]
+[codeblock]
+typedef int Int;
+
+void f(int i);
+void f(Int i);                  // [:en] OK: redeclaration of [`f(int)]
+void f(int i) { /* ... */ }
+void f(Int i) { /* ... */ }     // [:en] error: redefinition of [`f(int)]
+
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[:en]
+[%[`enum][!overloading and]]
+Enumerations, on the other hand, are distinct types and can be used to
+distinguish overloaded function declarations.
+
+[enter:example]
+[codeblock]
+enum E { a };
+
+void f(int i) { /* ... */ }
+void f(E i)   { /* ... */ }
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+[%array[!overloading and pointer versus]]
+Parameter declarations that differ only in a pointer [`*] versus an array [`[`]]
+are equivalent.
+
+[:en]
+That is, the array declaration is adjusted to become a pointer declaration
+([#dcl.fct]).
+
+[:en]
+Only the second and subsequent array dimensions are significant in parameter
+types ([#dcl.array]).
+
+[enter:example]
+[codeblock]
+int f(char*);
+int f(char[]);                  // [:en] same as [`f(char*);]
+int f(char[7]);                 // [:en] same as [`f(char*);]
+int f(char[9]);                 // [:en] same as [`f(char*);]
+
+int g(char(*)[10]);
+int g(char[5][10]);             // [:en] same as [`g(char(*)[10`]);]
+int g(char[7][10]);             // [:en] same as [`g(char(*)[10`]);]
+int g(char(*)[20]);             // [:en] different from [`g(char(*)[10`]);]
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Parameter declarations that differ only in that one is a function type and the
+other is a pointer to the same function type are equivalent.
+
+[:en]
+That is, the function type is adjusted to become a pointer to function type
+([#dcl.fct]).
+
+[enter:example]
+[codeblock]
+void h(int());
+void h(int (*)());              // [:en] redeclaration of [`h(int())]
+void h(int x()) { }             // [:en] definition of [`h(int())]
+void h(int (*x)()) { }          // [:en] ill-formed: redefinition of [`h(int())]
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+[%[`const][!overloading and]]
+[%[`volatile][!overloading and]]
+Parameter declarations that differ only in the presence or absence of [`const]
+and/or [`volatile] are equivalent.
+
+[:en]
+That is, the [`const] and [`volatile] type-specifiers for each parameter type
+are ignored when determining which function is being declared, defined, or
+called.
+
+[enter:example]
+[codeblock]
+typedef const int cInt;
+
+int f (int);
+int f (const int);              // [:en] redeclaration of [`f(int)]
+int f (int) { /* ... */ }       // [:en] definition of [`f(int)]
+int f (cInt) { /* ... */ }      // [:en] error: redefinition of [`f(int)]
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[:en]
+Only the [`const] and [`volatile] type-specifiers at the outermost level of the
+parameter type specification are ignored in this fashion; [`const] and
+[`volatile] type-specifiers buried within a parameter type specification are
+significant and can be used to distinguish overloaded function declarations.
+
+[footnote]
+[:en]
+When a parameter type includes a function type, such as in the case of a
+parameter type that is a pointer to function, the [`const] and [`volatile]
+type-specifiers at the outermost level of the parameter type specifications for
+the inner function type are also ignored.
+[footnote:end]
+
+[:en]
+In particular, for any type [`T], ["pointer to [`T],] ["pointer to [`const T],]
+and ["pointer to [`volatile T]] are considered distinct parameter types, as are
+["reference to [`T],] ["reference to [`const T],] and ["reference to [`volatile
+T].]
+
+[item]
+[:en]
+[%default initializers[!overloading and]]
+Two parameter declarations that differ only in their default arguments
+are equivalent.
+
+[enter:example]
+[:en]
+consider the following:
+
+[codeblock]
+void f (int i, int j);
+void f (int i, int j = 99);     // [:en] OK: redeclaration of [`f(int, int)]
+void f (int i = 88, int j);     // [:en] OK: redeclaration of [`f(int, int)]
+void f ();                      // [:en] OK: overloaded declaration of [`f]
+
+void prog () {
+    f (1, 2);                   // [:en] OK: call [`f(int, int)]
+    f (1);                      // [:en] OK: call [`f(int, int)]
+    f ();                       // [:en] Error: [`f(int, int)] or [`f()]?
+}
+[codeblock:end]
+[exit:example]
+[exit:note]
+[list:end]

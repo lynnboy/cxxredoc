@@ -1,0 +1,177 @@
+﻿[section#over.over
+    [:en] Address of overloaded function
+]
+
+[:en]
+[%overloading[!address of overloaded function]]
+[%overloadedfunction[!address of]]
+
+[para]
+[:en]
+A use of an overloaded function name without arguments is resolved in certain
+contexts to a function, a pointer to function or a pointer to member function
+for a specific function from the overload set.
+
+[:en]
+A function template name is considered to name a set of overloaded functions
+in such contexts.
+
+[:en]
+The function selected is the one whose type is identical to the function type of
+the target type required in the context.
+
+[enter:note]
+[:en]
+That is, the class of which the function is a member is ignored when matching a
+pointer-to-member-function type.
+[exit:note]
+
+[:en]
+The target can be
+
+[list]
+[item]
+[:en@~] an object or reference being initialized ([#dcl.init], [#dcl.init.ref],
+[#dcl.init.list]),
+[item]
+[:en@~] the left side of an assignment ([#expr.ass]),
+[item]
+[:en@~] a parameter of a function ([#expr.call]),
+[item]
+[:en@~] a parameter of a user-defined operator ([#over.oper]),
+[item]
+[:en@~] the return value of a function, operator function, or conversion
+([#stmt.return]),
+[item]
+[:en@~] an explicit type conversion ([#expr.type.conv], [#expr.static.cast],
+[#expr.cast]), or
+[item]
+[:en@~] a non-type [~template-parameter] ([#temp.arg.nontype]).
+[list:end]
+
+[:en]
+The overloaded function name can be preceded by the [`&] operator.
+
+[:en]
+An overloaded function name shall not be used without arguments in contexts
+other than those listed.
+
+[enter:note]
+[:en]
+Any redundant set of parentheses surrounding the overloaded function name is
+ignored ([#expr.prim]).
+[exit:note]
+
+[para]
+[:en]
+If the name is a function template, template argument deduction is done
+([#temp.deduct.funcaddr]), and if the argument deduction succeeds, the resulting
+template argument list is used to generate a single function template
+specialization, which is added to the set of overloaded functions considered.
+
+[enter:note]
+[:en]
+As described in [#temp.arg.explicit], if deduction fails and the function
+template name is followed by an explicit template argument list, the
+[~template-id] is then examined to see whether it identifies a single function
+template specialization.
+
+[:en]
+If it does, the [~template-id] is considered to be an lvalue for that function
+template specialization.
+
+[:en]
+The target type is not used in that determination.
+[exit:note]
+
+[para]
+[:en]
+Non-member functions and static member functions match targets of type
+["pointer-to-function] or ["reference-to-function.]
+
+[:en]
+Nonstatic member functions match targets of type ["pointer-to-member-function].
+
+[:en]
+If a non-static member function is selected, the reference to the overloaded
+function name is required to have the form of a pointer to member as described
+in [#expr.unary.op].
+
+[para]
+[:en]
+If more than one function is selected, any function template specializations
+in the set are eliminated if the set also contains a function that is not a
+function template specialization, and any given function template specialization
+[`F1] is eliminated if the set contains a second function template
+specialization whose function template is more specialized than the function
+template of [`F1] according to the partial ordering rules of [#temp.func.order].
+
+[:en]
+After such eliminations, if any, there shall remain exactly one selected
+function.
+
+[para]
+[enter:example]
+[codeblock]
+int f(double);
+int f(int);
+int (*pfd)(double) = &f;        // [:en] selects [`f(double)]
+int (*pfi)(int) = &f;           // [:en] selects [`f(int)]
+int (*pfe)(...) = &f;           // [:en] error: type mismatch
+int (&rfi)(int) = f;            // [:en] selects [`f(int)]
+int (&rfd)(double) = f;         // [:en] selects [`f(double)]
+void g() {
+  (int (*)(int))&f;             // [:en] cast expression as selector
+}
+[codeblock:end]
+
+[:en]
+The initialization of [`pfe] is ill-formed because no [`f()] with type
+[`int(...)] has been declared, and not because of any ambiguity.
+
+[:en]
+For another example,
+
+[codeblock]
+struct X {
+  int f(int);
+  static int f(long);
+};
+
+int (X::*p1)(int)  = &X::f;     // OK
+int    (*p2)(int)  = &X::f;     // [:en] error: mismatch
+int    (*p3)(long) = &X::f;     // OK
+int (X::*p4)(long) = &X::f;     // [:en] error: mismatch
+int (X::*p5)(int)  = &(X::f);   // [:en] error: wrong syntax for
+                                // [:en@~] pointer to member
+int    (*p6)(long) = &(X::f);   // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+If [`f()] and [`g()] are both overloaded functions, the cross product of
+possibilities must be considered to resolve [`f(&g)], or the equivalent
+expression [`f(g)].
+[exit:note]
+
+[para]
+[:en]
+[%conversion[!overload resolution and pointer]]
+[enter:note]
+[:en]
+There are no standard conversions (Clause [#conv]) of one pointer-to-function
+type into another.
+
+[:en]
+In particular, even if [`B] is a public base of [`D], we have
+
+[codeblock]
+D* f();
+B* (*p1)() = &f;                // [:en] error
+
+void g(D*);
+void (*p2)(B*) = &g;            // [:en] error
+[codeblock:end]
+[exit:note]

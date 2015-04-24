@@ -1,0 +1,64 @@
+﻿[section#over.match.copy
+    [:en] Copy-initialization of class by user-defined conversion
+]
+[%[:en] overloading[!resolution[!initialization]]
+]
+
+[para]
+[:en]
+Under the conditions specified in [#dcl.init], as part of a copy-initialization
+of an object of class type, a user-defined conversion can be invoked to convert
+an initializer expression to the type of the object being initialized.
+
+[:en]
+Overload resolution is used to select the user-defined conversion to be invoked.
+
+[enter:note]
+[:en]
+The conversion performed for indirect binding to a reference to a possibly
+cv-qualified class type is determined in terms of a corresponding non-reference
+copy-initialization.
+[exit:note]
+
+[:en]
+Assuming that ["[$cv1] [`T]] is the type of the object being initialized, with
+[`T] a class type, the candidate functions are selected as follows:
+
+[list]
+[item]
+[:en]
+The converting constructors ([#class.conv.ctor]) of [`T] are candidate
+functions.
+[item]
+[:en]
+When the type of the initializer expression is a class type ["[$cv] [`S]], the
+non-explicit conversion functions of [`S] and its base classes are considered.
+
+[:en]
+When initializing a temporary to be bound to the first parameter of a
+constructor where the parameter is of type ["reference to possibly
+[$cv]-qualified [`T]] and the constructor is called with a single argument in
+the context of direct-initialization of an object of type ["[$cv2] [`T]],
+explicit conversion functions are also considered.
+
+[:en]
+Those that are not hidden within [`S] and yield a type whose cv-unqualified
+version is the same type as [`T] or is a derived class thereof are candidate
+functions.
+
+[:en]
+Conversion functions that return ["reference to [`X]] return lvalues or xvalues,
+depending on the type of reference, of type [`X] and are therefore considered to
+yield [`X] for this process of selecting candidate functions.
+[list:end]
+
+[para]
+[:en]
+In both cases, the argument list has one argument, which is the initializer
+expression.
+
+[enter:note]
+[:en]
+This argument will be compared against the first parameter of the constructors
+and against the implicit object parameter of the conversion functions.
+[exit:note]

@@ -1,0 +1,45 @@
+﻿[section#over.match.list
+    [:en] Initialization by list-initialization
+]
+[%[:en] overloading[!resolution[!initialization]]
+]
+
+[para]
+[:en]
+When objects of non-aggregate class type [`T] are list-initialized such that
+[#dcl.init.list] specifies that overload resolution is performed according to
+the rules in this section, overload resolution selects the constructor in two
+phases:
+
+[list]
+[item]
+[:en]
+Initially, the candidate functions are the initializer-list constructors
+([#dcl.init.list]) of the class [`T] and the argument list consists of the
+initializer list as a single argument.
+
+[item]
+[:en]
+If no viable initializer-list constructor is found, overload resolution is
+performed again, where the candidate functions are all the constructors of the
+class [`T] and the argument list consists of the elements of the initializer
+list.
+[list:end]
+
+[:en]
+If the initializer list has no elements and [`T] has a default constructor,
+the first phase is omitted.
+
+[:en]
+In copy-list-initialization, if an [`explicit] constructor is chosen, the
+initialization is ill-formed.
+
+[enter:note]
+[:en]
+This differs from other situations ([#over.match.ctor], [#over.match.copy]),
+where only converting constructors are considered for copy-initialization.
+
+[:en]
+This restriction only applies if this initialization is part of the final result
+of overload resolution.
+[exit:note]

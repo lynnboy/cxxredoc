@@ -1,0 +1,54 @@
+﻿[section#over.ass
+    [:en] Assignment
+]
+
+[:en]
+[%assignment operator[!overloaded]]
+[%overloading[!assignment operator]]
+
+[para]
+[:en]
+An assignment operator shall be implemented by a non-static member function with
+exactly one parameter.
+
+[:en]
+Because a copy assignment operator [`operator=] is implicitly declared for a
+class if not declared by the user ([#class.copy]), a base class assignment
+operator is always hidden by the copy assignment operator of the derived class.
+
+[para]
+[:en]
+Any assignment operator, even the copy and move assignment operators, can be
+virtual.
+
+[enter:note]
+[:en]
+For a derived class [`D] with a base class [`B] for which a virtual copy/move
+assignment has been declared, the copy/move assignment operator in [`D] does not
+override [`B][=']s virtual copy/move assignment operator.
+
+[enter:example]
+[codeblock]
+struct B {
+  virtual int operator= (int);
+  virtual B& operator= (const B&);
+};
+struct D : B {
+  virtual int operator= (int);
+  virtual D& operator= (const B&);
+};
+
+D dobj1;
+D dobj2;
+B* bptr = &dobj1;
+void f() {
+  bptr->operator=(99);          // [:en] calls [`D::operator=(int)]
+  *bptr = 99;                   // [:en] ditto
+  bptr->operator=(dobj2);       // [:en] calls [`D::operator=(const B&)]
+  *bptr = dobj2;                // [:en] ditto
+  dobj1 = dobj2;                // [:en] calls implicitly-declared
+                                // [`D::operator=(const D&)]
+}
+[codeblock:end]
+[exit:example]
+[exit:note]

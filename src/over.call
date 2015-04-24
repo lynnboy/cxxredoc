@@ -1,0 +1,33 @@
+﻿[section#over.call
+    [:en] Function call
+]
+
+[:en]
+[%function call operator[!overloaded]]
+[%overloading[!function call operator]]
+
+[para]
+[:en]
+[`operator()] shall be a non-static member function with an arbitrary number of
+parameters.
+
+[:en]
+It can have default arguments.
+
+[:en]
+It implements the function call syntax
+
+[syntax:explanation]
+[~postfix-expression] [`(] [~:opt expression-list] [`)]
+[syntax:end]
+
+[:en@~]
+where the [~postfix-expression] evaluates to a class object and the possibly
+empty [~expression-list] matches the parameter list of an [`operator()] member
+function of the class.
+
+[:en]
+Thus, a call [`x(arg1,...)] is interpreted as [`x.operator()(arg1, ...)] for a
+class object [`x] of type [`T] if [`T::operator()(T1, T2, T3)] exists and if the
+operator is selected as the best match function by the overload resolution
+mechanism ([#over.match.best]).

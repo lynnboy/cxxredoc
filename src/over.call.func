@@ -1,0 +1,117 @@
+﻿[section#over.call.func
+    [:en] Call to named function
+]
+
+[para]
+[:en]
+Of interest in [#over.call.func] are only those function calls in which the
+[~postfix-expression] ultimately contains a name that denotes one or more
+functions that might be called.
+
+[:en]
+Such a [~postfix-expression], perhaps nested arbitrarily deep in parentheses,
+has one of the following forms:
+
+[syntax:explanation]
+[rule [~postfix-expression] ]
+    [| [~postfix-expression] [`.] [~id-expression] ]
+    [| [~postfix-expression] [`->] [~id-expression] ]
+    [| [~primary-expression] ]
+[rule:end]
+[syntax:end]
+
+[:en]
+These represent two syntactic subcategories of function calls: qualified
+function calls and unqualified function calls.
+
+[para]
+[:en]
+In qualified function calls, the name to be resolved is an [~id-expression] and
+is preceded by an [`->] or [`.] operator.
+
+[:en]
+Since the construct [`A->B] is generally equivalent to [`(*A).B], the rest of
+Clause [#over] assumes, without loss of generality, that all member function
+calls have been normalized to the form that uses an object and the [`.]
+operator.
+
+[:en]
+Furthermore, Clause [#over] assumes that the [~postfix-expression] that is the
+left operand of the [`.] operator has type ["[$cv] [`T]] where [`T] denotes a
+class
+
+[footnote]
+Note that cv-qualifiers on the type of objects are significant in overload
+resolution for both glvalue and class prvalue objects.
+[footnote:end]
+
+[:en@~]
+.
+
+[:en]
+Under this assumption, the [~id-expression] in the call is looked up as a
+member function of [`T] following the rules for looking up names in classes
+([#class.member.lookup]).
+
+[:en]
+The function declarations found by that lookup constitute the set of candidate
+functions.
+
+[:en]
+The argument list is the [~expression-list] in the call augmented by the
+addition of the left operand of the [`.] operator in the normalized member
+function call as the implied object argument ([#over.match.funcs]).
+
+[para]
+[:en]
+In unqualified function calls, the name is not qualified by an [`->] or [`.]
+operator and has the more general form of a [~primary-expression].
+
+[:en]
+The name is looked up in the context of the function call following the normal
+rules for name lookup in function calls ([#basic.lookup]).
+
+[:en]
+The function declarations found by that lookup constitute the set of candidate
+functions.
+
+[:en]
+Because of the rules for name lookup, the set of candidate functions consists
+(1) entirely of non-member functions or (2) entirely of member functions of some
+class [`T].
+
+[:en]
+In case (1), the argument list is the same as the [~expression-list] in the
+call.
+
+[:en]
+In case (2), the argument list is the [~expression-list] in the call augmented
+by the addition of an implied object argument as in a qualified function call.
+
+[:en]
+If the keyword [`this] ([#class.this]) is in scope and refers to class [`T],
+or a derived class of [`T], then the implied object argument is [`(*this)].
+
+[:en]
+If the keyword [`this] is not in scope or refers to another class, then a
+contrived object of type [`T] becomes the implied object argument
+
+[footnote]
+[:en]
+An implied object argument must be contrived to correspond to the implicit
+object parameter attributed to member functions during overload resolution.
+
+[:en]
+It is not used in the call to the selected function.
+
+[:en]
+Since the member functions all have the same implicit object parameter, the
+contrived object will not be the cause to select or reject a function.
+[footnote:end]
+
+[:en@~]
+.
+
+[:en]
+If the argument list is augmented by a contrived object and overload resolution
+selects one of the non-static member functions of [`T], the call is ill-formed.

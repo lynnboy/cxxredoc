@@ -1,0 +1,46 @@
+﻿[section#over.match.call
+    [:en] Function call syntax
+]
+
+[%:begin#overloading.resolution.function.call.syntax
+    [:en] overloading[!resolution[!function call syntax]]
+]
+
+[para]
+[:en]
+In a function call ([#expr.call])
+
+[syntax:explanation]
+[~postfix-expression] [`(] [~:opt expression-list] [`)]
+[syntax:end]
+
+[:en@~]
+if the [~postfix-expression] denotes a set of overloaded functions and/or
+function templates, overload resolution is applied as specified in
+[#over.call.func].
+
+[:en]
+If the [~postfix-expression] denotes an object of class type, overload
+resolution is applied as specified in [#over.call.object].
+
+[para]
+[:en]
+If the [~postfix-expression] denotes the address of a set of overloaded
+functions and/or function templates, overload resolution is applied using that
+set as described above.
+
+[:en]
+If the function selected by overload resolution is a non-static member function,
+the program is ill-formed.
+
+[enter:note]
+[:en]
+The resolution of the address of an overload set in other contexts is described
+in [#over.over].
+[exit:note]
+
+[include over.call.func]
+
+[include over.call.object
+
+[%:end#overloading.resolution.function.call.syntax]

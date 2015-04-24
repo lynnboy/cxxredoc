@@ -226,6 +226,7 @@ pointers is similarly divided by the size of the object originally pointed to.
 [:zh_CN]
 对于指针减法，字符指针之间的差也与之相似地被原来所指向的对象的大小所除。
 
+[para:~]
 [:en]
 When viewed in this way, an implementation need only provide one extra byte
 (which might overlap another object in the program) just after the end of the

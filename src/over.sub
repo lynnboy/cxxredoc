@@ -1,0 +1,43 @@
+﻿[section#over.sub
+    [:en] Subscripting
+]
+
+[:en]
+[%subscripting operator[!overloaded]]
+[%overloading[!subscripting operator]]
+
+[para]
+[:en]
+[`operator[`]] shall be a non-static member function with exactly one parameter.
+
+[:en]
+It implements the subscripting syntax
+
+[syntax:explanation]
+[~postfix-expression] [`[] [~expression] [``]]
+[syntax:end]
+
+[:en@~]
+or
+
+[syntax:explanation]
+[~postfix-expression] [`[] [~braced-init-list] [``]]
+[syntax:end]
+
+[:en]
+Thus, a subscripting expression [`x[y`]] is interpreted as [`x.operator[`](y)]
+for a class object [`x] of type [`T] if [`T::operator[`](T1)] exists and if the
+operator is selected as the best match function by the overload resolution
+mechanism ([#over.match.best]).
+
+[enter:example]
+[codeblock]
+struct X {
+  Z operator[](std::initializer_list<int>);
+};
+X x;
+x[{1,2,3}] = 7;           // [:en] OK: meaning [`x.operator[`]({1,2,3})]
+int a[10];
+a[{1,2,3}] = 7;           // [:en] error: built-in subscript operator
+[codeblock:end]
+[exit:example]

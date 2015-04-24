@@ -1,0 +1,263 @@
+﻿[section#over.match.oper
+    [:en] Operators in expressions
+]
+
+[%[:en] overloading[!resolution[!operators]]]
+
+[para]
+[:en]
+If no operand of an operator in an expression has a type that is a class or an
+enumeration, the operator is assumed to be a built-in operator and interpreted
+according to Clause [#expr].
+
+[enter:note]
+[:en]
+Because [`.], [`.*], and [`::] cannot be overloaded, these operators are always
+built-in operators interpreted according to Clause [#expr].
+
+[:en]
+[`?:] cannot be overloaded, but the rules in this subclause are used to
+determine the conversions to be applied to the second and third operands when
+they have class or enumeration type ([#expr.cond]).
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct String {
+  String (const String&);
+  String (const char*);
+  operator const char* ();
+};
+String operator + (const String&, const String&);
+
+void f(void) {
+ const char* p= "one" + "two";  // [:en] ill-formed because neither
+                                // [:en@~] operand has class or enumeration type
+ int I = 1 + 1;                 // [:en] Always evaluates to [`2] even if
+                                // [:en@~] class or enumeration types exist that
+                                // [:en@~] would perform the operation.
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If either operand has a type that is a class or an enumeration, a user-defined
+operator function might be declared that implements this operator or a
+user-defined conversion can be necessary to convert the operand to a type that
+is appropriate for a built-in operator.
+
+[:en]
+In this case, overload resolution is used to determine which operator function
+or built-in operator is to be invoked to implement the operator.
+
+[:en]
+Therefore, the operator notation is first transformed to the equivalent
+function-call notation as summarized in Table [#tab:over.rel.op.func]
+(where [`@] denotes one of the operators covered in the specified subclause).
+
+[table:grid#tab.over.rel.op.func
+    [:en] Relationship between operator and function call notation
+    [columns
+        [column
+            [:en] Subclause
+        ]
+        [column@code
+            [:en] Expression
+        ]
+        [column@code
+            [:en] As member function
+        ]
+        [column@code
+            [:en] As non-member function
+        ]
+    ]
+]
+[|] [#over.unary]   [|] @a      [|] (a).operator@ ( )   [|] operator@ (a)
+[|] [#over.binary]  [|] a@b     [|] (a).operator@ (b)   [|] operator@ (a, b)
+[|] [#over.ass]     [|] a=b     [|] (a).operator= (b)   [|]
+[|] [#over.sub]     [|] a[b]    [|] (a).operator[](b)   [|]
+[|] [#over.ref]     [|] a->     [|] (a).operator->( )   [|]
+[|] [#over.inc]     [|] a@      [|] (a).operator@ (0)   [|] operator@ (a, 0)
+[table:end]
+
+[para]
+[:en]
+For a unary operator [`@] with an operand of a type whose cv-unqualified version
+is [`T1], and for a binary operator [`@] with a left operand of a type whose
+cv-unqualified version is [`T1] and a right operand of a type whose
+cv-unqualified version is [`T2], three sets of candidate functions, designated
+[+member candidates], [+non-member candidates] and [+built-in candidates], are
+constructed as follows:
+
+[list]
+[item]
+[:en]
+If [`T1] is a complete class type or a class currently being defined, the set of
+member candidates is the result of the qualified lookup of [`T1::operator@]
+([#over.call.func]); otherwise, the set of member candidates is empty.
+
+[item]
+[:en]
+The set of non-member candidates is the result of the unqualified lookup of
+[`operator@] in the context of the expression according to the usual rules for
+name lookup in unqualified function calls ([#basic.lookup.argdep]) except that
+all member functions are ignored.
+
+[:en]
+However, if no operand has a class type, only those non-member functions in the
+lookup set that have a first parameter of type [`T1] or ["reference to (possibly
+cv-qualified) [`T1]], when [`T1] is an enumeration type, or (if there is a right
+operand) a second parameter of type [`T2] or ["reference to (possibly
+cv-qualified) [`T2]], when [`T2] is an enumeration type, are candidate
+functions.
+
+[item]
+[:en]
+For the operator [`,], the unary operator [`&], or the operator [`->], the
+built-in candidates set is empty.
+
+[:en]
+For all other operators, the built-in candidates include all of the candidate
+operator functions defined in [#over.built] that, compared to the given
+operator,
+
+[list]
+[item]
+[:en@~] have the same operator name, and
+[item]
+[:en@~] accept the same number of operands, and
+[item]
+[:en@~] accept operand types to which the given operand or operands can be
+converted according to [#over.best.ics], and
+[item]
+[:en@~] do not have the same parameter-type-list as any non-member candidate
+that is not a function template specialization.
+[list:end]
+[list:end]
+
+[para]
+[:en]
+For the built-in assignment operators, conversions of the left operand are
+restricted as follows:
+
+[list]
+[item]
+[:en@~]
+no temporaries are introduced to hold the left operand, and
+[item]
+[:en@~]
+no user-defined conversions are applied to the left operand to achieve a type
+match with the left-most parameter of a built-in candidate.
+[list:end]
+
+[para]
+[:en]
+For all other operators, no such restrictions apply.
+
+[para]
+[:en]
+The set of candidate functions for overload resolution is the union of the
+member candidates, the non-member candidates, and the built-in candidates.
+
+[:en]
+The argument list contains all of the operands of the operator.
+
+[:en]
+The best function from the set of candidate functions is selected according to
+[#over.match.viable] and [#over.match.best].
+
+[footnote]
+[:en]
+If the set of candidate functions is empty, overload resolution is unsuccessful.
+[footnote:end]
+
+[enter:example]
+[codeblock]
+struct A {
+  operator int();
+};
+A operator+(const A&, const A&);
+void m() {
+  A a, b;
+  a + b;            // [:en] [`operator+(a,b)] chosen over [`int(a) + int(b)]
+}
+[codeblock:end]
+[exit:example]
+
+[/% USA _136/_28 L6899 USA core-756/734/682 over.match.oper/]
+[para]
+[:en]
+If a built-in candidate is selected by overload resolution, the operands of
+class type are converted to the types of the corresponding parameters of the
+selected operation function, except that the second standard conversion sequence
+of a user-defined conversion sequence ([#over.ics.user]) is not applied.
+
+[:en]
+Then the operator is treated as the corresponding built-in operator and
+interpreted according to Clause [#expr].
+
+[enter:example]
+[codeblock]
+struct X {
+  operator double();
+};
+
+struct Y {
+  operator int*();
+};
+
+int *a = Y() + 100.0;      // [:en] error: pointer arithmetic requires integral operand
+int *b = Y() + X();        // [:en] error: pointer arithmetic requires integral operand
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The second operand of operator [`->] is ignored in selecting an [`operator->]
+function, and is not an argument when the [`operator->] function is called.
+
+[:en]
+When [`operator->] returns, the operator [`->] is applied to the value returned,
+with the original second operand.
+
+[footnote]
+[:en]
+If the value returned by the [`operator->] function has class type, this may
+result in selecting and calling another [`operator->] function.
+
+[:en]
+The process repeats until an [`operator->] function returns a value of non-class
+type.
+[footnote:end]
+
+[para]
+[:en]
+If the operator is the operator [`,], the unary operator [`&], or the operator
+[`->], and there are no viable functions, then the operator is assumed to be the
+built-in operator and interpreted according to Clause [#expr].
+
+[para]
+[enter:note]
+[:en]
+The lookup rules for operators in expressions are different than the lookup
+rules for operator function names in a function call, as shown in the following
+example:
+
+[codeblock]
+struct A { };
+void operator + (A, A);
+
+struct B {
+  void operator + (B);
+  void f ();
+};
+
+A a;
+
+void B::f() {
+  operator+ (a,a);              // [:en] error: global operator hidden by member
+  a + a;                        // [:en] OK: calls global [`operator+]
+}
+[codeblock:end]
+[exit:note]

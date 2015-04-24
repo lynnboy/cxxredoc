@@ -1,0 +1,27 @@
+﻿[section#over.ref
+    [:en] Class member access
+]
+
+[:en]
+[%member access operator[!overloaded]]
+[%overloading[!member access operator]]
+
+[para]
+[:en]
+[`operator->]
+shall be a non-static member function taking no parameters.
+It implements the class member access syntax that
+uses [`->].
+
+[syntax:explanation]
+[rule ]
+    [| postfix-expression [`->] [`:opt template] id-expression ]
+    [| postfix-expression [`->] pseudo-destructor-name ]
+[rule:end]
+[syntax:end]
+
+[:en]
+An expression [`x->m] is interpreted as [`(x.operator->())->m] for a class
+object [`x] of type [`T] if [`T::operator->()] exists and if the operator is
+selected as the best match function by the overload resolution mechanism
+([#over.match]).

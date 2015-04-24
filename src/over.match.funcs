@@ -1,0 +1,209 @@
+﻿[section#over.match.funcs
+    [:en] Candidate functions and argument lists
+]
+
+[%:begin#overloading.candidate.functions
+    [:en] overloading[!candidate functions]
+]
+[%:begin#overloading.argument.lists
+    [:en] overloading[!argument lists]
+]
+
+[para]
+[:en]
+The subclauses of [#over.match.funcs] describe the set of candidate functions
+and the argument list submitted to overload resolution in each of the seven
+contexts in which overload resolution is used.
+
+[:en]
+The source transformations and constructions defined in these subclauses are
+only for the purpose of describing the overload resolution process.
+
+[:en]
+An implementation is not required to use such transformations and constructions.
+
+[para]
+[:en]
+[%member function[!overload resolution and]]
+[%function[!overload resolution and]]
+The set of candidate functions can contain both member and non-member functions
+to be resolved against the same argument list.
+
+[:en]
+So that argument and parameter lists are comparable within this heterogeneous
+set, a member function is considered to have an extra parameter, called the
+[def implicit object parameter], which represents the object for which the
+member function has been called.
+
+[:en]
+For the purposes of overload resolution, both static and non-static member
+functions have an implicit object parameter, but constructors do not.
+
+[para]
+[:en]
+Similarly, when appropriate, the context can construct an argument list that
+contains an [def implied object argument] to denote the object to be operated
+on.
+
+[:en]
+Since arguments and parameters are associated by position within their
+respective lists, the convention is that the implicit object parameter, if
+present, is always the first parameter and the implied object argument, if
+present, is always the first argument.
+
+[para]
+[:en]
+For non-static member functions, the type of the implicit object parameter is
+
+[list]
+[item]
+[:en@~] ["lvalue reference to [$cv] [`X]] for functions declared without a
+[~ref-qualifier] or with the [`&] [~ref-qualifier]
+[item]
+[:en@~] ["rvalue reference to [$cv] [`X]] for functions declared with the [`&&]
+[~ref-qualifier]
+[list:end]
+
+[:en@~]
+where [`X] is the class of which the function is a member and [$cv] is the
+cv-qualification on the member function declaration.
+
+[enter:example]
+[:en]
+for a [`const] member function of class [`X], the extra parameter is assumed to
+have type ["reference to [`const X]].
+[exit:example]
+
+[:en]
+For conversion functions, the function is considered to be a member of the class
+of the implied object argument for the purpose of defining the type of the
+implicit object parameter.
+
+[:en]
+For non-conversion functions introduced by a [~using-declaration] into a derived
+class, the function is considered to be a member of the derived class for the
+purpose of defining the type of the implicit object parameter.
+
+[:en]
+For static member functions, the implicit object parameter is considered to
+match any object (since if the function is selected, the object is discarded).
+
+[enter:note]
+[:en]
+No actual type is established for the implicit object parameter of a static
+member function, and no attempt will be made to determine a conversion sequence
+for that parameter ([#over.match.best]).
+[exit:note]
+
+[para]
+[:en]
+[%implied object argument[!implicit conversion sequences]]
+During overload resolution, the implied object argument is indistinguishable
+from other arguments.
+
+[:en]
+The implicit object parameter, however, retains its identity since conversions
+on the corresponding argument shall obey these additional rules:
+
+[list]
+[item]
+[:en@~]
+no temporary object can be introduced to hold the argument for the implicit
+object parameter; and
+[item]
+[:en@~]
+no user-defined conversions can be applied to achieve a type match with it.
+[list:end]
+
+[:en]
+[%implied object argument[!non-static member function and]]
+For non-static member functions declared without a [~ref-qualifier], an
+additional rule applies:
+
+[list]
+[item]
+[:en]
+even if the implicit object parameter is not [`const]-qualified, an rvalue can
+be bound to the parameter as long as in all other respects the argument can be
+converted to the type of the implicit object parameter.
+
+[enter:note]
+[:en]
+The fact that such an argument is an rvalue does not affect the ranking of
+implicit conversion sequences ([#over.ics.rank]).
+[exit:note]
+[list:end]
+
+[para]
+[:en]
+Because other than in list-initialization only one user-defined conversion is
+allowed in an implicit conversion sequence, special rules apply when selecting
+the best user-defined conversion ([#over.match.best], [#over.best.ics]).
+
+[enter:example]
+[codeblock]
+class T {
+public:
+  T();
+};
+
+class C : T {
+public:
+  C(int);
+};
+T a = 1;            // [:en] ill-formed: [`T(C(1))] not tried
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In each case where a candidate is a function template, candidate function
+template specializations are generated using template argument deduction
+([#temp.over], [#temp.deduct]).
+
+[:en]
+Those candidates are then handled as candidate functions in the usual way.
+
+[footnote]
+[:en]
+The process of argument deduction fully determines the parameter types of the
+function template specializations, i.e., the parameters of function template
+specializations contain no template parameter types.
+
+[:en]
+Therefore, except where specified otherwise, function template specializations
+and non-template functions ([#dcl.fct]) are treated equivalently for the
+remainder of overload resolution.
+[footnote:end]
+
+[:en]
+A given name can refer to one or more function templates and also to a set of
+overloaded non-template functions.
+
+[:en]
+In such a case, the candidate functions generated from each function template
+are combined with the set of non-template candidate functions.
+
+[para]
+[:en]
+A defaulted move constructor or assignment operator ([#class.copy]) that is
+defined as deleted is excluded from the set of candidate functions in all
+contexts.
+
+[include over.match.call]
+
+[include over.match.oper]
+
+[include over.match.ctor]
+
+[include over.match.copy]
+
+[include over.match.conv]
+
+[include over.match.ref]
+
+[include over.match.list]
+
+[%:end#overloading.argument.lists]
+
+[%:end#overloading.candidate.functions]

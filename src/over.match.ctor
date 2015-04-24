@@ -1,0 +1,25 @@
+﻿[section#over.match.ctor
+    [:en] Initialization by constructor
+]
+
+[%[:en] overloading[!resolution[!initialization]]
+]
+
+[para]
+[:en]
+When objects of class type are direct-initialized ([#dcl.init]),
+copy-initialized from an expression of the same or a derived class type
+([#dcl.init]), or default-initialized ([#dcl.init]), overload resolution selects
+the constructor.
+
+[:en]
+For direct-initialization or default-initialization, the candidate functions are
+all the constructors of the class of the object being initialized.
+
+[:en]
+For copy-initialization, the candidate functions are all the converting
+constructors ([#class.conv.ctor]) of that class.
+
+[:en]
+The argument list is the [~expression-list] or [~assignment-expression] of the
+[~initializer].

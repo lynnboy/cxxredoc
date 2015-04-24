@@ -85,11 +85,11 @@ struct X { X(A*); };
 
 struct E : C, D, X {
   E() : D(this),    // [:en] undefined: upcast from [`E*] to [`A*]
-                    // [:en@~] might use path [`E*] [=rightarrow] [`D*] [=rightarrow] [`A*]
+                    // [:en@~] might use path [`E*] [=to] [`D*] [=to] [`A*]
                     // [:en@~] but [`D] is not constructed
                     // [`D((C*)this)], // [:en] defined:
-                    // [:en@~] [`E*] [=rightarrow] [`C*] defined because [`E()] has started
-                    // [:en@~] and [`C*] [=rightarrow] [`A*] defined because
+                    // [:en@~] [`E*] [=to] [`C*] defined because [`E()] has started
+                    // [:en@~] and [`C*] [=to] [`A*] defined because
                     // [:en@~] [`C] fully constructed
   X(this) {         // [:en] defined: upon construction of [`X],
                     // [:en@~] [`C/B/D/A] sublattice is fully constructed

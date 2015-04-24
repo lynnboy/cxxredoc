@@ -1,0 +1,109 @@
+﻿[section#over.ics.scs
+    [:en] Standard conversion sequences
+]
+
+[para]
+[:en]
+Table [#tab:over.conversions] summarizes the conversions defined in Clause
+[#conv] and partitions them into four disjoint categories: Lvalue
+Transformation, Qualification Adjustment, Promotion, and Conversion.
+
+[enter:note]
+[:en]
+These categories are orthogonal with respect to value category,
+cv-qualification, and data representation: the Lvalue Transformations do not
+change the cv-qualification or data representation of the type; the
+Qualification Adjustments do not change the value category or data
+representation of the type; and the Promotions and Conversions do not change the
+value category or cv-qualification of the type.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+As described in Clause [#conv], a standard conversion sequence is either the
+Identity conversion by itself (that is, no conversion) or consists of one to
+three conversions from the other four categories.
+
+[:en]
+At most one conversion from each category is allowed in a single standard
+conversion sequence.
+
+[:en]
+If there are two or more conversions in the sequence, the conversions are
+applied in the canonical order: [em:bf Lvalue Transformation], [em:bf Promotion]
+or [em:bf Conversion], [em:bf Qualification Adjustment].
+[exit:note]
+
+[para]
+[:en]
+[%conversion rank]
+Each conversion in Table [#tab:over.conversions] also has an associated rank
+(Exact Match, Promotion, or Conversion).
+
+[:en]
+These are used to rank standard conversion sequences ([#over.ics.rank]).
+
+[:en]
+The rank of a conversion sequence is determined by considering the rank of each
+conversion in the sequence and the rank of any reference binding
+([#over.ics.ref]).
+
+[:en]
+If any of those has Conversion rank, the sequence has Conversion rank;
+otherwise, if any of those has Promotion rank, the sequence has Promotion rank;
+otherwise, the sequence has Exact Match rank.
+
+[table:grid#tab:over.conversions
+    [:en] Conversions
+    [columns
+        [column
+            [:en] Conversion
+        ]
+        [column@center@vcenter
+            [:en] Category
+        ]
+        [column@center@vcenter
+            [:en] Rank
+        ]
+        [column@center
+            [:en] Subclause
+        ]
+    ]
+]
+[|] [:en] No conversions required
+        [|] [:en] Identity
+                [|@rowspan=5 ] [:en] Exact Match
+                        [|]
+[|] [:en] Lvalue-to-rvalue conversion
+        [|@rowspan=3 ] [:en] Lvalue Transformation
+                [|:~]   [|] [#conv.lval]
+
+[|] [:en] Array-to-pointer conversion
+        [|:~]   [|:~]   [|] [#conv.array]
+[|] [:en] Function-to-pointer conversion
+        [|:~]   [|:~]   [|] [#conv.func]
+[|] [:en] Qualification conversions
+        [|] [:en] Qualification Adjustment
+                [|:~]   [|] [#conv.qual]
+[|] [:en] Integral promotions
+        [|@rowspan=2 ] [:en] Promotion
+                [|@rowspan=2 ] [:en] Promotion
+                        [|] [#conv.prom]
+[|] [:en] Floating point promotion
+        [|:~]   [|:~]   [|] [#conv.fpprom]
+[|] [:en] Integral conversions
+        [|@rowspan=6 ] [:en] Conversion
+                [|@rowspan=6 ] [:en] Conversion
+                        [|] [#conv.conv.integral]
+[|] [:en] Floating point conversions
+        [|:~]   [|:~]   [|] [#conv.double]
+[|] [:en] Floating-integral conversions
+        [|:~]   [|:~]   [|] [#conv.fpint]
+[|] [:en] Pointer conversions
+        [|:~]   [|:~]   [|] [#conv.ptr]
+[|] [:en] Pointer to member conversions
+        [|:~]   [|:~]   [|] [#conv.mem]
+[|] [:en] Boolean conversions
+        [|:~]   [|:~]   [|] [#conv.bool]
+[table:end]

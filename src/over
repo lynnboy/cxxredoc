@@ -1,0 +1,64 @@
+﻿[section:chapter#over
+    [:en] Overloading
+]
+
+[%:begin#overloading
+    [:en] overloading
+]
+
+[/
+%gram: \rSec1[gram.over]{Overloading}
+%gram:
+/]
+
+[para]
+[:en]
+[%declaration[!overloaded]]
+[%overloaded function[see overloading]]
+[%function[!overloaded][see overloading]]
+When two or more different declarations are specified for a single name in the
+same scope, that name is said to be [+overloaded].
+
+[:en]
+By extension, two declarations in the same scope that declare the same name but
+with different types are called [+overloaded declarations].
+
+[:en]
+Only function and function template declarations can be overloaded; variable and
+type declarations cannot be overloaded.
+
+[para]
+[:en]
+When an overloaded function name is used in a call, which overloaded function
+declaration is being referenced is determined by comparing the types of the
+arguments at the point of use with the types of the parameters in the overloaded
+declarations that are visible at the point of use.
+
+[:en]
+This function selection process is called [+overload resolution] and is defined
+in [#over.match].
+
+[enter:example]
+[%[:en] overloading[!example of]]
+[codeblock]
+double abs(double);
+int abs(int);
+
+abs(1);             // [:en] calls [`abs(int);]
+abs(1.0);           // [:en] calls [`abs(double);]
+[codeblock:end]
+[exit:example]
+
+[include over.load]
+
+[include over.dcl]
+
+[include over.match]
+
+[include over.over]
+
+[include over.oper]
+
+[include over.built]
+
+[%:end#overloading]

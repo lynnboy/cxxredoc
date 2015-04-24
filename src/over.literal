@@ -1,0 +1,124 @@
+﻿[section#over.literal
+    [:en] User-defined literals
+]
+
+[:en]
+[%user-defined literal[!overloaded]]
+[%overloading[!user-defined literal]]
+
+[syntax]
+[rule literal-operator-id [:zh_CN] ]
+    [| [`operator] string-literal identifier ]
+    [| [`operator] user-defined-string-literal ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+The [~string-literal] or [~user-defined-string-literal] in a
+[~literal-operator-id] shall have no [~encoding-prefix] and shall contain no
+characters other than the implicit terminating [`'\0'].
+
+[:en]
+The [~ud-suffix] of the [~user-defined-string-literal] or the [~identifier] in a
+[~literal-operator-id] is called a [+literal suffix identifier].
+
+[:en]
+Some literal suffix identifiers are reserved for future standardization; see
+[#usrlit.suffix].
+
+[:en]
+A declaration whose [~literal-operator-id] uses such a literal suffix identifier
+is ill-formed; no diagnostic required.
+
+[para]
+[:en]
+A declaration whose [~declarator-id] is a [~literal-operator-id] shall be a
+declaration of a namespace-scope function or function template (it could be a
+friend function ([#class.friend])), an explicit instantiation or specialization
+of a function template, or a [~using-declaration] ([#namespace.udecl]).
+
+[:en]
+A function declared with a [~literal-operator-id] is a [+literal operator].
+
+[:en]
+A function template declared with a [~literal-operator-id] is a [+literal
+operator template].
+
+[para]
+[:en]
+The declaration of a literal operator shall have a
+[~parameter-declaration-clause] equivalent to one of the following:
+
+[codeblock]
+const char*
+unsigned long long int
+long double
+char
+wchar_t
+char16_t
+char32_t
+const char*, std::size_t
+const wchar_t*, std::size_t
+const char16_t*, std::size_t
+const char32_t*, std::size_t
+[codeblock:end]
+
+[:en]
+If a parameter has a default argument ([#dcl.fct.default]), the program is
+ill-formed.
+
+[para]
+[:en]
+A [+raw literal operator] is a literal operator with a single parameter whose
+type is [`const char*].
+
+[para]
+[:en]
+The declaration of a literal operator template shall have an empty
+[~parameter-declaration-clause] and its [~template-parameter-list] shall have a
+single [~template-parameter] that is a non-type template parameter pack
+([#temp.variadic]) with element type [`char].
+
+[para]
+[:en]
+Literal operators and literal operator templates shall not have C language
+linkage.
+
+[para]
+[enter:note]
+[:en]
+Literal operators and literal operator templates are usually invoked implicitly
+through user-defined literals ([#lex.ext]).
+
+[:en]
+However, except for the constraints described above, they are ordinary
+namespace-scope functions and function templates.
+
+[:en]
+In particular, they are looked up like ordinary functions and function templates
+and they follow the same overload resolution rules.
+
+[:en]
+Also, they can be declared [`inline] or [`constexpr], they may have internal or
+external linkage, they can be called explicitly, their addresses can be taken,
+etc.
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+void operator "" _km(long double);                  // OK
+string operator "" _i18n(const char*, std::size_t); // OK
+template <char...> double operator "" _\u03C0();    // [:en] OK: UCN for lowercase pi
+float operator ""_e(const char*);                   // OK
+float operator ""E(const char*);                    // [:en] error: reserved literal suffix ([#usrlit.suffix], [#lex.ext])
+double operator""_Bq(long double);                  // [:en] OK: does not use the reserved identifier [`_Bq] ([#lex.name])
+double operator"" _Bq(long double);                 // [:en] uses the reserved identifier [`_Bq] ([#lex.name])
+float operator " " B(const char*);                  // [:en] error: non-empty [~string-literal]
+string operator "" 5X(const char*, std::size_t);    // [:en] error: invalid literal suffix identifier
+double operator "" _miles(double);                  // [:en] error: invalid [~parameter-declaration-clause]
+template <char...> int operator "" _j(const char*); // [:en] error: invalid [~parameter-declaration-clause]
+extern "C" void operator "" _m(long double);        // [:en] error: C language linkage
+[codeblock:end]
+[exit:example]

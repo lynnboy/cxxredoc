@@ -1,0 +1,22 @@
+﻿[section#over.binary
+    [:en] Binary operators
+]
+
+[:en]
+[%binary operator[!overloaded]]
+[%overloading[!binary operator]]
+
+[para]
+[:en]
+A binary operator shall be implemented either by a non-static member function
+([#class.mfct]) with one parameter or by a non-member function with two
+parameters.
+
+[:en]
+[%binary operator[!interpretation of]]
+Thus, for any binary operator [`@], [`x@y] can be interpreted as either
+[`x.operator@(y)] or [`operator@(x,y)].
+
+[:en]
+If both forms of the operator function have been declared, the rules in
+[#over.match.oper] determine which, if any, interpretation is used.

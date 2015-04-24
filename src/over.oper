@@ -1,0 +1,175 @@
+﻿[section#over.oper
+    [:en] Overloaded operators
+]
+
+[%:begin#overloading.operator
+    [:en] overloading[!operator]
+]
+[%[:en] overloaded operator[see overloading[!operator]]
+]
+[%[:en] operator overloading[see overloading[!operator]]
+]
+
+[para]
+[:en]
+[%operator[!overloaded]]
+[%function[!operator]]
+A function declaration having one of the following [~operator-function-id]s as
+its name declares an [+operator function].
+
+[:en]
+A function template declaration having one of the following
+[~operator-function-id]s as its name declares an [+operator function template].
+
+[:en]
+A specialization of an operator function template is also an operator function.
+
+[:en]
+An operator function is said to [+implement] the operator named in its
+[~operator-function-id].
+
+[syntax]
+[rule operator-function-id [:zh_CN] ]
+    [| [`operator] operator ]
+[rule:end]
+
+[rule:oneof@aligned operator [:zh_CN] ]
+  [| new    delete  new[]   delete[] ]
+  [| +      -       *       /           %       ^       &       |       ~ ]
+  [| !      =       <       >           +=      -=      *=      /=      %= ]
+  [| ^=     &=      |=      <<          >>      >>=     <<=     ==      != ]
+  [| <=     >=      &&      ||          ++      --      ,       ->*     -> ]
+  [| ( )    [ ] ]
+[rule:end]
+[syntax:end]
+
+[enter:note]
+[:en]
+The last two operators are function call ([#expr.call]) and subscripting
+([#expr.sub]).
+
+[:en]
+The operators [`new[`]], [`delete[`]], [`()], and [`[`]] are formed from more
+than one token.
+[exit:note]
+
+[:en]
+[%operator[!subscripting]]
+[%operator[!function call]]
+
+[para]
+[:en]
+Both the unary and binary forms of
+
+[codeblock:literal]
++    -    *     &
+[codeblock:end]
+
+[:en@~]
+can be overloaded.
+
+[para]
+[:en]
+[%restriction[!operator overloading]]
+The following operators cannot be overloaded:
+
+[codeblock:literal]
+.    .*   ::    ?:
+[codeblock:end]
+
+[:en@~]
+nor can the preprocessing symbols [`#] and [`##] (Clause [#cpp]).
+
+[para]
+[:en]
+[%call[!operator function]]
+Operator functions are usually not called directly; instead they are invoked
+to evaluate the operators they implement ([#over.unary] [=-] [#over.inc]).
+
+[:en]
+They can be explicitly called, however, using the [~operator-function-id]
+as the name of the function in the function call syntax ([#expr.call]).
+
+[enter:example]
+[codeblock]
+complex z = a.operator+(b);     // [`complex z = a+b;]
+void* p = operator new(sizeof(int)*n);
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The allocation and deallocation functions, [`operator new], [`operator new[`]],
+[`operator delete] and [`operator delete[`]], are described completely in
+[#basic.stc.dynamic].
+
+[:en]
+The attributes and restrictions found in the rest of this subclause do not apply
+to them unless explicitly stated in [#basic.stc.dynamic].
+
+[para]
+[:en]
+[%restriction[!overloading]]
+An operator function shall either be a non-static member function or be a
+non-member function that has at least one parameter whose type is a class, a
+reference to a class, an enumeration, or a reference to an enumeration.
+
+[:en]
+It is not possible to change the precedence, grouping, or number of operands
+of operators.
+
+[:en]
+The meaning of the operators [`=], (unary) [`&], and [`,] (comma), predefined
+for each type, can be changed for specific class and enumeration types by
+defining operator functions that implement these operators.
+
+[%overloaded operator[!inheritance of]]
+Operator functions are inherited in the same manner as other base class
+functions.
+
+[para]
+[:en]
+[%operator]
+The identities among certain predefined operators applied to basic types (for
+example, [`++a] [=equiv] [`a+=1]) need not hold for operator functions.
+
+[:en]
+Some predefined operators, such as [`+=], require an operand to be an lvalue
+when applied to basic types; this is not required by operator functions.
+
+[para]
+[:en]
+[%argument[!overloaded operator and default]]
+An operator function cannot have default arguments ([#dcl.fct.default]), except
+where explicitly stated below.
+
+[:en]
+Operator functions cannot have more or fewer parameters than the number required
+for the corresponding operator, as described in the rest of this subclause.
+
+[para]
+[:en]
+Operators not mentioned explicitly in subclauses [#over.ass] through [#over.inc]
+act as ordinary unary and binary operators obeying the rules of [#over.unary] or
+[#over.binary].
+
+[%:end#overloading.resolution.best.viable.function]
+[%:end#overloading.resolution.viable.functions]
+
+[include over.unary]
+
+[include over.binary]
+
+[include over.ass]
+
+[include over.call]
+
+[include over.sub]
+
+[include over.ref]
+
+[include over.inc]
+
+[include over.literal]
+
+[%:end#overloading.operator]

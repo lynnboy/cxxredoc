@@ -1,0 +1,338 @@
+﻿[section#over.built
+    [:en] Built-in operators
+]
+
+[%  [:en] overloading[!built-in operators and]]
+
+[para]
+[:en]
+The candidate operator functions that represent the built-in operators defined
+in Clause [#expr] are specified in this subclause.
+
+[:en]
+These candidate functions participate in the operator overload resolution
+process as described in [#over.match.oper] and are used for no other purpose.
+
+[enter:note]
+[:en]
+Because built-in operators take only operands with non-class type, and operator
+overload resolution occurs only when an operand expression originally has class
+or enumeration type, operator overload resolution can resolve to a built-in
+operator only when an operand has a class type that has a user-defined
+conversion to a non-class type appropriate for the operator, or when an operand
+has an enumeration type that can be converted to a type appropriate for the
+operator.
+
+[:en]
+Also note that some of the candidate operator functions given in this subclause
+are more permissive than the built-in operators themselves.
+
+[:en]
+As described in [#over.match.oper], after a built-in operator is selected by
+overload resolution the expression is subject to the requirements for the
+built-in operator given in Clause [#expr], and therefore to any additional
+semantic constraints given there.
+
+[:en]
+If there is a user-written candidate with the same name and parameter types as a
+built-in candidate operator function, the built-in operator function is hidden
+and is not included in the set of candidate functions.
+[exit:note]
+
+[para]
+In this subclause, the term [+promoted integral type] is used to refer to those
+integral types which are preserved by integral promotion (including e.g. [`int]
+and [`long] but excluding e.g. [`char]).
+
+[:en]
+Similarly, the term [+promoted arithmetic type] refers to floating types plus
+promoted integral types.
+
+[enter:note]
+[:en]
+In all cases where a promoted integral type or promoted arithmetic type is
+required, an operand of enumeration type will be acceptable by way of the
+integral promotions.
+[exit:note]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is an arithmetic type, and [$VQ] is
+either [`volatile] or empty, there exist candidate operator functions of the
+form
+
+[codeblock:notation [special@VQ@T] ]
+VQ T& operator++(VQ T&);
+T operator++(VQ T&, int);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is an arithmetic type other than
+[$bool], and [$VQ] is either [`volatile] or empty, there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@VQ@T] ]
+VQ T& operator--(VQ T&);
+T operator--(VQ T&, int);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is a cv-qualified or cv-unqualified
+object type, and [$VQ] is either [`volatile] or empty, there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@VQ@T] ]
+T*VQ& operator++(T*VQ&);
+T*VQ& operator--(T*VQ&);
+T*    operator++(T*VQ&, int);
+T*    operator--(T*VQ&, int);
+[codeblock:end]
+
+[para]
+[:en]
+For every cv-qualified or cv-unqualified object type [$T], there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@T] ]
+T&    operator*(T*);
+[codeblock:end]
+
+[para]
+[:en]
+For every function type [$T] that does not have cv-qualifiers or a
+[~ref-qualifier], there exist candidate operator functions of the form
+
+[codeblock:notation [special@T] ]
+T&    operator*(T*);
+[codeblock:end]
+
+[para]
+[:en]
+For every type [$T] there exist candidate operator functions of the form
+
+[codeblock:notation [special@T] ]
+T*    operator+(T*);
+[codeblock:end]
+
+[para]
+[:en]
+For every promoted arithmetic type [$T], there exist candidate operator
+functions of the form
+
+[codeblock:notation [special@T] ]
+T operator+(T);
+T operator-(T);
+[codeblock:end]
+
+[para]
+[:en]
+For every promoted integral type [$T], there exist candidate operator functions
+of the form
+
+[codeblock:notation [special@T] ]
+T operator~(T);
+[codeblock:end]
+
+[para]
+[:en]
+For every quintuple ([$C1], [$C2], [$T], [$CV1], [$CV2]), where [$C2] is a class
+type, [$C1] is the same type as C2 or is a derived class of C2, [$T] is an
+object type or a function type, and [$CV1] and [$CV2] are [~cv-qualifier-seq]s,
+there exist candidate operator functions of the form
+
+[codeblock:notation [special@CV12@CV1@CV2@C1@C2@T] ]
+CV12 T& operator->*(CV1 C1*, CV2 T C2::*);
+[codeblock:end]
+
+[:en@~]
+where [$CV12] is the union of [$CV1] and [$CV2].
+
+[:en]
+The return type is shown for exposition only; see [#expr.mptr.oper] for the
+determination of the operator[=']s result type.
+
+[para]
+[:en]
+For every pair of promoted arithmetic types [$L] and [$R], there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@L@R@LR] ]
+LR      operator*(L, R);
+LR      operator/(L, R);
+LR      operator+(L, R);
+LR      operator-(L, R);
+bool    operator<(L, R);
+bool    operator>(L, R);
+bool    operator<=(L, R);
+bool    operator>=(L, R);
+bool    operator==(L, R);
+bool    operator!=(L, R);
+[codeblock:end]
+
+[:en@~]
+where [$LR] is the result of the usual arithmetic conversions between types [$L]
+and [$R].
+
+[para]
+[:en]
+For every cv-qualified or cv-unqualified object type [$T] there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@T] ]
+T*      operator+(T*, std::ptrdiff_t);
+T&      operator[](T*, std::ptrdiff_t);
+T*      operator-(T*, std::ptrdiff_t);
+T*      operator+(std::ptrdiff_t, T*);
+T&      operator[](std::ptrdiff_t, T*);
+[codeblock:end]
+
+[para]
+[:en]
+For every [$T], where [$T] is a pointer to object type, there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@T] ]
+std::ptrdiff_t   operator-(T, T);
+[codeblock:end]
+
+[para]
+[:en]
+For every [$T], where [$T] is an enumeration type or a pointer type, there exist
+candidate operator functions of the form
+
+[codeblock:notation [special@T] ]
+bool    operator<(T, T);
+bool    operator>(T, T);
+bool    operator<=(T, T);
+bool    operator>=(T, T);
+bool    operator==(T, T);
+bool    operator!=(T, T);
+[codeblock:end]
+
+[para]
+[:en]
+For every pointer to member type [$T] or type [`std::nullptr_t] there exist
+candidate operator functions of the form
+
+[codeblock:notation [special@T] ]
+bool    operator==(T, T);
+bool    operator!=(T, T);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair of promoted integral types [$L] and [$R], there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@L@R@LR] ]
+LR      operator%(L, R);
+LR      operator&(L, R);
+LR      operator^(L, R);
+LR      operator|(L, R);
+L       operator<<(L, R);
+L       operator>>(L, R);
+[codeblock:end]
+
+where [$LR] is the result of the usual arithmetic conversions between types [$L]
+and [$R].
+
+[para]
+[:en]
+For every triple ([$L], [$VQ], [$R]), where [$L] is an arithmetic type, [$VQ]
+is either [`volatile] or empty, and [$R] is a promoted arithmetic type, there
+exist candidate operator functions of the form
+
+[codeblock:notation [special@VQ@L@R] ]
+VQ L&   operator=(VQ L&, R);
+VQ L&   operator*=(VQ L&, R);
+VQ L&   operator/=(VQ L&, R);
+VQ L&   operator+=(VQ L&, R);
+VQ L&   operator-=(VQ L&, R);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is any type and [$VQ] is either
+[`volatile] or empty, there exist candidate operator functions of the form
+
+[codeblock:notation [special@VQ@T] ]
+T*VQ&   operator=(T*VQ&, T*);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is an enumeration or pointer to member
+type and [$VQ] is either [`volatile] or empty, there exist candidate operator
+functions of the form
+
+[codeblock:notation [special@VQ@T] ]
+VQ T&   operator=(VQ T&, T);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair ([$T], [$VQ]), where [$T] is a cv-qualified or cv-unqualified
+object type and [$VQ] is either [`volatile] or empty, there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@VQ@T] ]
+T*VQ&   operator+=(T*VQ&, std::ptrdiff_t);
+T*VQ&   operator-=(T*VQ&, std::ptrdiff_t);
+[codeblock:end]
+
+[para]
+[:en]
+For every triple ([$L], [$VQ], [$R]), where [$L] is an integral type, [$VQ]
+is either [`volatile] or empty, and [$R] is a promoted integral type, there
+exist candidate operator functions of the form
+
+[codeblock:notation [special@VQ@L@R] ]
+VQ L&   operator%=(VQ L&, R);
+VQ L&   operator<<=(VQ L&, R);
+VQ L&   operator>>=(VQ L&, R);
+VQ L&   operator&=(VQ L&, R);
+VQ L&   operator^=(VQ L&, R);
+VQ L&   operator|=(VQ L&, R);
+[codeblock:end]
+
+[para]
+[:en]
+There also exist candidate operator functions of the form
+
+[codeblock:notation]
+bool    operator!(bool);
+bool    operator&&(bool, bool);
+bool    operator||(bool, bool);
+[codeblock:end]
+
+[para]
+[:en]
+For every pair of promoted arithmetic types [$L] and [$R], there exist candidate
+operator functions of the form
+
+[codeblock:notation [special@L@R@LR] ]
+LR      operator?:(bool, L, R);
+[codeblock:end]
+
+[:en]
+where [$LR] is the result of the usual arithmetic conversions between types [$L]
+and [$R].
+
+[enter:note]
+[:en]
+As with all these descriptions of candidate functions, this declaration serves
+only to describe the built-in operator for purposes of overload resolution.
+
+[:en]
+The operator ["[`?:]] cannot be overloaded.
+[exit:note]
+
+[para]
+For every type [$T], where [$T] is a pointer, pointer-to-member, or scoped
+enumeration type, there exist candidate operator functions of the form
+
+[codeblock:notation [special@T] ]
+T       operator?:(bool, T, T);
+[codeblock:end]

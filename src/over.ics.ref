@@ -1,0 +1,81 @@
+﻿[section#over.ics.ref
+    [:en] Reference binding
+]
+
+[para]
+[:en]
+When a parameter of reference type binds directly ([#dcl.init.ref]) to an
+argument expression, the implicit conversion sequence is the identity
+conversion, unless the argument expression has a type that is a derived class of
+the parameter type, in which case the implicit conversion sequence is a
+derived-to-base Conversion ([#over.best.ics]).
+
+[enter:example]
+[codeblock]
+struct A {};
+struct B : public A {} b;
+int f(A&);
+int f(B&);
+int i = f(b);                   // [:en] calls [`f(B&)], an exact match, rather than
+                                // [:en@~] [`f(A&)], a conversion
+[codeblock:end]
+[exit:example]
+
+[:en]
+If the parameter binds directly to the result of applying a conversion function
+to the argument expression, the implicit conversion sequence is a user-defined
+conversion sequence ([#over.ics.user]), with the second standard conversion
+sequence either an identity conversion or, if the conversion function returns an
+entity of a type that is a derived class of the parameter type, a
+derived-to-base Conversion.
+
+[para]
+[:en]
+When a parameter of reference type is not bound directly to an argument
+expression, the conversion sequence is the one required to convert the argument
+expression to the underlying type of the reference according to
+[#over.best.ics].
+
+[:en]
+Conceptually, this conversion sequence corresponds to copy-initializing a
+temporary of the underlying type with the argument expression.
+
+[:en]
+Any difference in top-level cv-qualification is subsumed by the initialization
+itself and does not constitute a conversion.
+
+[para]
+[:en]
+Except for an implicit object parameter, for which see [#over.match.funcs], a
+standard conversion sequence cannot be formed if it requires binding an lvalue
+reference other than a reference to a non-volatile [`const] type to an rvalue
+or binding an rvalue reference to an lvalue other than a function lvalue.
+
+[enter:note]
+[:en]
+This means, for example, that a candidate function cannot be a viable function
+if it has a non-[`const] lvalue reference parameter (other than the implicit
+object parameter) and the corresponding argument is a temporary or would require
+one to be created to initialize the lvalue reference (see [#dcl.init.ref]).
+[exit:note]
+
+[para]
+[:en]
+Other restrictions on binding a reference to a particular argument that are not
+based on the types of the reference and the argument do not affect the formation
+of a standard conversion sequence, however.
+
+[enter:example]
+[:en]
+a function with an ["lvalue reference to [`int]] parameter can be a viable
+candidate even if the corresponding argument is an [`int] bit-field.
+
+[:en]
+The formation of implicit conversion sequences treats the [`int] bit-field as an
+[`int] lvalue and finds an exact match with the parameter.
+
+[:en]
+If the function is selected by overload resolution, the call will nonetheless be
+ill-formed because of the prohibition on binding a non-[`const] lvalue reference
+to a bit-field ([#dcl.init.ref]).
+[exit:example]

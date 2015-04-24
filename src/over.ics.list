@@ -1,0 +1,199 @@
+﻿[section#over.ics.list
+    [:en] List-initialization sequence
+]
+
+[para]
+[:en]
+When an argument is an initializer list ([#dcl.init.list]), it is not an
+expression and special rules apply for converting it to a parameter type.
+
+[para]
+If the parameter type is a class [`X] and the initializer list has a single
+element of type [$cv] [`U], where [`U] is [`X] or a class derived from [`X], the
+implicit conversion sequence is the one required to convert the element to the
+parameter type.
+
+[para]
+[:en]
+Otherwise, if the parameter type is a character array
+
+[footnote]
+[:en]
+Since there are no parameters of array type, this will only occur as the
+underlying type of a reference parameter.
+[footnote:end]
+
+[:en@~]
+and the initializer list has a single element that is an appropriately-typed
+string literal ([#dcl.init.string]), the implicit conversion sequence is the
+identity conversion.
+
+[para]
+[:en]
+Otherwise, if the parameter type is [`std::initializer_list<X>] and all the
+elements of the initializer list can be implicitly converted to [`X], the
+implicit conversion sequence is the worst conversion necessary to convert an
+element of the list to [`X], or if the initializer list has no elements, the
+identity conversion. This conversion can be a user-defined conversion even in
+the context of a call to an initializer-list constructor.
+
+[enter:example]
+[codeblock]
+void f(std::initializer_list<int>);
+f( {} );                    // [:en] OK: [`f(initializer_list<int>)] identity conversion
+f( {1,2,3} );               // [:en] OK: [`f(initializer_list<int>)] identity conversion
+f( {'a','b'} );             // [:en] OK: [`f(initializer_list<int>)] integral promotion
+f( {1.0} );                 // [:en] error: narrowing
+
+struct A {
+  A(std::initializer_list<double>);           // #1
+  A(std::initializer_list<complex<double>>);  // #2
+  A(std::initializer_list<std::string>);      // #3
+};
+A a{ 1.0,2.0 };             // [:en] OK, uses #1
+
+void g(A);
+g({ "foo", "bar" });        // [:en] OK, uses #3
+
+typedef int IA[3];
+void h(const IA&);
+h({ 1, 2, 3 });             // [:en] OK: identity conversion
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, if the parameter type is ["array of [`N X]], if the initializer list
+has exactly [`N] elements or if it has fewer than [`N] elements and [`X] is
+default-constructible, and if all the elements of the initializer list can be
+implicitly converted to [`X], the implicit conversion sequence is the worst
+conversion necessary to convert an element of the list to [`X].
+
+[para]
+[:en]
+Otherwise, if the parameter is a non-aggregate class [`X] and overload
+resolution per [#over.match.list] chooses a single best constructor of [`X] to
+perform the initialization of an object of type [`X] from the argument
+initializer list, the implicit conversion sequence is a user-defined conversion
+sequence with the second standard conversion sequence an identity conversion.
+
+[:en]
+If multiple constructors are viable but none is better than the others, the
+implicit conversion sequence is the ambiguous conversion sequence.
+
+[:en]
+User-defined conversions are allowed for conversion of the initializer list
+elements to the constructor parameter types except as noted in [#over.best.ics].
+
+[enter:example]
+[codeblock]
+struct A {
+  A(std::initializer_list<int>);
+};
+void f(A);
+f( {'a', 'b'} );            // [:en] OK: [`f(A(std::initializer_list<int>))] user-defined conversion
+
+struct B {
+  B(int, double);
+};
+void g(B);
+g( {'a', 'b'} );            // [:en] OK: [`g(B(int,double))] user-defined conversion
+g( {1.0, 1.0} );            // [:en] error: narrowing
+
+void f(B);
+f( {'a', 'b'} );            // [:en] error: ambiguous [`f(A)] or [`f(B)]
+
+struct C {
+  C(std::string);
+};
+void h(C);
+h({"foo"});                 // OK: [`h(C(std::string("foo")))]
+
+struct D {
+  D(A, C);
+};
+void i(D);
+i({ {1,2}, {"bar"} });      // OK: [`i(D(A(std::initializer_list<int>{1,2}),C(std::string("bar"))))]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, if the parameter has an aggregate type which can be initialized from
+the initializer list according to the rules for aggregate initialization
+([#dcl.init.aggr]), the implicit conversion sequence is a user-defined
+conversion sequence with the second standard conversion sequence an identity
+conversion.
+
+[enter:example]
+[codeblock]
+struct A {
+  int m1;
+  double m2;
+};
+
+void f(A);
+f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion 
+f( {1.0} );                 // [:en] error: narrowing
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, if the parameter is a reference, see [#over.ics.ref].
+
+[enter:note]
+[:en]
+The rules in this section will apply for initializing the underlying temporary
+for the reference.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct A {
+  int m1;
+  double m2;
+};
+
+void f(const A&);
+f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion 
+f( {1.0} );                 // [:en] error: narrowing
+
+void g(const double &);
+g({1});                     // [:en] same conversion as [`int] to [`double]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Otherwise, if the parameter type is not a class:
+
+[list]
+[item]
+[:en] if the initializer list has one element that is not itself an initializer
+list, the implicit conversion sequence is the one required to convert the
+element to the parameter type;
+
+[enter:example]
+[codeblock]
+void f(int);
+f( {'a'} );                 // [:en] OK: same conversion as [`char] to [`int]
+f( {1.0} );                 // [:en] error: narrowing
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en] if the initializer list has no elements, the implicit conversion sequence
+is the identity conversion.
+
+[enter:example]
+[codeblock]
+void f(int);
+f( { } );                   // [:en] OK: identity conversion 
+[codeblock:end]
+[exit:example]
+[list:end]
+
+[para]
+[:en]
+In all cases other than those enumerated above, no conversion is possible.
