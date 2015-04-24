@@ -1,0 +1,21 @@
+﻿[section#except.uncaught
+    [:en] The [`std::uncaught_exceptions()] function
+]
+[@library uncaught_exceptions]
+
+[para]
+[:en]
+An exception is considered uncaught after completing the initialization of the
+exception object ([#except.throw]) until completing the activation of a handler
+for the exception ([#except.handle]).
+
+[:en]
+This includes stack unwinding.
+
+[:en]
+If the exception is rethrown ([#expr.throw]), it is considered uncaught from the
+point of rethrow until the rethrown exception is caught again.
+
+[:en]
+The function [`std::uncaught_exceptions()] ([#uncaught.exceptions]) returns the
+number of uncaught exceptions.

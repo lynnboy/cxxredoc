@@ -1,0 +1,20 @@
+﻿[section#except.special
+    [:en] Special functions
+]
+
+[para]
+[:en]
+The functions [`std::terminate()] ([#except.terminate]) and [`std::unexpected()]
+([#except.unexpected]) are used by the exception handling mechanism for coping
+with errors related to the exception handling mechanism itself.
+
+[:en]
+The function [`std::current_exception()] ([#propagation]) and the class
+[`std::nested_exception] ([#except.nested]) can be used by a program to capture
+the currently handled exception.
+
+[include except.terminate]
+
+[include except.unexpected]
+
+[include except.uncaught]
