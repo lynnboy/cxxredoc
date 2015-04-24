@@ -1,0 +1,496 @@
+﻿[section#class.base.init
+    [:en] Initializing bases and members
+]
+
+[:en]
+[%initialization[!base class]]
+[%initialization[!member]]
+
+[para]
+[:en]
+In the definition of a constructor for a class, initializers for direct and
+virtual base subobjects and non-static data members can be specified by a
+[~ctor-initializer], which has the form
+
+[syntax]
+[rule ctor-initializer [:zh_CN] ]
+    [| [`:] mem-initializer-list ]
+[rule:end]
+
+[rule mem-initializer-list [:zh_CN] ]
+    [| mem-initializer [`:opt ...] ]
+    [| mem-initializer-list [`,] mem-initializer [`:opt ...] ]
+[rule:end]
+
+[rule mem-initializer [:zh_CN] ]
+    [| mem-initializer-id [`(] [~:opt expression-list] [`)] ]
+    [| mem-initializer-id braced-init-list ]
+[rule:end]
+
+[rule mem-initializer-id [:zh_CN] ]
+    [| class-or-decltype ]
+    [| identifier ]
+[rule:end]
+[syntax:end]
+
+[para]
+[:en]
+In a [~mem-initializer-id] an initial unqualified [~identifier] is looked up in
+the scope of the constructor[=']s class and, if not found in that scope, it is
+looked up in the scope containing the constructor[=']s definition.
+
+[enter:note]
+[:en]
+If the constructor[=']s class contains a member with the same name as a direct
+or virtual base class of the class, a [~mem-initializer-id] naming the member or
+base class and composed of a single identifier refers to the class member.
+
+[:en]
+A [~mem-initializer-id] for the hidden base class may be specified using a
+qualified name.
+[exit:note]
+
+[:en]
+Unless the [~mem-initializer-id] names the constructor[=']s class, a non-static
+data member of the constructor[=']s class, or a direct or virtual base of that
+class, the [~mem-initializer] is ill-formed.
+
+[para]
+[:en]
+A [~mem-initializer-list] can initialize a base class using any
+[~class-or-decltype] that denotes that base class type.
+
+[enter:example]
+[codeblock]
+struct A { A(); };
+  typedef A global_A;
+  struct B { };
+  struct C: public A, public B { C(); };
+  C::C(): global_A() { }        // [:en] [~mem-initializer] for base [`A]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [~mem-initializer-id] is ambiguous because it designates both a direct
+non-virtual base class and an inherited virtual base class, the
+[~mem-initializer] is ill-formed.
+
+[enter:example]
+[codeblock]
+struct A { A(); };
+struct B: public virtual A { };
+struct C: public A, public B { C(); };
+C::C(): A() { }                 // [:en] ill-formed: which [`A]?
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~ctor-initializer] may initialize a variant member of the constructor[=']s
+class.
+
+[:en]
+If a [~ctor-initializer] specifies more than one [~mem-initializer] for the same
+member or for the same base class, the [~ctor-initializer] is ill-formed.
+
+[para]
+[:en]
+A [~mem-initializer-list] can delegate to another constructor of the
+constructor[=']s class using any [~class-or-decltype] that denotes the
+constructor[=']s class itself.
+
+[:en]
+If a [~mem-initializer-id] designates the constructor[=']s class, it shall be
+the only [~mem-initializer]; the constructor is a [+delegating constructor], and
+the constructor selected by the [~mem-initializer] is the [+target constructor].
+
+[:en]
+The [+principal constructor] is the first constructor invoked in the
+construction of an object (that is, not a target constructor for that
+object[=']s construction).
+
+[:en]
+The target constructor is selected by overload resolution.
+
+[:en]
+Once the target constructor returns, the body of the delegating constructor
+is executed.
+
+[:en]
+If a constructor delegates to itself directly or indirectly, the program is
+ill-formed; no diagnostic is required.
+
+[enter:example]
+[codeblock]
+struct C {
+  C( int ) { }                  // [:en] #1: non-delegating constructor
+  C(): C(42) { }                // [:en] #2: delegates to #1
+  C( char c ) : C(42.0) { }     // [:en] #3: ill-formed due to recursion with #4
+  C( double d ) : C('a') { }    // [:en] #4: ill-formed due to recursion with #3
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%initialization[!base class]]
+[%initialization[!member object]]
+The [~expression-list] or [~braced-init-list] in a [~mem-initializer] is used to
+initialize the designated subobject (or, in the case of a delegating
+constructor, the complete class object) according to the initialization rules of
+[#dcl.init] for direct-initialization.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct B1 { B1(int); /* ... */ };
+struct B2 { B2(int); /* ... */ };
+struct D : B1, B2 {
+  D(int);
+  B1 b;
+  const int c;
+};
+
+D::D(int a) : B2(a+1), B1(a+2), c(a+3), b(a+4)
+  { /* ... */ }
+D d(10);
+[codeblock:end]
+[exit:example]
+
+[:en]
+The initialization performed by each [~mem-initializer] constitutes a
+full-expression.
+
+[:en]
+Any expression in a [~mem-initializer] is evaluated as part of the
+full-expression that performs the initialization.
+
+[:en]
+A [~mem-initializer] where the [~mem-initializer-id] denotes a virtual base
+class is ignored during execution of a constructor of any class that is not the
+most derived class.
+
+[para]
+[:en]
+A temporary expression bound to a reference member in a [~mem-initializer]
+is ill-formed.
+
+[enter:example]
+[codeblock]
+struct A {
+  A() : v(42) { }  // [:en] error
+  const int& v;
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In a non-delegating constructor, if a given potentially constructed subobject is
+not designated by a [~mem-initializer-id] (including the case where there is no
+[~mem-initializer-list] because the constructor has no [~ctor-initializer]),
+then
+
+[list]
+[item]
+[:en]
+if the entity is a non-static data member that has a
+[~brace-or-equal-initializer] and either
+
+[list]
+[item]
+[:en@~]
+the constructor[=']s class is a union ([#class.union]), and no other variant
+member of that union is designated by a [~mem-initializer-id] or
+
+[item]
+[:en@~] the constructor[=']s class is not a union, and, if the entity is a
+member of an anonymous union, no other member of that union is designated by a
+[~mem-initializer-id],
+[list:end]
+
+[:en@~]
+the entity is initialized as specified in [#dcl.init];
+
+[item]
+[:en]
+otherwise, if the entity is an anonymous union or a variant member
+([#class.union]), no initialization is performed;
+
+[item]
+[:en]
+otherwise, the entity is default-initialized ([#dcl.init]).
+[list:end]
+
+[enter:note]
+[:en]
+An abstract class ([#class.abstract]) is never a most derived class, thus its
+constructors never initialize virtual base classes, therefore the corresponding
+[~mem-initializer]s may be omitted.
+[exit:note]
+
+[:en]
+An attempt to initialize more than one non-static data member of a union renders
+the program ill-formed.
+
+[enter:note]
+[:en]
+[%initialization[!const member]]
+[%initialization[!reference member]]
+After the call to a constructor for class [`X] for an object with automatic or
+dynamic storage duration has completed, if the constructor was not invoked as
+part of value-initialization and a member of [`X] is neither initialized nor
+given a value during execution of the [~compound-statement] of the body of the
+constructor, the member has an indeterminate value.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct A {
+  A();
+};
+
+struct B {
+  B(int);
+};
+
+struct C {
+  C() { }               // [:en] initializes members as follows:
+  A a;                    // [:en] OK: calls [`A::A()]
+  const B b;              // [:en] error: [`B] has no default constructor
+  int i;                  // [:en] OK: [`i] has indeterminate value
+  int j = 5;              // [:en] OK: [`j] has the value [`5]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a given non-static data member has both a [~brace-or-equal-initializer] and a
+[~mem-initializer], the initialization specified by the [~mem-initializer] is
+performed, and the non-static data member[=']s  [~brace-or-equal-initializer] is
+ignored.
+
+[enter:example]
+[:en]
+Given
+
+[codeblock]
+struct A {
+  int i = /* [:en] some integer expression with side effects */ ;
+  A(int arg) : i(arg) { }
+  // ...
+};
+[codeblock:end]
+
+[:en@~]
+the [`A(int)] constructor will simply initialize [`i] to the value of [`arg],
+and the [%side effects] side effects in [`i][=']s [~brace-or-equal-initializer]
+will not take place.
+[exit:example]
+
+[para]
+[:en]
+A temporary expression bound to a reference member from a
+[~brace-or-equal-initializer] is ill-formed.
+
+[enter:example]
+[codeblock]
+struct A {
+  A() = default;          // OK
+  A(int v) : v(v) { }     // OK
+  const int& v = 42;      // OK
+};
+A a1;                     // [:en] error: ill-formed binding of temporary to reference
+A a2(1);                  // [:en] OK, unfortunately
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In a non-delegating constructor, the destructor for each potentially constructed
+subobject of class type is potentially invoked ([#class.dtor]).
+
+[enter:note]
+[:en]
+This provision ensures that destructors can be called for fully-constructed
+sub-objects in case an exception is thrown ([#except.ctor]).
+[exit:note]
+
+[para]
+[:en]
+In a non-delegating constructor, initialization proceeds in the following order:
+
+[list]
+[item]
+[:en]
+[%initialization[!order of virtual base class]]
+First, and only for the constructor of the most derived class ([#intro.object]),
+virtual base classes are initialized in the order they appear on a depth-first
+left-to-right traversal of the directed acyclic graph of base classes, where
+["left-to-right] is the order of appearance of the base classes in the derived
+class [~base-specifier-list].
+
+[item]
+[:en]
+[%initialization[!order of base class]]
+Then, direct base classes are initialized in declaration order as they appear in
+the [~base-specifier-list] (regardless of the order of the [~mem-initializers]).
+
+[item]
+[:en]
+[%initialization[!order of member]]
+Then, non-static data members are initialized in the order they were declared in
+the class definition (again regardless of the order of the [~mem-initializers]).
+
+[item]
+[:en]
+Finally, the [~compound-statement] of the constructor body  is executed.
+[list:end]
+
+[enter:note]
+[:en]
+The declaration order is mandated to ensure that base and member subobjects are
+destroyed in the reverse order of initialization.
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+struct V {
+  V();
+  V(int);
+};
+
+struct A : virtual V {
+  A();
+  A(int);
+};
+
+struct B : virtual V {
+  B();
+  B(int);
+};
+
+struct C : A, B, virtual V {
+  C();
+  C(int);
+};
+
+A::A(int i) : V(i) { /* ... */ }
+B::B(int i) { /* ... */ }
+C::C(int i) { /* ... */ }
+
+V v(1);             // [:en] use [`V(int)]
+A a(2);             // [:en] use [`V(int)]
+B b(3);             // [:en] use [`V()]
+C c(4);             // [:en] use [`V()]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%initializer[!scope of member]]
+Names in the [~expression-list] or [~braced-init-list] of a [~mem-initializer]
+are evaluated in the scope of the constructor for which the [~mem-initializer]
+is specified.
+
+[enter:example]
+[codeblock]
+class X {
+  int a;
+  int b;
+  int i;
+  int j;
+public:
+  const int& r;
+  X(int i): r(a), b(i), i(i), j(this->i) { }
+};
+[codeblock:end]
+
+[:en]
+initializes [`X::r] to refer to [`X::a], initializes [`X::b] with the value of
+the constructor parameter [`i], initializes [`X::i] with the value of the
+constructor parameter [`i], and initializes [`X::j] with the value of [`X::i];
+this takes place each time an object of class [`X] is created.
+[exit:example]
+
+[enter:note]
+[:en]
+Because the [~mem-initializer] are evaluated in the scope of the constructor,
+the [`this] pointer can be used in the [~expression-list] of a
+[~mem-initializer] to refer to the object being initialized.
+[exit:note]
+
+[para]
+[:en]
+[%initialization[!member function call during]]
+Member functions (including virtual member functions, [#class.virtual]) can be
+called for an object under construction.
+
+[:en]
+Similarly, an object under construction can be the operand of the [`typeid]
+operator ([#expr.typeid]) or of a [`dynamic_cast] ([#expr.dynamic.cast]).
+
+[:en]
+However, if these operations are performed in a [~ctor-initializer] (or in a
+function called directly or indirectly from a [~ctor-initializer]) before all
+the [~mem-initializer]s for base classes have completed, the result of the
+operation is undefined.
+
+[enter:example]
+[codeblock]
+class A {
+public:
+  A(int);
+};
+
+class B : public A {
+  int j;
+public:
+  int f();
+  B() : A(f()),     // [:en] undefined: calls member function
+                    // [:en@~] but base [`A] not yet initialized
+  j(f()) { }        // [:en] well-defined: bases are all initialized
+};
+
+class C {
+public:
+  C(int);
+};
+
+class D : public B, C {
+  int i;
+public:
+  D() : C(f()),     // [:en] undefined: calls member function
+                    // [:en@~] but base [`C] not yet initialized
+  i(f()) { }        // [:en] well-defined: bases are all initialized
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[#class.cdtor] describes the result of virtual function calls, [`typeid] and
+[`dynamic_cast]s during construction for the well-defined cases; that is,
+describes the [+polymorphic behavior] of an object under construction.
+[exit:note]
+
+[para]
+[:en]
+[%initializer[!pack expansion]]
+A [~mem-initializer] followed by an ellipsis is a pack expansion
+([#temp.variadic]) that initializes the base classes specified by a pack
+expansion in the [~base-specifier-list] for the class.
+
+[enter:example]
+[codeblock]
+template<class... Mixins>
+class X : public Mixins... {
+public:
+  X(const Mixins&... mixins) : Mixins(mixins)... { }
+};
+[codeblock:end]
+[exit:example]

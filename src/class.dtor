@@ -1,0 +1,385 @@
+﻿[section#class.dtor
+    [:en] Destructors
+]
+[%[:en]destructor]
+
+[para]
+[:en]
+In a declaration of a destructor, the [~declarator] is a function declarator
+([#dcl.fct]) of the form
+
+[syntax:explanation]
+[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)] [~:opt exception-specification] [~:opt attribute-specifier-seq]
+[syntax:end]
+
+[:en@~]
+where the [~ptr-declarator] consists solely of an [~id-expression], an optional
+[~attribute-specifier-seq], and optional surrounding parentheses, and the
+[~id-expression] has one of the following forms:
+
+[list]
+[item]
+[:en]
+in a [~member-declaration] that belongs to the [~member-specification] of a
+class but is not a friend declaration ([#class.friend]), the [~id-expression] is
+[`~][~class-name] and the [~class-name] is the injected-class-name (Clause
+[#class]) of the immediately-enclosing class;
+
+[item]
+[:en]
+in a [~member-declaration] that belongs to the [~member-specification] of a
+class template but is not a friend declaration, the [~id-expression] is
+[`~][~class-name] and the [~class-name] names the current instantiation
+([#temp.dep.type]) of the immediately-enclosing class template; or
+
+[item]
+[:en]
+in a declaration at namespace scope or in a friend declaration, the
+[~id-expression] is [~nested-name-specifier] [`~][~class-name] and the
+[~class-name] names the same class as the [~nested-name-specifier].
+[list:end]
+
+[:en]
+The [~class-name] shall not be a [~typedef-name].
+
+[:en]
+A destructor shall take no arguments ([#dcl.fct]).
+
+[:en]
+In a destructor declaration, each [~decl-specifier] of the optional
+[~decl-specifier-seq] shall be [`friend], [`inline], or [`virtual].
+
+[para]
+[:en]
+A destructor is used to destroy objects of its class type.
+
+[:en]
+[%restriction[!destructor]]
+The address of a destructor shall not be taken.
+
+[:en]
+[%[`const][!destructor and]]
+[%[`volatile][!destructor and]]
+A destructor can be invoked for a [`const], [`volatile] or [`const volatile]
+object.
+
+[:en]
+[`const] and [`volatile] semantics ([#dcl.type.cv]) are not applied on an object
+under destruction.
+
+[:en]
+They stop being in effect when the destructor for the most derived object
+([#intro.object]) starts.
+
+[para]
+[:en]
+A declaration of a destructor that does not have an [~exception-specification]
+has the same exception specification as if had been implicitly declared
+([#except.spec]).
+
+[para]
+[:en]
+[%generated destructor[see destructor[!default]]]
+[%destructor[!default]]
+[%destructor[!non-trivial]]
+If a class has no user-declared destructor, a destructor is implicitly
+declared as defaulted ([#dcl.fct.def]).
+
+[:en]
+An implicitly-declared destructor is an [`inline public] member of its class.
+
+[para]
+[:en]
+A defaulted destructor for a class [`X] is defined as deleted if:
+
+[list]
+[item]
+[:en@~] [`X] is a union-like class that has a variant member with a non-trivial
+destructor,
+
+[item]
+[:en@~] any potentially constructed subobject has class type [`M] (or array
+thereof) and [`M] has a deleted destructor or a destructor that is inaccessible
+from the defaulted destructor,
+
+[item]
+[:en@~] or, for a virtual destructor, lookup of the non-array deallocation
+function results in an ambiguity or in a function that is deleted or
+inaccessible from the defaulted destructor.
+[list:end]
+
+[:en]
+A destructor is trivial if it is not user-provided and if:
+
+[list]
+[item]
+[:en@~] the destructor is not [`virtual],
+
+[item]
+[:en@~] all of the direct base classes of its class have trivial destructors,
+and
+
+[item]
+[:en@~] for all of the non-static data members of its class that are of class
+type (or array thereof), each such class has a trivial destructor.
+[list:end]
+
+[:en]
+Otherwise, the destructor is [+non-trivial].
+
+[para]
+[:en]
+[%destructor[!implicitly defined]]
+A destructor that is defaulted and not defined as deleted is [+implicitly
+defined] when it is odr-used ([#basic.def.odr]) to destroy an object of its
+class type ([#basic.stc]) or when it is explicitly defaulted after its first
+declaration.
+
+[para]
+[:en]
+Before the defaulted destructor for a class is implicitly defined, all the
+non-user-provided destructors for its base classes and its non-static data
+members shall have been implicitly defined.
+
+[para]
+[:en]
+[%order of execution[!destructor]]
+[%order of execution[!base class destructor]]
+[%order of execution[!member destructor]]
+After executing the body of the destructor and destroying any automatic objects
+allocated within the body, a destructor for class [`X] calls the destructors for
+[`X][=']s direct non-variant non-static data members, the destructors for
+[`X][=']s direct base classes and, if [`X] is the type of the most derived class
+([#class.base.init]), its destructor calls the destructors for [`X][=']s virtual
+base classes.
+
+[:en]
+All destructors are called as if they were referenced with a qualified name,
+that is, ignoring any possible virtual overriding destructors in more derived
+classes.
+
+[:en]
+Bases and members are destroyed in the reverse order of the completion of their
+constructor (see [#class.base.init]).
+
+[:en]
+A [`return] statement ([#stmt.return]) in a destructor might not directly return
+to the caller; before transferring control to the caller, the destructors for
+the members and bases are called.
+
+[:en]
+[%order of execution[!destructor and array]]
+Destructors for elements of an array are called in reverse order of their
+construction (see [#class.init]).
+
+[para]
+[:en]
+[%destructor[!virtual]]
+[%destructor[!pure virtual]]
+A destructor can be declared [`virtual] ([#class.virtual]) or pure [`virtual]
+([#class.abstract]); if any objects of that class or any derived class are
+created in the program, the destructor shall be defined.
+
+[:en]
+If a class has a base class with a virtual destructor, its destructor (whether
+user- or implicitly-declared) is virtual.
+
+[para]
+[enter:note]
+[:en]
+[%member function[!destructor and]]
+some language constructs have special semantics when used during destruction;
+see [#class.cdtor].
+[exit:note]
+
+[para]
+[:en]
+[%destructor[!implicit call]]
+[%destructor[!program termination and]]
+A destructor is invoked implicitly
+
+[list]
+
+[item]
+[:en@~] for a constructed object with static storage duration
+([#basic.stc.static]) at program termination ([#basic.start.term]),
+
+[item]
+[:en@~] for a constructed object with thread storage duration
+([#basic.stc.thread]) at thread exit,
+
+[item]
+[:en@~] for a constructed object with automatic storage duration
+([#basic.stc.auto]) when the block in which an object is created exits
+([#stmt.dcl]),
+
+[item]
+[:en@~] for a constructed temporary object when its lifetime ends
+([#class.temporary]).
+[list:end]
+
+[:en]
+[%[`delete][!destructor and]]
+[%destructor[!explicit call]]
+In each case, the context of the invocation is the context of the construction
+of the object.
+
+[:en]
+A destructor is also invoked implicitly through use of a [~delete-expression]
+([#expr.delete]) for a constructed object allocated by a [~new-expression]
+([#expr.new]); the context of the invocation is the [~delete-expression].
+
+[enter:note]
+[:en]
+An array of class type contains several subobjects for each of which the
+destructor is invoked.
+[exit:note]
+
+[:en]
+A destructor can also be invoked explicitly.
+
+[:en]
+A destructor is [+potentially invoked] if it is invoked or as specified in
+[#expr.new] and [#class.base.init].
+
+[:en]
+A program is ill-formed if a destructor that is potentially invoked is deleted
+or not accessible from the context of the invocation.
+
+[para]
+[:en]
+At the point of definition of a virtual destructor (including an implicit
+definition ([#class.copy])), the non-array deallocation function is determined
+as if for the expression [`delete this] appearing in a non-virtual destructor of
+the destructor[=']s class (see [#expr.delete]).
+
+[:en]
+If the lookup fails or if the deallocation function has a deleted definition
+([#dcl.fct.def]), the program is ill-formed.
+
+[enter:note]
+[:en]
+This assures that a deallocation function corresponding to the dynamic type of
+an object is available for the [~delete-expression] ([#class.free]).
+[exit:note]
+
+[para]
+[:en]
+[%destructor[!explicit call]]
+In an explicit destructor call, the destructor name appears as a [`~] followed
+by a [~type-name] or [~decltype-specifier] that denotes the destructor[=']s
+class type.
+
+[:en]
+The invocation of a destructor is subject to the usual rules for member
+functions ([#class.mfct]); that is, if the object is not of the destructor[=']s
+class type and not of a class derived from the destructor[=']s class type
+(including when the destructor is invoked via a null pointer value), the program
+has undefined behavior.
+
+[enter:note]
+[:en]
+invoking [`delete] on a null pointer does not call the destructor; see
+[#expr.delete].
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct B {
+  virtual ~B() { }
+};
+struct D : B {
+  ~D() { }
+};
+
+D D_object;
+typedef B B_alias;
+B* B_ptr = &D_object;
+
+void f() {
+  D_object.B::~B();             // [:en] calls [`B][=']s destructor
+  B_ptr->~B();                  // [:en] calls [`D][=']s destructor
+  B_ptr->~B_alias();            // [:en] calls [`D][=']s destructor
+  B_ptr->B_alias::~B();         // [:en] calls [`B][=']s destructor
+  B_ptr->B_alias::~B_alias();   // [:en] calls [`B][=']s destructor
+}
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+An explicit destructor call must always be written using a member access
+operator ([#expr.ref]) or a qualified-id ([#expr.prim]); in particular, the
+[~unary-expression] [`~X()] in a member function is not an explicit destructor
+call ([#expr.unary.op]).
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+[%object[!destructor and placement of]]
+explicit calls of destructors are rarely needed.
+
+[:en]
+One use of such calls is for objects placed at specific addresses using a
+placement [~new-expression].
+
+[:en]
+Such use of explicit placement and destruction of objects can be necessary
+to cope with dedicated hardware resources and for writing memory management
+facilities.
+
+[:en]
+For example,
+[%[:en]example[!explicit destructor call]]
+
+[codeblock]
+void* operator new(std::size_t, void* p) { return p; }
+struct X {
+  X(int);
+  ~X();
+};
+void f(X* p);
+
+void g() {                      // [:en] rare, specialized use:
+  char* buf = new char[sizeof(X)];
+  X* p = new(buf) X(222);       // [:en] use [`buf[`]] and initialize
+  f(p);
+  p->X::~X();                   // [:en] cleanup
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+Once a destructor is invoked for an object, the object no longer exists;
+the behavior is undefined if the destructor is invoked for an object whose
+lifetime has ended ([#basic.life]).
+
+[enter:example]
+[:en]
+if the destructor for an automatic object is explicitly invoked, and the block
+is subsequently left in a manner that would ordinarily invoke implicit
+destruction of the object, the behavior is undefined.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[%fundamental type[!destructor and]]
+the notation for explicit call of a destructor can be used for any scalar type
+name ([#expr.pseudo]).
+
+[:en]
+Allowing this makes it possible to write code without having to know if a
+destructor exists for a given type.
+
+[:en]
+For example,
+
+[codeblock]
+typedef int I;
+I* p;
+p->I::~I();
+[codeblock:end]
+[exit:note]

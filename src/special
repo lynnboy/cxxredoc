@@ -1,0 +1,114 @@
+﻿[section:chapter#special
+    [:en] Special member functions
+]
+[/
+%gram: \rSec1[gram.special]{Special member functions}
+%gram:
+/]
+
+[:en]
+[%special member function[see constructor][see destructor][see inline function]
+    [see user-defined conversion][see virtual function]]
+[%[`X(X&)][see copy constructor]]
+[%[`~][see destructor]]
+[%assignment[!copy][see assignment operator [!copy]]]
+[%assignment[!move][see assignment operator [!move]]]
+[%implicitly-declared default constructor[see constructor [!default]]]
+
+[para]
+[:en]
+[%constructor[!default]]
+[%constructor[!copy]]
+[%constructor[!move]]
+[%assignment operator[!copy]]
+[%assignment operator[!move]]
+The default constructor ([#class.ctor]), copy constructor and copy assignment
+operator ([#class.copy]), move constructor and move assignment operator
+([#class.copy]), and destructor ([#class.dtor]) are [+special member functions].
+
+[enter:note]
+[:en]
+The implementation will implicitly declare these member functions for some class
+types when the program does not explicitly declare them.
+
+[:en]
+The implementation will implicitly define them if they are odr-used
+([#basic.def.odr]).
+
+[:en]
+See [#class.ctor], [#class.dtor] and [#class.copy].
+[exit:note]
+
+[:en]
+An implicitly-declared special member function is declared at the closing [`}]
+of the [~class-specifier].
+
+[:en]
+Programs shall not define implicitly-declared special member functions.
+
+[para]
+[:en]
+Programs may explicitly refer to implicitly-declared special member functions.
+
+[enter:example]
+[:en]
+a program may explicitly call, take the address of or form a pointer to member
+to an implicitly-declared special member function.
+
+[codeblock]
+struct A { };                   // [:en] implicitly declared [`A::operator=]
+struct B : A {
+  B& operator=(const B &);
+};
+B& B::operator=(const B& s) {
+  this->A::operator=(s);        // [:en] well formed
+  return *this;
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+The special member functions affect the way objects of class type are created,
+copied, moved, and destroyed, and how values can be converted to values of other
+types.
+
+[:en]
+Often such special member functions are called implicitly.
+[exit:note]
+
+[para]
+[:en]
+[%access control[!member function and]]
+Special member functions obey the usual access rules (Clause [#class.access]).
+
+[enter:example]
+[:en]
+declaring a constructor [`protected] ensures that only derived classes and
+friends can create objects using it.
+[exit:example]
+
+[para]
+[:en]
+For a class, its non-static data members, its non-virtual direct base classes,
+and, if the class is not abstract ([#class.abstract]), its virtual base classes
+are called its [+potentially constructed subobjects].
+
+[include class.ctor]
+
+[include class.temporary]
+
+[include class.conv]
+
+[include class.dtor]
+
+[include class.free]
+
+[include class.init]
+
+[include class.cdtor]
+
+[include class.copy]
+
+[include class.inhctor]

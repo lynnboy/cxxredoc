@@ -1,0 +1,71 @@
+﻿[section#class.conv.ctor
+    [:en] Conversion by constructor
+]
+
+[%[:en] conversion[!user-defined]]
+
+[para]
+[:en]
+A constructor declared without the [~function-specifier] [`explicit] specifies a
+conversion from the types of its parameters to the type of its class.
+
+[:en]
+Such a constructor is called a [+converting constructor
+[%constructor [!converting]]].
+
+[enter:example]
+[%Jessie]]
+[codeblock]
+struct X {
+    X(int);
+    X(const char*, int =0);
+    X(int, int);
+};
+
+void f(X arg) {
+  X a = 1;          // [`a = X(1)]
+  X b = "Jessie";   // [`b = X("Jessie",0)]
+  a = 2;            // [`a = X(2)]
+  f(3);             // [`f(X(3))]
+  f({1, 2});        // [`f(X(1,2))]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An explicit constructor constructs objects just like non-explicit constructors,
+but does so only where the direct-initialization syntax ([#dcl.init]) or where
+casts ([#expr.static.cast], [#expr.cast]) are explicitly used.
+
+[:en]
+A default constructor may be an explicit constructor; such a constructor will be
+used to perform default-initialization or value-initialization ([#dcl.init]).
+
+[enter:example]
+[codeblock]
+struct Z {
+  explicit Z();
+  explicit Z(int);
+  explicit Z(int, int);
+};
+
+Z a;                            // [:en] OK: default-initialization performed
+Z a1 = 1;                       // [:en] error: no implicit conversion
+Z a3 = Z(1);                    // [:en] OK: direct initialization syntax used
+Z a2(1);                        // [:en] OK: direct initialization syntax used
+Z* p = new Z(1);                // [:en] OK: direct initialization syntax used
+Z a4 = (Z)1;                    // [:en] OK: explicit cast used
+Z a5 = static_cast<Z>(1);       // [:en] OK: explicit cast used
+Z a6 = { 3, 4 };                // [:en] error: no implicit conversion
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A non-explicit copy/move constructor ([#class.copy]) is a converting
+constructor.
+
+[:en]
+An implicitly-declared copy/move constructor is not an explicit constructor;
+it may be called for implicit type conversions.

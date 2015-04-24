@@ -1,0 +1,316 @@
+﻿[section#class.ctor
+    [:en] Constructors
+]
+
+[%  [:en] constructor]
+
+[para]
+[:en]
+Constructors do not have names.
+
+[:en]
+In a declaration of a constructor, the [~declarator] is a
+function declarator ([#dcl.fct]) of the form
+
+[syntax:explanation]
+[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)] [~:opt exception-specification] [~:opt attribute-specifier-seq]
+[syntax:end]
+
+[:en@~]
+where the [~ptr-declarator] consists solely of an [~id-expression], an optional
+[~attribute-specifier-seq], and optional surrounding parentheses, and the
+[~id-expression] has one of the following forms:
+
+[list]
+[item]
+[:en]
+in a [~member-declaration] that belongs to the [~member-specification] of a
+class but is not a friend declaration ([#class.friend]), the [~id-expression] is
+the injected-class-name (Clause [#class]) of the immediately-enclosing class;
+
+[item]
+[:en]
+in a [~member-declaration] that belongs to the [~member-specification] of a
+class template but is not a friend declaration, the [~id-expression] is a
+[~class-name] that names the current instantiation ([#temp.dep.type]) of the
+immediately-enclosing class template; or
+
+[item]
+[:en]
+in a declaration at namespace scope or in a friend declaration, the
+[~id-expression] is a [~qualified-id] that names a constructor ([#class.qual]).
+[list:end]
+
+[:en]
+The [~class-name] shall not be a [~typedef-name].
+
+[:en]
+In a constructor declaration, each [~decl-specifier] in the optional
+[~decl-specifier-seq] shall be [`friend], [`inline], [`explicit], or
+[`constexpr].
+
+[enter:example]
+[codeblock]
+struct S {
+  S();              // [:en] declares the constructor
+};
+
+S::S() { }          // [:en] defines the constructor
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A constructor is used to initialize objects of its class type.
+
+[:en]
+Because constructors do not have names, they are never found during name lookup;
+however an explicit type conversion using the functional notation
+([#expr.type.conv]) will cause a constructor to be called to initialize an
+object.
+
+[enter:note]
+[:en]
+For initialization of objects of class type see [#class.init].
+[exit:note]
+
+[para]
+[:en]
+[%[`const][!constructor and]]
+[%[`volatile][!constructor and]]
+A constructor can be invoked for a [`const], [`volatile] or [`const volatile]
+object.
+
+[:en]
+[%restriction[!constructor]]
+[`const] and [`volatile] semantics ([#dcl.type.cv]) are not applied on an object
+under construction.
+
+[:en]
+They come into effect when the constructor for the most derived object
+([#intro.object]) ends.
+
+[para]
+[:en]
+[%constructor[!inheritance of]]
+[%constructor[!default]]
+[%constructor[!non-trivial]]
+A [+default] constructor for a class [`X] is a constructor of class [`X] that
+either has no parameters or else each parameter that is not a function parameter
+pack has a default argument.
+
+[:en]
+[%implicitly-declared default constructor]
+If there is no user-declared constructor for class [`X], a constructor having no
+parameters is implicitly declared as defaulted ([#dcl.fct.def]).
+
+[:en]
+An implicitly-declared default constructor is an [`inline public] member of its
+class.
+
+[:en]
+A defaulted default constructor for class [`X] is defined as deleted if:
+
+[list]
+[item]
+[:en] [`X] is a union-like class that has a variant member with a non-trivial
+default constructor,
+
+[item]
+[:en] any non-static data member with no [~brace-or-equal-initializer] is of
+reference type,
+
+[item]
+[:en] any non-variant non-static data member of const-qualified type (or array
+thereof) with no [~brace-or-equal-initializer] does not have a user-provided
+default constructor,
+
+[item]
+[:en] [`X] is a union and all of its variant members are of const-qualified
+type (or array thereof),
+
+[item]
+[:en] [`X] is a non-union class and all members of any anonymous union member
+are of const-qualified type (or array thereof),
+
+[item]
+[:en] any potentially constructed subobject, except for a non-static data member
+with a [~brace-or-equal-initializer], has class type [`M] (or array thereof) and
+either [`M] has no default constructor or overload resolution ([#over.match]) as
+applied to [`M][=']s default constructor results in an ambiguity or in a
+function that is deleted or inaccessible from the defaulted default constructor,
+or
+
+[item]
+[:en] any potentially constructed subobject has a type with a destructor that is
+deleted or inaccessible from the defaulted default constructor.
+[list:end]
+
+[:en]
+A default constructor is trivial if it is not user-provided and if:
+
+[list]
+[item]
+[:en]
+its class has no virtual functions ([#class.virtual]) and no virtual base
+classes ([#class.mi]), and
+
+[item]
+[:en]
+no non-static data member of its class has a [~brace-or-equal-initializer], and
+
+[item]
+[:en]
+all the direct base classes of its class have trivial default constructors, and
+
+[item]
+[:en]
+for all the non-static data members of its class that are of class type (or
+array thereof), each such class has a trivial default constructor.
+[list:end]
+
+[:en]
+Otherwise, the default constructor is [~non-trivial].
+
+[para]
+[:en]
+[%constructor[!implicitly defined]]
+A default constructor that is defaulted and not defined as deleted is
+[+implicitly defined] when it is odr-used ([#basic.def.odr]) to create an object
+of its class type ([#intro.object]) or when it is explicitly defaulted after its
+first declaration.
+
+[:en]
+The implicitly-defined default constructor performs the set of initializations
+of the class that would be performed by a user-written default constructor for
+that class with no [~ctor-initializer] ([#class.base.init]) and an empty
+[~compound-statement].
+
+[:en]
+If that user-written default constructor would be ill-formed, the program is
+ill-formed.
+
+[:en]
+If that user-written default constructor would satisfy the requirements of a
+[`constexpr] constructor ([#dcl.constexpr]), the implicitly-defined default
+constructor is [`constexpr].
+
+[:en]
+Before the defaulted default constructor for a class is implicitly defined, all
+the non-user-provided default constructors for its base classes and its
+non-static data members shall have been implicitly defined.
+
+[enter:note]
+[:en]
+An implicitly-declared default constructor has an exception specification
+([#except.spec]).
+
+[:en]
+An explicitly-defaulted definition might have an implicit exception
+specification, see [#dcl.fct.def].
+[exit:note]
+
+[para]
+[:en]
+[%constructor[!implicitly called]]
+Default constructors are called implicitly to create class objects of static,
+thread, or automatic storage duration ([#basic.stc.static], [#basic.stc.thread],
+[#basic.stc.auto]) defined without an initializer ([#dcl.init]), are called to
+create class objects of dynamic storage duration ([#basic.stc.dynamic]) created
+by a [~new-expression] in which the [~new-initializer] is omitted ([#expr.new]),
+or are called when the explicit type conversion syntax ([#expr.type.conv]) is
+used.
+
+[:en]
+A program is ill-formed if the default constructor for an object is implicitly
+used and the constructor is not accessible (Clause [#class.access]).
+
+[para]
+[enter:note]
+[:en]
+[%order of execution[!base class constructor]]
+[%order of execution[!member constructor]]
+[#class.base.init] describes the order in which constructors for base classes
+and non-static data members are called and describes how arguments can be
+specified for the calls to these constructors.
+[exit:note]
+
+[para]
+[%restriction[!constructor]]
+[:en]
+A [`return] statement in the body of a constructor shall not specify a return
+value.
+
+[:en]
+[%constructor[!address of]]
+The address of a constructor shall not be taken.
+
+[para]
+[:en]
+[%object[!unnamed]]
+[%constructor[!explicit call]]
+A functional notation type conversion ([#expr.type.conv]) can be used to create
+new objects of its type.
+
+[enter:note]
+[:en]
+The syntax looks like an explicit call of the constructor.
+[exit:note]
+
+[enter:example]
+[%  [:en] example[!constructor]]
+[codeblock]
+complex zz = complex(1,2.3);
+cprint( complex(7.8,1.2) );
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An object created in this way is unnamed.
+
+[enter:note]
+[:en]
+[#class.temporary] describes the lifetime of temporary objects.
+[exit:note]
+
+[enter:note]
+[:en]
+Explicit constructor calls do not yield lvalues, see [#basic.lval].
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+[%member function[!constructor and]]
+some language constructs have special semantics when used during construction;
+see [#class.base.init] and [#class.cdtor].
+[exit:note]
+
+[para]
+[:en]
+During the construction of a [`const] object, if the value of the object or any
+of its subobjects is accessed through a glvalue that is not obtained, directly
+or indirectly, from the constructor[=']s [`this] pointer, the value of the
+object or subobject thus obtained is unspecified.
+
+[enter:example]
+[codeblock]
+struct C;
+void no_opt(C*);
+
+struct C {
+  int c;
+  C() : c(0) { no_opt(this); }
+};
+
+const C cobj;
+
+void no_opt(C* cptr) {
+  int i = cobj.c * 100;         // [:en] value of [`cobj.c] is unspecified
+  cptr->c = 1;
+  cout << cobj.c * 100          // [:en] value of [`cobj.c] is unspecified
+       << '\n';
+}
+[codeblock:end]
+[exit:example]

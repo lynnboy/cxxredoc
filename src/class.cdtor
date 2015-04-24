@@ -1,0 +1,233 @@
+﻿[section#class.cdtor
+    [:en] Construction and destruction
+]
+
+[%:begin#construction
+    [:en] construction]
+]
+[%:begin#destruction
+    [:en] destruction
+]
+
+[para]
+[:en]
+[%construction[!member access]]
+[%destruction[!member access]]
+For an object with a non-trivial constructor, referring to any non-static member
+or base class of the object before the constructor begins execution results in
+undefined behavior.
+
+[:en]
+For an object with a non-trivial destructor, referring to any non-static member
+or base class of the object after the destructor finishes execution results in
+undefined behavior.
+
+[enter:example]
+[codeblock]
+struct X { int i; };
+struct Y : X { Y(); };                  // [:en] non-trivial
+struct A { int a; };
+struct B : public A { int j; Y y; };    // [:en] non-trivial
+
+extern B bobj;
+B* pb = &bobj;                          // OK
+int* p1 = &bobj.a;                      // [:en] undefined, refers to base class member
+int* p2 = &bobj.y.i;                    // [:en] undefined, refers to member[=']s member
+
+A* pa = &bobj;                          // [:en] undefined, upcast to a base class type
+B bobj;                                 // [:en] definition of [`bobj]
+
+extern X xobj;
+int* p3 = &xobj.i;                      // [:en] OK, [`X] is a trivial class
+X xobj;
+[codeblock:end]
+
+[para]
+[:en]
+For another example,
+
+[codeblock]
+struct W { int j; };
+struct X : public virtual W { };
+struct Y {
+  int* p;
+  X x;
+  Y() : p(&x.j) {   // [:en] undefined, [`x] is not yet constructed
+    }
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%construction[!pointer to member or base]]
+[%destruction[!pointer to member or base]]
+To explicitly or implicitly convert a pointer (a glvalue) referring to an object
+of class [`X] to a pointer (reference) to a direct or indirect base class [`B]
+of [`X], the construction of [`X] and the construction of all of its direct or
+indirect bases that directly or indirectly derive from [`B] shall have started
+and the destruction of these classes shall not have completed, otherwise the
+conversion results in undefined behavior.
+
+[:en]
+To form a pointer to (or access the value of) a direct non-static member of
+an object [`obj], the construction of [`obj] shall have started and its
+destruction shall not have completed, otherwise the computation of the pointer
+value (or accessing the member value) results in undefined behavior.
+
+[enter:example]
+[codeblock]
+struct A { };
+struct B : virtual A { };
+struct C : B { };
+struct D : virtual A { D(A*); };
+struct X { X(A*); };
+
+struct E : C, D, X {
+  E() : D(this),    // [:en] undefined: upcast from [`E*] to [`A*]
+                    // [:en@~] might use path [`E*] [=rightarrow] [`D*] [=rightarrow] [`A*]
+                    // [:en@~] but [`D] is not constructed
+                    // [`D((C*)this)], // [:en] defined:
+                    // [:en@~] [`E*] [=rightarrow] [`C*] defined because [`E()] has started
+                    // [:en@~] and [`C*] [=rightarrow] [`A*] defined because
+                    // [:en@~] [`C] fully constructed
+  X(this) {         // [:en] defined: upon construction of [`X],
+                    // [:en@~] [`C/B/D/A] sublattice is fully constructed
+  }
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%virtual function call[!constructor and]]
+[%virtual function call[!destructor and]]
+[%construction[!virtual function call]]
+[%destruction[!virtual function call]]
+Member functions, including virtual functions ([#class.virtual]), can be called
+during construction or destruction ([#class.base.init]).
+
+[:en]
+When a virtual function is called directly or indirectly from a constructor
+or from a destructor, including during the construction or destruction of the
+class[=']s non-static data members, and the object to which the call applies is
+the object (call it [`x]) under construction or destruction, the function called
+is the final overrider in the constructor[=']s or destructor[=']s class and not
+one overriding it in a more-derived class.
+
+[:en]
+If the virtual function call uses an explicit class member access ([#expr.ref])
+and the object expression refers to the complete object of [`x] or one of that
+object[=']s base class subobjects but not [`x] or one of its base class
+subobjects, the behavior is undefined.
+
+[enter:example]
+[codeblock]
+struct V {
+  virtual void f();
+  virtual void g();
+};
+
+struct A : virtual V {
+  virtual void f();
+};
+
+struct B : virtual V {
+  virtual void g();
+  B(V*, A*);
+};
+
+struct D : A, B {
+  virtual void f();
+  virtual void g();
+  D() : B((A*)this, this) { }
+};
+
+B::B(V* v, A* a) {
+  f();              // [:en] calls [`V::f], not [`A::f]
+  g();              // [:en] calls [`B::g], not [`D::g]
+  v->g();           // [:en] [`v] is base of [`B], the call is well-defined, calls [`B::g]
+  a->f();           // [:en] undefined behavior, [`a][=']s type not a base of [`B]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%construction[![`typeid] operator]]
+[%destruction[![`typeid] operator]]
+[%[`typeid][!construction and]]
+[%[`typeid][!destruction and]]
+The [`typeid] operator ([#expr.typeid]) can be used during construction or
+destruction ([#class.base.init]).
+
+[:en]
+When [`typeid] is used in a constructor (including the [~mem-initializer] or
+[~brace-or-equal-initializer] for a non-static data member) or in a destructor,
+or used in a function called (directly or indirectly) from a constructor or
+destructor, if the operand of [`typeid] refers to the object under construction
+or destruction, [`typeid] yields the [`std::type_info] object representing the
+constructor or destructor[=']s class.
+
+[:en]
+If the operand of [`typeid] refers to the object under construction or
+destruction and the static type of the operand is neither the constructor or
+destructor[=']s class nor one of its bases, the result of [`typeid] is
+undefined.
+
+[para]
+[:en]
+[%construction[!dynamic cast and]]
+[%destruction[!dynamic cast and]]
+[%cast[!dynamic[!construction and]]]
+[%cast[!dynamic[!destruction and]]]
+[`dynamic_cast]s ([#expr.dynamic.cast]) can be used during construction
+or destruction ([#class.base.init]).
+
+[:en]
+When a [`dynamic_cast] is used in a constructor (including the
+[~mem-initializer] or [~brace-or-equal-initializer] for a non-static data
+member) or in a destructor, or used in a function called (directly or
+indirectly) from a constructor or destructor, if the operand of the
+[`dynamic_cast] refers to the object under construction or destruction, this
+object is considered to be a most derived object that has the type of the
+constructor or destructor[=']s class.
+
+[:en]
+If the operand of the [`dynamic_cast] refers to the object under construction or
+destruction and the static type of the operand is not a pointer to or object of
+the constructor or destructor[=']s own class or one of its bases, the
+[`dynamic_cast] results in undefined behavior.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct V {
+  virtual void f();
+};
+
+struct A : virtual V { };
+
+struct B : virtual V {
+  B(V*, A*);
+};
+
+struct D : A, B {
+  D() : B((A*)this, this) { }
+};
+
+B::B(V* v, A* a) {
+  typeid(*this);                // [:en] [`type_info] for [`B]
+  typeid(*v);                   // [:en] well-defined: [`*v] has type [`V], a base of [`B]
+                                // [:en@~] yields [`type_info] for [`B]
+  typeid(*a);                   // [:en] undefined behavior: type [`A] not a base of [`B]
+  dynamic_cast<B*>(v);          // [:en] well-defined: [`v] of type [`V*], [`V] base of [`B]
+                                // [:en@~] results in [`B*]
+  dynamic_cast<B*>(a);          // [:en] undefined behavior,
+                                // [:en@~] [`a] has type [`A*], [`A] not a base of [`B]
+}
+[codeblock:end]
+[exit:example]
+
+[%:end#destruction]
+[%:end#construction]

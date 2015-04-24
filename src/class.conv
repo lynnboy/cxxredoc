@@ -1,0 +1,95 @@
+﻿[section#class.conv
+    [:en] Conversions
+]
+
+[para]
+[:en]
+[%conversion[!class]]
+[%conversion[!user-defined]]
+[%constructor[! conversion by][see conversion[! user-defined]]]
+[%conversion function[see conversion[! user-defined]]]
+[%conversion[!implicit]]
+Type conversions of class objects can be specified by constructors and
+by conversion functions.
+
+[:en]
+These conversions are called [+user-defined conversions] and are used for
+implicit type conversions (Clause [#conv]), for initialization ([#dcl.init]),
+and for explicit type conversions ([#expr.cast], [#expr.static.cast]).
+
+[para]
+[:en]
+User-defined conversions are applied only where they are unambiguous
+([#class.member.lookup], [#class.conv.fct]).
+
+[:en]
+Conversions obey the access control rules (Clause [#class.access]).
+
+[:en]
+Access control is applied after ambiguity resolution ([#basic.lookup]).
+
+[para]
+[enter:note]
+[:en]
+See [#over.match] for a discussion of the use of conversions in function calls
+as well as examples below.
+[exit:note]
+
+[para]
+[:en]
+[%conversion[!implicit user-defined]]
+At most one user-defined conversion (constructor or conversion function)
+is implicitly applied to a single value.
+
+[para:~]
+[enter:example]
+[codeblock]
+struct X {
+  operator int();
+};
+
+struct Y {
+  operator X();
+};
+
+Y a;
+int b = a;          // [:en] error
+                    // [:en@~] [`a.operator X().operator int()] not tried
+int c = X(a);       // [:en] OK: [`a.operator X().operator int()]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+User-defined conversions are used implicitly only if they are unambiguous.
+
+[:en]
+[%name hiding[!user-defined conversion and]]
+A conversion function in a derived class does not hide a conversion function
+in a base class unless the two functions convert to the same type.
+
+[:en]
+Function overload resolution ([#over.match.best]) selects the best conversion
+function to perform the conversion.
+
+[enter:example]
+[codeblock]
+struct X {
+  operator int();
+};
+
+struct Y : X {
+    operator char();
+};
+
+void f(Y& a) {
+  if (a) {          // [:en] ill-formed:
+                    // [:en] [`X::operator int()] or [`Y::operator char()]
+  }
+}
+[codeblock:end]
+[exit:example]
+
+[include class.conv.ctor]
+
+[include class.conv.fct]

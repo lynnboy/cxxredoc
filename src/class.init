@@ -1,0 +1,39 @@
+﻿[section#class.init
+    [:en] Initialization
+]
+
+[%:begin#initialization.class.object
+    [:en] initialization[!class object]
+]
+[%[:en] initialization[!default constructor and]]
+[%[:en] initialization[!constructor and]]
+
+[para]
+[:en]
+When no initializer is specified for an object of (possibly cv-qualified) class
+type (or array thereof), or the initializer has the form [`()], the object is
+initialized as specified in [#dcl.init].
+
+[para]
+[:en]
+An object of class type (or array thereof) can be explicitly initialized;
+see [#class.expl.init] and [#class.base.init].
+
+[para]
+[:en]
+[%order of execution[!constructor and array]]
+When an array of class objects is initialized (either explicitly or implicitly)
+and the elements are initialized by constructor, the constructor shall be called
+for each element of the array, following the subscript order; see [#dcl.array].
+
+[enter:note]
+[:en]
+Destructors for the array elements are called in reverse order of their
+construction.
+[exit:note]
+
+[include class.expl.init]
+
+[include class.base.init]
+
+[%:end#initialization.class.object]

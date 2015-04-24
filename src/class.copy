@@ -1,0 +1,913 @@
+﻿[section#class.copy
+    [:en] Copying and moving class objects
+]
+
+[:en]
+[%copy[!class object][see constructor[!copy][see assignment[!copy]]]]
+[%move[!class object][see constructor[!move][see assignment[!move]]]]
+[%constructor[!copy]]
+[%constructor[!move]]
+[%operator[!copy assignment][see assignment[!copy]]]
+[%operator[!move assignment][see assignment[!move]]]
+
+[para]
+[:en]
+A class object can be copied or moved in two ways: by initialization
+([#class.ctor], [#dcl.init]), including for function argument passing
+([#expr.call]) and for function value return ([#stmt.return]); and by assignment
+([#expr.ass]).
+
+[:en]
+Conceptually, these two operations are implemented by a copy/move constructor
+([#class.ctor]) and copy/move assignment operator ([#over.ass]).
+
+[para]
+[%:begin#constructor.copy
+    [:en] constructor[!copy]
+]
+[%:begin#constructor.move
+    [:en] constructor[!move]
+]
+[:en]
+A non-template constructor for class [`X] is a copy constructor if its first
+parameter is of type [`X&], [`const X&], [`volatile X&] or [`const volatile X&],
+and either there are no other parameters or else all other parameters have
+default arguments ([#dcl.fct.default]).
+
+[enter:example]
+[:en]
+[`X::X(const X&)] and [`X::X(X&,int=1)] are copy constructors.
+
+[codeblock]
+struct X {
+  X(int);
+  X(const X&, int = 1);
+};
+X a(1);             // [:en] calls [`X(int);]
+X b(a, 0);          // [:en] calls [`X(const X&, int);]
+X c = b;            // [:en] calls [`X(const X&, int);]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A non-template constructor for class [`X] is a move constructor if its first
+parameter is of type [`X&&], [`const X&&], [`volatile X&&], or [`const volatile
+X&&], and either there are no other parameters or else all other parameters have
+default  arguments ([#dcl.fct.default]).
+
+[enter:example]
+[:en]
+[`Y::Y(Y&&)] is a move constructor.
+
+[codeblock]
+struct Y {
+  Y(const Y&);
+  Y(Y&&);
+};
+extern Y f(int);
+Y d(f(1));          // [:en] calls [`Y(Y&&)]
+Y e = d;            // [:en] calls [`Y(const Y&)]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+All forms of copy/move constructor may be declared for a class.
+[enter:example]
+
+[codeblock]
+struct X {
+  X(const X&);
+  X(X&);            // OK
+  X(X&&);
+  X(const X&&);     // [:en] OK, but possibly not sensible
+};
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+If a class [`X] only has a copy constructor with a parameter of type [`X&],
+an initializer of type [`const X] or [`volatile X] cannot initialize an object
+of type (possibly cv-qualified) [`X].
+
+[enter:example]
+[codeblock]
+struct X {
+  X();              // [:en] default constructor
+  X(X&);            // [:en] copy constructor with a nonconst parameter
+};
+const X cx;
+X x = cx;           // [:en] error: [`X::X(X&)] cannot copy [`cx] into [`x]
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+A declaration of a constructor for a class [`X] is ill-formed if its first
+parameter is of type (optionally cv-qualified) [`X] and either there are no
+other parameters or else all other parameters have default arguments.
+
+[:en]
+A member function template is never instantiated to produce such a constructor
+signature.
+
+[enter:example]
+[codeblock]
+struct S {
+  template<typename T> S(T);
+  S();
+};
+
+S g;
+
+void h() {
+  S a(g);           // [:en] does not instantiate the member template to produce [`S::S<S>(S)];
+                    // [:en@~] uses the implicitly declared copy constructor
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%constructor[!copy[!implicitly declared]]]
+If the class definition does not explicitly declare a copy constructor, one is
+declared [+implicitly].
+
+[:en]
+If the class definition declares a move constructor or move assignment operator,
+the implicitly declared copy constructor is defined as deleted; otherwise, it is
+defined as defaulted ([#dcl.fct.def]).
+
+[:en]
+The latter case is deprecated if the class has a user-declared copy assignment
+operator or a user-declared destructor.
+
+[para]
+[:en]
+The implicitly-declared copy constructor for a class [`X] will have the form
+
+[codeblock:notation]
+X::X(const X&)
+[codeblock:end]
+
+[:en@~]
+if each potentially constructed subobject of a class type [`M] (or array
+thereof) has a copy constructor whose first parameter is of type [`const M&] or
+[`const volatile M&].
+
+[footnote]
+[:en]
+This implies that the reference parameter of the implicitly-declared copy
+constructor cannot bind to a [`volatile] lvalue; see [#diff.special].
+[footnote:end]
+
+[:en]
+Otherwise, the implicitly-declared copy constructor will have the form
+
+[codeblock:notation]
+X::X(X&)
+[codeblock:end]
+
+[para]
+[:en]
+[%constructor[!move[!implicitly declared]]]
+If the definition of a class [`X] does not explicitly declare a move
+constructor, one will be implicitly declared as defaulted if and only if
+
+[list]
+[item]
+[:en@~]
+[`X] does not have a user-declared copy constructor,
+
+[item]
+[:en@~]
+[`X] does not have a user-declared copy assignment operator,
+
+[item]
+[:en@~]
+[`X] does not have a user-declared move assignment operator, and
+
+[item]
+[:en@~]
+[`X] does not have a user-declared destructor.
+[list:end]
+
+[enter:note]
+[:en]
+When the move constructor is not implicitly declared or explicitly supplied,
+expressions that otherwise would have invoked the move constructor may instead
+invoke a copy constructor.
+[exit:note]
+
+[para]
+[:en]
+The implicitly-declared move constructor for class [`X] will have the form
+
+[codeblock:notation]
+X::X(X&&)
+[codeblock:end]
+
+[para]
+[:en]
+An implicitly-declared copy/move constructor is an [`inline public] member of
+its class.
+
+[:en]
+A defaulted copy/move constructor for a class [`X] is defined as deleted
+([#dcl.fct.def.delete]) if [`X] has:
+
+[list]
+[item]
+[:en@~] a variant member with a non-trivial corresponding constructor and [`X]
+is a union-like class,
+
+[item]
+[:en@~] a potentially constructed subobject type [`M] (or array thereof) that
+cannot be copied/moved because overload resolution ([#over.match]), as applied
+to [`M][=']s  corresponding constructor, results in an ambiguity or a function
+that is deleted or inaccessible from the defaulted constructor,
+
+[item]
+[:en@~] any potentially constructed subobject of a type with a destructor that
+is deleted or inaccessible from the defaulted constructor, or,
+
+[item]
+[:en@~] for the copy constructor, a non-static data member of rvalue reference
+type.
+[list:end]
+
+[:en]
+A defaulted move constructor that is defined as deleted is ignored by overload
+resolution ([#over.match], [#over.over]).
+
+[enter:note]
+[:en]
+A deleted move constructor would otherwise interfere with initialization from
+an rvalue which can use the copy constructor instead.
+[exit:note]
+
+[para]
+[:en]
+[%constructor[!copy[!trivial]]]
+[%constructor[!move[!trivial]]]
+A copy/move constructor for class [`X] is trivial if it is not user-provided,
+its parameter-type-list is equivalent to the parameter-type-list of an implicit
+declaration, and if
+
+[list]
+[item]
+[:en@~] class [`X] has no virtual functions ([#class.virtual]) and no virtual
+base classes ([#class.mi]), and
+
+[item]
+[:en@~] class [`X] has no non-static data members of volatile-qualified type,
+and
+
+[item]
+[:en@~] the constructor selected to copy/move each direct base class subobject
+is trivial, and
+
+[item]
+[:en@~] for each non-static data member of [`X] that is of class type (or array
+thereof), the constructor selected to copy/move that member is trivial;
+[list:end]
+
+[:en@~]
+otherwise the copy/move constructor is [+non-trivial].
+
+[para]
+[:en]
+[%constructor[!copy[!implicitly defined]]]
+[%constructor[!move[!implicitly defined]]]
+A copy/move constructor that is defaulted and not defined as deleted is
+[+implicitly defined] if it is odr-used ([#basic.def.odr]) or when it is
+explicitly defaulted after its first declaration.
+
+[enter:note]
+[:en]
+The copy/move constructor is implicitly defined even if the implementation
+elided its odr-use ([#basic.def.odr], [#class.temporary]).
+[exit:note]
+
+[:en]
+If the implicitly-defined constructor would satisfy the requirements of a
+[`constexpr] constructor ([#dcl.constexpr]), the implicitly-defined constructor
+is [`constexpr].
+
+[para]
+[:en]
+Before the defaulted copy/move constructor for a class is implicitly defined,
+all non-user-provided copy/move constructors for its potentially constructed
+subobjects shall have been implicitly defined.
+
+[enter:note]
+[:en]
+An implicitly-declared copy/move constructor has an implied exception
+specification ([#except.spec]).
+[exit:note]
+
+[para]
+[:en]
+The implicitly-defined copy/move constructor for a non-union class [`X] performs
+a memberwise copy/move of its bases and members.
+
+[enter:note]
+[:en]
+[~brace-or-equal-initializer]s of non-static data members are ignored.
+
+[:en]
+See also the example in [#class.base.init].
+[exit:note]
+
+[:en]
+The order of initialization is the same as the order of initialization of bases
+and members in a user-defined constructor (see [#class.base.init]).
+
+[:en]
+Let [`x] be either the parameter of the constructor or, for the move
+constructor, an xvalue referring to the parameter.
+
+[:en]
+Each base or non-static data member is copied/moved in the manner appropriate to
+its type:
+
+[list]
+[item]
+[:en@~] if the member is an array, each element is direct-initialized with the
+corresponding subobject of [`x];
+
+[item]
+[:en@~] if a member [`m] has rvalue reference type [`T&&], it is
+direct-initialized with [`static_cast<T&&>(x.m)];
+
+[item]
+[:en@~] otherwise, the base or member is direct-initialized with the
+corresponding base or member of [`x].
+[list:end]
+
+[:en]
+[%initialization[!virtual base class]]
+Virtual base class subobjects shall be initialized only once by the
+implicitly-defined copy/move constructor (see [#class.base.init]).
+
+[para]
+[:en]
+The implicitly-defined copy/move constructor for a union [`X] copies the object
+representation ([#basic.types]) of [`X].
+
+[%:end#constructor.move]
+[%:end#constructor.copy]
+
+[%:begin#assignment.operator.copy
+    [:en] assignment operator[!copy]
+]
+[%:begin#assignment.operator.move
+    [:en] assignment operator[!move]
+]
+[para]
+[:en]
+A user-declared [+copy] assignment operator [`X::operator=] is a non-static
+non-template member function of class [`X] with exactly one parameter of type
+[`X], [`X&], [`const X&], [`volatile X&] or [`const volatile X&].
+
+[footnote]
+[:en]
+Because a template assignment operator or an assignment operator taking an
+rvalue reference parameter is never a copy assignment operator, the presence of
+such an assignment operator does not suppress the implicit declaration of a copy
+assignment operator.
+
+[:en]
+Such assignment operators participate in overload resolution with other
+assignment operators, including copy assignment operators, and, if selected,
+will be used to assign an object.
+[footnote:end]
+
+[enter:note]
+[:en]
+An overloaded assignment operator must be declared to have only one parameter;
+see [#over.ass].
+[exit:note]
+
+[enter:note]
+[:en]
+More than one form of copy assignment operator may be declared for a class.
+[exit:note]
+
+[enter:note]
+[:en]
+If a class [`X] only has a copy assignment operator with a parameter of type
+[`X&], an expression of type const [`X] cannot be assigned to an object of type
+[`X].
+
+[enter:example]
+[codeblock]
+struct X {
+  X();
+  X& operator=(X&);
+};
+const X cx;
+X x;
+void f() {
+  x = cx;           // [:en] error: [`X::operator=(X&)] cannot assign [`cx] into [`x]
+}
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+[%assignment operator[!copy[!implicitly declared]]]
+If the class definition does not explicitly declare a copy assignment operator,
+one is declared [+implicitly].
+
+[:en]
+If the class definition declares a move constructor or move assignment operator,
+the implicitly declared copy assignment operator is defined as deleted;
+otherwise, it is defined as defaulted ([#dcl.fct.def]).
+
+[:en]
+The latter case is deprecated if the class has a user-declared copy constructor
+or a user-declared destructor.
+
+[:en]
+The implicitly-declared copy assignment operator for a class [`X] will have the
+form
+
+[codeblock:notation]
+X& X::operator=(const X&)
+[codeblock:end]
+
+[:en@~]
+if
+
+[list]
+[item]
+[:en@~] each direct base class [`B] of [`X] has a copy assignment operator whose
+parameter is of type [`const B&], [`const volatile B&] or [`B], and
+
+[item]
+[:en@~]
+for all the non-static data members of [`X] that are of a class type [`M]
+(or array thereof), each such class type has a copy assignment operator whose
+parameter is of type [`const M&], [`const volatile M&] or [`M].
+
+[footnote]
+[:en]
+This implies that the reference parameter of the implicitly-declared copy
+assignment operator cannot bind to a [`volatile] lvalue; see [#diff.special].
+[footnote:end]
+[list:end]
+
+[:en]
+Otherwise, the implicitly-declared copy assignment operator will have the form
+
+[codeblock:notation]
+X& X::operator=(X&)
+[codeblock:end]
+
+[para]
+[:en]
+A user-declared move assignment operator [`X::operator=] is a non-static
+non-template member function of class [`X] with exactly one parameter of type
+[`X&&], [`const X&&], [`volatile X&&], or [`const volatile X&&].
+
+[enter:note]
+An overloaded assignment operator must be declared to have only one parameter;
+see [#over.ass].
+[exit:note]
+
+[enter:note]
+[:en]
+More than one form of move assignment operator may be declared for a class.
+[exit:note]
+
+[para]
+[:en]
+[%assignment operator[!move[!implicitly declared]]]
+If the definition of a class [`X] does not explicitly declare a move assignment
+operator, one will be implicitly declared as defaulted if and only if
+
+[list]
+[item]
+[:en@~] [`X] does not have a user-declared copy constructor,
+
+[item]
+[:en@~] [`X] does not have a user-declared move constructor,
+
+[item]
+[:en@~] [`X] does not have a user-declared copy assignment operator, and
+
+[item]
+[:en@~] [`X] does not have a user-declared destructor.
+[list:end]
+
+[enter:example]
+[:en]
+The class definition
+
+[codeblock]
+struct S {
+  int a;
+  S& operator=(const S&) = default;
+};
+[codeblock:end]
+
+[:en@~]
+will not have a default move assignment operator implicitly declared because the
+copy assignment operator has been user-declared.
+
+[:en]
+The move assignment operator may be explicitly defaulted.
+
+[codeblock]
+struct S {
+  int a;
+  S& operator=(const S&) = default;
+  S& operator=(S&&) = default;
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The implicitly-declared move assignment operator for a class [`X] will have the
+form
+
+[codeblock:notation]
+X& X::operator=(X&&);
+[codeblock:end]
+
+[para]
+[:en]
+The implicitly-declared copy/move assignment operator for class [`X] has the
+return type [`X&]; it returns the object for which the assignment operator is
+invoked, that is, the object assigned to.
+
+[:en]
+An implicitly-declared copy/move assignment operator is an [`inline public]
+member of its class.
+
+[para]
+[:en]
+A defaulted copy/move assignment operator for class [`X] is defined as deleted
+if [`X] has:
+
+[list]
+[item]
+[:en@~] a variant member with a non-trivial corresponding assignment operator
+and [`X] is a union-like class, or
+
+[item]
+[:en@~] a non-static data member of [`const] non-class type (or array thereof),
+or
+
+[item]
+[:en@~] a non-static data member of reference type, or
+
+[item]
+[:en@~] a potentially constructed subobject of class type [`M] (or array
+thereof) that cannot be copied/moved because overload resolution
+([#over.match]), as applied to [`M][=']s corresponding assignment operator,
+results in an ambiguity or a function that is deleted or inaccessible from the
+defaulted assignment operator.
+[list:end]
+
+[:en]
+A defaulted move assignment operator that is defined as deleted is ignored by
+overload resolution ([#over.match], [#over.over]).
+
+[para]
+[:en]
+[%assignment operator[!copy[!hidden]]]
+[%assignment operator[!move[!hidden]]]
+Because a copy/move assignment operator is implicitly declared for a class if
+not declared by the user, a base class copy/move assignment operator is always
+hidden by the corresponding assignment operator of a derived class
+([#over.ass]).
+
+[:en]
+A [~using-declaration] ([#namespace.udecl]) that brings in from a base class an
+assignment operator with a parameter type that could be that of a copy/move
+assignment operator for the derived class is not considered an explicit
+declaration of such an operator and does not suppress the implicit declaration
+of the derived class operator; the operator introduced by the
+[~using-declaration] is hidden by the implicitly-declared operator in the
+derived class.
+
+[para]
+[:en]
+[%assignment operator[!copy[!trivial]]]
+[%assignment operator[!move[!trivial]]]
+A copy/move assignment operator for class [`X] is trivial if it is not
+user-provided, its parameter-type-list is equivalent to the parameter-type-list
+of an implicit declaration, and if
+
+[list]
+[item]
+[:en@~] class [`X] has no virtual functions ([#class.virtual]) and no virtual
+base classes ([#class.mi]), and
+
+[item]
+[:en@~] class [`X] has no non-static data members of volatile-qualified type,
+and
+
+[item]
+[:en@~] the assignment operator selected to copy/move each direct base class
+subobject is trivial, and
+
+[item]
+[:en@~] for each non-static data member of [`X] that is of class type (or array
+thereof), the assignment operator selected to copy/move that member is trivial;
+[list:end]
+
+[:en@~]
+otherwise the copy/move assignment operator is [+non-trivial].
+
+[para]
+[:en]
+[%assignment operator[!copy[!implicitly defined]]]
+[%assignment operator[!move[!implicitly defined]]]
+A copy/move assignment operator for a class [`X] that is defaulted and not
+defined as deleted is [+implicitly defined] when it is odr-used
+([#basic.def.odr]) (e.g., when it is selected by overload resolution to assign
+to an object of its class type) or when it is explicitly defaulted after its
+first declaration.
+
+[:en]
+The implicitly-defined copy/move assignment operator is [`constexpr] if
+
+[list]
+[item]
+[:en@~] [`X] is a literal type, and
+
+[item]
+[:en@~]
+the assignment operator selected to copy/move each direct base class subobject
+is a [`constexpr] function, and
+
+[item]
+[:en@~] for each non-static data member of [`X] that is of class type (or array
+thereof), the assignment operator selected to copy/move that member is a
+[`constexpr] function.
+[list:end]
+
+[para]
+[:en]
+Before the defaulted copy/move assignment operator for a class is implicitly
+defined, all non-user-provided copy/move assignment operators for its direct
+base classes and its non-static data members shall have been implicitly defined.
+
+[enter:note]
+[:en]
+An implicitly-declared copy/move assignment operator has an implied exception
+specification ([#except.spec]).
+[exit:note]
+
+[para]
+[:en]
+The implicitly-defined copy/move assignment operator for a non-union class [`X]
+performs memberwise copy/move assignment of its subobjects.
+
+[:en]
+The direct base classes of [`X] are assigned first, in the order of their
+declaration in the [~base-specifier-list], and then the immediate non-static
+data members of [`X] are assigned, in the order in which they were declared in
+the class definition.
+
+[:en]
+Let [`x] be either the parameter of the function or, for the move operator, an
+xvalue referring to the parameter.
+
+[:en]
+Each subobject is assigned in the manner appropriate to its type:
+
+[list]
+[item]
+[:en@~]
+if the subobject is of class type, as if by a call to [`operator=] with the
+subobject as the object expression and the corresponding subobject of [`x] as a
+single function argument (as if by explicit qualification; that is, ignoring any
+possible virtual overriding functions in more derived classes);
+
+[item]
+[:en]
+if the subobject is an array, each element is assigned, in the manner
+appropriate to the element type;
+[item]
+[:en]
+if the subobject is of scalar type, the built-in assignment operator is used.
+[list:end]
+
+[:en]
+[%assignment operator[!copy[!virtual bases and]]]
+It is unspecified whether subobjects representing virtual base classes are
+assigned more than once by the implicitly-defined copy/move assignment operator.
+
+[enter:example]
+[codeblock]
+struct V { };
+struct A : virtual V { };
+struct B : virtual V { };
+struct C : B, A { };
+[codeblock:end]
+
+[:en]
+It is unspecified whether the virtual base class subobject
+[`V]
+is assigned twice by the implicitly-defined copy/move assignment operator for
+[`C].
+[exit:example]
+
+[para]
+[:en]
+The implicitly-defined copy assignment operator for a union [`X] copies the
+object representation ([#basic.types]) of [`X].
+
+[%:end#assignment.operator.move]
+[%:end#assignment.operator.copy]
+
+[para]
+[:en]
+[%constructor[!copy[!inaccessible]]]
+[%constructor[!move[!inaccessible]]]
+[%assignment operator[!copy[!inaccessible]]]
+[%assignment operator[!move[!inaccessible]]]
+A program is ill-formed if the copy/move constructor or the copy/move assignment
+operator for an object is implicitly odr-used and the special member function
+is not accessible (Clause [#class.access]).
+
+[enter:note]
+[:en]
+Copying/moving one object into another using the copy/move constructor or
+the copy/move assignment operator does not change the layout or size of either
+object.
+[exit:note]
+
+[para]
+[:en]
+[%temporary[!elimination of]]
+[%elision[!copy constructor][see constructor, copy, elision]]
+[%elision[!move constructor][see constructor, move, elision]]
+[%constructor[!copy[!elision]]]
+[%constructor[!move[!elision]]]
+When certain criteria are met, an implementation is allowed to omit the
+copy/move construction of a class object, even if the constructor selected for
+the copy/move operation and/or the destructor for the object have
+[%side effects] side effects.
+
+[:en]
+In such cases, the implementation treats the source and target of the omitted
+copy/move operation as simply two different ways of referring to the same
+object, and the destruction of that object occurs at the later of the times when
+the two objects would have been destroyed without the optimization.
+
+[footnote]
+[:en]
+Because only one object is destroyed instead of two, and one copy/move
+constructor is not executed, there is still one object destroyed for each one
+constructed.
+[footnote:end]
+
+[:en]
+This elision of copy/move operations, called
+[%@defn copy elision
+    [see constructor[!copy[!elision]]]
+    [see constructor[!move[!elision]]]]
+[%@defn elision[!copy]
+    [see constructor[!copy[!elision]]]
+    [see constructor[!move[!elision]]]]
+[%@defn constructor[!copy[!elision]]]
+[%@defn constructor[!move[!elision]]]
+[+copy elision], is permitted in the following circumstances (which may be
+combined to eliminate multiple copies):
+
+[list]
+[item]
+[:en]
+in a [`return] statement in a function with a class return type, when the
+expression is the name of a non-volatile automatic object (other than a function
+or catch-clause parameter) with the same cv-unqualified type as the function
+return type, the copy/move operation can be omitted by constructing the
+automatic object directly into the function[=']s return value
+
+[item]
+[:en]
+in a [~throw-expression] ([#expr.throw]), when the operand is the name of a
+non-volatile automatic object (other than a function or catch-clause parameter)
+whose scope does not extend beyond the end of the innermost enclosing
+[~try-block] (if there is one), the copy/move operation from the operand to the
+exception object ([#except.throw]) can be omitted by constructing the automatic
+object directly into the exception object
+
+[item]
+[:en]
+when a temporary class object that has not been bound to a reference
+([#class.temporary]) would be copied/moved to a class object with the same
+cv-unqualified type, the copy/move operation can be omitted by constructing
+the temporary object directly into the target of the omitted copy/move
+
+[item]
+[:en]
+when the [~exception-declaration] of an exception handler (Clause [#except])
+declares an object of the same type (except for cv-qualification) as the
+exception object ([#except.throw]), the copy operation can be omitted by
+treating the [~exception-declaration] as an alias for the exception object if
+the meaning of the program will be unchanged except for the execution of
+constructors and destructors for the object declared by the
+[~exception-declaration].
+
+[enter:note]
+[:en]
+There cannot be a move from the exception object because it is always an lvalue.
+[exit:note]
+[list:end]
+
+[para:~]
+[enter:example]
+[codeblock]
+class Thing {
+public:
+  Thing();
+  ~Thing();
+  Thing(const Thing&);
+};
+
+Thing f() {
+  Thing t;
+  return t;
+}
+
+Thing t2 = f();
+[codeblock:end]
+
+[:en]
+Here the criteria for elision can be combined to eliminate two calls to the copy
+constructor of class [`Thing]: the copying of the local automatic object [`t]
+into the temporary object for the return value of function [`f()] and the
+copying of that temporary object into object [`t2].
+
+[:en]
+Effectively, the construction of the local object [`t] can be viewed as directly
+initializing the global object [`t2], and that object[=']s destruction will
+occur at program exit.
+
+[:en]
+Adding a move constructor to [`Thing] has the same effect, but it is the move
+construction from the temporary object to [`t2] that is elided.
+[exit:example]
+
+[para]
+[:en]
+When the criteria for elision of a copy/move operation are met, but not for an
+[~exception-declaration], and the object to be copied is designated by an
+lvalue, or when the [~expression] in a [`return] statement is a (possibly
+parenthesized) [~id-expression] that names an object with automatic storage
+duration declared in the body or [~parameter-declaration-clause] of the
+innermost enclosing function or [~lambda-expression], overload resolution to
+select the constructor for the copy is first performed as if the object were
+designated by an rvalue.
+
+[:en]
+If the first overload resolution fails or was not performed, or if the type of
+the first parameter of the selected constructor is not an rvalue reference to
+the object[=']s type (possibly cv-qualified), overload resolution is performed
+again, considering the object as an lvalue.
+
+[enter:note]
+[:en]
+This two-stage overload resolution must be performed regardless of whether copy
+elision will occur.
+
+[:en]
+It determines the constructor to be called if elision is not performed, and the
+selected constructor must be accessible even if the call is elided.
+[exit:note]
+
+[enter:example]
+[codeblock]
+class Thing {
+public:
+  Thing();
+  ~Thing();
+  Thing(Thing&&);
+private:
+  Thing(const Thing&);
+};
+
+Thing f(bool b) {
+  Thing t;
+  if (b)
+    throw t;                    // [:en] OK: [`Thing(Thing&&)] used (or elided) to throw t
+  return t;                     // [:en] OK: [`Thing(Thing&&)] used (or elided) to return t
+}
+
+Thing t2 = f(false);            // [:en] OK: [`Thing(Thing&&)] used (or elided) to construct t2
+[codeblock:end]
+[exit:example]

@@ -1,0 +1,178 @@
+﻿[section#class.free
+    [:en] Free store
+]
+
+[% [:en] free store]
+
+[para]
+[:en]
+[%[`new][!type of]]
+Any allocation function for a class [`T] is a static member (even if not
+explicitly declared [`static]).
+
+[para]
+[enter:example]
+[codeblock]
+class Arena;
+struct B {
+  void* operator new(std::size_t, Arena*);
+};
+struct D1 : B {
+};
+
+Arena*  ap;
+void foo(int i) {
+  new (ap) D1;      // [:en] calls [`B::operator new(std::size_t, Arena*)]
+  new D1[i];        // [:en] calls [`::operator new[`](std::size_t)]
+  new D1;           // [:en] ill-formed: [`::operator new(std::size_t)] hidden
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%[`delete]]
+When an object is deleted with a [~delete-expression] ([#expr.delete]),
+a [+deallocation function] [%function[!deallocation]] ([`operator delete()]
+[%[`operator delete]] for non-array objects or [`operator delete[`]()]
+[%[`operator delete]] for arrays) is (implicitly) called to reclaim the storage
+occupied by the object ([#basic.stc.dynamic.deallocation]).
+
+[para]
+[:en]
+Class-specific deallocation function lookup is a part of general deallocation
+function lookup ([#expr.delete]) and occurs as follows.
+
+[:en]
+If the [~delete-expression] is used to deallocate a class object whose static
+type has a virtual destructor, the deallocation function is the one selected at
+the point of definition of the dynamic type[=']s virtual destructor
+([#class.dtor]).
+
+[footnote]
+[:en]
+A similar provision is not needed for the array version of [`operator delete]
+because [#expr.delete] requires that in this situation, the static type of the
+object to be deleted be the same as its dynamic type.
+[footnote:end]
+
+[:en]
+Otherwise, if the [~delete-expression] is used to deallocate an object of class
+[`T] or array thereof, the static and dynamic types of the object shall be
+identical and the deallocation function[=']s name is looked up in the scope of
+[`T].
+
+[:en]
+If this lookup fails to find the name, general deallocation function
+lookup ([#expr.delete]) continues.
+
+[:en]
+If the result of the lookup is ambiguous or inaccessible, or if the lookup
+selects a placement deallocation function, the program is ill-formed.
+
+[para]
+[:en]
+[%[`delete][!type of]]
+Any deallocation function for a class [`X] is a static member (even if not
+explicitly declared [`static]).
+
+[%[:en] example[![`delete]]]
+[enter:example]
+[codeblock]
+class X {
+  void operator delete(void*);
+  void operator delete[](void*, std::size_t);
+};
+
+class Y {
+  void operator delete(void*, std::size_t);
+  void operator delete[](void*);
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Since member allocation and deallocation functions are [`static] they cannot be
+virtual.
+
+[enter:note]
+[:en]
+[%examplep[!destructor and [`delete]]]
+[%examplep[!scope of [`delete]]]
+however, when the [~cast-expression] of a [~delete-expression] refers to an
+object of class type, because the deallocation function actually called is
+looked up in the scope of the class that is the dynamic type of the object,
+if the destructor is virtual, the effect is the same.
+
+[:en]
+For example,
+
+[codeblock]
+struct B {
+  virtual ~B();
+  void operator delete(void*, std::size_t);
+};
+
+struct D : B {
+  void operator delete(void*);
+};
+
+void f() {
+  B* bp = new D;
+  delete bp;        //[:en]1: uses [`D::operator delete(void*)]
+}
+[codeblock:end]
+
+[:en]
+Here, storage for the non-array object of class [`D] is deallocated by
+[`D::operator delete()], due to the virtual destructor.
+[exit:note]
+
+[enter:note]
+[:en]
+Virtual destructors have no effect on the deallocation function actually called
+when the [~cast-expression] of a [~delete-expression] refers to an array of
+objects of class type.
+
+[:en]
+For example,
+
+[codeblock]
+struct B {
+  virtual ~B();
+  void operator delete[](void*, std::size_t);
+};
+
+struct D : B {
+  void operator delete[](void*, std::size_t);
+};
+
+void f(int i) {
+  D* dp = new D[i];
+  delete [] dp;     // [:en] uses [`D::operator delete[`](void*, std::size_t)]
+  B* bp = new D[i];
+  delete[] bp;      // [:en] undefined behavior
+}
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+Access to the deallocation function is checked statically.
+
+[:en]
+Hence, even though a different one might actually be executed, the statically
+visible deallocation function is required to be accessible.
+
+[enter:example]
+for the call on line //1 above, if [`B::operator delete()] had been [`private],
+the delete expression would have been ill-formed.
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+If a deallocation function has no explicit [~exception-specification], it
+has a non-throwing exception specification ([#except.spec]).
+[exit:note]

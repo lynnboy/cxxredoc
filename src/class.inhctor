@@ -1,0 +1,284 @@
+﻿[section#class.inhctor
+    [:en] Inheriting constructors
+]
+
+[%:begin#constructor.inheriting
+    [:en] constructor [!inheriting]
+]
+
+[para]
+[:en]
+A [~using-declaration] ([#namespace.udecl]) that names a constructor implicitly
+declares a set of [+inheriting constructors].
+
+[:en]
+The [+candidate set of inherited constructors] from the class [`X] named in the
+[~using-declaration] consists of actual constructors and notional constructors
+that result from the transformation of defaulted parameters and ellipsis
+parameter specifications as follows:
+
+[list]
+[item]
+[:en]
+for each non-template constructor of [`X], the constructor that results from
+omitting any ellipsis parameter specification, and
+
+[item]
+[:en]
+for each non-template constructor of [`X] that has at least one parameter with
+a default argument, the set of constructors that results from omitting any
+ellipsis parameter specification and successively omitting parameters with a
+default argument from the end of the parameter-type-list, and
+
+[item]
+[:en]
+for each constructor template of [`X], the constructor template that results
+from omitting any ellipsis parameter specification, and
+
+[item]
+[:en]
+for each constructor template of [`X] that has at least one parameter with a
+default argument, the set of constructor templates that results from omitting
+any ellipsis parameter specification and successively omitting parameters with a
+default argument from the end of the parameter-type-list.
+[list:end]
+
+[para]
+[:en]
+The [+constructor characteristics] of a constructor or constructor template are
+
+[list]
+[item]
+[:en@~] the template parameter list ([#temp.param]), if any,
+[item]
+[:en@~] the parameter-type-list ([#dcl.fct]), and
+[item]
+[:en@~] absence or presence of [`explicit] ([#class.conv.ctor]).
+[list:end]
+
+[para]
+[:en]
+For each non-template constructor in the candidate set of inherited constructors
+other than a constructor having no parameters or a copy/move constructor having
+a single parameter, a constructor is implicitly declared with the same
+constructor characteristics unless there is a user-declared constructor with the
+same signature in the complete class where the [~using-declaration] appears or
+the constructor would be a default, copy, or move constructor for that class.
+
+[:en]
+Similarly, for each constructor template in the candidate set of inherited
+constructors, a constructor template is implicitly declared with the same
+constructor characteristics unless there is an equivalent user-declared
+constructor template ([#temp.over.link]) in the complete class where the
+[~using-declaration] appears.
+
+[enter:note]
+[:en]
+Default arguments are not inherited.
+
+[:en]
+An exception specification is implied as specified in [#except.spec].
+[exit:note]
+
+[para]
+[:en]
+A constructor so declared has the same access as the corresponding constructor
+in [`X].
+
+[:en]
+It is [`constexpr] if the user-written constructor (see below) would satisfy the
+requirements of a [`constexpr] constructor ([#dcl.constexpr]).
+
+[:en]
+It is deleted if the corresponding constructor in [`X] is deleted
+([#dcl.fct.def.delete]) or if a defaulted default constructor ([#class.ctor])
+would be deleted, except that the construction of the direct base class [`X] is
+not considered in the determination.
+
+[:en]
+An inheriting constructor shall not be explicitly instantiated
+([#temp.explicit]) or explicitly specialized ([#temp.expl.spec]).
+
+[para]
+[enter:note]
+[:en]
+Default and copy/move constructors may be implicitly declared as specified in
+[#class.ctor] and [#class.copy].
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+struct B1 {
+  B1(int);
+};
+
+struct B2 {
+  B2(int = 13, int = 42);
+};
+
+struct D1 : B1 {
+  using B1::B1;
+};
+
+struct D2 : B2 {
+  using B2::B2;
+};
+[codeblock:end]
+
+[:en]
+The candidate set of inherited constructors in [`D1] for [`B1] is
+
+[list]
+[item]
+[:en@~] [`B1(const B1&)]
+[item]
+[:en@~] [`B1(B1&&)]
+[item]
+[:en@~] [`B1(int)]
+[list:end]
+
+[:en]
+The set of constructors present in [`D1] is
+
+[list]
+[item]
+[:en@~] [`D1()], implicitly-declared default constructor, ill-formed if odr-used
+[item]
+[:en@~] [`D1(const D1&)], implicitly-declared copy constructor, not inherited
+[item]
+[:en@~] [`D1(D1&&)], implicitly-declared move constructor, not inherited
+[item]
+[:en@~] [`D1(int)], implicitly-declared inheriting constructor
+[list:end]
+
+[:en]
+The candidate set of inherited constructors in [`D2] for [`B2] is
+
+[list]
+[item]
+[:en@~] [`B2(const B2&)]
+[item]
+[:en@~] [`B2(B2&&)]
+[item]
+[:en@~] [`B2(int = 13, int = 42)]
+[item]
+[:en@~] [`B2(int = 13)]
+[item]
+[:en@~] [`B2()]
+[list:end]
+
+[:en]
+The set of constructors present in [`D2] is
+
+[list]
+[item]
+[:en@~] [`D2()], implicitly-declared default constructor, not inherited
+[item]
+[:en@~] [`D2(const D2&)], implicitly-declared copy constructor, not inherited
+[item]
+[:en@~] [`D2(D2&&)], implicitly-declared move constructor, not inherited
+[item]
+[:en@~] [`D2(int, int)], implicitly-declared inheriting constructor
+[item]
+[:en@~] [`D2(int)], implicitly-declared inheriting constructor
+[list:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+If two [~using-declaration]s declare inheriting constructors with the same
+signatures, the program is ill-formed ([#class.mem], [#over.load]), because an
+implicitly-declared constructor introduced by the first [~using-declaration] is
+not a user-declared constructor and thus does not preclude another declaration
+of a constructor with the same signature by a subsequent [~using-declaration].
+
+[enter:example]
+[codeblock]
+struct B1 {
+  B1(int);
+};
+
+struct B2 {
+  B2(int);
+};
+
+struct D1 : B1, B2 {
+  using B1::B1;
+  using B2::B2;     
+};                  // [:en] ill-formed: attempts to declare D1(int) twice
+
+struct D2 : B1, B2 {
+  using B1::B1;
+  using B2::B2;
+  D2(int);          // [:en] OK: user declaration supersedes both implicit declarations
+};
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+An inheriting constructor for a class is implicitly defined when it is odr-used
+([#basic.def.odr]) to create an object of its class type ([#intro.object]).
+
+[:en]
+An implicitly-defined inheriting constructor performs the set of initializations
+of the class that would be performed by a user-written [`inline] constructor for
+that class with a [~mem-initializer-list] whose only [~mem-initializer] has a
+[~mem-initializer-id] that names the base class denoted in the
+[~nested-name-specifier] of the [~using-declaration] and an [~expression-list]
+as specified below, and where the [~compound-statement] in its function body is
+empty ([#class.base.init]).
+
+[:en]
+If that user-written constructor would be ill-formed, the program is ill-formed.
+
+[:en]
+Each [~expression] in the [~expression-list] is of the form
+[`static_cast<T&&>(p)], where [`p] is the name of the corresponding constructor
+parameter and [`T] is the declared type of [`p].
+
+[para]
+[enter:example]
+[codeblock]
+struct B1 {
+  B1(int) { }
+};
+
+struct B2 {
+  B2(double) { }
+};
+
+struct D1 : B1 {
+  using B1::B1;     // [:en] implicitly declares [`D1(int)]
+  int x;
+};
+
+void test() {
+  D1 d(6);          // [:en] OK: [`d.x] is not initialized
+  D1 e;             // [:en] error: [`D1] has no default constructor
+}
+
+struct D2 : B2 {
+  using B2::B2;     // [:en] OK: implicitly declares [`D2(double)]
+  B1 b;
+};
+
+D2 f(1.0);          // [:en] error: B1 has no default constructor
+
+template< class T >
+struct D : T {
+  using T::T;       // [:en] declares all constructors from class T
+  ~D() { std::clog << "Destroying wrapper" << std::endl; }
+};
+[codeblock:end]
+
+[:en]
+Class template [`D] wraps any class and forwards all of its constructors, while
+writing a message to the standard log whenever an object of class [`D] is
+destroyed.
+[exit:example]
+
+[%:end#constructor.inheriting]
