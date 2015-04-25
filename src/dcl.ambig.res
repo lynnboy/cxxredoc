@@ -140,7 +140,7 @@ For another example,
 
 [codeblock]
 class C { };
-void h(int *(C[10]));           // [:en] [`void h(int *(*_fp)(C _parm[10`]));]
-                                // [:en@~] not: [`void h(int *C[10`]);]
+void h(int *(C[10]));           // [`void h(int *(*_fp)(C _parm[10`]));]
+                                // [:en] not: [`void h(int *C[10`]);]
 [codeblock:end]
 [exit:example]

@@ -36,7 +36,7 @@ references or objects of a given type, [#dcl.fct];
 classes) of a given type, [#dcl.ptr];
 [:zh_CN]
 [%类型[!指针～]]
-指向 [`void] 或者给定类型的对象或函数（包括类的静态成员）的指针，[#dcl.ptr]；
+指向 [`void] 或者给定类型的对象或函数（包括类的静态成员）的[+指针]，[#dcl.ptr]；
 
 [item]
 [:en]
@@ -46,7 +46,7 @@ classes) of a given type, [#dcl.ptr];
 [:zh_CN]
 [%引用] [%引用[!左值～]] [%引用[!右值～]]
 [%左值引用] [%右值引用]
-给定类型的对象或函数的引用，[#dcl.ref]。
+给定类型的对象或函数的[+引用]，[#dcl.ref]。
 
 [:en]
 There are two types of references:

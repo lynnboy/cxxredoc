@@ -178,7 +178,7 @@ template ([#over.literal]) but not both.
 If [$S] contains a raw literal operator, the [+literal] [$L] is treated as a
 call of the form
 [:zh_CN]
-若 [$S] 包含一个原始字面量运算符，则将字面量 [$L] 当作如下形式的调用
+若 [$S] 包含一个原始字面量运算符，则将[+字面量] [$L] 当作如下形式的调用
 
 [codeblock:notation [special:var X]]
 operator "" X("[$f]")

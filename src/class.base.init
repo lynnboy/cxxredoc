@@ -200,9 +200,8 @@ if the entity is a non-static data member that has a
 
 [list]
 [item]
-[:en@~]
-the constructor[=']s class is a union ([#class.union]), and no other variant
-member of that union is designated by a [~mem-initializer-id] or
+[:en@~] the constructor[=']s class is a union ([#class.union]), and no other
+variant member of that union is designated by a [~mem-initializer-id] or
 
 [item]
 [:en@~] the constructor[=']s class is not a union, and, if the entity is a

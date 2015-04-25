@@ -88,10 +88,10 @@ A [def name] is a use of an [~identifier] ([#lex.name]), [~operator-function-id]
 [~conversion-function-id] ([#class.conv.fct]), or [~template-id] ([#temp.names])
 that denotes an entity or [~label] ([#stmt.goto], [#stmt.label]).
 [:zh_CN]
-[def 名字]是用来代表某个实体或[~标号]（[#stmt.goto]，[#stmt.label]）的[~标识符]
-（[#lex.name]），[~运算符函数标识]（[#over.oper]），[~字面量运算符标识]
-（[#over.literal]），[~转换函数标识]（[#class.conv.fct]]，或[~模板标识]
-（[#temp.names]）。
+[def 名字]是用来代表某个实体的[~标识符]（[#lex.name]），[~运算符函数标识]
+（[#over.oper]），[~字面量运算符标识]（[#over.literal]），[~转换函数标识]
+（[#class.conv.fct]]，或[~模板标识]（[#temp.names]），或者[~标号]（[#stmt.goto]
+，[#stmt.label]）。
 
 [para]
 [:en]

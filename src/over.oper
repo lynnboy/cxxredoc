@@ -34,12 +34,12 @@ An operator function is said to [+implement] the operator named in its
 [rule:end]
 
 [rule:oneof@aligned operator [:zh_CN] ]
-  [| new    delete  new[]   delete[] ]
-  [| +      -       *       /           %       ^       &       |       ~ ]
-  [| !      =       <       >           +=      -=      *=      /=      %= ]
-  [| ^=     &=      |=      <<          >>      >>=     <<=     ==      != ]
-  [| <=     >=      &&      ||          ++      --      ,       ->*     -> ]
-  [| ( )    [ ] ]
+  [| new    delete  new[=[][=]]     delete[=[][=]] ]
+  [| +      -       *       /       %       ^       &       |       ~ ]
+  [| !      =       <       >       +=      -=      *=      /=      %= ]
+  [| ^=     &=      |=      <<      >>      >>=     <<=     ==      != ]
+  [| <=     >=      &&      ||      ++      --      ,       ->*     -> ]
+  [| ( )    [=[] [=]] ]
 [rule:end]
 [syntax:end]
 

@@ -117,9 +117,7 @@ When this happens, each variable declared in the try block will be destroyed in
 the context that directly contains its declaration.
 
 [enter:example]
-[codeblock
-    special@condition
-]
+[codeblock [special condition] ]
 lab:  try {
   T1 t1;
   try {

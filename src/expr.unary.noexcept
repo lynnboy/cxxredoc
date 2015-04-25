@@ -32,5 +32,5 @@ prvalue.
 The result of the [`noexcept] operator is [`true] if the set of potential
 exceptions of the expression ([#except.spec]) is empty, and [`false] otherwise.
 [:zh_CN]
-若其表达式的潜在异常集合为空，[`noexcept] 运算符的结果就为 [`true]，否则为
-[`false]。
+若其表达式的潜在异常集合（[#except.spec]）为空，[`noexcept] 运算符的结果就为
+[`true]，否则为 [`false]。

@@ -41,15 +41,17 @@ in the definition of an object-like macro.
 
 [para]
 [:en]
-If the [~identifier-list] in the macro definition does not end with
-an ellipsis, the number of arguments (including those arguments consisting
-of no preprocessing tokens)
-in an invocation of a function-like macro shall
-equal the number of parameters in the macro definition. Otherwise, there shall be more arguments in the invocation than there are
-parameters in the macro definition (excluding the [`...]). There
-shall exist a
-[`)]
-preprocessing token that terminates the invocation.
+If the [~identifier-list] in the macro definition does not end with an ellipsis,
+the number of arguments (including those arguments consisting of no
+preprocessing tokens) in an invocation of a function-like macro shall equal the
+number of parameters in the macro definition.
+
+[:en]
+Otherwise, there shall be more arguments in the invocation than there are
+parameters in the macro definition (excluding the [`...]).
+
+[:en]
+There shall exist a [`)] preprocessing token that terminates the invocation.
 
 [para]
 [%[`__VA_ARGS__]]

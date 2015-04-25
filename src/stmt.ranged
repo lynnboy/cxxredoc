@@ -40,7 +40,7 @@ let [$range-init] be equivalent to the [~braced-init-list].
 [:en]
 In each case, a range-based [`for] statement is equivalent to
 
-[codeblock:notation]
+[codeblock:notation [special range-init begin-expr end-expr] ]
 {
   auto && __range = range-init;
   for ( auto __begin = begin-expr,
@@ -53,7 +53,7 @@ In each case, a range-based [`for] statement is equivalent to
 }
 [codeblock:end]
 
-[:en]
+[:en@~]
 where [`__range], [`__begin], and [`__end] are variables defined for exposition
 only, and [`_RangeT] is the type of the [~expression], and [$begin-expr] and
 [$end-expr] are determined as follows:

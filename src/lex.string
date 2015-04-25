@@ -62,7 +62,7 @@
             space, the left parenthesis [`(], the right parenthesis [`)], the
             backslash [`\], and the control characters representing horizontal
             tab, vertical tab, form feed, and newline.
-        [:zh_CN] 源字符集中的任何成员，除了：[br]
+        [:zh_CN] 源字符集中的任何成员，除了： [br]
             空格，左圆括号 [`(]，右圆括号 [`)]，反斜杠 [`\]，以及表示水平制表、
             垂直制表、换页和换行的控制字符。
     ]
@@ -82,8 +82,8 @@ A [~string-literal] is a sequence of characters (as defined in [#lex.ccon])
 surrounded by double quotes, optionally prefixed by
 [`R], [`u8], [`u8R], [`u], [`uR], [`U], [`UR], [`L], or [`LR],
 as in [`"..."], [`R"(...)"], [`u8"..."], [`u8R"**(...)**"], [`u"..."],
-[`uR"*\~{}(...)*\~{}"], [`U"..."], [`UR"zzz(...)zzz"], [`L"..."], or
-[`LR"(...)"], respectively.
+[`uR"*~(...)*~"], [`U"..."], [`UR"zzz(...)zzz"], [`L"..."], or [`LR"(...)"],
+respectively.
 [:zh_CN]
 [%字面量[!字符串～]]
 [%字面量[!字符串～[!窄～]]]
@@ -95,12 +95,12 @@ as in [`"..."], [`R"(...)"], [`u8"..."], [`u8R"**(...)**"], [`u"..."],
 [`R]，[`u8]，[`u8R]，[`u]，[`uR]，[`U]，[`UR]，[`L]，或 [`LR]
 的一系列（如 [#lex.ccon] 中所定义的）字符组成，分别如
 [`"..."]，[`R"(...)"]，[`u8"..."]，[`u8R"**(...)**"]，[`u"..."]，
-[`uR"*\~{}(...)*\~{}"]，[`U"..."]，[`UR"zzz(...)zzz"]，[`L"..."]，或
-[`LR"(...)"]。
+[`uR"*~(...)*~"]，[`U"..."]，[`UR"zzz(...)zzz"]，[`L"..."]，或 [`LR"(...)"]。
 
 [para]
 [:en]
-A [~string-literal] that has an [`R] in the prefix is a [def raw string literal].
+A [~string-literal] that has an [`R] in the prefix is a [def raw string
+literal].
 [:zh_CN]
 前缀中带有 [`R] 的[~字符串字面量]是[def 原始字符串字面量]。
 
@@ -342,8 +342,8 @@ concatenated string literal has that [~encoding-prefix].
 If one [~string-literal] has no [~encoding-prefix], it is treated as a
 [~string-literal] of the same [~encoding-prefix] as the other operand.
 [:zh_CN]
-若一个字符串字面量没有[~编码前缀]，则把它当作与另一个操作数具有相同的[~编码前缀]
-的字符串字面量。
+若一个[~字符串字面量]没有[~编码前缀]，则把它当作与另一个操作数具有相同的[~编码
+前缀]的[~字符串字面量]。
 
 [:en]
 If a UTF-8 string literal token is adjacent to a wide string literal token, the

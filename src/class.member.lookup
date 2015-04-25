@@ -333,4 +333,5 @@ struct D: I1, I2, B2 {
     int D::* mpD = &D::i;       // [:en] Ambiguous conversion
   }
 };
-[codeblock:end][exit:example]
+[codeblock:end]
+[exit:example]

@@ -29,8 +29,8 @@ preprocessing directives, is called a [def translation unit].
 [:en]
 A [=Cpp] program need not all be translated at the same time.
 [:zh_CN]
-[exit:note]
 [=Cpp] 程序并不需要全部被同时翻译。
+[exit:note]
 
 [para]
 [enter:note]
@@ -47,7 +47,7 @@ manipulation of objects whose identifiers have external linkage, or manipulation
 of data files.
 [:zh_CN]
 程序中分离的翻译单元之间，通过（例如）调用其标识符具有外部连接的函数，操作其标
-识符具有外部连接的对象，或操作数据文件来进行通信（[#basic.link）。
+识符具有外部连接的对象，或操作数据文件来进行通信（[#basic.link]）。
 
 [:en]
 Translation units can be separately translated and then later linked to produce

@@ -204,6 +204,7 @@ incomplete types.
 [:zh_CN]
 除非另行规定（[#expr.call]），纯右值应当总是具有完整类型或 [`void] 类型；除了
 这些类型之外，泛左值还可以具有不完整类型。
+
 [enter:note]
 [:en]
 class and array prvalues can have cv-qualified types; other prvalues always have
@@ -305,7 +306,7 @@ a cv-qualified version of the dynamic type of the object,
 [:en]
 a type similar (as defined in [#conv.qual]) to the dynamic type of the object,
 [:zh_CN]
-与该对象的动态类型相似（定义于 [#conv.qual] ）的类型，
+与该对象的动态类型相似（定义于 [#conv.qual]）的类型，
 
 [item]
 [:en]

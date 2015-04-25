@@ -75,8 +75,8 @@ Y e = d;            // [:en] calls [`Y(const Y&)]
 [enter:note]
 [:en]
 All forms of copy/move constructor may be declared for a class.
-[enter:example]
 
+[enter:example]
 [codeblock]
 struct X {
   X(const X&);
@@ -648,9 +648,8 @@ The implicitly-defined copy/move assignment operator is [`constexpr] if
 [:en@~] [`X] is a literal type, and
 
 [item]
-[:en@~]
-the assignment operator selected to copy/move each direct base class subobject
-is a [`constexpr] function, and
+[:en@~] the assignment operator selected to copy/move each direct base class
+subobject is a [`constexpr] function, and
 
 [item]
 [:en@~] for each non-static data member of [`X] that is of class type (or array
@@ -719,10 +718,8 @@ struct C : B, A { };
 [codeblock:end]
 
 [:en]
-It is unspecified whether the virtual base class subobject
-[`V]
-is assigned twice by the implicitly-defined copy/move assignment operator for
-[`C].
+It is unspecified whether the virtual base class subobject [`V] is assigned
+twice by the implicitly-defined copy/move assignment operator for [`C].
 [exit:example]
 
 [para]

@@ -166,6 +166,7 @@ Hence, even though a different one might actually be executed, the statically
 visible deallocation function is required to be accessible.
 
 [enter:example]
+[:en]
 for the call on line //1 above, if [`B::operator delete()] had been [`private],
 the delete expression would have been ill-formed.
 [exit:example]

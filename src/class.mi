@@ -124,7 +124,7 @@ The body of function [`C::f] could refer to the member [`next] of each [`L]
 subobject:
 
 [codeblock]
-void C::f() { A::next = B::next; }      // well-formed
+void C::f() { A::next = B::next; }      // [:en] well-formed
 [codeblock:end]
 
 [:en]

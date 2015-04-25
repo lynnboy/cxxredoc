@@ -147,6 +147,7 @@ is undefined.
 [%overflow]
 most existing implementations of [=Cpp] ignore integer overflows.
 [:zh_CN]
+[%溢出]
 大多数现存的 [=Cpp] 实现都忽略整数溢出。
 
 [:en]
@@ -185,12 +186,12 @@ to [`T] prior to any further analysis.
 表达式的类型在进行任何进一步分析之前被调整为 [`T]。
 
 [para]
-[:en]
-[%expression[!rvalue reference]]
 [enter:note]
 [:en]
+[%expression[!rvalue reference]]
 An expression is an xvalue if it is:
 [:zh_CN]
+[%表达式[!右值引用～]]
 下列表达式是临限值：
 
 [list]
@@ -555,8 +556,9 @@ The [+cv-combined type] of two types [`T1] and [`T2] is a type [`T3] similar to
 [list]
 [item]
 [:en@~]
-对于每个 [$j > 0]，[$cv[_3,j]] 为 [$cv[_1,j]] 和 [$cv[_2,j]] 的并集；
+for every [$j > 0], [$cv[_3,j]] is the union of [$cv[_1,j]] and [$cv[_2,j]];
 [:zh_CN@~]
+对于每个 [$j > 0]，[$cv[_3,j]] 为 [$cv[_1,j]] 和 [$cv[_2,j]] 的并集；
 
 [item]
 [:en@~]
@@ -640,8 +642,10 @@ if [`T1] and [`T2] are similar types ([#conv.qual]), the cv-combined type of
 
 [item]
 [:en]
-否则，需要确定其组合指针类型的程序是非良构的。
+otherwise, a program that necessitates the determination of a composite pointer
+type is ill-formed.
 [:zh_CN]
+否则，需要确定其组合指针类型的程序是非良构的。
 [list:end]
 
 [enter:example]

@@ -290,11 +290,11 @@ deduced)
 ]
 [:en]
 <class member function> name, parameter type list ([#dcl.fct]), class of which
-the function is a member, [=cv]-qualifiers (if any), and [~ref-qualifier]
+the function is a member, [$cv]-qualifiers (if any), and [~ref-qualifier]
 (if any)
 [:zh_CN]
 【类成员函数】 名字，形参类型列表（[#dcl.fct]），以其作为成员的类，
-[=cv]-限定符（如果有），以及[~引用限定符]（如果有）
+[$cv]-限定符（如果有），以及[~引用限定符]（如果有）
 
 [section:def#defns.signature.member.templ
     [:en] signature [index signature]
@@ -302,11 +302,11 @@ the function is a member, [=cv]-qualifiers (if any), and [~ref-qualifier]
 ]
 [:en]
 <class member function template> name, parameter type list ([#dcl.fct]), class
-of which the function is a member, [=cv]-qualifiers (if any),
+of which the function is a member, [$cv]-qualifiers (if any),
 [~ref-qualifier] (if any), return type, and template parameter list
 [:zh_CN]
 【类成员函数模板】 名字，形参类型列表（[#dcl.fct]），以其作为成员的类，
-[=cv]-限定符（如果有），[~引用限定符]（如果有），返回类型，以及模板形参列表
+[$cv]-限定符（如果有），[~引用限定符]（如果有），返回类型，以及模板形参列表
 
 [section:def#defns.signature.member.spec
     [:en] signature [index signature]

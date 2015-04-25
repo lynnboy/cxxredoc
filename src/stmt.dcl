@@ -48,6 +48,7 @@ declarations with initialization.
 A program that jumps
 
 [footnote]
+[:en]
 The transfer from the condition of a [`switch] statement to a [`case] label is
 considered a jump in this respect.
 [footnote:end]

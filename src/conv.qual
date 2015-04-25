@@ -54,8 +54,8 @@ The [$n]-tuple of cv-qualifiers after the first one in the longest
 cv-decomposition of [`T], that is, [$cv[_1]], [$cv[_2]], [=cdots], [$cv[_n]], is
 called the [def cv-qualification signature] of [`T].
 [:zh_CN]
-[`T] 的最长 cv-分解式中，第一个之后的 cv-限定符的 [$n]-元组，被称作 [`T] 的
-[def cv-限定性签名]。
+[`T] 的最长 cv-分解式中，第一个之后的 cv-限定符的 [$n]-元组（即为 [$cv[_1]],
+[$cv[_2]], [=cdots], [$cv[_n]]），被称作 [`T] 的 [def cv-限定性签名]。
 
 [para]
 [:en]
@@ -166,7 +166,7 @@ if ["[$cv2] [`T]] is more cv-qualified than ["[$cv1] [`T]].
 Function types (including those used in pointer to member function types) are
 never cv-qualified ([#dcl.fct]).
 [:zh_CN]
-[exit:note]
 函数类型（包括用在指向成员函数的指针中的）总不是 cv-限定的（[#dcl.fct]）。
+[exit:note]
 
 [%:end#conversion.qualification]

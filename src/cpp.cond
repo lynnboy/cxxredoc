@@ -4,7 +4,8 @@
 
 [%[:en] preprocessing directive[!conditional inclusion]
 ]
-[%[:en] inclusion[!conditional][see preprocessing directive[! conditional inclusion]]
+[%[:en] inclusion[!conditional]
+    [see preprocessing directive[! conditional inclusion]]
 ]
 
 [para]
@@ -51,7 +52,7 @@ occurred shall be in the lexical form of a token ([#lex.token]).
 Preprocessing directives of the forms
 
 [syntax:explanation]
-[rule@aligned]
+[rule@aligned ]
 [%[`#if]]
     [| [`#] [`if]       constant-expression new-line [~:opt group] ]
 [%[`#elif]]

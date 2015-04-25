@@ -221,7 +221,7 @@ conditionally-supported.
 把函数指针转换为对象指针类型或与此相反是有条件支持的。
 
 [:en]
-The meaning of such a conversion is [$@impldef converting function pointer to
+The meaning of such a conversion is [%@impldef converting function pointer to
 object pointer and vice versa] implementation-defined, except that if an
 implementation supports conversions in both directions, converting a prvalue of
 one type to the other type and back, possibly with different cv-qualification,

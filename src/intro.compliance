@@ -28,7 +28,8 @@ in ["undefined behavior.]
 [index@text conformance requirements [sub method of description]]
 Although this International Standard states only requirements on [=Cpp]
 implementations, those requirements are often easier to understand if they are
-phrased as requirements on programs, parts of programs, or execution of programs.
+phrased as requirements on programs, parts of programs, or execution of
+programs.
 [:zh_CN]
 [index@text 遵从性规定 [sub 描述方式]]
 虽然本国际标准只需陈述针对 [=Cpp] 实现的规定，但若将这些规定描述为针对程序、程序
@@ -135,7 +136,7 @@ The names defined in the library have namespace scope ([#basic.namespace]).
 A [=Cpp] translation unit ([#lex.phases]) obtains access to these names by
 including the appropriate standard library header ([#cpp.include]).
 [:zh_CN]
-[=Cpp] 翻译单元（#lex.phases]）可通过包含相应的标准程序库头文件
+[=Cpp] 翻译单元（[#lex.phases]）可通过包含相应的标准程序库头文件
 （[#cpp.include]）来访问这些名字。
 
 [para]

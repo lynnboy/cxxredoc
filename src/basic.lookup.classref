@@ -60,9 +60,9 @@ If the type [`T] of the object expression is of a class type [`C], the
 
 [:en]
 At least one of the lookups shall find a name that refers to (possibly
-[=cv]-qualified) [`T].
+[$cv]-qualified) [`T].
 [:zh_CN]
-应该至少有一个查找过程能够找到代表（可能被 [=cv]-限定的）[`T] 的名字。
+应该至少有一个查找过程能够找到代表（可能被 [$cv]-限定的）[`T] 的名字。
 
 [enter:example]
 [codeblock]

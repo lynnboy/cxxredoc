@@ -55,6 +55,7 @@ A [`(] token that follows [`noexcept] is part of the [~noexcept-specification]
 and does not commence an initializer ([#dcl.init]).
 
 [para]
+[:en]
 An [~exception-specification] shall appear only on a function declarator for a
 function type, pointer to function type, reference to function type, or pointer
 to member function type that is the top-level type of a declaration or
@@ -218,7 +219,8 @@ a type [`T] for which a handler of type [`T] would be a match ([#except.handle])
 for an exception of type [`E].
 
 [:en]
-[%allowing all exceptions[see exception specification[!allowing all exceptions]]]
+[%allowing all exceptions
+    [see exception specification[!allowing all exceptions]]]
 A function is said to [def allow all exceptions [%exception specification
 [!allowing all exceptions]]] if its exception specification is the set of all
 types.
@@ -446,7 +448,7 @@ by overload resolution for the implicit definition of [`f] ([#class.ctor]).
 [enter:note]
 [:en]
 Even though destructors for fully-constructed subobjects are invoked when an
-exception is thrown during the execution of a constructor ([#except.ctor}),
+exception is thrown during the execution of a constructor ([#except.ctor]),
 their exception specifications do not contribute to the exception specification
 of the constructor, because an exception thrown from such a destructor could
 never escape the constructor ([#except.throw], [#except.terminate]).
@@ -569,9 +571,9 @@ compare against.
 [list:end]
 
 [:en]
-The [~exception-specification} of a defaulted special member function is
+The [~exception-specification] of a defaulted special member function is
 evaluated as described above only when needed; similarly, the
-[~exception-specification} of a specialization of a function template or member
+[~exception-specification] of a specialization of a function template or member
 function of a class template is instantiated only when needed.
 
 [para]

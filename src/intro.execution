@@ -66,7 +66,8 @@ Certain aspects and operations of the abstract machine are described in this
 International Standard as implementation-defined (for example, [`sizeof(int)]).
 [:zh_CN]
 [%行为 [!由实现定义的～]]
-本国际标准将抽象机器的某些特定方面和操作描述为由实现定义的（如[`sizeof(int)]）。
+本国际标准将抽象机器的某些特定方面和操作描述为由实现定义的（如 [`sizeof(int)]）
+。
 
 [:en]
 These constitute the parameters of the abstract machine.
@@ -433,9 +434,9 @@ void f() {
   if (S(3).v())     // [:en] full-expression includes lvalue-to-rvalue and
                     // [|:zh_CN] 全表达式包括左值向右值以及
                     // [:en@~] [`int] to [`bool] conversions, performed before
-                    // [|~:zh_CN] [`int] 向 [`bool] 的转换，并实施于
+                    // [|:zh_CN@~] [`int] 向 [`bool] 的转换，并实施于
                     // [:en@~] temporary is deleted at end of full-expression
-                    // [|~:zh_CN] 临时变量在全表达式结尾处被删除之前
+                    // [|:zh_CN@~] 临时变量在全表达式结尾处被删除之前
   { }
 }
 [codeblock:end]

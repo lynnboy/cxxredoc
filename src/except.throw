@@ -96,7 +96,7 @@ ill-formed.
 [%exception handling[!rethrowing]]
 [%exception handling[!exception object]]
 The memory for the exception object is allocated in an unspecified way, except
-as noted in [#basic.stc.dynamic.allocation}.
+as noted in [#basic.stc.dynamic.allocation].
 
 [:en]
 If a handler exits by rethrowing, control is passed to another handler for the

@@ -58,9 +58,8 @@ namespace.
 If the [~identifier], when looked up ([#basic.lookup.unqual]), refers to a
 [~namespace-name] (but not a [~namespace-alias]) introduced in the declarative
 region in which the [~named-namespace-definition] appears, the
-[~namespace-definition]
-[%extend[see namespace, extend]]
-[def extends [%namespace[!extend]]] the previously-declared namespace.
+[~namespace-definition] [%extend[see namespace, extend]] [def extends
+[%namespace[!extend]]] the previously-declared namespace.
 
 [:en]
 Otherwise, the [~identifier] is introduced as a [~namespace-name] into the

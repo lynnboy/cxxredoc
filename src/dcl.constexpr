@@ -76,28 +76,27 @@ constraints:
 
 [list]
 [item]
-[:en]
-it shall not be virtual ([#class.virtual]);
+[:en] it shall not be virtual ([#class.virtual]);
 
 [item]
-its return type shall be a literal type;
+[:en] its return type shall be a literal type;
 
 [item]
-each of its parameter types shall be a literal type;
+[:en] each of its parameter types shall be a literal type;
 
 [item]
-its [~function-body] shall be [`= delete], [`= default], or a
+[:en] its [~function-body] shall be [`= delete], [`= default], or a
 [~compound-statement] that does not contain
 
 [list]
 [item]
-[:en] an [~asm-definition],
+[:en@~] an [~asm-definition],
 [item]
-[:en] a [`goto] statement,
+[:en@~] a [`goto] statement,
 [item]
-[:en] a [~try-block], or
+[:en@~] a [~try-block], or
 [item]
-[:en] a definition of a variable of non-literal type or of static or thread
+[:en@~] a definition of a variable of non-literal type or of static or thread
 storage duration or for which no initialization is performed.
 [list:end]
 
@@ -140,16 +139,13 @@ constraints:
 
 [list]
 [item]
-[:en]
-the class shall not have any virtual base classes;
+[:en@~] the class shall not have any virtual base classes;
 
 [item]
-[:en]
-each of the parameter types shall be a literal type;
+[:en@~] each of the parameter types shall be a literal type;
 
 [item]
-[:en]
-its [~function-body] shall not be a [~function-try-block];
+[:en@~] its [~function-body] shall not be a [~function-try-block];
 [list:end]
 
 [:en]

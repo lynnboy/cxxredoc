@@ -44,8 +44,8 @@ conversion sequence or worse conversion sequence than another.
 Given these definitions, a viable function [`F1] is defined to be a [+better]
 function than another viable function [`F2] if for all arguments [$i],
 ICS[$i]([`F1]) is not a worse conversion sequence than ICS[$i]([`F2]), and then
-[list]
 
+[list]
 [item]
 [:en]
 for some argument [$j], ICS[$j]([`F1]) is a better conversion sequence than
@@ -201,6 +201,6 @@ void use() {
 
 [include over.best.ics]
 
-[include over.ics.rank
+[include over.ics.rank]
 
 [%:end#overloading.resolution.implicit.conversions.and]

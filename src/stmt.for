@@ -26,7 +26,7 @@ is equivalent to
 }
 [codeblock:end]
 
-[:en]
+[:en@~]
 except that names declared in the [~for-init-statement] are in the same
 declarative region as those declared in the [~condition], and except that a
 [%statement[![~continue] in [`for]]] [~continue] in [~statement] (not enclosed

@@ -10,8 +10,9 @@
 %gram:
 /]
 
+[:en]
 [%base class virtual[see virtual base class]]
-[%function, virtual[see virtual function]]
+[%function[!virtual][see virtual function]]
 [%dynamic binding[see virtual function]]
 
 [para]
@@ -139,15 +140,11 @@ object of the derived class type.
 struct Base {
   int a, b, c;
 };
-[codeblock:end]
 
-[codeblock]
 struct Derived : Base {
   int b;
 };
-[codeblock:end]
 
-[codeblock]
 struct Derived2 : Derived {
   int c;
 };
@@ -171,7 +168,7 @@ object ([#intro.object]) is unspecified.
 [enter:note]
 [:en]
 [%directed acyclic graph[see DAG]]
-[%lattice[see DAG, subobject]]
+[%lattice[see DAG][see subobject]]
 a derived class and its base class subobjects can be represented by a directed
 acyclic graph (DAG) where an arrow means ["directly derived from.]
 

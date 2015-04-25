@@ -27,7 +27,7 @@ cv-qualification than, [$cv], and where [~conversion-type-id] denotes the type
 ["pointer to function of ([`P1],...,[`Pn)] returning [`R]], or the type
 ["reference to pointer to function of ([`P1],...,[`Pn)] returning [`R]], or the
 type ["reference to function of ([`P1],...,[`Pn)] returning [`R]], a [+surrogate
-call function] with the unique name [~call-function] and having the form
+call function] with the unique name [$call-function] and having the form
 
 [codeblock:notation]
 R [$call-function] ( [~conversion-type-id] F, P1 a1, ... ,Pn an) { return F (a1,... ,an); }

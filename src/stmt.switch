@@ -32,7 +32,7 @@ case labels as follows:
 [`case] [~constant-expression] [`:]
 [syntax:end]
 
-[:en]
+[:en@~]
 where the [~constant-expression] shall be a converted constant expression
 ([#expr.const]) of the adjusted type of the switch condition.
 
@@ -45,11 +45,11 @@ conversion.
 [%label[![`default]]]
 There shall be at most one label of the form
 
-[codeblock]
+[codeblock:notation]
 default :
 [codeblock:end]
 
-[:en]
+[:en@~]
 within a [`switch] statement.
 
 [para]

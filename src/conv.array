@@ -7,7 +7,7 @@
 [:en]
 [%conversion[!array-to-pointer]]
 [%decay [see conversion[!array to pointer]]]
-An lvalue or rvalue of type ["array of [`N] [`T]] or ["array of unknown bound of
+An lvalue or rvalue of type ["array of [`N T]] or ["array of unknown bound of
 [`T]] can be converted to a prvalue of type ["pointer to [`T]].
 [:zh_CN]
 [%转换[!数组向指针～]]

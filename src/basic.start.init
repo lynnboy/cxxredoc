@@ -327,10 +327,10 @@ initialization of [`a], that is, before [`A::A] is called.
 [:en]
 If, however, [`a] is initialized at some point after the first statement of
 [`main], [`b] will be initialized prior to its use in [`A::A].
-[exit:example]
 [:zh_CN]
 然而，若 [`a] 在 [`main] 的第一个语句之后的某点进行初始化，则 [`b] 将会在
 [`A::A] 中使用它之前进行初始化。
+[exit:example]
 
 [para]
 [:en]

@@ -282,7 +282,7 @@ This function call operator or operator template is declared [`const]
 [~parameter-declaration-clause] is not followed by [`mutable].
 [:zh_CN]
 函数调用运算符和运算符模板，当且仅当[~lambda-表达式]的[~形参声明子句]不跟着
-[`mutable] 时，被声明为 [`const]。
+[`mutable] 时，被声明为 [`const]（[#class.mfct.non-static]）。
 
 [:en]
 It is neither virtual nor declared [`volatile].
@@ -319,7 +319,7 @@ call operator.
 [:zh_CN]
 没有 [~lambda-捕获式]的非通用 [~lambda-表达式]的闭包类型，具有一个公用的非虚非
 显式的 const 转换函数，转换为指向具有同其闭包类型的函数调用运算符相同的形参和
-返回类型的函数的指针。
+返回类型，并具有 [=Cpp] 语言连接的函数的指针。
 
 [:en]
 The value returned by this conversion function shall be the address of a
@@ -404,6 +404,7 @@ struct Closure {
 };
 [codeblock:end]
 [exit:note]
+
 [enter:example]
 [codeblock]
 void f1(int (*)(int))   { }

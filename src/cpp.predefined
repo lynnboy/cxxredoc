@@ -60,9 +60,10 @@ line (an integer literal).
 The presumed line number can be changed by the [`#line] directive.
 [footnote:end]
 
+[:en]
 [%[`__STDC_HOSTED__]]
 [%[`__STDC_HOSTED__][!implementation-defined]]
-[item [`__STDC_HOSTED__]]
+[item [`__STDC_HOSTED__] ]
 [:en]
 The integer literal [`1] if the implementation is a hosted implementation or the
 integer literal [`0] if it is not.
@@ -85,6 +86,7 @@ The following macro names are conditionally defined by the implementation:
 
 [list:tl]
 
+[:en]
 [%[`__STDC__]]
 [%[`__STDC__][!implementation-defined]]
 [item [`__STDC__] ]
@@ -92,6 +94,7 @@ The following macro names are conditionally defined by the implementation:
 Whether [`__STDC__] is predefined and if so, what its value is, are [%@impldef
 definition and meaning of [`__STDC__]] implementation-defined.
 
+[:en]
 [%[`__STDC_MB_MIGHT_NEQ_WC__]]
 [%[`__STDC_MB_MIGHT_NEQ_WC__][!implementation-defined]]
 [item [`__STDC_MB_MIGHT_NEQ_WC__] ]
@@ -100,6 +103,7 @@ The integer literal [`1], intended to indicate that, in the encoding for
 [`wchar_t], a member of the basic character set need not have a code value equal
 to its value when used as the lone character in an ordinary character literal.
 
+[:en]
 [%[`__STDC_VERSION__]]
 [%[`__STDC_VERSION__][!implementation-defined]]
 [item [`__STDC_VERSION__] ]
@@ -108,6 +112,7 @@ Whether [`__STDC_VERSION__] is predefined and if so, what its value is, are
 [%@impldef definition and meaning of [`__STDC_VERSION__]]
 implementation-defined.
 
+[:en]
 [%[`__STDC_ISO_10646__]]
 [%[`__STDC_ISO_10646__][!implementation-defined]]
 [item [`__STDC_ISO_10646__] ]
@@ -121,6 +126,7 @@ identifier of that character. The [def Unicode required set} consists of all
 the characters that are defined by ISO/IEC 10646, along with all amendments and
 technical corrigenda as of the specified year and month.
 
+[:en]
 [%[`__STDCPP_STRICT_POINTER_SAFETY__]]
 [%[`__STDCPP_STRICT_POINTER_SAFETY__][!implementation-defined]]
 [item [`__STDCPP_STRICT_POINTER_SAFETY__] ]
@@ -128,6 +134,7 @@ technical corrigenda as of the specified year and month.
 Defined, and has the value integer literal 1, if and only if the implementation
 has strict pointer safety ([#basic.stc.dynamic.safety]).
 
+[:en]
 [%[`__STDCPP_THREADS__]]
 [%[`__STDCPP_THREADS__][!implementation-defined]]
 [item [`__STDCPP_THREADS__] ]

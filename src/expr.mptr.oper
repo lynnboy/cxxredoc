@@ -147,8 +147,8 @@ ill-formed if the second operand is a pointer to member function with
 The result of a [`.*] expression whose second operand is a pointer to a data
 member is an lvalue if the first operand is an lvalue and an xvalue otherwise.
 [:zh_CN]
-第二个操作数为指向数据成员的指针的 [`.*] 表达式的结果，与其第一个操作数的值类别
-（[#basic.lval]）相同。
+第二个操作数为指向数据成员的指针的 [`.*] 表达式的结果，当第一个操作数是左值时为
+左值，否则是临限值。
 
 [:en]
 The result of a [`.*] expression whose second operand is a pointer to a member

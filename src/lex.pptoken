@@ -69,7 +69,7 @@ this consists of comments ([#lex.comment]), or white-space characters (space,
 horizontal tab, new-line, vertical tab, and form-feed), or both.
 [:zh_CN]
 [%注释]
-空白由注释（[lex.comment]）或空白字符（空格、水平制表、换行、垂直制表以及换页）
+空白由注释（[#lex.comment]）或空白字符（空格、水平制表、换行、垂直制表以及换页）
 ，或者由两者共同构成。
 
 [:en]
@@ -182,7 +182,7 @@ that is a valid floating literal token), whether or not [`E] is a macro name.
 [exit:example]
 
 [para]
-[enter:example
+[enter:example]
 [:en]
 The program fragment [`x+++++y] is parsed as [`x ++ ++ + y], which, if [`x] and
 [`y] have integral types, violates a constraint on increment operators, even

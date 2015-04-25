@@ -133,8 +133,8 @@ enum { d, e, f=e+2 };
 [codeblock:end]
 
 [:en]
-defines [`a], [`c], and [`d] to be zero, [`b] and
-[`e] to be [`1], and [`f] to be [`3].
+defines [`a], [`c], and [`d] to be zero, [`b] and [`e] to be [`1], and [`f] to
+be [`3].
 [exit:example]
 
 [:en]
@@ -277,9 +277,11 @@ range [$b[_min]] to [$b[_max]], defined as follows:
 Let [$K] be 1 for a two[=']s complement representation and 0 for a one[=']s
 complement or sign-magnitude representation.
 
+[:en]
 [$b[_max]] is the smallest value greater than or equal to [$max(|e[_min]| - K,
 |e[_max]|)] and equal to [$2[^M]-1], where [$M] is a non-negative integer.
 
+[:en]
 [$b[_min]] is zero if [$e[_min]] is non-negative and [$-(b[_max]+K)] otherwise.
 
 [:en]
@@ -358,6 +360,7 @@ if (y) { }                      // [:en] error: no [`Col] to [`bool] conversion
 [exit:example]
 
 [para]
+[:en]
 [%class[!scope of enumerator]]
 Each [~enum-name] and each unscoped [~enumerator] is declared in the scope that
 immediately contains the [~enum-specifier].

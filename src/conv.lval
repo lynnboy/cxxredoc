@@ -29,10 +29,10 @@ ill-formed.
 若 [`T] 是不完整类型，则需要进行这种转换的程序是非良构的。
 
 [:en]
-If [`T] is a non-class type, the type of the prvalue is the [=cv]-unqualified
+If [`T] is a non-class type, the type of the prvalue is the [$cv]-unqualified
 version of [`T].
 [:zh_CN]
-若 [`T] 不是类类型，则其纯右值的类型是 [`T] 的 [=cv]-未限定的版本。
+若 [`T] 不是类类型，则其纯右值的类型是 [`T] 的 [$cv]-未限定的版本。
 
 [:en]
 Otherwise, the type of the prvalue is [`T].
@@ -41,16 +41,16 @@ Otherwise, the type of the prvalue is [`T].
 
 [footnote]
 [:en]
-In [=Cpp] class prvalues can have [=cv]-qualified types (because they are
+In [=Cpp] class prvalues can have [$cv]-qualified types (because they are
 objects).
 [:zh_CN]
-在 [=Cpp] 中，类的纯右值可以具有 [=cv]-限定的类型（因为它们是对象）。
+在 [=Cpp] 中，类的纯右值可以具有 [$cv]-限定的类型（因为它们是对象）。
 
 [:en]
-This differs from ISO C, in which non-lvalues never have [=cv]-qualified types.
+This differs from ISO C, in which non-lvalues never have [$cv]-qualified types.
 [:zh_CN]
+这与 ISO C 中非左值不会有 [$cv]-限定的类型是不同的。
 [footnote:end]
-这与 ISO C 中非左值不会有 [=cv]-限定的类型是不同的。
 
 [para]
 [:en]
@@ -106,10 +106,10 @@ following rules:
 
 [item]
 [:en]
-If [`T] is (possibly [=cv]-qualified) [`std::nullptr_t], the result is a null
+If [`T] is (possibly [$cv]-qualified) [`std::nullptr_t], the result is a null
 pointer constant ([#conv.ptr]).
 [:zh_CN]
-若 [`T] 是（可能被 [=cv]-限定的）[`std::nullptr_t]，则其纯右值结果是空指针常量
+若 [`T] 是（可能被 [$cv]-限定的）[`std::nullptr_t]，则其纯右值结果是空指针常量
 （[#conv.ptr]）。
 
 [item]

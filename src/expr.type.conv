@@ -65,7 +65,7 @@ initialization is done for the [`void()] case.
 if [`T] is a non-class type that is cv-qualified, the [~cv-qualifier]s are
 discarded when determining the type of the resulting prvalue (Clause [#expr]).
 [:zh_CN]
-若 [`T] 为被 cv-限定的非类类型，则在确定结果纯右值（[#basic.lval]）的类型时忽略
+若 [`T] 为被 cv-限定的非类类型，则在确定结果纯右值（第 [#expr] 条）的类型时忽略
 它的 [~cv-限定符]。
 [exit:note]
 

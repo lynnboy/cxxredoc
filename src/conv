@@ -20,7 +20,7 @@
 
 [index:begin#conversion.standard
     [:en] conversion [!standard]
-    [:zh_CN] 转换 [!标准～]]
+    [:zh_CN] 转换 [!标准～]
 ]
 
 
@@ -194,10 +194,10 @@ a type [`T] that is determined as follows:
 它是良构的（[#dcl.init]）：
 
 [:en]
-[`E] is searched for conversion functions whose return type is [=cv] [`T] or
-reference to [=cv] [`T] such that [`T] is allowed by the context.
+[`E] is searched for conversion functions whose return type is [$cv] [`T] or
+reference to [$cv] [`T] such that [`T] is allowed by the context.
 [:zh_CN]
-为 [`E] 搜索返回类型为 [=cv] [`T] 或指代 [=cv] [`T] 的引用的转换函数，并使该语境
+为 [`E] 搜索返回类型为 [$cv] [`T] 或指代 [$cv] [`T] 的引用的转换函数，并使该语境
 可以接受 [`T]。
 
 [:en]

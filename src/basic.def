@@ -65,7 +65,7 @@ specifying the function[=']s body ([#dcl.fct.def]), it contains the
 [:zh_CN]
 [%声明式[!函数～]]
 [%定义式]
-声明式也是[def 定义式，除非声明式声明了函数但未指定其函数体（[#dcl.fct.def]），
+声明式也是[def 定义式]，除非声明式声明了函数但未指定其函数体（[#dcl.fct.def]），
 声明式中包含[%声明式[![`extern]]][`extern] 说明符（[#dcl.stc]）或[~连接说明]
 
 [footnote]
@@ -180,10 +180,10 @@ constructor ([#class.ctor]), copy constructor ([#class.copy]), move constructor
 operator ([#class.copy]), or destructor ([#class.dtor]) member functions.
 [:zh_CN]
 [%由实现生成的]
-[exit:note]
 某些情况下，[=Cpp] 实现隐含地定义默认构造函数（[#class.ctor]），复制构造函数
 （[#class.copy]），移动构造函数（[#class.copy]），复制赋值运算符（[#class.copy]
 ），移动赋值运算符（[#class.copy]），或析构函数（[#class.dtor]）等成员函数。
+[exit:note]
 
 [enter:example]
 [:en]

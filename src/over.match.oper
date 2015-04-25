@@ -73,12 +73,12 @@ function-call notation as summarized in Table [#tab:over.rel.op.func]
         ]
     ]
 ]
-[|] [#over.unary]   [|] @a      [|] (a).operator@ ( )   [|] operator@ (a)
-[|] [#over.binary]  [|] a@b     [|] (a).operator@ (b)   [|] operator@ (a, b)
-[|] [#over.ass]     [|] a=b     [|] (a).operator= (b)   [|]
-[|] [#over.sub]     [|] a[b]    [|] (a).operator[](b)   [|]
-[|] [#over.ref]     [|] a->     [|] (a).operator->( )   [|]
-[|] [#over.inc]     [|] a@      [|] (a).operator@ (0)   [|] operator@ (a, 0)
+[|] [#over.unary]   [|] @a          [|] (a).operator@ ( )   [|] operator@ (a)
+[|] [#over.binary]  [|] a@b         [|] (a).operator@ (b)   [|] operator@ (a, b)
+[|] [#over.ass]     [|] a=b         [|] (a).operator= (b)   [|]
+[|] [#over.sub]     [|] a[=[]b[=]]  [|] (a).operator[=[][=]](b)     [|]
+[|] [#over.ref]     [|] a->         [|] (a).operator->( )   [|]
+[|] [#over.inc]     [|] a@          [|] (a).operator@ (0)   [|] operator@ (a, 0)
 [table:end]
 
 [para]

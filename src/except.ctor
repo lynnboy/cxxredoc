@@ -1,10 +1,13 @@
 ﻿[section#except.ctor
     [:en] Constructors and destructors
 ]
+[:en]
 [%exception handling[!constructors and destructors]]
 [%stack unwinding[!see exception handling[!constructors and destructors]]]
-[%constructor[!exception handling][see exception handling[!constructors and destructors]]]
-[%destructor[!exception handling][see exception handling[!constructors and destructors]]]
+[%constructor[!exception handling]
+    [see exception handling[!constructors and destructors]]]
+[%destructor[!exception handling]
+    [see exception handling[!constructors and destructors]]]
 
 [para]
 [:en]
@@ -61,6 +64,7 @@ Such destruction is sequenced before entering a handler of the
 
 [para]
 [enter:note]
+[:en]
 If the object was allocated by a [~new-expression] ([#expr.new]), the matching
 deallocation function ([#basic.stc.dynamic.deallocation]), if any, is called to
 free the storage occupied by the object.

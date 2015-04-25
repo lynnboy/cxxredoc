@@ -141,7 +141,7 @@ discarded-value expression (Clause [#expr]).
 [`x] 实施左值向右值转换（[#conv.lval]）后产生一个不调用任何非平凡函数的常量表达
 式（[#expr.const]），并且当 [`x] 是对象时，[`ex] 为某个表达式 [`e] 的潜在结果集
 合的元素，而要么对 [`e] 实施了左值向右值转换（[#conv.lval]），要么 [`e] 是个弃值
-表达式（第 [expr] 条）。
+表达式（第 [#expr] 条）。
 
 [:en]
 [`this] is odr-used if it appears as a potentially-evaluated expression
@@ -342,12 +342,12 @@ an expression is converted (either implicitly or explicitly) to type [`T]
 
 [item]
 [:en]
-an expression that is not a null pointer constant, and has type other than [=cv]
+an expression that is not a null pointer constant, and has type other than [$cv]
 [`void*], is converted to the type pointer to [`T] or reference to [`T] using a
 standard conversion (Clause [#conv]), a [`dynamic_cast] ([#expr.dynamic.cast])
 or a [`static_cast] ([#expr.static.cast]), or
 [:zh_CN]
-将不是空指针常量且类型不为 [=cv] [`void*] 的表达式，通过标准转换（第 [#conv]
+将不是空指针常量且类型不为 [$cv] [`void*] 的表达式，通过标准转换（第 [#conv]
 条），[`dynamic_cast]（[#expr.dynamic.cast]），或 [`static_cast]
 （[#expr.static.cast]），转换为 [`T] 的指针或 [`T] 的引用，或
 
@@ -397,7 +397,7 @@ the type [`T] is the subject of an [`alignof] expression ([#expr.alignof]), or
 an [~exception-declaration] has type [`T], reference to [`T], or pointer to [`T]
 ([#except.handle]).
 [:zh_CN]
-类型为 [`T]，[`T] 的引用，或 [`T] 的指针的[~异常声明]。
+类型为 [`T]，[`T] 的引用，或 [`T] 的指针的[~异常声明]（[#except.handle]）。
 [list:end]
 [exit:note]
 
@@ -416,8 +416,8 @@ requirements.
 类类型（第 [#class] 条），枚举类型（[#dcl.enum]），外部连接的内联函数
 （[#dcl.fct.spec]），类模板（第 [#temp] 条），非静态函数模版（[#temp.fct]），
 类模板的静态数据成员（[#temp.static]），类模板的成员函数（[#temp.mem.func]），
-或者未指明某些模板形参的模板特例（[#temp.spec]），在程序中可以有多个定义式，只要
-这些定义式出现于不同翻译单元中，并且这些定义式满足如下规定。
+或者未指明某些模板形参的模板特例（[#temp.spec]，[#temp.class.spec]），在程序中可
+以有多个定义式，只要这些定义式出现于不同翻译单元中，并且这些定义式满足如下规定。
 
 [:en]
 Given such an entity named [`D] defined in more than one translation unit, then
@@ -516,7 +516,7 @@ class D: public X { };
 D d2;                           // [:en] [`X(int)] called by [`D()]
                                 // [|:zh_CN] [`X(int)] 被 [`D()] 调用
 
-//translation unit 2:
+//[:en]translation unit 2:
 //[|:zh_CN]翻译单元 2：
 struct X {
   X(int);

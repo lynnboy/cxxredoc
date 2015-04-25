@@ -20,9 +20,9 @@ destroyed using [%[`delete]] [~delete-expression]s ([#expr.delete]).
 
 [:en]
 A [=Cpp] implementation provides access to, and management of, dynamic storage
-via the global [def allocation functions] [`operator new] and [`operator new[]]
+via the global [def allocation functions] [`operator new] and [`operator new[`]]
 and the global [def deallocation functions] [`operator delete] and [`operator
-delete[]].
+delete[`]].
 [:zh_CN]
 [=Cpp] 的实现通过全局[def 分配函数] [`operator new] 和 [`operator new[`]]，以及
 全局[def 回收函数] [`operator delete] 和 [`operator delete[`]] 提供对动态存储

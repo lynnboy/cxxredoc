@@ -261,12 +261,12 @@ If an indeterminate value of unsigned narrow character type
 [item]
 [:en@~] the second or third operand of a conditional expression ([#expr.cond]),
 [item]
-[:en] the right operand of a comma expression ([#expr.comma]),
+[:en@~] the right operand of a comma expression ([#expr.comma]),
 [item]
-[:en] the operand of a cast or conversion to an unsigned narrow character type
+[:en@~] the operand of a cast or conversion to an unsigned narrow character type
 ([#conv.integral], [#expr.type.conv], [#expr.static.cast], [#expr.cast]), or
 [item]
-[:en] a discarded-value expression (Clause [#expr]),
+[:en@~] a discarded-value expression (Clause [#expr]),
 [list:end]
 
 [:en@~]
@@ -506,6 +506,6 @@ An [~initializer-clause] followed by an ellipsis is a pack expansion
 
 [include dcl.init.ref]
 
-[include dcl.init.list
+[include dcl.init.list]
 
 [%:end#initialization]
