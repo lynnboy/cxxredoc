@@ -1,0 +1,42 @@
+﻿[section#temp.fct
+    [:en] Function templates
+]
+
+[para]
+[:en]
+A function template defines an unbounded set of related functions.
+
+[enter:example]
+[:en]
+a family of sort functions might be declared like this:
+
+[codeblock]
+template<class T> class Array { };
+template<class T> void sort(Array<T>&);
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A function template can be overloaded with other function templates and with
+non-template functions ([#dcl.fct]).
+
+[:en]
+A non-template function is not related to a function template (i.e., it is never
+considered to be a specialization), even if it has the same name and type as a
+potentially generated function template specialization.
+
+[footnote]
+[:en]
+That is, declarations of non-template functions do not merely guide overload
+resolution of function template specializations with the same name.
+
+[:en]
+If such a non-template function is odr-used ([#basic.def.odr]) in a program, it
+must be defined; it will not be implicitly instantiated using the function
+template definition.
+[footnote:end]
+
+[include temp.over.link]
+
+[include temp.func.order]

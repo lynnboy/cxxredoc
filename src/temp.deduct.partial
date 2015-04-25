@@ -1,0 +1,205 @@
+﻿[section#temp.deduct.partial
+    [:en] Deducing template arguments during partial ordering
+]
+
+[para]
+[:en]
+Template argument deduction is done by comparing certain types associated with
+the two function templates being compared.
+
+[para]
+[:en]
+Two sets of types are used to determine the partial ordering.
+
+[:en]
+For each of the templates involved there is the original function type and the
+transformed function type.
+
+[enter:note]
+[:en]
+The creation of the transformed type is described in [#temp.func.order].
+[exit:note]
+
+[:en]
+The deduction process uses the transformed type as the argument template and the
+original type of the other template as the parameter template.
+
+[:en]
+This process is done twice for each type involved in the partial ordering
+comparison: once using the transformed template-1 as the argument template and
+template-2 as the parameter template and again using the transformed template-2
+as the argument template and template-1 as the parameter template.
+
+[para]
+[:en]
+The types used to determine the ordering depend on the context in which the
+partial ordering is done:
+
+[list]
+[item]
+[:en]
+In the context of a function call, the types used are those function parameter
+types for which the function call has arguments.
+
+[footnote]
+[:en]
+Default arguments are not considered to be arguments in this context; they only
+become arguments after a function has been selected.
+[footnote:end]
+
+[item]
+[:en]
+In the context of a call to a conversion function, the return types of the
+conversion function templates are used.
+
+[item]
+[:en]
+In other contexts ([#temp.func.order]) the function template[=']s function type
+is used.
+[list:end]
+
+[para]
+[:en]
+Each type nominated above from the parameter template and the corresponding type
+from the argument template are used as the types of [`P] and [`A].
+
+[para]
+[:en]
+Before the partial ordering is done, certain transformations are performed
+on the types used for partial ordering:
+
+[list]
+[item]
+[:en] If [`P] is a reference type, [`P] is replaced by the type referred to.
+[item]
+[:en] If [`A] is a reference type, [`A] is replaced by the type referred to.
+[list:end]
+
+[para]
+If both [`P] and [`A] were reference types (before being replaced with the type
+referred to above), determine which of the two types (if any) is more
+cv-qualified than the other; otherwise the types are considered to be equally
+cv-qualified for partial ordering purposes.
+
+[:en]
+The result of this determination will be used below.
+
+[para]
+[:en]
+Remove any top-level cv-qualifiers:
+
+[list]
+[item]
+[:en] If [`P] is a cv-qualified type, [`P] is replaced by the cv-unqualified
+version of [`P].
+[item]
+[:en] If [`A] is a cv-qualified type, [`A] is replaced by the cv-unqualified
+version of [`A].
+[list:end]
+
+[para]
+[:en]
+If [`A] was transformed from a function parameter pack and [`P] is not
+a parameter pack, type deduction fails. Otherwise, using the resulting types
+[`P] and [`A], the deduction is then done as described in [#temp.deduct.type].
+
+[:en]
+If [`P] is a function parameter pack, the type [`A] of each remaining parameter
+type of the argument template is compared with the type [`P] of the
+[~declarator-id] of the function parameter pack.
+
+[:en]
+Each comparison deduces template arguments for subsequent positions in the
+template parameter packs expanded by the function parameter pack.
+
+[:en]
+If deduction succeeds for a given type, the type from the argument template is
+considered to be at least as specialized as the type from the parameter
+template.
+
+[enter:example]
+[codeblock]
+template<class... Args>           void f(Args... args);           // #1
+template<class T1, class... Args> void f(T1 a1, Args... args);    // #2
+template<class T1, class T2>      void f(T1 a1, T2 a2);           // #3
+
+f();                  // [:en] calls #1
+f(1, 2, 3);           // [:en] calls #2
+f(1, 2);              // [:en] calls #3; non-variadic template #3 is more
+                      // [:en@~] specialized than the variadic templates #1 and #2
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If, for a given type, deduction succeeds in both directions (i.e., the types are
+identical after the transformations above) and both [`P] and [`A] were reference
+types (before being replaced with the type referred to above):
+
+[list]
+[item]
+[:en] if the type from the argument template was an lvalue reference and the
+type from the parameter template was not, the parameter type is not considered
+to be at least as specialized as the argument type; otherwise,
+
+[item]
+[:en] if the type from the argument template is more cv-qualified than the type
+from the parameter template (as described above), the parameter type is not
+considered to be at least as specialized as the argument type.
+[list:end]
+
+[para]
+[:en]
+[%more specialized[!function template]]
+Function template [`F] is at least as specialized as function template [`G] if,
+for each pair of types used to determine the ordering, the type from [`F] is at
+least as specialized as the type from [`G].
+
+[:en]
+[`F] is [+more specialized than] [`G] if [`F] is at least as specialized as [`G]
+and [`G] is not at least as specialized as [`F].
+
+[para]
+[:en]
+In most cases, all template parameters must have values in order for deduction
+to succeed, but for partial ordering purposes a template parameter may remain
+without a value provided it is not used in the types being used for partial
+ordering.
+
+[enter:note]
+[:en]
+A template parameter used in a non-deduced context is considered used.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template <class T> T f(int);        // #1
+template <class T, class U> T f(U); // #2
+void g() {
+  f<int>(1);        // [:en] calls #1
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Partial ordering of function templates containing template parameter packs is
+independent of the number of deduced arguments for those template parameter
+packs.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template<class ...> struct Tuple { };
+template<class ... Types> void g(Tuple<Types ...>);                 // #1
+template<class T1, class ... Types> void g(Tuple<T1, Types ...>);   // #2
+template<class T1, class ... Types> void g(Tuple<T1, Types& ...>);  // #3
+
+g(Tuple<>());                   // [:en] calls #1
+g(Tuple<int, float>());         // [:en] calls #2
+g(Tuple<int, float&>());        // [:en] calls #3
+g(Tuple<int>());                // [:en] calls #3
+[codeblock:end]
+
+[exit:example]

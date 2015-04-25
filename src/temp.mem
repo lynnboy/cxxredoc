@@ -1,0 +1,153 @@
+﻿[section#temp.mem
+    [:en] Member templates
+]
+
+[para]
+[:en]
+A template can be declared within a class or class template; such a template
+is called a member template.
+
+[:en]
+A member template can be defined within or outside its class definition or
+class template definition.
+
+[:en]
+A member template of a class template that is defined outside of its class
+template definition shall be specified with the [~template-parameter]s of the
+class template followed by the [~template-parameter]s of the member template.
+
+[enter:example]
+[codeblock]
+template<class T> struct string {
+  template<class T2> int compare(const T2&);
+  template<class T2> string(const string<T2>& s) { /* ... */ }
+};
+
+template<class T> template<class T2> int string<T>::compare(const T2& s) {
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A local class of non-closure type shall not have member templates.
+
+[:en]
+Access control rules (Clause [#class.access]) apply to member template names.
+
+[:en]
+A destructor shall not be a member template.
+
+[:en]
+A non-template member function ([#dcl.fct]) with a given name and type and a
+member function template of the same name, which could be used to generate a
+specialization of the same type, can both be declared in a class.
+
+[:en]
+When both exist, a use of that name and type refers to the non-template member
+unless an explicit template argument list is supplied.
+
+[enter:example]
+[codeblock]
+template <class T> struct A {
+  void f(int);
+  template <class T2> void f(T2);
+};
+
+template <> void A<int>::f(int) { }                     // [:en] non-template member function
+template <> template <> void A<int>::f<>(int) { }       // [:en] member function template specialization
+
+int main() {
+  A<char> ac;
+  ac.f(1);          // [:en] non-template
+  ac.f('c');        // [:en] template
+  ac.f<>(1);        // [:en] template
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A member function template shall not be virtual.
+
+[enter:example]
+[codeblock]
+template <class T> struct AA {
+  template <class C> virtual void g(C);   // [:en] error
+  virtual void f();                       // OK
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A specialization of a member function template does not override a virtual
+function from a base class.
+
+[enter:example]
+[codeblock]
+class B {
+  virtual void f(int);
+};
+
+class D : public B {
+  template <class T> void f(T); // [:en] does not override [`B::f(int)]
+  void f(int i) { f<>(i); }     // [:en] overriding function that calls
+                                // [:en@~] the template instantiation
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A specialization of a conversion function template is referenced in the same way
+as a non-template conversion function that converts to the same type.
+
+[enter:example]
+[codeblock]
+struct A {
+  template <class T> operator T*();
+};
+template <class T> A::operator T*(){ return 0; }
+template <> A::operator char*(){ return 0; }    // [:en] specialization
+template A::operator void*();                   // [:en] explicit instantiation
+
+int main() {
+  A a;
+  int* ip;
+  ip = a.operator int*();       // [:en] explicit call to template operator
+                                // [:en@~] [`A::operator int*()]
+}
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+Because the explicit template argument list follows the function template name,
+and because conversion member function templates and constructor member function
+templates are called without using a function name, there is no way to provide
+an explicit template argument list for these function templates.
+[exit:note]
+
+[para]
+[:en]
+A specialization of a conversion function template is not found by name lookup.
+
+[:en]
+Instead, any conversion function templates visible in the context of the use are
+considered.
+
+[:en]
+For each such operator, if argument deduction succeeds ([#temp.deduct.conv]),
+the resulting specialization is used as if found by name lookup.
+
+[para]
+[:en]
+A [~using-declaration] in a derived class cannot refer to a specialization of a
+conversion function template in a base class.
+
+[para]
+[:en]
+Overload resolution ([#over.ics.rank]) and partial ordering ([#temp.func.order])
+are used to select the best conversion function among multiple specializations
+of conversion function templates and/or non-template conversion functions.

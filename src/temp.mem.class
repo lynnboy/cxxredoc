@@ -1,0 +1,26 @@
+﻿[section#temp.mem.class
+    [:en] Member classes of class templates
+]
+
+[para]
+[:en]
+A member class of a class template may be defined outside the class template
+definition in which it is declared.
+
+[enter:note]
+[:en]
+The member class must be defined before its first use that requires an
+instantiation ([#temp.inst]).
+
+[:en]
+For example,
+
+[codeblock]
+template<class T> struct A {
+  class B;
+};
+A<int>::B* b1;                  // [:en] OK: requires [`A] to be defined but not [`A::B]
+template<class T> class A<T>::B { };
+A<int>::B  b2;                  // [:en] OK: requires [`A::B] to be defined
+[codeblock:end]
+[exit:note]

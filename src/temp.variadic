@@ -1,0 +1,313 @@
+﻿[section#temp.variadic
+    [:en] Variadic templates
+]
+
+[para]
+[:en]
+A [+template parameter pack] is a template parameter that accepts zero or more
+template arguments.
+
+[enter:example]
+[codeblock]
+template<class ... Types> struct Tuple { };
+
+Tuple<> t0;                     // [:en] [`Types] contains no arguments
+Tuple<int> t1;                  // [:en] [`Types] contains one argument: [`int]
+Tuple<int, float> t2;           // [:en] [`Types] contains two arguments: [`int] and [`float]
+Tuple<0> error;                 // [:en] error: 0 is not a type
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+A [+function parameter pack] is a function parameter that accepts zero or more
+function arguments.
+
+[enter:example]
+[codeblock]
+template<class ... Types> void f(Types ... args);
+
+f();                // [:en] OK: [`args] contains no arguments
+f(1);               // [:en] OK: [`args] contains one argument: [`int]
+f(2, 1.0);          // [:en] OK: [`args] contains two arguments: [`int] and [`double]
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+A [+parameter pack] is either a template parameter pack or a function parameter
+pack.
+
+[para]
+[:en]
+A [+pack expansion] consists of a [+pattern] and an ellipsis, the instantiation
+of which produces zero or more instantiations of the pattern in a list
+(described below).
+
+[:en]
+The form of the pattern depends on the context in which the expansion occurs.
+
+[:en]
+Pack expansions can occur in the following contexts:
+
+[list]
+[item]
+[:en] In a function parameter pack ([#dcl.fct]); the pattern is the
+[~parameter-declaration] without the ellipsis.
+
+[item]
+[:en] In a template parameter pack that is a pack expansion ([#temp.param]):
+
+[list]
+[item]
+[:en] if the template parameter pack is a [~parameter-declaration];
+the pattern is the [~parameter-declaration] without the ellipsis;
+
+[item]
+[:en] if the template parameter pack is a [~type-parameter] with a
+[~template-parameter-list]; the pattern is the corresponding [~type-parameter]
+without the ellipsis.
+[list:end]
+
+[item]
+[:en] In an [~initializer-list] ([#dcl.init]); the pattern is an
+[~initializer-clause].
+
+[item]
+[:en] In a [~base-specifier-list] (Clause [#class.derived]); the pattern is a
+[~base-specifier].
+
+[item] In a [~mem-initializer-list] ([#class.base.init]) for a
+[~mem-initializer] whose [~mem-initializer-id] denotes a base class; the pattern
+is the [~mem-initializer].
+
+[item]
+[:en] In a [~template-argument-list] ([#temp.arg]); the pattern is a
+[~template-argument].
+
+[item]
+[:en] In a [~dynamic-exception-specification] ([#except.spec]); the pattern is a
+[~type-id].
+
+[item]
+[:en] In an [~attribute-list] ([#dcl.attr.grammar]); the pattern is an
+[~attribute].
+
+[item]
+[:en] In an [~alignment-specifier] ([#dcl.align]); the pattern is the
+[~alignment-specifier] without the ellipsis.
+
+[item]
+[:en] In a [~capture-list] ([#expr.prim.lambda]); the pattern is a [~capture].
+
+[item]
+[:en] In a [`sizeof...] expression ([#expr.sizeof]); the pattern is an
+[~identifier].
+
+[item]
+[:en] In a [~fold-expression] ([#expr.prim.fold]); the pattern is the
+[~cast-expression] that contains an unexpanded parameter pack.
+[list:end]
+
+[para]
+[:en]
+For the purpose of determining whether a parameter pack satisfies a rule
+regarding entities other than parameter packs, the parameter pack is considered
+to be the entity that would result from an instantiation of the pattern in which
+it appears.
+
+[para:~]
+[enter:example]
+[codeblock]
+template<class ... Types> void f(Types ... rest);
+template<class ... Types> void g(Types ... rest) {
+  f(&rest ...);     // [:en] ["[`&rest ...]] is a pack expansion; ["[`&rest]] is its pattern
+}
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+A parameter pack whose name appears within the pattern of a pack expansion is
+expanded by that pack expansion.
+
+[:en]
+An appearance of the name of a parameter pack is only expanded by the innermost
+enclosing pack expansion.
+
+[:en]
+The pattern of a pack expansion shall name one or more parameter packs that
+are not expanded by a nested pack expansion; such parameter packs are called
+[+unexpanded] parameter packs in the pattern.
+
+[:en]
+All of the parameter packs expanded by a pack expansion shall have the same
+number of arguments specified.
+
+[:en]
+An appearance of a name of a parameter pack that is not expanded is ill-formed.
+
+[enter:example]
+[codeblock]
+template<typename...> struct Tuple {};
+template<typename T1, typename T2> struct Pair {};
+
+template<class ... Args1> struct zip {
+  template<class ... Args2> struct with {
+    typedef Tuple<Pair<Args1, Args2> ... > type;
+  };
+};
+
+typedef zip<short, int>::with<unsigned short, unsigned>::type T1;
+    // [:en] [`T1] is [`Tuple<Pair<short, unsigned short>, Pair<int, unsigned>>]
+typedef zip<short>::with<unsigned short, unsigned>::type T2;
+    // [:en] error: different number of arguments specified for [`Args1] and [`Args2]
+
+template<class ... Args>
+  void g(Args ... args) {               // [:en] OK: [`Args] is expanded by the function parameter pack [`args]
+    f(const_cast<const Args*>(&args)...); // [:en] OK: ["[`Args]] and ["[`args]] are expanded
+    f(5 ...);                             // [:en] error: pattern does not contain any parameter packs
+    f(args);                              // [:en] error: parameter pack ["[`args]] is not expanded
+    f(h(args ...) + args ...);            // [:en] OK: first ["[`args]] expanded within [`h], second
+                                          // [:en@~] ["[`args]] expanded within [`f]
+  }
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The instantiation of a pack expansion that is neither a [`sizeof...] expression
+nor a [~fold-expression] produces a list [$[`E][_1]], [$[`E][_2]], ...,
+[$[`E][_N]], where [$N] is the number of elements in the pack expansion
+parameters.
+
+[:en]
+Each [$[`E][_i]] is generated by instantiating the pattern and replacing each
+pack expansion parameter with its [$i]th element.
+
+[:en]
+Such an element, in the context of the instantiation, is interpreted as follows:
+
+[list]
+[item]
+[:en]
+if the pack is a template parameter pack, the element is a template parameter
+([#temp.param]) of the corresponding kind (type or non-type) designating the
+type or value from the template argument; otherwise,
+
+[item]
+[:en]
+if the pack is a function parameter pack, the element is an [~id-expression]
+designating the function parameter that resulted from the instantiation of the
+pattern where the pack is declared.
+[list:end]
+
+[:en]
+All of the [$[`E][_i]] become elements in the enclosing list.
+
+[enter:note]
+[:en]
+The variety of list varies with the context: [~expression-list],
+[~base-specifier-list], [~template-argument-list], etc.
+[exit:note]
+
+[:en]
+When [$N] is zero, the instantiation of the expansion produces an empty list.
+
+[:en]
+Such an instantiation does not alter the syntactic interpretation of the
+enclosing construct, even in cases where omitting the list entirely would
+otherwise be ill-formed or would result in an ambiguity in the grammar.
+
+[enter:example]
+[codeblock]
+template<class... T> struct X : T... { };
+template<class... T> void f(T... values) {
+  X<T...> x(values...);
+}
+
+template void f<>();  // [:en] OK: [`X<>] has no base classes
+                      // [:en@~] [`x] is a variable of type [`X<>] that is value-initialized
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The instantiation of a [`sizeof...] expression ([#expr.sizeof]) produces an
+integral constant containing the number of elements in the parameter pack
+it expands.
+
+[para]
+[:en]
+The instantiation of a [~fold-expression] produces:
+
+[list]
+[item]
+[:en]
+[$[`((E][_1] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]
+for a unary left fold,
+[item]
+[:en]
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`E][_N][`))]]
+for a unary right fold,
+[item]
+[:en]
+[$[`(((E] op [`E][_1][`)] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]
+for a binary left fold, and
+[item]
+[:en]
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`(E][_N] op [`E)))]]
+for a binary right fold.
+[list:end]
+
+[:en]
+In each case, [$op] is the [~fold-operator], [$N] is the number of elements in
+the pack expansion parameters, and each [$[`E][_i]] is generated by
+instantiating the pattern and replacing each pack expansion parameter with its
+[$i]th element.
+
+[:en]
+For a binary fold-expression, [`E] is generated by instantiating the
+[~cast-expression] that did not contain an unexpanded parameter pack.
+
+[enter:example]
+[codeblock]
+template<typename ...Args>
+  bool all(Args ...args) { return (... && args); }
+
+bool b = all(true, true, true, false);
+[codeblock:end]
+
+[:en]
+Within the instantiation of [`all], the returned expression expands to
+[`((true && true) && true) && false], which evalutes to [`false].
+[exit:example]
+
+[:en]
+If [$N] is zero for a unary fold-expression, the value of the expression is
+shown in Table [#tab:fold.empty]; if the operator is not listed in Table
+[#tab:fold.empty], the instantiation is ill-formed.
+
+[table:listing#tab:fold.empty
+    [:en] Value of folding empty sequences
+    [columns
+        [column@code
+            [:en] Operator
+        ]
+        [column@code
+            [:en] Value when parameter pack is empty
+        ]
+    ]
+    [border:cell@none]
+]
+[|] *   [|] 1
+[|] +   [|] int()
+[|] &   [|] -1
+[|] |   [|] int()
+[|] &&  [|] true
+[|] ||  [|] false
+[|] ,   [|] void()
+[table:end]

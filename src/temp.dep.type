@@ -1,0 +1,306 @@
+﻿[section#temp.dep.type
+    [:en] Dependent types
+]
+
+[para]
+[:en]
+A name refers to the [+current instantiation] if it is
+
+[list]
+[item]
+[:en]
+in the definition of a class template, a nested class of a class template,
+a member of a class template, or a member of a nested class of a class template,
+the injected-class-name (Clause [#class]) of the class template or nested class,
+
+[item]
+[:en]
+in the definition of a primary class template or a member of a primary class
+template, the name of the class template followed by the template argument list
+of the primary template (as described below) enclosed in [`<>] (or an equivalent
+template alias specialization),
+
+[item]
+[:en]
+in the definition of a nested class of a class template, the name of the nested
+class referenced as a member of the current instantiation, or
+
+[item]
+[:en]
+in the definition of a partial specialization or a member of a partial
+specialization, the name of the class template followed by the template argument
+list of the partial specialization enclosed in [`<>] (or an equivalent template
+alias specialization).
+
+[:en]
+If the [$n]th template parameter is a parameter pack, the [$n]th template
+argument is a pack expansion ([#temp.variadic]) whose pattern is the name of
+the parameter pack.
+[list:end]
+
+[para]
+[:en]
+The template argument list of a primary template is a template argument list in
+which the [$n]th template argument has the value of the [$n]th template
+parameter of the class template.
+
+[:en]
+If the [$n]th template parameter is a template parameter pack
+([#temp.variadic]), the [$n]th template argument is a pack expansion
+([#temp.variadic]) whose pattern is the name of the template parameter pack.
+
+[para]
+[:en]
+A template argument that is equivalent to a template parameter (i.e., has the
+same constant value or the same type as the template parameter) can be used in
+place of that template parameter in a reference to the current instantiation.
+
+[:en]
+In the case of a non-type template argument, the argument must have been given
+the value of the template parameter and not an expression in which the template
+parameter appears as a subexpression.
+
+[enter:example]
+[codeblock]
+template <class T> class A {
+  A* p1;                        // [:en] [`A] is the current instantiation
+  A<T>* p2;                     // [:en] [`A<T>] is the current instantiation
+  A<T*> p3;                     // [:en] [`A<T*>] is not the current instantiation
+  ::A<T>* p4;                   // [:en] [`::A<T>] is the current instantiation
+  class B {
+    B* p1;                      // [:en] [`B] is the current instantiation
+    A<T>::B* p2;                // [:en] [`A<T>::B] is the current instantiation
+    typename A<T*>::B* p3;      // [:en] [`A<T*>::B] is not the
+                                // [:en@~] current instantiation
+  };
+};
+
+template <class T> class A<T*> {
+  A<T*>* p1;                    // [:en] [`A<T*>] is the current instantiation
+  A<T>* p2;                     // [:en] [`A<T>] is not the current instantiation
+};
+
+template <class T1, class T2, int I> struct B {
+  B<T1, T2, I>* b1;             // [:en] refers to the current instantiation
+  B<T2, T1, I>* b2;             // [:en] not the current instantiation
+  typedef T1 my_T1;
+  static const int my_I = I;
+  static const int my_I2 = I+0;
+  static const int my_I3 = my_I;
+  B<my_T1, T2, my_I>* b3;       // [:en] refers to the current instantiation
+  B<my_T1, T2, my_I2>* b4;      // [:en] not the current instantiation
+  B<my_T1, T2, my_I3>* b5;      // [:en] refers to the current instantiation
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%base class[!dependent]]
+A [+dependent base class] is a base class that is a dependent type and is not
+the current instantiation.
+
+[enter:note]
+[:en]
+a base class can be the current instantiation in the case of a nested class
+naming an enclosing class as a base.
+
+[enter:example]
+[codeblock]
+template<class T> struct A {
+  typedef int M;
+  struct B {
+    typedef void M;
+    struct C;
+  };
+};
+
+template<class T> struct A<T>::B::C : A<T> {
+  M m; // OK, [`A<T>::M]
+};
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[:en]
+[%instantiation[!member of the current]]
+A name is a [+member of the current instantiation] if it is
+
+[list]
+[item]
+[:en]
+An unqualified name that, when looked up, refers to at least one member of a
+class that is the current instantiation or a non-dependent base class thereof.
+
+[enter:note]
+[:en]
+This can only occur when looking up a name in a scope enclosed by the definition
+of a class template.
+[exit:note]
+
+[item]
+[:en]
+A [~qualified-id] in which the [~nested-name-specifier] refers to the current
+instantiation and that, when looked up, refers to at least one member of a class
+that is the current instantiation or a non-dependent base class thereof.
+
+[enter:note]
+[:en]
+if no such member is found, and the current instantiation has any dependent base
+classes, then the [~qualified-id] is a member of an unknown specialization;
+see below.
+[exit:note]
+
+[item]
+[:en]
+An [~id-expression] denoting the member in a class member access expression
+([#expr.ref]) for which the type of the object expression is the current
+instantiation, and the [~id-expression], when looked up
+([#basic.lookup.classref]), refers to at least one member of a class that is the
+current instantiation or a non-dependent base class thereof.
+
+[enter:note]
+[:en]
+if no such member is found, and the current instantiation has any dependent base
+classes, then the [~id-expression] is a member of an unknown specialization;
+see below.
+[exit:note]
+[list:end]
+
+[enter:example]
+[codeblock]
+template <class T> class A {
+  static const int i = 5;
+  int n1[i];        // [:en] [`i] refers to a member of the current instantiation
+  int n2[A::i];     // [:en] [`A::i] refers to a member of the current instantiation
+  int n3[A<T>::i];  // [:en] [`A<T>::i] refers to a member of the current instantiation
+  int f();
+};
+
+template <class T> int A<T>::f() {
+  return i;         // [:en] [`i] refers to a member of the current instantiation
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+[%instantiation[!dependent member of the current]]
+A name is a [+dependent member of the current instantiation] if it is a member
+of the current instantiation that, when looked up, refers to at least one member
+of a class that is the current instantiation.
+
+[para]
+[:en]
+A name is a [+member of an unknown specialization] if it is
+
+[list]
+[item] 
+[:en] A [~qualified-id] in which the [~nested-name-specifier] names a dependent
+type that is not the current instantiation.
+
+[item]
+[:en] A [~qualified-id] in which the [~nested-name-specifier] refers to the
+current instantiation, the current instantiation has at least one dependent base
+class, and name lookup of the [~qualified-id] does not find any member of a
+class that is the current instantiation or a non-dependent base class thereof.
+
+[item]
+[:en] An [~id-expression] denoting the member in a class member access
+expression ([#expr.ref]) in which either
+
+[list]
+[item]
+[:en] the type of the object expression is the current instantiation, the
+current instantiation has at least one dependent base class, and name lookup
+of the [~id-expression] does not find a member of a class that is the current
+instantiation or a non-dependent base class thereof; or
+
+[item]
+[:en] the type of the object expression is dependent and is not the current
+instantiation.
+[list:end]
+[list:end]
+
+[para]
+[:en]
+If a [~qualified-id] in which the [~nested-name-specifier] refers to the current
+instantiation is not a member of the current instantiation or a member of an
+unknown specialization, the program is ill-formed even if the template
+containing the [~qualified-id] is not instantiated; no diagnostic required.
+
+[:en]
+Similarly, if the [~id-expression] in a class member access expression for which
+the type of the object expression is the current instantiation does not refer to
+a member of the current instantiation or a member of an unknown specialization,
+the program is ill-formed even if the template containing the member access
+expression is not instantiated; no diagnostic required.
+
+[enter:example]
+[codeblock]
+template<class T> class A {
+  typedef int type;
+  void f() {
+    A<T>::type i;           // [:en] OK: refers to a member of the current instantiation
+    typename A<T>::other j; // [:en] error: neither a member of the current instantiation nor
+                            // [:en@~] a member of an unknown specialization
+  }
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If, for a given set of template arguments, a specialization of a template is
+instantiated that refers to a member of the current instantiation with a
+[~qualified-id] or class member access expression, the name in the
+[~qualified-id] or class member access expression is looked up in the template
+instantiation context.
+
+[:en]
+If the result of this lookup differs from the result of name lookup in the
+template definition context, name lookup is ambiguous.
+
+[enter:note]
+[:en]
+the result of name lookup differs only when the member of the current
+instantiation was found in a non-dependent base class of the current
+instantiation and a member with the same name is also introduced by the
+substitution for a dependent base class of the current instantiation.
+[exit:note]
+
+[para]
+[:en]
+A type is dependent if it is
+
+[list]
+[item]
+[:en@~] a template parameter,
+[item]
+[:en@~] a member of an unknown specialization,
+[item]
+[:en@~] a nested class or enumeration that is a dependent member of the current
+instantiation,
+[item]
+[:en@~] a cv-qualified type where the cv-unqualified type is dependent,
+[item]
+[:en@~] a compound type constructed from any dependent type,
+[item]
+[:en@~] an array type constructed from any dependent type or whose size is
+specified by a constant expression that is value-dependent,
+[item]
+[:en@~] a [~simple-template-id] in which either the template name is a template
+parameter or any of the template arguments is a dependent type or an expression
+that is type-dependent or value-dependent, or
+[item]
+[:en@~] denoted by [`decltype(][~expression][`)], where [~expression] is
+type-dependent ([#temp.dep.expr]).
+[list:end]
+
+[para]
+[enter:note]
+[:en]
+Because typedefs do not introduce new types, but instead simply refer to other
+types, a name that refers to a typedef that is a member of the current
+instantiation is dependent only if the type referred to is dependent.
+[exit:note]

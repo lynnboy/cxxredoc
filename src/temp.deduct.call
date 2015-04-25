@@ -1,0 +1,255 @@
+﻿[section#temp.deduct.call
+    [:en] Deducing template arguments from a function call
+]
+
+[para]
+[:en]
+Template argument deduction is done by comparing each function template
+parameter type (call it [`P]) with the type of the corresponding argument of the
+call (call it [`A]) as described below.
+
+[:en]
+If [`P] is a dependent type, removing references and cv-qualifiers from [`P]
+gives [`std::initializer_list<][$[`P]'][`>] or [$[`P]'][`[N`]] for some [$[`P]']
+and [`N] and the argument is a non-empty initializer list ([#dcl.init.list]),
+then deduction is performed instead for each element of the initializer list,
+taking [$[`P]'] as a function template parameter type and the initializer
+element as its argument, and in the [$[`P]'][`[N`]] case, if [`N] is a non-type
+template parameter, [`N] is deduced from the length of the initializer list.
+
+[:en]
+Otherwise, an initializer list argument causes the parameter to be considered a
+non-deduced context ([#temp.deduct.type]).
+
+[enter:example]
+[codeblock]
+template<class T> void f(std::initializer_list<T>);
+f({1,2,3});                 // [:en] [`T] deduced to [`int]
+f({1,"asdf"});              // [:en] error: [`T] deduced to both [`int] and [`const char*]
+
+template<class T> void g(T);
+g({1,2,3});                 // [:en] error: no argument deduced for [`T]
+
+template<class T, int N> void h(T const(&)[N]);
+h({1,2,3});                 // [:en] [`T] deduced to [`int], [`N] deduced to [`3]
+
+template<class T> void j(T const(&)[3]);
+j({42});                    // [:en] [`T] deduced to [`int], array bound not considered
+
+struct Aggr { int i; int j; };
+template<int N> void k(Aggr const(&)[N]);
+k({1,2,3});                 // [:en] error: deduction fails, no conversion from [`int] to [`Aggr]
+k({{1},{2},{3}});           // [:en] OK, [`N] deduced to [`3]
+
+template<int M, int N> void m(int const(&)[M][N]);
+m({{1,2},{3,4}});           // [:en] [`M] and [`N] both deduced to [`2]
+
+template<class T, int N> void n(T const(&)[N], T);
+n({{1},{2},{3}},Aggr());    // [:en] OK, [`T] is [`Aggr], [`N] is [`3]
+[codeblock:end]
+[exit:example]
+
+[:en]
+For a function parameter pack that occurs at the end of the
+[~parameter-declaration-list], the type [`A] of each remaining argument of the
+call is compared with the type [`P] of the [~declarator-id] of the function
+parameter pack.
+
+[:en]
+Each comparison deduces template arguments for subsequent positions in the
+template parameter packs expanded by the function parameter pack.
+
+[:en]
+When a function parameter pack appears in a non-deduced context
+([#temp.deduct.type]), the type of that parameter pack is never deduced.
+
+[enter:example]
+[codeblock]
+template<class ... Types> void f(Types& ...);
+template<class T1, class ... Types> void g(T1, Types ...);
+template<class T1, class ... Types> void g1(Types ..., T1);
+
+void h(int x, float& y) {
+  const int z = x;
+  f(x, y, z);                  // [:en] [`Types] is deduced to [`int], [`float], [`const int]
+  g(x, y, z);                  // [:en] [`T1] is deduced to [`int]; [`Types] is deduced to [`float], [`int]
+  g1(x, y, z);                 // [:en] error: [`Types] is not deduced
+  g1<int, int, int>(x, y, z);  // [:en] OK, no deduction occurs
+
+}
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+If [`P] is not a reference type:
+
+[list]
+[item]
+[:en]
+If [`A] is an array type, the pointer type produced by the array-to-pointer
+standard conversion ([#conv.array]) is used in place of [`A] for type deduction;
+otherwise,
+
+[item]
+[:en]
+If [`A] is a function type, the pointer type produced by the function-to-pointer
+standard conversion ([#conv.func]) is used in place of [`A] for type deduction;
+otherwise,
+
+[item]
+[:en]
+If [`A] is a cv-qualified type, the top level cv-qualifiers of [`A][=']s type
+are ignored for type deduction.
+[list:end]
+
+[para]
+[:en]
+[%reference[!forwarding]]
+If [`P] is a cv-qualified type, the top level cv-qualifiers of [`P][=']s type
+are ignored for type deduction.
+
+[:en]
+If [`P] is a reference type, the type referred to by [`P] is used for type
+deduction.
+
+[:en]
+A [def forwarding reference] is an rvalue reference to a cv-unqualified template
+parameter.
+
+[:en]
+If [`P] is a forwarding reference and the argument is an lvalue, the type
+["lvalue reference to [`A]] is used in place of [`A] for type deduction.
+
+[enter:example]
+[codeblock]
+template <class T> int f(T&& heisenreference);
+template <class T> int g(const T&&);
+int i;
+int n1 = f(i);                  // [:en] calls [`f<int&>(int&)]
+int n2 = f(0);                  // [:en] calls [`f<int>(int&&)]
+int n3 = g(i);                  // [:en] error: would call [`g<int>(const int&&)], which
+                                // [:en@~] would bind an rvalue reference to an lvalue
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+In general, the deduction process attempts to find template argument values that
+will make the deduced [`A] identical to [`A] (after the type [`A] is transformed
+as described above).
+
+[:en]
+However, there are three cases that allow a difference:
+
+[list]
+[item]
+[:en]
+If the original [`P] is a reference type, the deduced [`A] (i.e., the type
+referred to by the reference) can be more cv-qualified than the transformed
+[`A].
+
+[item]
+[:en]
+The transformed [`A] can be another pointer or pointer to member type that can
+be converted to the deduced [`A] via a qualification conversion ([#conv.qual]).
+
+[item]
+[:en]
+If [`P] is a class and [`P] has the form [~simple-template-id], then the
+transformed [`A] can be a derived class of the deduced [`A].
+
+[:en]
+Likewise, if [`P] is a pointer to a class of the form [~simple-template-id], the
+transformed [`A] can be a pointer to a derived class pointed to by the deduced
+[`A].
+[list:end]
+
+[enter:note]
+[:en]
+as specified in [#temp.arg.explicit], implicit conversions will be performed on
+a function argument to convert it to the type of the corresponding function
+parameter if the parameter contains no [~template-parameter]s that participate
+in template argument deduction.
+
+[:en]
+Such conversions are also allowed, in addition to the ones described in the
+preceding list.
+[exit:note]
+
+[para]
+[:en]
+These alternatives are considered only if type deduction would otherwise fail.
+
+[:en]
+If they yield more than one possible deduced [`A], the type deduction fails.
+
+[enter:note]
+[:en]
+If a [~template-parameter] is not used in any of the function parameters of a
+function template, or is used only in a non-deduced context, its corresponding
+[~template-argument] cannot be deduced from a function call and the
+[~template-argument] must be explicitly specified.
+[exit:note]
+
+[para]
+[:en]
+When [`P] is a function type, pointer to function type, or pointer to member
+function type:
+
+[list]
+[item]
+[:en]
+If the argument is an overload set containing one or more function templates,
+the parameter is treated as a non-deduced context.
+
+[item]
+[:en]
+If the argument is an overload set (not containing function templates), trial
+argument deduction is attempted using each of the members of the set.
+
+[:en]
+If deduction succeeds for only one of the overload set members, that member is
+used as the argument value for the deduction.
+
+[:en]
+If deduction succeeds for more than one member of the overload set the parameter
+is treated as a non-deduced context.
+
+[para]
+[enter:example]
+[codeblock]
+// [:en] Only one function of an overload set matches the call so the function
+// [:en@~] parameter is a deduced context.
+template <class T> int f(T (*p)(T));
+int g(int);
+int g(char);
+int i = f(g);       // [:en] calls [`f(int (*)(int))]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[codeblock]
+// [:en] Ambiguous deduction causes the second function parameter to be a
+// [:en@~] non-deduced context.
+template <class T> int f(T, T (*p)(T));
+int g(int);
+char g(char);
+int i = f(1, g);    // [:en] calls [`f(int, int (*)(int))]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[codeblock]
+// [:en] The overload set contains a template, causing the second function
+// [:en@~] parameter to be a non-deduced context.
+template <class T> int f(T, T (*p)(T));
+char g(char);
+template <class T> T g(T);
+int i = f(1, g);    // [:en] calls [`f(int, int (*)(int))]
+[codeblock:end]
+[exit:example]
+[list:end]

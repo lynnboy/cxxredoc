@@ -1,0 +1,42 @@
+﻿[section#temp.static
+    [:en] Static data members of class templates
+]
+
+[para]
+[:en]
+[%member[!template and [`static]]]
+A definition for a static data member or static data member template may be
+provided in a namespace scope enclosing the definition of the static member[=']s
+class template.
+
+[enter:example]
+[codeblock]
+template<class T> class X {
+  static T s;
+};
+template<class T> T X<T>::s = 0;
+
+struct limits {
+  template<class T>
+    static const T min;           // [:en] declaration
+};
+
+template<class T>
+  const T limits::min = { };      // [:en] definition
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An explicit specialization of a static data member declared as an array of
+unknown bound can have a different bound from its definition, if any.
+
+[enter:example]
+[codeblock]
+template <class T> struct A {
+  static int i[];
+};
+template <class T> int A<T>::i[4];    // [:en] 4 elements
+template <> int A<int>::i[] = { 1 };  // [:en] OK: 1 element
+[codeblock:end]
+[exit:example]

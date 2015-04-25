@@ -1,0 +1,129 @@
+﻿[section#temp.dep
+    [:en] Dependent names
+]
+
+[para]
+[:en]
+[%name[!dependent]]
+Inside a template, some constructs have semantics which may differ from one
+instantiation to another.
+
+[:en]
+Such a construct [+depends] on the template parameters.
+
+[:en]
+In particular, types and expressions may depend on the type and/or value of
+template parameters (as determined by the template arguments) and this
+determines the context for name lookup for certain names.
+
+[:en]
+Expressions may be [+type-dependent] (on the type of a template parameter) or
+[+value-dependent] (on the value of a non-type template parameter).
+
+[:en]
+In an expression of the form:
+
+[syntax:explanation]
+[~postfix-expression] [`(] [~:opt expression-list] [`)]
+[syntax:end]
+
+[:en@~]
+where the [~postfix-expression] is an [~unqualified-id], the [~unqualified-id]
+denotes a [%name[!dependent]] [+dependent name] if
+
+[list]
+[item] 
+[:en@~] any of the expressions in the [~expression-list] is a pack expansion
+([#temp.variadic]),
+
+[item]
+[:en@~] any of the expressions or [~braced-init-list]s in the [~expression-list]
+is type-dependent ([#temp.dep.expr]), or
+
+[item]
+[:en@~] if the [~unqualified-id] is a [~template-id] in which any of the
+template arguments depends on a template parameter.
+[list:end]
+
+[:en]
+If an operand of an operator is a type-dependent expression, the operator also
+denotes a dependent name.
+
+[:en]
+Such names are unbound and are looked up at the point of the template
+instantiation ([#temp.point]) in both the context of the template definition and
+the context of the point of instantiation.
+
+[para]
+[enter:example]
+[codeblock]
+template<class T> struct X : B<T> {
+  typename T::A* pa;
+  void f(B<T>* pb) {
+    static int i = B<T>::i;
+    pb->j++;
+  }
+};
+[codeblock:end]
+
+[:en]
+the base class name [`B<T>], the type name [`T::A], the names [`B<T>::i] and
+[`pb->j] explicitly depend on the [~template-parameter].
+[exit:example]
+
+[para]
+[:en]
+In the definition of a class or class template, the scope of a dependent base
+class ([#temp.dep.type]) is not examined during unqualified name lookup either
+at the point of definition of the class template or member or during an
+instantiation of the class template or member.
+
+[enter:example]
+[codeblock]
+typedef double A;
+template<class T> class B {
+  typedef int A;
+};
+template<class T> struct X : B<T> {
+  A a;              // [:en] [`a] has type [`double]
+};
+[codeblock:end]
+
+[:en]
+The type name [`A] in the definition of [`X<T>] binds to the typedef name
+defined in the global namespace scope, not to the typedef name defined in the
+base class [`B<T>].
+[exit:example]
+
+[enter:example]
+[codeblock]
+struct A {
+  struct B { /* ... */ };
+  int a;
+  int Y;
+};
+
+int a;
+
+template<class T> struct Y : T {
+  struct B { /* ... */ };
+  B b;                          // [:en] The [`B] defined in [`Y]
+  void f(int i) { a = i; }      // [`::a]
+  Y* p;                         // [`Y<T>]
+};
+
+Y<A> ya;
+[codeblock:end]
+
+[:en]
+The members [`A::B], [`A::a], and [`A::Y] of the template argument [`A] do not
+affect the binding of names in [`Y<A>].
+[exit:example]
+
+[include temp.dep.type]
+
+[include temp.dep.expr]
+
+[include temp.dep.constexpr]
+
+[include temp.dep.temp]

@@ -1,0 +1,72 @@
+﻿[section#temp.class.spec.match
+    [:en] Matching of class template partial specializations
+]
+
+[para]
+[:en]
+When a class template is used in a context that requires an instantiation of
+the class, it is necessary to determine whether the instantiation is to be
+generated using the primary template or one of the partial specializations.
+
+[:en]
+This is done by matching the template arguments of the class template
+specialization with the template argument lists of the partial specializations.
+
+[list]
+[item]
+[:en]
+If exactly one matching specialization is found, the instantiation is generated
+from that specialization.
+
+[item]
+[:en]
+If more than one matching specialization is found, the partial order rules
+([#temp.class.order]) are used to determine whether one of the specializations
+is more specialized than the others.
+
+[:en]
+If none of the specializations is more specialized than all of the other
+matching specializations, then the use of the class template is ambiguous and
+the program is ill-formed.
+
+[item]
+[:en]
+If no matches are found, the instantiation is generated from the primary
+template.
+[list:end]
+
+[para]
+[:en]
+A partial specialization matches a given actual template argument
+list if the template arguments of the partial specialization can be
+deduced from the actual template argument list ([#temp.deduct]).
+
+[enter:example]
+[codeblock]
+A<int, int, 1>   a1;            // [:en] uses #1
+A<int, int*, 1>  a2;            // [:en] uses #2, [`T] is [`int], [`I] is [`1]
+A<int, char*, 5> a3;            // [:en] uses #4, [`T] is [`char]
+A<int, char*, 1> a4;            // [:en] uses #5, [`T1] is [`int], [`T2] is [`char], [`I] is [`1]
+A<int*, int*, 2> a5;            // [:en] ambiguous: matches #3 and #5
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A non-type template argument can also be deduced from the value of an actual
+template argument of a non-type parameter of the primary template.
+
+[enter:example]
+[:en]
+the declaration of [`a2] above.
+[exit:example]
+
+[para]
+[:en]
+In a type name that refers to a class template specialization, (e.g., [`A<int,
+int, 1>]) the argument list shall match the template parameter list of the
+primary template.
+
+[:en]
+The template arguments of a specialization are deduced from the arguments of the
+primary template.

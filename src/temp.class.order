@@ -1,0 +1,45 @@
+﻿[section#temp.class.order
+    [:en] Partial ordering of class template specializations
+]
+
+[para]
+[:en]
+[%more specialized[!class template partial specialization]]
+For two class template partial specializations, the first is [+more specialized]
+than the second if, given the following rewrite to two function templates, the
+first function template is more specialized than the second according to the
+ordering rules for function templates ([#temp.func.order]):
+
+[list]
+[item]
+[:en]
+the first function template has the same template parameters as the first
+partial specialization and has a single function parameter whose type is a class
+template specialization with the template arguments of the first partial
+specialization, and
+
+[item]
+[:en]
+the second function template has the same template parameters as the second
+partial specialization and has a single function parameter whose type is a class
+template specialization with the template arguments of the second partial
+specialization.
+[list:end]
+
+[para]
+[enter:example]
+[codeblock]
+template<int I, int J, class T> class X { };
+template<int I, int J>          class X<I, J, int> { }; // #1
+template<int I>                 class X<I, I, int> { }; // #2
+
+template<int I, int J> void f(X<I, J, int>);            // A
+template<int I>        void f(X<I, I, int>);            // B
+[codeblock:end]
+
+[:en]
+The partial specialization [`#2] is more specialized than the partial
+specialization [`#1] because the function template [`B] is more specialized than
+the function template [`A] according to the ordering rules for function
+templates.
+[exit:example]

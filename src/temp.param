@@ -1,0 +1,360 @@
+﻿[section#temp.param
+    [:en] Template parameters
+]
+
+[para]
+[:en]
+The syntax for [~template-parameter]s is:
+
+[syntax]
+[rule template-parameter [:zh_CN] ]
+    [| type-parameter ]
+    [| parameter-declaration ]
+[rule:end]
+
+[rule type-parameter [:zh_CN] ]
+    [| type-parameter-key [`:opt ...] [~:opt identifier] ]
+    [| type-parameter-key [~:opt identifier] [`=] type-id ]
+    [| [`template] [`<] template-parameter-list [`>] type-parameter-key [`:opt ...] [~:opt identifier] ]
+    [| [`template] [`<] template-parameter-list [`>] type-parameter-key [~:opt identifier] [`=] id-expression ]
+[rule:end]
+
+[rule type-parameter-key [:zh_CN] ]
+    [| [`class] ]
+    [| [`typename] ]
+[rule:end]
+[syntax:end]
+
+[enter:note]
+[:en]
+The [`>] token following the [~template-parameter-list] of a [~type-parameter]
+may be the product of replacing a [`>>] token by two consecutive [`>] tokens
+([#temp.names]).
+[exit:note]
+
+[para]
+[:en]
+There is no semantic difference between [`class] and [`typename] in a
+[~type-parameter-key].
+
+[:en]
+[`typename] followed by an [~unqualified-id] names a template type parameter.
+
+[:en]
+[`typename] followed by a [~qualified-id] denotes the type in a non-type
+
+[footnote]
+[:en]
+Since template [~template-parameter]s and template [~template-argument]s are
+treated as types for descriptive purposes, the terms [~non-type parameter] and
+[~non-type argument] are used to refer to non-type, non-template parameters and
+arguments.
+[footnote:end]
+
+[:en@~]
+[~parameter-declaration].
+
+[:en]
+A [~template-parameter] of the form [`class] [~identifier] is a
+[~type-parameter].
+
+[enter:example]
+[codeblock]
+  class T { /* ... */ };
+  int i;
+
+  template<class T, T i> void f(T t) {
+    T t1 = i;      // [:en] template-parameters [`T] and [`i]
+    ::T t2 = ::i;  // [:en] global namespace members [`T] and [`i]
+  }
+[codeblock:end]
+
+[:en]
+Here, the template [`f] has a [~type-parameter] called [`T], rather than an
+unnamed non-type [~template-parameter] of class [`T].
+[exit:example]
+
+[:en]
+A storage class shall not be specified in a [~template-parameter] declaration.
+
+[:en]
+Types shall not be defined in a [~template-parameter] declaration.
+
+[para]
+A [~type-parameter] whose identifier does not follow an ellipsis defines its
+[~identifier] to be a [~typedef-name] (if declared without [`template]) or
+[~template-name] (if declared with [`template]) in the scope of the template
+declaration.
+
+[enter:note]
+[:en]
+A template argument may be a class template or alias template.
+
+[:en]
+For example,
+
+[codeblock]
+template<class T> class myarray { /* ... */ };
+
+template<class K, class V, template<class T> class C = myarray>
+class Map {
+  C<K> key;
+  C<V> value;
+};
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+A non-type [~template-parameter] shall have one of the following (optionally
+[$cv-qualified]) types:
+
+[list]
+[item]
+[:en@~] integral or enumeration type,
+
+[item]
+[:en@~] pointer to object or pointer to function,
+
+[item]
+[:en@~] lvalue reference to object or lvalue reference to function,
+
+[item]
+[:en@~] pointer to member,
+
+[item]
+[:en@~] [`std::nullptr_t].
+[list:end]
+
+[para]
+[enter:note]
+Other types are disallowed either explicitly below or implicitly by the rules
+governing the form of [~template-argument]s ([#temp.arg]).
+[exit:note]
+
+[:en]
+The top-level [~cv-qualifier]s on the [~template-parameter] are ignored when
+determining its type.
+
+[para]
+[:en]
+A non-type non-reference [~template-parameter] is a prvalue.
+
+[:en]
+It shall not be assigned to or in any other way have its value changed.
+
+[:en]
+A non-type non-reference [~template-parameter] cannot have its address taken.
+
+[:en]
+When a non-type non-reference [~template-parameter] is used as an initializer
+for a reference, a temporary is always used.
+
+[enter:example]
+[codeblock]
+template<const X& x, int i> void f() {
+  i++;                          // [:en] error: change of template-parameter value
+
+  &x;                           // OK
+  &i;                           // [:en] error: address of non-reference template-parameter
+
+  int& ri = i;                  // [:en] error: non-const reference bound to temporary
+  const int& cri = i;           // [:en] OK: const reference bound to temporary
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A non-type [~template-parameter] shall not be declared to have floating point,
+class, or void type.
+
+[enter:example]
+[codeblock]
+template<double d> class X;     // [:en] error
+template<double* pd> class Y;   // OK
+template<double& rd> class Z;   // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A non-type [~template-parameter] of type ["array of [`T]] or ["function
+returning [`T]] is adjusted to be of type ["pointer to [`T]] or ["pointer to
+function returning [`T]], respectively.
+
+[enter:example]
+[codeblock]
+template<int* a>   struct R { /* ... */ };
+template<int b[5]> struct S { /* ... */ };
+int p;
+R<&p> w;                        // OK
+S<&p> x;                        // [:en] OK due to parameter adjustment
+int v[5];
+R<v> y;                         // [:en] OK due to implicit argument conversion
+S<v> z;                         // [:en] OK due to both adjustment and conversion
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [+default template-argument] is a [~template-argument] ([#temp.arg]) specified
+after [`=] in a [~template-parameter].
+
+[:en]
+A default [~template-argument] may be specified for any kind of
+[~template-parameter] (type, non-type, template) that is not a template
+parameter pack ([#temp.variadic]).
+
+[:en]
+A default [~template-argument] may be specified in a template declaration.
+
+[:en]
+A default [~template-argument] shall not be specified in the
+[~template-parameter-list]s of the definition of a member of a class template
+that appears outside of the member[=']s class.
+
+[:en]
+A default [~template-argument] shall not be specified in a friend class template
+declaration.
+
+[:en]
+If a friend function template declaration specifies a default
+[~template-argument], that declaration shall be a definition and shall be the
+only declaration of the function template in the translation unit.
+
+[para]
+[:en]
+The set of default [~template-argument]s available for use with a template
+declaration or definition is obtained by merging the default arguments from the
+definition (if in scope) and all declarations in scope in the same way default
+function arguments are ([#dcl.fct.default]).
+
+[enter:example]
+[codeblock]
+template<class T1, class T2 = int> class A;
+template<class T1 = int, class T2> class A;
+[codeblock:end]
+
+[:en]
+is equivalent to
+
+[codeblock]
+template<class T1 = int, class T2 = int> class A;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [~template-parameter] of a class template or alias template has a default
+[~template-argument], each subsequent [~template-parameter] shall either have a
+default [~template-argument] supplied or be a template parameter pack.
+
+[:en]
+If a [~template-parameter] of a primary class template or alias template is a
+template parameter pack, it shall be the last [~template-parameter].
+
+[:en]
+A template parameter pack of a function template shall not be followed by
+another template parameter unless that template parameter can be deduced from
+the [~parameter-type-list] of the function template or has a default argument
+([#temp.deduct]).
+
+[enter:example]
+[codeblock]
+template<class T1 = int, class T2> class B;   // [:en] error
+
+// [:en] [`U] can be neither deduced from the [~parameter-type-list] nor specified
+template<class... T, class... U> void f() { } // [:en] error
+template<class... T, class U> void g() { }    // [:en] error
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~template-parameter] shall not be given default arguments by two different
+declarations in the same scope.
+
+[enter:example]
+[codeblock]
+template<class T = int> class X;
+template<class T = int> class X { /*... */ }; // [:en] error
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%[`<][!template and]]
+When parsing a default [~template-argument] for a non-type
+[~template-parameter], the first non-nested [`>] is taken as the end of the
+[~template-parameter-list] rather than a greater-than operator.
+
+[enter:example]
+[codeblock]
+template<int i = 3 > 4 >        // [:en] syntax error
+class X { /* ... */ };
+
+template<int i = (3 > 4) >      // OK
+class Y { /* ... */ };
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~template-parameter] of a template [~template-parameter] is permitted to have
+a default [~template-argument].
+
+[:en]
+When such default arguments are specified, they apply to the template
+[~template-parameter] in the scope of the template [~template-parameter].
+
+[enter:example]
+[codeblock]
+template <class T = float> struct B {};
+template <template <class TT = float> class T> struct A {
+  inline void f();
+  inline void g();
+};
+template <template <class TT> class T> void A<T>::f() {
+  T<> t;            // [:en] error - [`TT] has no default template argument
+}
+template <template <class TT = char> class T> void A<T>::g() {
+    T<> t;          // OK - [`T<char>]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a [~template-parameter] is a [~type-parameter] with an ellipsis prior to its
+optional [~identifier] or is a [~parameter-declaration] that declares a
+parameter pack ([#dcl.fct]), then the [~template-parameter] is a template
+parameter pack ([#temp.variadic]).
+
+[:en]
+A template parameter pack that is a [~parameter-declaration] whose type contains
+one or more unexpanded parameter packs is a pack expansion.
+
+[:en]
+Similarly, a template parameter pack that is a [~type-parameter] with a
+[~template-parameter-list] containing one or more unexpanded parameter packs is
+a pack expansion.
+
+[:en]
+A template parameter pack that is a pack expansion shall not expand a parameter
+pack declared in the same [~template-parameter-list].
+
+[enter:example]
+[codeblock]
+template <class... Types> class Tuple;                // [:en] [`Types] is a template type parameter pack
+                                                      // [:en@~] but not a pack expansion
+template <class T, int... Dims> struct multi_array;   // [:en] [`Dims] is a non-type template parameter pack
+                                                      // [:en@~] but not a pack expansion
+template<class... T> struct value_holder {
+  template<T... Values> struct apply { };             // [:en] [`Values] is a non-type template parameter pack
+                                                      // [:en@~] and a pack expansion
+};
+template<class... T, T... Values> struct static_array;// [:en] error: [`Values] expands template type parameter
+                                                      // [:en@~] pack [`T] within the same template parameter list
+[codeblock:end]
+[exit:example]

@@ -1,0 +1,181 @@
+﻿[section#temp.func.order
+    [:en] Partial ordering of function templates
+]
+
+[para]
+[:en]
+[%overloading[!resolution[!template]]]
+[%ordering[!function template partial]]
+If a function template is overloaded, the use of a function template
+specialization might be ambiguous because template argument deduction
+([#temp.deduct]) may associate the function template specialization with more
+than one function template declaration.
+
+[:en]
+[+Partial ordering] of overloaded function template declarations is used in the
+following contexts to select the function template to which a function template
+specialization refers:
+
+[list]
+[item]
+[:en] during overload resolution for a call to a function template
+specialization ([#over.match.best]);
+[item]
+[:en] when the address of a function template specialization is taken;
+[item]
+[:en] when a placement operator delete that is a function template
+specialization is selected to match a placement operator new
+([#basic.stc.dynamic.deallocation], [#expr.new]);
+[item]
+[:en] when a friend function declaration ([#temp.friend]), an explicit
+instantiation ([#temp.explicit]) or an explicit specialization
+([#temp.expl.spec]) refers to a function template specialization.
+[list:end]
+
+[para]
+[:en]
+Partial ordering selects which of two function templates is more specialized
+than the other by transforming each template in turn (see next paragraph) and
+performing template argument deduction using the function type.
+
+[:en]
+The deduction process determines whether one of the templates is more
+specialized than the other.
+
+[:en]
+If so, the more specialized template is the one chosen by the partial ordering
+process.
+
+[para]
+[:en]
+To produce the transformed template, for each type, non-type, or template
+template parameter (including template parameter packs ([#temp.variadic])
+thereof) synthesize a unique type, value, or class template respectively and
+substitute it for each occurrence of that parameter in the function type of the
+template.
+
+[:en]
+If only one of the function templates [$M] is a non-static member of some class
+[$A], [$M] is considered to have a new first parameter inserted in its function
+parameter list. Given [$cv] as the cv-qualifiers of [$M] (if any), the new
+parameter is of type ["rvalue reference to [$cv] [$A]] if the optional
+[~ref-qualifier] of [$M] is [`&&] or if [$M] has no [~ref-qualifier] and the
+first parameter of the other template has rvalue reference type.
+
+[:en]
+Otherwise, the new parameter is of type ["lvalue reference to [$cv] [$A]].
+
+[enter:note]
+[:en]
+This allows a non-static member to be ordered with respect to a nonmember
+function and for the results to be equivalent to the ordering of two equivalent
+nonmembers.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct A { };
+template<class T> struct B {
+  template<class R> int operator*(R&);              // #1
+};
+
+template<class T, class R> int operator*(T&, R&);   // #2
+
+// [:en] The declaration of [`B::operator*] is transformed into the equivalent of
+//[` template<class R> int operator*(B<A>&, R&);      ]// #1a
+
+int main() {
+  A a;
+  B<A> b;
+  b * a;                                            // [:en] calls #1a
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Using the transformed function template[=']s function type, perform type
+deduction against the other template as described in [#temp.deduct.partial].
+
+[para:~]
+[enter:example]
+
+[codeblock]
+template<class T> struct A { A(); };
+
+template<class T> void f(T);
+template<class T> void f(T*);
+template<class T> void f(const T*);
+
+template<class T> void g(T);
+template<class T> void g(T&);
+
+template<class T> void h(const T&);
+template<class T> void h(A<T>&);
+
+void m() {
+  const int* p;
+  f(p);             // [:en] [`f(const T*)] is more specialized than [`f(T)] or [`f(T*)]
+  float x;
+  g(x);             // [:en] Ambiguous: [`g(T)] or [`g(T&)]
+  A<int> z;
+  h(z);             // [:en] overload resolution selects [`h(A<T>&)]
+  const A<int> z2;
+  h(z2);            // [:en] [`h(const T&)] is called because [`h(A<T>&)] is not callable
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+Since partial ordering in a call context considers only parameters for which
+there are explicit call arguments, some parameters are ignored (namely, function
+parameter packs, parameters with default arguments, and ellipsis parameters).
+
+[enter:example]
+[codeblock]
+template<class T> void f(T);            // #1
+template<class T> void f(T*, int=1);    // #2
+template<class T> void g(T);            // #3
+template<class T> void g(T*, ...);      // #4
+
+int main() {
+  int* ip;
+  f(ip);            // [:en] calls #2
+  g(ip);            // [:en] calls #4
+}
+[codeblock:end]
+[exit:example]
+
+[enter:example]
+[codeblock]
+template<class T, class U> struct A { };
+
+template<class T, class U> void f(U, A<U, T>* p = 0); // #1
+template<         class U> void f(U, A<U, U>* p = 0); // #2
+template<class T         > void g(T, T = T());        // #3
+template<class T, class... U> void g(T, U ...);       // #4
+
+void h() {
+  f<int>(42, (A<int, int>*)0);                        // [:en] calls #2
+  f<int>(42);                                         // [:en] error: ambiguous
+  g(42);                                              // [:en] error: ambiguous
+}
+[codeblock:end]
+[exit:example]
+
+[enter:example]
+[codeblock]
+template<class T, class... U> void f(T, U...);        // #1
+template<class T            > void f(T);              // #2
+template<class T, class... U> void g(T*, U...);       // #3
+template<class T            > void g(T);              // #4
+
+void h(int i) {
+  f(&i);                                              // [:en] error: ambiguous
+  g(&i);                                              // [:en] OK: calls #3
+}
+[codeblock:end]
+[exit:example]
+[exit:note]

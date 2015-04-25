@@ -1,0 +1,170 @@
+﻿[section#temp.over.link
+    [:en] Function template overloading
+]
+
+[para]
+[:en]
+[%overloading]
+It is possible to overload function templates so that two different function
+template specializations have the same type.
+
+[enter:example]
+[/\begin{minipage}{.45\hsize}/]
+[codeblock]
+// file1.c
+template<class T>
+  void f(T*);
+void g(int* p) {
+  f(p); // [:en] calls [`f<int>(int*)]
+}
+[codeblock:end]
+[/\end{minipage}
+\begin{minipage}{.45\hsize}/]
+[codeblock]
+// file2.c
+template<class T>
+  void f(T);
+void h(int* p) {
+  f(p); // [:en] calls [`f<int*>(int*)]
+}
+[codeblock:end]
+[/\end{minipage}/]
+
+[exit:example]
+
+[para]
+[:en]
+Such specializations are distinct functions and do not violate the one
+definition rule ([#basic.def.odr]).
+
+[para]
+[:en]
+The signature of a function template is defined in [#intro.defs].
+
+[:en]
+The names of the template parameters are significant only for establishing the
+relationship between the template parameters and the rest of the signature.
+
+[enter:note]
+[:en]
+Two distinct function templates may have identical function return types and
+function parameter lists, even if overload resolution alone cannot distinguish
+them.
+
+[codeblock]
+template<class T> void f();
+template<int I> void f();       // [:en] OK: overloads the first template
+                                // [:en@~] distinguishable with an explicit template argument list
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en]
+When an expression that references a template parameter is used in the function
+parameter list or the return type in the declaration of a function template, the
+expression that references the template parameter is part of the signature of
+the function template.
+
+[:en]
+This is necessary to permit a declaration of a function template in one
+translation unit to be linked with another declaration of the function template
+in another translation unit and, conversely, to ensure that function templates
+that are intended to be distinct are not linked with one another.
+
+[enter:example]
+[codeblock]
+template <int I, int J> A<I+J> f(A<I>, A<J>);   // #1
+template <int K, int L> A<K+L> f(A<K>, A<L>);   // [:en] same as #1
+template <int I, int J> A<I-J> f(A<I>, A<J>);   // [:en] different from #1
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+Most expressions that use template parameters use non-type template parameters,
+but it is possible for an expression to reference a type parameter.
+
+[:en]
+For example, a template type parameter can be used in the [`sizeof] operator.
+[exit:note]
+
+[para]
+[:en]
+Two expressions involving template parameters are considered [+equivalent] if
+two function definitions containing the expressions would satisfy the one
+definition rule ([#basic.def.odr]), except that the tokens used to name the
+template parameters may differ as long as a token used to name a template
+parameter in one expression is replaced by another token that names the same
+template parameter in the other expression.
+
+[:en]
+For determining whether two dependent names ([#temp.dep]) are equivalent, only
+the name itself is considered, not the result of name lookup in the context of
+the template.
+
+[:en]
+If multiple declarations of the same function template differ in the result of
+this name lookup, the result for the first declaration is used.
+
+[enter:example]
+[codeblock]
+template <int I, int J> void f(A<I+J>);         // #1
+template <int K, int L> void f(A<K+L>);         // [:en] same as #1
+
+template <class T> decltype(g(T())) h();
+int g(int);
+template <class T> decltype(g(T())) h()         // [:en] redeclaration of [`h()] uses the earlier lookup
+  { return g(T()); }                            // [:en@~] ...although the lookup here does find [`g(int)]
+int i = h<int>();                               // [:en@~] template argument substitution fails; [`g(int)]
+                                                // [:en@~] was not in scope at the first declaration of [`h()]
+[codeblock:end]
+[exit:example]
+
+[:en]
+Two expressions involving template parameters that are not equivalent are
+[+functionally equivalent] if, for any given set of template arguments, the
+evaluation of the expression results in the same value.
+
+[para]
+[:en]
+Two function templates are [+equivalent] if they are declared in the same scope,
+have the same name, have identical template parameter lists, and have return
+types and parameter lists that are equivalent using the rules described above to
+compare expressions involving template parameters.
+
+[:en]
+Two function templates are [+functionally equivalent] if they are equivalent
+except that one or more expressions that involve template parameters in the
+return types and parameter lists are functionally equivalent using the rules
+described above to compare expressions involving template parameters.
+
+[:en]
+If a program contains declarations of function templates that are functionally
+equivalent but not equivalent, the program is ill-formed; no diagnostic is
+required.
+
+[para]
+[enter:note]
+[:en]
+This rule guarantees that equivalent declarations will be linked with one
+another, while not requiring implementations to use heroic efforts to guarantee
+that functionally equivalent declarations will be treated as distinct.
+
+[:en]
+For example, the last two declarations are functionally equivalent and would
+cause a program to be ill-formed:
+
+[codeblock]
+// [:en] Guaranteed to be the same
+template <int I> void f(A<I>, A<I+10>);
+template <int I> void f(A<I>, A<I+10>);
+
+// [:en] Guaranteed to be different
+template <int I> void f(A<I>, A<I+10>);
+template <int I> void f(A<I>, A<I+11>);
+
+// [:en] Ill-formed, no diagnostic required
+template <int I> void f(A<I>, A<I+10>);
+template <int I> void f(A<I>, A<I+1+2+3+4>);
+[codeblock:end]
+[exit:note]

@@ -1,0 +1,415 @@
+﻿[section#temp.deduct
+    [:en] Template argument deduction
+]
+
+[para]
+[:en]
+When a function template specialization is referenced, all of the template
+arguments shall have values.
+
+[:en]
+The values can be explicitly specified or, in some cases, be deduced from the
+use or obtained from default [~template-argument]s.
+
+[enter:example]
+[codeblock]
+void f(Array<dcomplex>& cv, Array<int>& ci) {
+  sort(cv);                     // [:en] calls [`sort(Array<dcomplex>&)]
+  sort(ci);                     // [:en] calls [`sort(Array<int>&)]
+}
+[codeblock:end]
+
+[:en@~]
+and
+
+[codeblock]
+void g(double d) {
+  int i = convert<int>(d);      // [:en] calls [`convert<int,double>(double)]
+  int c = convert<char>(d);     // [:en] calls [`convert<char,double>(double)]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+When an explicit template argument list is specified, the template arguments
+must be compatible with the template parameter list and must result in a valid
+function type as described below; otherwise type deduction fails.
+
+[:en]
+Specifically, the following steps are performed when evaluating an explicitly
+specified template argument list with respect to a given function template:
+
+[list]
+[item]
+[:en]
+The specified template arguments must match the template parameters in kind
+(i.e., type, non-type, template).
+
+[:en]
+There must not be more arguments than there are parameters unless at least one
+parameter is a template parameter pack, and there shall be an argument for each
+non-pack parameter.
+
+[:en]
+Otherwise, type deduction fails.
+
+[item]
+[:en]
+Non-type arguments must match the types of the corresponding non-type template
+parameters, or must be convertible to the types of the corresponding non-type
+parameters as specified in [#temp.arg.nontype], otherwise type deduction fails.
+
+[item]
+[:en]
+The specified template argument values are substituted for the corresponding
+template parameters as specified below.
+[list:end]
+
+[para]
+[:en]
+After this substitution is performed, the function parameter type adjustments
+described in [#dcl.fct] are performed.
+
+[enter:example]
+[:en]
+A parameter type of ["[`void (const int, int[5`])]] becomes
+["[`void(*)(int,int*)]].
+[exit:example]
+
+[enter:note]
+[:en]
+A top-level qualifier in a function parameter declaration does not affect the
+function type but still affects the type of the function parameter variable
+within the function.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template <class T> void f(T t);
+template <class X> void g(const X x);
+template <class Z> void h(Z, Z*);
+
+int main() {
+  // [:en] #1: function type is [`f(int)], [`t] is non [`const]
+  f<int>(1);
+
+  // [:en] #2: function type is [`f(int)], [`t] is [`const]
+  f<const int>(1);
+
+  // [:en] #3: function type is [`g(int)], [`x] is [`const]
+  g<int>(1);
+
+  // [:en] #4: function type is [`g(int)], [`x] is [`const]
+  g<const int>(1);
+
+  // [:en] #5: function type is [`h(int, const int*)]
+  h<const int>(1,0);
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+[`f<int>(1)] and [`f<const int>(1)] call distinct functions even though both of
+the functions called have the same function type.
+[exit:note]
+
+[para]
+[:en]
+The resulting substituted and adjusted function type is used as the type of the
+function template for template argument deduction.
+
+[:en]
+If a template argument has not been deduced and its corresponding template
+parameter has a default argument, the template argument is determined by
+substituting the template  arguments determined for preceding template
+parameters into the default argument.
+
+[:en]
+If the substitution results in an invalid type, as described above, type
+deduction fails.
+
+[enter:example]
+[codeblock]
+template <class T, class U = double>
+void f(T t = 0, U u = 0);
+
+void g() {
+  f(1, 'c');        // [`f<int,char>(1,'c')]
+  f(1);             // [`f<int,double>(1,0)]
+  f();              // [:en] error: [`T] cannot be deduced
+  f<int>();         // [`f<int,double>(0,0)]
+  f<int,char>();    // [`f<int,char>(0,0)]
+}
+[codeblock:end]
+[exit:example]
+
+[:en]
+When all template arguments have been deduced or obtained from default template
+arguments, all uses of template parameters in the template parameter list of the
+template and the function type are replaced with the corresponding deduced or
+default argument values.
+
+[:en]
+If the substitution results in an invalid type, as described above, type
+deduction fails.
+
+[para]
+[:en]
+At certain points in the template argument deduction process it is necessary
+to take a function type that makes use of template parameters and replace those
+template parameters with the corresponding template arguments.
+
+[:en]
+This is done at the beginning of template argument deduction when any explicitly
+specified template arguments are substituted into the function type, and again
+at the end of template argument deduction when any template arguments that were
+deduced or obtained from default arguments are substituted.
+
+[para]
+[:en]
+The substitution occurs in all types and expressions that are used in the
+function type and in template parameter declarations.
+
+[:en]
+The expressions include not only constant expressions such as those that appear
+in array bounds or as nontype template arguments but also general expressions
+(i.e., non-constant expressions) inside [`sizeof], [`decltype], and other
+contexts that allow non-constant expressions.
+
+[:en]
+The substitution proceeds in lexical order and stops when a condition that
+causes deduction to fail is encountered.
+
+[enter:note]
+[:en]
+The equivalent substitution in exception specifications is done only when the
+[~exception-specification] is instantiated, at which point a program is
+ill-formed if the substitution results in an invalid type or expression.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template <class T> struct A { using X = typename T::X; };
+template <class T> typename T::X f(typename A<T>::X);
+template <class T> void f(...) { }
+template <class T> auto g(typename A<T>::X) -> typename T::X;
+template <class T> void g(...) { }
+
+void h() {
+  f<int>(0); // [:en] OK, substituting return type causes deduction to fail
+  g<int>(0); // [:en] error, substituting parameter type instantiates [`A<int>]
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+If a substitution results in an invalid type or expression, type deduction
+fails.
+
+[:en]
+An invalid type or expression is one that would be ill-formed, with a diagnostic
+required, if written using the substituted arguments.
+
+[enter:note]
+[:en]
+If no diagnostic is required, the program is still ill-formed.
+
+[:en]
+Access checking is done as part of the substitution process.
+[exit:note]
+
+[:en]
+Only invalid types and expressions in the immediate context of the function type
+and its template parameter types can result in a deduction failure.
+
+[enter:note]
+[:en]
+The evaluation of the substituted types and expressions can result in side
+effects such as the instantiation of class template specializations and/or
+function template specializations, the generation of implicitly-defined
+functions, etc.
+
+[:en]
+Such side effects are not in the ["immediate context] and can result in the
+program being ill-formed.
+[exit:note]
+
+[enter:example]
+[codeblock]
+struct X { };
+struct Y {
+  Y(X){}
+};
+
+template <class T> auto f(T t1, T t2) -> decltype(t1 + t2); // #1
+X f(Y, Y);  // #2
+
+X x1, x2;
+X x3 = f(x1, x2);  // [:en] deduction fails on #1 (cannot add [`X+X]), calls #2
+[codeblock:end]
+[exit:example]
+
+[enter:note]
+[:en]
+Type deduction may fail for the following reasons:
+
+[list]
+[item]
+[:en]
+Attempting to instantiate a pack expansion containing multiple parameter packs
+of differing lengths.
+
+[item]
+[:en]
+Attempting to create an array with an element type that is [`void], a function
+type, a reference type, or an abstract class type, or attempting to create an
+array with a size that is zero or negative.
+
+[enter:example]
+[codeblock]
+template <class T> int f(T[5]);
+int I = f<int>(0);
+int j = f<void>(0);             // [:en] invalid array
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to use a type that is not a class or enumeration type in a qualified
+name.
+
+[enter:example]
+[codeblock]
+template <class T> int f(typename T::B*);
+int i = f<int>(0);
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to use a type in a [~nested-name-specifier] of a [~qualified-id] when
+that type does not contain the specified member, or
+
+[list]
+[item]
+[:en@~] the specified member is not a type where a type is required, or
+[item]
+[:en@~] the specified member is not a template where a template is required, or
+[item]
+[:en@~] the specified member is not a non-type where a non-type is required.
+[list:end]
+
+[enter:example]
+[codeblock]
+template <int I> struct X { };
+template <template <class T> class> struct Z { };
+template <class T> void f(typename T::Y*){}
+template <class T> void g(X<T::N>*){}
+template <class T> void h(Z<T::template TT>*){}
+struct A {};
+struct B { int Y; };
+struct C {
+  typedef int N;
+};
+struct D {
+  typedef int TT;
+};
+
+int main() {
+  // [:en] Deduction fails in each of these cases:
+  f<A>(0);  // [:en] [`A] does not contain a member [`Y]
+  f<B>(0);  // [:en] The [`Y] member of [`B] is not a type
+  g<C>(0);  // [:en] The [`N] member of [`C] is not a non-type
+  h<D>(0);  // [:en] The [`TT] member of [`D] is not a template
+}
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to create a pointer to reference type.
+
+[item]
+[:en]
+Attempting to create a reference to [`void].
+
+[item]
+[:en]
+Attempting to create ["pointer to member of [`T]] when [`T] is not a
+class type.
+
+[enter:example]
+[codeblock]
+template <class T> int f(int T::*);
+int i = f<int>(0);
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to give an invalid type to a non-type template parameter.
+
+[enter:example]
+[codeblock]
+template <class T, T> struct S {};
+template <class T> int f(S<T, T()>*);
+struct X {};
+int i0 = f<X>(0);
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to perform an invalid conversion in either a template argument
+expression, or an expression used in the function declaration.
+
+[enter:example]
+[codeblock]
+template <class T, T*> int f(int);
+int i2 = f<int,1>(0);           // [:en] can[=']t conv [`1} to [`int*}
+[codeblock:end]
+[exit:example]
+
+[item]
+[:en]
+Attempting to create a function type in which a parameter has a type of [`void],
+or in which the return type is a function type or array type.
+
+[item]
+[:en]
+Attempting to create a function type in which a parameter type or the return
+type is an abstract class type ([#class.abstract]).
+[list:end]
+[exit:note]
+
+[para]
+[enter:example]
+[:en]
+In the following example, assuming a [`signed char] cannot represent the value
+1000, a narrowing conversion ([#dcl.init.list]) would be required to convert the
+[~template-argument] of type [`int] to [`signed char], therefore substitution
+fails for the second template ([#temp.arg.nontype]).
+
+[codeblock]
+template <int> int f(int);
+template <signed char> int f(int);
+int i1 = f<1000>(0);         // OK
+int i2 = f<1>(0);            // [:en] ambiguous; not narrowing
+[codeblock:end]
+[exit:example]
+
+[include temp.deduct.call]
+
+[include temp.deduct.funcaddr]
+
+[include temp.deduct.conv]
+
+[include temp.deduct.partial]
+
+[include temp.deduct.type]
+
+[include temp.deduct.decl]

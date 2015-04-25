@@ -1,0 +1,107 @@
+﻿[section#temp.arg.template
+    [:en] Template template arguments
+]
+
+[para]
+[:en]
+A [~template-argument] for a template [~template-parameter] shall be the name of
+a class template or an alias template, expressed as [~id-expression].
+
+[:en]
+When the [~template-argument] names a class template, only primary class
+templates are considered when matching the template template argument with the
+corresponding parameter; partial specializations are not considered even if
+their parameter lists match that of the template template parameter.
+
+[para]
+[:en]
+Any partial specializations ([#temp.class.spec]) associated with the primary
+class template or primary variable template are considered when a specialization
+based on the template [~template-parameter] is instantiated.
+
+[:en]
+If a specialization is not visible at the point of instantiation, and it would
+have been selected had it been visible, the program is ill-formed; no diagnostic
+is required.
+
+[enter:example]
+[codeblock]
+template<class T> class A {     // [:en] primary template
+  int x;
+};
+template<class T> class A<T*> { // [:en] partial specialization
+  long x;
+};
+template<template<class U> class V> class C {
+  V<int>  y;
+  V<int*> z;
+};
+C<A> c;                         // [:en] [`V<int>] within [`C<A>] uses the primary template,
+                                // [:en@~] so [`c.y.x] has type [`int]
+                                // [:en] [`V<int*>] within [`C<A>] uses the partial specialization,
+                                // [:en@~] so [`c.z.x] has type [`long]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~template-argument] matches a template [~template-parameter] [`P] when each
+of the template parameters in the [~template-parameter-list] of the
+[~template-argument][=']s corresponding class template or alias template [`A]
+matches the corresponding template parameter in the [~template-parameter-list]
+of [`P]. 
+
+[:en]
+Two template parameters match if they are of the same kind (type, non-type,
+template), for non-type [~template-parameter]s, their types are equivalent
+([#temp.over.link]), and for template [~template-parameter]s, each of their
+corresponding [~template-parameter]s matches, recursively.
+
+[:en]
+When [`P][=']s [~template-parameter-list] contains a template parameter pack
+([#temp.variadic]), the template parameter pack will match zero or more template
+parameters or template parameter packs in the [~template-parameter-list] of [`A]
+with the same type and form as the template parameter pack in [`P] (ignoring
+whether those template parameters are template parameter packs).
+
+[para:~]
+[enter:example]
+[codeblock]
+template<class T> class A { /* ... */ };
+template<class T, class U = T> class B { /* ... */ };
+template <class ... Types> class C { /* ... */ };
+
+template<template<class> class P> class X { /* ... */ };
+template<template<class ...> class Q> class Y { /* ... */ };
+
+X<A> xa;            // OK
+X<B> xb;            // [:en] ill-formed: default arguments for the parameters of a template argument are ignored
+X<C> xc;            // [:en] ill-formed: a template parameter pack does not match a template parameter
+
+Y<A> ya;            // OK
+Y<B> yb;            // OK
+Y<C> yc;            // OK
+[codeblock:end]
+[exit:example]
+
+[para:~]
+[enter:example]
+[codeblock]
+template <class T> struct eval;
+
+template <template <class, class...> class TT, class T1, class... Rest>
+struct eval<TT<T1, Rest...>> { };
+
+template <class T1> struct A;
+template <class T1, class T2> struct B;
+template <int N> struct C;
+template <class T1, int N> struct D;
+template <class T1, class T2, int N = 17> struct E;
+
+eval<A<int>> eA;                // [:en] OK: matches partial specialization of [`eval]
+eval<B<int, float>> eB;         // [:en] OK: matches partial specialization of [`eval]
+eval<C<17>> eC;                 // [:en] error: [`C] does not match [`TT] in partial specialization
+eval<D<int, 17>> eD;            // [:en] error: [`D] does not match [`TT] in partial specialization
+eval<E<int, float>> eE;         // [:en] error: [`E] does not match [`TT] in partial specialization
+[codeblock:end]
+[exit:example]

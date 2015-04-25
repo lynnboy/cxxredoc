@@ -1,0 +1,195 @@
+﻿[section:chapter#temp
+    [:en] Templates
+]
+[%:begin#template
+    [:en] template
+]
+
+[/
+%gram: \rSec1[gram.temp]{Templates}
+%gram:
+/]
+
+[%parameterized type[see atemplate]]
+[%type generator[see atemplate]]
+
+[para]
+[:en]
+A [+template] defines a family of classes or functions or an alias for a
+family of types.
+
+[%[`template]]
+
+[syntax]
+[rule template-declaration [:zh_CN] ]
+    [| [`template] [`<] template-parameter-list [`>] declaration ]
+[rule:end]
+
+[rule template-parameter-list [:zh_CN] ]
+    [| template-parameter ]
+    [| template-parameter-list [`,] template-parameter ]
+[rule:end]
+[syntax:end]
+
+[enter:note]
+[:en]
+The [`>] token following the [~template-parameter-list] of a
+[~template-declaration] may be the product of replacing a [`>>] token by two
+consecutive [`>] tokens ([#temp.names]).
+[exit:note]
+
+[para:~]
+[:en]
+The [~declaration] in a [~template-declaration] shall
+
+[list]
+[item]
+[:en@~] declare or define a function, a class, or a variable, or
+
+[item]
+[:en@~] define a member function, a member class, a member enumeration, or a
+static data member of a class template or of a class nested within a class
+template, or
+
+[item]
+[:en@~] define a member template of a class or class template, or
+
+[item]
+[:en@~] be an [~alias-declaration].
+[list:end]
+
+[:en]
+A [~template-declaration] is a [~declaration].
+
+[:en]
+[%template[!definition of]]
+A [~template-declaration] is also a definition if its [~declaration] defines a
+function, a class, a variable, or a static data member.
+
+[:en]
+A declaration introduced by a template declaration of a
+[%variable template[!definition of]]
+[%template[!variable]]
+[%template[!static data member]]
+variable is a [+variable template].
+
+[:en]
+A variable template at class scope is a [+static data member template].
+
+[para:~]
+[enter:example]
+[codeblock]
+template<class T>
+  constexpr T pi = T(3.1415926535897932385L);
+template<class T>
+T circular_area(T r) {
+  return pi<T> * r * r;
+}
+struct matrix_constants {
+  template<class T>
+   using pauli = hermitian_matrix<T, 2>;
+  template<class T>
+   constexpr pauli<T> sigma1 = { { 0, 1 }, { 1, 0 } };
+  template<class T>
+   constexpr pauli<T> sigma2 = { { 0, -1i }, { 1i, 0 } };
+  template<class T>
+   constexpr pauli<T> sigma3 = { { 1, 0 }, { 0, -1 } };
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A [~template-declaration] can appear only as a namespace scope or class scope
+declaration.
+
+[:en]
+In a function template declaration, the last component of the [~declarator-id]
+shall not be a [~template-id].
+
+[enter:note]
+[:en]
+That last component may be an [~identifier], an [~operator-function-id],
+a [~conversion-function-id], or a [~literal-operator-id].
+
+[:en]
+In a class template declaration, if the class name is a [~simple-template-id],
+the declaration declares a class template partial specialization
+([#temp.class.spec]).
+[exit:note]
+
+[para]
+[:en]
+In a [~template-declaration], explicit specialization, or explicit instantiation
+the [~init-declarator-list] in the declaration shall contain at most one
+declarator.
+
+[:en]
+When such a declaration is used to declare a class template, no declarator is
+permitted.
+
+[para]
+[:en]
+[%template name[!linkage of]]
+A template name has linkage ([#basic.link]).
+
+[:en]
+Specializations (explicit or implicit) of a template that has internal linkage
+are distinct from all specializations in other translation units.
+
+[:en]
+A template, a template explicit specialization ([#temp.expl.spec]), and a class
+template partial specialization shall not have C linkage.
+
+[:en]
+Use of a linkage specification other than C or C++ with any of these constructs
+is conditionally-supported, with [%@impldef semantics of linkage specification
+on templates] implementation-defined semantics.
+
+[:en]
+Template definitions shall obey the one definition rule ([#basic.def.odr]).
+
+[enter:note]
+[:en]
+Default arguments for function templates and for member functions of class
+templates are considered definitions for the purpose of template instantiation
+([#temp.decls]) and must also obey the one definition rule.
+[exit:note]
+
+[para]
+[:en]
+A class template shall not have the same name as any other template, class,
+function, variable, enumeration, enumerator, namespace, or type in the same
+scope ([#basic.scope]), except as specified in ([#temp.class.spec]).
+
+[:en]
+Except that a function template can be overloaded either by non-template
+functions ([#dcl.fct]) with the same name or by other function templates with
+the same name ([#temp.over]), a template name declared in namespace scope or in
+class scope shall be unique in that scope.
+
+[para]
+[:en]
+A function template, member function of a class template, variable template, or
+static data member of a class template shall be defined in every translation
+unit in which it is implicitly instantiated ([#temp.inst]) unless the
+corresponding specialization is explicitly instantiated ([#temp.explicit])
+in some translation unit; no diagnostic is required.
+
+[include temp.param]
+
+[include temp.names]
+
+[include temp.arg]
+
+[include temp.type]
+
+[include temp.decls]
+
+[include temp.res]
+
+[include temp.spec]
+
+[include temp.fct.spec]
+
+[%:end#template]

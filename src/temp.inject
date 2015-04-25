@@ -1,0 +1,44 @@
+﻿[section#temp.inject
+    [:en] Friend names declared within a class template
+]
+
+[para]
+[:en]
+Friend classes or functions can be declared within a class template.
+
+[:en]
+When a template is instantiated, the names of its friends are treated as if the
+specialization had been explicitly declared at its point of instantiation.
+
+[para]
+[:en]
+As with non-template classes, the names of namespace-scope friend functions of a
+class template specialization are not visible during an ordinary lookup unless
+explicitly declared at namespace scope ([#class.friend]).
+
+[:en]
+Such names may be found under the rules for associated classes
+([#basic.lookup.argdep]).
+
+[footnote]
+[:en]
+Friend declarations do not introduce new names into any scope, either when the
+template is declared or when it is instantiated.
+[footnote:end]
+
+[enter:example]
+[codeblock]
+template<typename T> struct number {
+  number(int);
+  friend number gcd(number x, number y) { return 0; };
+};
+
+void g() {
+  number<double> a(3), b(4);
+  a = gcd(a,b);     // [:en] finds [`gcd] because [`number<double>] is an
+                    // [:en@~] associated class, making [`gcd] visible
+                    // [:en@~] in its namespace (global scope)
+  b = gcd(3,4);     // [:en] ill-formed; [`gcd] is not visible
+}
+[codeblock:end]
+[exit:example]

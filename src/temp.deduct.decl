@@ -1,0 +1,35 @@
+﻿[section#temp.deduct.decl
+    [:en] Deducing template arguments from a function declaration
+]
+
+[para]
+[:en]
+In a declaration whose [~declarator-id] refers to a specialization of a function
+template, template argument deduction is performed to identify the
+specialization to which the declaration refers.
+
+[:en]
+Specifically, this is done for explicit instantiations ([#temp.explicit]),
+explicit specializations ([#temp.expl.spec]), and certain friend declarations
+([#temp.friend]).
+
+[:en]
+This is also done to determine whether a deallocation function template
+specialization matches a placement [`operator new]
+([#basic.stc.dynamic.deallocation], [#expr.new]).
+
+[:en]
+In all these cases, [`P] is the type of the function template being considered
+as a potential match and [`A] is either the function type from the declaration
+or the type of the deallocation function that would match the placement
+[`operator new] as described in [#expr.new].
+
+[:en]
+The deduction is done as described in [#temp.deduct.type].
+
+[para]
+[:en]
+If, for the set of function templates so considered, there is either no match or
+more than one match after partial ordering has been considered
+([#temp.func.order]), deduction fails and, in the declaration cases, the program
+is ill-formed.

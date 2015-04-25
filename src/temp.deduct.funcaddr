@@ -1,0 +1,21 @@
+﻿[section#temp.deduct.funcaddr
+    [:en] Deducing template arguments taking the address of a function template
+]
+
+[para]
+[:en]
+Template arguments can be deduced from the type specified when taking the
+address of an overloaded function ([#over.over]).
+
+[:en]
+The function template[=']s function type and the specified type are used as the
+types of [`P] and [`A], and the deduction is done as described in [#temp.deduct.type].
+
+[para]
+[:en]
+A placeholder type ([#dcl.spec.auto]) in the return type of a function template
+is a non-deduced context.
+
+[:en]
+If template argument deduction succeeds for such a function, the return type is
+determined from instantiation of the function body.

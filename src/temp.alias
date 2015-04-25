@@ -1,0 +1,85 @@
+﻿[section#temp.alias
+    [:en] Alias templates
+]
+
+[para]
+[:en]
+A [~template-declaration] in which the [~declaration] is an [~alias-declaration]
+(Clause [#dcl.dcl]) declares the [~identifier] to be a [def alias template].
+
+[:en]
+An alias template is a name for a family of types.
+
+[:en]
+The name of the alias template is a [~template-name].
+
+[para]
+[:en]
+When a [~template-id] refers to the specialization of an alias template, it is
+equivalent to the associated type obtained by substitution of its
+[~template-argument]s for the [~template-parameter]s in the [~type-id] of the
+alias template.
+
+[enter:note]
+[:en]
+An alias template name is never deduced.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template<class T> struct Alloc { /* ... */ };
+template<class T> using Vec = vector<T, Alloc<T>>;
+Vec<int> v;         // [:en] same as [`vector<int, Alloc<int>> v;]
+
+template<class T>
+  void process(Vec<T>& v)
+  { /* ... */ }
+
+template<class T>
+  void process(vector<T, Alloc<T>>& w)
+  { /* ... */ }     // [:en] error: redefinition
+
+template<template<class> class TT>
+  void f(TT<int>);
+
+f(v);               // [:en] error: [`Vec] not deduced
+
+template<template<class,class> class TT>
+  void g(TT<int, Alloc<int>>);
+g(v);               // OK: [`TT] = [`vector]
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+However, if the [~template-id] is dependent, subsequent template argument
+substitution still applies to the [~template-id].
+
+[enter:example]
+[codeblock]
+template<typename...> using void_t = void;
+template<typename T> void_t<typename T::foo> f();
+f<int>(); // [:en] error, [`int] does not have a nested type [`foo]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The [~type-id] in an alias template declaration shall not refer to the alias
+template being declared.
+
+[:en]
+The type produced by an alias template specialization shall not directly or
+indirectly make use of that specialization.
+
+[enter:example]
+[codeblock]
+template <class T> struct A;
+template <class T> using B = typename A<T>::U;
+template <class T> struct A {
+  typedef B<T> U;
+};
+B<short> b;         // [:en] error: instantiation of [`B<short>] uses own type via [`A<short>::U]
+[codeblock:end]
+[exit:example]

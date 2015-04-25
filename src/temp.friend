@@ -1,0 +1,195 @@
+﻿[section#temp.friend
+    [:en] Friends
+]
+
+[para]
+[:en]
+[%friend[!template and]]
+A friend of a class or class template can be a function template or class
+template, a specialization of a function template or class template, or a
+non-template function or class.
+
+[:en]
+For a friend function declaration that is not a template declaration:
+
+[list]
+[item]
+[:en]
+if the name of the friend is a qualified or unqualified [~template-id], the
+friend declaration refers to a specialization of a function template, otherwise,
+
+[item]
+[:en]
+if the name of the friend is a [~qualified-id] and a matching non-template
+function is found in the specified class or namespace, the friend declaration
+refers to that function, otherwise,
+
+[item]
+[:en]
+if the name of the friend is a [~qualified-id] and a matching function template
+is found in the specified class or namespace, the friend declaration refers to
+the deduced specialization of that function template ([#temp.deduct.decl]), otherwise,
+
+[item]
+[:en]
+the name shall be an [~unqualified-id] that declares (or redeclares) a
+non-template function.
+[list:end]
+
+[enter:example]
+[codeblock]
+template<class T> class task;
+template<class T> task<T>* preempt(task<T>*);
+
+template<class T> class task {
+  friend void next_time();
+  friend void process(task<T>*);
+  friend task<T>* preempt<T>(task<T>*);
+  template<class C> friend int func(C);
+
+  friend class task<int>;
+  template<class P> friend class frd;
+};
+[codeblock:end]
+
+[:en]
+Here, each specialization of the [`task] class template has the function
+[`next_time] as a friend; because [`process] does not have explicit
+[~template-argument]s, each specialization of the [`task] class template has an
+appropriately typed function [`process] as a friend, and this friend is not a
+function template specialization; because the friend [`preempt] has an explicit
+[~template-argument] [`T], each specialization of the [`task] class template has
+the appropriate specialization of the function template [`preempt] as a friend;
+and each specialization of the [`task] class template has all specializations of
+the function template [`func] as friends.
+
+[:en]
+Similarly, each specialization of the [`task] class template has the class
+template specialization [`task<int>] as a friend, and has all specializations of
+the class template [`frd] as friends.
+[exit:example]
+
+[para]
+[:en]
+A friend template may be declared within a class or class template.
+
+[:en]
+A friend function template may be defined within a class or class template, but
+a friend class template may not be defined in a class or class template.
+
+[:en]
+In these cases, all specializations of the friend class or friend function
+template are friends of the class or class template granting friendship.
+
+[enter:example]
+[codeblock]
+class A {
+  template<class T> friend class B;                 // OK
+  template<class T> friend void f(T){ /* ... */ }   // OK
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A template friend declaration specifies that all specializations of that
+template, whether they are implicitly instantiated ([#temp.inst]), partially
+specialized ([#temp.class.spec]) or explicitly specialized ([#temp.expl.spec]),
+are friends of the class containing the template friend declaration.
+
+[enter:example]
+[codeblock]
+class X {
+  template<class T> friend struct A;
+  class Y { };
+};
+
+template<class T> struct A { X::Y ab; };            // OK
+template<class T> struct A<T*> { X::Y ab; };        // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+When a function is defined in a friend function declaration in a class template,
+the function is instantiated when the function is odr-used ([#basic.def.odr]).
+
+[:en]
+The same restrictions on multiple declarations and definitions that apply to
+non-template function declarations and definitions also apply to these implicit
+definitions.
+
+[para]
+[:en]
+A member of a class template may be declared to be a friend of a non-template
+class.
+
+[:en]
+In this case, the corresponding member of every specialization of the primary
+class template and class template partial specializations thereof is a friend of
+the class granting friendship.
+
+[:en]
+For explicit specializations and specializations of partial specializations, the
+corresponding member is the member (if any) that has the same name, kind (type,
+function, class template, or function template), template parameters, and
+signature as the member of the class template instantiation that would otherwise
+have been generated.
+
+[enter:example]
+[codeblock]
+template<class T> struct A {
+  struct B { };
+  void f();
+  struct D {
+    void g();
+  };
+};
+template<> struct A<int> {
+  struct B { };
+  int f();
+  struct D {
+    void g();
+  };
+};
+
+class C {
+  template<class T> friend struct A<T>::B;    // [:en] grants friendship to [`A<int>::B] even though
+                                              // [:en@~] it is not a specialization of [`A<T>::B]
+  template<class T> friend void A<T>::f();    // [:en] does not grant friendship to [`A<int>::f()]
+                                              // [:en@~] because its return type does not match
+  template<class T> friend void A<T>::D::g(); // [:en] does not grant friendship to [`A<int>::D::g()]
+                                              // [:en@~] because [`A<int>::D] is not a specialization of [`A<T>::D]
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+A friend declaration may first declare a member of an enclosing namespace scope
+([#temp.inject]).
+[exit:note]
+
+[para]
+[:en]
+A friend template shall not be declared in a local class.
+
+[para]
+[:en]
+Friend declarations shall not declare partial specializations.
+
+[enter:example]
+[codeblock]
+template<class T> class A { };
+class X {
+  template<class T> friend class A<T*>; // [:en] error
+};
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+When a friend declaration refers to a specialization of a function template, the
+function parameter declarations shall not include default arguments, nor shall
+the inline specifier be used in such a declaration.

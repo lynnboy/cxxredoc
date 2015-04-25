@@ -1,0 +1,175 @@
+﻿[section#temp.names
+    [:en] Names of template specializations
+]
+
+[para]
+A template specialization ([#temp.spec]) can be referred to by a
+[~template-id]:
+
+[syntax]
+[rule simple-template-id [:zh_CN] ]
+    [| template-name [`<] [~:opt template-argument-list] [`>] ]
+[rule:end]
+
+[rule template-id [:zh_CN] ]
+    [| simple-template-id ]
+    [| operator-function-id [`<] [~:opt template-argument-list] [`>] ]
+    [| literal-operator-id [`<] [~:opt template-argument-list] [`>] ]
+[rule:end]
+
+[rule template-name [:zh_CN] ]
+    [| identifier ]
+[rule:end]
+
+[rule template-argument-list [:zh_CN] ]
+    [| template-argument [`:opt ...] ]
+    [| template-argument-list [`,] template-argument [`:opt ...] ]
+[rule:end]
+
+[rule template-argument [:zh_CN] ]
+    [| constant-expression ]
+    [| type-id ]
+    [| id-expression ]
+[rule:end]
+[syntax:end]
+
+[enter:note]
+[:en]
+The name lookup rules ([#basic.lookup]) are used to associate the use of a name
+with a template declaration; that is, to identify a name as a [~template-name].
+[exit:note]
+
+[para]
+[:en]
+For a [~template-name] to be explicitly qualified by the template arguments,
+the name must be known to refer to a template.
+
+[para]
+[:en]
+[%[`<][!template and]]
+After name lookup ([#basic.lookup]) finds that a name is a [~template-name] or
+that an [~operator-function-id] or a [~literal-operator-id] refers to a set of
+overloaded functions any member of which is a function template, if this is
+followed by a [`<], the [`<] is always taken as the delimiter of a
+[~template-argument-list] and never as the less-than operator.
+
+[:en]
+When parsing a [~template-argument-list], the first non-nested [`>]
+
+[footnote]
+[:en]
+A [`>] that encloses the [~type-id] of a [`dynamic_cast], [`static_cast],
+[`reinterpret_cast] or [`const_cast], or which encloses the
+[~template-argument]s of a subsequent [~template-id], is considered nested for
+the purpose of this description.
+[footnote:end]
+
+[:en@~]
+is taken as the ending delimiter rather than a greater-than operator.
+
+[:en]
+Similarly, the first non-nested [`>>] is treated as two consecutive but distinct
+[`>] tokens, the first of which is taken as the end of the
+[~template-argument-list] and completes the [~template-id].
+
+[enter:note]
+[:en]
+The second [`>] token produced by this replacement rule may terminate an
+enclosing [~template-id] construct or it may be part of a different construct
+(e.g. a cast).
+[exit:note]
+
+[enter:example]
+[codeblock]
+template<int i> class X { /* ... */ }
+
+X< 1>2 > x1;                        // [:en] syntax error
+X<(1>2)> x2;                        // OK
+
+template<class T> class Y { /* ... */ }
+Y<X<1>> x3;                         // [:en] OK, same as [`Y<X<1> > x3;]
+Y<X<6>>1>> x4;                      // [:en] syntax error
+Y<X<(6>>1)>> x5;                    // OK
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+When the name of a member template specialization appears after [`.] or [`->]
+in a [~postfix-expression] or after a [~nested-name-specifier] in a
+[~qualified-id], and the object expression of the [~postfix-expression] is
+type-dependent or the [~nested-name-specifier] in the [~qualified-id] refers to
+a dependent type, but the name is not a member of the current instantiation
+([#temp.dep.type]), the member template name must be prefixed by the keyword
+[`template].
+
+[:en]
+Otherwise the name is assumed to name a non-template.
+
+[enter:example]
+[codeblock]
+struct X {
+  template<std::size_t> X* alloc();
+  template<std::size_t> static X* adjust();
+};
+template<class T> void f(T* p) {
+  T* p1 = p->alloc<200>();          // [:en] ill-formed: [`<] means less than
+  T* p2 = p->template alloc<200>(); // [:en] OK: [`<] starts template argument list
+  T::adjust<100>();                 // [:en] ill-formed: [`<] means less than
+  T::template adjust<100>();        // [:en] OK: [`<] starts template argument list
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A name prefixed by the keyword [`template] shall be a [~template-id] or the name
+shall refer to a class template.
+
+[enter:note]
+[:en]
+The keyword [`template] may not be applied to non-template members of class
+templates.
+[exit:note]
+
+[enter:note]
+[:en]
+As is the case with the [`typename] prefix, the [`template] prefix is allowed in
+cases where it is not strictly necessary; i.e., when the
+[~nested-name-specifier] or the expression on the left of the [`->] or [`.] is
+not dependent on a [~template-parameter], or the use does not appear in the
+scope of a template.
+[exit:note]
+
+[enter:example]
+[codeblock]
+template <class T> struct A {
+  void f(int);
+  template <class U> void f(U);
+};
+
+template <class T> void f(T t) {
+  A<T> a;
+  a.template f<>(t);                // [:en] OK: calls template
+  a.template f(t);                  // [:en] error: not a [~template-id]
+}
+
+template <class T> struct B {
+  template <class T2> struct C { };
+};
+
+// [:en] OK: [`T::template C] names a class template:
+template <class T, template <class X> class TT = T::template C> struct D { };
+D<B<int> > db;
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+[%specialization[!class template]]
+A [~simple-template-id] that names a class template specialization is a
+[~class-name] (Clause [#class]).
+
+[para]
+[:en]
+A [~template-id] that names an alias template specialization is a [~type-name].

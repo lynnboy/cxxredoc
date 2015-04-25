@@ -1,0 +1,111 @@
+﻿[section#temp.deduct.conv
+    [:en] Deducing conversion function template arguments
+]
+
+[para]
+[:en]
+Template argument deduction is done by comparing the return type of the
+conversion function template (call it [`P]) with the type that is required as
+the result of the conversion (call it [`A]; see [#dcl.init], [#over.match.conv],
+and [#over.match.ref] for the determination of that type) as described in
+[#temp.deduct.type].
+
+[para]
+[:en]
+If [`P] is a reference type, the type referred to by [`P] is used in place of
+[`P] for type deduction and for any further references to or transformations of
+[`P] in the remainder of this section.
+
+[para]
+[:en]
+If [`A] is not a reference type:
+
+[list]
+[item]
+[:en]
+If [`P] is an array type, the pointer type produced by the array-to-pointer
+standard conversion ([#conv.array]) is used in place of [`P] for type deduction;
+otherwise,
+
+[item]
+[:en]
+If [`P] is a function type, the pointer type produced by the function-to-pointer
+standard conversion ([#conv.func]) is used in place of [`P] for type deduction;
+otherwise,
+
+[item]
+[:en]
+If [`P] is a cv-qualified type, the top level cv-qualifiers of [`P][=']s type
+are ignored for type deduction.
+[list:end]
+
+[para]
+[:en]
+If [`A] is a cv-qualified type, the top level cv-qualifiers of [`A][=']s type
+are ignored for type deduction.
+
+[:en]
+If [`A] is a reference type, the type referred to by [`A] is used for type
+deduction.
+
+[para]
+[:en]
+In general, the deduction process attempts to find template argument values that
+will make the deduced [`A] identical to [`A].
+
+[:en]
+However, there are two cases that allow a difference:
+
+[list]
+[item]
+[:en]
+If the original [`A] is a reference type, [`A] can be more cv-qualified than the
+deduced [`A] (i.e., the type referred to by the reference)
+
+[item]
+[:en]
+The deduced [`A] can be another pointer or pointer to member type that can be
+converted to [`A] via a qualification conversion.
+[list:end]
+
+[para]
+[:en]
+These alternatives are considered only if type deduction would otherwise fail.
+
+[:en]
+If they yield more than one possible deduced [`A], the type deduction fails.
+
+[para]
+[:en]
+When the deduction process requires a qualification conversion for a pointer or
+pointer to member type as described above, the following process is used to
+determine the deduced template argument values:
+
+[:en]
+If [`A] is a type
+
+[syntax:explanation]
+[:en@~]
+[$cv[_1,0]] ["pointer to [=ldots]] [$cv[_1,n-1]] ["pointer to] [$cv[_1,n]] [$T1]
+[syntax:end]
+
+[:en@~]
+and [`P] is a type
+
+[syntax:explanation]
+[$cv[_2,0]] ["pointer to [=ldots]] [$cv[_2,n-1]] ["pointer to] [$cv[_2,n]] [$T2]
+[syntax:end]
+
+[:en]
+The cv-unqualified [`T1] and [`T2] are used as the types of [`A] and [`P]
+respectively for type deduction.
+
+[enter:example]
+[codeblock]
+struct A {
+  template <class T> operator T***();
+};
+A a;
+const int * const * const * p1 = a;     // [:en] [`T] is deduced as [`int], not [`const int]
+[codeblock:end]
+[exit:example]

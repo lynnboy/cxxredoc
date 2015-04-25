@@ -1,0 +1,55 @@
+﻿[section#temp.mem.func
+    [:en] Member functions of class templates
+]
+
+[para]
+[:en]
+[%template[!member function]]
+A member function of a class template may be defined outside of the class
+template definition in which it is declared.
+
+[enter:example]
+[codeblock]
+template<class T> class Array {
+  T* v;
+  int sz;
+public:
+  explicit Array(int);
+  T& operator[](int);
+  T& elem(int i) { return v[i]; }
+};
+[codeblock:end]
+
+[:en]
+declares three function templates.
+
+[:en]
+The subscript function might be defined like this:
+
+[codeblock]
+template<class T> T& Array<T>::operator[](int i) {
+  if (i<0 || sz<=i) error("Array: range error");
+  return v[i];
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+The [~template-argument]s for a member function of a class template are
+determined by the [~template-argument]s of the type of the object for which the
+member function is called.
+
+[enter:example]
+[:en]
+the [~template-argument] for [`Array<T>::operator[`]()] will be determined by
+the [`Array] to which the subscripting operation is applied.
+
+[codeblock]
+Array<int> v1(20);
+Array<dcomplex> v2(30);
+
+v1[3] = 7;                      // [`Array<int>::operator[`]()]
+v2[3] = dcomplex(7,8);          // [`Array<dcomplex>::operator[`]()]
+[codeblock:end]
+[exit:example]

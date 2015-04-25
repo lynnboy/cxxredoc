@@ -1,0 +1,264 @@
+﻿[section#temp.explicit
+    [:en] Explicit instantiation
+]
+
+[para]
+[:en]
+[%instantiation[!explicit]]
+A class, function, variable, or member template specialization can be explicitly
+instantiated from its template.
+
+[:en]
+A member function, member class or static data member of a class template can
+be explicitly instantiated from the member definition associated with its class
+template.
+
+[:en]
+An explicit instantiation of a function template or member function of a class
+template shall not use the [`inline] or [`constexpr] specifiers.
+
+[para]
+[:en]
+The syntax for explicit instantiation is:
+
+[syntax]
+[rule explicit-instantiation [:zh_CN] ]
+    [| [`:opt extern] [`template] declaration ]
+[rule:end]
+[syntax:end]
+
+[:en]
+There are two forms of explicit instantiation: an explicit instantiation
+definition and an explicit instantiation declaration.
+
+[:en]
+An explicit instantiation declaration begins with the [`extern] keyword.
+
+[para]
+[:en]
+If the explicit instantiation is for a class or member class, the
+[~elaborated-type-specifier] in the [~declaration] shall include a
+[~simple-template-id].
+
+[:en]
+If the explicit instantiation is for a function or member function, the
+[~unqualified-id] in the [~declaration] shall be either a [~template-id] or,
+where all template arguments can be deduced, a [~template-name] or
+[~operator-function-id].
+
+[enter:note]
+[:en]
+The declaration may declare a [~qualified-id], in which case the
+[~unqualified-id] of the [~qualified-id] must be a [~template-id].
+[exit:note]
+
+[:en]
+If the explicit instantiation is for a member function, a member class or
+a static data member of a class template specialization, the name of the class
+template specialization in the [~qualified-id] for the member name shall be a
+[~simple-template-id].
+
+[:en]
+If the explicit instantiation is for a variable, the [~unqualified-id] in the
+declaration shall be a [~template-id].
+
+[:en]
+An explicit instantiation shall appear in an enclosing namespace of its
+template.
+
+[:en]
+If the name declared in the explicit instantiation is an unqualified name, the
+explicit instantiation shall appear in the namespace where its template is
+declared or, if that namespace is inline ([#namespace.def]), any namespace from
+its enclosing namespace set.
+
+[enter:note]
+[:en]
+Regarding qualified names in declarators, see [#dcl.meaning].
+[exit:note]
+
+[enter:example]
+[codeblock]
+template<class T> class Array { void mf(); };
+template class Array<char>;
+template void Array<int>::mf();
+
+template<class T> void sort(Array<T>& v) { /* ... */ }
+template void sort(Array<char>&);       // [:en] argument is deduced here
+
+namespace N {
+  template<class T> void f(T&) { }
+}
+template void N::f<int>(int&);
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A declaration of a function template, a variable template, a member function
+or static data member of a class template, or a member function template of a
+class or class template shall precede an explicit instantiation of that entity.
+
+[:en]
+A definition of a class template, a member class of a class template, or a
+member class template of a class or class template shall precede an explicit
+instantiation of that entity unless the explicit instantiation is preceded by an
+explicit specialization of the entity with the same template arguments.
+
+[:en]
+If the [~declaration] of the explicit instantiation names an implicitly-declared
+special member function (Clause [#special]), the program is ill-formed.
+
+[para]
+[:en]
+For a given set of template arguments, if an explicit instantiation of a
+template appears after a declaration of an explicit specialization for that
+template, the explicit instantiation has no effect.
+
+[:en]
+Otherwise, for an explicit instantiation definition the definition of a function
+template, a variable template, a member function template, or a member function
+or static data member of a class template shall be present in every translation
+unit in which it is explicitly instantiated.
+
+[para]
+[:en]
+An explicit instantiation of a class, function template, or variable template
+specialization is placed in the namespace in which the template is defined.
+
+[:en]
+An explicit instantiation for a member of a class template is placed in the
+namespace where the enclosing class template is defined.
+
+[:en]
+An explicit instantiation for a member template is placed in the namespace
+where the enclosing class or class template is defined.
+
+[enter:example]
+[codeblock]
+namespace N {
+  template<class T> class Y { void mf() { } };
+}
+
+template class Y<int>;                  // [:en] error: class template [`Y] not visible
+                                        // [:en@~] in the global namespace
+
+using N::Y;
+template class Y<int>;                  // [:en] error: explicit instantiation outside of the
+                                        // [:en@~] namespace of the template
+
+template class N::Y<char*>;             // [:en] OK: explicit instantiation in namespace [`N]
+template void N::Y<double>::mf();       // [:en] OK: explicit instantiation
+                                        // [:en@~] in namespace [`N]
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+A trailing [~template-argument] can be left unspecified in an explicit
+instantiation of a function template specialization or of a member function
+template specialization provided it can be deduced from the type of a function
+parameter ([#temp.deduct]).
+
+[enter:example]
+[codeblock]
+template<class T> class Array { /* ... */ };
+template<class T> void sort(Array<T>& v) { /* ... */ }
+
+// [:en] instantiate [`sort(Array<int>&)] - template-argument deduced
+template void sort<>(Array<int>&);
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+An explicit instantiation that names a class template specialization is also an
+explicit instantiation of the same kind (declaration or definition) of each
+of its members (not including members inherited from base classes and members
+that are templates) that has not been previously explicitly specialized in the
+translation unit containing the explicit instantiation, except as described
+below.
+
+[enter:note]
+[:en]
+In addition, it will typically be an explicit instantiation of certain
+implementation-dependent data about the class.
+[exit:note]
+
+[para]
+[:en]
+An explicit instantiation definition that names a class template specialization
+explicitly instantiates the class template specialization and is an explicit
+instantiation definition of only those members that have been defined at the
+point of instantiation.
+
+[para]
+[:en]
+Except for inline functions, declarations with types deduced from their
+initializer or return value ([#dcl.spec.auto]), [`const] variables of literal
+types, variables of reference types, and class template specializations,
+explicit instantiation declarations have the effect of suppressing the implicit
+instantiation of the entity to which they refer.
+
+[enter:note]
+[:en]
+The intent is that an inline function that is the subject of an explicit
+instantiation declaration will still be implicitly instantiated when odr-used
+([#basic.def.odr]) so that the body can be considered for inlining, but that no
+out-of-line copy of the inline function would be generated in the translation
+unit.
+[exit:note]
+
+[para]
+[:en]
+If an entity is the subject of both an explicit instantiation declaration and an
+explicit instantiation definition in the same translation unit, the definition
+shall follow the declaration.
+
+[:en]
+An entity that is the subject of an explicit instantiation declaration and that
+is also used in a way that would otherwise cause an implicit instantiation
+([#temp.inst]) in the translation unit shall be the subject of an explicit
+instantiation definition somewhere in the program; otherwise the program is
+ill-formed, no diagnostic required.
+
+[enter:note]
+[:en]
+This rule does apply to inline functions even though an explicit instantiation
+declaration of such an entity has no other normative effect.
+
+[:en]
+This is needed to ensure that if the address of an inline function is taken in
+a translation unit in which the implementation chose to suppress the out-of-line
+body, another translation unit will supply the body.
+[exit:note]
+
+[:en]
+An explicit instantiation declaration shall not name a specialization of a
+template with internal linkage.
+
+[para]
+The usual access checking rules do not apply to names used to specify explicit
+instantiations.
+
+[enter:note]
+[:en]
+In particular, the template arguments and names used in the function declarator
+(including parameter types, return types and exception specifications) may be
+private types or objects which would normally not be accessible and the template
+may be a member template or member function which would not normally be
+accessible.
+[exit:note]
+
+[para]
+[:en]
+An explicit instantiation does not constitute a use of a default argument, so
+default argument instantiation is not done.
+
+[enter:example]
+[codeblock]
+char* p = 0;
+template<class T> T g(T x = &p) { return x; }
+template int g<int>(int);       // [:en] OK even though [`&p] isn[=']t an [`int].
+[codeblock:end]
+[exit:example]

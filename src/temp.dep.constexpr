@@ -1,0 +1,76 @@
+﻿[section#temp.dep.constexpr
+    [:en] Value-dependent expressions
+]
+
+[para]
+[:en]
+Except as described below, a constant expression is value-dependent if any
+subexpression is value-dependent.
+
+[para]
+[:en]
+An [~id-expression] is value-dependent if:
+
+[list]
+[item]
+[:en] it is a name declared with a dependent type,
+[item]
+[:en] it is the name of a non-type template parameter,
+[item]
+[:en] it names a member of an unknown specialization,
+[item]
+[:en] it names a static data member that is a dependent member of the current
+instantiation and is not initialized in a [~member-declarator],
+[item]
+[:en] it names a static member function that is a dependent member of the
+current instantiation, or
+[item]
+[:en] it is a constant with literal type and is initialized with an expression
+that is value-dependent.
+[list:end]
+
+[:en]
+Expressions of the following form are value-dependent if the [~unary-expression]
+or [~expression] is type-dependent or the [~type-id] is dependent:
+
+[syntax:explanation]
+[| [`sizeof] unary-expression ]
+[| [`sizeof] [`(] type-id [`)] ]
+[| [`typeid] [`(] expression [`)] ]
+[| [`typeid] [`(] type-id [`)] ]
+[| [`alignof] [`(] type-id [`)] ]
+[| [`noexcept] [`(] expression [`)] ]
+[syntax:end]
+
+[enter:note]
+[:en]
+For the standard library macro [`offsetof], see [#support.types].
+[exit:note]
+
+[para]
+[:en]
+Expressions of the following form are value-dependent if either the [~type-id]
+or [~simple-type-specifier] is dependent or the [~expression] or
+[~cast-expression] is value-dependent:
+
+[syntax:explanation]
+[| simple-type-specifier [`(] [~:opt expression-list] [`)] ]
+[| [`static_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`const_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`reinterpret_cast] [`<] type-id [`> (] expression [`)] ]
+[| [`(] type-id [`)] cast-expression ]
+[syntax:end]
+
+[para]
+[:en]
+Expressions of the following form are value-dependent:
+
+[syntax:explanation]
+[| [`sizeof] [`...] [`(] identifier [`)] ]
+[| fold-expression ]
+[syntax:end]
+
+[para]
+[:en]
+An expression of the form [`&][~qualified-id] where the [~qualified-id] names a
+dependent member of the current instantiation is value-dependent.

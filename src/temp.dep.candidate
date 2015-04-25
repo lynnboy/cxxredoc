@@ -1,0 +1,31 @@
+﻿[section#temp.dep.candidate
+    [:en] Candidate functions
+]
+
+[para]
+[:en]
+[%functions[!candidate]]
+For a function call where the [~postfix-expression] is a dependent name, the
+candidate functions are found using the usual lookup rules
+([#basic.lookup.unqual], [#basic.lookup.argdep]) except that:
+
+[list]
+[item]
+[:en]
+For the part of the lookup using unqualified name lookup
+([#basic.lookup.unqual]), only function declarations from the template
+definition context are found.
+
+[item]
+[:en]
+For the part of the lookup using associated namespaces ([#basic.lookup.argdep]),
+only function declarations found in either the template definition context or
+the template instantiation context are found.
+[list:end]
+
+[:en]
+If the call would be ill-formed or would find a better match had the lookup
+within the associated namespaces considered all the function declarations with
+external linkage introduced in those namespaces in all translation units, not
+just considering those declarations found in the template definition and
+template instantiation contexts, then the program has undefined behavior.

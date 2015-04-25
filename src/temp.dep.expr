@@ -1,0 +1,122 @@
+﻿[section#temp.dep.expr
+    [:en] Type-dependent expressions
+]
+
+[para]
+[:en]
+Except as described below, an expression is type-dependent if any subexpression
+is type-dependent.
+
+[para]
+[:en]
+[`this] is type-dependent if the class type of the enclosing member function is
+dependent ([#temp.dep.type]).
+
+[para]
+[:en]
+An [~id-expression] is type-dependent if it contains
+
+[list]
+[item]
+[:en] an [~identifier] associated by name lookup with one or more declarations
+declared with a dependent type,
+
+[item]
+[:en] an [~identifier] associated by name lookup with one or more declarations
+of member functions of the current instantiation declared with a return type
+that contains a placeholder type ([#dcl.spec.auto]),
+
+[item]
+[:en] the [~identifier] [`__func__] ([#dcl.fct.def.general]), where any
+enclosing function is a template, a member of a class template, or a generic
+lambda,
+
+[item]
+[:en] a [~template-id] that is dependent,
+
+[item]
+[:en] a [~conversion-function-id] that specifies a dependent type, or
+
+[item]
+[:en] a [~nested-name-specifier] or a [~qualified-id] that names a member of an
+unknown specialization;
+[list:end]
+
+[:en]
+or if it names a dependent member of the current instantiation that is a static
+data member of type ["array of unknown bound of [`T]] for some [`T]
+([#temp.static]).
+
+[:en]
+Expressions of the following forms are type-dependent only if the type specified
+by the [~type-id], [~simple-type-specifier] or [~new-type-id] is dependent, even
+if any subexpression is type-dependent:
+
+[syntax:explanation]
+[| simple-type-specifier [`(] [~:opt expression-list] [`)] ]
+[| [`:opt ::] [`new] [~:opt new-placement] new-type-id [~:opt new-initializer] ]
+[| [`:opt ::] [`new] [~:opt new-placement] [`(] type-id [`)] [~:opt new-initializer] ]
+[| [`dynamic_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`static_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`const_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`reinterpret_cast] [`<] type-id [`>] [`(] expression [`)] ]
+[| [`(] type-id [`)] cast-expression ]
+[syntax:end]
+
+[para]
+[:en]
+Expressions of the following forms are never type-dependent (because the type
+of the expression cannot be dependent):
+
+[syntax:explanation]
+[| literal ]
+[| postfix-expression [`.] pseudo-destructor-name ]
+[| postfix-expression [`->] pseudo-destructor-name ]
+[| [`sizeof] unary-expression ]
+[| [`sizeof] [`(] type-id [`)] ]
+[| [`sizeof] [`...] [`(] identifier [`)] ]
+[| [`alignof] [`(] type-id [`)] ]
+[| [`typeid] [`(] expression [`)] ]
+[| [`typeid] [`(] type-id [`)] ]
+[| [`:opt ::] [`delete] cast-expression ]
+[| [`:opt ::] [`delete] [`[] [``]] cast-expression ]
+[| [`throw] [~:opt assignment-expression] ]
+[| [`noexcept] [`(] expression [`)] ]
+[syntax:end]
+
+[enter:note]
+[:en]
+For the standard library macro [`offsetof], see [#support.types].
+[exit:note]
+
+[para]
+[:en]
+A class member access expression ([#expr.ref]) is type-dependent if the
+expression refers to a member of the current instantiation and the type of the
+referenced member is dependent, or the class member access expression refers to
+a member of an unknown specialization.
+
+[enter:note]
+[:en]
+In an expression of the form [`x.y] or [`xp->y] the type of the expression is
+usually the type of the member [`y] of the class of [`x] (or the class pointed
+to by [`xp]).
+
+[:en]
+However, if [`x] or [`xp] refers to a dependent type that is not the current
+instantiation, the type of [`y] is always dependent.
+
+[:en]
+If [`x] or [`xp] refers to a non-dependent type or refers to the current
+instantiation, the type of [`y] is the type of the class member access
+expression.
+[exit:note]
+
+[para]
+[:en]
+A [~braced-init-list] is type-dependent if any element is type-dependent or is a
+pack expansion.
+
+[para]
+[:en]
+A [~fold-expression] is type-dependent.

@@ -1,0 +1,116 @@
+﻿[section#temp.arg.nontype
+    [:en] Template non-type arguments
+]
+
+[para]
+[:en]
+A [~template-argument] for a non-type [~template-parameter] shall be a converted
+constant expression ([#expr.const]) of the type of the [~template-parameter].
+
+[:en]
+For a non-type [~template-parameter] of reference or pointer type, the value of
+the constant expression shall not refer to (or for a pointer type, shall not be
+the address of):
+
+[list]
+[item]
+[:en@~] a subobject ([#intro.object]),
+[item]
+[:en@~] a temporary object ([#class.temporary]),
+[item]
+[:en@~] a string literal ([#lex.string]),
+[item]
+[:en@~] the result of a [`typeid] expression ([#expr.typeid]), or
+[item]
+[:en@~] a predefined [`__func__] variable ([#dcl.fct.def.general]).
+[list:end]
+
+[enter:note]
+[:en]
+If the [~template-argument] represents a set of overloaded functions (or a
+pointer or member pointer to such), the matching function is selected from the
+set ([#over.over]).
+[exit:note]
+
+[para]
+[enter:example]
+[codeblock]
+template<const int* pci> struct X { /* ... */ };
+int ai[10];
+X<ai> xi;                       // [:en] array to pointer and qualification conversions
+
+struct Y { /* ... */ };
+template<const Y& b> struct Z { /* ... */ };
+Y y;
+Z<y> z;                         // [:en] no conversion, but note extra cv-qualification
+
+template<int (&pa)[5]> struct W { /* ... */ };
+int b[5];
+W<b> w;                         // [:en] no conversion
+
+void f(char);
+void f(int);
+
+template<void (*pf)(int)> struct A { /* ... */ };
+
+A<&f> a;                        // [:en] selects [`f(int)]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en] A string literal ([#lex.string]) is not an acceptable
+[~template-argument].
+
+[enter:example]
+[codeblock]
+template<class T, const char* p> class X {
+  /* ... */
+};
+
+X<int, "Studebaker"> x1;        // [:en] error: string literal as template-argument
+
+const char p[] = "Vivisectionist";
+X<int,p> x2;                    // OK
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+The address of an array element or non-static data member is not an acceptable
+[~template-argument].
+
+[enter:example]
+[codeblock]
+template<int* p> class X { };
+
+int a[10];
+struct S { int m; static int s; } s;
+
+X<&a[2]> x3;                    // [:en] error: address of array element
+X<&s.m> x4;                     // [:en] error: address of non-static member
+X<&s.s> x5;                     // [:en] OK: address of static member
+X<&S::s> x6;                    // [:en] OK: address of static member
+[codeblock:end]
+[exit:example]
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+A temporary object is not an acceptable [~template-argument] when the
+corresponding [~template-parameter] has reference type.
+
+[enter:example]
+[codeblock]
+template<const int& CRI> struct B { /* ... */ };
+
+B<1> b2;                        // [:en] error: temporary would be required for template argument
+
+int c = 1;
+B<c> b1;                        // OK
+[codeblock:end]
+[exit:example]
+[exit:note]

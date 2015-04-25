@@ -1,0 +1,97 @@
+﻿[section#temp.class
+    [:en] Class templates
+]
+
+[para]
+[:en]
+A class [+template] defines the layout and operations for an unbounded set of
+related types.
+
+[enter:example]
+[:en]
+a single class template [`List] might provide a common definition for list of
+[`int], list of [`float], and list of pointers to [`Shape]s.
+[exit:example]
+
+[para:~]
+[enter:example]
+[:en]
+An array class template might be declared like this:
+
+[codeblock]
+template<class T> class Array {
+  T* v;
+  int sz;
+public:
+  explicit Array(int);
+  T& operator[](int);
+  T& elem(int i) { return v[i]; }
+};
+[codeblock:end]
+
+[para]
+[:en]
+The prefix [`template <class T>] specifies that a template is being declared and
+that a [~type-name] [`T] will be used in the declaration.
+
+[:en]
+In other words, [`Array] is a parameterized type with [`T] as its parameter.
+[exit:example]
+
+[para]
+[:en]
+When a member function, a member class, a member enumeration, a static data
+member or a member template of a class template is defined outside of the class
+template definition, the member definition is defined as a template definition
+in which the [~template-parameter]s are those of the class template.
+
+[:en]
+The names of the template parameters used in the definition of the member may
+be different from the template parameter names used in the class template
+definition.
+
+[:en]
+The template argument list following the class template name in the member
+definition shall name the parameters in the same order as the one used in the
+template parameter list of the member.
+
+[:en]
+Each template parameter pack shall be expanded with an ellipsis in the template
+argument list.
+
+[enter:example]
+[codeblock]
+template<class T1, class T2> struct A {
+  void f1();
+  void f2();
+};
+
+template<class T2, class T1> void A<T2,T1>::f1() { }    // OK
+template<class T2, class T1> void A<T1,T2>::f2() { }    // [:en] error
+[codeblock:end]
+
+[codeblock]
+template<class ... Types> struct B {
+  void f3();
+  void f4();
+};
+
+template<class ... Types> void B<Types ...>::f3() { }    // OK
+template<class ... Types> void B<Types>::f4() { }        // error
+[codeblock:end]
+
+[exit:example]
+
+[para]
+[:en]
+In a redeclaration, partial specialization, explicit specialization or explicit
+instantiation of a class template, the [~class-key] shall agree in kind with the
+original class template declaration ([#dcl.type.elab]).
+
+[include temp.mem.func]
+
+[include temp.mem.class]
+
+[include temp.static]
+
+[include temp.mem.enum]
