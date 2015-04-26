@@ -1,0 +1,35 @@
+﻿[section#denorm.style
+    [:en] Type [`float_denorm_style]
+]
+
+[%@library float_denorm_style]
+[codeblock:synopsis]
+namespace std {
+  enum float_denorm_style {
+    denorm_indeterminate = -1,
+    denorm_absent = 0,
+    denorm_present = 1
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The presence or absence of denormalization (variable number of exponent bits)
+is characterized by the values:
+
+[list]
+[item]
+[%@library denorm_indeterminate]
+[:en]
+[`denorm_indeterminate] if it cannot be determined whether or not the type
+allows denormalized values
+[item]
+[%@library denorm_absent]
+[:en]
+[`denorm_absent] if the type does not allow denormalized values
+[item]
+[%@library denorm_present]
+[:en]
+[`denorm_present] if the type does allow denormalized values
+[list:end]

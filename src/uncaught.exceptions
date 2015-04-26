@@ -1,0 +1,19 @@
+﻿[section#uncaught.exceptions
+    [:en] [`uncaught_exceptions]
+]
+
+[%@library uncaught_exceptions]
+[codeblock:declaration]
+int uncaught_exceptions() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+The number of uncaught exceptions ([#except.uncaught]).
+
+[para:notes]
+[:en]
+When [`uncaught_exceptions() > 0], throwing an exception can result in a call of
+[`std::terminate()] ([#except.terminate]).
+[exit:description]

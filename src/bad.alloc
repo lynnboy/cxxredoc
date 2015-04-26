@@ -1,0 +1,64 @@
+﻿[section#bad.alloc
+[%@library bad_alloc]
+    [:en] Class [`bad_alloc]
+]
+
+[codeblock:synopsis]
+namespace std {
+  class bad_alloc : public exception {
+  public:
+    bad_alloc() noexcept;
+    bad_alloc(const bad_alloc&) noexcept;
+    bad_alloc& operator=(const bad_alloc&) noexcept;
+    virtual const char* what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`bad_alloc] defines the type of objects thrown as exceptions by the
+implementation to report a failure to allocate storage.
+
+[%@library bad_alloc[!bad_alloc]]
+[codeblock:declaration]
+bad_alloc() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Constructs an object of class [`bad_alloc].
+
+[para:notes]
+[:en]
+The result of calling [`what()] on the newly constructed object is
+implementation-defined.
+[exit:description]
+
+[%[:en] implementation-defined]
+[%@library bad_alloc[!bad_alloc]]
+[%@library operator=[!bad_alloc]]
+[codeblock:declaration]
+bad_alloc(const bad_alloc&) noexcept;
+bad_alloc& operator=(const bad_alloc&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Copies an object of class [`bad_alloc].
+[exit:description]
+
+[%@library what[!bad_alloc]]
+[codeblock:declaration]
+virtual const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[%@library bad_alloc[!bad_alloc::what[!implementation-defined]]]
+An [%@impldef return value of [`bad_alloc::what]] implementation-defined
+[em@sc ntbs].
+[exit:description]

@@ -1,0 +1,18 @@
+﻿[section#get.new.handler
+    [:en] [`get_new_handler]
+]
+
+[codeblock:declaration]
+new_handler get_new_handler() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+The current [`new_handler].
+
+[enter:note]
+[:en]
+This may be a null pointer value.
+[exit:note]
+[exit:description]

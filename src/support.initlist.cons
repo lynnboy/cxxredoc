@@ -1,0 +1,17 @@
+﻿[section#support.initlist.cons
+    [:en] Initializer list constructors
+]
+
+[%@library initializer_list[!initializer_list]]
+[codeblock:declaration]
+constexpr initializer_list() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+constructs an empty [`initializer_list] object.
+
+[para:postcondition]
+[:en] [`size() == 0]
+[exit:description]

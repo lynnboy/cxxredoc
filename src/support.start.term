@@ -1,0 +1,295 @@
+﻿[section#support.start.term
+    [:en] Start and termination
+]
+
+[para]
+[:en]
+Table [#tab:support.hdr.cstdlib] describes some of the contents of the header
+[`<cstdlib>].
+
+[%@library EXIT_FAILURE]
+[%@library EXIT_SUCCESS]
+[%@library _Exit]
+[%@library abort]
+[%@library atexit]
+[%@library at_quick_exit]
+[%@library exit]
+[%@library quick_exit]
+[table:grid#tab:support.hdr.cstdlib
+    [:en] Header [`<cstdlib>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macros]
+
+[|] EXIT_FAILURE
+[|] EXIT_SUCCESS
+
+[-]
+[|] [=Functions]
+[|] _Exit
+[|] abort
+[|] atexit
+[|] at_quick_exit
+[|] exit
+[|] quick_exit
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<stdlib.h>],
+with the following changes:
+
+[%@library _Exit]
+[codeblock:declaration]
+[[noreturn]] void _Exit(int status) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The function [`_Exit(int status)] has additional behavior in this International
+Standard:
+
+[list]
+[item]
+[:en]
+The program is terminated without executing destructors for objects of
+automatic, thread, or static storage duration and without calling functions
+passed to [`atexit()] ([#basic.start.term]).
+[list:end]
+[exit:description]
+
+[%@library abort]
+[codeblock:declaration]
+[[noreturn]] void abort(void) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The function [`abort()] has additional behavior in this International Standard:
+
+[list]
+[item]
+[:en]
+The program is terminated without executing destructors for objects of
+automatic, thread, or static storage duration and without calling functions
+passed to [`atexit()] ([#basic.start.term]).
+
+[%@library atexit]
+[list:end]
+[exit:description]
+
+[%@library atexit]
+[codeblock:declaration]
+extern "C" int atexit(void (*f)(void)) noexcept;
+extern "C++" int atexit(void (*f)(void)) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The [`atexit()] functions register the function pointed to by [`f] to be called
+without arguments at normal program termination.
+
+[:en]
+It is unspecified whether a call to [`atexit()] that does not happen before
+([#intro.multithread]) a call to [`exit()] will succeed.
+
+[enter:note]
+[:en]
+The [`atexit()] functions do not introduce a data race ([#res.on.data.races]).
+[exit:note]
+
+[para:implimits]
+[:en]
+The implementation shall support the registration of at least 32 functions.
+
+[para:returns]
+[:en]
+The [`atexit()] function returns zero if the registration succeeds, non-zero if
+it fails.
+[exit:description]
+
+[%@library exit]
+[codeblock:declaration]
+[[noreturn]] void exit(int status);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The function [`exit()] has additional behavior in this International Standard:
+
+[list]
+[item]
+[:en]
+First, objects with thread storage duration and associated with the current
+thread are destroyed.
+
+[:en]
+Next, objects with static storage duration are destroyed and functions
+registered by calling [`atexit] are called.
+
+[footnote]
+[:en]
+A function is called for every time it is registered.
+[footnote:end]
+
+[:en]
+See [#basic.start.term] for the order of destructions and calls.
+
+[:en]
+(Automatic objects are not destroyed as a result of calling [`exit()].)
+
+[footnote]
+[:en]
+Objects with automatic storage duration are all destroyed in a program whose
+function [`main()] contains no automatic objects and executes the call to
+[`exit()].
+
+[:en]
+Control can be transferred directly to such a [`main()] by throwing an exception
+that is caught in [`main()].
+[footnote:end]
+
+[para:~]
+[:en]
+If control leaves a registered function called by [`exit] because the function
+does not provide a handler for a thrown exception, [`std::terminate()] shall be
+called ([#except.terminate]).
+[%@library terminate]
+
+[item]
+[:en]
+Next, all open C streams (as mediated by the function signatures declared in
+[`<cstdio>]) with unwritten buffered data are flushed, all open C streams are
+closed, and all files created by calling [`tmpfile()] are removed.
+
+[item]
+[:en]
+Finally, control is returned to the host environment.
+
+[:en]
+If [`status] is zero or [`EXIT_SUCCESS], an [%@impldef exit status]
+implementation-defined form of the status [+successful termination] is returned.
+
+[:en]
+[%implementation-defined]
+If [`status] is [`EXIT_FAILURE], an [%@impldef exit status]
+implementation-defined form of the status [+unsuccessful termination] is
+returned.
+
+[:en]
+[%implementation-defined]
+Otherwise the status returned is [%@impldef exit status] implementation-defined.
+
+[footnote]
+[:en]
+The macros [`EXIT_FAILURE] and [`EXIT_SUCCESS] are defined in [`<cstdlib>].
+[footnote:end]
+[list:end]
+
+[exit:description]
+
+[%@library at_quick_exit]
+[codeblock:declaration]
+extern "C" int at_quick_exit(void (*f)(void)) noexcept;
+extern "C++" int at_quick_exit(void (*f)(void)) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The [`at_quick_exit()] functions register the function pointed to by [`f]
+to be called without arguments when [`quick_exit] is called.
+
+[:en]
+It is unspecified whether a call to [`at_quick_exit()] that does not happen
+before ([#intro.multithread]) all calls to [`quick_exit] will succeed.
+
+[enter:note]
+[:en]
+The [`at_quick_exit()] functions do not introduce a data race
+([#res.on.data.races]).
+[exit:note]
+
+[enter:note]
+[:en]
+The order of registration may be indeterminate if [`at_quick_exit] was called
+from more than one thread.
+[exit:note]
+
+[enter:note]
+[:en]
+The [`at_quick_exit] registrations are distinct from the [`atexit]
+registrations, and applications may need to call both registration functions
+with the same argument.
+[exit:note]
+
+[para:implimits]
+[:en]
+The implementation shall support the registration of at least 32 functions.
+
+[para:returns]
+[:en]
+Zero if the registration succeeds, non-zero if it fails.
+[exit:description]
+
+[%@library quick_exit]
+[codeblock:declaration]
+[[noreturn]] void quick_exit(int status) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Functions registered by calls to [`at_quick_exit] are called in the reverse
+order of their registration, except that a function shall be called after any
+previously registered functions that had already been called at the time it was
+registered.
+
+[:en]
+Objects shall not be destroyed as a result of calling [`quick_exit].
+
+[:en]
+If control leaves a registered function called by [`quick_exit] because the
+function does not provide a handler for a thrown exception, [`std::terminate()]
+shall be called.
+[%@library terminate]
+
+[enter:note]
+[:en]
+[`at_quick_exit] may call a registered function from a different thread than the
+one that registered it, so registered functions should not rely on the identity
+of objects with thread storage duration.
+[exit:note]
+
+[:en]
+After calling registered functions, [`quick_exit] shall call [`_Exit(status)].
+
+[enter:note]
+[:en]
+The standard file buffers are not flushed.
+
+[:en]
+[=Xsee] ISO C 7.20.4.4.
+[exit:note]
+
+[exit:description]
+
+[para:xref]
+[:en]
+[#basic.start], [#basic.start.term], ISO C 7.10.4.

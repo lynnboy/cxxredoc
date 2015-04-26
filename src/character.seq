@@ -31,7 +31,7 @@ It is used in the character sequence to denote the beginning of a fractional
 part.
 
 [:en]
-It is represented in Clauses [#support.library] through [#thread] and Annex
+It is represented in Clauses [#language.support] through [#thread] and Annex
 [#depr] by a period, [%period] [`'.'], which is also its value in the [`"C"]
 locale, but may change during program execution by a call to
 [`setlocale(int, const char*)],

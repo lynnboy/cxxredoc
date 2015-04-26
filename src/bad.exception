@@ -1,0 +1,69 @@
+﻿[section#bad.exception
+    [:en] Class [`bad_exception]
+]
+
+[%@library bad_exception]
+[codeblock:synopsis]
+namespace std {
+  class bad_exception : public exception {
+  public:
+    bad_exception() noexcept;
+    bad_exception(const bad_exception&) noexcept;
+    bad_exception& operator=(const bad_exception&) noexcept;
+    virtual const char* what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`bad_exception] defines the type of objects thrown as described in
+([#except.unexpected]).
+
+[%@library bad_exception[!bad_exception]]
+[codeblock:declaration]
+bad_exception() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Constructs an object of class [`bad_exception].
+
+[para:notes]
+[:en]
+The result of calling [`what()] on the newly constructed object is
+[%implementation-defined] implementation-defined.
+[exit:description]
+
+[%@library bad_exception[!bad_exception]]
+[%@library operator=[!bad_exception]]
+[codeblock:declaration]
+bad_exception(const bad_exception&) noexcept;
+bad_exception& operator=(const bad_exception&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Copies an object of class [`bad_exception].
+[exit:description]
+
+[%@library what[!bad_exception]]
+[codeblock:declaration]
+virtual const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[%@library bad_exception::what[!implementation-defined]]
+An [%@impldef return value of [`bad_exception::what]] implementation-defined
+[em@sc ntbs].
+
+[para:notes]
+[:en]
+The message may be a null-terminated multibyte string ([#multibyte.strings]),
+suitable for conversion and display as a [`wstring] ([#string.classes],
+[#locale.codecvt]).
+[exit:description]

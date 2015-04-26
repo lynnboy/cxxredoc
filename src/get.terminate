@@ -1,0 +1,18 @@
+﻿[section#get.terminate
+    [:en] [`get_terminate]
+]
+
+[codeblock:declaration]
+terminate_handler get_terminate() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+The current [`terminate_handler].
+
+[enter:note]
+[:en]
+This may be a null pointer value.
+[exit:note]
+[exit:description]

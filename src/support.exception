@@ -1,0 +1,57 @@
+﻿[section#support.exception
+    [:en] Exception handling
+]
+
+[para]
+[:en]
+The header [`<exception>] defines several types and functions related to the
+handling of exceptions in a [=Cpp] program.
+
+[para:synopsis]
+[:en] Header [`<exception>] synopsis
+
+[%[`<exception>][sortas exception]] [%@library <exception>[sortas exception]]
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  class exception;
+  class bad_exception;
+  class nested_exception;
+
+  typedef void (*unexpected_handler)();
+  unexpected_handler get_unexpected() noexcept;
+  unexpected_handler set_unexpected(unexpected_handler f) noexcept;
+  [[noreturn]] void unexpected();
+
+  typedef void (*terminate_handler)();
+  terminate_handler get_terminate() noexcept;
+  terminate_handler set_terminate(terminate_handler f) noexcept;
+  [[noreturn]] void terminate() noexcept;
+
+  bool uncaught_exception() noexcept;
+  int uncaught_exceptions() noexcept;
+
+  typedef unspecified exception_ptr;
+
+  exception_ptr current_exception() noexcept;
+  [[noreturn]] void rethrow_exception(exception_ptr p);
+  template<class E> exception_ptr make_exception_ptr(E e) noexcept;
+
+  template <class T> [[noreturn]] void throw_with_nested(T&& t);
+  template <class E> void rethrow_if_nested(const E& e);
+}
+[codeblock:end]
+
+[para:xref]
+[:en] [#except.special].
+
+[include exception]
+
+[include bad.exception]
+
+[include exception.terminate]
+
+[include uncaught.exceptions]
+
+[include propagation]
+
+[include except.nested]

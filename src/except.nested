@@ -1,0 +1,117 @@
+﻿[section#except.nested
+    [:en] [`nested_exception]
+]
+
+[%@library nested_exception]
+[codeblock:synopsis]
+namespace std {
+  class nested_exception {
+  public:
+    nested_exception() noexcept;
+    nested_exception(const nested_exception&) noexcept = default;
+    nested_exception& operator=(const nested_exception&) noexcept = default;
+    virtual ~nested_exception() = default;
+
+    // [:en] access functions
+    [[noreturn]] void rethrow_nested() const;
+    exception_ptr nested_ptr() const noexcept;
+  };
+
+  template<class T> [[noreturn]] void throw_with_nested(T&& t);
+  template <class E> void rethrow_if_nested(const E& e);
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`nested_exception] is designed for use as a mixin through multiple
+inheritance.
+
+[:en]
+It captures the currently handled exception and stores it for later use.
+
+[para]
+[enter:note]
+[:en]
+[`nested_exception] has a virtual destructor to make it a polymorphic class.
+
+[:en]
+Its presence can be tested for with [`dynamic_cast].
+[exit:note]
+
+[%@library nested_exception[!nested_exception]]
+[%@library nested_exception[!nested_exception]]
+[codeblock:declaration]
+nested_exception() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The constructor calls [`current_exception()] and stores the returned value.
+[exit:description]
+
+[%@library rethrow_nested[!nested_exception]]
+[%@library nested_exception[!rethrow_nested]]
+[codeblock:declaration]
+[[noreturn]] void rethrow_nested() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+If [`nested_ptr()] returns a null pointer, the function calls
+[`std::terminate()].
+
+[:en]
+Otherwise, it throws the stored exception captured by [`*this].
+[exit:description]
+
+[%@library nested_ptr[!nested_exception]]
+[%@library nested_exception[!nested_ptr]]
+[codeblock:declaration]
+exception_ptr nested_ptr() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+The stored exception captured by this [`nested_exception] object.
+[exit:description]
+
+[%@library throw_with_nested[!nested_exception]]
+[%@library nested_exception[!throw_with_nested]]
+[codeblock:declaration]
+template <class T> [[noreturn]] void throw_with_nested(T&& t);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Let [`U] be [`remove_reference_t<T>].
+
+[para:requires]
+[:en]
+[`U] shall be [`CopyConstructible].
+
+[para:throws]
+[:en]
+if [`U] is a non-union class type not derived from [`nested_exception], an
+exception of unspecified type that is publicly derived from both [`U] and
+[`nested_exception] and constructed from [`std::forward<T>(t)], otherwise
+[`std::forward<T>(t)].
+[exit:description]
+
+[%@library rethrow_if_nested[!nested_exception]]
+[%@library nested_exception[!rethrow_if_nested]]
+[codeblock:declaration]
+template <class E> void rethrow_if_nested(const E& e);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+If the dynamic type of [`e] is publicly and unambiguously derived from
+[`nested_exception], calls
+[`dynamic_cast<const nested_exception&>(e).rethrow_nested()].
+[exit:description]

@@ -1,0 +1,376 @@
+﻿[section#support.runtime
+    [:en] Other runtime support
+]
+
+[para]
+[%@library <cstdarg>[sortas cstdarg]]
+[%@library <csetjmp>[sortas csetjmp]]
+[%@library <ctime>[sortas ctime]]
+[%@library <csignal>[sortas csignal]]
+[%@library <cstdlib>[sortas cstdlib]]
+[%@library <cstdbool>[sortas cstdbool]]
+[%@library clock]
+[%@library time]
+[%@library getenv]
+[%@library system]
+[%@library __bool_true_false_are_defined]
+[:en]
+Headers [`<csetjmp>] (nonlocal jumps), [`<csignal>] (signal handling),
+[`<cstdalign>] (alignment), [`<cstdarg>] (variable arguments), [`<cstdbool>]
+([`__bool_true_false_are_defined]).
+
+[:en]
+[`<cstdlib>] (runtime environment [`getenv(), system()]), and [`<ctime>] (system
+clock [`clock(), time()]) provide further compatibility with C code.
+
+[para]
+[%@library <stdarg.h>[sortas stdarg.h]]
+[%@library <setjmp.h>[sortas setjmp.h]]
+[%@library <time.h>[sortas time.h]]
+[%@library <signal.h>[sortas signal.h]]
+[%@library <stdlib.h>[sortas stdlib.h]]
+[%@library <stdbool.h>[sortas stdbool.h]]
+[:en]
+The contents of these headers are the same as the Standard C library headers
+[`<setjmp.h>], [`<signal.h>], [`<stdalign.h>], [`<stdarg.h>], [`<stdbool.h>],
+[`<stdlib.h>], and [`<time.h>], respectively, with the following changes:
+
+[para]
+[:en]
+The restrictions that ISO C places on the second parameter to the
+[%@library va_start] [`va_start()] macro in header
+[%@library <stdarg.h>[sortas stdarg.h]] [`<stdarg.h>]
+are different in this International Standard.
+
+[:en]
+The parameter [`parmN] is the identifier of the rightmost parameter in the
+variable parameter list of the function definition (the one just before the
+[`...]).
+
+[footnote]
+[:en]
+Note that [`va_start] is required to work as specified even if unary
+[`operator&] is overloaded for the type of [`parmN].
+[footnote:end]
+
+[:en]
+If the parameter [`parmN] is of a reference type, or of a type that is not
+compatible with the type that results when passing an argument for which there
+is no parameter, the behavior is undefined.
+
+[para:xref]
+[:en] ISO C 4.8.1.1.
+
+[para]
+[:en]
+The function signature [%@library longjmp] [`longjmp(jmp_buf jbuf, int val)]
+has more restricted behavior in this International Standard.
+
+[:en]
+A [`setjmp]/[`longjmp] call pair has undefined behavior if replacing the
+[`setjmp] and [`longjmp] by [`catch] and [`throw] would invoke any non-trivial
+destructors for any automatic objects.
+
+[para:xref]
+[:en] ISO C 7.10.4, 7.8, 7.6, 7.12.
+
+[para]
+[:en]
+Calls to the function [%@library getenv] [`getenv] shall not introduce a data
+race ([#res.on.data.races]) provided that nothing modifies the environment.
+
+[enter:note]
+[:en]
+Calls to the POSIX functions [%@library setenv] [`setenv] and [%@library putenv]
+[`putenv] modify the environment.
+[exit:note]
+
+[para]
+[:en]
+A call to the [`setlocale] function may introduce a data race with other calls
+to the [`setlocale] function or with calls to functions that are affected by the
+current C locale.
+
+[:en]
+The implementation shall behave as if no library function other than
+[`locale::global()] calls the [`setlocale] function.
+
+[para]
+[%@library <cstdalign>[sortas cstdalign]]
+[%@library <stdalign.h>[sortas stdalign.h]]
+[:en]
+The header [`<cstdalign>] and the header [`<stdalign.h>] shall not define a
+macro named [`alignas].
+
+[para]
+[%@library <cstdbool>[sortas cstdbool]]
+[%@library <stdbool.h>[sortas stdbool.h]]
+The header [`<cstdbool>] and the header [`<stdbool.h>] shall not define macros
+named [`bool], [`true], or [`false].
+
+[para]
+[:en]
+A call to the function [`signal] synchronizes with any resulting invocation of
+the signal handler so installed.
+
+[para]
+[:en]
+The common subset of the C and [=Cpp] languages consists of all declarations,
+definitions, and expressions that may appear in a well formed [=Cpp] program
+and also in a conforming C program.
+
+[:en]
+A [%POF] [%function[!plain old]] POF (["plain old function]) is a function that
+uses only features from this common subset, and that does not directly or
+indirectly use any function that is not a POF, except that it may use plain
+lock-free atomic operations.
+
+[:en]
+A [+plain lock-free atomic operation] is an invocation of a function [$f] from
+Clause [#atomics], such that [$f] is not a member function, and either [$f] is
+the function [`atomic_is_lock_free], or for every atomic argument [`A] passed to
+[$f], [`atomic_is_lock_free(A)] yields [`true].
+
+[:en]
+All signal handlers shall have C linkage.
+
+[:en]
+The behavior of any function other than a POF used as a signal handler in a
+[=Cpp] program is [%@impldef use of non-POF function as signal handler]
+implementation-defined.
+
+[footnote]
+[:en]
+In particular, a signal handler using exception handling is very likely to have
+problems.
+
+[:en]
+Also, invoking [`std::exit] may cause destruction of objects, including those of
+the standard library implementation, which, in general, yields undefined
+behavior in a signal handler (see [#intro.execution]).
+[footnote:end]
+
+[%@library <csetjmp>[sortas csetjmp]]
+[%@library setjmp]
+[%@library jmp_buf]
+[%@library longjmp]
+
+[table:listing#tab:support.hdr.csetjmp
+    [:en] Header [`<csetjmp>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] setjmp
+
+[-]
+[|] [=Type]
+
+[|] jmp_buf
+
+[-]
+[|] [=Function]
+
+[|] longjmp
+[table:end]
+
+[%@library <csignal>[sortas csignal]]
+[%@library SIG_IGN]
+[%@library SIGABRT]
+[%@library SIGFPE]
+[%@library sig_atomic_t]
+[%@library raise]
+[%@library SIGILL]
+[%@library SIGINT]
+[%@library signal]
+[%@library SIGSEGV]
+[%@library SIGTERM]
+[%@library SIG_DFL]
+[%@library SIG_ERR]
+[table:listing#tab:support.hdr.csignal
+    [:en] Header [`<csignal>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] SIG_IGN
+[|] SIGABRT
+[|] SIGFPE
+[|] SIGILL
+[|] SIGINT
+[|] SIGSEGV
+[|] SIGTERM
+[|] SIG_DFL
+[|] SIG_ERR
+
+[-]
+[|] [=Type]
+
+[|] sig_atomic_t
+
+[-]
+[|] [=Functions]
+
+[|] raise
+[|] signal
+
+[table:end]
+
+[%@library <cstdalign>[sortas cstdalign]]
+[%@library __alignas_is_defined]
+[table:listing#tab:support.hdr.cstdalign
+    [:en] Header [`<cstdalign>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] __alignas_is_defined
+
+[table:end]
+
+[%@library <cstdarg>[sortas cstdarg]]
+[%@library va_arg]
+[%@library va_end]
+[%@library va_start]
+[%@library va_copy]
+[%@library va_list]
+[table:listing#tab:support.hdr.cstdalign
+    [:en] Header [`<cstdalign>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] va_arg
+[|] va_copy
+[|] va_end
+[|] va_start
+
+[-]
+[|] [=Type]
+
+[|] va_list
+[table:end]
+
+[%@library <cstdbool>[sortas cstdbool]]
+[%@library __bool_true_false_are_defined]
+[table:listing#tab:support.hdr.cstdbool
+    [:en] Header [`<cstdbool>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] __bool_true_false_are_defined
+[table:end]
+
+[%@library <cstdlib>[sortas cstdlib]]
+[%@library getenv]
+[%@library system]
+[table:listing#tab:support.hdr.cstdbool
+    [:en] Header [`<cstdbool>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Functions]
+
+[|] getenv
+[|] system
+[table:end]
+
+[%@library <ctime>[sortas ctime]]
+[%@library CLOCKS_PER_SEC]
+[%@library clock_t]
+[%@library clock]
+[table:listing#tab:support.hdr.ctime
+    [:en] Header [`<ctime>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] CLOCKS_PER_SEC
+
+[-]
+[|] [=Type]
+
+[|] clock_t
+
+[-]
+[|] [=Function]
+
+[|] clock
+
+[table:end]

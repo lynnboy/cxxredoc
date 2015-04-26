@@ -1,0 +1,43 @@
+﻿[section#round.style
+    [:en] Type [`float_round_style]
+]
+
+[%@library float_round_style]
+[codeblock:synopsis]
+namespace std {
+  enum float_round_style {
+    round_indeterminate       = -1,
+    round_toward_zero         =  0,
+    round_to_nearest          =  1,
+    round_toward_infinity     =  2,
+    round_toward_neg_infinity =  3
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The rounding mode for floating point arithmetic is characterized by the values:
+
+[list]
+[item]
+[%@library round_indeterminate]
+[:en]
+[`round_indeterminate] if the rounding style is indeterminable
+[item]
+[%@library round_toward_zero]
+[:en]
+[`round_toward_zero] if the rounding style is toward zero
+[item]
+[%@library round_to_nearest]
+[:en]
+[`round_to_nearest] if the rounding style is to the nearest representable value
+[item]
+[%@library round_toward_infinity]
+[:en]
+[`round_toward_infinity] if the rounding style is toward infinity
+[item]
+[%@library round_toward_neg_infinity]
+[:en]
+[`round_toward_neg_infinity] if the rounding style is toward negative infinity
+[list:end]

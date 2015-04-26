@@ -1,0 +1,22 @@
+﻿[section#set.new.handler
+    [:en] [`set_new_handler]
+]
+
+[%@library set_new_handler]
+[codeblock:declaration]
+new_handler set_new_handler(new_handler new_p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Establishes the function designated by [`new_p] as the current [`new_handler].
+
+[para:returns]
+[:en]
+The previous [`new_handler].
+
+[para:remarks]
+[:en]
+The initial [`new_handler] is a null pointer.
+[exit:description]

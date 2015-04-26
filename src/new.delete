@@ -1,0 +1,16 @@
+﻿[section#new.delete
+    [:en] Storage allocation and deallocation
+]
+
+[para]
+[:en]
+Except where otherwise specified, the provisions of ([#basic.stc.dynamic])
+apply to the library versions of [`operator new] and [`operator delete].
+
+[include new.delete.single]
+
+[include new.delete.array]
+
+[include new.delete.placement]
+
+[include new.delete.dataraces]

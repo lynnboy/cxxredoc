@@ -1,0 +1,176 @@
+﻿[section#c.limits
+    [:en] C library
+]
+
+[para]
+[:en]
+Table [#tab:support.hdr.climits] describes the header [`<climits>].
+
+[%@library CHAR_BIT]
+[%@library INT_MAX]
+[%@library LONG_MAX]
+[%@library SCHAR_MIN]
+[%@library SHRT_MIN]
+[%@library ULLONG_MAX]
+[%@library CHAR_MAX]
+[%@library LLONG_MAX]
+[%@library LONG_MAX]
+[%@library SCHAR_MAX]
+[%@library UCHAR_MAX]
+[%@library ULLONG_MAX]
+[%@library CHAR_MAX]
+[%@library LLONG_MIN]
+[%@library MB_LEN_MAX]
+[%@library SHRT_MAX]
+[%@library UINT_MAX]
+[%@library USHRT_MAX]
+[%@library INT_MIN]
+
+[table:listing#tab:support.hdr.climits
+    [:en] Header [`<climits>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@colspan=all] [=Values]
+
+[|] CHAR_BIT
+[|] CHAR_MAX
+[|] CHAR_MIN
+[|] INT_MIN
+[|] INT_MAX
+[|] LLONG_MAX
+[|] LLONG_MIN
+[|] LONG_MAX
+[|] LONG_MIN
+[|] MB_LEN_MAX
+[|] SCHAR_MAX
+[|] SCHAR_MIN
+[|] SHRT_MIN
+[|] SHRT_MAX
+[|] UCHAR_MAX
+[|] UINT_MAX
+[|] ULLONG_MAX
+[|] ULONG_MAX
+[|] USHRT_MAX
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<limits.h>].
+
+[enter:note]
+[:en]
+The types of the constants defined by macros in [`<climits>] are not required to
+match the types to which the macros refer.
+[exit:note]
+
+[para]
+[:en]
+Table [#tab:support.hdr.cfloat] describes the header [`<cfloat>].
+
+[%@library DBL_DIG]
+[%@library DBL_MIN_EXP]
+[%@library FLT_MAX_EXP]
+[%@library LDBL_MANT_DIG]
+[%@library DBL_EPSILON]
+[%@library DECIMAL_DIG]
+[%@library FLT_MIN]
+[%@library LDBL_MAX_10_EXP]
+[%@library DBL_MANT_DIG]
+[%@library FLT_DIG]
+[%@library FLT_MIN_10_EXP]
+[%@library LDBL_MAX_EXP]
+[%@library DBL_MAX]
+[%@library FLT_EPSILON]
+[%@library FLT_MIN_EXP]
+[%@library LDBL_MAX]
+[%@library DBL_MAX_10_EXP]
+[%@library FLT_EVAL_METHOD]
+[%@library FLT_RADIX]
+[%@library LDBL_MIN]
+[%@library DBL_MAX_EXP]
+[%@library FLT_MANT_DIG]
+[%@library FLT_ROUNDS]
+[%@library LDBL_MIN_10_EXP]
+[%@library DBL_MIN]
+[%@library FLT_MAX]
+[%@library LDBL_DIG]
+[%@library LDBL_MIN_EXP]
+[%@library DBL_MIN_10_EXP]
+[%@library FLT_MAX_10_EXP]
+[%@library LDBL_EPSILON]
+
+[table:listing#tab:support.hdr.cfloat
+    [:en] Header [`<cfloat>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@colspan=all] [=Values]
+
+[|] DBL_DIG
+[|] DBL_EPSILON
+[|] DBL_MANT_DIG
+[|] DBL_MAX
+[|] DBL_MAX_10_EXP
+[|] DBL_MAX_EXP
+[|] DBL_MIN
+[|] DBL_MIN_10_EXP
+
+[|] DBL_MIN_EXP
+[|] DECIMAL_DIG
+[|] FLT_DIG
+[|] FLT_EPSILON
+[|] FLT_EVAL_METHOD
+[|] FLT_MANT_DIG
+[|] FLT_MAX
+[|] FLT_MAX_10_EXP
+
+[|] FLT_MAX_EXP
+[|] FLT_MIN
+[|] FLT_MIN_10_EXP
+[|] FLT_MIN_EXP
+[|] FLT_RADIX
+[|] FLT_ROUNDS
+[|] LDBL_DIG
+[|] LDBL_EPSILON
+
+[|] LDBL_MANT_DIG
+[|] LDBL_MAX_10_EXP
+[|] LDBL_MAX_EXP
+[|] LDBL_MAX
+[|] LDBL_MIN
+[|] LDBL_MIN_10_EXP
+[|] LDBL_MIN_EXP
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<float.h>].
+
+[para:xref]
+[:en]
+ISO C 7.1.5, 5.2.4.2.2, 5.2.4.2.1.

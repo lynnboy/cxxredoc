@@ -1,0 +1,261 @@
+﻿[section#new.delete.single
+    [:en] Single-object forms
+]
+
+[%@library new[!operator]]
+[codeblock:declaration]
+void* operator new(std::size_t size);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The [+allocation function] ([#basic.stc.dynamic.allocation]) called by a
+[~new-expression] ([#expr.new]) to allocate [`size] bytes of storage suitably
+aligned to represent any object of that size.
+
+[para:replaceable]
+[:en]
+a [=Cpp] program may define a function with this function signature that
+displaces the default version defined by the [=Cpp] standard library.
+
+[para:required]
+[:en]
+Return a non-null pointer to suitably aligned storage ([#basic.stc.dynamic]),
+or else throw a [`bad_alloc] [%@library bad_alloc] exception.
+
+[:en]
+This requirement is binding on a replacement version of this function.
+
+[para:default]
+
+[list]
+[item]
+[:en]
+Executes a loop:
+
+[:en]
+Within the loop, the function first attempts to allocate the requested storage.
+
+[:en]
+Whether the attempt involves a call to the Standard C library function [`malloc]
+is unspecified.
+[%unspecified]
+
+[item]
+[:en]
+Returns a pointer to the allocated storage if the attempt is successful.
+
+[:en]
+Otherwise, if the current [`new_handler] ([#get.new.handler]) is a null pointer
+value, throws [`bad_alloc].
+
+[item]
+[:en]
+Otherwise, the function calls the current [`new_handler] function
+([#new.handler]).
+
+[:en]
+If the called function returns, the loop repeats.
+
+[item]
+[:en]
+The loop terminates when an attempt to allocate the requested storage is
+successful or when a called [`new_handler] function does not return.
+[list:end]
+[exit:description]
+
+[%@library new[!operator]]
+[codeblock:declaration]
+void* operator new(std::size_t size, const std::nothrow_t&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Same as above, except that it is called by a placement version of a
+[~new-expression] when a [=Cpp] program prefers a null pointer result as an
+error indication, instead of a [`bad_alloc] exception.
+
+[para:replaceable]
+[:en]
+a [=Cpp] program may define a function with this function signature that
+displaces the default version defined by the [=Cpp] standard library.
+
+[para:required]
+[:en]
+Return a non-null pointer to suitably aligned storage ([#basic.stc.dynamic]),
+or else return a null pointer.
+
+[:en]
+This nothrow version of [`operator new] returns a pointer obtained as if
+acquired from the (possibly replaced) ordinary version.
+
+[:en]
+This requirement is binding on a replacement version of this function.
+
+[para:default]
+[:en]
+Calls [`operator new(size)].
+
+[:en]
+If the call returns normally, returns the result of that call.
+
+[:en]
+Otherwise, returns a null pointer.
+
+[para]
+[enter:example]
+[codeblock]
+T* p1 = new T;                  // [:en] throws [`bad_alloc] if it fails
+T* p2 = new(nothrow) T;         // [:en] returns [`nullptr] if it fails
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library delete[!operator]]
+[codeblock:declaration]
+void operator delete(void* ptr) noexcept;
+void operator delete(void* ptr, std::size_t size) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by a
+[~delete-expression] to render the value of [`ptr] invalid.
+
+[para:replaceable]
+[:en]
+a [=Cpp] program may define a function with signature [`void operator
+delete(void* ptr) noexcept] that displaces the default version defined by the
+[=Cpp] standard library.
+
+[:en]
+If this function (without [`size] parameter) is defined, the program should also
+define [`void operator delete(void* ptr, std::size_t size) noexcept].
+
+[:en]
+If this function with [`size] parameter is defined, the program shall also
+define the version without the [`size] parameter.
+
+[enter:note]
+[:en]
+The default behavior below may change in the future, which will require
+replacing both deallocation functions when replacing the allocation function.
+[exit:note]
+
+[para:requires]
+[:en]
+[$ptr] shall be a null pointer or its value shall be a value returned by an
+earlier call to the (possibly replaced) [`operator new(std::size_t)] or
+[`operator new(std::size_t,const std::nothrow_t&)] which has not been
+invalidated by an intervening call to [`operator delete(void*)].
+
+[para:requires]
+[:en]
+If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
+then [`ptr] shall be a safely-derived pointer.
+
+[para:requires]
+[:en]
+If present, the [`std::size_t size] argument shall equal the size argument
+passed to the allocation function that returned [`ptr].
+
+[para:required]
+[:en]
+Calls to [`operator delete(void* ptr, std::size_t size)] may be changed to calls
+to [`operator delete(void* ptr)] without affecting memory allocation.
+
+[enter:note]
+[:en]
+A conforming implementation is for [`operator delete(void* ptr, std::size_t
+size)] to simply call [`operator delete(ptr)].
+[exit:note]
+
+[para:default]
+[:en]
+the function [`operator delete(void* ptr, std::size_t size)] calls [`operator
+delete(ptr)].
+
+[enter:note]
+[:en]
+See the note in the above [=Replaceable] paragraph.
+[exit:note]
+
+[para:default]
+[:en]
+If [`ptr] is null, does nothing. Otherwise, reclaims the storage allocated by
+the earlier call to [`operator new].
+
+[para:notes]
+[:en]
+It is unspecified under what conditions part or all of such [%unspecified]
+reclaimed storage will be allocated by subsequent calls to [`operator new]
+or any of [`calloc], [`malloc], or [`realloc], declared in [`<cstdlib>].
+[exit:description]
+
+[%@library delete[!operator]]
+[codeblock:declaration]
+void operator delete(void* ptr, const std::nothrow_t&) noexcept;
+void operator delete(void* ptr, std::size_t size, const std::nothrow_t&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by the
+implementation to render the value of [`ptr] invalid when the constructor
+invoked from a nothrow placement version of the [~new-expression] throws an
+exception.
+
+[para:replaceable]
+[:en]
+a [=Cpp] program may define a function with signature [`void operator
+delete(void* ptr, const std::nothrow_t&) noexcept] that displaces the default
+version defined by the [=Cpp] standard library.
+
+[:en]
+If this function (without [`size] parameter) is defined, the program should also
+define [`void operator delete(void* ptr, std::size_t size, const
+std::nothrow_t&) noexcept].
+
+[:en]
+If this function with [`size] parameter is defined, the program shall also
+define the version without the [`size] parameter.
+
+[enter:note]
+[:en]
+The default behavior below may change in the future, which will require
+replacing both deallocation functions when replacing the allocation function.
+[exit:note]
+
+[para:requires]
+[:en]
+If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
+then [`ptr] shall be a safely-derived pointer.
+
+[para:requires]
+[:en]
+If present, the [`std::size_t size] argument must equal the size argument passed
+to the allocation function that returned [`ptr].
+
+[para:required]
+[:en]
+Calls to [`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)]
+may be changed to calls to [`operator delete(void* ptr, const std::nothrow_t&)]
+without affecting memory allocation.
+
+[enter:note]
+[:en]
+A conforming implementation is for [`operator delete(void* ptr, std::size_t
+size, const std::nothrow_t&)] to simply call [`operator delete(void* ptr, const
+std::nothrow_t&)].
+[exit:note]
+
+[para:default]
+[:en]
+[`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)] calls
+[`operator delete(ptr, std::nothrow)], and [`operator delete(void* ptr, const
+std::nothrow_t&)] calls [`operator delete(ptr)].
+[exit:description]

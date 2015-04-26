@@ -1,0 +1,141 @@
+﻿[section#propagation
+    [:en] Exception propagation
+]
+
+[%@library exception_ptr]
+[codeblock:declaration [special unspecified] ]
+typedef unspecified exception_ptr;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The type exception_ptr can be used to refer to an exception object.
+
+[para]
+[:en]
+[`exception_ptr] shall satisfy the requirements of [`NullablePointer]
+([#nullablepointer.requirements]).
+
+[para]
+[:en]
+Two non-null values of type [`exception_ptr] are equivalent and compare equal if
+and only if they refer to the same exception.
+
+[para]
+[:en]
+The default constructor of [`exception_ptr] produces the null value of the type.
+
+[para]
+[:en]
+[`exception_ptr] shall not be implicitly convertible to any arithmetic,
+enumeration, or pointer type.
+
+[para]
+[enter:note]
+[:en]
+An implementation might use a reference-counted smart pointer as
+[`exception_ptr].
+[exit:note]
+
+[para]
+[:en]
+For purposes of determining the presence of a data race, operations on
+[`exception_ptr] objects shall access and modify only the [`exception_ptr]
+objects themselves and not the exceptions they refer to.
+
+[:en]
+Use of [`rethrow_exception] on [`exception_ptr] objects that refer to the same
+exception object shall not introduce a data race.
+
+[enter:note]
+if [`rethrow_exception] rethrows the same exception object (rather than a copy),
+concurrent access to that rethrown exception object may introduce a data race.
+
+[:en]
+Changes in the number of [`exception_ptr] objects that refer to a particular
+exception do not introduce a data race.
+[exit:note]
+[exit:description]
+
+[%@library current_exception]
+[codeblock:declaration]
+exception_ptr current_exception() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+An [`exception_ptr] object that refers to the currently handled exception
+([#except.handle]) or a copy of the currently handled exception, or a null
+[`exception_ptr] object if no exception is being handled.
+
+[:en]
+The referenced object shall remain valid at least as long as there is an
+[`exception_ptr] object that refers to it.
+
+[:en]
+If the function needs to allocate memory and the attempt fails, it returns an
+[`exception_ptr] object that refers to an instance of [`bad_alloc].
+
+[:en]
+It is unspecified whether the return values of two successive calls to
+[`current_exception] refer to the same exception object.
+
+[enter:note]
+[:en]
+That is, it is unspecified whether [`current_exception] creates a new copy each
+time it is called.
+[exit:note]
+
+[:en]
+If the attempt to copy the current exception object throws an exception, the
+function returns an [`exception_ptr] object that refers to the thrown exception
+or, if this is not possible, to an instance of [`bad_exception].
+
+[enter:note]
+[:en]
+The copy constructor of the thrown exception may also fail, so the
+implementation is allowed to substitute a [`bad_exception] object to avoid
+infinite recursion.
+[exit:note]
+[exit:description]
+
+[%@library rethrow_exception]
+[codeblock:declaration]
+[[noreturn]] void rethrow_exception(exception_ptr p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en]
+[`p] shall not be a null pointer.
+
+[para:throws]
+[:en]
+the exception object to which [`p] refers.
+[exit:description]
+
+[%@library make_exception_ptr]
+[codeblock:declaration]
+template<class E> exception_ptr make_exception_ptr(E e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Creates an [`exception_ptr] object that refers to a copy of [`e], as if
+[codeblock]
+try {
+  throw e;
+} catch(...) {
+  return current_exception();
+}
+[codeblock:end]
+
+[para]
+[enter:note]
+[:en]
+This function is provided for convenience and efficiency reasons.
+[exit:note]
+[exit:description]

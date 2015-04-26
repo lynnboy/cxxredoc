@@ -1,0 +1,99 @@
+﻿[section#exception
+    [:en] Class [`exception]
+]
+
+[%@library exception]
+[codeblock:synopsis]
+namespace std {
+  class exception {
+  public:
+    exception() noexcept;
+    exception(const exception&) noexcept;
+    exception& operator=(const exception&) noexcept;
+    virtual ~exception();
+    virtual const char* what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`exception] defines the base class for the types of objects thrown as
+exceptions by [=Cpp] standard library components, and certain expressions, to
+report errors detected during program execution.
+
+[para]
+[:en]
+Each standard library class [`T] that derives from class [`exception] shall have
+a publicly accessible copy constructor and a publicly accessible copy assignment
+operator that do not exit with an exception.
+
+[:en]
+These member functions shall meet the following postcondition:
+
+[:en]
+If two objects [`lhs] and [`rhs] both have dynamic type [`T] and [`lhs] is a
+copy of [`rhs], then [`strcmp(lhs.what(), rhs.what())] shall equal 0.
+
+[%@library exception[!constructor]]
+[codeblock:declaration]
+exception() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Constructs an object of class [`exception].
+[exit:description]
+
+[%@library operator=[!exception]]
+[codeblock:declaration]
+exception(const exception& rhs) noexcept;
+exception& operator=(const exception& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Copies an [`exception] object.
+
+[para:postcondition]
+[:en]
+If [`*this] and [`rhs] both have dynamic type [`exception] then [`strcmp(what(),
+rhs.what())] shall equal 0.
+[exit:description]
+
+[%[:en] implementation-defined]
+[%@library exception[!destructor]]
+[codeblock:declaration]
+virtual ~exception();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Destroys an object of class [`exception].
+[exit:description]
+
+[%@library what[!exception]]
+[codeblock:declaration]
+virtual const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[%[`exception::what] message[!implementation-defined]]
+An [%@impldef result of [`exception::what]] implementation-defined [em@sc ntbs].
+
+[para:notes]
+[:en]
+The message may be a null-terminated multibyte string ([#multibyte.strings]),
+suitable for conversion and display as a [`wstring] ([#string.classes],
+[#locale.codecvt]).
+
+[:en]
+The return value remains valid until the exception object from which it is
+obtained is destroyed or a non-[`const] member function of the exception object
+is called.
+[exit:description]

@@ -1,0 +1,110 @@
+﻿[section#cstdint.syn
+    [:en] Header [`<cstdint>] synopsis
+]
+
+[%[`<cstdint>] [sortas cstdint]]
+[%@library <cstdint> [sortas cstdint]]
+
+[%@library int8_t]
+[%@library int16_t]
+[%@library int32_t]
+[%@library int64_t]
+[%@library int_fast8_t]
+[%@library int_fast16_t]
+[%@library int_fast32_t]
+[%@library int_fast64_t]
+[%@library int_least8_t]
+[%@library int_least16_t]
+[%@library int_least32_t]
+[%@library int_least64_t]
+[%@library intmax_t]
+[%@library intptr_t]
+[%@library uint8_t]
+[%@library uint16_t]
+[%@library uint32_t]
+[%@library uint64_t]
+[%@library uint_fast8_t]
+[%@library uint_fast16_t]
+[%@library uint_fast32_t]
+[%@library uint_fast64_t]
+[%@library uint_least8_t]
+[%@library uint_least16_t]
+[%@library uint_least32_t]
+[%@library uint_least64_t]
+[%@library uintmax_t]
+[%@library uintptr_t]
+
+[codeblock:synopsis [special signed unsigned integer type] ]
+namespace std {
+  typedef signed integer type int8_t;   // [:en] optional
+  typedef signed integer type int16_t;  // [:en] optional
+  typedef signed integer type int32_t;  // [:en] optional
+  typedef signed integer type int64_t;  // [:en] optional
+
+  typedef signed integer type int_fast8_t;
+  typedef signed integer type int_fast16_t;
+  typedef signed integer type int_fast32_t;
+  typedef signed integer type int_fast64_t;
+
+  typedef signed integer type int_least8_t;
+  typedef signed integer type int_least16_t;
+  typedef signed integer type int_least32_t;
+  typedef signed integer type int_least64_t;
+
+  typedef signed integer type intmax_t;
+  typedef signed integer type intptr_t;         // [:en] optional
+
+  typedef unsigned integer type uint8_t;        // [:en] optional
+  typedef unsigned integer type uint16_t;       // [:en] optional
+  typedef unsigned integer type uint32_t;       // [:en] optional
+  typedef unsigned integer type uint64_t;       // [:en] optional
+
+  typedef unsigned integer type uint_fast8_t;
+  typedef unsigned integer type uint_fast16_t;
+  typedef unsigned integer type uint_fast32_t;
+  typedef unsigned integer type uint_fast64_t;
+
+  typedef unsigned integer type uint_least8_t;
+  typedef unsigned integer type uint_least16_t;
+  typedef unsigned integer type uint_least32_t;
+  typedef unsigned integer type uint_least64_t;
+
+  typedef unsigned integer type uintmax_t;
+  typedef unsigned integer type uintptr_t;      // [:en] optional
+} // namespace std
+[codeblock:end]
+
+[para]
+[:en]
+The header also defines numerous macros of the form:
+
+[codeblock:synopsis]
+  INT_[FAST LEAST]{8 16 32 64}_MIN
+  [U]INT_[FAST LEAST]{8 16 32 64}_MAX
+  INT{MAX PTR}_MIN
+  [U]INT{MAX PTR}_MAX
+  {PTRDIFF SIG_ATOMIC WCHAR WINT}{_MAX _MIN}
+  SIZE_MAX
+[codeblock:end]
+
+[:en@~]
+plus function macros of the form:
+
+[codeblock:synopsis]
+  [U]INT{8 16 32 64 MAX}_C
+[codeblock:end]
+
+[para]
+[:en]
+The header defines all functions, types, and macros the same as 7.18 in the C
+standard.
+
+[enter:note]
+[:en]
+The macros defined by [`<cstdint>] are provided unconditionally.
+
+[:en]
+In particular, the symbols [`__STDC_LIMIT_MACROS] and [`__STDC_CONSTANT_MACROS]
+(mentioned in footnotes 219, 220, and 222 in the C standard) play no role in
+[=Cpp].
+[exit:note]

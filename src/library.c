@@ -5,7 +5,7 @@
 [para]
 [:en]
 The [=Cpp] standard library also makes available the facilities of the C
-standard library, [%library[!C standard]] suitably adjusted to ensure static
+standard library, [%@library[!C standard]] suitably adjusted to ensure static
 type safety.
 
 [para]

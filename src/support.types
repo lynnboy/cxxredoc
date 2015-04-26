@@ -1,0 +1,136 @@
+﻿[section#support.types
+    [:en] Types
+]
+
+[para]
+[:en]
+Table [#tab:support.hdr.cstddef] describes the header [`<cstddef>].
+
+[%@library NULL]
+[%@library offsetof]
+[%@library ptrdiff_t]
+[%@library size_t]
+[%@library max_align_t]
+[%@library nullptr_t]
+
+[table:grid#tab:support.hdr.cstddef
+    [:en] Header [`<cstddef>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macros]
+[|] NULL
+[|] offsetof
+
+[-]
+[|@rowspan=2] [=Types]
+[|] ptrdiff_t
+[|] size_t
+[|] max_align_t
+[|] nullptr_t
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<stddef.h>], with
+the following changes:
+
+[para]
+[:en]
+The macro [%@library NULL] [`NULL] is an implementation-defined [=Cpp] null
+pointer constant in [%implementation-defined] this International Standard
+([#conv.ptr]).
+
+[footnote]
+[:en]
+Possible definitions include [`0] and [`0L], but not [`(void*)0].
+[footnote:end]
+
+[para]
+[:en]
+The macro [%@library offsetof] [`offsetof]([$type],[$member-designator]) accepts
+a restricted set of [$type] arguments in this International Standard.
+
+[:en]
+If [$type] is not a standard-layout class (Clause [#class]), the results are
+undefined.
+
+[footnote]
+[:en]
+Note that [`offsetof] is required to work as specified even if unary
+[`operator&] is overloaded for any of the types involved.
+[footnote:end]
+
+[:en]
+The expression [`offsetof]([$type], [$member-designator]) is never
+type-dependent ([#temp.dep.expr]) and it is value-dependent
+([#temp.dep.constexpr]) if and only if [$type] is dependent.
+
+[:en]
+The result of applying the [`offsetof] macro to a field that is a static data
+member or a function member is undefined.
+
+[:en]
+No operation invoked by the [`offsetof] macro shall throw an exception and
+[`noexcept(offsetof(type, member-designator))] shall be [`true].
+
+[para]
+[:en]
+The type [`ptrdiff_t] is an [%@impldef type of [`ptrdiff_t]]
+implementationd-defined signed integer type that can hold the difference of two
+subscripts in an array object, as described in [#expr.add].
+
+[para]
+[:en]
+The type [`size_t] is an [%@impldef type of [`size_t]] implementation-defined
+unsigned integer type that is large enough to contain the size in bytes of any
+object.
+
+[para]
+[:en]
+[enter:note]
+It is recommended that implementations choose types for [`ptrdiff_t] and
+[`size_t] whose integer conversion ranks ([#conv.rank]) are no greater than that
+of [`signed long int] unless a larger size is necessary to contain all the
+possible values.
+[exit:note]
+
+[para]
+[:en]
+The type [%@library max_align_t] [`max_align_t] is a POD type whose alignment
+requirement is at least as great as that of every scalar type, and whose
+alignment requirement is supported in every context.
+
+[para]
+[:en]
+[%@library nullptr_t] [`nullptr_t] is defined as follows:
+
+[codeblock]
+namespace std {
+  typedef decltype(nullptr) nullptr_t;
+}
+[codeblock:end]
+
+[:en]
+The type for which [`nullptr_t] is a synonym has the characteristics described
+in [#basic.fundamental] and [#conv.ptr].
+
+[enter:note]
+[:en]
+Although [`nullptr][=']s address cannot be taken, the address of another
+[`nullptr_t] object that is an lvalue can be taken.
+[exit:note]
+
+[para:xref]
+[:en]
+Alignment ([#basic.align]), Sizeof ([#expr.sizeof]), Additive operators
+([#expr.add]), Free store ([#class.free]), and ISO C 7.1.6.

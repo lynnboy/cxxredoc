@@ -1,0 +1,24 @@
+﻿[section#set.terminate
+    [:en] [`set_terminate]
+]
+
+[%@library set_terminate]
+[codeblock:declaration]
+terminate_handler set_terminate(terminate_handler f) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Establishes the function designated by [`f] as the current handler function for
+terminating exception processing.
+
+[para:remarks]
+[:en]
+It is unspecified whether a null pointer value designates the default
+[`terminate_handler].
+
+[para:returns]
+[:en]
+The previous [`terminate_handler].
+[exit:description]

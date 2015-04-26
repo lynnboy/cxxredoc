@@ -1,0 +1,25 @@
+﻿[section#support.initlist.range
+    [:en] Initializer list range access
+]
+
+[%@library begin(initializer_list<E>)]
+[codeblock:declaration]
+template<class E> constexpr const E* begin(initializer_list<E> il) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[`il.begin()].
+[exit:description]
+
+[%@library end(initializer_list<E>)]
+[codeblock:declaration]
+template<class E> constexpr const E* end(initializer_list<E> il) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[`il.end()].
+[exit:description]

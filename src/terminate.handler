@@ -1,0 +1,25 @@
+﻿[section#terminate.handler
+    [:en] Type [`terminate_handler]
+]
+
+[%@library terminate_handler]
+[codeblock:declaration]
+typedef void (*terminate_handler)();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The type of a [+handler function] to be called by [`std::terminate()]
+[%@library terminate] when terminating exception processing.
+
+[para:required]
+[:en]
+A [`terminate_handler] shall terminate execution of the program without
+returning to the caller.
+
+[para:default]
+[:en]
+The implementation[=']s default [`terminate_handler] calls
+[%@library abort] [`abort()].
+[exit:description]

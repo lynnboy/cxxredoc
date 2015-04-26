@@ -1,0 +1,71 @@
+﻿[section#support.initlist
+    [:en] Initializer lists
+]
+
+[%[`<initializer_list>][sortas initializer_list]]
+[%@library <initializer_list>[sortas initializer_list]]
+[para]
+[:en]
+The header [`<initializer_list>] defines a class template and several support
+functions related to list-initialization (see [#dcl.init.list]).
+
+[para:synopsis]
+[:en]
+Header [`<initializer_list>] synopsis
+
+[%@library initializer_list]
+[%@library begin]
+[%@library end]
+[codeblock:synopsis]
+namespace std {
+  template<class E> class initializer_list {
+  public:
+    typedef E value_type;
+    typedef const E& reference;
+    typedef const E& const_reference;
+    typedef size_t size_type;
+
+    typedef const E* iterator;
+    typedef const E* const_iterator;
+
+    constexpr initializer_list() noexcept;
+
+    constexpr size_t size() const noexcept;      // number of elements
+    constexpr const E* begin() const noexcept;   // first element
+    constexpr const E* end() const noexcept;     // one past the last element
+  };
+
+  // [:en] [#support.initlist.range] initializer list range access
+  template<class E> constexpr const E* begin(initializer_list<E> il) noexcept;
+  template<class E> constexpr const E* end(initializer_list<E> il) noexcept;
+}
+[codeblock:end]
+
+[para]
+[:en]
+An object of type [`initializer_list<E>] provides access to an array of objects
+of type [`const E].
+
+[enter:note]
+[:en]
+A pair of pointers or a pointer plus a length would be obvious representations
+for [`initializer_list].
+
+[:en]
+[`initializer_list] is used to implement initializer lists as specified
+in [#dcl.init.list].
+
+[:en]
+Copying an initializer list does not copy the underlying elements.
+[exit:note]
+
+[para]
+[:en]
+If an explicit specialization or partial specialization of [`initializer_list]
+is declared, the program is ill-formed.
+
+[include support.initlist.cons]
+
+[include support.initlist.access]
+
+[include support.initlist.range]

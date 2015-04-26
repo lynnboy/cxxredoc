@@ -1,0 +1,32 @@
+﻿[section#new.handler
+    [:en] Type [`new_handler]
+]
+
+[%@library new_handler]
+[codeblock:declaration]
+typedef void (*new_handler)();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The type of a [+handler function] to be called by [`operator new()] or
+[`operator new[`]()] ([#new.delete]) when they cannot satisfy a request for
+additional storage.
+
+[para:required]
+[:en]
+A [`new_handler] shall perform one of the following:
+
+[list]
+[item]
+[:en] make more storage available for allocation and then return;
+[item]
+[:en] throw an exception of type [`bad_alloc] or a class derived from
+[%@library bad_alloc] [`bad_alloc];
+[item]
+[:en] terminate execution of the program without returning to the caller;
+[%@library abort]
+[%@library exit]
+[list:end]
+[exit:description]

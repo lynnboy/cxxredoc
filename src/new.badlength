@@ -1,0 +1,36 @@
+﻿[section#new.badlength
+[%@library bad_array_new_length]
+    [:en] Class [`bad_array_new_length]
+]
+
+[codeblock:synopsis]
+namespace std {
+  class bad_array_new_length : public bad_alloc {
+  public:
+    bad_array_new_length() noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`bad_array_new_length] defines the type of objects thrown as
+exceptions by the implementation to report an attempt to allocate an array of
+size less than zero or greater than an implementation-defined limit
+([#expr.new]).
+
+[%@library bad_array_new_length[!bad_array_new_length]]
+[codeblock:declaration]
+bad_array_new_length() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+constructs an object of class [`bad_array_new_length].
+
+[para:remarks]
+[:en]
+the result of calling [`what()] on the newly constructed object is
+implementation-defined.
+[exit:description]

@@ -1,0 +1,71 @@
+﻿[section#bad.cast
+    [:en] Class [`bad_cast]
+]
+
+[%@library bad_cast]
+[codeblock:synopsis]
+namespace std {
+  class bad_cast : public exception {
+  public:
+    bad_cast() noexcept;
+    bad_cast(const bad_cast&) noexcept;
+    bad_cast& operator=(const bad_cast&) noexcept;
+    virtual const char* what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`bad_cast] defines the type of objects thrown as exceptions by the
+implementation to report the execution of an invalid [~dynamic-cast] expression
+([#expr.dynamic.cast]).
+
+[%[:en] cast[!dynamic]]
+[%@library bad_cast[!bad_cast]]
+[codeblock:declaration]
+bad_cast() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Constructs an object of class [`bad_cast].
+
+[para:notes]
+[:en]
+The result of calling [`what()] on the newly constructed object is
+[%implementation-defined] implementation-defined.
+[exit:description]
+
+[%@library bad_cast[!bad_cast]]
+[%@library operator=[!bad_cast]]
+[codeblock:declaration]
+bad_cast(const bad_cast&) noexcept;
+bad_cast& operator=(const bad_cast&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Copies an object of class [`bad_cast].
+[exit:description]
+
+[%@library what[!bad_cast]]
+[codeblock:declaration]
+virtual const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[%@library bad_cast::what[!implementation-defined]]
+An [%@impldef return value of [`bad_cast::what]] implementation-defined
+[em@sc ntbs].
+
+[para:notes]
+[:en]
+The message may be a null-terminated multibyte string ([#multibyte.strings]),
+suitable for conversion and display as a [`wstring] ([#string.classes],
+[#locale.codecvt])
+[exit:description]

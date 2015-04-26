@@ -1,0 +1,43 @@
+﻿[section#support.initlist.access
+    [:en] Initializer list access
+]
+
+[%@library begin[!initializer_list]]
+[%@library initializer_list[!begin]]
+[codeblock:declaration]
+constexpr const E* begin() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+A pointer to the beginning of the array. If [`size() == 0] the values of
+[`begin()] and [`end()] are unspecified but they shall be identical.
+[exit:description]
+
+[%@library end[!initializer_list]]
+[%@library initializer_list[!end]]
+[codeblock:declaration]
+constexpr const E* end() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`begin() + size()]
+[exit:description]
+
+[%@library size[!initializer_list]]
+[%@library initializer_list[!size]]
+[codeblock:declaration]
+constexpr size_t size() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+The number of elements in the array.
+
+[para:complexity]
+[:en]
+Constant time.
+[exit:description]

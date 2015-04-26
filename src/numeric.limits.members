@@ -1,0 +1,719 @@
+﻿[section#numeric.limits.members
+    [:en] [`numeric_limits] members
+]
+
+[%@library min[!numeric_limits]]
+[%@library numeric_limits[!min]]
+
+[codeblock:declaration]
+static constexpr T min() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Minimum finite value.
+
+[footnote]
+[:en]
+Equivalent to [`CHAR_MIN], [`SHRT_MIN], [`FLT_MIN], [`DBL_MIN], etc.
+[footnote:end]
+
+[para]
+[:en]
+For floating types with denormalization, returns the minimum positive normalized
+value.
+
+[para]
+[:en]
+Meaningful for all specializations in which [`is_bounded != false], or
+[`is_bounded == false && is_signed == false].
+[exit:description]
+
+[%@library max[!numeric_limits]] [%@library numeric_limits[!max]]
+[codeblock:declaration]
+static constexpr T max() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Maximum finite value.
+
+[footnote]
+[:en]
+Equivalent to [`CHAR_MAX], [`SHRT_MAX], [`FLT_MAX], [`DBL_MAX], etc.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations in which [`is_bounded != false].
+[exit:description]
+
+[%@library lowest[!numeric_limits]] [%@library numeric_limits[!lowest]]
+[codeblock:declaration]
+static constexpr T lowest() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+A finite value [`x] such that there is no other finite value [`y] where
+[`y < x].
+
+[footnote]
+[:en]
+[`lowest()] is necessary because not all floating-point representations have a
+smallest (most negative) value that is the negative of the largest (most
+positive) finite value.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations in which [`is_bounded != false].
+[exit:description]
+
+[%@library digits[!numeric_limits]] [%@library numeric_limits[!digits]]
+[codeblock:declaration]
+static constexpr int digits;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Number of [`radix] digits that can be represented without change.
+
+[para]
+[:en]
+For integer types, the number of non-sign bits in the representation.
+
+[para]
+[:en]
+For floating point types, the number of [`radix] digits in the
+mantissa.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_MANT_DIG], [`DBL_MANT_DIG], [`LDBL_MANT_DIG].
+[footnote:end]
+[exit:description]
+
+[%@library digits10[!numeric_limits]] [%@library numeric_limits[!digits10]]
+[codeblock:declaration]
+static constexpr int digits10;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Number of base 10 digits that can be represented without change.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_DIG], [`DBL_DIG], [`LDBL_DIG].
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations in which [`is_bounded != false].
+[exit:description]
+
+[%@library max_digits10[!numeric_limits]]
+[%@library numeric_limits[!max_digits10]]
+[codeblock:declaration]
+static constexpr int max_digits10;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Number of base 10 digits required to ensure that values which differ are always
+differentiated.
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library is_signed[!numeric_limits]]
+[%@library numeric_limits[!is_signed]]
+[codeblock:declaration]
+static constexpr bool is_signed;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type is signed.
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library is_integer[!numeric_limits]]
+[%@library numeric_limits[!is_integer]]
+[codeblock:declaration]
+static constexpr bool is_integer;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type is integer.
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library is_exact[!numeric_limits]]
+[%@library numeric_limits[!is_exact]]
+[codeblock:declaration]
+static constexpr bool is_exact;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type uses an exact representation.
+
+[:en]
+All integer types are exact, but not all exact types are integer.
+
+[:en]
+For example, rational and fixed-exponent representations are exact but not
+integer.
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library radix[!numeric_limits]]
+[%@library numeric_limits[!radix]]
+[codeblock:declaration]
+static constexpr int radix;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+For floating types, specifies the base or radix of the exponent representation
+(often 2).
+
+[footnote]
+[:en]
+Equivalent to [`FLT_RADIX].
+[footnote:end]
+
+[para]
+[:en]
+For integer types, specifies the base of the representation.
+
+[footnote]
+[:en]
+Distinguishes types with bases other than 2 (e.g. BCD).
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library epsilon[!numeric_limits]]
+[%@library numeric_limits[!epsilon]]
+[codeblock:declaration]
+static constexpr T epsilon() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Machine epsilon: the difference between 1 and the least value greater than 1
+that is representable.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_EPSILON], [`DBL_EPSILON], [`LDBL_EPSILON].
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library round_error[!numeric_limits]]
+[%@library numeric_limits[!round_error]]
+[codeblock:declaration]
+static constexpr T round_error() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Measure of the maximum rounding error.
+
+[footnote]
+[:en]
+Rounding error is described in ISO/IEC 10967-1 Language independent arithmetic
+- Part 1 Section 5.2.8 and Annex A Rationale Section A.5.2.8
+- Rounding constants.
+[footnote:end]
+[exit:description]
+
+[%@library min_exponent[!numeric_limits]]
+[%@library numeric_limits[!min_exponent]]
+[codeblock:declaration]
+static constexpr int  min_exponent;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Minimum negative integer such that [`radix] raised to the power of one less than
+that integer is a normalized floating point number.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_MIN_EXP], [`DBL_MIN_EXP], [`LDBL_MIN_EXP].
+[footnote:end]
+
+[para]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library min_exponent10[!numeric_limits]]
+[%@library numeric_limits[!min_exponent10]]
+[codeblock:declaration]
+static constexpr int  min_exponent10;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Minimum negative integer such that 10 raised to that power is in the range
+of normalized floating point numbers.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_MIN_10_EXP], [`DBL_MIN_10_EXP], [`LDBL_MIN_10_EXP].
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library max_exponent[!numeric_limits]]
+[%@library numeric_limits[!max_exponent]]
+[codeblock:declaration]
+static constexpr int  max_exponent;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Maximum positive integer such that [`radix] raised to the power one less than
+that integer is a representable finite floating point number.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_MAX_EXP], [`DBL_MAX_EXP], [`LDBL_MAX_EXP].
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library max_exponent10[!numeric_limits]]
+[%@library numeric_limits[!max_exponent10]]
+[codeblock:declaration]
+static constexpr int  max_exponent10;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Maximum positive integer such that 10 raised to that power is in the range of
+representable finite floating point numbers.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_MAX_10_EXP], [`DBL_MAX_10_EXP], [`LDBL_MAX_10_EXP].
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library has_infinity[!numeric_limits]]
+[%@library numeric_limits[!has_infinity]]
+[codeblock:declaration]
+static constexpr bool has_infinity;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type has a representation for positive infinity.
+
+[para]
+[:en]
+Meaningful for all floating point types.
+
+[para]
+[:en]
+Shall be [`true] for all specializations in which [`is_iec559 != false].
+[exit:description]
+
+[%@library has_quiet_NaN[!numeric_limits]]
+[%@library numeric_limits[!has_quiet_NaN]]
+[codeblock:declaration]
+static constexpr bool has_quiet_NaN;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type has a representation for a quiet (non-signaling) ["Not a
+Number.]
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+
+[para]
+[:en]
+Shall be [`true] for all specializations in which [`is_iec559 != false].
+[exit:description]
+
+[%@library has_signaling_NaN[!numeric_limits]]
+[%@library numeric_limits[!has_signaling_NaN]]
+[codeblock:declaration]
+static constexpr bool has_signaling_NaN;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type has a representation for a signaling ["Not a Number.]
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+
+[para]
+[:en]
+Shall be [`true] for all specializations in which [`is_iec559 != false].
+[exit:description]
+
+[%@library float_denorm_style[!numeric_limits]]
+[%@library numeric_limits[!float_denorm_style]]
+[codeblock:declaration]
+static constexpr float_denorm_style has_denorm;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+[`denorm_present] if the type allows denormalized values (variable number of
+exponent bits)
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[:en@~]
+, [`denorm_absent] if the type does not allow denormalized values, and
+[`denorm_indeterminate] if it is indeterminate at compile time whether the type
+allows denormalized values.
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library has_denorm_loss[!numeric_limits]]
+[%@library numeric_limits[!has_denorm_loss]]
+[codeblock:declaration]
+static constexpr bool has_denorm_loss;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if loss of accuracy is detected as a denormalization loss, rather than as
+an inexact result.
+
+[footnote]
+[:en]
+See IEC 559.
+[footnote:end]
+[exit:description]
+
+[%@library infinity[!numeric_limits]]
+[%@library numeric_limits[!infinity]]
+[codeblock:declaration]
+static constexpr T infinity() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Representation of positive infinity, if available.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations for which [`has_infinity != false].
+
+[:en]
+Required in specializations for which [`is_iec559 != false].
+[exit:description]
+
+[%@library quiet_NaN[!numeric_limits]]
+[%@library numeric_limits[!quiet_NaN]]
+[codeblock:declaration]
+static constexpr T quiet_NaN() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Representation of a quiet ["Not a Number,] if available.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations for which [`has_quiet_NaN != false].
+
+[:en]
+Required in specializations for which [`is_iec559 != false].
+[exit:description]
+
+[%@library signaling_NaN[!numeric_limits]]
+[%@library numeric_limits[!signaling_NaN]]
+[codeblock:declaration]
+static constexpr T signaling_NaN() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Representation of a signaling ["Not a Number,] if available.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations for which [`has_signaling_NaN != false].
+
+[:en]
+Required in specializations for which [`is_iec559 != false].
+[exit:description]
+
+[%@library denorm_min[!numeric_limits]]
+[%@library numeric_limits[!denorm_min]]
+[codeblock:declaration]
+static constexpr T denorm_min() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Minimum positive denormalized value.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+
+[para]
+[:en]
+In specializations for which [`has_denorm == false], returns the minimum
+positive normalized value.
+[exit:description]
+
+[%@library is_iec559[!numeric_limits]]
+[%@library numeric_limits[!is_iec559]]
+[codeblock:declaration]
+static constexpr bool is_iec559;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if and only if the type adheres to IEC 559 standard.
+
+[footnote]
+[:en]
+International Electrotechnical Commission standard 559 is the same as IEEE 754.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library is_bounded[!numeric_limits]]
+[%@library numeric_limits[!is_bounded]]
+[codeblock:declaration]
+static constexpr bool is_bounded;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the set of values representable by the type is finite.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[enter:note]
+[:en]
+All fundamental types ([#basic.fundamental]) are bounded.
+
+[:en]
+This member would be false for arbitrary precision types.
+[exit:note]
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library is_modulo[!numeric_limits]]
+[%@library numeric_limits[!is_modulo]]
+[codeblock:declaration]
+static constexpr bool is_modulo;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+True if the type is modulo.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[:en]
+A type is modulo if, for any operation involving [`+], [`-], or [`*] on values
+of that type whose result would fall outside the range [=crange[min(),max()],
+the value returned differs from the true value by an integer multiple of
+[`max() - min() + 1].
+
+[para]
+[:en]
+On most machines, this is [`false] for floating types, [`true] for unsigned
+integers, and [`true] for signed integers.
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library traps[!numeric_limits]]
+[%@library numeric_limits[!traps]]
+[codeblock:declaration]
+static constexpr bool traps;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+[`true] if, at program startup, there exists a value of the type that would
+cause an arithmetic operation using that value to trap.
+
+[footnote]
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all specializations.
+[exit:description]
+
+[%@library tinyness_before[!numeric_limits]]
+[%@library numeric_limits[!tinyness_before]]
+[codeblock:declaration]
+static constexpr bool tinyness_before;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+[`true] if tinyness is detected before rounding.
+
+[footnote]
+[:en]
+Refer to IEC 559.
+
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+[exit:description]
+
+[%@library round_style[!numeric_limits]]
+[%@library numeric_limits[!round_style]]
+[codeblock:declaration]
+static constexpr float_round_style round_style;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The rounding style for the type.
+
+[footnote]
+[:en]
+Equivalent to [`FLT_ROUNDS].
+
+[:en]
+Required by LIA-1.
+[footnote:end]
+
+[para]
+[:en]
+Meaningful for all floating point types.
+
+[:en]
+Specializations for integer types shall return [`round_toward_zero].
+[exit:description]

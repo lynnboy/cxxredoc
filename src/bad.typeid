@@ -1,0 +1,70 @@
+﻿[section#bad.typeid
+    [:en] Class [`bad_typeid]
+]
+
+[%@library bad_typeid]
+[codeblock:synopsis]
+namespace std {
+  class bad_typeid : public exception {
+  public:
+    bad_typeid() noexcept;
+    bad_typeid(const bad_typeid&) noexcept;
+    bad_typeid& operator=(const bad_typeid&) noexcept;
+    virtual const char* what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`bad_typeid] defines the type of objects thrown as exceptions by the
+implementation to report a null pointer in a [~typeid] expression
+([#expr.typeid]).
+
+[%@library bad_typeid[!bad_typeid]]
+[codeblock:declaration]
+bad_typeid() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Constructs an object of class [`bad_typeid].
+
+[para:notes]
+[:en]
+The result of calling [`what()] on the newly constructed object is
+[%implementation-defined] implementation-defined.
+[exit:description]
+
+[%@library bad_typeid[!bad_typeid]]
+[%@library operator=[!bad_typeid]]
+[codeblock:declaration]
+bad_typeid(const bad_typeid&) noexcept;
+bad_typeid& operator=(const bad_typeid&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en]
+Copies an object of class [`bad_typeid].
+[exit:description]
+
+[%@library what[!bad_typeid]]
+[codeblock:declaration]
+virtual const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en]
+[%[`bad_typeid::what][!implementation-defined]]
+An [%@impldef return value of [`bad_typeid::what]] implementation-defined
+[em@sc ntbs].
+
+[para:notes]
+[:en]
+The message may be a null-terminated multibyte string ([#multibyte.strings]),
+suitable for conversion and display as a [`wstring] ([#string.classes],
+[#locale.codecvt])
+[exit:description]

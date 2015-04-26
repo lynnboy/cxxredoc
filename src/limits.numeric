@@ -1,0 +1,29 @@
+﻿[section#limits.numeric
+    [:en] Class template [`numeric_limits]
+]
+
+[para]
+[:en]
+The [%@library numeric_limits] [`numeric_limits] class template provides a [=Cpp]
+program with information about various properties of the implementation[=']s
+representation of the arithmetic types.
+
+[para]
+[:en]
+Specializations shall be provided for each arithmetic type, both floating point
+and integer, including [`bool].
+
+[:en]
+The member [`is_specialized] shall be [`true] for all such specializations of
+[`numeric_limits].
+
+[para]
+[:en]
+For all members declared [`static constexpr] in the [`numeric_limits] template,
+specializations shall define these values in such a way that they are usable as
+constant expressions.
+
+[para]
+[:en]
+Non-arithmetic standard types, such as [`complex<T>] ([#complex]), shall not
+have specializations.
