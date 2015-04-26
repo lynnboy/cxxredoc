@@ -1,0 +1,45 @@
+﻿[section#diagnostics.general
+    [:en] General
+]
+
+[para]
+[:en]
+This Clause describes components that [=Cpp] programs may use to detect and
+report error conditions.
+
+[para]
+[:en]
+The following subclauses describe components for reporting several kinds of
+exceptional conditions, documenting program assertions, and a global variable
+for error number codes, as summarized in Table [#tab:diagnostics.lib.summary].
+
+[table:listing#tab:diagnostics.lib.summary
+    [:en] Diagnostics library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+[|] [#std.exceptions]
+[|] [:en] Exception classes
+[|] <stdexcept>
+
+[|] [#assertions]
+[|] [:en] Assertions
+[|] <cassert>
+
+[|] [#errno]
+[|] [:en] Error numbers
+[|] <cerrno>
+
+[|] [#syserr]
+[|] [:en] System error support
+[|] <system_error>
+
+[table:end]

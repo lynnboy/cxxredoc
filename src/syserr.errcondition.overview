@@ -1,0 +1,47 @@
+﻿[section#syserr.errcondition.overview
+    [:en] Class [`error_condition] overview
+]
+
+[para]
+[:en]
+The class [`error_condition] describes an object used to hold values identifying
+error conditions.
+
+[enter:note]
+[:en]
+[`error_condition] values are portable abstractions, while [`error_code] values
+([#syserr.errcode]) are implementation specific.
+[exit:note]
+
+[%@library error_code]
+[codeblock:synopsis]
+namespace std {
+  class error_condition {
+  public:
+    // [:en] [#syserr.errcondition.constructors] constructors:
+    error_condition() noexcept;
+    error_condition(int val, const error_category& cat) noexcept;
+    template <class ErrorConditionEnum>
+      error_condition(ErrorConditionEnum e) noexcept;
+
+    // [:en] [#syserr.errcondition.modifiers] modifiers:
+    void assign(int val, const error_category& cat) noexcept;
+    template<class ErrorConditionEnum>
+        error_condition& operator=(ErrorConditionEnum e) noexcept;
+    void clear() noexcept;
+
+    // [:en] [#syserr.errcondition.observers] observers:
+    int value() const noexcept;
+    const error_category& category() const noexcept;
+    string message() const;
+    explicit operator bool() const noexcept;
+
+  private:
+    int val_;                   // [=Expos]
+    const error_category* cat_; // [=Expos]
+  };
+
+  // [:en] [#syserr.errcondition.nonmembers] non-member functions:
+  bool operator<(const error_condition& lhs, const error_condition& rhs) noexcept;
+} // namespace std
+[codeblock:end]

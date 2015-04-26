@@ -1,0 +1,47 @@
+﻿[section#syserr.errcondition.constructors
+    [:en] Class [`error_condition] constructors
+]
+
+[%@library error_condition[!constructor]]
+[codeblock:declaration]
+error_condition() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_condition].
+
+[para:postconditions]
+[:en] [`val_ == 0] and [`cat_ == &generic_category()].
+[exit:description]
+
+[%@library error_condition[!constructor]]
+[codeblock:declaration]
+error_condition(int val, const error_category& cat) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_condition].
+
+[para:postconditions]
+[:en] [`val_ == val] and [`cat_ == &cat].
+[exit:description]
+
+[%@library error_condition[!constructor]]
+[codeblock:declaration]
+template <class ErrorConditionEnum>
+  error_condition(ErrorConditionEnum e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_condition].
+
+[para:postcondition]
+[:en] [`*this == make_error_condition(e)].
+
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless
+[`is_error_condition_enum<ErrorConditionEnum>::value] is [`true].
+[exit:description]

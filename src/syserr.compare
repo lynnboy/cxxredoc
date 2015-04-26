@@ -1,0 +1,69 @@
+﻿[section#syserr.compare
+    [:en] Comparison operators
+]
+
+[%@library operator==[!error_code]]
+[%@library error_code[!operator==]]
+[codeblock:declaration]
+bool operator==(const error_code& lhs, const error_code& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()].
+[exit:description]
+
+[%@library operator==[!error_condition]]
+[%@library error_condition[!operator==]]
+[%@library operator==[!error_code]]
+[%@library error_code[!operator==]]
+[codeblock:declaration]
+bool operator==(const error_code& lhs, const error_condition& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.category().equivalent(lhs.value(), rhs) ||
+rhs.category().equivalent(lhs, rhs.value())].
+[exit:description]
+
+[%@library operator==[!error_condition]]
+[%@library error_condition[!operator==]]
+[%@library operator==[!error_code]]
+[%@library error_code[!operator==]]
+[codeblock:declaration]
+bool operator==(const error_condition& lhs, const error_code& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.category().equivalent(rhs.value(), lhs) ||
+lhs.category().equivalent(rhs, lhs.value())].
+[exit:description]
+
+[%@library operator==[!error_condition]]
+[%@library error_condition[!operator==]]
+[codeblock:declaration]
+bool operator==(const error_condition& lhs, const error_condition& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()].
+[exit:description]
+
+[%@library operator!=[!error_code]]
+[%@library error_code[!operator!=]]
+[%@library operator!=[!error_condition]]
+[%@library error_condition[!operator!=]]
+[codeblock:declaration]
+bool operator!=(const error_code& lhs, const error_code& rhs) noexcept;
+bool operator!=(const error_code& lhs, const error_condition& rhs) noexcept;
+bool operator!=(const error_condition& lhs, const error_code& rhs) noexcept;
+bool operator!=(const error_condition& lhs, const error_condition& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]

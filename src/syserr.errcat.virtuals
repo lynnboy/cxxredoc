@@ -1,0 +1,68 @@
+﻿[section#syserr.errcat.virtuals
+    [:en] Class [`error_category] virtual members
+]
+
+[%@library error_category[!destructor]]
+[codeblock:declaration]
+virtual ~error_category();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`error_category].
+[exit:description]
+
+[%@library name[!error_category]]
+[%@library error_category[!name]]
+[codeblock:declaration]
+virtual const char* name() const noexcept = 0;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A string naming the error category.
+[exit:description]
+
+[%@library default_error_condition[!error_category]]
+[%@library error_category[!default_error_condition]]
+[codeblock:declaration]
+virtual error_condition default_error_condition(int ev) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`error_condition(ev, *this)].
+[exit:description]
+
+[%@library equivalent[!error_category]]
+[%@library error_category[!equivalent]]
+[codeblock:declaration]
+virtual bool equivalent(int code, const error_condition& condition) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`default_error_condition(code) == condition].
+[exit:description]
+
+[%@library equivalent[!error_category]]
+[%@library error_category[!equivalent]]
+[codeblock:declaration]
+virtual bool equivalent(const error_code& code, int condition) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this == code.category() && code.value() == condition].
+[exit:description]
+
+[%@library message[!error_category]]
+[%@library error_category[!message]]
+[codeblock:declaration]
+virtual string message(int ev) const = 0;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A string that describes the error condition denoted by [`ev].
+[exit:description]

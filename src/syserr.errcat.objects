@@ -1,0 +1,60 @@
+﻿[section#syserr.errcat.objects
+    [:en] Error category objects
+]
+
+[%@library generic_category]
+[codeblock:declaration]
+const error_category& generic_category() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to an object of a type derived from class [`error_category].
+
+[:en] All calls to this function shall return references to the same object.
+
+[para:notes]
+[:en] The object[=']s [`default_error_condition] and [`equivalent] virtual
+functions shall behave as specified for the class [`error_category].
+
+[:en] The object[=']s [`name] virtual function shall return a pointer to the
+string [`"generic"].
+[exit:description]
+
+[%@library system_category]
+[codeblock:declaration]
+const error_category& system_category() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to an object of a type derived from class [`error_category].
+
+[:en] All calls to this function shall return references to the same object.
+
+[para:notes]
+[:en] The object[=']s [`equivalent] virtual functions shall behave as specified
+for class [`error_category].
+
+[:en] The object[=']s [`name] virtual function shall return a pointer to the
+string [`"system"].
+
+[:en] The object[=']s [`default_error_condition] virtual function shall behave
+as follows:
+
+[:en] If the argument [`ev] corresponds to a POSIX [`errno] value [`posv], the
+function shall return [`error_condition(posv, generic_category())].
+
+[:en] Otherwise, the function shall return [`error_condition(ev,
+system_category())].
+
+[:en] What constitutes correspondence for any given operating system is
+unspecified.
+
+[enter:note]
+[:en] The number of potential system error codes is large and unbounded, and
+some may not correspond to any POSIX [`errno] value.
+
+[:en] Thus implementations are given latitude in determining correspondence.
+[exit:note]
+[exit:description]

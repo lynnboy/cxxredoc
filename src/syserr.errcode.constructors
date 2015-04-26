@@ -1,0 +1,47 @@
+﻿[section#syserr.errcode.constructors
+    [:en] Class [`error_code] constructors
+]
+
+[%@library error_code[!error_code]]
+[codeblock:declaration]
+error_code() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_code].
+
+[para:postconditions]
+[:en] [`val_ == 0] and [`cat_ == &system_category()].
+[exit:description]
+
+[%@library error_code[!error_code]]
+[codeblock:declaration]
+error_code(int val, const error_category& cat) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_code].
+
+[para:postconditions]
+[:en] [`val_ == val] and [`cat_ == &cat].
+[exit:description]
+
+[%@library error_code[!error_code]]
+[codeblock:declaration]
+template <class ErrorCodeEnum>
+  error_code(ErrorCodeEnum e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`error_code].
+
+[para:postconditions]
+[:en] [`*this == make_error_code(e)].
+
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless
+[`is_error_code_enum<ErrorCodeEnum>::value] is [`true].
+[exit:description]

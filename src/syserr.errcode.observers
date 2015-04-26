@@ -1,0 +1,58 @@
+﻿[section#syserr.errcode.observers
+    [:en] Class [`error_code] observers
+]
+
+[%@library value[!error_code]]
+[%@library error_code[!value]]
+[codeblock:declaration]
+int value() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`val_].
+[exit:description]
+
+[%@library category[!error_code]]
+[%@library error_code[!category]]
+[codeblock:declaration]
+const error_category& category() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*cat_].
+[exit:description]
+
+[%@library default_error_condition[!error_code]]
+[%@library error_code[!default_error_condition]]
+[codeblock:declaration]
+error_condition default_error_condition() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`category().default_error_condition(value())].
+[exit:description]
+
+[%@library message[!error_code]]
+[%@library error_code[!message]]
+[codeblock:declaration]
+string message() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`category().message(value())].
+[exit:description]
+
+[%@library operator bool[!error_code]]
+[%@library error_code[!operator bool]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`value() != 0].
+[exit:description]

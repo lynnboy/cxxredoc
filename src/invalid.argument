@@ -1,0 +1,44 @@
+﻿[section#invalid.argument
+    [:en] Class [`invalid_argument]
+]
+
+[%@library invalid_argument]
+[codeblock:synopsis]
+namespace std {
+  class invalid_argument : public logic_error {
+  public:
+    explicit invalid_argument(const string& what_arg);
+    explicit invalid_argument(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`invalid_argument] defines the type of objects thrown as
+exceptions to report an invalid argument.
+
+[%@library invalid_argument[!invalid_argument]]
+[codeblock:declaration]
+invalid_argument(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`invalid_argument].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library invalid_argument[!invalid_argument]]
+[codeblock:declaration]
+invalid_argument(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`invalid_argument].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

@@ -1,0 +1,45 @@
+﻿[section#out.of.range
+    [:en] Class [`out_of_range]
+]
+
+[%@library out_of_range]
+[codeblock:synopsis]
+namespace std {
+  class out_of_range : public logic_error {
+  public:
+    explicit out_of_range(const string& what_arg);
+    explicit out_of_range(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`out_of_range] defines the type of objects thrown as exceptions to
+report an [%argument] argument value not in its expected range.
+
+[%@library out_of_range[!out_of_range]]
+[codeblock:declaration]
+out_of_range(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`out_of_range].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library out_of_range[!out_of_range]]
+[codeblock:declaration]
+out_of_range(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`out_of_range].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

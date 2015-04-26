@@ -1,0 +1,50 @@
+﻿[section#syserr.errcat.nonvirtuals
+    [:en] Class [`error_category] non-virtual members
+]
+
+[%@library error_category[!constructor]]
+[codeblock:declaration]
+constexpr error_category() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`error_category].
+[exit:description]
+
+[%@library operator==[!error_category]]
+[%@library error_category[!operator==]]
+[codeblock:declaration]
+bool operator==(const error_category& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`this == &rhs].
+[exit:description]
+
+[%@library operator!=[!error_category]]
+[%@library error_category[!operator!=]]
+[codeblock:declaration]
+bool operator!=(const error_category& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(*this == rhs)].
+[exit:description]
+
+[%@library operator<[!error_category]]
+[%@library error_category[!operator<]]
+[codeblock:declaration]
+bool operator<(const error_category& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`less<const error_category*>()(this, &rhs)].
+
+[enter:note]
+[:en] [`less] ([#comparisons]) provides a total ordering for pointers.
+[exit:note]
+[exit:description]

@@ -1,0 +1,47 @@
+﻿[section#syserr.errcondition.observers
+    [:en] Class [`error_condition] observers
+]
+
+[%@library value[!error_condition]]
+[%@library error_condition[!value]]
+[codeblock:declaration]
+int value() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`val_].
+[exit:description]
+
+[%@library category[!error_condition]]
+[%@library error_condition[!category]]
+[codeblock:declaration]
+const error_category& category() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*cat_].
+[exit:description]
+
+[%@library message[!error_condition]]
+[%@library error_condition[!message]]
+[codeblock:declaration]
+string message() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`category().message(value())].
+[exit:description]
+
+[%@library operator bool[!error_condition]]
+[%@library error_condition[!operator bool]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`value() != 0].
+[exit:description]

@@ -1,0 +1,38 @@
+﻿[section#syserr.errcode.nonmembers
+    [:en] Class [`error_code] non-member functions
+]
+
+[%@library make_error_code]
+[codeblock:declaration]
+error_code make_error_code(errc e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`error_code(static_cast<int>(e), generic_category())].
+[exit:description]
+
+[%@library operator<[!error_code]]
+[%@library error_code[!operator<]]
+[codeblock:declaration]
+bool operator<(const error_code& lhs, const error_code& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.category() < rhs.category() || lhs.category() == rhs.category() &&
+lhs.value() < rhs.value()].
+[exit:description]
+
+[%@library operator<<[!error_code]]
+[%@library error_code[!operator<<]]
+[codeblock:declaration]
+template <class charT, class traits>
+  basic_ostream<charT,traits>&
+    operator<<(basic_ostream<charT,traits>& os, const error_code& ec);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`os << ec.category().name() << ':' << ec.value()].
+[exit:description]

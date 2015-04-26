@@ -1,0 +1,44 @@
+﻿[section#syserr.errcode.modifiers
+    [:en] Class [`error_code] modifiers
+]
+
+[%@library assign[!error_code]]
+[%@library error_code[!assign]]
+[codeblock:declaration]
+void assign(int val, const error_category& cat) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`val_ == val] and [`cat_ == &cat].
+[exit:description]
+
+[%@library operator=[!error_code]]
+[%@library error_code[!operator=]]
+[codeblock:declaration]
+template <class ErrorCodeEnum>
+    error_code& operator=(ErrorCodeEnum e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`*this == make_error_code(e)].
+
+[para:returns]
+[:en] [`*this].
+
+[para:remarks]
+[:en] This operator shall not participate in overload resolution unless
+[`is_error_code_enum<ErrorCodeEnum>::value] is [`true].
+[exit:description]
+
+[%@library clear[!error_code]]
+[%@library error_code[!clear]]
+[codeblock:declaration]
+void clear() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`value() == 0] and [`category() == system_category()].
+[exit:description]

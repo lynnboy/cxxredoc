@@ -1,0 +1,44 @@
+﻿[section#domain.error
+    [:en] Class [`domain_error]
+]
+
+[%@library domain_error]
+[codeblock:synopsis]
+namespace std {
+  class domain_error : public logic_error {
+  public:
+    explicit domain_error(const string& what_arg);
+    explicit domain_error(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`domain_error] defines the type of objects thrown as exceptions
+by the implementation to report domain errors.
+
+[%@library domain_error[!domain_error]]
+[codeblock:declaration]
+domain_error(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`domain_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library domain_error[!domain_error]]
+[codeblock:declaration]
+domain_error(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`domain_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

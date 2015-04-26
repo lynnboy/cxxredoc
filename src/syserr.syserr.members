@@ -1,0 +1,128 @@
+﻿[section#syserr.syserr.members
+    [:en] Class [`system_error] members
+]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(error_code ec, const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == ec].
+
+[para:~]
+[:en] [`string(what()).find(what_arg) != string::npos].
+[exit:description]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(error_code ec, const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == ec].
+
+[para:~]
+[:en] [`string(what()).find(what_arg) != string::npos].
+[exit:description]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(error_code ec);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == ec].
+[exit:description]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(int ev, const error_category& ecat,
+  const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == error_code(ev, ecat)].
+
+[para:~]
+[:en] [`string(what()).find(what_arg) != string::npos].
+[exit:description]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(int ev, const error_category& ecat,
+  const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == error_code(ev, ecat)].
+
+[para:~]
+[:en] [`string(what()).find(what_arg) != string::npos].
+[exit:description]
+
+[%@library system_error[!system_error]]
+[%@library system_error[!system_error]]
+[codeblock:declaration]
+system_error(int ev, const error_category& ecat);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`system_error].
+
+[para:postconditions]
+[:en] [`code() == error_code(ev, ecat)].
+[exit:description]
+
+[%@library code[!system_error]]
+[%@library system_error[!code]]
+[codeblock:declaration]
+const error_code& code() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`ec] or [`error_code(ev, ecat)], from the constructor, as appropriate.
+[exit:description]
+
+[%@library what[!system_error]]
+[%@library system_error[!what]]
+[codeblock:declaration]
+const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An [em@sc ntbs] incorporating the arguments supplied in the constructor.
+
+[enter:note]
+[:en] The returned NTBS might be the contents of [`what_arg + ": " +
+code.message()].
+[exit:note]
+[exit:description]

@@ -1,0 +1,45 @@
+﻿[section#underflow.error
+    [:en] Class [`underflow_error]
+]
+
+[%@library overflow_error]
+[codeblock:synopsis]
+namespace std {
+  class underflow_error : public runtime_error {
+  public:
+    explicit underflow_error(const string& what_arg);
+    explicit underflow_error(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`underflow_error] defines the type of objects thrown as exceptions to
+report an arithmetic underflow error.
+
+[%@library underflow_error[!underflow_error]]
+[codeblock:declaration]
+underflow_error(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`underflow_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library underflow_error[!underflow_error]]
+[codeblock:declaration]
+underflow_error(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`underflow_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

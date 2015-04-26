@@ -1,0 +1,74 @@
+﻿[section#std.exceptions
+    [:en] Exception classes
+]
+
+[para]
+[:en] The Standard [=Cpp] library provides classes to be used to report certain
+errors ([#res.on.exception.handling]) in [=Cpp] programs.
+
+[:en] In the error model reflected in these classes, errors are divided into two
+broad categories: [+logic] errors and [+runtime] errors.
+
+[para]
+[:en] The distinguishing characteristic of logic errors is that they are due to
+errors in the internal logic of the program.
+
+[:en] In theory, they are preventable.
+
+[para]
+[:en] By contrast, runtime errors are due to events beyond the scope of the
+program.
+
+[:en] They cannot be easily predicted in advance.
+
+[:en] The header [`<stdexcept>]
+[%[`<stdexcept>][sortas stdexcept]] [%@library <stdexcept>[sortas stdexcept]]
+defines several types of predefined exceptions for reporting errors in a [=Cpp]
+program.
+
+[:en] These exceptions are related by inheritance.
+
+[para:synopsis]
+[:en] Header [`<stdexcept>] synopsis
+
+[%@library <stdexcept>[sortas stdexcept]]
+[%@library logic_error]
+[%@library domain_error]
+[%@library invalid_argument]
+[%@library length_error]
+[%@library out_of_range_error]
+[%@library runtime_error]
+[%@library range_error]
+[%@library overflow_error]
+[%@library underflow_error]
+[codeblock:synopsis]
+namespace std {
+  class logic_error;
+    class domain_error;
+    class invalid_argument;
+    class length_error;
+    class out_of_range;
+  class runtime_error;
+    class range_error;
+    class overflow_error;
+    class underflow_error;
+}
+[codeblock:end]
+
+[include logic.error]
+
+[include domain.error]
+
+[include invalid.argument]
+
+[include length.error]
+
+[include out.of.range]
+
+[include runtime.error]
+
+[include range.error]
+
+[include overflow.error]
+
+[include underflow.error]

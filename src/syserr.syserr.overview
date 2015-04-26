@@ -1,0 +1,39 @@
+﻿[section#syserr.syserr.overview
+    [:en] Class [`system_error] overview
+]
+
+[para]
+[:en]
+The class [`system_error] describes an exception object used to report error
+conditions that have an associated error code.
+
+[:en]
+Such error conditions typically originate from the operating system or other
+low-level application program interfaces.
+
+[para]
+[enter:note]
+[:en]
+If an error represents an out-of-memory condition, implementations are
+encouraged to throw an exception object of type [`bad_alloc] [#bad.alloc] rather
+than [`system_error].
+[exit:note]
+
+[%@library system_error]
+[codeblock:synopsis]
+namespace std {
+  class system_error : public runtime_error {
+  public:
+    system_error(error_code ec, const string& what_arg);
+    system_error(error_code ec, const char* what_arg);
+    system_error(error_code ec);
+    system_error(int ev, const error_category& ecat,
+        const string& what_arg);
+    system_error(int ev, const error_category& ecat,
+        const char* what_arg);
+    system_error(int ev, const error_category& ecat);
+    const error_code& code() const noexcept;
+    const char* what() const noexcept;
+  };
+}   // namespace std
+[codeblock:end]

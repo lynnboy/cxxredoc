@@ -1,0 +1,47 @@
+﻿[section#runtime.error
+    [:en] Class [`runtime_error]
+]
+
+[%@library runtime_error]
+[codeblock:synopsis]
+namespace std {
+  class runtime_error : public exception {
+  public:
+    explicit runtime_error(const string& what_arg);
+    explicit runtime_error(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class
+[`runtime_error]
+defines the type of objects thrown as exceptions to report errors presumably detectable only
+when the program executes.
+
+[%@library runtime_error[!runtime_error]]
+[codeblock:declaration]
+runtime_error(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`runtime_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library runtime_error[!runtime_error]]
+[codeblock:declaration]
+runtime_error(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`runtime_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

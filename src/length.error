@@ -1,0 +1,46 @@
+﻿[section#length.error
+    [:en] Class [`length_error]
+]
+
+[%@library length_error]
+[codeblock:synopsis]
+namespace std {
+  class length_error : public logic_error {
+  public:
+    explicit length_error(const string& what_arg);
+    explicit length_error(const char* what_arg);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`length_error] defines the type of objects thrown as exceptions
+to report an attempt to produce an object whose length exceeds its maximum
+allowable size.
+
+[%@library length_error[!length_error]]
+[codeblock:declaration]
+length_error(const string& what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`length_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[exit:description]
+
+[%@library length_error[!length_error]]
+[codeblock:declaration]
+length_error(const char* what_arg);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`length_error].
+
+[para:postcondition]
+[:en] [`strcmp(what(), what_arg) == 0].
+[exit:description]

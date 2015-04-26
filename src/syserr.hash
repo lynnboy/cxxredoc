@@ -1,0 +1,14 @@
+﻿[section#syserr.hash
+    [:en] System error hash support
+]
+
+[%@library hash]
+[codeblock:declaration]
+template <> struct hash<error_code>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+[exit:description]

@@ -1,0 +1,25 @@
+﻿[section#syserr.errcondition.nonmembers
+    [:en] Class [`error_condition] non-member functions
+]
+
+[%@library make_error_condition]
+[codeblock:declaration]
+error_condition make_error_condition(errc e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`error_condition(static_cast<int>(e), generic_category())].
+[exit:description]
+
+[%@library operator<[!error_condition]]
+[%@library error_condition[!operator<]]
+[codeblock:declaration]
+bool operator<(const error_condition& lhs, const error_condition& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.category() < rhs.category() || lhs.category() == rhs.category() &&
+lhs.value() < rhs.value()].
+[exit:description]

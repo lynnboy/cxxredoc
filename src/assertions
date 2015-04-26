@@ -1,0 +1,33 @@
+﻿[section#assertions
+    [:en] Assertions
+]
+
+[para]
+[:en]
+The header [`<cassert>], described in (Table [#tab:diagnostics.hdr.cassert]),
+provides a macro for documenting [=Cpp] program assertions and a mechanism
+for disabling the assertion checks.
+
+[table:listing#tab:diagnostics.hdr.cassert
+    [:en] Header [`<cassert>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] assert
+[table:end]
+
+[para]
+[:en] The contents are the same as the Standard C library header [`<assert.h>].
+
+[para:xref]
+[:en] ISO C 7.2.
