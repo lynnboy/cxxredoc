@@ -1,0 +1,50 @@
+﻿[section#byte.strings
+    [:en] Byte strings
+]
+
+[para]
+[:en]
+A [%string[!null-terminated byte]] [%NTBS] [+null-terminated byte string], or
+[em@sc ntbs], is a character sequence whose highest-addressed element with
+defined content has the value zero (the [+terminating null] character); no other
+element in the sequence has the value zero.
+[%[`<cstring>] [sortas cstring]]
+[%@library <cstring> [sortas cstring]]
+[%NTBS]
+
+[footnote]
+[:en]
+Many of the objects manipulated by function signatures declared in
+[`<cstring>] ([#c.strings]) are character sequences or [em@sc ntbs]s.
+[%[`<cstring>] [sortas cstring]]
+[%@library <cstring> [sortas cstring]]
+
+[:en]
+The size of some of these character sequences is limited by a length value,
+maintained separately from the character sequence.
+[footnote:end]
+
+[para]
+[:en]
+The [+length] of an [em@sc ntbs] is the number of elements that precede the
+terminating null character.
+
+[:en]
+[%NTBS]
+An [+empty] [em@sc ntbs] has a length of zero.
+
+[para]
+[:en]
+[%NTBS]
+The [+value] of an [em@sc ntbs] is the sequence of values of the elements up to
+and including the terminating null character.
+
+[para]
+[:en]
+A [%NTBS] [%NTBS[!static]] [+static] [em@sc ntbs] is an [em@sc ntbs] with static
+storage duration.
+
+[footnote]
+[:en]
+A string literal, such as [`"abc"], is a static [em@sc ntbs].
+[footnote:end]

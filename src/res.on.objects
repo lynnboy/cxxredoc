@@ -1,0 +1,32 @@
+﻿[section#res.on.objects
+    [:en] Shared objects and the library
+]
+
+[para]
+[:en]
+The behavior of a program is undefined if calls to standard library functions
+from different threads may introduce a data race.
+
+[:en]
+The conditions under which this may occur are specified in [#res.on.data.races].
+
+[enter:note]
+[:en]
+Modifying an object of a standard library type that is shared between threads
+risks undefined behavior unless objects of that type are explicitly specified as
+being sharable without data races or the user supplies a locking mechanism.
+[exit:note]
+
+[para]
+[enter:note]
+[:en]
+In particular, the program is required to ensure that completion of the
+constructor of any object of a class type defined in the standard library
+happens before any other member function invocation on that object and, unless
+otherwise specified, to ensure that completion of any member function invocation
+other than destruction on such an object happens before destruction of that
+object.
+
+[:en]
+This applies even to objects such as mutexes intended for thread synchronization.
+[exit:note]

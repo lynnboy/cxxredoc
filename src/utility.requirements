@@ -1,0 +1,32 @@
+﻿[section#utility.requirements
+    [:en] Requirements on types and expressions
+]
+
+[para]
+[:en]
+[#utility.arg.requirements] describes requirements on types and expressions used
+to instantiate templates defined in the [=Cpp] standard library.
+
+[:en]
+[#swappable.requirements] describes the requirements on swappable types and
+swappable expressions.
+
+[:en]
+[#nullablepointer.requirements] describes the requirements on pointer-like types
+that support null values.
+
+[:en]
+[#hash.requirements] describes the requirements on hash function objects.
+
+[:en]
+[#allocator.requirements] describes the requirements on storage allocators.
+
+[include utility.arg.requirements]
+
+[include swappable.requirements]
+
+[include nullablepointer.requirements]
+
+[include hash.requirements]
+
+[include allocator.requirements]

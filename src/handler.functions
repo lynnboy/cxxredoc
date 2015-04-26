@@ -1,0 +1,76 @@
+﻿[section#handler.functions
+    [:en] Handler functions
+]
+
+[para]
+[:en]
+The [=Cpp] standard library provides default versions of the following handler
+functions (Clause [#language.support]):
+
+[list]
+[item]
+[:en]
+[%@library unexpected_handler]
+[`unexpected_handler]
+
+[item]
+[:en]
+[%@library terminate_handler]
+[`terminate_handler]
+[list:end]
+
+[para]
+[:en]
+A [=Cpp] program may install different handler functions during execution, by
+supplying a pointer to a function defined in the program or the library
+as an argument to (respectively):
+
+[list]
+[item]
+[:en]
+[%@library set_new_handler]
+[`set_new_handler]
+[item]
+[:en]
+[%@library set_unexpected]
+[`set_unexpected]
+[item]
+[:en]
+[%@library set_terminate]
+[`set_terminate]
+
+[para:xref]
+[:en]
+subclauses [#alloc.errors], Storage allocation errors, and [#support.exception],
+Exception handling.
+[list:end]
+
+[para]
+[:en]
+A [=Cpp] program can get a pointer to the current handler function by calling
+the following functions:
+
+[list]
+[item]
+[:en]
+[%@library get_new_handler]
+[`get_new_handler]
+
+[item]
+[:en]
+[%@library get_unexpected]
+[`get_unexpected]
+
+[item]
+[:en]
+[%@library get_terminate]
+[`get_terminate]
+[list:end]
+
+[para]
+[:en]
+Calling the [`set_*] and [`get_*] functions shall not incur a data race.
+
+[:en]
+A call to any of the [`set_*] functions shall synchronize with subsequent calls
+to the same [`set_*] function and to the corresponding [`get_*] function.

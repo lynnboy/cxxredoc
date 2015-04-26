@@ -1,0 +1,93 @@
+﻿[section#nullablepointer.requirements
+    [:en] [`NullablePointer] requirements
+]
+
+[para]
+[:en]
+A [`NullablePointer] type is a pointer-like type that supports null values.
+
+[:en]
+A type [`P] meets the requirements of [`NullablePointer] if:
+
+[list]
+[item]
+[:en] [`P] satisfies the requirements of [`EqualityComparable],
+[`DefaultConstructible], [`CopyConstructible], [`CopyAssignable],
+and [`Destructible],
+
+[item]
+[:en] lvalues of type [`P] are swappable ([#swappable.requirements]),
+
+[item]
+[:en] the expressions shown in Table [#nullablepointer] are valid and have the
+indicated semantics, and
+
+[item]
+[:en] [`P] satisfies all the other requirements of this subclause.
+[list:end]
+
+[para]
+[:en]
+A value-initialized object of type [`P] produces the null value of the type.
+The null value shall be equivalent only to itself.
+
+[:en]
+A default-initialized object of type [`P] may have an indeterminate value.
+
+[enter:note]
+[:en]
+Operations involving indeterminate values may cause undefined behavior.
+[exit:note]
+
+[para]
+[:en]
+An object [`p] of type [`P] can be contextually converted to [`bool] (Clause
+[#conv]).
+
+[:en]
+The effect shall be as if [`p != nullptr] had been evaluated in place of [`p].
+
+[para]
+[:en]
+No operation which is part of the [`NullablePointer] requirements shall exit
+via an exception.
+
+[para]
+In Table [#nullablepointer], [`u] denotes an identifier, [`t] denotes a
+non-[`const] lvalue of type [`P], [`a] and [`b] denote values of type (possibly
+[`const]) [`P], and [`np] denotes a value of type (possibly [`const])
+[`std::nullptr_t].
+
+[%[:en] requirements[![`NullablePointer]]]
+[table:listing@reflable#nullablepointer
+    [:en] [`NullablePointer] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Return type
+        ]
+        [column
+            [:en] Operational semantics
+        ]
+    ]
+    [border:row@none]
+]
+[|] P u(np); [br] P u = np;
+        [|]     [|] [:en] post: [`u == nullptr]
+[|] P(np)
+        [|]     [|] [:en] post: [`P(np) == nullptr]
+[|] t = np
+        [|] [`P&]
+                [|] [:en] post: [`t == nullptr]
+[|] a != b
+        [|] contextually convertible to [`bool]
+                [|] [:en] [`!(a == b)]
+[|] a == np [br] np == a
+        [|] contextually convertible to [`bool]
+                [|] [:en] [`a == P()]
+[|] a != np [br] np != a
+        [|] contextually convertible to [`bool]
+                [|] [:en] [`!(a == np)]
+[table:end]

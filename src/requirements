@@ -1,0 +1,36 @@
+﻿[section#requirements
+    [:en] Library-wide requirements
+]
+
+[para]
+[:en]
+This subclause specifies requirements that apply to the entire [=Cpp] standard
+library.
+
+[:en]
+Clauses [#support.library] through [#thread] and Annex [#depr] specify the
+requirements of individual entities within the library.
+
+[para]
+[:en]
+Requirements specified in terms of interactions between threads do not apply to
+programs having only a single thread of execution.
+
+[para]
+[:en]
+Within this subclause, [#organization] describes the library[=']s contents and
+organization, [#using] describes how well-formed [=Cpp] programs gain access to
+library entities, [#utility.requirements] describes constraints on types and
+functions used with the [=Cpp] standard library, [#constraints] describes
+constraints on well-formed [=Cpp] programs, and [#conforming] describes
+constraints on conforming implementations.
+
+[include organization]
+
+[include using]
+
+[include utility.requirements]
+
+[include constraints]
+
+[include conforming]

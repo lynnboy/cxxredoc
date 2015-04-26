@@ -1,0 +1,10 @@
+﻿[section#reentrancy
+    [:en] Reentrancy
+]
+
+[para]
+[:en]
+Except where explicitly specified in this standard, it is [%@impldef which
+functions in Standard C++ library may be recursively reentered]
+implementation-defined which functions in the Standard [=Cpp] library may be
+recursively reentered.

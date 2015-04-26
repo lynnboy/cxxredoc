@@ -1,0 +1,83 @@
+﻿[section#compliance
+    [:en] Freestanding implementations
+]
+
+[para]
+[:en]
+Two kinds of implementations are defined: [+hosted] and [+freestanding]
+([#intro.compliance]).
+
+[:en]
+For a hosted implementation, this International Standard
+[%implementation[!hosted]] describes the set of available headers.
+
+[para]
+[:en]
+A freestanding implementation [%implementation[!freestanding]] has an
+[%@impldef headers for freestanding implementation] implementation-defined set
+of headers.
+
+[:en]
+This set shall include at least the headers shown in Table
+[#tab:cpp.headers.freestanding].
+
+[table:listing#tab:cpp.headers.freestanding
+    [:en] [=Cpp] headers for freestanding implementations
+    [columns
+        [column]
+        [column@headercenter
+            [:en] Subclause
+        ]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+[|]     [|]     [|] <ciso646>
+[|] [#support.types] 
+        [|] [:en] Types
+                [|] <cstddef>
+[|] [#support.limits]
+        [|] [:en] Implementation properties
+                [|] <cfloat> <limits> <climits>
+[|] [#cstdint]
+        [|] [:en] Integer types
+                [|] <cstdint>
+[|] [#support.start.term]
+        [|] [:en] Start and termination
+                [|] <cstdlib>
+[|] [#support.dynamic]
+        [|] [:en] Dynamic memory management
+                [|] <new>
+[|] [#support.rtti]
+        [|] [:en] Type identification
+                [|] <typeinfo>
+[|] [#support.exception]
+        [|] [:en] Exception handling
+                [|] <exception>
+[|] [#support.initlist]
+        [|] [:en] Initializer lists
+                [|] <initializer_list>
+[|] [#support.runtime]
+        [|] [:en] Other runtime support
+                [|] <cstdalign> <cstdarg> <cstdbool>
+[|] [#meta]
+        [|] [:en] Type traits
+                [|] <type_traits>
+[|] [#atomics]
+        [|] [:en] Atomics
+                [|] <atomic>
+[table:end]
+
+[para]
+[:en]
+The supplied version of the header [`<cstdlib>]
+[%[`<cstdlib>][sortas cstdlib]] [%@library <cstdlib>[sortas cstdlib]]
+shall declare at least the functions [`abort], [`atexit], [`at_quick_exit],
+[`exit], and [`quick_exit]
+[%@library abort] [%@library atexit] [%@library exit] ([#support.start.term]).
+
+[:en]
+The other headers listed in this table shall meet the same requirements as for a
+hosted implementation.

@@ -1,0 +1,15 @@
+﻿[section#constexpr.functions
+    [:en] [`constexpr] functions and constructors
+]
+
+[para]
+[:en]
+This standard explicitly requires that certain standard library functions are
+[`constexpr] ([#dcl.constexpr]). An implementation shall not declare
+any standard library function signature as [`constexpr] except for those where
+it is explicitly required.
+
+[:en]
+Within any header that provides any non-defining declarations of [`constexpr]
+functions or constructors an implementation shall provide corresponding
+definitions.

@@ -1,0 +1,12 @@
+﻿[section#alt.headers
+    [:en] Headers
+]
+
+[para]
+[:en]
+[%implementation-defined]
+If a file with a name equivalent to the derived file name for one of the [=Cpp]
+standard library headers is not provided as part of the implementation, and a
+file with that name is placed in any of the standard places for a
+[%source file] source file to be included ([#cpp.include]), the
+[%undefined] behavior is undefined.

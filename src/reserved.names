@@ -1,0 +1,32 @@
+﻿[section#reserved.names
+    [:en] Reserved names
+]
+
+[% [:en] name[!reserved]]
+
+[para]
+[:en]
+The [=Cpp] standard library reserves the following kinds of names:
+
+[list]
+[item]
+[:en@~] macros
+[item]
+[:en@~] global names
+[item]
+[:en@~] names with external linkage
+[list:end]
+
+[para]
+[:en]
+If a program declares or defines a name in a context where it is reserved, other
+than as explicitly allowed by this Clause, its behavior is [%undefined]
+undefined.
+
+[include macro.names]
+
+[include extern.names]
+
+[include extern.types]
+
+[include usrlit.suffix]

@@ -1,0 +1,33 @@
+﻿[section#value.error.codes
+    [:en] Value of error codes
+]
+
+[para]
+[:en]
+Certain functions in the [=Cpp] standard library report errors via a
+[`std::error_code] ([#syserr.errcode.overview]) object. That object[=']s
+[`category()] member shall return [`std::system_category()] for
+errors originating from the operating system, or a reference to an
+[%@impldef [`error_category] for errors originating outside the operating
+system] implementation-defined [`error_category] object for errors originating
+elsewhere.
+
+[:en]
+The implementation shall define the possible values of [`value()] for each of
+these error categories.
+
+[enter:example]
+[:en]
+For operating systems that are based on POSIX, implementations are encouraged to
+define the [`std::system_category()] values as identical to the POSIX [`errno]
+values, with additional values as defined by the operating system[=']s
+documentation.
+
+[:en]
+Implementations for operating systems that are not based on POSIX are encouraged
+to define values identical to the operating system[=']s values.
+
+[:en]
+For errors that do not originate from the operating system, the implementation
+may provide enums for the associated values.
+[exit:example]

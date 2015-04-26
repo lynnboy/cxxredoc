@@ -1,0 +1,156 @@
+﻿[section#structure.specifications
+    [:en] Detailed specifications
+]
+
+[para]
+[:en]
+The detailed specifications each contain the following elements:
+
+[list]
+[item]
+[:en] name and brief description
+[item]
+[:en] synopsis (class definition or function declaration, as appropriate)
+[item]
+[:en] restrictions on template arguments, if any
+[item]
+[:en] description of class invariants
+[item]
+[:en] description of function semantics
+[list:end]
+
+[para]
+[:en]
+Descriptions of class member functions follow the order (as appropriate):
+
+[footnote]
+[:en]
+To save space, items that do not apply to a class are omitted.
+
+[:en]
+For example, if a class does not specify any comparison functions, there will be
+no ["Comparison functions] subclause.
+[footnote:end]
+
+[list]
+[item]
+[:en] constructor(s) and destructor
+[item]
+[:en] copying, moving & assignment functions
+[item]
+[:en] comparison functions
+[item]
+[:en] modifier functions
+[item]
+[:en] observer functions
+[item]
+[:en] operators and other non-member functions
+[list:end]
+
+[para]
+[:en]
+Descriptions of function semantics contain the following elements (as
+appropriate):
+
+[footnote]
+[:en]
+To save space, items that do not apply to a function are omitted.
+
+[:en]
+For example, if a function does not specify any further preconditions, there
+will be no ["Requires] paragraph.
+[footnote:end]
+
+[list]
+[item]
+[:en] [=Requires] the preconditions for calling the function
+[item]
+[:en] [=Effects] the actions performed by the function
+[item]
+[:en] [=Sync] the synchronization operations ([#intro.multithread]) applicable
+to the function
+[item]
+[:en] [=Postconditions] the observable results established by the function
+[item]
+[:en] [=Returns] a description of the value(s) returned by the function
+[item]
+[:en] [=Throws] any exceptions thrown by the function, and the conditions that would cause the exception
+[item]
+[:en] [=Complexity] the time and/or space complexity of the function
+[item]
+[:en] [=Notes] additional semantic constraints on the function
+[item]
+[:en] [=Errors] the error conditions for error codes reported by the function.
+[item]
+[:en] [=Realnotes] non-normative comments about the function
+[list:end]
+
+[para]
+[:en]
+Whenever the [=Effects] element specifies that the semantics of some function
+[`F] are [em@tech Equivalent to] some code sequence, then the various elements
+are interpreted as follows.
+
+[:en]
+If [`F][=']s semantics specifies a [=Requires] element, then that requirement is
+logically imposed prior to the [em@tech equivalent-to] semantics.
+
+[:en]
+Next, the semantics of the code sequence are determined by the [=Requires],
+[=Effects], [=Postconditions], [=Returns], [=Throws], [=Complexity], [=Notes],
+[=Errors], and [=Realnotes] specified for the function invocations contained in
+the code sequence.
+
+[:en]
+The value returned from [`F] is specified by [`F][=']s [=Returns] element, or if
+[`F] has no [=Returns] element, a non-[`void] return from [`F] is specified by
+the [=Returns] elements in the code sequence.
+
+[:en]
+If [`F][=']s semantics contains a [=Throws], [=Postconditions], or [=Complexity]
+element, then that supersedes any occurrences of that element in the code
+sequence.
+
+[para]
+[:en]
+For non-reserved replacement and handler functions, Clause [#language.support]
+specifies two behaviors for the functions in question: their required and
+default behavior.
+
+[:en]
+[%behavior[!default]]
+The [+default behavior] describes a function definition provided by the
+implementation.
+
+[:en]
+[%behavior[!required]]
+The [+required behavior] describes the semantics of a function definition
+provided by either the implementation or a [=Cpp] program.
+
+[:en]
+Where no distinction is explicitly made in the description, the behavior
+described is the required behavior.
+
+[para]
+[:en]
+If the formulation of a complexity requirement calls for a negative number of
+operations, the actual requirement is zero operations.
+
+[footnote]
+[:en]
+This simplifies the presentation of complexity requirements in some cases.
+[footnote:end]
+
+[para]
+[:en]
+Complexity requirements specified in the library clauses are upper bounds,
+and implementations that provide better complexity guarantees satisfy
+the requirements.
+
+[para]
+[:en]
+Error conditions specify conditions where a function may fail.
+
+[:en]
+The conditions are listed, together with a suitable explanation, as the [`enum
+class errc] constants ([#syserr]).

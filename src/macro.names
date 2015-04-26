@@ -1,0 +1,17 @@
+﻿[section#macro.names
+    [:en] Macro names
+]
+
+[para]
+[:en]
+[%[`#undef]]
+[%unit[!translation]]
+A translation unit that includes a standard library header shall not [`#define]
+or [`#undef] names declared in any standard library header.
+
+[para]
+[:en]
+[%unit[!translation]]
+A translation unit shall not [`#define] or [`#undef] names lexically identical
+to keywords, to the identifiers listed in Table [#tab:identifiers.special], or
+to the [~attribute-token]s described in [#dcl.attr].

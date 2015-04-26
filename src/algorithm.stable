@@ -1,0 +1,25 @@
+﻿[section#algorithm.stable
+    [:en] Requirements for stable algorithms
+]
+
+[para]
+[:en]
+[%algorithm[!stable]]
+[%stable algorithm]
+When the requirements for an algorithm state that it is ["stable] without
+further elaboration, it means:
+
+[list]
+[item]
+[:en] For the [+sort] algorithms the relative order of equivalent elements is
+preserved.
+
+[item]
+[:en] For the [+remove] and [+copy] algorithms the relative order of the
+elements that are not removed is preserved.
+
+[item]
+[:en] For the [+merge] algorithms, for equivalent elements in the original two
+ranges, the elements from the first range (preserving their original order)
+precede the elements from the second range (preserving their original order).
+[list:end]

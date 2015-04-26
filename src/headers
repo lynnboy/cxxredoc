@@ -1,0 +1,195 @@
+﻿[section#headers
+    [:en] Headers
+]
+
+[para]
+[:en]
+Each element of the [=Cpp] standard library is declared or defined (as
+appropriate) in a [+header].
+
+[footnote]
+[:en]
+A header is not necessarily a source file, nor are the sequences delimited by
+[`<] and [`>] in header names necessarily valid source file names
+([#cpp.include]).
+[footnote:end]
+
+[para]
+[:en]
+The [=Cpp] standard library provides 53 [+[=Cpp] library headers],
+[%header[!C++ library]] as shown in Table [#tab:cpp.library.headers].
+
+[table:listing@simple#tab:cpp.library.headers
+    [:en] [=Cpp] library headers
+    [column@code@5]
+]
+[|] <algorithm>
+[|] <array>
+[|] <atomic>
+[|] <bitset>
+[|] <chrono>
+[|] <codecvt>
+[|] <complex>
+[|] <condition_variable>
+[|] <deque>
+[|] <exception>
+[|] <forward_list>
+
+[|] <fstream>
+[|] <functional>
+[|] <future>
+[|] <initializer_list>
+[|] <iomanip>
+[|] <ios>
+[|] <iosfwd>
+[|] <iostream>
+[|] <istream>
+[|] <iterator>
+[|] <limits>
+
+[|] <list>
+[|] <locale>
+[|] <map>
+[|] <memory>
+[|] <mutex>
+[|] <new>
+[|] <numeric>
+[|] <ostream>
+[|] <queue>
+[|] <random>
+[|] <ratio>
+
+[|] <regex>
+[|] <scoped_allocator>
+[|] <set>
+[|] <sstream>
+[|] <stack>
+[|] <stdexcept>
+[|] <streambuf>
+[|] <string>
+[|] <strstream>
+[|] <system_error>
+[|] <thread>
+
+[|] <tuple>
+[|] <type_traits>
+[|] <typeindex>
+[|] <typeinfo>
+[|] <unordered_map>
+[|] <unordered_set>
+[|] <utility>
+[|] <valarray>
+[|] <vector>
+[table:end]
+
+[para]
+[:en]
+The facilities of the C standard Library are provided in 26
+[%library[!C standard]]
+additional headers, as shown in Table [#tab:cpp.c.headers].
+
+[table:listing@simple#tab:cpp.c.headers
+    [:en] [=Cpp] headers for C library facilities
+    [column@code@5]
+]
+[|] <cassert>
+[|] <ccomplex>
+[|] <cctype>
+[|] <cerrno>
+[|] <cfenv>
+[|] <cfloat>
+
+[|] <cinttypes>
+[|] <ciso646>
+[|] <climits>
+[|] <clocale>
+[|] <cmath>
+[|] <csetjmp>
+
+[|] <csignal>
+[|] <cstdalign>
+[|] <cstdarg>
+[|] <cstdbool>
+[|] <cstddef>
+[|] <cstdint>
+
+[|] <cstdio>
+[|] <cstdlib>
+[|] <cstring>
+[|] <ctgmath>
+[|] <ctime>
+[|] <cuchar>
+
+[|] <cwchar>
+[|] <cwctype>
+[table:end]
+
+[para]
+[:en]
+Except as noted in Clauses [#support.library] through [#thread] and Annex
+[#depr], the contents of each header [`c[$name]] shall be the same as that of
+the corresponding header [`[$name].h], as specified in the C standard library
+([#intro.refs]) or the C Unicode TR, as appropriate, as if by inclusion.
+
+[:en]
+In the [=Cpp] standard library, however, the declarations (except for names
+which are defined as macros in C) are within namespace scope
+([#basic.scope.namespace]) of the namespace [`std.]
+
+[:en]
+It is unspecified whether these names are first declared within the global
+namespace scope and are then injected into namespace [`std] by explicit
+[~using-declaration]s ([#namespace.udecl]).
+
+[para]
+[:en]
+Names which are defined as macros in C shall be defined as macros in the [=Cpp]
+standard library, even if C grants license for implementation as functions.
+
+[enter:note]
+[:en]
+The names defined as macros in C include the following: [`assert], [`offsetof],
+[`setjmp], [`va_arg], [`va_end], and [`va_start].
+[exit:note]
+
+[para]
+[:en]
+Names that are defined as functions in C shall be defined as functions in the
+[=Cpp] standard library.
+
+[footnote]
+[:en]
+This disallows the practice, allowed in C, of providing a masking macro in
+addition to the function prototype.
+
+[:en]
+The only way to achieve equivalent inline behavior in [=Cpp] is to provide a
+definition as an extern inline function.
+[footnote:end]
+
+[para]
+[:en]
+Identifiers that are keywords or operators in [=Cpp] shall not be defined as
+macros in [=Cpp] standard library headers.
+
+[footnote]
+[:en]
+In particular, including the standard header [`<iso646.h>] or [`<ciso646>] has
+no effect.
+[footnote:end]
+
+[para]
+[:en]
+[#depr.c.headers], C standard library headers, describes the effects of using
+the [`[$name].h] (C header) form in a [=Cpp] program.
+
+[footnote]
+[:en]
+The
+[`".h"] headers dump all their names into the global namespace, whereas the
+newer forms keep their names in namespace [`std].
+
+[:en]
+Therefore, the newer forms are the preferred forms for all uses except for
+[=Cpp] programs which are intended to be strictly compatible with C.
+[footnote:end]

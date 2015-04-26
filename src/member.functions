@@ -1,0 +1,58 @@
+﻿[section#member.functions
+    [:en] Member functions
+]
+
+[para]
+[:en]
+It is unspecified whether any member functions in the [=Cpp] standard library
+are defined as [`inline] ([#dcl.fct.spec]).
+
+[para]
+[:en]
+An implementation may declare additional non-virtual member function signatures
+within a [%function[!virtual member]] class:
+
+[list]
+[item]
+[:en] by adding arguments with default values to a member function signature;
+[%argument]
+[%function[!global]]
+
+[footnote]
+[:en]
+[%address of member function[!unspecified]]
+Hence, the address of a member function of a class in the [=Cpp] standard
+library has an unspecified type.
+[footnote:end]
+
+[enter:note]
+[:en]
+An implementation may not add arguments with default values to virtual, global,
+or non-member functions.
+[exit:note]
+
+[item]
+[:en]
+by replacing a member function signature with default values by two or more
+member function signatures with equivalent behavior; and
+
+[item]
+[:en]
+by adding a member function signature for a member function name.
+[list:end]
+
+[para]
+[:en]
+A call to a member function signature described in the [=Cpp] standard library
+behaves as if the implementation declares no additional member function
+signatures.
+
+[footnote]
+[:en]
+A valid [=Cpp] program always calls the expected library member function, or one
+with equivalent behavior.
+
+[:en]
+An implementation may also define additional member functions that would
+otherwise not be called by a valid [=Cpp] program.
+[footnote:end]

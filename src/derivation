@@ -1,0 +1,48 @@
+﻿[section#derivation
+    [:en] Derived classes
+]
+
+[para]
+[%class[!derived]]
+[%class[!base]]
+An implementation may derive any class in the [=Cpp] standard library from a
+class with a name reserved to the implementation.
+
+[para]
+[:en]
+Certain classes defined in the [=Cpp] standard library are required to be
+derived from other classes in [%library[!C++ standard]] the [=Cpp] standard
+library.
+
+[:en]
+An implementation may derive such a class directly from the required base or
+indirectly through a hierarchy of base classes with names reserved to the
+implementation.
+
+[para]
+[:en]
+In any case:
+
+[list]
+[item]
+[:en]
+[%class[!base]]
+Every base class described as [`virtual] shall be virtual;
+
+[item]
+[:en]
+[%class[!base]]
+Every base class described as non-[`virtual] shall not be virtual;
+
+[item]
+[:en]
+Unless explicitly stated otherwise, types with distinct names shall be distinct
+types.
+
+[footnote]
+[:en]
+There is an implicit exception to this rule for types that are described as
+synonyms for basic integral types, such as [`size_t] ([#support.types]) and
+[`streamoff] ([#stream.types]).
+[footnote:end]
+[list:end]

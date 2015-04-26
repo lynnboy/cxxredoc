@@ -1,0 +1,32 @@
+﻿[section#type.descriptions.general
+    [:en] General
+]
+
+[para]
+[:en]
+The Requirements subclauses may describe names that are used to specify
+constraints on template arguments.
+
+[footnote]
+[:en]
+Examples from [#utility.requirements] include: [`EqualityComparable],
+[`LessThanComparable], [`CopyConstructible].
+
+[:en]
+Examples from [#iterator.requirements] include: [`InputIterator],
+[`ForwardIterator], [`Function], [`Predicate].
+[footnote:end]
+
+[:en]
+These names are used in library Clauses to describe the types that may be
+supplied as arguments by a [=Cpp] program when instantiating template components
+from the library.
+
+[para]
+[:en]
+[%types[!implementation-defined]]
+Certain types defined in Clause [#input.output] are used to describe
+implementation-defined types.
+
+[:en]
+They are based on other types, but with added constraints.

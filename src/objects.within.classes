@@ -1,0 +1,37 @@
+﻿[section#objects.within.classes
+    [:en] Private members
+]
+
+[para]
+[:en]
+Clauses [#support.library] through [#thread] and Annex [#depr] do not specify
+the representation of classes, and intentionally omit specification of class
+members ([#class.mem]).
+
+[:en]
+An implementation may define static or non-static class members, or both, as
+needed to implement the semantics of the member functions specified in Clauses
+[#support.library] through [#thread] and Annex [#depr].
+
+[para]
+[:en]
+Objects of certain classes are sometimes required by the external specifications
+of their classes to store data, apparently in member objects.
+
+[:en]
+For the sake of exposition, some subclauses provide representative declarations,
+and semantic requirements, for private member objects of classes that meet the
+external specifications of the classes.
+
+[:en]
+The declarations for such member objects and the definitions of related member
+types are followed by a comment that ends with [=Expos], as in:
+
+[codeblock]
+streambuf* sb;  // [=Expos]
+[codeblock:end]
+
+[para]
+[:en]
+An implementation may use any technique that provides equivalent external
+behavior.

@@ -1,0 +1,50 @@
+﻿[section#namespace.std
+    [:en] Namespace [`std]
+]
+
+[para]
+[:en]
+The behavior of a [=Cpp] program is undefined if it adds declarations or
+definitions to namespace [`std] or to a namespace within namespace [`std] unless
+otherwise specified.
+
+[:en]
+A program may add a template specialization for any standard library template
+to namespace [`std] only if the declaration depends on a user-defined type and
+the specialization meets the standard library requirements for the original
+template and is not explicitly prohibited.
+
+[footnote]
+[:en]
+Any library code that instantiates other library templates must be prepared to
+work adequately with any user-supplied specialization that meets the minimum
+requirements of the Standard.
+[footnote:end]
+
+[para]
+[:en]
+The behavior of a [=Cpp] program is undefined if it declares
+
+[list]
+[item]
+[:en] an explicit specialization of any member function of a standard library
+class template, or
+
+[item]
+[:en] an explicit specialization of any member function template of a standard
+library class or class template, or
+
+[item]
+[:en] an explicit or partial specialization of any member class template of a
+standard library class or class template.
+[list:end]
+
+[:en]
+A program may explicitly instantiate a template defined in the standard library
+only if the declaration depends on the name of a user-defined type and the
+instantiation meets the standard library requirements for the original template.
+
+[para]
+[:en]
+A translation unit shall not declare namespace [`std] to be an inline namespace
+([#namespace.def]).

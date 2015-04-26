@@ -1,0 +1,16 @@
+﻿[section#constraints.overview
+    [:en] Overview
+]
+
+[para]
+[:en]
+This section describes restrictions on [=Cpp] programs that use the facilities
+of the [=Cpp] standard library.
+
+[:en]
+The following subclauses specify constraints on the program[=']s use of
+namespaces ([#namespace.std]), its use of various reserved names
+([#reserved.names]), its use of headers ([#alt.headers]), its use of standard
+library classes as base classes ([#derived.classes]), its definitions of
+replacement functions ([#replacement.functions]), and its installation of
+handler functions during execution ([#handler.functions]).

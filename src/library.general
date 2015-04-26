@@ -1,0 +1,128 @@
+﻿[section#library.general
+    [:en]
+]
+
+[para]
+[:en]
+This Clause describes the contents of the [+[=Cpp] standard library],
+[%library[!C++ standard]] how a well-formed [=Cpp] program makes use of the
+library, and how a conforming implementation may provide the entities in the
+library.
+
+[para]
+[:en]
+The following subclauses describe the definitions ([#definitions]), method of
+description ([#description]), and organization ([#organization]) of the library.
+
+[:en]
+Clause [#requirements], Clauses [#language.support] through [#thread], and Annex
+[#depr] specify the contents of the library, as well as library requirements and
+constraints on both well-formed [=Cpp] programs and conforming implementations.
+
+[para]
+[:en]
+Detailed specifications for each of the components in the library are in Clauses
+[#language.support][=-][#thread], as shown in Table [#tab:library.categories].
+
+[table:listing#tab:library.categories
+    [:en] Library categories
+    [columns
+        [column
+            [:en] Clause
+        ]
+        [column
+            [:en] Category
+        ]
+    ]
+    [border:cell@none]
+]
+[|] [#language.support] [|] [:en] Language support library
+[|] [#diagnostics]      [|] [:en] Diagnostics library
+[|] [#utilities]        [|] [:en] General utilities library
+[|] [#strings]          [|] [:en] Strings library
+[|] [#localization]     [|] [:en] Localization library
+[|] [#containers]       [|] [:en] Containers library
+[|] [#iterators]        [|] [:en] Iterators library
+[|] [#algorithms]       [|] [:en] Algorithms library
+[|] [#numerics]         [|] [:en] Numerics library
+[|] [#input.output]     [|] [:en] Input/output library
+[|] [#re]               [|] [:en] Regular expressions library
+[|] [#atomics]          [|] [:en] Atomic operations library
+[|] [#thread]           [|] [:en] Thread support library
+[table:end]
+
+[para]
+[:en]
+The language support library (Clause [#language.support]) provides components
+that are required by certain parts of the [=Cpp] language, such as memory
+allocation ([#expr.new], [#expr.delete]) and exception processing (Clause
+[#except]).
+
+[para]
+[:en]
+The diagnostics library (Clause [#diagnostics]) provides a consistent framework
+for reporting errors in a [=Cpp] program, including predefined exception
+classes.
+
+[para]
+[:en]
+The general utilities library (Clause [#utilities]) includes components used by
+other library elements, such as a predefined storage allocator for dynamic
+storage management ([#basic.stc.dynamic]), and components used as infrastructure
+in [=Cpp] programs, such as a tuples, function wrappers, and time facilities.
+
+[para]
+[:en]
+The strings library (Clause [#strings]) provides support for manipulating text
+represented as sequences of type [`char], sequences of type [`char16_t],
+sequences of type [`char32_t], sequences of type [`wchar_t], and sequences of
+any other character-like type.
+
+[para]
+[:en]
+The localization library (Clause [#localization]) provides extended
+internationalization support for text processing.
+
+[para]
+[:en]
+The containers (Clause [#containers]), iterators (Clause [#iterators]), and
+algorithms (Clause [#algorithms]) libraries provide a [=Cpp] program with access
+to a subset of the most widely used algorithms and data structures.
+
+[para]
+[:en]
+The numerics library (Clause [#numerics]) provides numeric algorithms and
+complex number components that extend support for numeric processing.
+
+[:en]
+The [`valarray] component provides support for [$n]-at-a-time processing,
+potentially implemented as parallel operations on platforms that support such
+processing.
+
+[:en]
+The random number component provides facilities for generating pseudo-random
+numbers.
+
+[para]
+[:en]
+The input/output library (Clause [#input.output]) provides the [`iostream]
+components that are the primary mechanism for [=Cpp] program input and output.
+
+[:en]
+They can be used with other elements of the library, particularly strings,
+locales, and iterators.
+
+[para]
+[:en]
+The regular expressions library (Clause [#re]) provides regular expression
+matching and searching.
+
+[para]
+[:en]
+The atomic operations library (Clause [#atomics]) allows more fine-grained
+concurrent access to shared data than is possible with locks.
+
+[para]
+[:en]
+The thread support library (Clause [#thread]) provides components to create and
+manage threads, including mutual exclusion and interthread communication.

@@ -1,0 +1,22 @@
+﻿[section#res.on.macro.definitions
+    [:en] Restrictions on macro definitions
+]
+
+[% [:en] restriction]
+[para]
+[:en]
+The names and global function signatures described in [#contents] are
+[%function[!global]] reserved to the implementation.
+
+[:en]
+[%argument]
+[%header[!C]]
+[%function[!global]]
+[%inline]
+[%macro[!masking]]
+
+[para]
+[:en]
+All object-like macros defined by the C standard library and described in this
+Clause as expanding to integral constant expressions are also suitable for use
+in [`#if][%[`#if]] preprocessing directives, unless explicitly stated otherwise.

@@ -1,0 +1,41 @@
+﻿[section#using.headers
+    [:en] Headers
+]
+
+[para]
+[:en]
+The entities in the [=Cpp] standard library are defined in headers, whose
+contents are made available to a translation unit when it contains the
+[%source file] [%unit[!translation]]
+appropriate [%[`#include]] [`#include] preprocessing directive ([#cpp.include]).
+
+[para]
+[:en]
+[%unit[!translation]]
+A translation unit may include library headers in any order (Clause [#lex]).
+
+[:en]
+Each may be included more than once, with no effect different from being
+included exactly once, except that the effect of including either [`<cassert>]
+or [`<assert.h>] depends each time on the lexically
+[%[`<cassert>][sortas cassert]] [%@library <cassert>[sortas cassert]]
+[%[`<assert.h>][sortas assert.h]] [%@library <assert.h>[sortas assert.h]]
+current definition of
+[%[`NDEBUG]] [%@library [`NDEBUG]]
+[`NDEBUG].
+
+[footnote]
+[:en]
+This is the same as the Standard C library.
+[footnote:end]
+
+[para]
+[:en]
+A translation unit shall include a header only outside of any
+[%unit[!translation]]
+external declaration or definition, and shall include the header lexically
+before the first reference in that translation unit to any of the entities
+declared in that header.
+
+[:en]
+No diagnostic is required.

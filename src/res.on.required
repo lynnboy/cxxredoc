@@ -1,0 +1,10 @@
+﻿[section#res.on.required
+    [:en] Required paragraph
+]
+
+[para]
+[:en]
+[%restriction]
+Violation of the preconditions specified in a function[=']s [=Requires]
+paragraph results in undefined behavior unless the function[=']s [=Throws]
+paragraph specifies throwing an exception when the precondition is violated.

@@ -1,0 +1,53 @@
+﻿[section#res.on.functions
+    [:en] Other functions
+]
+
+[para]
+[:en]
+In certain cases (replacement functions, handler functions, operations on types
+used to instantiate standard library template components), the [=Cpp] standard
+library depends on components supplied by a [=Cpp] program.
+
+[:en]
+If these components do not meet their requirements, the Standard places no
+requirements on the implementation.
+
+[para]
+[:en]
+In particular, the effects are undefined in the following cases:
+
+[list]
+[item]
+[:en]
+for replacement functions ([#new.delete]), if the installed replacement function
+does not implement the semantics of the applicable [=Required] paragraph.
+
+[item]
+[:en]
+for handler functions ([#new.handler], [#terminate.handler],
+[#unexpected.handler]), if the installed handler function does not implement the
+semantics of the applicable [=Required] paragraph.
+
+[item]
+[:en]
+for types used as template arguments when instantiating a template component,
+if the operations on the type do not implement the semantics of the applicable
+[em@bf Requirements] subclause ([#allocator.requirements],
+[#container.requirements], [#iterator.requirements], [#numeric.requirements]).
+
+[:en]
+Operations on such types can report a failure by throwing an exception unless
+otherwise specified.
+
+[item]
+[:en]
+if any replacement function or handler function or destructor operation exits
+via an exception, unless specifically allowed in the applicable [=Required]
+paragraph.
+
+[item]
+[:en]
+if an incomplete type ([#basic.types]) is used as a template argument when
+instantiating a template component, unless specifically allowed for that
+component.
+[list:end]

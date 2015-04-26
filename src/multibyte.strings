@@ -1,0 +1,25 @@
+﻿[section#multibyte.strings
+    [:en] Multibyte strings
+]
+
+[para]
+[:en]
+A [%NTBS] [%NTMBS] [+null-terminated multibyte string,] or [em@sc ntmbs],
+[%string[!null-terminated multibyte]]
+is an [em@sc ntbs] that constitutes a sequence of valid multibyte characters,
+beginning and ending in the initial shift state.
+
+[footnote]
+[:en]
+An [em@sc ntbs] that contains characters only from the basic execution character
+set is also an [em@sc ntmbs].
+
+[:en]
+Each multibyte character then consists of a single byte.
+[footnote:end]
+
+[para]
+[:en]
+[%NTMBS[!static]]
+[%NTMBS]
+A [+static] [em@sc ntmbs] is an [em@sc ntmbs] with static storage duration.

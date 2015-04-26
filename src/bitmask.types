@@ -1,0 +1,93 @@
+﻿[section#bitmask.types
+    [:en] Bitmask types
+]
+
+[para]
+[:en]
+Several types defined in Clauses [#support.library] through [#thread] and Annex
+[#depr] are [%type[!bitmask]] [+bitmask types].
+
+[:en]
+[%type[!enumerated]]
+Each bitmask type can be implemented as an enumerated type that overloads
+certain operators, as an integer type, or as a [`bitset] ([#template.bitset]).
+
+[para]
+[:en]
+The bitmask type [+bitmask] can be written:
+
+[codeblock [special bitmask V0 V1 V2 V3 C0 C1 C2 C3] ]
+// [:en] For exposition only.
+// [:en] [`int_type] is an integral type capable of
+// [:en@~] representing all values of the bitmask type.
+enum bitmask : int_type {
+  V0 = 1 << 0, V1 = 1 << 1, V2 = 1 << 2, V3 = 1 << 3, .....
+};
+
+constexpr bitmask C0(V0);
+constexpr bitmask C1(V1);
+constexpr bitmask C2(V2);
+constexpr bitmask C3(V3);
+  .....
+
+constexpr bitmask operator&(bitmask X, bitmask Y) {
+  return static_cast<bitmask>(
+    static_cast<int_type>(X) & static_cast<int_type>(Y));
+}
+constexpr bitmask operator|(bitmask X, bitmask Y) {
+  return static_cast<bitmask>(
+    static_cast<int_type>(X) | static_cast<int_type>(Y));
+}
+constexpr bitmask operator^(bitmask X, bitmask Y){
+  return static_cast<bitmask>(
+    static_cast<int_type>(X) ^ static_cast<int_type>(Y));
+}
+constexpr bitmask operator (bitmask X){
+  return static_cast<bitmask>(~static_cast<int_type>(X));
+}
+bitmask& operator&=(bitmask& X, bitmask Y){
+  X = X & Y; return X;
+}
+bitmask& operator|=(bitmask& X, bitmask Y) {
+  X = X | Y; return X;
+}
+bitmask& operator^=(bitmask& X, bitmask Y) {
+  X = X ^ Y; return X;
+}
+[codeblock:end]
+
+[para]
+[:en]
+Here, the names [$C0], [$C1], etc. represent [+bitmask elements] for this
+particular [%type[!bitmask]] bitmask type.
+
+[:en]
+All such elements have distinct, nonzero values such that, for any pair [$Ci]
+and [$Cj] where [$i] != [$j], [$Ci] & [$Ci] is nonzero and [$Ci] & [$Cj] is
+zero.
+
+[:en]
+[%bitmask[!empty]]
+Additionally, the value 0 is used to represent an [+empty bitmask], in which no
+bitmask elements are set.
+
+[para]
+[:en]
+The following terms apply to objects and values of bitmask types:
+
+[list]
+[item]
+[:en]
+To [+set] a value [$Y] in an object [$X] is to evaluate the expression [$X]
+[`|=] [$Y].
+
+[item]
+[:en]
+To [+clear] a value [$Y] in an object [$X] is to evaluate the expression [$X]
+[`&= ~][$Y].
+
+[item]
+[:en]
+The value [$Y] [+is set] in the object [$X] if the expression [$X] [`&] [$Y] is
+nonzero.
+[list:end]

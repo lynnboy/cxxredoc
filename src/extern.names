@@ -1,0 +1,64 @@
+﻿[section#extern.names
+    [:en] External linkage
+]
+
+[para]
+[:en]
+Each name declared as an object with [%linkage[!external]] external linkage
+in a header is reserved to the implementation to designate that library
+object with [%linkage[!external]] external linkage,
+
+[footnote]
+[:en]
+The list of such reserved names includes [`errno], declared or defined in
+[%[`<cerrno>] [sortas cerrno]] [%@library <cerrno> [sortas cerrno]]
+[`<cerrno>].
+[footnote:end]
+
+[:en@~]
+both in namespace [`std] and in the global namespace.
+
+[para]
+[:en]
+Each [%function[!global]] global function signature declared with
+[%linkage[!external]] external linkage in a header is reserved to the
+implementation to designate that function signature with
+[%linkage[!external]] external linkage.
+
+[footnote]
+[:en]
+The list of such reserved function signatures with external linkage includes
+[%@library setjmp] [`setjmp(jmp_buf)], declared or defined in
+[%@library <csetjmp>[sortas csetjmp]] [`<csetjmp>], and
+[%@library va_end] [%@library va_list] [`va_end(va_list)], declared or defined
+in [%@library <cstdarg> [sortas cstdarg]] [`<cstdarg>].
+[footnote:end]
+
+[para]
+[:en]
+Each name from the Standard C library declared with external linkage
+[%linkage[!external]] is reserved to the implementation for use as a name with
+[%header[!C]] [%[`extern "C"]] [`extern "C"] linkage, both in namespace std and
+in the global namespace.
+
+[para]
+[:en]
+Each function signature from the Standard C library declared with
+[%linkage[!external]] external linkage is reserved to the implementation for use
+as a function signature with both [%[`extern "C"]] [`extern "C"] and
+[%[`extern "C++"]] [`extern "C++"] linkage,
+
+[footnote]
+[:en]
+The function signatures declared in
+[%Amendment 1]
+[%[`<cuchar>][sortas cuchar]] [%@library <cuchar>[sortas cuchar]]
+[%[`<cwchar>][sortas cwchar]] [%@library <cwchar>[sortas cwchar]]
+[%[`<cwchar>][sortas cwchar]]
+[`<cuchar>], [`<cwchar>], and [`<cwctype>] are always reserved, notwithstanding
+the restrictions imposed in subclause 4.5.1 of Amendment 1 to the C Standard for
+these headers.
+[footnote:end]
+
+[:en@~]
+or as a name of namespace scope in the global namespace.

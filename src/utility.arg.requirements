@@ -1,0 +1,225 @@
+﻿[section#utility.arg.requirements
+    [:en] Template argument requirements
+]
+
+[para]
+The template definitions in the [=Cpp] standard library refer to various named
+requirements whose details are set out in tables
+[#equalitycomparable][=-][#destructible].
+
+[:en]
+In these tables, [`T] is an object or reference type to be supplied by a [=Cpp]
+program instantiating a template; [`a], [`b], and [`c] are values of type
+(possibly [`const]) [`T]; [`s] and [`t] are modifiable lvalues of type [`T];
+[`u] denotes an identifier; [`rv] is an rvalue of type [`T]; and [`v] is an
+lvalue of type (possibly [`const]) [`T] or an rvalue of type [`const T].
+
+[para]
+[:en]
+In general, a default constructor is not required.
+
+[:en]
+Certain container class member function signatures specify [`T()] as a default
+argument.
+
+[:en]
+[`T()] shall be a well-defined expression ([#dcl.init]) if one of those
+signatures is called using the default argument ([#dcl.fct.default]).
+
+[%[:en] requirements[![`EqualityComparable]]]
+[table:listing@reflable#equalitycomparable
+    [:en] [`EquialityComparable] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Return type
+        ]
+        [column
+            [:en] Requirement
+        ]
+    ]
+    [border:row@both]
+]
+[|] a == b
+        [|] [:en] convertible to [`bool]
+                [|] [:en] [`==] is an equivalence relation, that is, it has the
+                    following properties:
+                    [list]
+                    [item] [:en] For all [`a], [`a == a].
+                    [item] [:en] If [`a == b], then [`b == a].
+                    [item] [:en] If [`a == b] and [`b == c], then [`a == c].
+                    [list:end]
+[table:end]
+
+[%[:en] requirements[![`LessThanComparable]]]
+[table:listing@reflable#lessthancomparable
+    [:en] [`LessThanComparable] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Return type
+        ]
+        [column
+            [:en] Requirement
+        ]
+    ]
+    [border:row@both]
+]
+[|] a < b
+        [|] [:en] convertible to [`bool]
+                [|] [:en] [`<] is a strict weak ordering relation
+                    ([#alg.sorting])
+[table:end]
+
+[% [:en] requirements[![`DefaultConstructible]]]
+[table:listing@reflable#defaultconstructible
+    [:en] [`DefaultConstructible] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] T t;
+        [|] [:en] object [`t] is default-initialized
+[|] T u{};
+        [|] [:en] object [`u] is value-initialized or aggregate-initialized
+[|] T() [br] T{}
+        [|] [:en] a temporary object of type [`T] is value-initialized
+            or aggregate-initialized
+
+[table:end]
+
+[% [:en] requirements[![`MoveConstructible]]]
+[table:listing@reflable#moveconstructible
+    [:en] [`MoveConstructible] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] T u = rv;
+        [|] [:en] [`u] is equivalent to the value of [`rv] before the
+            construction
+[|] T(rv)
+        [|] [:en] [`T(rv)] is equivalent to the value of [`rv] before the
+            construction
+[|@normal@colspan=2 ]
+[:en] [`rv][=']s state is unspecified
+
+[enter:note]
+[:en] [`rv] must still meet the requirements of the library component that is
+using it.
+
+[:en] The operations listed in those requirements must work as specified whether
+[`rv] has been moved from or not.
+[exit:note]
+[table:end]
+
+[% [:en] requirements[![`CopyConstructible]]]
+[table:listing@reflable#copyconstructible
+    [:en] [`CopyConstructible] requirements (in addition to
+        [`MoveConstructible])
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] T u = v;
+        [|] [:en] the value of [`v] is unchanged and is equivalent to [`u]
+[|] T(v)
+        [|] [:en] the value of [`v] is unchanged and is equivalent to [`T(v)]
+[table:end]
+
+[% [:en] requirements[![`MoveAssignable]]]
+[table:listing@reflable#moveassignable
+    [:en] [`MoveAssignable] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column@code
+            [:en] Return type
+        ]
+        [column@code
+            [:en] Return value
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] T = rv  [|] T&  [|] t
+        [|] [:en] [`t] is equivalent to the value of [`rv] before the assignment
+[|@normal@colspan=4 ]
+[:en] [`rv][=']s state is unspecified.
+
+[enter:note]
+[:en] [`rv] must still meet the requirements of the library component that is
+using it.
+
+[:en] The operations listed in those requirements must work as specified whether
+[`rv] has been moved from or not.
+[exit:note]
+[table:end]
+
+
+[% [:en] requirements[![`CopyAssignable]]]
+[table:listing@reflable#copyassignable
+    [:en] [`CopyAssignable] requirements (in addition to [`MoveAssignable])
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column@code
+            [:en] Return type
+        ]
+        [column@code
+            [:en] Return value
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] T = v   [|] T&  [|] t
+        [|] [:en] [`t] is equivalent to [`v], the value of [`v] is unchanged
+[table:end]
+
+[%[:en]requirements[![`Destructible]]]
+[table:listing@reflable#destructible
+    [:en] [`Destructible] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column
+            [:en] Post-condition
+        ]
+    ]
+    [border:row@none]
+]
+[|] u.~T()
+        [|] [:en] All resources owned by [`u] are reclaimed, no exception is
+            propagated.
+[table:end]

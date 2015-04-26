@@ -1,0 +1,40 @@
+﻿[section#using.linkage
+    [:en] Linkage
+]
+
+[para]
+Entities in the [=Cpp] standard library have external linkage ([#basic.link]).
+
+[:en]
+Unless otherwise specified, objects and functions have the default
+[`extern "C++"] linkage ([#dcl.link]).
+
+[para]
+[:en]
+[%library[!C standard]]
+Whether a name from the C standard library declared with external linkage has
+[%linkage[!external]] [%header[!C library]]
+[%[`extern "C"]] [`extern "C"] or [%[`extern "C++"]] [`extern "C++"]
+linkage is [%@impldef linkage of names from Standard C library]
+implementation-defined.
+
+[:en]
+It is recommended that an implementation use [`extern "C++"] linkage for this
+purpose.
+
+[footnote]
+[:en]
+The only reliable way to declare an object or function signature from the
+Standard C library is by including the header that declares it, notwithstanding
+the latitude granted in 7.1.4 of the C Standard.
+[footnote:end]
+
+[para]
+[:en]
+Objects and functions defined in the library and required by a [=Cpp] program
+are included in the program prior to [%startup[!program]] program startup.
+
+[para:xref]
+[:en]
+replacement functions ([#replacement.functions]), run-time changes
+([#handler.functions]).

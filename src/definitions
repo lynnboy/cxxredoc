@@ -1,0 +1,292 @@
+﻿[section#definitions
+    [:en] Definitions
+]
+
+[section:def#defns.arbitrary.stream
+    [:en] arbitrary-positional stream [% stream[!arbitrary-positional]]
+]
+[:en]
+a stream (described in Clause [#input.output]) that can seek to any integral
+position within the length of the stream
+[br]
+[enter:note]
+[:en]
+Every arbitrary-positional stream is also a repositional stream.
+[exit:note]
+
+[section:def#defns.block
+    [:en] block [% block]
+]
+[:en]
+place a thread in the blocked state
+
+[section:def#defns.blocked
+    [:en] blocked thread [%thread[!blocked]]
+]
+[:en]
+a thread that is waiting for some condition (other than the availability of a
+processor) to be satisfied before it can continue execution
+
+[footnote]
+[:en]
+This definition is taken from POSIX.
+[footnote:end]
+
+[section:def#defns.character
+    [:en] character [%character]
+]
+[:en]
+<Clauses [#strings], [#localization], [#input.output], and [#re]>
+any object which, when treated sequentially, can represent text
+[br]
+[enter:note]
+[:en]
+The term does not mean only [`char], [`char16_t], [`char32_t], and [`wchar_t]
+objects, but any value that can be represented by a type that provides the
+definitions specified in these Clauses.
+[exit:note]
+
+[section:def#defns.character.container
+    [:en] character container type [%type[!character container]]
+]
+[:en]
+a class or a type used to represent a [+character]
+[br]
+[enter:note]
+[:en]
+It is used for one of the template parameters of the string, iostream, and
+regular expression class templates.
+
+[:en]
+A character container type is a POD ([#basic.types]) type.
+[exit:note]
+
+[section:def#defns.comparison
+    [:en] comparison function [%function[!comparison]]
+]
+[:en]
+an operator function ([#over.oper]) for any of the equality ([#expr.eq]) or
+relational ([#expr.rel]) operators
+
+[section:def#defns.component
+    [:en] component [%component]
+]
+[:en]
+a group of library entities directly related as members, parameters, or
+return types
+[br]
+[enter:note]
+[:en]
+For example, the class template [`basic_string] and the non-member function
+templates that operate on strings are referred to as the [+string component].
+[exit:note]
+
+[section:def#defns.deadlock
+    [:en] deadlock [%deadlock]
+]
+[:en]
+one or more threads are unable to continue execution because each is blocked
+waiting for one or more of the others to satisfy some condition
+
+[section:def#defns.default.behavior.impl
+    [:en] default behavior [%behavior[!default]]
+]
+[:en]
+<implementation>
+any specific behavior provided by the implementation, within the scope of the
+[+required behavior]
+
+[section:def#defns.default.behavior.func
+    [:en] default behavior [%behavior[!default]]
+]
+[:en]
+<specification>
+a description of [+replacement function] and [+handler function] semantics
+
+[section:def#defns.handler
+    [:en] handler function [%function[!handler]]
+]
+[:en]
+a [+non-reserved function] whose definition may be provided by a [=Cpp] program
+[br]
+[enter:note]
+[:en]
+A [=Cpp] program may designate a handler function at various points in its
+execution by supplying a pointer to the function when calling any of the library
+functions that install handler functions (Clause [#language.support]).
+[exit:note]
+
+[section:def#defns.iostream.templates
+    [:en] iostream class templates
+]
+[:en]
+templates, defined in Clause [#input.output], that take two template arguments
+[br]
+[enter:note]
+[:en]
+The arguments are named [`charT] and [`traits].
+
+[:en]
+The argument [`charT] is a character container class, and the argument [`traits]
+is a class which defines additional characteristics and functions of the
+character type represented by [`charT] necessary to implement the iostream class
+templates.
+[exit:note]
+
+[section:def#defns.modifier
+    [:en] modifier function [%function[!modifier]]
+]
+[:en]
+a class member function ([#class.mfct]) other than a constructor, assignment
+operator, or destructor that alters the state of an object of the class
+
+[section:def#defns.move.constr
+    [:en] move construction [%construction[!move]]
+]
+[:en]
+direct-initialization of an object of some type with an rvalue of the same type
+
+[section:def#defns.move.assign
+    [:en] move assignment [%assignment[!move]]
+]
+[:en]
+assignment of an rvalue of some object type to a modifiable lvalue of the same
+type
+
+[section:def#defns.obj.state
+    [:en] object state [%state[!object]]
+]
+[:en]
+the current value of all non-static class members of an object ([#class.mem])
+[br]
+[enter:note]
+[:en]
+The state of an object can be obtained by using one or more [+observer
+functions].
+[exit:note]
+
+[section:def#defns.ntcts
+    [:en] NTCTS [%NTCTS] [%string[!null-terminated character type]]
+]
+[:en]
+a sequence of values that have [+character type] that precede the terminating
+null character type value [`charT()]
+
+[section:def#defns.observer
+    [:en] observer function [%function[!observer]]
+]
+[:en]
+a class member function ([#class.mfct]) that accesses the state of an object of
+the class but does not alter that state
+[br]
+[enter:note]
+[:en]
+Observer functions are specified as [`const] member functions ([#class.this]).
+[exit:note]
+
+[section:def#defns.referenceable
+    [:en] referenceable type [%type[!referenceable]]
+]
+[:en]
+An object type, a function type that does not have cv-qualifiers or a
+[~ref-qualifier], or a reference type.
+[br]
+[enter:note]
+[:en]
+The term describes a type to which a reference can be created, including
+reference types.
+[exit:note]
+
+[section:def#defns.replacement
+    [:en] replacement function [%function[!replacement]]
+]
+[:en]
+a [+non-reserved function] whose definition is provided by a [=Cpp] program
+[br]
+[enter:note]
+[:en]
+Only one definition for such a function is in effect for the duration of the
+program[=']s execution, as the result of creating the program ([#lex.phases])
+and resolving the definitions of all translation units ([#basic.link]).
+[exit:note]
+
+[section:def#defns.repositional.stream
+    [:en] repositional stream [%stream[!repositional]]
+]
+[:en]
+a stream (described in Clause [#input.output]) that can seek to a position that
+was previously encountered
+
+[section:def#defns.required.behavior
+    [:en] required behavior [%behavior[!required]]
+]
+[:en]
+a description of [+replacement function] and [+handler function] semantics
+applicable to both the behavior provided by the implementation and
+the behavior of any such function definition in the program
+[br]
+[enter:note]
+[:en]
+If such a function defined in a [=Cpp] program fails to meet the required
+behavior when it executes, the behavior is undefined.
+[%undefined]
+[exit:note]
+
+[section:def#defns.reserved.function
+    [:en] reserved function [%function[!reserved]]
+]
+[:en]
+a function, specified as part of the [=Cpp] standard library, that must be
+defined by the implementation
+[br]
+[enter:note]
+If a [=Cpp] program provides a definition for any reserved function, the results
+are [%undefined] undefined.
+[exit:note]
+
+[section:def#defns.stable
+    [:en] stable algorithm [%algorithm[!stable]] [%stable algorithm]
+]
+[:en]
+an algorithm that preserves, as appropriate to the particular algorithm, the
+order of elements
+[br]
+[enter:note]
+[:en]
+Requirements for stable algorithms are given in [#algorithm.stable].
+[exit:note]
+
+[section:def#defns.traits
+    [:en] traits class [%traits]
+]
+[:en]
+a class that encapsulates a set of types and functions necessary for class
+templates and function templates to manipulate objects of types for which they
+are instantiated
+[br]
+[enter:note]
+[:en]
+Traits classes defined in Clauses [#strings], [#localization] and
+[#input.output] are [+character traits], which provide the character handling
+support needed by the string and iostream classes.
+[exit:note]
+
+[section:def#defns.unblock
+    [:en] unblock [%unblock]
+]
+[:en]
+place a thread in the unblocked state
+
+[section:def#defns.valid
+    [:en] valid but unspecified state [%valid but unspecified state]
+]
+[:en]
+an object state that is not specified except that the object[=']s invariants are
+met and operations on the object behave as specified for its type
+[br]
+[enter:example]
+[:en]
+If an object [`x] of type [`std::vector<int>] is in a valid but unspecified
+state, [`x.empty()] can be called unconditionally, and [`x.front()] can be
+called only if [`x.empty()] returns [`false].
+[exit:example]

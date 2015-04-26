@@ -1,0 +1,17 @@
+﻿[section#conforming.overview
+    [:en] Overview
+]
+
+[para]
+[:en]
+This section describes the constraints upon, and latitude of, implementations of
+the [=Cpp] standard library.
+
+[para]
+[:en]
+An implementation[=']s use of headers is discussed in [#res.on.headers], its use
+of macros in [#res.on.macro.definitions], global functions
+in [#global.functions], member functions in [#member.functions], data race
+avoidance in [#res.on.data.races], access specifiers
+in [#protection.within.classes], class derivation in [#derivation], and
+exceptions in [#res.on.exception.handling].

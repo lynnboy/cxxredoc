@@ -1,0 +1,50 @@
+﻿[section#res.on.arguments
+    [:en] Function arguments
+]
+
+[para]
+[:en]
+[%restriction]
+[%argument]
+Each of the following applies to all arguments [%argument] to functions defined
+in the [=Cpp] standard library, [%library[!C++ standard]] unless explicitly
+stated otherwise.
+
+[list]
+[item]
+[:en]
+If an argument to a function has an invalid value (such [%argument] as a value
+outside the domain of the function or a pointer invalid for its intended use),
+the behavior is [%undefined] undefined.
+
+[item]
+[:en]
+If a function argument is described as being an array, [%argument] the pointer
+actually passed to the function shall have a value such that all address
+computations and accesses to objects (that would be valid if the pointer did
+point to the first element of such an array) are in fact valid.
+
+[item]
+[:en]
+If a function argument binds to an rvalue reference parameter, the
+implementation may assume that this parameter is a unique reference to this
+argument.
+
+[enter:note]
+[:en]
+If the parameter is a generic parameter of the form [`T&&] and an lvalue of type
+[`A] is bound, the argument binds to an lvalue reference ([#temp.deduct.call])
+and thus is not covered by the previous sentence.
+[exit:note]
+
+[enter:note]
+[:en]
+If a program casts an lvalue to an xvalue while passing that lvalue to a library
+function (e.g. by calling the function with the argument [`move(x)]), the
+program is effectively asking that function to treat that lvalue as a temporary.
+
+[:en]
+The implementation is free to optimize away aliasing checks which might be
+needed if the argument was an lvalue.
+[exit:note]
+[list:end]

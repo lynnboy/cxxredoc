@@ -1,0 +1,65 @@
+﻿[section#hash.requirements
+    [:en] Hash requirements
+]
+
+[% [:en] requirements[![`Hash]]]
+[para]
+A type [`H] meets the [`Hash] requirements if:
+
+[list]
+[item]
+[:en] it is a function object type ([#function.objects]),
+[item]
+[:en] it satisfies the requirements of [`CopyConstructible] and [`Destructible]
+([#utility.arg.requirements]), and
+[item]
+[:en] the expressions shown in Table [#hash] are valid and have the indicated
+semantics.
+[list:end]
+
+[para]
+[:en]
+Given [`Key] is an argument type for function objects of type [`H], in Table
+[#hash] [`h] is a value of type (possibly [`const]) [`H], [`u] is an lvalue of
+type [`Key], and [`k] is a value of a type convertible to (possibly [`const])
+[`Key].
+
+[table:listing@reflable#hash
+    [:en] [`Hash] requirements
+    [columns
+        [column@code
+            [:en] Expression
+        ]
+        [column@code
+            [:en] Return type
+        ]
+        [column
+            [:en] Requirement
+        ]
+    ]
+    [border:row@none]
+]
+[|] h(k)
+        [|] size_t
+                [|]
+[:en]
+The value returned shall depend only on the argument [`k] for the duration of
+the program.
+
+[enter:note]
+[:en]
+Thus all evaluations of the expression [`h(k)] with the same value for [`k]
+yield the same result for a given execution of the program.
+[exit:note]
+
+[enter:note]
+[:en]
+For two different values [`t1] and [`t2], the probability that [`h(t1)] and
+[`h(t2)] compare equal should be very small, approaching
+[`1.0 / numeric_limits<size_t>::max()].
+[exit:note]
+
+[|] h(u)
+        [|] size_t
+                [|] [:en] Shall not modify [`u].
+[table:end]

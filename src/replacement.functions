@@ -1,0 +1,90 @@
+﻿[section#replacement.functions
+    [:en] Replacement functions
+]
+
+[para]
+[:en]
+[%definition[!alternate]]
+Clauses [#support.library] through [#thread] and Annex [#depr] describe the
+behavior of numerous functions defined by [%library[!C++ standard]] the [=Cpp]
+standard library.
+
+[:en]
+Under some circumstances, however, certain of these function descriptions also
+apply to replacement functions defined in the program ([#definitions]).
+
+[para]
+[:en]
+A [=Cpp] program may provide the definition for any of twelve dynamic memory
+allocation function signatures declared in header [`<new>]
+([#basic.stc.dynamic], [#support.dynamic]):
+
+[list]
+[item]
+[:en]
+[%[`new][![`operator]]] [%@library new[!operator]]
+[`operator new(std::size_t)]
+
+[item]
+[:en]
+[`operator new(std::size_t, const std::nothrow_t&)]
+
+[item]
+[:en]
+[%[`new][![`operator]]] [%@library new[!operator]]
+[`operator new[`](std::size_t)]
+
+[item]
+[:en]
+[`operator new[`](std::size_t, const std::nothrow_t&)]
+
+[item]
+[:en]
+[%[`delete][![`operator]]] [%@library delete[!operator]]
+[`operator delete(void*)]
+
+[item]
+[:en]
+[`operator delete(void*, const std::nothrow_t&)]
+
+[item]
+[:en]
+[%[`delete][![`operator]]] [%@library delete[!operator]]
+[`operator delete[`](void*)]
+
+[item]
+[:en]
+[`operator delete[`](void*, const std::nothrow_t&)]
+
+[item]
+[:en]
+[`operator delete(void*, std::size_t)]
+
+[item]
+[:en]
+[`operator delete(void*, std::size_t, const std::nothrow_t&)]
+
+[item]
+[:en]
+[`operator delete[`](void*, std::size_t)]
+
+[item]
+[:en]
+[`operator delete[`](void*, std::size_t, const std::nothrow_t&)]
+[list:end]
+
+[para]
+[:en]
+The program[=']s definitions are used instead of the default versions supplied
+by the implementation ([#support.dynamic]).
+
+[:en]
+Such replacement occurs prior to program startup ([#basic.def.odr],
+[#basic.start]).
+
+[:en]
+[%startup[!program]]
+The program[=']s declarations shall not be specified as [`inline].
+
+[:en]
+No diagnostic is required.

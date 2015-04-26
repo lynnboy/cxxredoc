@@ -1,0 +1,21 @@
+﻿[section#res.on.pointer.storage
+    [:en] Restrictions on storage of pointers
+]
+
+[para]
+[:en]
+[%traceable pointer object]
+[%pointer[!to traceable object]]
+Objects constructed by the standard library that may hold a user-supplied
+pointer value or an integer of type [`std::intptr_t] shall store such values in
+a traceable pointer location ([#basic.stc.dynamic.safety]).
+
+[enter:note]
+[:en]
+Other libraries are strongly encouraged to do the same, since not doing so may
+result in accidental use of pointers that are not safely derived.
+
+[:en]
+Libraries that store pointers outside the user[=']s address space should make it
+appear that they are stored and retrieved from a traceable pointer location.
+[exit:note]

@@ -1,0 +1,29 @@
+﻿[section#res.on.headers
+    [:en] Headers
+]
+
+[para]
+[:en]
+A [=Cpp] header may include other [=Cpp] headers.
+
+[:en]
+A [=Cpp] header shall provide the declarations and definitions that appear in
+its synopsis.
+
+[:en]
+A [=Cpp] header shown in its synopsis as including other [=Cpp] headers shall
+provide the declarations and definitions that appear in the synopses of those
+other headers.
+
+[para]
+[:en]
+Certain types and macros are defined in more than one header.
+
+[:en]
+Every such entity shall be defined such that any header that defines it may be
+included after any other header that also defines it ([#basic.def.odr]).
+
+[para]
+[:en]
+The C standard headers ([#depr.c.headers]) shall include only their
+corresponding [=Cpp] standard header, as described in [#headers].

@@ -1,0 +1,74 @@
+﻿[section#res.on.data.races
+    [:en] Data race avoidance
+]
+
+[para]
+[:en]
+This section specifies requirements that implementations shall meet to prevent
+data races ([#intro.multithread]).
+
+[:en]
+Every standard library function shall meet each requirement unless otherwise
+specified.
+
+[:en]
+Implementations may prevent data races in cases other than those specified
+below.
+
+[para]
+[:en]
+A [=Cpp] standard library function shall not directly or indirectly access
+objects ([#intro.multithread]) accessible by threads other than the current
+thread unless the objects are accessed directly or indirectly via the
+function[=']s arguments, including [`this].
+
+[para]
+[:en]
+A [=Cpp] standard library function shall not directly or indirectly modify
+objects ([#intro.multithread]) accessible by threads other than the current
+thread unless the objects are accessed directly or indirectly via the
+function[=']s non-const arguments, including [`this].
+
+[para]
+[enter:note]
+[:en]
+This means, for example, that implementations can[=']t use a static object for
+internal purposes without synchronization because it could cause a data race
+even in programs that do not explicitly share objects between threads.
+[exit:note]
+
+[para]
+[:en]
+A [=Cpp] standard library function shall not access objects indirectly
+accessible via its arguments or via elements of its container arguments except
+by invoking functions required by its specification on those container elements.
+
+[para]
+[:en]
+Operations on iterators obtained by calling a standard library container or
+string member function may access the underlying container, but shall not modify
+it.
+
+[enter:note]
+[:en]
+In particular, container operations that invalidate iterators conflict with
+operations on iterators associated with that container.
+[exit:note]
+
+[para]
+[:en]
+Implementations may share their own internal objects between threads if the
+objects are not visible to users and are protected against data races.
+
+[para]
+[:en]
+Unless otherwise specified, [=Cpp] standard library functions shall perform all
+operations solely within the current thread if those operations have effects
+that are visible ([#intro.multithread]) to users.
+
+[para]
+[enter:note]
+[:en]
+This allows implementations to parallelize operations if there are no visible
+[%side effects] side effects.
+[exit:note]

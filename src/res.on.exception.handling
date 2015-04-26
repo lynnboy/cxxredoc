@@ -1,0 +1,91 @@
+﻿[section#res.on.exception.handling
+    [:en] Restrictions on exception handling
+]
+
+[:en]
+[%restriction]
+[%exception handling[!handler]]
+
+[para]
+[:en]
+Any of the functions defined in [%library[!C++ standard]] the [=Cpp] standard
+library can report a failure by throwing an exception of a type described in its
+[=Throws] paragraph.
+
+[:en]
+An implementation may strengthen the exception specification for a non-virtual
+function by adding a non-throwing [~noexcept-specification].
+
+[para]
+[:en]
+A function may throw an object of a type not listed in its [=Throws] clause if
+its type is derived from a type named in the [=Throws] clause and would be
+caught by an exception handler for the base type.
+
+[para]
+[:en]
+Functions from the C standard library shall not throw exceptions
+[%specifications[!C standard library exception]]
+
+[footnote]
+[:en]
+That is, the C library functions can all be treated as if they
+are marked [`noexcept].
+This allows implementations to make performance optimizations
+based on the absence of exceptions at runtime.
+[footnote:end]
+
+[:en@~]
+except when such a function calls a program-supplied function that throws an
+exception.
+
+[footnote]
+[:en]
+The functions [`qsort()] and [`bsearch()] ([#alg.c.library]) meet this
+condition.
+[footnote:end]
+
+[para]
+[:en]
+Destructor operations defined in the [=Cpp] standard library shall not throw
+exceptions.
+
+[:en]
+Every destructor in the [=Cpp] standard library shall behave as if it had a
+non-throwing exception specification.
+
+[:en]
+Any other functions defined in the [=Cpp] standard library
+[%specifications[!C++]] that do not have an [~exception-specification] may throw
+[%@impldef exceptions thrown by standard library functions that do not have an
+exception specification] implementation-defined exceptions unless otherwise
+specified.
+
+[footnote]
+[:en]
+In particular, they can report a failure to allocate storage by throwing an
+exception of type [`bad_alloc], or a class derived from [`bad_alloc]
+([#bad.alloc]).
+
+[:en]
+Library implementations should report errors by throwing exceptions of or
+derived from the standard exception classes ([#bad.alloc], [#support.exception],
+[#std.exceptions]).
+[footnote:end]
+
+[:en]
+An implementation may strengthen this implicit [~exception-specification]
+by adding an explicit one.
+
+[footnote]
+[:en]
+That is, an implementation may provide an explicit [~exception-specification]
+that defines the subset of ["any] exceptions thrown by that function.
+
+[:en]
+This implies that the implementation may list implementation-defined types
+in such an
+[%types[!implementation-defined exception]]
+[%specifications[!implementation-defined exception]]
+[~exception-specification].
+[footnote:end]

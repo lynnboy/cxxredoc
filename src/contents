@@ -1,0 +1,42 @@
+﻿[section#contents
+    [:en] Library contents
+]
+
+[para]
+[:en]
+The [=Cpp] standard library provides definitions for the following types of
+entities: macros, values, types, templates, classes, functions, objects.
+
+[para]
+[:en]
+All library entities except macros, [`operator new] and [`operator delete] are
+defined within the namespace [`std] or namespaces nested within namespace
+[`std].
+
+[footnote]
+[:en]
+The C standard library headers (Annex [#depr.c.headers]) also define
+names within the global namespace, while the [=Cpp] headers for C library
+facilities ([#headers]) may also define names within the global namespace.
+[footnote:end]
+
+[:en]
+[%namespace]
+It is unspecified whether names declared in a specific namespace are declared
+directly in that namespace or in an inline namespace inside that namespace.
+
+[footnote]
+[:en]
+This gives implementers freedom to use inline namespaces to support multiple
+configurations of the library.
+[footnote:end]
+
+[para]
+[:en]
+Whenever a name [`x] defined in the standard library is mentioned, the name [`x]
+is assumed to be fully qualified as [`::std::x], unless explicitly described
+otherwise.
+
+[:en]
+For example, if the Effects section for library function [`F] is described as
+calling library function [`G], the function [`::std::G] is meant.

@@ -1,0 +1,68 @@
+﻿[section#character.seq
+    [:en] Character sequences
+]
+
+[para]
+[:en]
+[%library[!C standard]]
+The C standard library makes widespread use of characters and character
+sequences that follow a few uniform conventions:
+
+[list]
+[item]
+[:en]
+A [+letter] is any of the 26 lowercase or 26 [%lowercase] [%uppercase] uppercase
+letters in the basic execution character set.
+
+[footnote]
+[:en]
+Note that this definition differs from the definition in ISO C 7.1.1.
+[footnote:end]
+
+[item]
+[:en]
+[%character[!decimal-point]]
+The [+decimal-point character] is the (single-byte) character used by functions
+that convert between a (single-byte) character sequence and a value of one of
+the floating-point types.
+
+[:en]
+It is used in the character sequence to denote the beginning of a fractional
+part.
+
+[:en]
+It is represented in Clauses [#support.library] through [#thread] and Annex
+[#depr] by a period, [%period] [`'.'], which is also its value in the [`"C"]
+locale, but may change during program execution by a call to
+[`setlocale(int, const char*)],
+
+[footnote]
+[:en]
+[%[`setlocale]] [%@library setlocale]
+[%[`<clocale>][sortas clocale]] [%@library clocale]
+declared in [`<clocale>] ([#c.locales]).
+[footnote:end]
+
+[:en@~]
+or by a change to a [`locale] object, as described in Clauses [#locales] and
+[#input.output].
+
+[item]
+[:en]
+A [+character sequence] is an array object ([#dcl.array]) [$A] that can be
+declared as [`[$T] [$A][[$N]`]], where [$T] is any of the types [`char],
+[`unsigned char], or [`signed char] ([#basic.fundamental]), optionally qualified
+by any combination of [`const] or [`volatile].
+
+[:en]
+The initial elements of the array have defined contents up to and including an
+element determined by some predicate.
+
+[:en]
+A character sequence can be designated by a pointer value [$S] that points to
+its first element.
+[list:end]
+
+[include byte.strings]
+
+[include multibyte.strings]

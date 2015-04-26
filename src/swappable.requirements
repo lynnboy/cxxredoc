@@ -1,0 +1,119 @@
+﻿[section#swappable.requirements
+    [:en] [`Swappable] requirements
+]
+
+[para]
+[:en]
+This subclause provides definitions for swappable types and expressions.
+
+[:en]
+In these definitions, let [`t] denote an expression of type [`T], and let [`u]
+denote an expression of type [`U].
+
+[para]
+[:en]
+An object [`t] is [def swappable with] an object [`u] if and only if:
+
+[list]
+[item]
+[:en] the expressions [`swap(t, u)] and [`swap(u, t)] are valid when evaluated
+in the context described below, and
+
+[item]
+[:en] these expressions have the following effects:
+
+[list]
+[item]
+[:en] the object referred to by [`t] has the value originally held by [`u] and
+[item]
+[:en] the object referred to by [`u] has the value originally held by [`t].
+[list:end]
+[list:end]
+
+[para]
+[:en]
+The context in which [`swap(t, u)] and [`swap(u, t)] are evaluated shall ensure
+that a binary non-member function named ["swap] is selected via overload
+resolution ([#over.match]) on a candidate set that includes:
+
+[list]
+[item]
+[:en] the two [`swap] function templates defined in [`<utility>] ([#utility])
+and
+
+[item]
+[:en] the lookup set produced by argument-dependent lookup
+([#basic.lookup.argdep]).
+[list:end]
+
+[enter:note]
+[:en]
+If [`T] and [`U] are both fundamental types or arrays of fundamental types and
+the declarations from the header [`<utility>] are in scope, the overall lookup
+set described above is equivalent to that of the qualified name lookup applied
+to the expression [`std::swap(t, u)] or [`std::swap(u, t)] as appropriate.
+[exit:note]
+
+[enter:note]
+[:en]
+It is unspecified whether a library component that has a swappable requirement
+includes the header [`<utility>] to ensure an appropriate evaluation context.
+[exit:note]
+
+[para]
+[:en]
+An rvalue or lvalue [`t] is [def swappable] if and only if [`t] is swappable
+with any rvalue or lvalue, respectively, of type [`T].
+
+[para]
+[:en]
+A type [`X] satisfying any of the iterator requirements
+([#iterator.requirements]) satisfies the requirements of [`ValueSwappable] if,
+for any dereferenceable object [`x] of type [`X], [`*x] is swappable.
+
+[enter:example]
+[:en]
+User code can ensure that the evaluation of [`swap] calls is performed in an
+appropriate context under the various conditions as follows:
+
+[codeblock]
+#include <utility>
+
+// [:en] Requires: [`std::forward<T>(t)] shall be swappable with [`std::forward<U>(u)].
+template <class T, class U>
+void value_swap(T&& t, U&& u) {
+  using std::swap;
+  swap(std::forward<T>(t), std::forward<U>(u)); // [:en] OK: uses ["swappable with] conditions
+                                                // [:en@~] for rvalues and lvalues
+}
+
+// [:en] Requires: lvalues of [`T] shall be swappable.
+template <class T>
+void lv_swap(T& t1, T& t2) {
+  using std::swap;
+  swap(t1, t2);                                 // [:en] OK: uses swappable conditions for
+}                                               // [:en@~] lvalues of type [`T]
+
+namespace N {
+  struct A { int m; };
+  struct Proxy { A* a; };
+  Proxy proxy(A& a) { return Proxy{ &a }; }
+
+  void swap(A& x, Proxy p) {
+    std::swap(x.m, p.a->m);                     // [:en] OK: uses context equivalent to swappable
+                                                // [:en@~] conditions for fundamental types
+  }
+  void swap(Proxy p, A& x) { swap(x, p); }      // [:en] satisfy symmetry constraint
+}
+
+int main() {
+  int i = 1, j = 2;
+  lv_swap(i, j);
+  assert(i == 2 && j == 1);
+
+  N::A a1 = { 5 }, a2 = { -5 };
+  value_swap(a1, proxy(a2));
+  assert(a1.m == -5 && a2.m == 5);
+}
+[codeblock:end]
+[exit:example]

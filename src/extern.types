@@ -1,0 +1,18 @@
+﻿[section#extern.types
+    [:en] Types
+]
+
+[para]
+[:en]
+For each type T from the Standard C library,
+
+[footnote]
+[:en]
+These types are [`clock_t], [`div_t], [`FILE], [`fpos_t], [`lconv], [`ldiv_t],
+[`mbstate_t], [`ptrdiff_t], [`sig_atomic_t], [`size_t], [`time_t], [`tm],
+[`va_list], [`wctrans_t], [`wctype_t], and [`wint_t].
+[footnote:end]
+
+[:en@~]
+the types [`::T] and [`std::T] are reserved to the implementation and, when
+defined, [`::T] shall be identical to [`std::T].

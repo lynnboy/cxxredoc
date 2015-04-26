@@ -1,0 +1,73 @@
+﻿[section#structure.requirements
+    [:en] Requirements
+]
+
+[para]
+[:en]
+[%requirements]
+Requirements describe constraints that shall be met by a [=Cpp] program that
+extends the standard library.
+
+[:en]
+Such extensions are generally one of the following:
+
+[list]
+[item]
+[:en] Template arguments
+[item]
+[:en] Derived classes
+[item]
+[:en] Containers, iterators, and algorithms that meet an interface convention
+[list:end]
+
+[para]
+[:en]
+The string and iostream components use an explicit representation of operations
+required of template arguments. They use a class template [`char_traits] to
+define these constraints.
+
+[para]
+[:en]
+Interface convention requirements are stated as generally as possible.
+
+[:en]
+Instead of stating ["class X has to define a member function [`operator++()],]
+the interface requires ["for any object [`x] of class [`X], [`++x] is defined.]
+
+[:en]
+That is, whether the operator is a member is unspecified.
+
+[para]
+[:en]
+Requirements are stated in terms of well-defined expressions that define valid
+terms of the types that satisfy the requirements.
+
+[:en]
+For every set of well-defined expression requirements there is a table that
+specifies an initial set of the valid expressions and their semantics.
+
+[:en]
+Any generic algorithm (Clause [#algorithms]) that uses the well-defined
+expression requirements is described in terms of the valid expressions for its
+template type parameters.
+
+[para]
+[:en]
+Template argument requirements are sometimes referenced by name.
+
+[:en]
+See [#type.descriptions].
+
+[para]
+[:en]
+In some cases the semantic requirements are presented as [=Cpp] code.
+
+[:en]
+Such code is intended as a specification of equivalence of a construct to
+another construct, not necessarily as the way the construct must be implemented.
+
+[footnote]
+[:en]
+Although in some cases the code given is unambiguously the optimum
+implementation.
+[footnote:end]
