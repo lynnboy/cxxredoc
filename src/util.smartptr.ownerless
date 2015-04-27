@@ -1,0 +1,51 @@
+﻿[section#util.smartptr.ownerless
+    [:en] Class template [`owner_less]
+]
+
+[para]
+[:en]
+The class template [`owner_less] allows ownership-based mixed comparisons of
+shared and weak pointers.
+
+[codeblock:synopsis]
+namespace std {
+  template<class T> struct owner_less;
+
+  template<class T> struct owner_less<shared_ptr<T> > {
+    typedef bool result_type;
+    typedef shared_ptr<T> first_argument_type;
+    typedef shared_ptr<T> second_argument_type;
+    bool operator()(shared_ptr<T> const&, shared_ptr<T> const&) const;
+    bool operator()(shared_ptr<T> const&, weak_ptr<T> const&) const;
+    bool operator()(weak_ptr<T> const&, shared_ptr<T> const&) const;
+  };
+
+  template<class T> struct owner_less<weak_ptr<T> > {
+    typedef bool result_type;
+    typedef weak_ptr<T> first_argument_type;
+    typedef weak_ptr<T> second_argument_type;
+    bool operator()(weak_ptr<T> const&, weak_ptr<T> const&) const;
+    bool operator()(shared_ptr<T> const&, weak_ptr<T> const&) const;
+    bool operator()(weak_ptr<T> const&, shared_ptr<T> const&) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+[`operator()(x,y)] shall return [`x.owner_before(y)].
+
+[enter:note]
+[:en]
+Note that
+
+[list]
+[item]
+[:en] [`operator()] defines a strict weak ordering as defined in [#alg.sorting];
+
+[item]
+[:en] under the equivalence relation defined by [`operator()], [`!operator()(a,
+b) && !operator()(b, a)], two [`shared_ptr] or [`weak_ptr] instances are
+equivalent if and only if they share ownership or are both empty.
+[list:end]
+[exit:note]

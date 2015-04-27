@@ -1,0 +1,14 @@
+﻿[section#time.point.observer
+    [:en] [`time_point] observer
+]
+
+[%@library time_point[!time_since_epoch]]
+[%@library time_since_epoch[!time_point]]
+[codeblock:declaration]
+constexpr duration time_since_epoch() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`d_].
+[exit:description]

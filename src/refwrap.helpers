@@ -1,0 +1,47 @@
+﻿[section#refwrap.helpers
+    [:en] [`reference_wrapper] helper functions
+]
+
+[%@library reference_wrapper[!ref]]
+[%@library ref[!reference_wrapper]]
+[codeblock:declaration]
+template <class T> reference_wrapper<T> ref(T& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`reference_wrapper<T>(t)]
+[exit:description]
+
+[%@library reference_wrapper[!ref]]
+[%@library ref[!reference_wrapper]]
+[codeblock:declaration]
+template <class T> reference_wrapper<T> ref(reference_wrapper<T> t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`ref(t.get())]
+[exit:description]
+
+[%@library reference_wrapper[!cref]]
+[%@library cref[!reference_wrapper]]
+[codeblock:declaration]
+template <class T> reference_wrapper<const T> cref(const T& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`reference_wrapper <const T>(t)]
+[exit:description]
+
+[%@library reference_wrapper[!cref]]
+[%@library cref[!reference_wrapper]]
+[codeblock:declaration]
+template <class T> reference_wrapper<const T> cref(reference_wrapper<T> t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`cref(t.get());]
+[exit:description]

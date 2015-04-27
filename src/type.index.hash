@@ -1,0 +1,16 @@
+﻿[section#type.index.hash
+    [:en] Hash support
+]
+
+[%@library hash]
+[codeblock:declaration]
+template <> struct hash<type_index>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]). For an object [`index] of type [`type_index],
+[`hash<type_index>()(index)] shall evaluate to the same result as
+[`index.hash_code()].
+[exit:description]

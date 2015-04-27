@@ -1,0 +1,146 @@
+﻿[section#tuple.assign
+    [:en] Assignment
+]
+
+[para]
+[:en]
+For each [`tuple] assignment operator, an exception is thrown only if the
+assignment of one of the types in [`Types] throws an exception.
+
+[:en]
+In the function descriptions that follow, let [$i] be in the range
+[=range[0,sizeof...(Types))] in order, [$T[_i]] be the [$i[^th]] type in
+[`Types], and [$U[_i]] be the [$i[^th]] type in a template parameter pack named
+[`UTypes], where indexing is zero-based.
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[codeblock:declaration]
+tuple& operator=(const tuple& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_copy_assignable<[$T[_i]]>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] Assigns each element of [`u] to the corresponding element of [`*this].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[codeblock:declaration]
+tuple& operator=(tuple&& u) noexcept([=Seebelow]);
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The expression inside [`noexcept] is equivalent to the logical [em@sc and]
+of the following expressions:
+
+[codeblock:notation]
+is_nothrow_move_assignable<[$T[_i]]>::value
+[codeblock:end]
+
+[:en@~]
+where [$T[_i]] is the [$i[^th]] type in [`Types].
+
+[para:requires]
+[:en] [`is_move_assignable<[$T[_i]]>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] For all [$i], assigns [`std::forward<[$T[_i]]>(get<[$i]>(u))] to
+[`get<[$i]>(*this)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[codeblock:declaration]
+template <class... UTypes>
+  tuple& operator=(const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == sizeof...(UTypes)] and
+[`is_assignable<[$T[_i]]&, const [$U[_i]]&>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] Assigns each element of [`u] to the corresponding element of [`*this].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[codeblock:declaration]
+template <class... UTypes>
+  tuple& operator=(tuple<UTypes...>&& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_assignable<Ti&, Ui&&>::value == true] for all [`i].
+
+[:en] [`sizeof...(Types) == sizeof...(UTypes)].
+
+[para:effects]
+[:en] For all [$i], assigns [`std::forward<[$U[_i]]>(get<[$i])>(u))] to
+[`get<[$i]>(*this)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[%@library pair]
+[codeblock:declaration]
+template <class U1, class U2> tuple& operator=(const pair<U1, U2>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == 2].
+
+[:en] [`is_assignable<[$T[_0]]&, const U1&>::value] is [`true] for the first
+type [$T[_0]] in [`Types] and [`is_assignable<[$T[_1]]&, const U2&>::value] is
+[`true] for the second type [$T[_1]] in [`Types].
+
+[para:effects]
+[:en] Assigns [`u.first] to the first element of [`*this] and [`u.second] to the
+second element of [`*this].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library tuple[!operator=]]
+[%@library operator=[!tuple]]
+[%@library pair]
+[codeblock:declaration]
+template <class U1, class U2> tuple& operator=(pair<U1, U2>&& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == 2].
+
+[:en] [`is_assignable<[$T[_0]]&, U1&&>::value] is [`true] for the first type
+[$T[_0]] in [`Types] and [`is_assignable<[$T[_1]]&, U2&&>::value] is [`true] for
+the second type [$T[_1]] in [`Types].
+
+[para:effects]
+[:en] Assigns [`std::forward<U1>(u.first)] to the first element of [`*this] and
+[`std::forward<U2>(u.second)] to the second element of [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

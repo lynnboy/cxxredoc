@@ -1,0 +1,32 @@
+﻿[section#util.smartptr.weakptr
+    [:en] Class [`bad_weak_ptr]
+]
+
+[%@library exception[!bad_weak_ptr]]
+[%@library bad_weak_ptr]
+[codeblock:synopsis]
+namespace std {
+  class bad_weak_ptr: public std::exception {
+  public:
+    bad_weak_ptr() noexcept;
+  };
+} // namespace std
+[codeblock:end]
+
+[para]
+[:en]
+An exception of type [`bad_weak_ptr] is thrown by the [`shared_ptr]
+constructor taking a [`weak_ptr].
+
+[%@library bad_weak_ptr[!bad_weak_ptr]]
+[%@library bad_weak_ptr[!what]]
+[%@library what[!bad_weak_ptr]]
+[codeblock:declaration]
+bad_weak_ptr() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`what()] returns an [%@impldef string returned by [`what()] for
+[`bad_weak_ptr]] implementation-defined NTBS.
+[exit:description]

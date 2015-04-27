@@ -1,0 +1,73 @@
+﻿[section#meta.unary.comp
+    [:en] Composite type traits
+]
+
+[para]
+[:en]
+These templates provide convenient compositions of the primary type categories,
+corresponding to the descriptions given in section [#basic.types].
+
+[para]
+[:en]
+For any given type [`T], the result of applying one of these templates to
+[`T], and to [$cv-qualified] [`T] shall yield the same result.
+
+[table:listing#tab:type-traits.composite
+    [:en] Composite type category predicates
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct is_reference;
+[|] [:en] [`T] is an lvalue reference or an rvalue reference
+[|]
+
+[|]
+template <class T> [br]
+struct is_arithmetic;
+[|] [:en] [`T] is an arithmetic type ([#basic.fundamental])
+[|]
+
+[|]
+template <class T> [br]
+struct is_fundamental;
+[|] [:en] [`T] is a fundamental type ([#basic.fundamental])
+[|]
+
+[|]
+template <class T> [br]
+struct is_object;
+[|] [:en] [`T] is an object type ([#basic.types])
+[|]
+
+[|]
+template <class T> [br]
+struct is_scalar;
+[|] [:en] [`T] is a scalar type ([#basic.types])
+[|]
+
+[|]
+template <class T> [br]
+struct is_compound;
+[|] [:en] [`T] is a compound type ([#basic.compound])
+[|]
+
+[|]
+template <class T> [br]
+struct is_member_pointer;
+[|] [:en] [`T] is a pointer to non-static data member or non-static member
+function
+
+[table:end]

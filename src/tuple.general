@@ -1,0 +1,104 @@
+﻿[section#tuple.general
+    [:en] In general
+]
+
+[para]
+[%@library tuple]
+[:en]
+This subclause describes the tuple library that provides a tuple type as the
+class template [`tuple] that can be instantiated with any number of arguments.
+
+[:en]
+Each template argument specifies the type of an element in the [`tuple].
+
+[:en]
+Consequently, tuples are heterogeneous, fixed-size collections of values.
+
+[:en]
+An instantiation of [`tuple] with two arguments is similar to an instantiation
+of [`pair] with the same two arguments.
+
+[:en]
+See [#pairs].
+
+[para:synopsis]
+[:en] Header [`<tuple>] synopsis
+
+[%@library <tuple>[sortas tuple]]
+[codeblock:synopsis [special unspecified VTypes Ctypes] ]
+namespace std {
+  // [:en] [#tuple.tuple], class template [`tuple]:
+  template <class... Types> class tuple;
+
+  // [:en] [#tuple.creation], tuple creation functions:
+  const unspecified ignore;
+
+  template <class... Types>
+    constexpr tuple<VTypes...> make_tuple(Types&&...);
+  template <class... Types>
+    constexpr tuple<Types&&...> forward_as_tuple(Types&&...) noexcept;
+
+  template<class... Types>
+    constexpr tuple<Types&...> tie(Types&...) noexcept;
+
+  template <class... Tuples>
+    constexpr tuple<Ctypes...> tuple_cat(Tuples&&...);
+
+  // [:en] [#tuple.helper], tuple helper classes:
+  template <class T> class tuple_size;  // [:en] undefined
+  template <class T> class tuple_size<const T>;
+  template <class T> class tuple_size<volatile T>;
+  template <class T> class tuple_size<const volatile T>;
+
+  template <class... Types> class tuple_size<tuple<Types...> >;
+
+  template <size_t I, class T> class tuple_element;    // [:en] undefined
+  template <size_t I, class T> class tuple_element<I, const T>;
+  template <size_t I, class T> class tuple_element<I, volatile T>;
+  template <size_t I, class T> class tuple_element<I, const volatile T>;
+
+  template <size_t I, class... Types> class tuple_element<I, tuple<Types...> >;
+
+  template <size_t I, class T>
+    using tuple_element_t = typename tuple_element<I, T>::type;
+
+  // [:en] [#tuple.elem], element access:
+  template <size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>>&
+      get(tuple<Types...>&) noexcept;
+  template <size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>>&&
+      get(tuple<Types...>&&) noexcept;
+  template <size_t I, class... Types>
+    constexpr const tuple_element_t<I, tuple<Types...>>&
+      get(const tuple<Types...>&) noexcept;
+  template <class T, class... Types>
+    constexpr T& get(tuple<Types...>& t) noexcept;
+  template <class T, class... Types>
+    constexpr T&& get(tuple<Types...>&& t) noexcept;
+  template <class T, class... Types>
+    constexpr const T& get(const tuple<Types...>& t) noexcept;
+
+  // [:en] [#tuple.rel], relational operators:
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator==(const tuple<TTypes...>&, const tuple<UTypes...>&);
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator<(const tuple<TTypes...>&, const tuple<UTypes...>&);
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator!=(const tuple<TTypes...>&, const tuple<UTypes...>&);
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator>(const tuple<TTypes...>&, const tuple<UTypes...>&);
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator<=(const tuple<TTypes...>&, const tuple<UTypes...>&);
+  template<class... TTypes, class... UTypes>
+    constexpr bool operator>=(const tuple<TTypes...>&, const tuple<UTypes...>&);
+
+  // [:en] [#tuple.traits], allocator-related traits
+  template <class... Types, class Alloc>
+    struct uses_allocator<tuple<Types...>, Alloc>;
+
+  // [:en] [#tuple.special], specialized algorithms:
+  template <class... Types>
+    void swap(tuple<Types...>& x, tuple<Types...>& y) noexcept([=Seebelow]);
+}
+[codeblock:end]

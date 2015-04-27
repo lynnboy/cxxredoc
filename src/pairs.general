@@ -1,0 +1,17 @@
+﻿[section#pairs.general
+    [:en] In general
+]
+
+[para]
+[:en]
+The library provides a template for heterogeneous pairs of values.
+
+[:en]
+The library also provides a matching function template to simplify their
+construction and several templates that provide access to [`pair] objects as if
+they were [`tuple] objects (see [#tuple.helper] and [#tuple.elem]).
+
+[%@library pair]
+[%[`pair][!tuple interface to]]
+[%[`tuple][!and pair@and [`pair]]]
+

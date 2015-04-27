@@ -1,0 +1,184 @@
+﻿[section#util.smartptr.shared
+    [:en] Class template [`shared_ptr]
+]
+
+[para]
+[%@library shared_ptr]
+[:en]
+The [`shared_ptr] class template stores a pointer, usually obtained via [`new].
+
+[:en]
+[`shared_ptr] implements semantics of shared ownership; the last remaining owner
+of the pointer is responsible for destroying the object, or otherwise releasing
+the resources associated with the stored pointer.
+
+[:en]
+A [`shared_ptr] object is [+empty] if it does not own a pointer.
+
+[codeblock:synopsis]
+namespace std {
+  template<class T> class shared_ptr {
+  public:
+    typedef T element_type;
+
+    // [:en] [#util.smartptr.shared.const], constructors:
+    constexpr shared_ptr() noexcept;
+    template<class Y> explicit shared_ptr(Y* p);
+    template<class Y, class D> shared_ptr(Y* p, D d);
+    template<class Y, class D, class A> shared_ptr(Y* p, D d, A a);
+    template <class D> shared_ptr(nullptr_t p, D d);
+    template <class D, class A> shared_ptr(nullptr_t p, D d, A a);
+    template<class Y> shared_ptr(const shared_ptr<Y>& r, T* p) noexcept;
+    shared_ptr(const shared_ptr& r) noexcept;
+    template<class Y> shared_ptr(const shared_ptr<Y>& r) noexcept;
+    shared_ptr(shared_ptr&& r) noexcept;
+    template<class Y> shared_ptr(shared_ptr<Y>&& r) noexcept;
+    template<class Y> explicit shared_ptr(const weak_ptr<Y>& r);
+    template <class Y, class D> shared_ptr(unique_ptr<Y, D>&& r);
+    constexpr shared_ptr(nullptr_t) noexcept : shared_ptr() { }
+
+    // [:en] [#util.smartptr.shared.dest], destructor:
+    ~shared_ptr();
+
+    // [:en] [#util.smartptr.shared.assign], assignment:
+    shared_ptr& operator=(const shared_ptr& r) noexcept;
+    template<class Y> shared_ptr& operator=(const shared_ptr<Y>& r) noexcept;
+    shared_ptr& operator=(shared_ptr&& r) noexcept;
+    template<class Y> shared_ptr& operator=(shared_ptr<Y>&& r) noexcept;
+    template <class Y, class D> shared_ptr& operator=(unique_ptr<Y, D>&& r);
+
+    // [:en] [#util.smartptr.shared.mod], modifiers:
+    void swap(shared_ptr& r) noexcept;
+    void reset() noexcept;
+    template<class Y> void reset(Y* p);
+    template<class Y, class D> void reset(Y* p, D d);
+    template<class Y, class D, class A> void reset(Y* p, D d, A a);
+
+    // [:en] [#util.smartptr.shared.obs], observers:
+    T* get() const noexcept;
+    T& operator*() const noexcept;
+    T* operator->() const noexcept;
+    long use_count() const noexcept;
+    bool unique() const noexcept;
+    explicit operator bool() const noexcept;
+    template<class U> bool owner_before(shared_ptr<U> const& b) const;
+    template<class U> bool owner_before(weak_ptr<U> const& b) const;
+  };
+
+  // [:en] [#util.smartptr.shared.create], shared_ptr creation
+  template<class T, class... Args> shared_ptr<T> make_shared(Args&&... args);
+  template<class T, class A, class... Args>
+    shared_ptr<T> allocate_shared(const A& a, Args&&... args);
+
+  // [:en] [#util.smartptr.shared.cmp], shared_ptr comparisons:
+  template<class T, class U>
+    bool operator==(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+  template<class T, class U>
+    bool operator!=(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+  template<class T, class U>
+    bool operator<(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+  template<class T, class U>
+    bool operator>(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+  template<class T, class U>
+    bool operator<=(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+  template<class T, class U>
+    bool operator>=(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+
+  template <class T>
+    bool operator==(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator==(nullptr_t, const shared_ptr<T>& b) noexcept;
+  template <class T>
+    bool operator!=(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator!=(nullptr_t, const shared_ptr<T>& b) noexcept;
+  template <class T>
+    bool operator<(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator<(nullptr_t, const shared_ptr<T>& b) noexcept;
+  template <class T>
+    bool operator<=(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator<=(nullptr_t, const shared_ptr<T>& b) noexcept;
+  template <class T>
+    bool operator>(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator>(nullptr_t, const shared_ptr<T>& b) noexcept;
+  template <class T>
+    bool operator>=(const shared_ptr<T>& a, nullptr_t) noexcept;
+  template <class T>
+    bool operator>=(nullptr_t, const shared_ptr<T>& b) noexcept;
+
+  // [:en] [#util.smartptr.shared.spec], shared_ptr specialized algorithms:
+  template<class T> void swap(shared_ptr<T>& a, shared_ptr<T>& b) noexcept;
+
+  // [:en] [#util.smartptr.shared.cast], shared_ptr casts:
+  template<class T, class U>
+    shared_ptr<T> static_pointer_cast(const shared_ptr<U>& r) noexcept;
+  template<class T, class U>
+    shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U>& r) noexcept;
+  template<class T, class U>
+    shared_ptr<T> const_pointer_cast(const shared_ptr<U>& r) noexcept;
+
+  // [:en] [#util.smartptr.getdeleter], shared_ptr get_deleter:
+  template<class D, class T> D* get_deleter(const shared_ptr<T>& p) noexcept;
+
+  // [:en] [#util.smartptr.shared.io], shared_ptr I/O:
+  template<class E, class T, class Y>
+    basic_ostream<E, T>& operator<< (basic_ostream<E, T>& os, const shared_ptr<Y>& p);
+} // namespace std
+[codeblock:end]
+
+[para]
+[:en]
+Specializations of [`shared_ptr] shall be [`CopyConstructible],
+[`CopyAssignable], and [`LessThanComparable], allowing their use in standard
+containers.
+
+[:en]
+Specializations of [`shared_ptr] shall be convertible to [`bool], allowing their
+use in boolean expressions and declarations in conditions.
+
+[:en]
+The template parameter [`T] of [`shared_ptr] may be an incomplete type.
+
+[para]
+[enter:example]
+[codeblock]
+if(shared_ptr<X> px = dynamic_pointer_cast<X>(py)) {
+  // [:en] do something with px
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+For purposes of determining the presence of a data race, member functions shall
+access and modify only the [`shared_ptr] and [`weak_ptr] objects themselves and
+not objects they refer to.
+
+[:en]
+Changes in [`use_count()] do not reflect modifications that can introduce data
+races.
+
+[include util.smartptr.shared.const]
+
+[include util.smartptr.shared.dest]
+
+[include util.smartptr.shared.assign]
+
+[include util.smartptr.shared.mod]
+
+[include util.smartptr.shared.obs]
+
+[include util.smartptr.shared.create]
+
+[include util.smartptr.shared.cmp]
+
+[include util.smartptr.shared.spec]
+
+[include util.smartptr.shared.cast]
+
+[include util.smartptr.getdeleter]
+
+[include util.smartptr.shared.io]

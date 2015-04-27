@@ -1,0 +1,12 @@
+﻿[section#unique.ptr.dltr.general
+    [:en] In general
+]
+
+[para]
+[:en]
+The class template [`default_delete] serves as the default deleter (destruction
+policy) for the class template [`unique_ptr].
+
+[para]
+[:en]
+The template parameter [`T] of [`default_delete] may be an incomplete type.

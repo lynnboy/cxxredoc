@@ -1,0 +1,14 @@
+﻿[section#time.duration.observer
+    [:en] [`duration] observer
+]
+
+[%@library count[!duration]]
+[%@library duration[!count]]
+[codeblock:declaration]
+constexpr rep count() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rep_].
+[exit:description]

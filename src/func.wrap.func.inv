@@ -1,0 +1,24 @@
+﻿[section#func.wrap.func.inv
+    [:en] [`function] invocation
+]
+
+[%@library function[![:en]invocation]]
+[%@library function[!operator()]]
+[%@library operator()[!function]]
+[codeblock:declaration]
+R operator()(ArgTypes... args) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)] ([#func.require]),
+where [`f] is the target object ([#func.def]) of [`*this].
+
+[para:returns]
+[:en] Nothing if [`R] is [`void], otherwise the return value of
+[`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)].
+
+[para:throws]
+[:en] [`bad_function_call] if [`!*this]; otherwise, any exception thrown by the
+wrapped callable object.
+[exit:description]

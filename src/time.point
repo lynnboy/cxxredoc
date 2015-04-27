@@ -1,0 +1,56 @@
+﻿[section#time.point
+    [:en] Class template [`time_point]
+]
+
+[codeblock:synopsis]
+template <class Clock, class Duration = typename Clock::duration>
+class time_point {
+public:
+  typedef Clock                     clock;
+  typedef Duration                  duration;
+  typedef typename duration::rep    rep;
+  typedef typename duration::period period;
+private:
+  duration d_;  // [=Expos]
+
+public:
+  // [:en] [#time.point.cons], construct:
+  constexpr time_point();  // [:en] has value epoch
+  constexpr explicit time_point(const duration& d);  // [:en] same as time_point() + d
+  template <class Duration2>
+    constexpr time_point(const time_point<clock, Duration2>& t);
+
+  // [:en] [#time.point.observer], observer:
+  constexpr duration time_since_epoch() const;
+
+  // [:en] [#time.point.arithmetic], arithmetic:
+  time_point& operator+=(const duration& d);
+  time_point& operator-=(const duration& d);
+
+  // [:en] [#time.point.special], special values:
+  static constexpr time_point min();
+  static constexpr time_point max();
+};
+[codeblock:end]
+
+[para]
+[:en]
+[`Clock] shall meet the Clock requirements ([#time.clock]).
+
+[para]
+[:en]
+If [`Duration] is not an instance of [`duration], the program is ill-formed.
+
+[include time.point.cons]
+
+[include time.point.observer]
+
+[include time.point.arithmetic]
+
+[include time.point.special]
+
+[include time.point.nonmember]
+
+[include time.point.comparisons]
+
+[include time.point.cast]

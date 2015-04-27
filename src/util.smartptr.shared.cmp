@@ -1,0 +1,124 @@
+﻿[section#util.smartptr.shared.cmp
+    [:en] [`shared_ptr] comparison
+]
+
+[%@library shared_ptr[!operator==]]
+[%@library operator==[!shared_ptr]]
+[codeblock:declaration]
+template<class T, class U> bool operator==(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`a.get() == b.get()].
+[exit:description]
+
+[%@library shared_ptr[!operator<]]
+[%@library operator<[!shared_ptr]]
+[codeblock:declaration]
+template<class T, class U> bool operator<(const shared_ptr<T>& a, const shared_ptr<U>& b) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`less<V>()(a.get(), b.get())], where [`V] is the composite pointer type
+(Clause [#expr]) of [`T*] and [`U*].
+
+[para]
+[enter:note]
+[:en] Defining a comparison operator allows [`shared_ptr] objects to be used as
+keys in associative containers.
+[exit:note]
+[exit:description]
+
+[%@library operator==[!shared_ptr]]
+[%@library shared_ptr[!operator==]]
+[codeblock:declaration]
+template <class T>
+  bool operator==(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator==(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!a].
+[exit:description]
+
+[%@library operator!=[!shared_ptr]]
+[%@library shared_ptr[!operator!=]]
+[codeblock:declaration]
+template <class T>
+  bool operator!=(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator!=(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(bool)a].
+[exit:description]
+
+[%@library operator<[!shared_ptr]]
+[%@library shared_ptr[!operator<]]
+[codeblock:declaration]
+template <class T>
+  bool operator<(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator<(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`less<T*>()(a.get(), nullptr)].
+
+[:en] The second function template returns [`less<T*>()(nullptr, a.get())].
+[exit:description]
+
+[%@library operator>[!shared_ptr]]
+[%@library shared_ptr[!operator>]]
+[codeblock:declaration]
+template <class T>
+  bool operator>(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator>(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`nullptr < a].
+
+[:en] The second function template returns [`a < nullptr].
+[exit:description]
+
+[%@library operator<=[!shared_ptr]]
+[%@library shared_ptr[!operator<=]]
+[codeblock:declaration]
+template <class T>
+  bool operator<=(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator<=(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`!(nullptr < a)].
+
+[:en] The second function template returns [`!(a < nullptr)].
+[exit:description]
+
+[%@library operator>=[!shared_ptr]]
+[%@library shared_ptr[!operator>=]]
+[codeblock:declaration]
+template <class T>
+  bool operator>=(const shared_ptr<T>& a, nullptr_t) noexcept;
+template <class T>
+  bool operator>=(nullptr_t, const shared_ptr<T>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`!(a < nullptr)].
+
+[:en] The second function template returns [`!(nullptr < a)].
+[exit:description]

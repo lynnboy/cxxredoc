@@ -1,0 +1,38 @@
+﻿[section#util.smartptr.weak.assign
+    [:en] [`weak_ptr] assignment
+]
+
+[%@library weak_ptr[!operator=]]
+[%@library operator=[!weak_ptr]]
+[codeblock:declaration]
+weak_ptr& operator=(const weak_ptr& r) noexcept;
+template<class Y> weak_ptr& operator=(const weak_ptr<Y>& r) noexcept;
+template<class Y> weak_ptr& operator=(const shared_ptr<Y>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`weak_ptr(r).swap(*this)].
+
+[para:notes]
+[:en] The implementation may meet the effects (and the implied guarantees) via
+different means, without creating a temporary.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library weak_ptr[!operator=]]
+[%@library operator=[!weak_ptr]]
+[codeblock:declaration]
+weak_ptr& operator=(weak_ptr&& r) noexcept;
+template<class Y> weak_ptr& operator=(weak_ptr<Y>&& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`weak_ptr(std::move(r)).swap(*this)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

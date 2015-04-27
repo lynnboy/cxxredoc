@@ -1,0 +1,110 @@
+﻿[section#refwrap
+    [:en] Class template [`reference_wrapper]
+]
+
+[%@library reference_wrapper]
+[:en]
+[%function object[!reference_wrapper]]
+[%unary function]
+[%binary function]
+[codeblock:synopsis]
+namespace std {
+  template <class T> class reference_wrapper {
+  public :
+    // [:en] types
+    typedef T type;
+    typedef [=Seebelow] result_type;               // [:en] not always defined
+    typedef [=Seebelow] argument_type;             // [:en] not always defined
+    typedef [=Seebelow] first_argument_type;       // [:en] not always defined
+    typedef [=Seebelow] second_argument_type;      // [:en] not always defined
+
+    // [:en] construct/copy/destroy
+    reference_wrapper(T&) noexcept;
+    reference_wrapper(T&&) = delete;     // [:en] do not bind to temporary objects
+    reference_wrapper(const reference_wrapper& x) noexcept;
+
+    // [:en] assignment
+    reference_wrapper& operator=(const reference_wrapper& x) noexcept;
+
+    // [:en] access
+    operator T& () const noexcept;
+    T& get() const noexcept;
+
+    // [:en] invocation
+    template <class... ArgTypes>
+    result_of_t<T&(ArgTypes&&...)>
+    operator() (ArgTypes&&...) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+[`reference_wrapper<T>] is a [`CopyConstructible] and [`CopyAssignable] wrapper
+around a reference to an object or function of type [`T].
+
+[para]
+[:en]
+[`reference_wrapper<T>] shall be a trivially copyable type ([#basic.types]).
+
+[para]
+[:en]
+[`reference_wrapper<T>] has a weak result type ([#func.require]).
+
+[:en]
+If [`T] is a function type, [`result_type] shall be a synonym for the return
+type of [`T].
+
+[para]
+[:en]
+The template specialization [`reference_wrapper<T>] shall define a nested type
+named [`argument_type] as a synonym for [`T1] only if the type [`T] is any of
+the following:
+
+[list]
+[item]
+[:en]
+a function type or a pointer to function type taking one argument of type [`T1]
+
+[item]
+[:en]
+a pointer to member function [`R T0::f] [$cv] (where [$cv] represents the
+member function[=']s cv-qualifiers); the type [`T1] is [$cv] [`T0*]
+
+[item]
+[:en]
+a class type where the [~qualified-id] [`T::argument_type] is valid and denotes
+a type ([#temp.deduct]); the type [`T1] is [`T::argument_type].
+[list:end]
+
+[para]
+[:en]
+The template instantiation [`reference_wrapper<T>] shall define two nested types
+named [`first_argument_type] and [`second_argument_type] as synonyms for [`T1]
+and [`T2], respectively, only if the type [`T] is any of the following:
+
+[list]
+[item]
+[:en] a function type or a pointer to function type taking two arguments of
+types [`T1] and [`T2]
+
+[item]
+[:en] a pointer to member function [`R T0::f(T2)] [$cv] (where [$cv] represents
+the member function[=']s cv-qualifiers); the type [`T1] is [$cv] [`T0*]
+
+[item]
+[:en] a class type where the [~qualified-id]s [`T::first_argument_type] and
+[`T::second_argument_type] are both valid and both denote types
+([#temp.deduct]); the type [`T1] is [`T::first_argument_type] and the type [`T2]
+is [`T::second_argument_type].
+[list:end]
+
+[include refwrap.const]
+
+[include refwrap.assign]
+
+[include refwrap.access]
+
+[include refwrap.invoke]
+
+[include refwrap.helpers]

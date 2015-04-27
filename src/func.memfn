@@ -1,0 +1,40 @@
+﻿[section#func.memfn
+    [:en] Function template [`mem_fn]
+]
+
+[%:begin#function.object.mem_fn
+    [:en] function object [![`mem_fn]]
+]
+
+[%@library mem_fn]
+[codeblock:declaration [special unspecified] ]
+template<class R, class T> unspecified mem_fn(R T::* pm);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A simple call wrapper ([#func.def]) [`fn] such that the expression
+[`fn(t, a2, ..., aN)] is equivalent to [`[$INVOKE](pm, t, a2, ..., aN)]
+([#func.require]).
+
+[:en] [`fn] shall have a nested type [`result_type] that is a synonym for the
+return type of [`pm] when [`pm] is a pointer to member function.
+
+[para]
+[:en] The simple call wrapper shall define two nested types named
+[`argument_type] and [`result_type] as synonyms for [$cv] [`T*] and [`Ret],
+respectively, when [`pm] is a pointer to member function with cv-qualifier [$cv]
+and taking no arguments, where [`Ret] is [`pm][=']s return type.
+
+[para]
+[:en] The simple call wrapper shall define three nested types named
+[`first_argument_type], [`second_argument_type], and [`result_type] as synonyms
+for [$cv] [`T*], [`T1], and [`Ret], respectively, when [`pm] is a pointer to
+member function with cv-qualifier [$cv] and taking one argument of type [`T1],
+where [`Ret] is [`pm][=']s return type.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%:end#function.object.mem_fn]

@@ -1,0 +1,39 @@
+﻿[section#meta
+    [:en] Metaprogramming and type traits
+]
+
+[para]
+[:en]
+This subclause describes components used by [=Cpp] programs, particularly in
+templates, to support the widest possible range of types, optimise template code
+usage, detect type related user errors, and perform type inference and
+transformation at compile time.
+
+[:en]
+It includes type classification traits, type property inspection traits, and
+type transformations.
+
+[:en]
+The type classification traits describe a complete taxonomy of all possible
+[=Cpp] types, and state where in that taxonomy a given type belongs.
+
+[:en]
+The type property inspection traits allow important characteristics of types or
+of combinations of types to be inspected.
+
+[:en]
+The type transformations allow certain properties of types to be manipulated.
+
+[include meta.rqmts]
+
+[include meta.type.synop]
+
+[include meta.help]
+
+[include meta.unary]
+
+[include meta.unary.prop.query]
+
+[include meta.rel]
+
+[include meta.trans]

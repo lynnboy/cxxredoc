@@ -1,0 +1,24 @@
+﻿[section#pointer.traits.functions
+    [:en] Pointer traits member functions
+]
+
+[%@library pointer_traits[!pointer_to]]
+[%@library pointer_to[!pointer_traits]]
+[codeblock:declaration]
+static pointer pointer_traits::pointer_to([=Seebelow] r);
+static pointer pointer_traits<T*>::pointer_to([=Seebelow] r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] If [`element_type] is (possibly cv-qualified) [`void], the type of [`r] is
+unspecified; otherwise, it is [`element_type&].
+
+[para:returns]
+[:en] The first member function returns a pointer to [`r] obtained by calling
+[`Ptr::pointer_to(r)] through which indirection is valid; an instantiation of
+this function is ill-formed if [`Ptr] does not have a matching [`pointer_to]
+static member function.
+
+[:en] The second member function returns [`std::addressof(r)].
+[exit:description]

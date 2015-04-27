@@ -1,0 +1,74 @@
+﻿[section#util.smartptr.weak
+    [:en] Class template [`weak_ptr]
+]
+
+[para]
+[%@library weak_ptr]
+[:en]
+The [`weak_ptr] class template stores a weak reference to an object that is
+already managed by a [`shared_ptr].
+
+[:en]
+To access the object, a [`weak_ptr] can be converted to a [`shared_ptr] using
+the member function [`lock].
+
+[codeblock:synopsis]
+namespace std {
+  template<class T> class weak_ptr {
+  public:
+    typedef T element_type;
+
+    // [:en] [#util.smartptr.weak.const], constructors
+    constexpr weak_ptr() noexcept;
+    template<class Y> weak_ptr(shared_ptr<Y> const& r) noexcept;
+    weak_ptr(weak_ptr const& r) noexcept;
+    template<class Y> weak_ptr(weak_ptr<Y> const& r) noexcept;
+    weak_ptr(weak_ptr&& r) noexcept;
+    template<class Y> weak_ptr(weak_ptr<Y>&& r) noexcept;
+
+    // [:en] [#util.smartptr.weak.dest], destructor
+    ~weak_ptr();
+
+    // [:en] [#util.smartptr.weak.assign], assignment
+    weak_ptr& operator=(weak_ptr const& r) noexcept;
+    template<class Y> weak_ptr& operator=(weak_ptr<Y> const& r) noexcept;
+    template<class Y> weak_ptr& operator=(shared_ptr<Y> const& r) noexcept;
+    weak_ptr& operator=(weak_ptr&& r) noexcept;
+    template<class Y> weak_ptr& operator=(weak_ptr<Y>&& r) noexcept;    
+
+    // [:en] [#util.smartptr.weak.mod], modifiers
+    void swap(weak_ptr& r) noexcept;
+    void reset() noexcept;
+
+    // [:en] [#util.smartptr.weak.obs], observers
+    long use_count() const noexcept;
+    bool expired() const noexcept;
+    shared_ptr<T> lock() const noexcept;
+    template<class U> bool owner_before(shared_ptr<U> const& b) const;
+    template<class U> bool owner_before(weak_ptr<U> const& b) const;
+  };
+
+  // [:en] [#util.smartptr.weak.spec], specialized algorithms
+  template<class T> void swap(weak_ptr<T>& a, weak_ptr<T>& b) noexcept;
+} // namespace std
+[codeblock:end]
+
+[para]
+[:en]
+Specializations of [`weak_ptr] shall be [`CopyConstructible] and
+[`CopyAssignable], allowing their use in standard containers.
+
+[:en]
+The template parameter [`T] of [`weak_ptr] may be an incomplete type.
+
+[include util.smartptr.weak.const]
+
+[include util.smartptr.weak.dest]
+
+[include util.smartptr.weak.assign]
+
+[include util.smartptr.weak.mod]
+
+[include util.smartptr.weak.obs]
+
+[include util.smartptr.weak.spec]

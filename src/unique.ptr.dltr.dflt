@@ -1,0 +1,43 @@
+﻿[section#unique.ptr.dltr.dflt
+    [:en] [`default_delete]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class T> struct default_delete {
+    constexpr default_delete() noexcept = default;
+    template <class U> default_delete(const default_delete<U>&) noexcept;
+    void operator()(T*) const;
+  };
+}
+[codeblock:end]
+
+[%@library default_delete[!default_delete]]
+[%@library default_delete[!default_delete]]
+[codeblock:declaration]
+template <class U> default_delete(const default_delete<U>& other) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`default_delete] object from another [`default_delete<U>]
+object.
+
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless
+[`U*] is implicitly convertible to [`T*].
+[exit:description]
+
+[%@library operator()[!default_delete]]
+[%@library default_delete[!operator()]]
+[codeblock:declaration]
+void operator()(T* ptr) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] calls [`delete] on [`ptr].
+
+[para:notes]
+[:en] If [`T] is an incomplete type, the program is ill-formed.
+[exit:description]

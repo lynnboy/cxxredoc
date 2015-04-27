@@ -1,0 +1,32 @@
+﻿[section#specialized.algorithms
+    [:en] Specialized algorithms
+]
+
+[para]
+[:en]
+All the iterators that are used as template parameters in the following
+algorithms are required to have their [`operator*] return an object for which
+[`operator&] is defined and returns a pointer to [`T].
+
+[:en]
+In the algorithm [`uninitialized_copy], the template parameter [`InputIterator]
+is required to satisfy the requirements of an input iterator
+([#input.iterators]).
+
+[:en]
+In all of the following algorithms, the template parameter [`ForwardIterator] is
+required to satisfy the requirements of a forward iterator
+([#forward.iterators]), and is required to have the property that no exceptions
+are thrown from increment, assignment, comparison, or indirection through valid
+iterators.
+
+[:en]
+In the following algorithms, if an exception is thrown there are no effects.
+
+[include specialized.addressof]
+
+[include uninitialized.copy]
+
+[include uninitialized.fill]
+
+[include uninitialized.fill.n]

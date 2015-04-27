@@ -1,0 +1,27 @@
+﻿[section#allocator.globals
+    [:en] [`allocator] globals
+]
+
+[%@library operator==[!allocator]]
+[%@library allocator[!operator==]]
+[codeblock:declaration]
+template <class T1, class T2>
+  bool operator==(const allocator<T1>&, const allocator<T2>&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true].
+[exit:description]
+
+[%@library operator!=[!allocator]]
+[%@library allocator[!operator!=]]
+[codeblock:declaration]
+template <class T1, class T2>
+  bool operator!=(const allocator<T1>&, const allocator<T2>&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`false].
+[exit:description]

@@ -1,0 +1,22 @@
+﻿[section#ratio.general
+    [:en] In general
+]
+
+[para]
+[%@library ratio]
+[:en]
+This subclause describes the ratio library.
+
+[:en]
+It provides a class template [`ratio] which exactly represents any finite
+rational number with a numerator and denominator representable by compile-time
+constants of type [`intmax_t].
+
+[para]
+[:en]
+Throughout this subclause, the names of template parameters are used to express
+type requirements.
+
+[:en]
+If a template parameter is named [`R1] or [`R2], and the template argument is
+not a specialization of the [`ratio] template, the program is ill-formed.

@@ -1,0 +1,143 @@
+﻿[section#util.dynamic.safety
+    [:en] Pointer safety
+]
+
+[para]
+[:en]
+A complete object is [+declared reachable] while the number of calls to
+[`declare_reachable] with an argument referencing the object exceeds the number
+of calls to [`undeclare_reachable] with an argument referencing the object.
+
+[%@library declare_reachable]
+[codeblock:declaration]
+void declare_reachable(void* p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] shall be a safely-derived pointer ([#basic.stc.dynamic.safety]) or a
+null pointer value.
+
+[para:effects]
+[:en] If [`p] is not null, the complete object referenced by [`p]
+is subsequently declared reachable ([#basic.stc.dynamic.safety]).
+
+[para:throws]
+[:en] May throw [`std::bad_alloc] if the system cannot allocate additional
+memory that may be required to track objects declared reachable.
+[exit:description]
+
+[%@library undeclare_reachable]
+[codeblock:declaration]
+template <class T> T* undeclare_reachable(T* p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If [`p] is not null, the complete object referenced by [`p] shall have
+been previously declared reachable, and shall be live ([#basic.life]) from the
+time of the call until the last [`undeclare_reachable(p)] call on the object.
+
+[para:returns]
+[:en] A safely derived copy of [`p] which shall compare equal to [`p].
+
+[para:throws]
+[:en] Nothing.
+
+[para]
+[enter:note]
+[:en] It is expected that calls to [`declare_reachable(p)] will consume a small
+amount of memory in addition to that occupied by the referenced object until the
+matching call to [`undeclare_reachable(p)] is encountered.
+
+[:en] Long running programs should arrange that calls are matched.
+[exit:note]
+[exit:description]
+
+[%@library declare_no_pointers]
+[codeblock:declaration]
+void declare_no_pointers(char* p, size_t n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] No bytes in the specified range are currently registered with
+[`declare_no_pointers()].
+
+[:en] If the specified range is in an allocated object, then it must be entirely
+within a single allocated object.
+
+[:en] The object must be live until the corresponding [`undeclare_no_pointers()]
+call.
+
+[enter:note]
+[:en] In a garbage-collecting implementation, the fact that a region in an
+object is registered with [`declare_no_pointers()] should not prevent the object
+from being collected.
+[exit:note]
+
+[para:effects]
+[:en] The [`n] bytes starting at [`p] no longer contain traceable pointer
+locations, independent of their type.
+
+[:en] Hence indirection through a pointer located there is undefined if the
+object it points to was created by global [`operator new] and not previously
+declared reachable.
+
+[enter:note]
+[:en] This may be used to inform a garbage collector or leak detector that this
+region of memory need not be traced.
+[exit:note]
+
+[para:throws]
+[:en] Nothing.
+
+[para]
+[enter:note]
+[:en] Under some conditions implementations may need to allocate memory.
+
+[:en] However, the request can be ignored if memory allocation fails.
+[exit:note]
+[exit:description]
+
+[%@library undeclare_no_pointers]
+[codeblock:declaration]
+void undeclare_no_pointers(char* p, size_t n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The same range must previously have been passed to
+[`declare_no_pointers()].
+
+[para:effects]
+[:en] Unregisters a range registered with [`declare_no_pointers()] for
+destruction.
+
+[:en] It must be called before the lifetime of the object ends.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library get_pointer_safety]
+[codeblock:declaration]
+pointer_safety get_pointer_safety() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`pointer_safety::strict] if the implementation has strict pointer safety
+([#basic.stc.dynamic.safety]).
+
+[:en] It is implementation defined [%@impldef whether [`get_pointer_safety]
+returns [`pointer_safety::relaxed] or [`pointer_safety::preferred] if the
+implementation has relaxed pointer safety] whether [`get_pointer_safety] returns
+[`pointer_safety::relaxed] or [`pointer_safety::preferred] if the implementation
+has relaxed pointer safety.
+
+[footnote]
+[:en] [`pointer_safety::preferred] might be returned to indicate that a leak
+detector is running so that the program can avoid spurious leak reports.
+[footnote:end]
+[exit:description]

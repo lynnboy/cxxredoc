@@ -1,0 +1,196 @@
+﻿[section#unique.ptr.special
+    [:en] [`unique_ptr] specialized algorithms
+]
+
+[%@library swap(unique_ptr&, unique_ptr&)]
+[codeblock:declaration]
+template <class T, class D> void swap(unique_ptr<T, D>& x, unique_ptr<T, D>& y) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`x.swap(y)].
+[exit:description]
+
+[%@library operator==[!unique_ptr]]
+[%@library unique_ptr[!operator==]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator==(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.get() == y.get()].
+[exit:description]
+
+[%@library operator!=[!unique_ptr]]
+[%@library unique_ptr[!operator!=]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator!=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.get() != y.get()].
+[exit:description]
+[%@library operator<[!unique_ptr]]
+[%@library unique_ptr[!operator<]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator<(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Let [`CT] be [`common_type<unique_ptr<T1, D1>::pointer,
+unique_ptr<T2, D2>::pointer>::type].
+
+[:en] Then the specialization [`less<CT>] shall be a function object type
+([#function.objects]) that induces a strict weak ordering ([#alg.sorting]) on
+the pointer values.
+
+[para:returns]
+[:en] [`less<CT>()(x.get(), y.get())].
+
+[para:remarks]
+[:en] If [`unique_ptr<T1, D1>::pointer] is not implicitly convertible to [`CT]
+or [`unique_ptr<T2, D2>::pointer] is not implicitly convertible to [`CT], the
+program is ill-formed.
+[exit:description]
+
+[%@library operator<=[!shared_ptr]]
+[%@library shared_ptr[!operator<=]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator<=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(y < x)].
+[exit:description]
+
+[%@library operator>[!unique_ptr]]
+[%@library unique_ptr[!operator>]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator>(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`y < x].
+[exit:description]
+
+[%@library operator>=[!unique_ptr]]
+[%@library unique_ptr[!operator>=]]
+[codeblock:declaration]
+template <class T1, class D1, class T2, class D2>
+  bool operator>=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(x < y)].
+[exit:description]
+
+[%@library operator==[!unique_ptr]]
+[%@library unique_ptr[!operator==]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator==(const unique_ptr<T, D>& x, nullptr_t) noexcept;
+template <class T, class D>
+  bool operator==(nullptr_t, const unique_ptr<T, D>& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!x].
+[exit:description]
+
+[%@library operator!=[!unique_ptr]]
+[%@library unique_ptr[!operator!=]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator!=(const unique_ptr<T, D>& x, nullptr_t) noexcept;
+template <class T, class D>
+  bool operator!=(nullptr_t, const unique_ptr<T, D>& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(bool)x].
+[exit:description]
+
+[%@library operator<[!unique_ptr]]
+[%@library unique_ptr[!operator<]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator<(const unique_ptr<T, D>& x, nullptr_t);
+template <class T, class D>
+  bool operator<(nullptr_t, const unique_ptr<T, D>& x);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The specialization [`less<unique_ptr<T, D>::pointer>] shall be a function
+object type ([#function.objects]) that induces a strict weak ordering
+([#alg.sorting]) on the pointer values.
+
+[para:returns]
+[:en] The first function template returns [`less<unique_ptr<T,
+D>::pointer>()(x.get(), nullptr)].
+
+[:en] The second function template returns [`less<unique_ptr<T,
+D>::pointer>()(nullptr, x.get())].
+[exit:description]
+
+[%@library operator>[!unique_ptr]]
+[%@library unique_ptr[!operator>]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator>(const unique_ptr<T, D>& x, nullptr_t);
+template <class T, class D>
+  bool operator>(nullptr_t, const unique_ptr<T, D>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`nullptr < x].
+
+[:en] The second function template returns [`x < nullptr].
+[exit:description]
+
+[%@library operator<=[!unique_ptr]]
+[%@library unique_ptr[!operator<=]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator<=(const unique_ptr<T, D>& x, nullptr_t);
+template <class T, class D>
+  bool operator<=(nullptr_t, const unique_ptr<T, D>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`!(nullptr < x)].
+
+[:en] The second function template returns [`!(x < nullptr)].
+[exit:description]
+
+[%@library operator>=[!unique_ptr]]
+[%@library unique_ptr[!operator>=]]
+[codeblock:declaration]
+template <class T, class D>
+  bool operator>=(const unique_ptr<T, D>& x, nullptr_t);
+template <class T, class D>
+  bool operator>=(nullptr_t, const unique_ptr<T, D>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first function template returns [`!(x < nullptr)].
+
+[:en] The second function template returns [`!(nullptr < x)].
+[exit:description]

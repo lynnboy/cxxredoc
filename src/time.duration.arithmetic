@@ -1,0 +1,159 @@
+﻿[section#time.duration.arithmetic
+    [:en] [`duration] arithmetic
+]
+
+[%@library operator+[!duration]]
+[%@library duration[!operator+]]
+[codeblock:declaration]
+constexpr duration operator+() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator-[!duration]]
+[%@library duration[!operator-]]
+[codeblock:declaration]
+constexpr duration operator-() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(-rep_);].
+[exit:description]
+
+[%@library operator++[!duration]]
+[%@library duration[!operator++]]
+[codeblock:declaration]
+duration& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`++rep_].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator++[!duration]]
+[%@library duration[!operator++]]
+[codeblock:declaration]
+duration operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(rep_++);].
+[exit:description]
+
+[%@library operator--[!duration]]
+[%@library duration[!operator--]]
+[codeblock:declaration]
+duration& operator--();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`--rep_].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator--[!duration]]
+[%@library duration[!operator--]]
+[codeblock:declaration]
+duration operator--(int);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(rep_--);].
+[exit:description]
+
+[%@library operator+=[!duration]]
+[%@library duration[!operator+=]]
+[codeblock:declaration]
+duration& operator+=(const duration& d);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ += d.count()].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator-=[!duration]]
+[%@library duration[!operator-=]]
+[codeblock:declaration]
+duration& operator-=(const duration& d);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ -= d.count()].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator*=[!duration]]
+[%@library duration[!operator*=]]
+[codeblock:declaration]
+duration& operator*=(const rep& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ *= rhs].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator/=[!duration]]
+[%@library duration[!operator/=]]
+[codeblock:declaration]
+duration& operator/=(const rep& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ /= rhs].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator%=[!duration]]
+[%@library duration[!operator%=]]
+[codeblock:declaration]
+duration& operator%=(const rep& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ %= rhs].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator%=[!duration]]
+[%@library duration[!operator%=]]
+[codeblock:declaration]
+duration& operator%=(const duration& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`rep_ %= rhs.count()].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

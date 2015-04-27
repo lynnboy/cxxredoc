@@ -1,0 +1,224 @@
+﻿[section#tuple.cnstr
+    [:en] Construction
+]
+
+[para]
+[:en]
+For each [`tuple] constructor, an exception is thrown only if the construction
+of one of the types in [`Types] throws an exception.
+
+[para]
+[:en]
+The defaulted move and copy constructor, respectively, of [`tuple] shall be a
+[`constexpr] function if and only if all required element-wise initializations
+for copy and move, respectively, would satisfy the requirements for a
+[`constexpr] function.
+
+[:en]
+The defaulted move and copy constructor of [`tuple<>] shall be [`constexpr]
+functions.
+
+[para]
+[:en]
+In the constructor descriptions that follow, let [$i] be in the range
+[=range[0,sizeof...(Types))] in order, [$T[_i]] be the [$i[^th]] type in
+[`Types], and [$U[_i]] be the [$i[^th]] type in a template parameter pack named
+[`UTypes], where indexing is zero-based.
+
+[%@library tuple[!tuple]]
+[codeblock:declaration]
+constexpr tuple();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_default_constructible<[$T[_i]]>::value] is true for all [$i].
+
+[para:effects]
+[:en] Value initializes each element.
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+constexpr explicit tuple(const Types&...);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_copy_constructible<[$T[_i]]>::value] is true for all [$i].
+
+[para:effects]
+[:en] Initializes each element with the value of the corresponding parameter.
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+template <class... UTypes>
+  constexpr explicit tuple(UTypes&&... u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == sizeof...(UTypes)].
+
+[:en] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] Initializes the elements in the tuple with the corresponding value in
+[`std::forward<UTypes>(u)].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless each
+type in [`UTypes] is implicitly convertible to its corresponding type in
+[`Types].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+tuple(const tuple& u) = default;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_copy_constructible<[$T[_i]]>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] Initializes each element of [`*this] with the corresponding element of
+[`u].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+tuple(tuple&& u) = default;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_move_constructible<[$T[_i]]>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] For all [$i], initializes the [$i[^th]] element of [`*this] with
+[`std::forward<[$T[_i]]>(get<[$i]>(u))].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+template <class... UTypes> constexpr tuple(const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == sizeof...(UTypes)].
+
+[:en] [`is_constructible<[$T[_i]], const [$U[_i]]&>::value] is [`true] for all
+[$i].
+
+[para:effects]
+[:en] Constructs each element of [`*this] with the corresponding element of
+[`u].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless
+[`const [$U[_i]]&] is implicitly convertible to [$T[_i]] for all [$i].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+template <class... UTypes> constexpr tuple(tuple<UTypes...>&& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == sizeof...(UTypes)].
+
+[:en] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] is [`true] for all [$i].
+
+[para:effects]
+[:en] For all [$i], initializes the [$i[^th]] element of [`*this] with
+[`std::forward<[$U[_i]]>(get<[$i]>(u))].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless
+each type in [`UTypes] is implicitly convertible to its corresponding type in
+[`Types].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[%@library pair]
+[codeblock:declaration]
+template <class U1, class U2> constexpr tuple(const pair<U1, U2>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == 2].
+
+[:en] [`is_constructible<[$T[_0]], const U1&>::value] is [`true] for the first
+type [$T[_0]] in [`Types] and [`is_constructible<[$T[_1]], const U2&>::value] is
+[`true] for the second type [$T[_1]] in [`Types].
+
+[para:effects]
+[:en] Constructs the first element with [`u.first] and the second element with
+[`u.second].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless
+[`const U1&] is implicitly convertible to [$T[_0]] and [`const U2&]
+is implicitly convertible to [$T[_1]].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[%@library pair]
+[codeblock:declaration]
+template <class U1, class U2> constexpr tuple(pair<U1, U2>&& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sizeof...(Types) == 2].
+
+[:en] [`is_constructible<[$T[_0]], U1&&>::value] is [`true] for the first type
+[$T[_0]] in [`Types] and [`is_constructible<[$T[_1]], U2&&>::value] is [`true]
+for the second type [$T[_1]] in [`Types].
+
+[para:effects]
+[:en] Initializes the first element with [`std::forward<U1>(u.first)] and the
+second element with [`std::forward<U2>(u.second)].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless [`U1]
+is implicitly convertible to [$T[_0]] and [`U2] is implicitly convertible to
+[$T[_1]].
+[exit:description]
+
+[%@library [:en] tuple[!constructor]]
+[codeblock:declaration]
+template <class Alloc>
+  tuple(allocator_arg_t, const Alloc& a);
+template <class Alloc>
+  tuple(allocator_arg_t, const Alloc& a, const Types&...);
+template <class Alloc, class... UTypes>
+  tuple(allocator_arg_t, const Alloc& a, UTypes&&...);
+template <class Alloc>
+  tuple(allocator_arg_t, const Alloc& a, const tuple&);
+template <class Alloc>
+  tuple(allocator_arg_t, const Alloc& a, tuple&&);
+template <class Alloc, class... UTypes>
+  tuple(allocator_arg_t, const Alloc& a, const tuple<UTypes...>&);
+template <class Alloc, class... UTypes>
+  tuple(allocator_arg_t, const Alloc& a, tuple<UTypes...>&&);
+template <class Alloc, class U1, class U2>
+  tuple(allocator_arg_t, const Alloc& a, const pair<U1, U2>&);
+template <class Alloc, class U1, class U2>
+  tuple(allocator_arg_t, const Alloc& a, pair<U1, U2>&&);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Alloc] shall meet the requirements for an [`Allocator]
+([#allocator.requirements]).
+
+[para:effects]
+[:en] Equivalent to the preceding constructors except that each element is
+constructed with uses-allocator construction ([#allocator.uses.construction]).
+[exit:description]

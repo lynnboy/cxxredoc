@@ -1,0 +1,115 @@
+﻿[section#time.duration
+    [:en] Class template [`duration]
+]
+
+[para]
+[:en]
+A [`duration] type measures time between two points in time ([`time_point]s).
+
+[:en]
+A [`duration] has a representation which holds a count of ticks and a tick
+period.
+
+[:en]
+The tick period is the amount of time which occurs from one tick to the next, in
+units of seconds.
+
+[:en]
+It is expressed as a rational constant using the template [`ratio].
+
+[codeblock:synopsis]
+template <class Rep, class Period = ratio<1>>
+class duration {
+public:
+  typedef Rep    rep;
+  typedef Period period;
+private:
+  rep rep_;  // [=Expos]
+public:
+  // [:en] [#time.duration.cons], construct/copy/destroy:
+  constexpr duration() = default;
+  template <class Rep2>
+      constexpr explicit duration(const Rep2& r);
+  template <class Rep2, class Period2>
+     constexpr duration(const duration<Rep2, Period2>& d);
+  ~duration() = default;
+  duration(const duration&) = default;
+  duration& operator=(const duration&) = default;
+
+  // [:en] [#time.duration.observer], observer:
+  constexpr rep count() const;
+
+  // [:en] [#time.duration.arithmetic], arithmetic:
+  constexpr duration  operator+() const;
+  constexpr duration  operator-() const;
+  duration& operator++();
+  duration  operator++(int);
+  duration& operator--();
+  duration  operator--(int);
+
+  duration& operator+=(const duration& d);
+  duration& operator-=(const duration& d);
+
+  duration& operator*=(const rep& rhs);
+  duration& operator/=(const rep& rhs);
+  duration& operator%=(const rep& rhs);
+  duration& operator%=(const duration& rhs);
+
+  // [:en] [#time.duration.special], special values:
+  static constexpr duration zero();
+  static constexpr duration min();
+  static constexpr duration max();
+};
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Rep] shall be an arithmetic type or a class emulating an arithmetic
+type.
+
+[para:notes]
+[:en] If [`duration] is instantiated with a [`duration] type for the template
+argument [`Rep], the program is ill-formed.
+
+[para:notes]
+[:en] If [`Period] is not a specialization of [`ratio], the program is
+ill-formed.
+
+[para:notes]
+[:en] If [`Period::num] is not positive, the program is ill-formed.
+
+[para:requires]
+[:en] Members of [`duration] shall not throw exceptions other than those thrown
+by the indicated operations on their representations.
+
+[para:remarks]
+[:en] The defaulted copy constructor of duration shall be a [`constexpr]
+function if and only if the required initialization of the member [`rep_] for
+copy and move, respectively, would satisfy the requirements for a [`constexpr]
+function.
+[exit:description]
+
+[enter:example]
+[codeblock]
+duration<long, ratio<60>> d0;       // [:en] holds a count of minutes using a [`long]
+duration<long long, milli> d1;      // [:en] holds a count of milliseconds using a [`long long]
+duration<double, ratio<1, 30>>  d2; // [:en] holds a count with a tick period of [=frac_1_30] of a second
+                                    // [:en@~] (30 Hz) using a [`double]
+[codeblock:end]
+[exit:example]
+
+[include time.duration.cons]
+
+[include time.duration.observer]
+
+[include time.duration.arithmetic]
+
+[include time.duration.special]
+
+[include time.duration.nonmember]
+
+[include time.duration.comparisons]
+
+[include time.duration.cast]
+
+[include time.duration.literals]

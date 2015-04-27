@@ -1,0 +1,90 @@
+﻿[section#bitset.operators
+    [:en] [`bitset] operators
+]
+
+[%@library operator&[!bitset]]
+[codeblock:declaration]
+bitset<N> operator&(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bitset<N>(lhs) &= rhs].
+[exit:description]
+
+[%@library operator|[!bitset]]
+[codeblock:declaration]
+bitset<N> operator|(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bitset<N>(lhs) |= rhs].
+[exit:description]
+
+[%@library operator^[!bitset]]
+[codeblock:declaration]
+bitset<N> operator^(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bitset<N>(lhs) ^= rhs].
+[exit:description]
+
+[%@library operator>>[!bitset]]
+[codeblock:declaration]
+template <class charT, class traits, size_t N>
+  basic_istream<charT, traits>&
+  operator>>(basic_istream<charT, traits>& is, bitset<N>& x);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] A formatted input function ([#istream.formatted]).
+
+[para:effects]
+[:en] Extracts up to [`N] characters from [`is].
+
+[:en] Stores these characters in a temporary object [`str] of type
+[`basic_string<charT, traits>], then evaluates the expression
+[`x = bitset<N>(str)].
+
+[:en] Characters are extracted and stored until any of the following occurs:
+
+[list]
+[item]
+[:en] [`N] characters have been extracted and stored;
+[item]
+[:en] [%end-of-file] end-of-file occurs on the input sequence;
+[item]
+[:en] the next input character is neither [`is.widen('0')] nor [`is.widen('1')]
+(in which case the input character is not extracted).
+[list:end]
+
+[para]
+[:en]
+If no characters are stored in [`str], calls [`is.setstate(ios_base::failbit)]
+(which may throw [`ios_base::failure] ([#iostate.flags])).
+
+[para:returns]
+[:en] [`is].
+[exit:description]
+
+[%@library operator<<[!bitset]]
+[codeblock:declaration]
+template <class charT, class traits, size_t N>
+  basic_ostream<charT, traits>&
+  operator<<(basic_ostream<charT, traits>& os, const bitset<N>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[codeblock:notation]
+os << x.template to_string<charT,traits,allocator<charT> >(
+  use_facet<ctype<charT> >(os.getloc()).widen('0'),
+  use_facet<ctype<charT> >(os.getloc()).widen('1'))
+[codeblock:end]
+
+[:en] (see [#ostream.formatted]).
+[exit:description]

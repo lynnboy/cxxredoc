@@ -1,0 +1,18 @@
+﻿[section#intseq.intseq
+    [:en] Class template [`integer_sequence]
+]
+
+[%@library integer_sequence]
+[codeblock:synopsis]
+namespace std {
+  template<class T, T... I>
+  struct integer_sequence {
+    typedef T value_type;
+    static constexpr size_t size() noexcept { return sizeof...(I); }
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+[`T] shall be an integer type.

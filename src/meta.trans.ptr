@@ -1,0 +1,30 @@
+﻿[section#meta.trans.ptr
+    [:en] Pointer modifications
+]
+
+[table:listing#tab:type-traits.pointer
+    [:en] Pointer modifications
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct remove_pointer;
+[|] [:en] If [`T] has type ["(possibly cv-qualified) pointer to [`T1]] then the
+    member typedef [`type] shall name [`T1]; otherwise, it shall name [`T].
+
+[|]
+template <class T> [br]
+struct add_pointer;
+[|] [:en] The member typedef [`type] shall name the same type as
+    [`remove_reference_t<T>*].
+
+[table:end]

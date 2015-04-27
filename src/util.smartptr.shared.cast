@@ -1,0 +1,89 @@
+﻿[section#util.smartptr.shared.cast
+    [:en] [`shared_ptr] casts
+]
+
+[%@library shared_ptr[!static_pointer_cast]]
+[%@library static_pointer_cast[!shared_ptr]]
+[codeblock:declaration]
+template<class T, class U> shared_ptr<T> static_pointer_cast(const shared_ptr<U>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`static_cast<T*>(r.get())] shall be well formed.
+
+[para:returns]
+[:en] If [`r] is [+empty], an [+empty] [`shared_ptr<T>]; otherwise, a
+[`shared_ptr<T>] object that stores [`static_cast<T*>(r.get())] and [+shares
+ownership] with [`r].
+
+[para:postconditions]
+[:en] [`w.get() == static_cast<T*>(r.get())] and [`w.use_count() ==
+r.use_count()], where [`w] is the return value.
+
+[para]
+[enter:note]
+[:en] The seemingly equivalent expression
+[`shared_ptr<T>(static_cast<T*>(r.get()))] will eventually result in undefined
+behavior, attempting to delete the same object twice.
+[exit:note]
+[exit:description]
+
+[%@library shared_ptr[!dynamic_pointer_cast]]
+[%@library dynamic_pointer_cast[!shared_ptr]]
+[codeblock:declaration]
+template<class T, class U> shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`dynamic_cast<T*>(r.get())] shall be well formed and shall
+have well defined behavior.
+
+[para:returns]
+[list]
+[item]
+[:en] When [`dynamic_cast<T*>(r.get())] returns a nonzero value, a
+[`shared_ptr<T>] object that stores a copy of it and [+shares ownership] with
+[`r];
+
+[item]
+[:en] Otherwise, an [+empty] [`shared_ptr<T>] object.
+[list:end]
+
+[para:postcondition]
+[:en] [`w.get() == dynamic_cast<T*>(r.get())], where [`w] is the return value.
+
+[para]
+[enter:note]
+[:en] The seemingly equivalent expression
+[`shared_ptr<T>(dynamic_cast<T*>(r.get()))] will eventually result in undefined
+behavior, attempting to delete the same object twice.
+[exit:note]
+[exit:description]
+
+[%@library shared_ptr[!const_pointer_cast]]
+[%@library const_pointer_cast[!shared_ptr]]
+[codeblock:declaration]
+template<class T, class U> shared_ptr<T> const_pointer_cast(const shared_ptr<U>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`const_cast<T*>(r.get())] shall be well formed.
+
+[para:returns]
+[:en] If [`r] is empty, an empty [`shared_ptr<T>]; otherwise, a [`shared_ptr<T>]
+object that stores [`const_cast<T*>(r.get())] and shares ownership with [`r].
+
+[para:postconditions]
+[:en] [`w.get() == const_cast<T*>(r.get())] and [`w.use_count() ==
+r.use_count()], where [`w] is the return value.
+
+[para]
+[enter:note]
+[:en] The seemingly equivalent expression
+[`shared_ptr<T>(const_cast<T*>(r.get()))] will eventually result in undefined
+behavior, attempting to delete the same object twice.
+[exit:note]
+[exit:description]

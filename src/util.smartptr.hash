@@ -1,0 +1,36 @@
+﻿[section#util.smartptr.hash
+    [:en] Smart pointer hash support
+]
+
+[%@library hash]
+[codeblock:declaration]
+template <class T, class D> struct hash<unique_ptr<T, D> >;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+
+[:en] For an object [`p] of type [`UP], where [`UP] is [`unique_ptr<T, D>],
+[`hash<UP>()(p)] shall evaluate to the same value as
+[`hash<typename UP::pointer>()(p.get())].
+
+[para:requires]
+[:en] The specialization [`hash<typename UP::pointer>] shall be well-formed and
+well-defined, and shall meet the requirements of class template [`hash]
+([#unord.hash]).
+[exit:description]
+
+[%@library hash]
+[codeblock:declaration]
+template <class T> struct hash<shared_ptr<T> >;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]). For an object [`p] of type [`shared_ptr<T>],
+[`hash<shared_ptr<T> >()(p)] shall evaluate to the same value as
+[`hash<T*>()(p.get())].
+[exit:description]

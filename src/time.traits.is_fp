@@ -1,0 +1,34 @@
+﻿[section#time.traits.is_fp
+    [:en] [`treat_as_floating_point]
+]
+
+[%@library treat_as_floating_point]
+[codeblock:declaration]
+template <class Rep> struct treat_as_floating_point
+  : is_floating_point<Rep> { };
+[codeblock:end]
+
+[para]
+[:en]
+The [`duration] template uses the [`treat_as_floating_point] trait to help
+determine if a [`duration] object can be converted to another [`duration] with
+a different tick [`period].
+
+[:en]
+If [`treat_as_floating_point<Rep>::value] is true, then implicit conversions are
+allowed among [`duration]s.
+
+[:en]
+Otherwise, the implicit convertibility depends on the tick [`period]s of the
+[`duration]s.
+
+[enter:note]
+[:en]
+The intention of this trait is to indicate whether a given class behaves like a
+floating-point type, and thus allows division of one value by another with
+acceptable loss of precision.
+
+[:en]
+If [`treat_as_floating_point<Rep>::value] is [`false], [`Rep] will be treated as
+if it behaved like an integral type for the purpose of these conversions.
+[exit:note]

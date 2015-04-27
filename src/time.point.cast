@@ -1,0 +1,20 @@
+﻿[section#time.point.cast
+    [:en] [`time_point_cast]
+]
+
+[%@library time_point_cast]
+[codeblock:declaration]
+template <class ToDuration, class Clock, class Duration>
+  constexpr time_point<Clock, ToDuration>
+  time_point_cast(const time_point<Clock, Duration>& t);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This function shall not participate in overload resolution unless
+[`ToDuration] is an instantiation of [`duration].
+
+[para:returns]
+[:en] [`time_point<Clock,
+ToDuration>(duration_cast<ToDuration>(t.time_since_epoch()))].
+[exit:description]

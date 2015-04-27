@@ -1,0 +1,120 @@
+﻿[section#tuple.rel
+    [:en] Relational operators
+]
+
+[%@library tuple[!operator==]]
+[%@library operator==[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator==(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] For all [`i], where [`0 <= i] and [`i < sizeof...(TTypes)], [`get<i>(t) ==
+get<i>(u)] is a valid expression returning a type that is convertible to
+[`bool].
+
+[:en] [`sizeof...(TTypes) == sizeof...(UTypes)].
+
+[para:returns]
+[:en] [`true] if [`get<i>(t) == get<i>(u)] for all [`i], otherwise [`false].
+
+[:en] For any two zero-length tuples [`e] and [`f], [`e == f] returns [`true].
+
+[para:effects]
+[:en] The elementary comparisons are performed in order from the zeroth index
+upwards.
+
+[:en] No comparisons or element accesses are performed after the first equality
+comparison that evaluates to [`false].
+[exit:description]
+
+[%@library tuple[!operator<]]
+[%@library operator<[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator<(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] For all [`i], where [`0 <= i] and [`i < sizeof...(TTypes)], [`get<i>(t) <
+get<i>(u)] and [`get<i>(u) < get<i>(t)] are valid expressions returning types
+that are convertible to [`bool].
+
+[:en] [`sizeof...(TTypes) == sizeof...(UTypes)].
+
+[para:returns]
+[:en] The result of a lexicographical comparison between [`t] and [`u].
+
+[:en] The result is defined as: [`(bool)(get<0>(t) < get<0>(u)) ||
+(!(bool)(get<0>(u) < get<0>(t)) && t][_tail][` < u][_tail][`)], where
+[`r][_tail] for some tuple [`r] is a tuple containing all but the first element
+of [`r].
+
+[:en] For any two zero-length tuples [`e] and [`f], [`e < f] returns [`false].
+[exit:description]
+
+[%@library tuple[!operator!=]]
+[%@library operator!=[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator!=(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(t == u)].
+[exit:description]
+
+[%@library tuple[!operator>]]
+[%@library operator>[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator>(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`u < t].
+[exit:description]
+
+[%@library tuple[!operator<=]]
+[%@library operator<=[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator<=(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(u < t)]
+[exit:description]
+
+[%@library tuple[!operator>=]]
+[%@library operator>=[!tuple]]
+[codeblock:declaration]
+template<class... TTypes, class... UTypes>
+  constexpr bool operator>=(const tuple<TTypes...>& t, const tuple<UTypes...>& u);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(t < u)]
+[exit:description]
+
+[para]
+[enter:note]
+[:en]
+The above definitions for comparison operators do not require [`t][_tail]
+(or [`u][_tail]) to be constructed.
+
+[:en]
+It may not even be possible, as [`t] and [`u] are not required to be copy
+constructible.
+
+[:en]
+Also, all comparison operators are short circuited; they do not perform element
+accesses beyond what is required to determine the result of the comparison.
+[exit:note]

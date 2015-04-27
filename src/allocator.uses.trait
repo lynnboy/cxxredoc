@@ -1,0 +1,34 @@
+﻿[section#allocator.uses.trait
+    [:en] [`uses_allocator] trait
+]
+
+[%@library uses_allocator]
+[codeblock:declaration]
+template <class T, class Alloc> struct uses_allocator;
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] automatically detects whether [`T] has a nested [`allocator_type] that
+is convertible from [`Alloc].
+
+[:en] Meets the BinaryTypeTrait requirements ([#meta.rqmts]).
+
+[:en] The implementation shall provide a definition that is derived from
+[`true_type] if the [~qualified-id] [`T::allocator_type] is valid and denotes a
+type ([#temp.deduct]) and [`is_convertible<Alloc, T::allocator_type>::value !=
+false], otherwise it shall be derived from [`false_type].
+
+[:en] A program may specialize this template to derive from [`true_type] for a
+user-defined type [`T] that does not have a nested [`allocator_type] but
+nonetheless can be constructed with an allocator where either:
+
+[list]
+[item]
+[:en] the first argument of a constructor has type [`allocator_arg_t] and the
+second argument has type [`Alloc] or
+
+[item]
+[:en] the last argument of a constructor has type [`Alloc].
+[list:end]
+[exit:description]

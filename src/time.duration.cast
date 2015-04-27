@@ -1,0 +1,61 @@
+﻿[section#time.duration.cast
+    [:en] [`duration_cast]
+]
+
+[%@library duration_cast]
+[codeblock:declaration]
+template <class ToDuration, class Rep, class Period>
+  constexpr ToDuration duration_cast(const duration<Rep, Period>& d);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This function shall not participate in overload resolution unless
+[`ToDuration] is an instantiation of [`duration].
+
+[para:returns]
+[:en] Let [`CF] be [`ratio_divide<Period, typename ToDuration::period>], and
+[`CR] be [`common_type<typename ToDuration::rep, Rep, intmax_t>::type].
+
+[list]
+[item]
+[:en] If [`CF::num == 1] and [`CF::den == 1], returns
+
+[codeblock:notation]
+ToDuration(static_cast<typename ToDuration::rep>(d.count()))
+[codeblock:end]
+
+[item]
+[:en] otherwise, if [`CF::num != 1] and [`CF::den == 1], returns
+
+[codeblock:notation]
+ToDuration(static_cast<typename ToDuration::rep>(
+  static_cast<CR>(d.count()) * static_cast<CR>(CF::num)))
+[codeblock:end]
+
+[item]
+[:en] otherwise, if [`CF::num == 1] and [`CF::den != 1], returns
+[codeblock:notation]
+ToDuration(static_cast<typename ToDuration::rep>(
+  static_cast<CR>(d.count()) / static_cast<CR>(CF::den)))
+[codeblock:end]
+
+[item]
+[:en] otherwise, returns
+
+[codeblock:notation]
+ToDuration(static_cast<typename ToDuration::rep>(
+  static_cast<CR>(d.count()) * static_cast<CR>(CF::num) / static_cast<CR>(CF::den)))
+[codeblock:end]
+[list:end]
+
+[para:realnotes]
+[:en] This function does not use any implicit conversions; all conversions are
+done with [`static_cast].
+
+[:en] It avoids multiplications and divisions when it is known at compile time
+that one or more arguments is 1.
+
+[:en] Intermediate computations are carried out in the widest representation and
+only converted to the destination representation at the final step.
+[exit:description]

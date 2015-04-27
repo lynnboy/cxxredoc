@@ -1,0 +1,290 @@
+﻿[section#allocator.adaptor.members
+    [:en] Scoped allocator adaptor members
+]
+
+[para]
+[:en]
+In the [`construct] member functions, [`[$OUTERMOST](x)] is [`x] if [`x] does
+not have an [`outer_allocator()] member function and
+[`[$OUTERMOST](x.outer_allocator())] otherwise; [`[$OUTERMOST_ALLOC_TRAITS](x)]
+is [`allocator_traits<decltype([$OUTERMOST](x))>].
+
+[enter:note]
+[:en]
+[`[$OUTERMOST](x)] and [`[$OUTERMOST_ALLOC_TRAITS](x)] are recursive operations.
+
+[:en]
+It is incumbent upon the definition of [`outer_allocator()] to ensure that the
+recursion terminates.
+
+[:en]
+It will terminate for all instantiations of [`scoped_allocator_adaptor].
+[exit:note]
+
+[%@library scoped_allocator_adaptor[!inner_allocator]]
+[%@library inner_allocator[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+inner_allocator_type& inner_allocator() noexcept;
+const inner_allocator_type& inner_allocator() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this] if [`sizeof...(InnerAllocs)] is zero; otherwise, [`inner].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!outer_allocator]]
+[%@library outer_allocator[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+outer_allocator_type& outer_allocator() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`static_cast<OuterAlloc&>(*this)].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!outer_allocator]]
+[%@library outer_allocator[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+const outer_allocator_type& outer_allocator() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`static_cast<const OuterAlloc&>(*this)].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!allocate]]
+[%@library allocate[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+pointer allocate(size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n)].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!allocate]]
+[%@library allocate[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+pointer allocate(size_type n, const_void_pointer hint);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n, hint)].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!deallocate]]
+[%@library deallocate[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+void deallocate(pointer p, size_type n) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`allocator_traits<OuterAlloc>::deallocate(outer_allocator(), p, n)];
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!max_size]]
+[%@library max_size[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+size_type max_size() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`allocator_traits<OuterAlloc>::max_size(outer_allocator())].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T, class... Args>
+  void construct(T* p, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+
+[list]
+[item]
+[:en] If [`uses_allocator<T, inner_allocator_type>::value] is [`false] and
+[`is_constructible<T, Args...>::value] is [`true], calls
+[`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+std::forward<Args>(args)...)].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T, inner_allocator_type>::value] is [`true]
+and [`is_constructible<T, allocator_arg_t, inner_allocator_type,
+Args...>::value] is [`true], calls
+[`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+allocator_arg, inner_allocator(), std::forward<Args>(args)...)].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T, inner_allocator_type>::value] is [`true]
+and [`is_constructible<T, Args..., inner_allocator_type>::value] is [`true],
+calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+std::forward<Args>(args)..., inner_allocator())].
+
+[item]
+[:en] Otherwise, the program is ill-formed.
+
+[enter:note]
+[:en] An error will result if [`uses_allocator] evaluates to true but the
+specific constructor does not take an allocator.
+
+[:en] This definition prevents a silent failure to pass an inner allocator to a
+contained element.
+[exit:note]
+[list:end]
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T1, class T2, class... Args1, class... Args2>
+  void construct(pair<T1, T2>* p,piecewise_construct_t,
+                 tuple<Args1...> x, tuple<Args2...> y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] all of the types in [`Args1] and [`Args2] shall be [`CopyConstructible]
+(Table [#copyconstructible]).
+
+[para:effects]
+[:en] Constructs a [`tuple] object [`xprime] from [`x] by the following rules:
+
+[list]
+[item]
+[:en] If [`uses_allocator<T1, inner_allocator_type>::value] is [`false] and
+[`is_constructible<T1, Args1...>::value] is [`true], then [`xprime] is [`x].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T1, inner_allocator_type>::value] is
+[`true] and [`is_constructible<T1, allocator_arg_t, inner_allocator_type,
+Args1...>::value] is [`true], then [`xprime] is
+[`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
+inner_allocator()), std::move(x))].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T1, inner_allocator_type>::value] is
+[`true] and [`is_constructible<T1, Args1..., inner_allocator_type>::value] is
+[`true], then [`xprime] is [`tuple_cat(std::move(x),
+tuple<inner_allocator_type&>(inner_allocator()))].
+
+[item]
+[:en] Otherwise, the program is ill-formed.
+[list:end]
+
+[:en]
+and constructs a [`tuple] object [`yprime] from [`y] by the following rules:
+
+[list]
+[item]
+[:en] If [`uses_allocator<T2, inner_allocator_type>::value] is [`false] and
+[`is_constructible<T2, Args2...>::value] is [`true], then [`yprime] is [`y].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T2, inner_allocator_type>::value] is
+[`true] and [`is_constructible<T2, allocator_arg_t, inner_allocator_type,
+Args2...>::value] is [`true], then [`yprime] is
+[`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
+inner_allocator()), std::move(y))].
+
+[item]
+[:en] Otherwise, if [`uses_allocator<T2, inner_allocator_type>::value] is
+[`true] and [`is_constructible<T2, Args2..., inner_allocator_type>::value] is
+[`true], then [`yprime] is [`tuple_cat(std::move(y),
+tuple<inner_allocator_type&>(inner_allocator()))].
+
+[item]
+[:en] Otherwise, the program is ill-formed.
+[list:end]
+
+[:en]
+then calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+piecewise_construct, std::move(xprime), std::move(yprime))].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T1, class T2>
+  void construct(pair<T1, T2>* p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`this->construct(p, piecewise_construct, tuple<>(),
+tuple<>())].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T1, class T2, class U, class V>
+  void construct(pair<T1, T2>* p, U&& x, V&& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`this->construct(p, piecewise_construct,
+forward_as_tuple(std::forward<U>(x)), forward_as_tuple(std::forward<V>(y)))].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T1, class T2, class U, class V>
+  void construct(pair<T1, T2>* p, const pair<U, V>& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`this->construct(p, piecewise_construct,
+forward_as_tuple(x.first), forward_as_tuple(x.second))].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!construct]]
+[%@library construct[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class T1, class T2, class U, class V>
+  void construct(pair<T1, T2>* p, pair<U, V>&& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`this->construct(p, piecewise_construct,
+forward_as_tuple(std::forward<U>(x.first)),
+forward_as_tuple(std::forward<V>(x.second)))].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[![:en]destructor]]
+[codeblock:declaration]
+template <class T>
+  void destroy(T* p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::destroy([$OUTERMOST](*this),
+p)].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!select_on_container_copy_construction]]
+[%@library select_on_container_copy_construction[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+scoped_allocator_adaptor select_on_container_copy_construction() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A new scoped_allocator_adaptor object where each allocator [`A] in the
+adaptor is initialized from the result of calling
+[`allocator_traits<A>::select_on_container_copy_construction()] on the
+corresponding allocator in [`*this].
+[exit:description]

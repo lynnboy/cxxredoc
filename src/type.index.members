@@ -1,0 +1,101 @@
+﻿[section#type.index.members
+    [:en] [`type_index] members
+]
+
+[%@library type_index[!constructor]]
+[codeblock:declaration]
+type_index(const type_info& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs a [`type_index] object, the equivalent of [`target = &rhs].
+[exit:description]
+
+[%@library operator==[!type_index]]
+[%@library type_index[!operator==]]
+[codeblock:declaration]
+bool operator==(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*target == *rhs.target]
+[exit:description]
+
+[%@library operator!=[!type_index]]
+[%@library type_index[!operator!=]]
+[codeblock:declaration]
+bool operator!=(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*target != *rhs.target]
+[exit:description]
+
+[%@library operator<[!type_index]]
+[%@library type_index[!operator<]]
+[codeblock:declaration]
+bool operator<(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`target->before(*rhs.target)]
+[exit:description]
+
+[%@library operator<=[!type_index]]
+[%@library type_index[!operator<=]]
+[codeblock:declaration]
+bool operator<=(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!rhs.target->before(*target)]
+[exit:description]
+
+[%@library operator>[!type_index]]
+[%@library type_index[!operator>]]
+[codeblock:declaration]
+bool operator>(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.target->before(*target)]
+[exit:description]
+
+[%@library operator>=[!type_index]]
+[%@library type_index[!operator>=]]
+[codeblock:declaration]
+bool operator>=(const type_index& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!target->before(*rhs.target)]
+[exit:description]
+
+[%@library hash_code[!type_index]]
+[%@library type_index[!hash_code]]
+[codeblock:declaration]
+size_t hash_code() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`target->hash_code()]
+[exit:description]
+
+[%@library name[!type_index]]
+[%@library type_index[!name]]
+[codeblock:declaration]
+const char* name() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`target->name()]
+[exit:description]

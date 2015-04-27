@@ -1,0 +1,146 @@
+﻿[section#unique.ptr
+    [:en] Class template [`unique_ptr]
+]
+
+[para]
+[:en]
+A [def unique pointer] is an object that owns another object and manages that
+other object through a pointer.
+
+[:en]
+More precisely, a unique pointer is an object [$u] that stores a pointer to a
+second object [$p] and will dispose of [$p] when [$u] is itself destroyed (e.g.,
+when leaving block scope ([#stmt.dcl])). In this context, [$u] is said to
+[def own] [`p].
+
+[para]
+[:en]
+The mechanism by which [$u] disposes of [$p] is known as [$p][=']s associated
+[def deleter], a function object whose correct invocation results in [$p][=']s
+appropriate disposition (typically its deletion).
+
+[para]
+[:en]
+Let the notation [$u.p] denote the pointer stored by [$u], and let [$u.d] denote
+the associated deleter.
+
+[:en]
+Upon request, [$u] can [def reset] (replace) [$u.p] and [$u.d] with another
+pointer and deleter, but must properly dispose of its owned object via the
+associated deleter before such replacement is considered completed.
+
+[para]
+[:en]
+Additionally, [$u] can, upon request, [def transfer ownership] to another
+unique pointer [$u2].
+
+[:en]
+Upon completion of such a transfer, the following postconditions hold:
+
+[list]
+[item]
+[:en] [$u2.p] is equal to the pre-transfer [$u.p],
+[item]
+[:en] [$u.p] is equal to [`nullptr], and
+[item]
+[:en] if the pre-transfer [$u.d] maintained state, such state has been
+transferred to [$u2.d].
+[list:end]
+
+[:en]
+As in the case of a reset, [$u2] must properly dispose of its pre-transfer owned
+object via the pre-transfer associated deleter before the ownership transfer is
+considered complete.
+
+[enter:note]
+[:en]
+A deleter[=']s state need never be copied, only moved or swapped as ownership is
+transferred.
+[exit:note]
+
+[para]
+[:en]
+Each object of a type [`U] instantiated from the [`unique_ptr] template
+specified in this subclause has the strict ownership semantics, specified above,
+of a unique pointer.
+
+[:en]
+In partial satisfaction of these semantics, each such [`U] is
+[`MoveConstructible] and [`MoveAssignable], but is not [`CopyConstructible] nor
+[`CopyAssignable].
+
+[:en]
+The template parameter [`T] of [`unique_ptr] may be an incomplete type.
+
+[para]
+[enter:note]
+[:en]
+The uses of [`unique_ptr] include providing exception safety for dynamically
+allocated memory, passing ownership of dynamically allocated memory to a
+function, and returning dynamically allocated memory from a function.
+[exit:note]
+
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  template<class T> struct default_delete;
+  template<class T> struct default_delete<T[]>;
+
+  template<class T, class D = default_delete<T>> class unique_ptr;
+  template<class T, class D> class unique_ptr<T[], D>;
+
+  template<class T, class... Args> unique_ptr<T> make_unique(Args&&... args);
+  template<class T> unique_ptr<T> make_unique(size_t n);
+  template<class T, class... Args> unspecified make_unique(Args&&...) = delete;
+
+  template<class T, class D> void swap(unique_ptr<T, D>& x, unique_ptr<T, D>& y) noexcept;
+
+  template<class T1, class D1, class T2, class D2>
+    bool operator==(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+  template<class T1, class D1, class T2, class D2>
+    bool operator!=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+  template<class T1, class D1, class T2, class D2>
+    bool operator<(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+  template<class T1, class D1, class T2, class D2>
+    bool operator<=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+  template<class T1, class D1, class T2, class D2>
+    bool operator>(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+  template<class T1, class D1, class T2, class D2>
+    bool operator>=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y);
+
+  template <class T, class D>
+    bool operator==(const unique_ptr<T, D>& x, nullptr_t) noexcept;
+  template <class T, class D>
+    bool operator==(nullptr_t, const unique_ptr<T, D>& y) noexcept;
+  template <class T, class D>
+    bool operator!=(const unique_ptr<T, D>& x, nullptr_t) noexcept;
+  template <class T, class D>
+    bool operator!=(nullptr_t, const unique_ptr<T, D>& y) noexcept;
+  template <class T, class D>
+    bool operator<(const unique_ptr<T, D>& x, nullptr_t);
+  template <class T, class D>
+    bool operator<(nullptr_t, const unique_ptr<T, D>& y);
+  template <class T, class D>
+    bool operator<=(const unique_ptr<T, D>& x, nullptr_t);
+  template <class T, class D>
+    bool operator<=(nullptr_t, const unique_ptr<T, D>& y);
+  template <class T, class D>
+    bool operator>(const unique_ptr<T, D>& x, nullptr_t);
+  template <class T, class D>
+    bool operator>(nullptr_t, const unique_ptr<T, D>& y);
+  template <class T, class D>
+    bool operator>=(const unique_ptr<T, D>& x, nullptr_t);
+  template <class T, class D>
+    bool operator>=(nullptr_t, const unique_ptr<T, D>& y);
+
+}
+[codeblock:end]
+
+[include unique.ptr.dltr]
+
+[include unique.ptr.single]
+
+[include unique.ptr.runtime]
+
+[include unique.ptr.create]
+
+[include unique.ptr.special]

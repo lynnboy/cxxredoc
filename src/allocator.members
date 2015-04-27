@@ -1,0 +1,124 @@
+﻿[section#allocator.members
+    [:en] [`allocator] members
+]
+
+[para]
+[:en]
+Except for the destructor, member functions of the default allocator shall not
+introduce data races ([#intro.multithread]) as a result of concurrent calls to
+those member functions from different threads.
+
+[:en]
+Calls to these functions that allocate or deallocate a particular unit of
+storage shall occur in a single total order, and each such deallocation call
+shall happen before the next allocation (if any) in this order.
+
+[%@library address[!allocator]]
+[%@library allocator[!address]]
+[codeblock:declaration]
+pointer address(reference x) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The actual address of the object referenced by [`x], even in the presence
+of an overloaded [`operator&].
+[exit:description]
+
+[%@library address[!allocator]]
+[%@library allocator[!address]]
+[codeblock:declaration]
+const_pointer address(const_reference x) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The actual address of the object referenced by [`x], even in the presence
+of an overloaded [`operator&].
+[exit:description]
+
+[%@library allocate[!allocator]]
+[%@library allocator[!allocate]]
+[codeblock:declaration]
+pointer allocate(size_type n, allocator<void>::const_pointer hint = 0);
+[codeblock:end]
+
+[enter:description]
+[para]
+[enter:note]
+[:en] In a container member function, the address of an adjacent element is
+often a good choice to pass for the [`hint] argument.
+[exit:note]
+
+[para:returns]
+[:en] A pointer to the initial element of an array of storage of size [`n *
+sizeof(T)], aligned appropriately for objects of type [`T].
+
+[:en] It is [%@impldef support for over-aligned types] implementation-defined
+whether over-aligned types are supported ([#basic.align]).
+
+[para:note]
+[:en] the storage is obtained by calling [`::operator new(std::size_t)]
+([#new.delete]), but it is unspecified when or how often this function is
+called.
+
+[:en] The use of [`hint] is unspecified, but intended as an aid to locality if
+an implementation so desires.
+
+[para:throws]
+[:en] [`bad_alloc] if the storage cannot be obtained.
+[exit:description]
+
+[%@library deallocate[!allocator]]
+[%@library allocator[!deallocate]]
+[codeblock:declaration]
+void deallocate(pointer p, size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] shall be a pointer value obtained from [`allocate()].
+
+[:en] [`n] shall equal the value passed as the first argument to the invocation
+of allocate which returned [`p].
+
+[para:effects]
+[:en] Deallocates the storage referenced by [`p].
+
+[para:notes]
+[:en] Uses [`::operator delete(void*, std::size_t)] ([#new.delete]), but it is
+unspecified when this function is called.
+[exit:description]
+
+[%@library max_size[!allocator]]
+[%@library allocator[!max_size]]
+[codeblock:declaration]
+size_type max_size() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The largest value [$N] for which the call [`allocate(N,0)] might succeed.
+[exit:description]
+
+[%@library allocator[!constructor]]
+[codeblock:declaration]
+template <class U, class... Args>
+  void construct(U* p, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`::new((void *)p) U(std::forward<Args>(args)...)]
+[exit:description]
+
+[%@library allocator[!destructor]]
+[codeblock:declaration]
+template <class U>
+  void destroy(U* p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`p->~U()]
+[exit:description]

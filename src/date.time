@@ -1,0 +1,71 @@
+﻿[section#date.time
+    [:en] Date and time functions
+]
+
+[para]
+[:en]
+Table [#tab:util.hdr.ctime] describes the header [`<ctime>].
+
+[table:listing#tab:util.hdr.ctime
+    [:en] Header [`<ctime>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [=Macros]
+[|] NULL
+[|] CLOCKS_PER_SEC
+
+[-]
+[|] [=Types]
+[|] size_t
+[|] clock_t
+[|] time_t
+
+[-]
+[|] [=Struct]
+[|] tm
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] asctime
+[|] ctime
+[|] clock
+[|] gmtime
+[|] difftime
+[|] mktime
+[|] localtime
+[|] time
+[|] strftime
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<time.h>].
+
+[footnote]
+[:en]
+[`strftime] supports the C conversion specifiers [`C], [`D], [`e], [`F], [`g],
+[`G], [`h], [`r], [`R], [`t], [`T], [`u], [`V], and [`z], and the modifiers [`E]
+and [`O].
+[footnote:end]
+
+[:en]
+The functions [`asctime], [`ctime], [`gmtime], and [`localtime] are not required
+to avoid data races ([#res.on.data.races]).
+
+[para:xref]
+[:en] ISO C Clause 7.12, Amendment 1 Clause 4.6.4.

@@ -1,0 +1,70 @@
+﻿[section#unord.hash
+    [:en] Class template [`hash]
+]
+
+[para]
+[%@library hash]
+[:en]
+[%[`hash][!instantiation restrictions]]
+The unordered associative containers defined in [#unord] use specializations of
+the class template [`hash] as the default hash function.
+
+[:en]
+For all object types [`Key] for which there exists a specialization
+[`hash<Key>], and for all enumeration types ([#dcl.enum]) [`Key], the
+instantiation [`hash<Key>] shall:
+
+[list]
+[item]
+[:en] satisfy the [`Hash] requirements ([#hash.requirements]), with [`Key] as
+the function call argument type, the [`DefaultConstructible] requirements (Table
+[#defaultconstructible]), the [`CopyAssignable] requirements (Table
+[#copyassignable]),
+
+[item]
+[:en] be swappable ([#swappable.requirements]) for lvalues,
+
+[item]
+[:en] provide two nested types [`result_type] and [`argument_type] which shall
+be synonyms for [`size_t] and [`Key], respectively,
+
+[item]
+[:en] satisfy the requirement that if [`k1 == k2] is true, [`h(k1) == h(k2)] is
+also true, where [`h] is an object of type [`hash<Key>] and [`k1] and [`k2]
+are objects of type [`Key];
+
+[item]
+[:en] satisfy the requirement that the expression [`h(k)], where [`h] is an
+object of type [`hash<Key>] and [`k] is an object of type [`Key], shall not
+throw an exception unless [`hash<Key>] is a user-defined specialization that
+depends on at least one user-defined type.
+[list:end]
+
+[%@library hash]
+[codeblock:declaration]
+template <> struct hash<bool>;
+template <> struct hash<char>;
+template <> struct hash<signed char>;
+template <> struct hash<unsigned char>;
+template <> struct hash<char16_t>;
+template <> struct hash<char32_t>;
+template <> struct hash<wchar_t>;
+template <> struct hash<short>;
+template <> struct hash<unsigned short>;
+template <> struct hash<int>;
+template <> struct hash<unsigned int>;
+template <> struct hash<long>;
+template <> struct hash<unsigned long>;
+template <> struct hash<long long>;
+template <> struct hash<unsigned long long>;
+template <> struct hash<float>;
+template <> struct hash<double>;
+template <> struct hash<long double>;
+template <class T> struct hash<T*>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specializations shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+[exit:description]

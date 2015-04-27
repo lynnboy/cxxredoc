@@ -1,0 +1,418 @@
+﻿[section#bitset.members
+    [:en] [`bitset] members
+]
+
+[%@library operator&=[!bitset]]
+[codeblock:declaration]
+bitset<N>& operator&=(const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Clears each bit in [`*this] for which the corresponding bit in [`rhs] is
+clear, and leaves all other bits unchanged.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator|=[!bitset]]
+[codeblock:declaration]
+bitset<N>& operator|=(const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Sets each bit in [`*this] for which the corresponding bit in [`rhs] is
+set, and leaves all other bits unchanged.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator^=[!bitset]]
+[codeblock:declaration]
+bitset<N>& operator^=(const bitset<N>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Toggles each bit in [`*this] for which the corresponding bit in [`rhs] is
+set, and leaves all other bits unchanged.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator<<=[!bitset]]
+[codeblock:declaration]
+bitset<N>& operator<<=(size_t pos) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Replaces each bit at position [`I] in [`*this] with a value determined as
+follows:
+
+[list]
+[item]
+[:en] If [`I < pos], the new value is zero;
+[item]
+[:en] If [`I >= pos], the new value is the previous value of the bit at position
+[`I - pos].
+[list:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator>>=[!bitset]]
+[codeblock:declaration]
+bitset<N>& operator>>=(size_t pos) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Replaces each bit at position [`I] in [`*this] with a value determined as
+follows:
+
+[list]
+[item]
+[:en] If [`pos >= N - I], the new value is zero;
+[item]
+[:en] If [`pos < N - I], the new value is the previous value of the bit at
+position [`I + pos].
+[list:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library set[!bitset]]
+[%@library bitset[!set]]
+[codeblock:declaration]
+bitset<N>& set() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Sets all bits in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library set[!bitset]]
+[%@library bitset[!set]]
+[codeblock:declaration]
+bitset<N>& set(size_t pos, bool val = true);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] is valid
+
+[para:throws]
+[:en] [%@library out_of_range] [`out_of_range] if [`pos] does not correspond to
+a valid bit position.
+
+[para:effects]
+[:en] Stores a new value in the bit at position [`pos] in [`*this].
+
+[:en] If [`val] is nonzero, the stored value is one, otherwise it is zero.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library reset[!bitset]]
+[%@library bitset[!reset]]
+[codeblock:declaration]
+bitset<N>& reset() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Resets all bits in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library reset[!bitset]]
+[%@library bitset[!reset]]
+[codeblock:declaration]
+bitset<N>& reset(size_t pos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] is valid
+
+[para:throws]
+[:en] [%@library out_of_range] [`out_of_range] if [`pos] does not correspond to
+a valid bit position.
+
+[para:effects]
+[:en] Resets the bit at position [`pos] in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator~[!bitset]]
+[codeblock:declaration]
+bitset<N> operator~() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object [`x] of class [`bitset<N>] and initializes it with
+[`*this].
+
+[para:returns]
+[:en] [`x.flip()].
+[exit:description]
+
+[%@library flip[!bitset]]
+[codeblock:declaration]
+bitset<N>& flip() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Toggles all bits in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library flip[!bitset]]
+[%@library bitset[!flip]]
+[codeblock:declaration]
+bitset<N>& flip(size_t pos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] is valid
+
+[para:throws]
+[:en] [%@library out_of_range] [`out_of_range] if [`pos] does not correspond to
+a valid bit position.
+
+[para:effects]
+[:en] Toggles the bit at position [`pos] in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library to_ulong[!bitset]]
+[codeblock:declaration]
+unsigned long to_ulong() const;
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [`overflow_error] [%@library overflow_error] if the integral value [`x]
+corresponding to the bits in [`*this] cannot be represented as type [`unsigned
+long].
+
+[para:returns]
+[:en] [`x].
+[exit:description]
+
+[%@library to_ullong[!bitset]]
+[codeblock:declaration]
+unsigned long long to_ullong() const;
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [%@library overflow_error] [`overflow_error] if the integral value [`x]
+corresponding to the bits in [`*this] cannot be represented as type [`unsigned
+long long].
+
+[para:returns]
+[:en] [`x].
+[exit:description]
+
+[%@library to_string[!bitset]]
+[codeblock:declaration]
+template <class charT = char,
+    class traits = char_traits<charT>,
+    class Allocator = allocator<charT> >
+  basic_string<charT, traits, Allocator>
+  to_string(charT zero = charT('0'), charT one = charT('1')) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a string object of the appropriate type and initializes it to a
+string of length [`N] characters.
+
+[:en] Each character is determined by the value of its corresponding bit
+position in [`*this].
+
+[:en] Character position [`N - 1] corresponds to bit position zero.
+
+[:en] Subsequent decreasing character positions correspond to increasing bit
+positions.
+
+[:en] Bit value zero becomes the character [`zero], bit value one becomes the
+character [`one].
+
+[para:returns]
+[:en] The created object.
+[exit:description]
+
+[%@library count[!bitset]]
+[codeblock:declaration]
+size_t count() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A count of the number of bits set in [`*this].
+[exit:description]
+
+[%@library size[!bitset]]
+[codeblock:declaration]
+constexpr size_t size() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`N].
+[exit:description]
+
+[%@library operator==[!bitset]]
+[codeblock:declaration]
+bool operator==(const bitset<N>& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if the value of each bit in [`*this] equals the value of the
+corresponding bit in [`rhs].
+[exit:description]
+
+[%@library operator!=[!bitset]]
+[codeblock:declaration]
+bool operator!=(const bitset<N>& rhs) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`!(*this == rhs)].
+[exit:description]
+
+[%@library test[!bitset]]
+[codeblock:declaration]
+bool test(size_t pos) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] is valid
+
+[para:throws]
+[:en] [%@library out_of_range] [`out_of_range] if [`pos] does not correspond to
+a valid bit position.
+
+[para:returns]
+[:en] [`true] if the bit at position [`pos] in [`*this] has the value one.
+[exit:description]
+
+[%@library all[!bitset]]
+[codeblock:declaration]
+bool all() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`count() == size()]
+[exit:description]
+
+[%@library any[!bitset]]
+[codeblock:declaration]
+bool any() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`count() != 0]
+[exit:description]
+
+[%@library none[!bitset]]
+[codeblock:declaration]
+bool none() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`count() == 0]
+[exit:description]
+
+[%@library operator<<[!bitset]]
+[codeblock:declaration]
+bitset<N> operator<<(size_t pos) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bitset<N>(*this) <<= pos].
+[exit:description]
+
+[%@library operator>>[!bitset]]
+[codeblock:declaration]
+bitset<N> operator>>(size_t pos) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bitset<N>(*this) >>= pos].
+[exit:description]
+
+[%@library operator['][!bitset]]
+[%@library bitset[!operator[']]]
+[codeblock:declaration]
+constexpr bool operator[](size_t pos) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] shall be valid.
+
+[para:returns]
+[:en] [`true] if the bit at position [`pos] in [`*this] has the value one,
+otherwise [`false].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library operator['][!bitset]]
+[%@library bitset[!operator[']]]
+[codeblock:declaration]
+bitset<N>::reference operator[](size_t pos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos] shall be valid.
+
+[para:returns]
+[:en] An object of type [`bitset<N>::reference] such that [`(*this)[pos`] ==
+this->test(pos)], and such that [`(*this)[pos`] = val] is equivalent to
+[`this->set(pos, val)].
+
+[para:throws]
+[:en] Nothing.
+
+[para:remark]
+[:en] For the purpose of determining the presence of a data race
+([#intro.multithread]), any access or update through the resulting reference
+potentially accesses or modifies, respectively, the entire underlying bitset.
+[exit:description]

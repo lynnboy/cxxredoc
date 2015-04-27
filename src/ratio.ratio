@@ -1,0 +1,44 @@
+﻿[section#ratio.ratio
+    [:en] Class template [`ratio]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <intmax_t N, intmax_t D = 1>
+  class ratio {
+  public:
+    static constexpr intmax_t num;
+    static constexpr intmax_t den;
+    typedef ratio<num, den> type;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+If the template argument [`D] is zero or the absolute values of either of the
+template arguments [`N] and [`D] is not representable by type [`intmax_t], the
+program is ill-formed.
+
+[enter:note]
+[:en]
+These rules ensure that infinite ratios are avoided and that for any negative
+input, there exists a representable value of its absolute value which is
+positive.
+
+[:en]
+In a two[=']s complement representation, this excludes the most negative value.
+[exit:note]
+
+[para]
+[:en]
+The static data members [`num] and [`den] shall have the following values,
+where [`gcd] represents the greatest common divisor of the absolute values of
+[`N] and [`D]:
+
+[list]
+[item]
+[:en] [`num] shall have the value [`sign(N) * sign(D) * abs(N) / gcd].
+[item]
+[:en] [`den] shall have the value [`abs(D) / gcd].
+[list:end]

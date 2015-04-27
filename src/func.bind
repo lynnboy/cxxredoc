@@ -1,0 +1,26 @@
+﻿[section#func.bind
+    [:en] Function object binders
+]
+
+[%:begin#function.object.binders
+    [:en] function object [!binders]
+]
+
+[para]
+[:en]
+This subclause describes a uniform mechanism for binding arguments of callable
+objects.
+
+[include func.bind.isbind]
+
+[include func.bind.isplace]
+
+[%:begin@library bind]
+
+[include func.bind.bind]
+
+[include func.bind.place]
+
+[%:end#bind]
+
+[%:end#function.object.binders]

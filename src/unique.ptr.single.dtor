@@ -1,0 +1,23 @@
+﻿[section#unique.ptr.single.dtor
+    [:en] [`unique_ptr] destructor
+]
+
+[%@library unique_ptr[!destructor]]
+[codeblock:declaration]
+~unique_ptr();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`get_deleter()(get())] shall be well formed, shall have
+well-defined behavior, and shall not throw exceptions.
+
+[enter:note]
+[:en] The use of [`default_delete] requires [`T] to be a complete type.
+[exit:note]
+
+[para:effects]
+[:en] If [`get() == nullptr] there are no effects.
+
+[:en] Otherwise [`get_deleter()(get())].
+[exit:description]

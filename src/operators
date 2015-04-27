@@ -1,0 +1,67 @@
+﻿[section#operators
+    [:en] Operators
+]
+
+[para]
+[:en]
+To avoid redundant definitions of [`operator!=] out of [`operator==] and
+operators [`>], [`<=], and [`>=] out of [`operator<], the library provides the
+following:
+
+[%@library operator!=]
+[codeblock:declaration]
+template <class T> bool operator!=(const T& x, const T& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`EqualityComparable] (Table [#equalitycomparable]).
+
+[para:returns]
+[:en] [`!(x == y)].
+[exit:description]
+
+[%@library operator>]
+[codeblock:declaration]
+template <class T> bool operator>(const T& x, const T& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[:en] [`y < x].
+[exit:description]
+
+[%@library operator<=]
+[codeblock:declaration]
+template <class T> bool operator<=(const T& x, const T& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[:en] [`!(y < x)].
+[exit:description]
+
+[%@library operator>=]
+[codeblock:declaration]
+template <class T> bool operator>=(const T& x, const T& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[`!(x < y)].
+[exit:description]
+
+[para]
+[:en] In this library, whenever a declaration is provided for an [`operator!=],
+[`operator>], [`operator>=], or [`operator<=], and requirements and semantics
+are not explicitly provided, the requirements and semantics are as specified in
+this Clause.

@@ -1,0 +1,196 @@
+﻿[section#util.smartptr.shared.const
+    [:en] [`shared_ptr] constructors
+]
+
+[%@library shared_ptr[!shared_ptr]]
+[codeblock:declaration]
+constexpr shared_ptr() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an [+empty] [`shared_ptr] object.
+
+[para:postconditions]
+[:en] [`use_count() == 0 && get() == nullptr].
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[codeblock:declaration]
+template<class Y> explicit shared_ptr(Y* p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] shall be convertible to [`T*].
+
+[:en] [`Y] shall be a complete type.
+
+[:en] The expression [`delete p] shall be well formed, shall have well defined
+behavior, and shall not throw exceptions.
+
+[para:effects]
+[:en] Constructs a [`shared_ptr] object that [+owns] the pointer [`p].
+
+[para:postconditions]
+[:en] [`use_count() == 1 && get() == p].
+
+[para:throws]
+[:en] [`bad_alloc], or an [%@impldef exception type when [`shared_ptr]
+constructor fails] implementation-defined exception when a resource other than
+memory could not be obtained.
+
+[para:exceptionsafety]
+[:en] If an exception is thrown, [`delete p] is called.
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[codeblock:declaration]
+template<class Y, class D> shared_ptr(Y* p, D d);
+template<class Y, class D, class A> shared_ptr(Y* p, D d, A a);
+template <class D> shared_ptr(nullptr_t p, D d);
+template <class D, class A> shared_ptr(nullptr_t p, D d, A a);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] shall be convertible to [`T*]. [`D] shall be [`CopyConstructible].
+
+[:en] The copy constructor and destructor of [` D] shall not throw exceptions.
+
+[:en] The expression [`d(p)] shall be well formed, shall have well defined
+behavior, and shall not throw exceptions.
+
+[:en] [`A] shall be an allocator ([#allocator.requirements]).
+
+[:en] The copy constructor and destructor of [`A] shall not throw exceptions.
+
+[para:effects]
+[:en] Constructs a [`shared_ptr] object that [+owns] the object [`p] and the
+deleter [`d].
+
+[:en] The second and fourth constructors shall use a copy of [`a] to allocate
+memory for internal use.
+
+[para:postconditions]
+[:en] [`use_count() == 1 && get() == p].
+
+[para:throws]
+[:en] [`bad_alloc], or an [%@impldef exception type when [`shared_ptr]
+constructor fails] implementation-defined exception when a resource other than
+memory could not be obtained.
+
+[para:exceptionsafety]
+[:en] If an exception is thrown, [`d(p)] is called.
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[codeblock:declaration]
+template<class Y> shared_ptr(const shared_ptr<Y>& r, T* p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`shared_ptr] instance that stores [`p] and [+shares
+ownership] with [`r].
+
+[para:postconditions]
+[:en] [`get() == p && use_count() == r.use_count()]
+
+[para]
+[enter:note]
+[:en] To avoid the possibility of a dangling pointer, the user of this
+constructor must ensure that [`p] remains valid at least until the ownership
+group of [`r] is destroyed.
+[exit:note]
+
+[para]
+[enter:note]
+[:en] This constructor allows creation of an [+empty] [`shared_ptr] instance
+with a non-null stored pointer.
+[exit:note]
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[codeblock:declaration]
+shared_ptr(const shared_ptr& r) noexcept;
+template<class Y> shared_ptr(const shared_ptr<Y>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The second constructor shall not participate in overload resolution unless
+[`Y*] is implicitly convertible to [`T*].
+
+[para:effects]
+[:en] If [`r] is [+empty], constructs an [+empty] [`shared_ptr] object;
+otherwise, constructs a [`shared_ptr] object that [+shares ownership] with [`r].
+
+[para:postconditions]
+[:en] [`get() == r.get() && use_count() == r.use_count()].
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[codeblock:declaration]
+shared_ptr(shared_ptr&& r) noexcept;
+template<class Y> shared_ptr(shared_ptr<Y>&& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The second constructor shall not participate in overload resolution unless
+[`Y*] is convertible to [`T*].
+
+[para:effects]
+[:en] Move-constructs a [`shared_ptr] instance from [`r].
+
+[para:postconditions]
+[:en] [`*this] shall contain the old value of [`r].
+
+[:en] [`r] shall be [+empty].
+
+[:en] [`r.get() == nullptr].
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[%@library weak_ptr]
+[codeblock:declaration]
+template<class Y> explicit shared_ptr(const weak_ptr<Y>& r);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Y*] shall be convertible to [`T*].
+
+[para:effects]
+[:en] Constructs a [`shared_ptr] object that [+shares ownership] with [`r] and
+stores a copy of the pointer stored in [`r].
+
+[para:postconditions]
+[:en] [`use_count() == r.use_count()].
+
+[para:throws]
+[:en] [`bad_weak_ptr] when [`r.expired()].
+
+[para:exceptionsafety]
+[:en] If an exception is thrown, the constructor has no effect.
+[exit:description]
+
+[%@library shared_ptr[!constructor]]
+[%@library unique_ptr]
+[codeblock:declaration]
+template <class Y, class D> shared_ptr(unique_ptr<Y, D>&& r);
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless
+[`unique_ptr<Y, D>::pointer] is convertible to [`T*].
+
+[para:effects]
+[:en] Equivalent to [`shared_ptr(r.release(), r.get_deleter())] when [`D] is not
+a reference type, otherwise [`shared_ptr(r.release(), ref(r.get_deleter()))].
+
+[para:exceptionsafety]
+[:en] If an exception is thrown, the constructor has no effect.
+[exit:description]

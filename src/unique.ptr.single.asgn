@@ -1,0 +1,79 @@
+﻿[section#unique.ptr.single.asgn
+    [:en] [`unique_ptr] assignment
+]
+
+[%@library operator=[!unique_ptr]]
+[%@library unique_ptr[!operator=]]
+[codeblock:declaration]
+unique_ptr& operator=(unique_ptr&& u) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If [`D] is not a reference type, [`D] shall satisfy the requirements of
+[`MoveAssignable] (Table [#moveassignable]) and assignment of the deleter from
+an rvalue of type [`D] shall not throw an exception.
+
+[:en] Otherwise, [`D] is a reference type; [`remove_reference_t<D>] shall
+satisfy the [`CopyAssignable] requirements and assignment of the deleter from an
+lvalue of type [`D] shall not throw an exception.
+
+[para:effects]
+[:en] Transfers ownership from [`u] to [`*this] as if by calling
+[`reset(u.release())] followed by
+[`get_deleter() = std::forward<D>(u.get_deleter())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!unique_ptr]]
+[%@library unique_ptr[!operator=]]
+[codeblock:declaration]
+template <class U, class E> unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If [`E] is not a reference type, assignment of the deleter from an rvalue
+of type [`E] shall be well-formed and shall not throw an exception.
+
+[:en] Otherwise, [`E] is a reference type and assignment of the deleter from an
+lvalue of type [`E] shall be well-formed and shall not throw an exception.
+
+[para:remarks]
+[:en] This operator shall not participate in overload resolution unless:
+
+[list]
+[item]
+[:en] [`unique_ptr<U, E>::pointer] is implicitly convertible to [`pointer] and
+[item]
+[:en] [`U] is not an array type.
+[list:end]
+
+[para:effects]
+[:en] Transfers ownership from [`u] to [`*this] as if by calling
+[`reset(u.release())] followed by
+
+[:en] [`get_deleter() = std::forward<E>(u.get_deleter())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!unique_ptr]]
+[%@library unique_ptr[!operator=]]
+[codeblock:declaration]
+unique_ptr& operator=(nullptr_t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`reset()].
+
+[para:postcondition]
+[:en] [`get() == nullptr]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

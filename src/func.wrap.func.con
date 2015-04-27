@@ -1,0 +1,205 @@
+﻿[section#func.wrap.func.con
+    [:en] [`function] construct/copy/destroy
+]
+
+[para]
+[:en] When any [`function] constructor that takes a first argument of type
+[`allocator_arg_t] is invoked, the second argument shall have a type that conforms
+to the requirements for Allocator (Table [#allocator.requirements]).
+
+[:en] A copy of the allocator argument is used to allocate memory, if necessary,
+for the internal data structures of the constructed [`function] object.
+
+[%@library function[!function]]
+[codeblock:declaration]
+function() noexcept;
+template <class A> function(allocator_arg_t, const A& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`!*this].
+[exit:description]
+
+[%@library function[!function]]
+[codeblock:declaration]
+function(nullptr_t) noexcept;
+template <class A> function(allocator_arg_t, const A& a, nullptr_t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`!*this].
+[exit:description]
+
+[%@library function[!function]]
+[codeblock:declaration]
+function(const function& f);
+template <class A> function(allocator_arg_t, const A& a, const function& f);
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`!*this] if [`!f]; otherwise, [`*this] targets a copy of [`f.target()].
+
+[para:throws]
+[:en] shall not throw exceptions if [`f][=']s target is a callable object passed
+via [`reference_wrapper] or a function pointer.
+
+[:en] Otherwise, may throw [`bad_alloc] or any exception thrown by the copy
+constructor of the stored callable object.
+
+[enter:note]
+[:en] Implementations are encouraged to avoid the use of dynamically allocated
+memory for small callable objects, for example, where [`f][=']s target is an
+object holding only a pointer or reference to an object and a member function
+pointer.
+[exit:note]
+[exit:description]
+
+[%@library function[!function]]
+[codeblock:declaration]
+function(function&& f);
+template <class A> function(allocator_arg_t, const A& a, function&& f);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`!f], [`*this] has no target; otherwise, move-constructs the target of
+[`f] into the target of [`*this], leaving [`f] in a valid state with an
+unspecified value.
+[exit:description]
+
+[%@library function[!function]]
+[codeblock:declaration]
+template<class F> function(F f);
+template <class F, class A> function(allocator_arg_t, const A& a, F f);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`F] shall be [`CopyConstructible].
+
+[para:remarks]
+[:en] These constructors shall not participate in overload resolution unless
+[`f] is Callable ([#func.wrap.func]) for argument types [`ArgTypes...] and
+return type [`R].
+
+[para:postconditions]
+[:en] [`!*this] if any of the following hold:
+
+[list]
+[item]
+[:en@~] [`f] is a null function pointer value.
+[item]
+[:en@~] [`f] is a null member pointer value.
+[item]
+[:en@~] [`F] is an instance of the [`function] class template, and [`!f].
+[list:end]
+
+[para]
+[:en] Otherwise, [`*this] targets a copy of [`f] initialized with
+[`std::move(f)].
+
+[enter:note]
+[:en] Implementations are encouraged to avoid the use of dynamically allocated
+memory for small callable objects, for example, where [`f][=']s target is an
+object holding only a pointer or reference to an object and a member function
+pointer.
+[exit:note]
+
+[para:throws]
+[:en] shall not throw exceptions when [`f] is a function pointer or a
+[`reference_wrapper<T>] for some [`T].
+
+[:en] Otherwise, may throw [`bad_alloc] or any exception thrown by [`F][=']s
+copy or move constructor.
+[exit:description]
+
+[%@library function[!operator=]]
+[%@library operator=[!function]]
+[codeblock:declaration]
+function& operator=(const function& f);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`function(f).swap(*this);]
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library function[!operator=]]
+[%@library operator=[!function]]
+[codeblock:declaration]
+function& operator=(function&& f);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Replaces the target of [`*this] with the target of [`f].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library function[!operator=]]
+[%@library operator=[!function]]
+[codeblock:declaration]
+function& operator=(nullptr_t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`*this != nullptr], destroys the target of [`this].
+
+[para:postconditions]
+[:en] [`!(*this)].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library function[!operator=]]
+[%@library operator=[!function]]
+[codeblock:declaration]
+template<class F> function& operator=(F&& f);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`function(std::forward<F>(f)).swap(*this);]
+
+[para:returns]
+[:en] [`*this]
+
+[para:remarks]
+[:en] This assignment operator shall not participate in overload resolution
+unless [`declval<typename decay<F>::type&>()] is Callable ([#func.wrap.func])
+for argument types [`ArgTypes...] and return type [`R].
+[exit:description]
+
+[%@library function[!operator=]]
+[%@library operator=[!function]]
+[codeblock:declaration]
+template<class F> function& operator=(reference_wrapper<F> f) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`function(f).swap(*this);]
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library function[!destructor]]
+[codeblock:declaration]
+~function();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`*this != nullptr], destroys the target of [`this].
+[exit:description]

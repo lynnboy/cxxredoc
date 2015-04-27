@@ -1,0 +1,33 @@
+﻿[section#tuple.swap
+    [:en] [`swap]
+]
+
+[%@library swap[!tuple]]
+[%@library tuple[!swap]]
+[codeblock:declaration]
+void swap(tuple& rhs) noexcept([=Seebelow]);
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The expression inside [`noexcept] is equivalent to the logical [em@sc and]
+of the following expressions:
+
+[codeblock:notation]
+noexcept(swap(declval<[$T[_i]]&>>(), declval<[$T[_i]]&>()))
+[codeblock:end]
+
+[:en@~] where [$T[_i]] is the [$i[^th]] type in [`Types].
+
+[para:requires]
+[:en]
+Each element in [`*this] shall be swappable with ([#swappable.requirements])
+the corresponding element in [`rhs].
+
+[para:effects]
+[:en] Calls [`swap] for each element in [`*this] and its corresponding element
+in [`rhs].
+
+[para:throws]
+[:en] Nothing unless one of the element-wise [`swap] calls throws an exception.
+[exit:description]

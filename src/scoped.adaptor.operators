@@ -1,0 +1,31 @@
+﻿[section#scoped.adaptor.operators
+    [:en] Scoped allocator operators
+]
+
+[%@library scoped_allocator_adaptor[!operator==]]
+[%@library operator==[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class OuterA1, class OuterA2, class... InnerAllocs>
+  bool operator==(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                  const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`a.outer_allocator() == b.outer_allocator()] if [`sizeof...(InnerAllocs)]
+is zero; otherwise, [`a.outer_allocator() == b.outer_allocator() &&
+a.inner_allocator() == b.inner_allocator()].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!operator!=]]
+[%@library operator!=[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+template <class OuterA1, class OuterA2, class... InnerAllocs>
+  bool operator!=(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                  const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(a == b)].
+[exit:description]

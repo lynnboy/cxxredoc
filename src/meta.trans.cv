@@ -1,0 +1,65 @@
+﻿[section#meta.trans.cv
+    [:en] Const-volatile modifications
+]
+
+[table:listing#tab:type-traits.const-volatile
+    [:en] Const-volatile modifications
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct remove_const;
+[|] [:en] The member typedef [`type] shall name the same type as [`T] except
+    that any top-level const-qualifier has been removed. [br]
+    [enter:example]
+    [:en] [`remove_const_t<const volatile int>] evaluates to [`volatile int],
+    whereas [`remove_const_t<const int*>] evaluates to [`const int*].
+    [exit:example]
+
+[|]
+template <class T> [br]
+struct remove_volatile;
+[|] [:en] The member typedef [`type] shall name the same type as [`T] except
+    that any top-level volatile-qualifier has been removed. [br]
+    [enter:example]
+    [:en] [`remove_volatile_t<const volatile int>] evaluates to [`const int],
+    whereas [`remove_volatile_t<volatile int*>] evaluates to [`volatile int*].
+    [exit:example]
+
+[|]
+template <class T> [br]
+struct remove_cv;
+[|] [:en] The member typedef [`type] shall be the same as [`T] except that any
+    top-level cv-qualifier has been removed. [br]
+    [enter:example]
+    [:en] [`remove_cv_t<const volatile int>] evaluates to [`int], whereas
+    [`remove_cv_t<const volatile int*>] evaluates to [`const volatile int*].
+    [exit:example]
+
+[|]
+template <class T> [br]
+struct add_const;
+[|] [:en] If [`T] is a reference, function, or top-level const-qualified type,
+    then [`type] shall name the same type as [`T], otherwise [`T const].
+
+template <class T> [br]
+struct add_volatile;
+[|] [:en] If [`T] is a reference, function, or top-level volatile-qualified
+    type, then [`type] shall name the same type as [`T], otherwise
+    [`T volatile].
+[|]
+template <class T>
+struct add_cv;
+[|] [:en] The member typedef [`type] shall name the same type as
+    [`add_const_t<add_volatile_t<T>>].
+
+[table:end]

@@ -1,0 +1,65 @@
+﻿[section#util.smartptr.shared.assign
+    [:en] [`shared_ptr] assignment
+]
+
+[%@library shared_ptr[!operator=]]
+[%@library operator=[!shared_ptr]]
+[codeblock:declaration]
+shared_ptr& operator=(const shared_ptr& r) noexcept;
+template<class Y> shared_ptr& operator=(const shared_ptr<Y>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`shared_ptr(r).swap(*this)].
+
+[para:returns]
+[:en] [`*this].
+
+[para]
+[enter:note]
+[:en] The use count updates caused by the temporary object construction and
+destruction are not observable side effects, so the implementation may meet the
+effects (and the implied guarantees) via different means, without creating a
+temporary. In particular, in the example:
+
+[codeblock]
+shared_ptr<int> p(new int);
+shared_ptr<void> q(p);
+p = p;
+q = p;
+[codeblock:end]
+
+[:en@~]
+both assignments may be no-ops.
+[exit:note]
+[exit:description]
+
+[%@library operator=[!shared_ptr]]
+[%@library shared_ptr[!operator=]]
+[codeblock:declaration]
+shared_ptr& operator=(shared_ptr&& r) noexcept;
+template<class Y> shared_ptr& operator=(shared_ptr<Y>&& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`shared_ptr(std::move(r)).swap(*this)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!shared_ptr]]
+[%@library shared_ptr[!operator=]]
+[codeblock:declaration]
+template <class Y, class D> shared_ptr& operator=(unique_ptr<Y, D>&& r);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`shared_ptr(std::move(r)).swap(*this)].
+
+[para:returns]
+[:en] [`*this]
+[exit:description]

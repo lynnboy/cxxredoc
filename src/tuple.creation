@@ -1,0 +1,145 @@
+﻿[section#tuple.creation
+    [:en] Tuple creation functions
+]
+
+[para]
+[:en]
+In the function descriptions that follow, let [$i] be in the range
+[=range[0,sizeof...(TTypes))] in order and let [$T[_i]] be the [$i[^th]] type in
+a template parameter pack named [`TTypes]; let [$j] be in the range
+[=range[0,sizeof...(UTypes))] in order and [$U[_j]] be the [$j[^th]] type
+in a template parameter pack named [`UTypes], where indexing is zero-based.
+
+[%@library make_tuple]
+[%@library tuple[!make_tuple]]
+[codeblock:declaration [special VTypes] ]
+template<class... Types>
+  constexpr tuple<VTypes...> make_tuple(Types&&... t);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+Let [$U[_i]] be [`decay_t<[$T[_i]]>] for each [$T[_i]] in [`Types].
+
+[:en]
+Then each [$V[_i]] in [`VTypes] is [`X&] if [$U[_i]] equals
+[`reference_wrapper<X>], otherwise [$V[_i]] is [$U[_i]].
+
+[para:returns]
+[:en] [`tuple<VTypes...>(std::forward<Types>(t)...)].
+
+[para]
+[enter:example]
+[codeblock]
+int i; float j;
+make_tuple(1, ref(i), cref(j))
+[codeblock:end]
+
+[:en@~] creates a tuple of type
+
+[codeblock]
+tuple<int, int&, const float&>
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library forward_as_tuple]
+[%@library tuple[!forward_as_tuple]]
+[codeblock:declaration]
+template<class... Types>
+  constexpr tuple<Types&&...> forward_as_tuple(Types&&... t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a tuple of references to the arguments in [`t] suitable for
+forwarding as arguments to a function.
+
+[:en] Because the result may contain references to temporary variables, a
+program shall ensure that the return value of this function does not outlive any
+of its arguments.
+
+[:en] (e.g., the program should typically not store the result in a named
+variable).
+
+[para:returns]
+[:en] [`tuple<Types&&...>(std::forward<Types>(t)...)]
+[exit:description]
+
+[%@library tie]
+[%@library ignore]
+[%@library tuple[!tie]]
+[codeblock:declaration]
+template<class... Types>
+  constexpr tuple<Types&...> tie(Types&... t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`tuple<Types&...>(t...)].
+
+[:en] When an argument in [`t] is [`ignore], assigning any value to the
+corresponding tuple element has no effect.
+
+[para]
+[enter:example]
+[:en] [`tie] functions allow one to create tuples that unpack tuples into
+variables.
+
+[:en] [`ignore] can be used for elements that are not needed:
+
+[codeblock]
+int i; std::string s;
+tie(i, ignore, s) = make_tuple(42, 3.14, "C++");
+// [`i == 42], [`s == "C++"]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library tuple_cat]
+[codeblock:declaration [special CTypes] ]
+template <class... Tuples>
+  constexpr tuple<CTypes...> tuple_cat(Tuples&&... tpls);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+In the following paragraphs, let [$T[_i]] be the [$i[^th]] type in [`Tuples],
+[$U[_i]] be [`remove_reference_t<Ti>], and [$tp[_i]] be the [$i[^th]]
+parameter in the function parameter pack [`tpls], where all indexing is
+zero-based.
+
+[para:requires]
+[:en] For all [$i], [$U[_i]] shall be the type [$cv[_i]]
+[`tuple<[$Args[_i]]...>], where [$cv[_i]] is the (possibly empty) [$i[^th]]
+cv-qualifier-seq and [$Args[_i]] is the parameter pack representing the element
+types in [$U[_i]].
+
+[:en] Let [$A[_ik]] be the [$k[_i][^th]] type in [$Args[_i]].
+
+[:en] For all [$A[_ik]] the following requirements shall be satisfied:
+
+[:en] If [$T[_i]] is deduced as an lvalue reference type, then
+[`is_constructible<[$A[_ik]], [$cv[_i]] [$A[_ik]]&>::value == true], otherwise
+[`is_constructible<[$A[_ik]], [$cv[_i]] [$A[_ik]]&&>::value == true].
+
+[para:remarks]
+[:en] The types in [`[$Ctypes]] shall be equal to the ordered sequence of the
+extended types [`[$Args[_0]]...], [`[$Args[_1]]...], ... [`[$Args[_n-1]]...],
+where [$n] is equal to [`sizeof...(Tuples)].
+
+[:en] Let [`[$e[_i]]...] be the [$i[^th]] ordered sequence of tuple elements of
+the resulting [`tuple] object corresponding to the type sequence [$Args[_i]].
+
+[para:returns]
+[:en] A [`tuple] object constructed by initializing the [$k[_i][^th]] type
+element [$e[_ik]] in [`[$e[_i]]...] with
+[`get<[$k[_i]]>(std::forward<[$T[_i]]>([$tp[_i]]))] for each valid [$k[_i]] and
+each group [$e[_i]] in order.
+
+[para:realnote]
+[:en] An implementation may support additional types in the parameter pack
+[`Tuples] that support the [`tuple]-like protocol, such as [`pair] and [`array].
+[exit:description]

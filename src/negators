@@ -1,0 +1,66 @@
+﻿[section#negators
+    [:en] Negators
+]
+
+[para]
+[:en]
+Negators [`not1] and [`not2] take a unary and a binary predicate, respectively,
+and return their complements ([#expr.unary.op]).
+
+[%@library unary_negate]
+[codeblock:declaration]
+template <class Predicate>
+  class unary_negate {
+public:
+  constexpr explicit unary_negate(const Predicate& pred);
+  constexpr bool operator()(const typename Predicate::argument_type& x) const;
+  typedef typename Predicate::argument_type argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`!pred(x)].
+[exit:description]
+
+[%@library not1]
+[codeblock:declaration]
+template <class Predicate>
+  constexpr unary_negate<Predicate> not1(const Predicate& pred);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`unary_negate<Predicate>(pred)].
+[exit:description]
+
+[%@library binary_negate]
+[codeblock:declaration]
+template <class Predicate>
+  class binary_negate {
+  public:
+    constexpr explicit binary_negate(const Predicate& pred);
+    constexpr bool operator()(const typename Predicate::first_argument_type& x,
+        const typename Predicate::second_argument_type& y) const;
+  typedef typename Predicate::first_argument_type first_argument_type;
+  typedef typename Predicate::second_argument_type second_argument_type;
+  typedef bool result_type;
+  };
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`!pred(x,y)].
+[exit:description]
+
+[%@library not2]
+[codeblock:declaration]
+template <class Predicate>
+  constexpr binary_negate<Predicate> not2(const Predicate& pred);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`binary_negate<Predicate>(pred)].
+[exit:description]

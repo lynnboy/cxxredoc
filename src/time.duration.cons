@@ -1,0 +1,69 @@
+﻿[section#time.duration.cons
+    [:en] [`duration] constructors
+]
+
+[%@library duration[!constructor]]
+[codeblock:declaration]
+template <class Rep2>
+  constexpr explicit duration(const Rep2& r);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless
+[`Rep2] is implicitly convertible to [`rep] and
+
+[list]
+[item]
+[:en] [`treat_as_floating_point<rep>::value] is [`true] or
+[item]
+[:en] [`treat_as_floating_point<Rep2>::value] is [`false].
+[list:end]
+
+[enter:example]
+[codeblock]
+duration<int, milli> d(3);          // OK
+duration<int, milli> d(3.5);        // [:en] error
+[codeblock:end]
+[exit:example]
+
+[para:effects]
+[:en] Constructs an object of type [`duration].
+
+[para:postcondition]
+[:en] [`count() == static_cast<rep>(r)].
+[exit:description]
+
+[%@library duration[![:en]constructor]]
+[codeblock:declaration]
+template <class Rep2, class Period2>
+  constexpr duration(const duration<Rep2, Period2>& d);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless no
+overflow is induced in the conversion and [`treat_as_floating_point<rep>::value]
+is [`true] or both [`ratio_divide<Period2, period>::den] is [`1] and
+[`treat_as_floating_point<Rep2>::value] is [`false].
+
+[enter:note]
+[:en] This requirement prevents implicit truncation error when converting
+between integral-based [`duration] types.
+
+[:en] Such a construction could easily lead to confusion about the value of the
+[`duration].
+[exit:note]
+
+[enter:example]
+[codeblock]
+duration<int, milli> ms(3);
+duration<int, micro> us = ms;       // OK
+duration<int, milli> ms2 = us;      // [:en] error
+[codeblock:end]
+[exit:example]
+
+[para:effects]
+[:en] Constructs an object of type [`duration], constructing [`rep_] from
+[`duration_cast<duration>(d).count()].
+[exit:description]

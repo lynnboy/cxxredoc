@@ -1,0 +1,40 @@
+﻿[section#ptr.align
+    [:en] Align
+]
+
+[%@library align]
+[codeblock:declaration]
+void* align(std::size_t alignment, std::size_t size,
+    void*& ptr, std::size_t& space);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If it is possible to fit [`size] bytes of storage aligned by [`alignment]
+into the buffer pointed to by [`ptr] with length [`space], the function updates
+[`ptr] to point to the first possible address of such storage and decreases
+[`space] by the number of bytes used for alignment.
+
+[:en] Otherwise, the function does nothing.
+
+[para:requires]
+
+[list]
+[item]
+[:en] [`alignment] shall be a power of two
+
+[item]
+[:en] [`ptr] shall point to contiguous storage of at least [`space] bytes
+[list:end]
+
+[para:returns]
+[:en] A null pointer if the requested aligned buffer would not fit into the
+available space, otherwise the adjusted value of [`ptr].
+
+[para]
+[enter:note]
+[:en] The function updates its [`ptr] and [`space] arguments so that it can be
+called repeatedly with possibly different [`alignment] and [`size] arguments for
+the same buffer.
+[exit:note]
+[exit:description]

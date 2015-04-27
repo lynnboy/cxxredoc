@@ -1,0 +1,24 @@
+﻿[section#meta.trans
+    [:en] Transformations between types
+]
+[para]
+[:en]
+This sub-clause contains templates that may be used to transform one type to
+another following some predefined rule.
+
+[para]
+[:en]
+Each of the templates in this subclause shall be a [+TransformationTrait]
+([#meta.rqmts]).
+
+[include meta.trans.cv]
+
+[include meta.trans.ref]
+
+[include meta.trans.sign]
+
+[include meta.trans.arr]
+
+[include meta.trans.ptr]
+
+[include meta.trans.other]

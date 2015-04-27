@@ -1,0 +1,31 @@
+﻿[section#time.point.arithmetic
+    [:en] [`time_point] arithmetic
+]
+
+[%@library operator+=[!time_point]]
+[%@library time_point[!operator+=]]
+[codeblock:declaration]
+time_point& operator+=(const duration& d);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`d_ += d].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator-=[!time_point]]
+[%@library time_point[!operator-=]]
+[codeblock:declaration]
+time_point& operator-=(const duration& d);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`d_ -= d].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

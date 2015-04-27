@@ -1,0 +1,34 @@
+﻿[section#intseq.general
+    [:en] In general
+]
+
+[para]
+[:en]
+The library provides a class template that can represent an integer sequence.
+
+[:en]
+When used as an argument to a function template the parameter pack defining the
+sequence can be deduced and used in a pack expansion.
+
+[para]
+[enter:example]
+
+[codeblock]
+template<class F, class Tuple, std::size_t... I>
+  decltype(auto) apply_impl(F&& f, Tuple&& t, index_sequence<I...>) {
+    return std::forward<F>(f)(std::get<I>(std::forward<Tuple>(t))...);
+  }
+
+template<class F, class Tuple>
+  decltype(auto) apply(F&& f, Tuple&& t) {
+    using Indices = make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>;
+    return apply_impl(std::forward<F>(f), std::forward<Tuple>(t), Indices());
+  }
+[codeblock:end]
+
+[exit:example]
+[enter:note]
+[:en]
+The [`index_sequence] alias template is provided for the common case of
+an integer sequence of type [`size_t].
+[exit:note]

@@ -1,0 +1,97 @@
+﻿[section#unique.ptr.single
+    [:en] [`unique_ptr] for single objects
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class T, class D = default_delete<T>> class unique_ptr {
+  public:
+    typedef [=Seebelow] pointer;
+    typedef T element_type;
+    typedef D deleter_type;
+
+    // [:en] [#unique.ptr.single.ctor], constructors
+    constexpr unique_ptr() noexcept;
+    explicit unique_ptr(pointer p) noexcept;
+    unique_ptr(pointer p, [=Seebelow] d1) noexcept;
+    unique_ptr(pointer p, [=Seebelow] d2) noexcept;
+    unique_ptr(unique_ptr&& u) noexcept;
+    constexpr unique_ptr(nullptr_t) noexcept
+      : unique_ptr() { }
+    template <class U, class E>
+      unique_ptr(unique_ptr<U, E>&& u) noexcept;
+
+    // [:en] [#unique.ptr.single.dtor], destructor
+    ~unique_ptr();
+
+    // [:en] [#unique.ptr.single.asgn], assignment
+    unique_ptr& operator=(unique_ptr&& u) noexcept;
+    template <class U, class E> unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept;
+    unique_ptr& operator=(nullptr_t) noexcept;
+
+    // [:en] [#unique.ptr.single.observers], observers
+    add_lvalue_reference_t<T> operator*() const;
+    pointer operator->() const noexcept;
+    pointer get() const noexcept;
+    deleter_type& get_deleter() noexcept;
+    const deleter_type& get_deleter() const noexcept;
+    explicit operator bool() const noexcept;
+
+    // [:en] [#unique.ptr.single.modifiers] modifiers
+    pointer release() noexcept;
+    void reset(pointer p = pointer()) noexcept;
+    void swap(unique_ptr& u) noexcept;
+
+    // [:en] disable copy from lvalue
+    unique_ptr(const unique_ptr&) = delete;
+    unique_ptr& operator=(const unique_ptr&) = delete;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The default type for the template parameter [`D] is [`default_delete].
+[:en]
+A client-supplied template argument [`D] shall be a function object type
+([#function.objects]), lvalue reference to function, or lvalue reference to
+function object type for which, given a value [`d] of type [`D] and a value
+[`ptr] of type [`unique_ptr<T, D>::pointer], the expression [`d(ptr)] is valid
+and has the effect of disposing of the pointer as appropriate for that deleter.
+
+[para]
+[:en]
+If the deleter[=']s type [`D] is not a reference type, [`D] shall satisfy
+the requirements of [`Destructible] (Table [#destructible]).
+
+[para]
+[:en]
+If the [~qualified-id] [`remove_reference_t<D>::pointer] is valid and denotes a
+type ([#temp.deduct]), then [`unique_ptr<T, D>::pointer] shall be a synonym for
+[`remove_reference_t<D>::pointer].
+
+[:en]
+Otherwise [`unique_ptr<T, D>::pointer] shall be a synonym for [`element_type*].
+
+[:en]
+The type [`unique_ptr<T, D>::pointer] shall satisfy the requirements of
+[`NullablePointer] ([#nullablepointer.requirements]).
+
+[para]
+[enter:example]
+[:en]
+Given an allocator type [`X] ([#allocator.requirements]) and letting [`A] be a
+synonym for [`allocator_traits<X>], the types [`A::pointer],
+[`A::const_pointer], [`A::void_pointer], and [`A::const_void_pointer] may be
+used as [`unique_ptr<T, D>::pointer].
+[exit:example]
+
+[include unique.ptr.single.ctor]
+
+[include unique.ptr.single.dtor]
+
+[include unique.ptr.single.asgn]
+
+[include unique.ptr.single.observers]
+
+[include unique.ptr.single.modifiers]

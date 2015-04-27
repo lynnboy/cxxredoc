@@ -1,0 +1,14 @@
+﻿[section#util.smartptr.weak.dest
+    [:en] [`weak_ptr] destructor
+]
+
+[%@library weak_ptr[!destructor]]
+[codeblock:declaration]
+~weak_ptr();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys this [`weak_ptr] object but has no effect on the object its
+stored pointer points to.
+[exit:description]

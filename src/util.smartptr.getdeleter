@@ -1,0 +1,25 @@
+﻿[section#util.smartptr.getdeleter
+    [:en] [`get_deleter]
+]
+
+[%@library shared_ptr[!get_deleter]]
+[%@library get_deleter[!shared_ptr]]
+[codeblock:declaration]
+template<class D, class T> D* get_deleter(const shared_ptr<T>& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`p] [+owns] a deleter [`d] of type cv-unqualified [`D], returns
+[`std:addressof(d)]; otherwise returns [`nullptr].
+
+[:en] The returned pointer remains valid as long as there exists a [`shared_ptr]
+instance that owns [`d].
+
+[enter:note]
+[:en] It is unspecified whether the pointer remains valid longer than that.
+
+[:en] This can happen if the implementation doesn[=']t destroy the deleter until
+all [`weak_ptr] instances that share ownership with [`p] have been destroyed.
+[exit:note]
+[exit:description]

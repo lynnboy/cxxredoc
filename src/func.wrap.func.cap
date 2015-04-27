@@ -1,0 +1,13 @@
+﻿[section#func.wrap.func.cap
+    [:en] [`function] capacity
+]
+
+[%@library function[!bool conversion]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`*this] has a target, otherwise [`false].
+[exit:description]

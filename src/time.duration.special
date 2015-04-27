@@ -1,0 +1,36 @@
+﻿[section#time.duration.special
+    [:en] [`duration] special values
+]
+
+[%@library zero[!duration]]
+[%@library duration[!zero]]
+[codeblock:declaration]
+static constexpr duration zero();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(duration_values<rep>::zero())].
+[exit:description]
+
+[%@library min[!duration]]
+[%@library duration[!min]]
+[codeblock:declaration]
+static constexpr duration min();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(duration_values<rep>::min())].
+[exit:description]
+
+[%@library max[!duration]]
+[%@library duration[!max]]
+[codeblock:declaration]
+static constexpr duration max();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`duration(duration_values<rep>::max())].
+[exit:description]

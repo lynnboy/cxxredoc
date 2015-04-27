@@ -1,0 +1,101 @@
+﻿[section#bitset.cons
+    [:en] [`bitset] constructors
+]
+
+[%@library bitset[!bitset]]
+[codeblock:declaration]
+constexpr bitset() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`bitset<N>], initializing all bits to zero.
+[exit:description]
+
+[%@library bitset[!bitset]]
+[codeblock:declaration]
+constexpr bitset(unsigned long long val) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`bitset<N>], initializing the first [`M]
+bit positions to the corresponding bit values in [`val].
+
+[:en] [`M] is the smaller of [`N] and the number of bits in the value
+representation ([#basic.types]) of [`unsigned long long].
+
+[:en] If [`M < N], the remaining bit positions are initialized to zero.
+[exit:description]
+
+[%@library bitset[!bitset]]
+[codeblock:declaration]
+template <class charT, class traits, class Allocator>
+explicit
+bitset(const basic_string<charT, traits, Allocator>& str,
+       typename basic_string<charT, traits, Allocator>::size_type pos = 0,
+       typename basic_string<charT, traits, Allocator>::size_type n =
+         basic_string<charT, traits, Allocator>::npos,
+         charT zero = charT('0'), charT one = charT('1'));
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= str.size()].
+
+[para:throws]
+[:en] [%@library out_of_range] [`out_of_range] if [`pos > str.size()].
+
+[para:effects]
+[:en] Determines the effective length [`rlen] of the initializing string as the
+smaller of [`n] and [`str.size() - pos].
+
+[:en] The function then throws [%@library invalid_argument] [`invalid_argument]
+if any of the [`rlen] characters in [`str] beginning at position [`pos] is
+other than [`zero] or [`one].
+
+[:en] The function uses [`traits::eq()] to compare the character values.
+
+[:en] Otherwise, the function constructs an object of class [`bitset<N>],
+initializing the first [`M] bit positions to values determined from the
+corresponding characters in the string [`str].
+
+[:en] [`M] is the smaller of [`N] and [`rlen].
+
+[para]
+[:en] An element of the constructed object has value zero if the corresponding
+character in [`str], beginning at position [`pos], is [`zero].
+
+[:en] Otherwise, the element has the value one.
+
+[:en] Character position [`pos + M - 1] corresponds to bit position zero.
+
+[:en] Subsequent decreasing character positions correspond to increasing bit
+positions.
+
+[para]
+[:en] If [`M < N], remaining bit positions are initialized to zero.
+[exit:description]
+
+[%@library bitset[!bitset]]
+[codeblock:declaration]
+template <class charT>
+  explicit bitset(
+    const charT* str,
+    typename basic_string<charT>::size_type n = basic_string<charT>::npos,
+    charT zero = charT('0'), charT one = charT('1'));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`bitset<N>] as if by
+
+[codeblock]
+bitset(
+  n == basic_string<charT>::npos
+    ? basic_string<charT>(str)
+    : basic_string<charT>(str, n),
+  0, n, zero, one)
+[codeblock:end]
+
+[exit:description]

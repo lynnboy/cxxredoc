@@ -1,0 +1,91 @@
+﻿[section#unique.ptr.runtime
+    [:en] [`unique_ptr] for array objects with a runtime length
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class T, class D> class unique_ptr<T[], D> {
+  public:
+    typedef [=Seebelow] pointer;
+    typedef T element_type;
+    typedef D deleter_type;
+
+    // [:en] [#unique.ptr.runtime.ctor], constructors
+    constexpr unique_ptr() noexcept;
+    template <class U> explicit unique_ptr(U p) noexcept;
+    template <class U> unique_ptr(U p, [=Seebelow] d) noexcept;
+    template <class U> unique_ptr(U p, [=Seebelow] d) noexcept;
+    unique_ptr(unique_ptr&& u) noexcept;
+    template <class U, class E>
+      unique_ptr(unique_ptr<U, E>&& u) noexcept;
+    constexpr unique_ptr(nullptr_t) noexcept : unique_ptr() { }
+
+    // [:en] destructor
+    ~unique_ptr();
+
+    // [:en] assignment
+    unique_ptr& operator=(unique_ptr&& u) noexcept;
+    template <class U, class E>
+      unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept;
+    unique_ptr& operator=(nullptr_t) noexcept;
+
+    // [:en] [#unique.ptr.runtime.observers], observers
+    T& operator[](size_t i) const;
+    pointer get() const noexcept;
+    deleter_type& get_deleter() noexcept;
+    const deleter_type& get_deleter() const noexcept;
+    explicit operator bool() const noexcept;
+
+    // [:en] [#unique.ptr.runtime.modifiers] modifiers
+    pointer release() noexcept;
+    template <class U> void reset(U p) noexcept;
+    void reset(nullptr_t = nullptr) noexcept;
+    void swap(unique_ptr& u) noexcept;
+
+    // [:en] disable copy from lvalue
+    unique_ptr(const unique_ptr&) = delete;
+    unique_ptr& operator=(const unique_ptr&) = delete;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+A specialization for array types is provided with a slightly altered interface.
+
+[list]
+[item]
+[:en] Conversions between different types of [`unique_ptr<T[`], D>] that would
+be disallowed for the corresponding pointer-to-array types, and conversions to
+or from the non-array forms of [`unique_ptr], produce an ill-formed program.
+
+[item]
+[:en] Pointers to types derived from [`T] are rejected by the constructors, and
+by [`reset].
+
+[item]
+ The observers [`operator*] and [`operator->] are not provided.
+
+[item]
+[:en] The indexing observer [`operator[`]] is provided.
+
+[item]
+[:en] The default deleter will call [`delete[`]].
+[list:end]
+
+[para]
+[:en]
+Descriptions are provided below only for members that differ from the primary
+template.
+
+[para]
+[:en]
+The template argument [`T] shall be a complete type.
+
+[include unique.ptr.runtime.ctor]
+
+[include unique.ptr.runtime.asgn]
+
+[include unique.ptr.runtime.observers]
+
+[include unique.ptr.runtime.modifiers]

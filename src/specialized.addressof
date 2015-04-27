@@ -1,0 +1,14 @@
+﻿[section#specialized.addressof
+    [:en] [`addressof]
+]
+
+[%@library addressof]
+[codeblock:declaration]
+template <class T> T* addressof(T& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The actual address of the object or function referenced by [`r], even in
+the presence of an overloaded [`operator&].
+[exit:description]

@@ -1,0 +1,16 @@
+﻿[section#func.invoke
+    [:en] Function template [`invoke]
+]
+
+[%@library invoke]
+[%@library@it INVOKE]
+[codeblock:declaration]
+template <class F, class... Args>
+  result_of_t<F&&(Args&&...)> invoke(F&& f, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`[$INVOKE](std::forward<F>(f), std::forward<Args>(args)...)]
+([#func.require]).
+[exit:description]

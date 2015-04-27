@@ -1,0 +1,116 @@
+﻿[section#forward
+    [:en] forward/move helpers
+]
+
+[para]
+[:en]
+The library provides templated helper functions to simplify applying move
+semantics to an lvalue and to simplify the implementation of forwarding
+functions.
+
+[%@library forward]
+[codeblock:declaration]
+template <class T> constexpr T&& forward(remove_reference_t<T>& t) noexcept;
+template <class T> constexpr T&& forward(remove_reference_t<T>&& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`static_cast<T&&>(t)].
+
+[para:remark]
+[:en] If the second form is instantiated with an lvalue reference type, the
+program is ill-formed.
+
+[para]
+[enter:example]
+[codeblock]
+template <class T, class A1, class A2>
+shared_ptr<T> factory(A1&& a1, A2&& a2) {
+  return shared_ptr<T>(new T(std::forward<A1>(a1), std::forward<A2>(a2)));
+}
+
+struct A {
+  A(int&, const double&);
+};
+
+void g() {
+  shared_ptr<A> sp1 = factory<A>(2, 1.414); // [:en] error: 2 will not bind to [`int&]
+  int i = 2;
+  shared_ptr<A> sp2 = factory<A>(i, 1.414); // OK
+}
+[codeblock:end]
+
+[para]
+[:en]
+In the first call to [`factory], [`A1] is deduced as [`int], so 2 is forwarded
+to [`A][=']s constructor as an rvalue.
+
+[:en]
+In the second call to [`factory], [`A1] is deduced as [`int&], so [`i] is
+forwarded to [`A][=']s constructor as an lvalue.
+
+[:en]
+In both cases, [`A2] is deduced as [`double], so 1.414 is forwarded to [`A][=']s
+constructor as an rvalue.
+[exit:example]
+[exit:description]
+
+[%@library move]
+[codeblock:declaration]
+template <class T> constexpr remove_reference_t<T>&& move(T&& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`static_cast<remove_reference_t<T>&&>(t)].
+
+[para]
+[enter:example]
+[codeblock]
+template <class T, class A1>
+shared_ptr<T> factory(A1&& a1) {
+  return shared_ptr<T>(new T(std::forward<A1>(a1)));
+}
+
+struct A {
+  A();
+  A(const A&);  // [:en] copies from lvalues
+  A(A&&);       // [:en] moves from rvalues
+};
+
+void g() {
+  A a;
+  shared_ptr<A> sp1 = factory<A>(a);              // [:en] ["[`a]] binds to [`A(const A&)]
+  shared_ptr<A> sp1 = factory<A>(std::move(a));   // [:en] ["[`a]] binds to [`A(A&&)]
+}
+[codeblock:end]
+
+[para]
+[:en]
+In the first call to [`factory], [`A1] is deduced as [`A&], so [`a] is forwarded
+as a non-const lvalue.
+
+[:en]
+This binds to the constructor [`A(const A&)], which copies the value from [`a].
+
+[:en]
+In the second call to [`factory], because of the call [`std::move(a)], [`A1] is
+deduced as [`A], so [`a] is forwarded as an rvalue.
+
+[:en]
+This binds to the constructor [`A(A&&)], which moves the value from [`a].
+[exit:example]
+[exit:description]
+
+[%@library move_if_noexcept]
+[codeblock:declaration]
+template <class T> constexpr conditional_t<
+  !is_nothrow_move_constructible<T>::value && is_copy_constructible<T>::value,
+  const T&, T&&> move_if_noexcept(T& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`std::move(x)]
+[exit:description]

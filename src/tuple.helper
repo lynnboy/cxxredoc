@@ -1,0 +1,95 @@
+﻿[section#tuple.helper
+    [:en] Tuple helper classes
+]
+
+[%@library [:en] tuple_size[!in general]]
+[codeblock:declaration]
+template <class T> struct tuple_size;
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] All specializations of [`tuple_size<T>] shall meet the [`UnaryTypeTrait]
+requirements ([#meta.rqmts]) with a [`BaseCharacteristic] of
+[`integral_constant<size_t, N>] for some [`N].
+[exit:description]
+
+[%@library tuple_size]
+[codeblock:declaration]
+template <class... Types>
+class tuple_size<tuple<Types...> >
+  : public integral_constant<size_t, sizeof...(Types)> { };
+[codeblock:end]
+
+[%@library tuple_element]
+[codeblock:declaration]
+template <size_t I, class... Types>
+class tuple_element<I, tuple<Types...> > {
+public:
+  typedef TI type;
+};
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < sizeof...(Types)].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:ctype]
+[:en] [`TI] is the type of the [`I]th element of [`Types], where indexing is
+zero-based.
+[exit:description]
+
+[codeblock:declaration]
+template <class T> class tuple_size<const T>;
+template <class T> class tuple_size<volatile T>;
+template <class T> class tuple_size<const volatile T>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Let [$TS] denote [`tuple_size<T>] of the [$cv]-unqualified type [`T].
+
+[:en] Then each of the three templates shall meet the [`UnaryTypeTrait]
+requirements ([#meta.rqmts]) with a [`BaseCharacteristic] of
+
+[codeblock:notation]
+integral_constant<size_t, TS::value>
+[codeblock:end]
+
+[para]
+[:en] In addition to being available via inclusion of the [`<tuple>] header,
+the three templates are available when either of the headers [`<array>] or
+[`<utility>] are included.
+[exit:description]
+
+[codeblock:declaration]
+template <size_t I, class T> class tuple_element<I, const T>;
+template <size_t I, class T> class tuple_element<I, volatile T>;
+template <size_t I, class T> class tuple_element<I, const volatile T>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Let [$TE] denote [`tuple_element<I, T>] of the [$cv]-unqualified type
+[`T].
+
+[:en] Then each of the three templates shall meet the [`TransformationTrait]
+requirements ([#meta.rqmts]) with a member typedef [`type] that names the
+following type:
+
+[list]
+[item]
+[:en@~] for the first specialization, [`add_const_t<[$TE]::type>],
+[item]
+[:en@~] for the second specialization, [`add_volatile_t<[$TE]::type>], and
+[item]
+[:en@~] for the third specialization, [`add_cv_t<[$TE]::type>].
+[list:end]
+
+[para]
+[:en] In addition to being available via inclusion of the [`<tuple>] header,
+the three templates are available when either of the headers [`<array>] or
+[`<utility>] are included.
+[exit:description]

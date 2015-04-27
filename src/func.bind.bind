@@ -1,0 +1,142 @@
+﻿[section#func.bind.bind
+    [:en] Function template [`bind]
+]
+
+[para]
+[:en]
+In the text that follows, the following names have the following meanings:
+
+[list]
+[item]
+[:en] [`FD] is the type [`decay_t<F>],
+[item]
+[:en] [`fd] is an lvalue of type [`FD] constructed from [`std::forward<F>(f)],
+[item]
+[:en] [`Ti] is the [$i[^th]] type in the template parameter pack [`BoundArgs],
+[item]
+[:en] [`TiD] is the type [`decay_t<Ti>],
+[item]
+[:en] [`ti] is the [$i[^th]] argument in the function parameter pack
+[`bound_args],
+[item]
+[:en] [`tid] is an lvalue of type [`TiD] constructed from
+[`std::forward<Ti>(ti)],
+[item]
+[:en] [`Uj] is the [$j[^th]] deduced type of the [`UnBoundArgs&&...] parameter
+  of the forwarding call wrapper, and
+[item]
+[:en] [`uj] is the [$j[^th]] argument associated with [`Uj].
+[list:end]
+
+[%@library bind]
+[codeblock:declaration [special unspecified] ]
+template<class F, class... BoundArgs>
+  unspecified bind(F&& f, BoundArgs&&... bound_args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<FD, F>::value] shall be [`true]. For each [`Ti] in
+[`BoundArgs], [`is_constructible<TiD, Ti>::value] shall be [`true].
+
+[:en] [`[$INVOKE] (fd, w1, w2, ..., wN)] ([#func.require]) shall be a valid
+expression for some values [$w1, w2, ..., wN], where
+[`N == sizeof...(bound_args)].
+
+[para:returns]
+[:en] A forwarding call wrapper [`g] with a weak result type ([#func.require]).
+
+[:en] The effect of [`g(u1, u2, ..., uM)] shall be [`[$INVOKE](fd,
+std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN),
+result_of_t<FD [$cv] & (V1, V2, ..., VN)>)], where [$cv] represents the
+[$cv]-qualifiers of [`g] and the values and types of the bound arguments
+[`v1, v2, ..., vN] are determined as specified below.
+
+[:en] The copy constructor and move constructor of the forwarding call wrapper
+shall throw an exception if and only if the corresponding constructor of [`FD]
+or of any of the types [`TiD] throws an exception.
+
+[para:throws]
+[:en] Nothing unless the construction of [`fd] or of one of the values [`tid]
+throws an exception.
+
+[para:notes]
+[:en] The return type shall satisfy the requirements of [`MoveConstructible].
+
+[:en] If all of [`FD] and [`TiD] satisfy the requirements of
+[`CopyConstructible], then the return type shall satisfy the requirements of
+[`CopyConstructible].
+
+[enter:note]
+[:en] This implies that all of [`FD] and [`TiD] are [`MoveConstructible].
+[exit:note]
+[exit:description]
+
+[%@library bind]
+[codeblock:declaration [special unspecified] ]
+template<class R, class F, class... BoundArgs>
+  unspecified bind(F&& f, BoundArgs&&... bound_args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<FD, F>::value] shall be [`true].
+
+[:en] For each [`Ti] in [`BoundArgs], [`is_constructible<TiD, Ti>::value] shall
+be [`true].
+
+[:en] [`[$INVOKE](fd, w1, w2, ..., wN)] shall be a valid expression for some
+values [$w1, w2, ..., wN], where [`N == sizeof...(bound_args)].
+
+[para:returns]
+[:en] A forwarding call wrapper [`g] with a nested  type [`result_type] defined
+as a synonym for [`R].
+
+[:en] The effect of [`g(u1, u2, ..., uM)] shall be [`[$INVOKE](fd,
+std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN), R)],
+where the values and types of the bound arguments [`v1, v2, ..., vN] are
+determined as specified below.
+
+[:en] The copy constructor and move constructor of the forwarding call wrapper
+shall throw an exception if and only if the corresponding constructor of [`FD]
+or of any of the types [`TiD] throws an exception.
+
+[para:throws]
+[:en] Nothing unless the construction of [`fd] or of one of the values [`tid]
+throws an exception.
+
+[para:notes]
+[:en] The return type shall satisfy the requirements of [`MoveConstructible].
+
+[:en] If all of [`FD] and [`TiD] satisfy the requirements of
+[`CopyConstructible], then the return type shall satisfy the requirements of
+[`CopyConstructible].
+
+[enter:note]
+[:en] This implies that all of [`FD] and [`TiD] are [`MoveConstructible].
+[exit:note]
+[exit:description]
+
+[para]
+[:en] [%bound arguments]
+The values of the [+bound arguments] [`v1, v2, ..., vN] and their corresponding
+types [`V1, V2, ..., VN] depend on the types [`TiD] derived from the call to
+[`bind] and the [$cv]-qualifiers [$cv] of the call wrapper [`g] as follows:
+
+[list]
+[item]
+[:en] if [`TiD] is [`reference_wrapper<T>], the argument is [`tid.get()] and its
+type [`Vi] is [`T&];
+
+[item]
+[:en] if the value of [`is_bind_expression<TiD>::value] is [`true], the argument
+is [`tid(std::forward<Uj>(uj)...)]  and its type [`Vi] is [`result_of_t<TiD
+[$cv] & (Uj&&...)>&&];
+
+[item]
+[:en] if the value [`j] of [`is_placeholder<TiD>::value] is not zero, the
+argument is [`std::forward<Uj>(uj)] and its type [`Vi] is [`Uj&&];
+
+[item]
+[:en] otherwise, the value is [`tid] and its type [`Vi] is [`TiD [$cv] &].
+[list:end]

@@ -1,0 +1,40 @@
+﻿[section#unique.ptr.create
+    [:en] [`unique_ptr] creation
+]
+
+[%@library make_unique]
+[codeblock:declaration]
+template <class T, class... Args> unique_ptr<T> make_unique(Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This function shall not participate in overload resolution unless [`T] is
+not an array.
+
+[para:returns]
+[:en] [`unique_ptr<T>(new T(std::forward<Args>(args)...))].
+[exit:description]
+
+[codeblock:declaration]
+template <class T> unique_ptr<T> make_unique(size_t n);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This function shall not participate in overload resolution unless [`T] is
+an array of unknown bound.
+
+[para:returns]
+[:en] [`unique_ptr<T>(new remove_extent_t<T>[n`]())].
+
+[exit:description]
+[codeblock:declaration [special unspecified] ]
+template <class T, class... Args> unspecified make_unique(Args&&...) = delete;
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This function shall not participate in overload resolution unless [`T] is
+an array of known bound.
+[exit:description]

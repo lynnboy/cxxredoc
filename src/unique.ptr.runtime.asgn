@@ -1,0 +1,36 @@
+﻿[section#unique.ptr.runtime.asgn
+    [:en] [`unique_ptr] assignment
+]
+
+[%@library unique_ptr[!operator=]]
+[codeblock:declaration]
+template <class U, class E>
+  unique_ptr& operator=(unique_ptr<U,E>&& u)noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+This operator behaves the same as in the primary template, except that it shall
+not participate in overload resolution unless all of the following conditions
+hold, where [`UP] is [`unique_ptr<U, E>]:
+
+[list]
+[item]
+[:en] [`U] is an array type, and
+[item]
+[:en] [`pointer] is the same type as [`element_type*], and
+[item]
+[:en] [`UP::pointer] is the same type as [`UP::element_type*], and
+[item]
+[:en] [`UP::element_type(*)[`]] is convertible to [`element_type(*)[`]], and
+[item]
+[:en] either [`D] is a reference type and [`E] is the same type as [`D], or [`D]
+is not a reference type and [`E] is implicitly convertible to [`D].
+[list:end]
+
+[enter:note]
+[:en]
+this replaces the overload-resolution specification of the primary template
+[exit:note]
+[exit:description]

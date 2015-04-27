@@ -1,0 +1,37 @@
+﻿[section#temporary.buffer
+    [:en] Temporary buffers
+]
+
+[%@library get_temporary_buffer]
+[codeblock:declaration]
+template <class T>
+  pair<T*, ptrdiff_t> get_temporary_buffer(ptrdiff_t n) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Obtains a pointer to storage sufficient to store up to [`n] adjacent [`T]
+objects.
+
+[:en] It is [%@impldef support for over-aligned types] implementation-defined
+whether over-aligned types are supported ([#basic.align]).
+
+[para:returns]
+[:en] A [`pair] containing the buffer[=']s address and capacity (in the units of
+[`sizeof(T)]), or a pair of 0 values if no storage can be obtained or if [`n <=
+0].
+[exit:description]
+
+[%@library return_temporary_buffer]
+[codeblock:declaration]
+template <class T> void return_temporary_buffer(T* p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Deallocates the buffer to which [`p] points.
+
+[para:requires]
+[:en] The buffer shall have been previously allocated by
+[`get_temporary_buffer].
+[exit:description]

@@ -1,0 +1,44 @@
+﻿[section#meta.trans.sign
+    [:en] Sign modifications
+]
+
+[table:listing#tab:type-traits.sign
+    [:en] Sign modifications
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct make_signed;
+[|] [:en] If [`T] names a (possibly cv-qualified) signed integer type
+    ([#basic.fundamental]) then the member typedef [`type] shall name the type
+    [`T]; otherwise, if [`T] names a (possibly cv-qualified) unsigned integer
+    type then [`type] shall name the corresponding signed integer type, with the
+    same cv-qualifiers as [`T]; otherwise, [`type] shall name the signed integer
+    type with smallest rank ([#conv.rank]) for which [`sizeof(T) ==
+    sizeof(type)], with the same cv-qualifiers as [`T]. [br]
+    [:en] [=Requires] [`T] shall be a (possibly cv-qualified) integral type or
+    enumeration but not a [`bool] type.
+
+[|]
+template <class T> [br]
+struct make_unsigned;
+[|] [:en] If [`T] names a (possibly cv-qualified) unsigned integer type
+    ([#basic.fundamental]) then the member typedef [`type] shall name the type
+    [`T]; otherwise, if [`T] names a (possibly cv-qualified) signed integer
+    type then [`type] shall name the corresponding unsigned integer type, with
+    the same cv-qualifiers as [`T]; otherwise, [`type] shall name the unsigned
+    integer type with smallest rank ([#conv.rank]) for which [`sizeof(T) ==
+    sizeof(type)], with the same cv-qualifiers as [`T]. [br]
+    [:en] [=Requires] [`T] shall be a (possibly cv-qualified) integral type or
+    enumeration but not a [`bool] type.
+
+[table:end]

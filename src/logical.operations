@@ -1,0 +1,96 @@
+﻿[section#logical.operations
+    [:en] Logical operations
+]
+
+[para]
+The library provides basic function object classes for all of the logical
+operators in the language ([#expr.log.and], [#expr.log.or], [#expr.unary.op]).
+
+[%@library logical_and]
+[codeblock:declaration]
+template <class T = void> struct logical_and {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x && y].
+[exit:description]
+
+[%@library logical_or]
+[codeblock:declaration]
+template <class T = void> struct logical_or {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x || y].
+[exit:description]
+
+[%@library logical_not]
+[codeblock:declaration]
+template <class T = void> struct logical_not {
+  constexpr bool operator()(const T& x) const;
+  typedef T argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`!x].
+[exit:description]
+
+[%@library logical_and<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct logical_and<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) && std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) && std::forward<U>(u)].
+[exit:description]
+
+[%@library logical_or<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct logical_or<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) || std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) || std::forward<U>(u)].
+[exit:description]
+
+[%@library logical_not<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct logical_not<void> {
+  template <class T> constexpr auto operator()(T&& t) const
+    -> decltype(!std::forward<T>(t));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`!std::forward<T>(t)].
+[exit:description]

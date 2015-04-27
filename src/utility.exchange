@@ -1,0 +1,18 @@
+﻿[section#utility.exchange
+    [:en] exchange
+]
+
+[codeblock:declaration]
+template <class T, class U=T> T exchange(T& obj, U&& new_val);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to:
+
+[codeblock]
+T old_val = std::move(obj);
+obj = std::forward<U>(new_val);
+return old_val;
+[codeblock:end]
+[exit:description]

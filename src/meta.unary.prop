@@ -1,0 +1,423 @@
+﻿[section#meta.unary.prop
+    [:en] Type properties
+]
+
+[para]
+[:en]
+These templates provide access to some of the more important properties of
+types.
+
+[para]
+[:en]
+It is unspecified whether the library defines any full or partial
+specializations of any of these templates.
+
+[para]
+[:en]
+For all of the class templates [`X] declared in this Clause, instantiating that
+template with a template-argument that is a class template specialization may
+result in the implicit instantiation of the template argument if and only if the
+semantics of [`X] require that the argument must be a complete type.
+
+[table:listing#tab:type-traits.properties
+    [:en] Type property predicates
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] Preconditions
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct is_const;
+[|] [:en] [`T] is const-qualified ([#basic.type.qualifier])
+[|]
+
+[|]
+template <class T> [br]
+struct is_volatile;
+[|] [:en] [`T] is volatile-qualified ([#basic.type.qualifier])
+[|]
+
+[|]
+template <class T> [br]
+struct is_trivial;
+[|] [:en] [`T] is a trivial type ([#basic.types])
+[|] [:en] [`remove_all_extents_t<T>] shall be a complete type or (possibly
+    cv-qualified) [`void].
+
+[|]
+template <class T> [br]
+struct is_trivially_copyable;
+[|] [:en] [`T] is a trivially copyable type ([#basic.types])
+[|] [:en] [`remove_all_extents_t<T>] shall be a complete type or (possibly
+    cv-qualified) [`void].
+
+[|]
+template <class T> [br]
+struct is_standard_layout;
+[|] [:en] [`T] is a standard-layout type ([#basic.types])
+[|] [:en] [`remove_all_extents_t<T>] shall be a complete type or (possibly
+    cv-qualified) [`void].
+
+[|]
+template <class T> [br]
+struct is_pod;
+[|] [:en] [`T] is a POD type ([#basic.types])
+[|] [:en] [`remove_all_extents_t<T>] shall be a complete type or (possibly
+    cv-qualified) [`void].
+
+[|]
+template <class T> [br]
+struct is_literal_type;
+[|] [:en] [`T] is a literal type ([#basic.types])
+[|] [:en] [`remove_all_extents_t<T>] shall be a complete type or (possibly
+    cv-qualified) [`void].
+
+[|]
+template <class T> [br]
+struct is_empty;
+[|] [:en] [`T] is a class type, but not a union type, with no non-static data
+    members other than bit-fields of length 0, no virtual member functions, no
+    virtual base classes, and no base class [`B] for which [`is_empty<B>::value]
+    is false.
+[|] [:en] If [`T] is a non-union class type, [`T] shall be a complete type.
+
+[|]
+template <class T> [br]
+struct is_polymorphic;
+[|] [:en] [`T] is a polymorphic class ([#class.virtual])
+[|] [:en] If [`T] is a non-union class type, [`T] shall be a complete type.
+
+[|]
+template <class T> [br]
+struct is_abstract;
+[|] [:en] [`T] is an abstract class ([#class.abstract])
+[|] [:en] If [`T] is a non-union class type, [`T] shall be a complete type.
+
+[|]
+template <class T> [br]
+struct is_final;
+[|] [:en] [`T] is a class type marked with the [~class-virt-specifier] [`final]
+    (Clause [#class]).
+    [enter:note]
+    [:en] A union is a class type that can be marked with [`final].
+    [exit:note]                                        &
+[|] [:en] If [`T] is a class type, [`T] shall be a complete type.
+
+[|]
+template <class T> [br]
+struct is_signed;
+[|] [:en] If [`is_arithmetic<T>::value] is [`true], the same result as
+    [`integral_constant<bool, T(-1) < T(0)>::value]; otherwise, [`false]
+[|]
+
+[|]
+template <class T> [br]
+struct is_unsigned;
+[|] [:en] If [`is_arithmetic<T>::value] is [`true], the same result as
+    [`integral_constant<bool, T(0) < T(-1)>::value]; otherwise, [`false]
+[|]
+
+[|]
+template <class T, class... Args> [br]
+struct is_constructible;
+[|] [=Seebelow]
+[|] [:en] [`T] and all types in the parameter pack [`Args] shall be complete
+    types, (possibly cv-qualified) [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_default_constructible;
+[|] [:en] [`is_constructible<T>::value] is [`true].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_copy_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_constructible<T, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_move_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_constructible<T, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T, class U> [br]
+struct is_assignable;
+[|] [:en] The expression [`declval<T>() = declval<U>()] is well-formed when
+    treated as an unevaluated operand (Clause [#expr]).
+    [:en] Access checking is performed as if in a context unrelated to [`T] and
+    [`U].
+    [:en] Only the validity of the immediate context of the assignment
+    expression is considered.
+    [enter:note]
+    [:en] The compilation of the expression can result in side effects such as
+    the instantiation of class template specializations and function template
+    specializations, the generation of implicitly-defined functions, and so on.
+    [:en] Such side effects are not in the ["immediate context] and can result
+    in the program being ill-formed.
+    [exit:note]
+[|] [:en] [`T] and [`U] shall be complete types, (possibly cv-qualified)
+    [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_copy_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_assignable<T&, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_move_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_assignable<T&, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_destructible;
+[|] [:en] For reference types, [`is_destructible<T>::value] is [`true]. [br]
+    [:en] For incomplete types and function types, [`is_destructible<T>::value]
+    is [`false]. [br]
+    [:en] For object types and given [`U] equal to [`remove_all_extents_t<T>],
+    if the expression [`std::declval<U&>().~U()] is well-formed when treated as
+    an unevaluated operand (Clause [#expr]), then [`is_destructible<T>::value]
+    is [`true], otherwise it is [`false].
+[|] [:en] [`T] shall be a complete type, (possibly [$cv]-qualified) [`void],
+    or an array of unknown bound.
+
+[|]
+template <class T, class... Args> [br]
+struct
+is_trivially_constructible;
+[|] [:en] [`is_constructible<T, Args...>::value] is [`true] and the variable
+    definition for [`is_constructible], as defined below, is known to call
+    no operation that is not trivial ([#basic.types], [#special]).
+[|] [:en] [`T] and all types in the parameter pack [`Args] shall be complete
+    types, (possibly cv-qualified) [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_default_constructible;
+[|] [:en] [`is_trivially_constructible<T>::value] is [`true].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_copy_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_trivially_constructible<T, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_move_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_trivially_constructible<T, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T, class U> [br]
+struct is_trivially_assignable;
+[|] [:en] [`is_assignable<T, U>::value] is [`true] and the assignment, as
+    defined by [`is_assignable], is known to call no operation that is not
+    trivial ([#basic.types], [#special]).
+[|] [:en] [`T] and [`U] shall be complete types, (possibly cv-qualified)
+    [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_copy_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_trivially_assignable<T&, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_move_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_trivially_assignable<T&, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_trivially_destructible;
+[|] [:en] [`is_destructible<T>::value] is [`true] and the indicated destructor
+    is known to be trivial.
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T, class... Args> [br]
+struct is_nothrow_constructible;
+[|] [:en] [`is_constructible<T, Args...>::value] is [`true] and the variable
+    definition for [`is_constructible], as defined below, is known not to throw
+    any exceptions ([#expr.unary.noexcept]).
+[|] [:en] [`T] and all types in the parameter pack [`Args] shall be complete
+    types, (possibly cv-qualified) [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_default_constructible;
+[|] [:en] [`is_nothrow_constructible<T>::value] is [`true].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_copy_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_nothrow_constructible<T, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_move_constructible;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_nothrow_constructible<T, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T, class U> [br]
+struct is_nothrow_assignable;
+[|] [:en] [`is_assignable<T, U>::value] is [`true] and the assignment is known
+    not to throw any exceptions ([#expr.unary.noexcept]).
+[|] [:en] [`T] and [`U] shall be complete types, (possibly cv-qualified)
+    [`void], or arrays of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_copy_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_nothrow_assignable<T&, const T&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_move_assignable;
+[|] [:en] For a referenceable type [`T], the same result as
+    [`is_nothrow_assignable<T&, T&&>::value], otherwise [`false].
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct is_nothrow_destructible;
+[|] [:en] [`is_destructible<T>::value] is [`true] and the indicated destructor
+    is known not to throw any exceptions ([#expr.unary.noexcept]).
+[|] [:en] [`T] shall be a complete type, (possibly cv-qualified) void, or an
+    array of unknown bound.
+
+[|]
+template <class T> [br]
+struct has_virtual_destructor;
+[|] [:en] [`T] has a virtual destructor ([#class.dtor])
+[|] [:en] If [`T] is a non-union class type, [`T] shall be a complete type.
+
+[table:end]
+
+[para]
+[enter:example]
+[codeblock]
+is_const<const volatile int>::value     // [:en] true
+is_const<const int*>::value             // [:en] false
+is_const<const int&>::value             // [:en] false
+is_const<int[3]>::value                 // [:en] false
+is_const<const int[3]>::value           // [:en] true
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[codeblock]
+remove_const_t<const volatile int>  // [`volatile int]
+remove_const_t<const int* const>    // [`const int*]
+remove_const_t<const int&>          // [`const int&]
+remove_const_t<const int[3]>        // [`int[3`]]
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[codeblock]
+// [:en] Given:
+struct P final { };
+union U1 { };
+union U2 final { };
+
+// [:en] the following assertions hold:
+static_assert(!is_final<int>::value, "Error!");
+static_assert( is_final<P>::value, "Error!");
+static_assert(!is_final<U1>::value, "Error!");
+static_assert( is_final<U2>::value, "Error!");
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Given the following function declaration:
+
+[codeblock:notation]
+template <class T>
+  add_rvalue_reference_t<T> create() noexcept;
+[codeblock:end]
+
+[:en@~]
+the predicate condition for a template specialization
+[`is_constructible<T, Args...>] shall be satisfied if and only if the following
+variable definition would be well-formed for some invented variable [`t]:
+
+[codeblock:notation]
+T t(create<Args>()...);
+[codeblock:end]
+
+[enter:note]
+[:en]
+These tokens are never interpreted as a function declaration.
+[exit:note]
+
+[:en]
+Access checking is performed as if in a context unrelated to [`T] and any of the
+[`Args].
+
+[:en]
+Only the validity of the immediate context of the variable initialization is
+considered.
+
+[enter:note]
+[:en]
+The evaluation of the initialization can result in side effects such as the
+instantiation of class template specializations and function template
+specializations, the generation of implicitly-defined functions, and so on.
+
+[:en]
+Such side effects are not in the ["immediate context] and can result in the
+program being ill-formed.
+[exit:note]

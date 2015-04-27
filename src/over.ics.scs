@@ -77,33 +77,33 @@ otherwise, the sequence has Exact Match rank.
                         [|]
 [|] [:en] Lvalue-to-rvalue conversion
         [|@rowspan=3 ] [:en] Lvalue Transformation
-                [|:~]   [|] [#conv.lval]
+                        [|] [#conv.lval]
 
 [|] [:en] Array-to-pointer conversion
-        [|:~]   [|:~]   [|] [#conv.array]
+                        [|] [#conv.array]
 [|] [:en] Function-to-pointer conversion
-        [|:~]   [|:~]   [|] [#conv.func]
+                        [|] [#conv.func]
 [|] [:en] Qualification conversions
         [|] [:en] Qualification Adjustment
-                [|:~]   [|] [#conv.qual]
+                        [|] [#conv.qual]
 [|] [:en] Integral promotions
         [|@rowspan=2 ] [:en] Promotion
                 [|@rowspan=2 ] [:en] Promotion
                         [|] [#conv.prom]
 [|] [:en] Floating point promotion
-        [|:~]   [|:~]   [|] [#conv.fpprom]
+                        [|] [#conv.fpprom]
 [|] [:en] Integral conversions
         [|@rowspan=6 ] [:en] Conversion
                 [|@rowspan=6 ] [:en] Conversion
                         [|] [#conv.conv.integral]
 [|] [:en] Floating point conversions
-        [|:~]   [|:~]   [|] [#conv.double]
+                        [|] [#conv.double]
 [|] [:en] Floating-integral conversions
-        [|:~]   [|:~]   [|] [#conv.fpint]
+                        [|] [#conv.fpint]
 [|] [:en] Pointer conversions
-        [|:~]   [|:~]   [|] [#conv.ptr]
+                        [|] [#conv.ptr]
 [|] [:en] Pointer to member conversions
-        [|:~]   [|:~]   [|] [#conv.mem]
+                        [|] [#conv.mem]
 [|] [:en] Boolean conversions
-        [|:~]   [|:~]   [|] [#conv.bool]
+                        [|] [#conv.bool]
 [table:end]

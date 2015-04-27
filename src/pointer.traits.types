@@ -1,0 +1,44 @@
+﻿[section#pointer.traits.types
+    [:en] Pointer traits member types
+]
+
+[%@library pointer_traits[!element_type]]
+[%@library element_type[!pointer_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] element_type;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Ptr::element_type] if the [~qualified-id] [`Ptr::element_type] is valid
+and denotes a type ([#temp.deduct]); otherwise, [`T] if [`Ptr] is a class
+template instantiation of the form [`SomePointer<T, Args>], where [`Args] is
+zero or more type arguments; otherwise, the specialization is ill-formed.
+[exit:description]
+
+[%@library pointer_traits[!difference_type]]
+[%@library difference_type[!pointer_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] difference_type;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Ptr::difference_type] if the [~qualified-id] [`Ptr::difference_type] is
+valid and denotes a type ([#temp.deduct]); otherwise, [`std::ptrdiff_t].
+[exit:description]
+
+[%@library pointer_traits[!rebind]]
+[%@library rebind[!pointer_traits]]
+[codeblock:declaration]
+template <class U> using rebind = [=Seebelow];
+[codeblock:end]
+
+[enter:description]
+[para:templalias]
+[:en] [`Ptr::rebind<U>] if the [~qualified-id] [`Ptr::rebind<U>] is valid and
+denotes a type ([#temp.deduct]); otherwise, [`SomePointer<U, Args>] if [`Ptr] is
+a class template instantiation of the form [`SomePointer<T, Args>], where
+[`Args] is zero or more type arguments; otherwise, the instantiation of
+[`rebind] is ill-formed.
+[exit:description]

@@ -1,0 +1,18 @@
+﻿[section#unique.ptr.runtime.observers
+    [:en] [`unique_ptr] observers
+]
+
+[%@library operator['][!unique_ptr]]
+[%@library unique_ptr[!operator[']]]
+[codeblock:declaration]
+T& operator[](size_t i) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`i <] the number of elements in the array to which the stored pointer
+points.
+
+[para:returns]
+[:en] [`get()[i]].
+[exit:description]

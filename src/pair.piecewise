@@ -1,0 +1,20 @@
+﻿[section#pair.piecewise
+    [:en] Piecewise construction
+]
+
+[%@library piecewise_construct_t]
+[%@library piecewise_construct]
+[codeblock:declaration]
+struct piecewise_construct_t { };
+constexpr piecewise_construct_t piecewise_construct{};
+[codeblock:end]
+
+[para]
+[:en]
+The [`struct piecewise_construct_t] is an empty structure type used as a unique
+type to disambiguate constructor and function overloading.
+
+[:en]
+Specifically, [`pair] has a constructor with [`piecewise_construct_t] as the
+first argument, immediately followed by two [`tuple] ([#tuple]) arguments used
+for piecewise construction of the elements of the [`pair] object.

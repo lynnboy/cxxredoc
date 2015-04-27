@@ -1,0 +1,187 @@
+﻿[section#arithmetic.operations
+    [:en] Arithmetic operations
+]
+
+[para]
+[:en]
+The library provides basic function object classes for all of the arithmetic
+operators in the language ([#expr.mul], [#expr.add]).
+
+[%@library plus]
+[codeblock:declaration]
+template <class T = void> struct plus {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x + y].
+[exit:description]
+
+[%@library minus]
+[codeblock:declaration]
+template <class T = void> struct minus {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x - y].
+[exit:description]
+
+[%@library multiplies]
+[codeblock:declaration]
+template <class T = void> struct multiplies {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x * y].
+[exit:description]
+
+[%@library divides]
+[codeblock:declaration]
+template <class T = void> struct divides {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x / y].
+[exit:description]
+
+[%@library modulus]
+[codeblock:declaration]
+template <class T = void> struct modulus {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x % y].
+[exit:description]
+
+[%@library negate]
+[codeblock:declaration]
+template <class T = void> struct negate {
+  constexpr T operator()(const T& x) const;
+  typedef T argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`-x].
+[exit:description]
+
+[%@library plus<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct plus<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) + std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) + std::forward<U>(u)].
+[exit:description]
+
+[%@library minus<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct minus<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) - std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) - std::forward<U>(u)].
+[exit:description]
+
+[%@library multiplies<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct multiplies<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) * std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) * std::forward<U>(u)].
+[exit:description]
+
+[%@library divides<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct divides<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) / std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) / std::forward<U>(u)].
+[exit:description]
+
+[%@library modulus<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct modulus<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) % std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) % std::forward<U>(u)].
+[exit:description]
+
+[%@library negate<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct negate<void> {
+  template <class T> constexpr auto operator()(T&& t) const
+    -> decltype(-std::forward<T>(t));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`-std::forward<T>(t)].
+[exit:description]

@@ -1,0 +1,147 @@
+﻿[section#allocator.traits.types
+    [:en] Allocator traits member types
+]
+
+[%@library allocator_traits[!pointer]]
+[%@library pointer[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] pointer;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::pointer] if the [~qualified-id] [`Alloc::pointer] is valid and
+denotes a type ([#temp.deduct]); otherwise, [`value_type*].
+[exit:description]
+
+[%@library allocator_traits[!const_pointer]]
+[%@library const_pointer[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] const_pointer;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::const_pointer] if the [~qualified-id] [`Alloc::const_pointer] is
+valid and denotes a type ([#temp.deduct]); otherwise,
+[`pointer_traits<pointer>::rebind<const value_type>].
+[exit:description]
+
+[%@library allocator_traits[!void_pointer]]
+[%@library void_pointer[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] void_pointer;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::void_pointer] if the [~qualified-id] [`Alloc::void_pointer] is
+valid and denotes a type ([#temp.deduct]); otherwise,
+[`pointer_traits<pointer>::rebind<void>].
+[exit:description]
+
+[%@library allocator_traits[!const_void_pointer]]
+[%@library const_void_pointer[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] const_void_pointer;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::const_void_pointer] if the [~qualified-id]
+[`Alloc::const_void_pointer] is valid and denotes a type ([#temp.deduct]);
+otherwise, [`pointer_traits<pointer>::rebind<const void>].
+[exit:description]
+
+[%@library allocator_traits[!difference_type]]
+[%@library difference_type[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] difference_type;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::difference_type] if the [~qualified-id] [`Alloc::difference_type]
+is valid and denotes a type ([#temp.deduct]); otherwise,
+[`pointer_traits<pointer>::difference_type].
+[exit:description]
+
+[%@library allocator_traits[!size_type]]
+[%@library size_type[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] size_type;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::size_type] if the [~qualified-id] [`Alloc::size_type] is valid
+and denotes a type ([#temp.deduct]); otherwise,
+[`make_unsigned_t<difference_type>].
+[exit:description]
+
+[%@library allocator_traits[!propagate_on_container_copy_assignment]]
+[%@library propagate_on_container_copy_assignment[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_copy_assignment;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::propagate_on_container_copy_assignment] if the [~qualified-id]
+[`Alloc::propagate_on_container_copy_assignment] is valid and denotes a type
+([#temp.deduct]); otherwise [`false_type].
+[exit:description]
+
+[%@library allocator_traits[!propagate_on_container_move_assignment]]
+[%@library propagate_on_container_move_assignment[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_move_assignment;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::propagate_on_container_move_assignment] if the [~qualified-id]
+[`Alloc::propagate_on_container_move_assignment] is valid and denotes a type
+([#temp.deduct]); otherwise [`false_type].
+[exit:description]
+
+[%@library allocator_traits[!propagate_on_container_swap]]
+[%@library propagate_on_container_swap[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_swap;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::propagate_on_container_swap] if the [~qualified-id]
+[`Alloc::propagate_on_container_swap] is valid and denotes a type
+([#temp.deduct]); otherwise [`false_type].
+[exit:description]
+
+[%@library allocator_traits[!is_always_equal]]
+[%@library is_always_equal[!allocator_traits]]
+[codeblock:declaration]
+typedef [=Seebelow] is_always_equal;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`Alloc::is_always_equal] if the [~qualified-id] [`Alloc::is_always_equal]
+is valid and denotes a type ([#temp.deduct]); otherwise
+[`is_empty<Alloc>::type].
+[exit:description]
+
+[%@library allocator_traits[!rebind_alloc]]
+[%@library rebind_alloc[!allocator_traits]]
+[codeblock:declaration]
+template <class T> using rebind_alloc = [=Seebelow];
+[codeblock:end]
+
+[enter:description]
+[para:templalias]
+[:en] [`Alloc::rebind<T>::other] if the [~qualified-id]
+[`Alloc::rebind<T>::other] is valid and denotes a type ([#temp.deduct]);
+otherwise, [`Alloc<T, Args>] if [`Alloc] is a class template instantiation of
+the form [`Alloc<U, Args>], where [`Args] is zero or more type arguments;
+otherwise, the instantiation of [`rebind_alloc] is ill-formed.
+[exit:description]

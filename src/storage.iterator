@@ -1,0 +1,90 @@
+﻿[section#storage.iterator
+    [:en] Raw storage iterator
+]
+
+[para]
+[:en]
+[`raw_storage_iterator] is provided to enable algorithms to store their results
+into uninitialized memory.
+
+[:en]
+The template parameter [`OutputIterator] is required to have its [`operator*]
+return an object for which [`operator&] is defined and returns a pointer to
+[`T], and is also required to satisfy the requirements of an output iterator
+([#output.iterators]).
+
+[codeblock:synopsis]
+namespace std {
+  template <class OutputIterator, class T>
+  class raw_storage_iterator
+    : public iterator<output_iterator_tag,void,void,void,void> {
+  public:
+    explicit raw_storage_iterator(OutputIterator x);
+
+    raw_storage_iterator& operator*();
+    raw_storage_iterator& operator=(const T& element);
+    raw_storage_iterator& operator++();
+    raw_storage_iterator  operator++(int);
+  };
+}
+[codeblock:end]
+
+[%@library [:en] raw_storage_iterator[!constructor]]
+[codeblock:declaration]
+explicit raw_storage_iterator(OutputIterator x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes the iterator to point to the same value to which [`x] points.
+[exit:description]
+
+[%@library operator*[!raw_storage_iterator]]
+[%@library raw_storage_iterator[!operator*]]
+[codeblock:declaration]
+raw_storage_iterator& operator*();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library operator=[!raw_storage_iterator]]
+[%@library raw_storage_iterator[!operator=]]
+[codeblock:declaration]
+raw_storage_iterator& operator=(const T& element);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a value from [`element] at the location to which the iterator
+points.
+
+[para:returns]
+[:en] A reference to the iterator.
+[exit:description]
+
+[%@library operator++[!raw_storage_iterator]]
+[%@library raw_storage_iterator[!operator++]]
+[codeblock:declaration]
+raw_storage_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Pre-increment: advances the iterator and returns a reference to the
+updated iterator.
+[exit:description]
+
+[%@library operator++[!raw_storage_iterator]]
+[%@library raw_storage_iterator[!operator++]]
+[codeblock:declaration]
+raw_storage_iterator operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Post-increment: advances the iterator and returns the old value of the
+iterator.
+[exit:description]

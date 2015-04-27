@@ -1,0 +1,87 @@
+﻿[section#tuple.tuple
+    [:en] Class template [`tuple]
+]
+
+[%@library tuple]
+[codeblock:synopsis]
+namespace std {
+  template <class... Types>
+  class tuple  {
+  public:
+
+    // [:en] [#tuple.cnstr], [`tuple] construction
+    constexpr tuple();
+    constexpr explicit tuple(const Types&...);
+    template <class... UTypes>
+      constexpr explicit tuple(UTypes&&...);
+
+    tuple(const tuple&) = default;
+    tuple(tuple&&) = default;
+
+    template <class... UTypes>
+      constexpr tuple(const tuple<UTypes...>&);
+    template <class... UTypes>
+      constexpr tuple(tuple<UTypes...>&&);
+
+    template <class U1, class U2>
+      constexpr tuple(const pair<U1, U2>&);       // [:en] only if [`sizeof...(Types) == 2]
+    template <class U1, class U2>
+      constexpr tuple(pair<U1, U2>&&);            // [:en] only if [`sizeof...(Types) == 2]
+
+    // [:en] allocator-extended constructors
+    template <class Alloc>
+      tuple(allocator_arg_t, const Alloc& a);
+    template <class Alloc>
+      tuple(allocator_arg_t, const Alloc& a, const Types&...);
+    template <class Alloc, class... UTypes>
+      tuple(allocator_arg_t, const Alloc& a, UTypes&&...);
+    template <class Alloc>
+      tuple(allocator_arg_t, const Alloc& a, const tuple&);
+    template <class Alloc>
+      tuple(allocator_arg_t, const Alloc& a, tuple&&);
+    template <class Alloc, class... UTypes>
+      tuple(allocator_arg_t, const Alloc& a, const tuple<UTypes...>&);
+    template <class Alloc, class... UTypes>
+      tuple(allocator_arg_t, const Alloc& a, tuple<UTypes...>&&);
+    template <class Alloc, class U1, class U2>
+      tuple(allocator_arg_t, const Alloc& a, const pair<U1, U2>&);
+    template <class Alloc, class U1, class U2>
+      tuple(allocator_arg_t, const Alloc& a, pair<U1, U2>&&);
+
+    // [:en] [#tuple.assign], [`tuple] assignment
+    tuple& operator=(const tuple&);
+    tuple& operator=(tuple&&) noexcept([=Seebelow]);
+
+    template <class... UTypes>
+      tuple& operator=(const tuple<UTypes...>&);
+    template <class... UTypes>
+      tuple& operator=(tuple<UTypes...>&&);
+
+    template <class U1, class U2>
+      tuple& operator=(const pair<U1, U2>&);    // [:en] only if [`sizeof...(Types) == 2]
+    template <class U1, class U2>
+      tuple& operator=(pair<U1, U2>&&);         // [:en] only if [`sizeof...(Types) == 2]
+
+    // [:en] [#tuple.swap], [`tuple] swap
+    void swap(tuple&) noexcept(@\seebelow@);
+  };
+}
+[codeblock:end]
+
+[include tuple.cnstr]
+
+[include tuple.assign]
+
+[include tuple.swap]
+
+[include tuple.creation]
+
+[include tuple.helper]
+
+[include tuple.elem]
+
+[include tuple.rel]
+
+[include tuple.traits]
+
+[include tuple.special]

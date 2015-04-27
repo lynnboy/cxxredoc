@@ -1,0 +1,40 @@
+﻿[section#utility.swap
+    [:en] swap
+]
+
+[%@library swap]
+[codeblock:declaration]
+template<class T> void swap(T& a, T& b) noexcept([=Seebelow]);
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The expression inside [`noexcept] is equivalent to:
+
+[codeblock]
+is_nothrow_move_constructible<T>::value &&
+is_nothrow_move_assignable<T>::value
+[codeblock:end]
+
+[para:requires]
+[:en] Type [`T] shall be [`MoveConstructible] (Table [#moveconstructible]) and
+[`MoveAssignable] (Table [#moveassignable]).
+
+[para:effects]
+[:en] Exchanges values stored in two locations.
+[exit:description]
+
+[%@library swap]
+[codeblock:declaration]
+template<class T, size_t N>
+  void swap(T (&a)[N], T (&b)[N]) noexcept(noexcept(swap(*a, *b)));
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`a[i`]] shall be swappable with ([#swappable.requirements]) [`b[i`]]
+for all [`i] in the range [=range[0,N)].
+
+[para:effects]
+[:en] [`swap_ranges(a, a + N, b)]
+[exit:description]

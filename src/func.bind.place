@@ -1,0 +1,31 @@
+﻿[section#func.bind.place
+    [:en] Placeholders
+]
+
+[%@library placeholders]
+[%@library _1 [sortas 1]]
+[codeblock:synopsis [special unspecified] ]
+namespace std::placeholders {
+  // [:en] M is the implementation-defined number of placeholders
+  extern unspecified _1;
+  extern unspecified _2;
+              .
+              .
+              .
+  extern unspecified _M;
+}
+[codeblock:end]
+
+[para]
+[:en]
+All placeholder types shall be [`DefaultConstructible] and [`CopyConstructible],
+and their default constructors and copy/move constructors shall not throw
+exceptions.
+
+[:en]
+It is [%@impldef assignability of placeholder objects] implementation-defined
+whether placeholder types are [`CopyAssignable].
+
+[:en]
+[`CopyAssignable] placeholders[='] copy assignment operators shall not throw
+exceptions.

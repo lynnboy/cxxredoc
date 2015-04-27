@@ -1,0 +1,112 @@
+﻿[section#tuple.elem
+    [:en] Element access
+]
+
+[%@library tuple[!get]]
+[%@library get[!tuple]]
+[codeblock:declaration]
+template <size_t I, class... Types>
+  constexpr tuple_element_t<I, tuple<Types...> >& get(tuple<Types...>& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < sizeof...(Types)].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:returns]
+[:en] A reference to the [`I]th element of [`t], where indexing is zero-based.
+[exit:description]
+
+[%@library tuple[!get]]
+[%@library get[!tuple]]
+[codeblock:declaration]
+template <size_t I, class... Types>
+  constexpr tuple_element_t<I, tuple<Types...> >&& get(tuple<Types...>&& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`return std::forward<typename tuple_element<I,
+tuple<Types...> >::type&&>(get<I>(t));]
+
+[para:realnote]
+[:en] if a [`T] in [`Types] is some reference type [`X&], the return type is
+[`X&], not [`X&&].
+
+[:en] However, if the element type is a non-reference type [`T], the return type
+is [`T&&].
+[exit:description]
+
+[%@library tuple[!get]]
+[%@library get[!tuple]]
+[codeblock:declaration]
+template <size_t I, class... Types>
+  constexpr tuple_element_t<I, tuple<Types...> > const& get(const tuple<Types...>& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < sizeof...(Types)].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:returns]
+[:en] A const reference to the [`I]th element of [`t], where indexing is
+zero-based.
+
+[para]
+[enter:note]
+[:en] Constness is shallow.
+
+[:en] If a [`T] in [`Types] is some reference type [`X&], the return type is
+[`X&], not [`const X&].
+
+[:en] However, if the element type is non-reference type [`T], the return type
+is [`const T&].
+
+[:en] This is consistent with how constness is defined to work for member
+variables of reference type.
+[exit:note]
+[exit:description]
+
+[%@library tuple[!get]]
+[%@library get[!tuple]]
+[codeblock:declaration]
+template <class T, class... Types>
+  constexpr T& get(tuple<Types...>& t) noexcept;
+template <class T, class... Types>
+  constexpr T&& get(tuple<Types...>&& t) noexcept;
+template <class T, class... Types>
+  constexpr const T& get(const tuple<Types...>& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The type [`T] occurs exactly once in [`Types...].
+
+[:en] Otherwise, the program is ill-formed.
+
+[para:returns]
+[:en] A reference to the element of [`t] corresponding to the type [`T] in
+[`Types...].
+
+[para]
+[enter:example]
+[codeblock]
+  const tuple<int, const int, double, double> t(1, 2, 3.4, 5.6);
+  const int &i1 = get<int>(t);        // [:en] OK. Not ambiguous. i1 == 1
+  const int &i2 = get<const int>(t);  // [:en] OK. Not ambiguous. i2 == 2
+  const double &d = get<double>(t);   // [:en] ERROR. ill-formed
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[para]
+[enter:note]
+[:en]
+The reason [`get] is a nonmember function is that if this functionality had been
+provided as a member function, code where the type depended on a template
+parameter would have required using the [`template] keyword.
+[exit:note]

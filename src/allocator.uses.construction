@@ -1,0 +1,37 @@
+﻿[section#allocator.uses.construction
+    [:en] uses-allocator construction
+]
+
+[para]
+[:en]
+[def Uses-allocator construction] with allocator [`Alloc] refers to the
+construction of an object [`obj] of type [`T], using constructor arguments
+[`v1, v2, ..., vN] of types [`V1, V2, ..., VN], respectively, and an allocator
+[`alloc] of type [`Alloc], according to the following rules:
+
+[list]
+[item]
+[:en] if [`uses_allocator<T, Alloc>::value] is [`false] and
+[`is_constructible<T, V1, V2, ..., VN>::value] is [`true], then [`obj] is
+initialized as [`obj(v1, v2, ..., vN)];
+
+[item]
+[:en] otherwise, if [`uses_allocator<T, Alloc>::value] is [`true] and
+[`is_constructible<T, allocator_arg_t, Alloc, V1, V2, ..., VN>::value] is
+[`true], then [`obj] is initialized as [`obj(allocator_arg, alloc, v1, v2, ...,
+vN)];
+
+[item]
+[:en] otherwise, if [`uses_allocator<T, Alloc>::value] is [`true] and
+[`is_constructible<T, V1, V2, ..., VN, Alloc>::value] is [`true], then [`obj] is
+initialized as [`obj(v1, v2, ..., vN, alloc)];
+
+[item]
+[:en] otherwise, the request for uses-allocator construction is ill-formed.
+
+[enter:note]
+[:en] An error will result if [`uses_allocator<T, Alloc>::value] is [`true] but
+the specific constructor does not take an allocator. This definition prevents a
+silent failure to pass the allocator to an element.
+[exit:note]
+[list:end]

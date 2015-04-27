@@ -1,0 +1,63 @@
+﻿[section#allocator.traits
+    [:en] Allocator traits
+]
+
+[para]
+[:en]
+The class template [`allocator_traits] supplies a uniform interface to all
+allocator types.
+
+[:en]
+An allocator cannot be a non-class type, however, even if [`allocator_traits]
+supplies the entire required interface.
+
+[enter:note]
+[:en]
+Thus, it is always possible to create a derived class from an allocator.
+[exit:note]
+
+[%@library allocator_traits]
+[codeblock:synopsis]
+namespace std {
+  template <class Alloc> struct allocator_traits {
+    typedef Alloc allocator_type;
+
+    typedef typename Alloc::value_type value_type;
+
+    typedef [=Seebelow] pointer;
+    typedef [=Seebelow] const_pointer;
+    typedef [=Seebelow] void_pointer;
+    typedef [=Seebelow] const_void_pointer;
+
+    typedef [=Seebelow] difference_type;
+    typedef [=Seebelow] size_type;
+
+    typedef [=Seebelow] propagate_on_container_copy_assignment;
+    typedef [=Seebelow] propagate_on_container_move_assignment;
+    typedef [=Seebelow] propagate_on_container_swap;
+    typedef [=Seebelow] is_always_equal;
+
+    template <class T> using rebind_alloc = [=Seebelow];
+    template <class T> using rebind_traits = allocator_traits<rebind_alloc<T> >;
+
+    static pointer allocate(Alloc& a, size_type n);
+    static pointer allocate(Alloc& a, size_type n, const_void_pointer hint);
+
+    static void deallocate(Alloc& a, pointer p, size_type n);
+
+    template <class T, class... Args>
+      static void construct(Alloc& a, T* p, Args&&... args);
+
+    template <class T>
+      static void destroy(Alloc& a, T* p);
+
+    static size_type max_size(const Alloc& a) noexcept;
+
+    static Alloc select_on_container_copy_construction(const Alloc& rhs);
+  };
+}
+[codeblock:end]
+
+[include allocator.traits.types]
+
+[include allocator.traits.members]

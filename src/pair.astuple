@@ -1,0 +1,131 @@
+﻿[section#pair.astuple
+    [:en] Tuple-like access to pair
+]
+
+[%@library tuple_size]
+[codeblock:declaration]
+template <class T1, class T2>
+struct tuple_size<pair<T1, T2>>
+  : integral_constant<size_t, 2> { };
+[codeblock:end]
+
+[%@library tuple_element]
+[codeblock:declaration]
+tuple_element<0, pair<T1, T2> >::type
+[codeblock:end]
+
+[enter:description]
+[para:value]
+[:en] the type [`T1].
+[exit:description]
+
+[%@library tuple_element]
+[codeblock:declaration]
+tuple_element<1, pair<T1, T2> >::type
+[codeblock:end]
+
+[enter:description]
+[para:value]
+[:en] the type [`T2].
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template<size_t I, class T1, class T2>
+  constexpr tuple_element_t<I, pair<T1, T2>>&
+    get(pair<T1, T2>& p) noexcept;
+template<size_t I, class T1, class T2>
+  constexpr const tuple_element_t<I, pair<T1, T2>>&
+    get(const pair<T1, T2>& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`I == 0] returns [`p.first]; if [`I == 1] returns [`p.second];
+otherwise the program is ill-formed.
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template<size_t I, class T1, class T2>
+  constexpr tuple_element_t<I, pair<T1, T2>>&&
+    get(pair<T1, T2>&& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`I == 0] returns [`std::forward<T1&&>(p.first)]; if [`I == 1] returns
+[`std::forward<T2&&>(p.second)]; otherwise the program is ill-formed.
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template <class T, class U>
+  constexpr T& get(pair<T, U>& p) noexcept;
+template <class T, class U>
+  constexpr const T& get(const pair<T, U>& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] and [`U] are distinct types.
+
+[:en] Otherwise, the program is ill-formed.
+
+[para:returns]
+[:en] [`get<0>(p);]
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template <class T, class U>
+  constexpr T&& get(pair<T, U>&& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] and [`U] are distinct types.
+
+[:en] Otherwise, the program is ill-formed.
+
+[para:returns]
+[:en] [`get<0>(std::move(p));]
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template <class T, class U>
+  constexpr T& get(pair<U, T>& p) noexcept;
+template <class T, class U>
+  constexpr const T& get(const pair<U, T>& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] and [`U] are distinct types.
+
+[:en] Otherwise, the program is ill-formed.
+
+[para:returns]
+[:en] [`get<1>(p);]
+[exit:description]
+
+[%@library pair[!get]]
+[%@library get[!pair]]
+[codeblock:declaration]
+template <class T, class U>
+  constexpr T&& get(pair<U, T>&& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] and [`U] are distinct types. Otherwise, the program is ill-formed.
+
+[para:returns]
+[:en] [`get<1>(std::move(p));]
+[exit:description]

@@ -1,0 +1,32 @@
+﻿[section#util.smartptr.shared.dest
+    [:en] [`shared_ptr] destructor
+]
+
+[%@library shared_ptr[!destructor]]
+[codeblock:declaration]
+~shared_ptr();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[list]
+[item]
+[:en] If [`*this] is [+empty] or shares ownership with another [`shared_ptr]
+instance ([`use_count() > 1]), there are no side effects.
+
+[item]
+[:en] Otherwise, if [`*this] [+owns] an object [`p] and a deleter [`d], [`d(p)]
+is called.
+
+[item]
+[:en] Otherwise, [`*this] [+owns] a pointer [`p], and [`delete p] is called.
+[list:end]
+[exit:description]
+
+[para]
+[enter:note]
+[:en] Since the destruction of [`*this] decreases the number of instances that
+share ownership with [`*this] by one, after [`*this] has been destroyed all
+[`shared_ptr] instances that shared ownership with [`*this] will report a
+[`use_count()] that is one less than its previous value.
+[exit:note]

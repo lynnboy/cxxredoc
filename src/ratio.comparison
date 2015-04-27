@@ -1,0 +1,58 @@
+﻿[section#ratio.comparison
+    [:en] Comparison of [`ratio]s
+]
+
+[%@library ratio_equal]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_equal
+  : integral_constant<bool, [=Seebelow]> { };
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] If [`R1::num == R2::num] and [`R1::den == R2::den], [`ratio_equal<R1, R2>]
+shall be derived from [`integral_constant<bool, true>]; otherwise it shall be
+derived from [`integral_constant<bool, false>].
+[exit:description]
+
+[%@library ratio_not_equal]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_not_equal
+  : integral_constant<bool, !ratio_equal<R1, R2>::value> { };
+[codeblock:end]
+
+[%@library ratio_less]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_less
+  : integral_constant<bool, [=Seebelow]> { };
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] If [`R1::num * R2::den < R2::num * R1::den], [`ratio_less<R1, R2>] shall
+be derived from [`integral_constant<bool, true>]; otherwise it shall be derived
+from [`integral_constant<bool, false>].
+
+[:en] Implementations may use other algorithms to compute this relationship to
+avoid overflow.
+
+[:en] If overflow occurs, the program is ill-formed.
+[exit:description]
+
+[%@library ratio_less_equal]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_less_equal
+  : integral_constant<bool, !ratio_less<R2, R1>::value> { };
+[codeblock:end]
+
+[%@library ratio_greater]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_greater
+  : integral_constant<bool, ratio_less<R2, R1>::value> { };
+[codeblock:end]
+
+[%@library ratio_greater_equal]
+[codeblock:declaration]
+template <class R1, class R2> struct ratio_greater_equal
+  : integral_constant<bool, !ratio_less<R1, R2>::value> { };
+[codeblock:end]

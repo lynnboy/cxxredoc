@@ -1,0 +1,118 @@
+﻿[section#func.wrap.func
+    [:en] Class template [`function]
+]
+[%@library function]
+
+[codeblock:synopsis]
+namespace std {
+  template<class> class function; // [:en] undefined
+
+  template<class R, class... ArgTypes>
+  class function<R(ArgTypes...)> {
+  public:
+    typedef R result_type;
+    typedef T1 argument_type;           // [:en] only if [`sizeof...(ArgTypes) == 1] and
+                                        // [:en@~] the type in [`ArgTypes] is [`T1]
+    typedef T1 first_argument_type;     // [:en] only if [`sizeof...(ArgTypes) == 2] and
+                                        // [:en@~] [`ArgTypes] contains [`T1] and [`T2]
+    typedef T2 second_argument_type;    // [:en] only if [`sizeof...(ArgTypes) == 2] and
+                                        // [:en@~] [`ArgTypes] contains [`T1] and [`T2]
+
+    // [:en] [#func.wrap.func.con], construct/copy/destroy:
+    function() noexcept;
+    function(nullptr_t) noexcept;
+    function(const function&);
+    function(function&&);
+    template<class F> function(F);
+    template<class A> function(allocator_arg_t, const A&) noexcept;
+    template<class A> function(allocator_arg_t, const A&,
+      nullptr_t) noexcept;
+    template<class A> function(allocator_arg_t, const A&,
+      const function&);
+    template<class A> function(allocator_arg_t, const A&,
+      function&&);
+    template<class F, class A> function(allocator_arg_t, const A&, F);
+
+    function& operator=(const function&);
+    function& operator=(function&&);
+    function& operator=(nullptr_t) noexcept;
+    template<class F> function& operator=(F&&);
+    template<class F> function& operator=(reference_wrapper<F>) noexcept;
+
+    ~function();
+
+    // [:en] [#func.wrap.func.mod], function modifiers:
+    void swap(function&) noexcept;
+    template<class F, class A> void assign(F&&, const A&);
+
+    // [:en] [#func.wrap.func.cap], function capacity:
+    explicit operator bool() const noexcept;
+
+    // [:en] [#func.wrap.func.inv], function invocation:
+    R operator()(ArgTypes...) const;
+
+    // [:en] [#func.wrap.func.targ], function target access:
+    const std::type_info& target_type() const noexcept;
+    template<class T>       T* target() noexcept;
+    template<class T> const T* target() const noexcept;
+
+  };
+
+  // [:en] [#func.wrap.func.nullptr], Null pointer comparisons:
+  template <class R, class... ArgTypes>
+    bool operator==(const function<R(ArgTypes...)>&, nullptr_t) noexcept;
+
+  template <class R, class... ArgTypes>
+    bool operator==(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
+
+  template <class R, class... ArgTypes>
+    bool operator!=(const function<R(ArgTypes...)>&, nullptr_t) noexcept;
+
+  template <class R, class... ArgTypes>
+    bool operator!=(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
+
+  // [:en] [#func.wrap.func.alg], specialized algorithms:
+  template <class R, class... ArgTypes>
+    void swap(function<R(ArgTypes...)>&, function<R(ArgTypes...)>&);
+
+  template<class R, class... ArgTypes, class Alloc>
+    struct uses_allocator<function<R(ArgTypes...)>, Alloc>
+      : true_type { };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The [`function] class template provides polymorphic wrappers that generalize the
+notion of a function pointer.
+
+[:en]
+Wrappers can store, copy, and call arbitrary callable objects ([#func.def]),
+given a call signature ([#func.def]), allowing functions to be first-class
+objects.
+
+[para]
+[:en]
+A [%callable object] callable object [`f] of type [`F] is [def Callable] for
+argument types [`ArgTypes] and return type [`R] if the expression
+[`[$INVOKE](f, declval<ArgTypes>()..., R)], considered as an unevaluated operand
+(Clause [#expr]), is well formed ([#func.require]).
+
+[para]
+[:en]
+The [`function] class template is a call wrapper ([#func.def]) whose call
+signature ([#func.def]) is [`R(ArgTypes...)].
+
+[include func.wrap.func.con]
+
+[include func.wrap.func.mod]
+
+[include func.wrap.func.cap]
+
+[include func.wrap.func.inv]
+
+[include func.wrap.func.targ]
+
+[include func.wrap.func.nullptr]
+
+[include func.wrap.func.alg]

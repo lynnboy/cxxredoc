@@ -1,0 +1,21 @@
+﻿[section#tuple.special
+    [:en] Tuple specialized algorithms
+]
+
+[%@library swap]
+[codeblock:declaration]
+template <class... Types>
+  void swap(tuple<Types...>& x, tuple<Types...>& y) noexcept(@\seebelow@);
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The expression inside [`noexcept] is equivalent to:
+
+[codeblock:notation]
+noexcept(x.swap(y))
+[codeblock:end]
+
+[para:effects]
+[:en] [`x.swap(y)]
+[exit:description]

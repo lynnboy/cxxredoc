@@ -1,0 +1,25 @@
+﻿[section#refwrap.access
+    [:en] [`reference_wrapper] access
+]
+
+[%@library operator T&[!reference_wrapper]]
+[%@library reference_wrapper[!operator T&]]
+[codeblock:declaration]
+operator T& () const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The stored reference.
+[exit:description]
+
+[%@library reference_wrapper[!get]]
+[%@library get[!reference_wrapper]]
+[codeblock:declaration]
+T& get() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The stored reference.
+[exit:description]

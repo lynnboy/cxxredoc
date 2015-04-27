@@ -1,0 +1,38 @@
+﻿[section#declval
+    [:en] Function template [`declval]
+]
+
+[para]
+[:en]
+The library provides the function template [`declval] to simplify the definition
+of expressions which occur as unevaluated operands (Clause [#expr]).
+
+[%@library declval]
+[codeblock:declaration]
+template <class T>
+  add_rvalue_reference_t<T> declval() noexcept;  // [:en] as unevaluated operand
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] If this function is odr-used ([#basic.def.odr]), the program is
+ill-formed.
+
+[para:notes]
+[:en] The template parameter [`T] of [`declval] may be an incomplete type.
+
+[para:~]
+[enter:example]
+[codeblock]
+template <class To, class From>
+  decltype(static_cast<To>(declval<From>())) convert(From&&);
+[codeblock:end]
+
+[:en@~]
+declares a function template [`convert] which only participates in overloading
+if the type [`From] can be explicitly converted to type [`To].
+
+[:en]
+For another example see class template [`common_type] ([#meta.trans.other]).
+[exit:example]
+[exit:description]

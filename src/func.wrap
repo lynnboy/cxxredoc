@@ -1,0 +1,17 @@
+﻿[section#func.wrap
+    [:en] Polymorphic function wrappers
+]
+[%:begin#function.object.wrapper
+    [:en] function object [!wrapper]
+]
+
+[para]
+[:en]
+This subclause describes a polymorphic wrapper class that encapsulates arbitrary
+callable objects.
+
+[include func.wrap.badcall]
+
+[include func.wrap.func]
+
+[%:end#function.object.wrapper]

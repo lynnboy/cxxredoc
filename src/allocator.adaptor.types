@@ -1,0 +1,69 @@
+﻿[section#allocator.adaptor.types
+    [:en] Scoped allocator adaptor member types
+]
+
+[%@library scoped_allocator_adaptor[!inner_allocator_type]]
+[%@library inner_allocator_type[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+typedef [=Seebelow] inner_allocator_type;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`scoped_allocator_adaptor<OuterAlloc>] if [`sizeof...(InnerAllocs)] is
+zero; otherwise, [`scoped_allocator_adaptor<InnerAllocs...>].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!propagate_on_container_copy_assignment]]
+[%@library propagate_on_container_copy_assignment[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_copy_assignment;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`true_type] if
+[`allocator_traits<A>::propagate_on_container_copy_assignment::value] is [`true]
+for any [`A] in the set of [`OuterAlloc] and [`InnerAllocs...]; otherwise,
+[`false_type].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!propagate_on_container_move_assignment]]
+[%@library propagate_on_container_move_assignment[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_move_assignment;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`true_type] if
+[`allocator_traits<A>::propagate_on_container_move_assignment::value] is [`true]
+for any [`A] in the set of [`OuterAlloc] and [`InnerAllocs...]; otherwise,
+[`false_type].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!propagate_on_container_swap]]
+[%@library propagate_on_container_swap[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+typedef [=Seebelow] propagate_on_container_swap;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`true_type] if [`allocator_traits<A>::propagate_on_container_swap::value]
+is [`true] for any [`A] in the set of [`OuterAlloc] and [`InnerAllocs...];
+otherwise, [`false_type].
+[exit:description]
+
+[%@library scoped_allocator_adaptor[!is_always_equal]]
+[%@library is_always_equal[!scoped_allocator_adaptor]]
+[codeblock:declaration]
+typedef [=Seebelow] is_always_equal;
+[codeblock:end]
+
+[enter:description]
+[para:ctype]
+[:en] [`true_type] if [`allocator_traits<A>::is_always_equal::value] is [`true]
+for every [`A] in the set of [`OuterAlloc] and [`InnerAllocs...]; otherwise,
+[`false_type].
+[exit:description]

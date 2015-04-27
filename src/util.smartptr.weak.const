@@ -1,0 +1,59 @@
+﻿[section#util.smartptr.weak.const
+    [:en] [`weak_ptr] constructors
+]
+
+[%@library weak_ptr[!constructor]]
+[codeblock:declaration]
+constexpr weak_ptr() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an [+empty] [`weak_ptr] object.
+
+[para:postconditions]
+[:en] [`use_count() == 0].
+[exit:description]
+
+[%@library weak_ptr[!constructor]]
+[codeblock:declaration]
+weak_ptr(const weak_ptr& r) noexcept;
+template<class Y> weak_ptr(const weak_ptr<Y>& r) noexcept;
+template<class Y> weak_ptr(const shared_ptr<Y>& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The second and third constructors shall not participate in overload
+resolution unless [`Y*] is implicitly convertible to [`T*].
+
+[para:effects]
+[:en] If [`r] is [+empty], constructs an [+empty] [`weak_ptr] object; otherwise,
+constructs a [`weak_ptr] object that [+shares ownership] with [`r] and stores a
+copy of the pointer stored in [`r].
+
+[para:postconditions]
+[:en] [`use_count() == r.use_count()].
+[exit:description]
+
+[%@library weak_ptr[!constructor]]
+[codeblock:declaration]
+weak_ptr(weak_ptr&& r) noexcept;
+template<class Y> weak_ptr(weak_ptr<Y>&& r) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:remark]
+[:en] The second constructor shall not participate in overload resolution unless
+[`Y*] is implicitly convertible to [`T*].
+
+[para:effects]
+[:en] Move-constructs a [`weak_ptr] instance from [`r].
+
+[para:postconditions]
+[:en] [`*this] shall contain the old value of [`r].
+
+[:en] [`r] shall be [+empty].
+
+[:en] [`r.use_count() == 0].
+[exit:description]

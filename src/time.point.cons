@@ -1,0 +1,44 @@
+﻿[section#time.point.cons
+    [:en] [`time_point] constructors
+]
+
+[%@library time_point[![:en]constructor]]
+[codeblock:declaration]
+constexpr time_point();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`time_point], initializing [`d_] with
+[`duration::zero()].
+
+[:en] Such a [`time_point] object represents the epoch.
+[exit:description]
+
+[%@library time_point[!constructor]]
+[codeblock:declaration]
+constexpr explicit time_point(const duration& d);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`time_point], initializing [`d_] with [`d].
+
+[:en] Such a [`time_point] object represents the epoch [`+ d].
+[exit:description]
+
+[%@library time_point[!constructor]]
+[codeblock:declaration]
+template <class Duration2>
+  constexpr time_point(const time_point<clock, Duration2>& t);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution unless
+[`Duration2] is implicitly convertible to [`duration].
+
+[para:effects]
+[:en] Constructs an object of type [`time_point], initializing [`d_] with
+[`t.time_since_epoch()].
+[exit:description]

@@ -1,0 +1,98 @@
+﻿[section#func.require
+    [:en] Requirements
+]
+
+[para]
+[%@library@it INVOKE]
+[:en]
+Define [`[$INVOKE](f, t1, t2, ..., tN)] as follows:
+
+[list]
+[item]
+[:en] [`(t1.*f)(t2, ..., tN)] when [`f] is a pointer to a member function of a
+class [`T] and [`t1] is an object of type [`T] or a reference to an object of
+type [`T] or a reference to an object of a type derived from [`T];
+
+[item]
+[:en] [`((*t1).*f)(t2, ..., tN)] when [`f] is a pointer to a member function of
+a class [`T] and [`t1] is not one of the types described in the previous item;
+
+[item]
+[:en] [`t1.*f] when [`N == 1] and [`f] is a pointer to member data of a class
+[`T] and [`t1] is an object of type [`T] or a reference to an object of type
+[`T] or a reference to an object of a type derived from [`T];
+
+[item]
+[:en] [`(*t1).*f] when [`N == 1] and [`f] is a pointer to member data of a class
+[`T] and [`t1] is not one of the types described in the previous item;
+
+[item]
+[:en] [`f(t1, t2, ..., tN)] in all other cases.
+[list:end]
+
+[para]
+[%@library@it INVOKE]
+[:en]
+Define [`[$INVOKE](f, t1, t2, ..., tN, R)] as [`[$INVOKE](f, t1, t2, ..., tN)]
+implicitly converted to [`R].
+
+[para]
+[:en]
+[%weak result type]
+[%call wrapper]
+[%target object]
+If a call wrapper ([#func.def]) has a [+weak result type] the type of its member
+type [`result_type] is based on the type [`T] of the wrapper[=']s target object
+([#func.def]):
+
+[list]
+[item]
+[:en] if [`T] is a pointer to function type, [`result_type] shall be a synonym
+for the return type of [`T];
+
+[item]
+[:en] if [`T] is a pointer to member function, [`result_type] shall be a synonym
+for the return type of [`T];
+
+[item]
+[:en] if [`T] is a class type and the [~qualified-id] [`T::result_type] is valid
+and denotes a type ([#temp.deduct]), then [`result_type] shall be a synonym for
+[`T::result_type];
+
+[item]
+[:en] otherwise [`result_type] shall not be defined.
+[list:end]
+
+[para]
+[:en]
+[%call wrapper]
+[%call wrapper[!simple]]
+[%call wrapper[!forwarding]]
+[%simple call wrapper]
+[%forwarding call wrapper]
+Every call wrapper ([#func.def]) shall be [`MoveConstructible].
+
+[:en]
+A [+simple call wrapper] is a call wrapper that is [`CopyConstructible] and
+[`CopyAssignable] and whose copy constructor, move constructor, and assignment
+operator do not throw exceptions.
+
+[:en]
+A [+forwarding call wrapper] is a call wrapper that can be called with an
+arbitrary argument list and delivers the arguments to the wrapped callable
+object as references.
+
+[:en]
+This forwarding step shall ensure that rvalue arguments are delivered as rvalue
+references and lvalue arguments are delivered as lvalue references.
+
+[enter:note]
+[:en]
+In a typical implementation forwarding call wrappers have an overloaded function
+call operator of the form
+
+[codeblock:notation]
+template<class... UnBoundArgs>
+R operator()(UnBoundArgs&&... unbound_args) [$cv-qual];
+[codeblock:end]
+[exit:note]

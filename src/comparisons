@@ -1,0 +1,194 @@
+﻿[section#comparisons
+    [:en] Comparisons
+]
+
+[para]
+[:en]
+The library provides basic function object classes for all of the comparison
+operators in the language ([#expr.rel], [#expr.eq]).
+
+[%@library equal_to]
+[codeblock:declaration]
+template <class T = void> struct equal_to {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x == y].
+[exit:description]
+
+[%@library not_equal_to]
+[codeblock:declaration]
+template <class T = void> struct not_equal_to {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x != y].
+[exit:description]
+
+[%@library greater]
+[codeblock:declaration]
+template <class T = void> struct greater {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x > y].
+[exit:description]
+
+[%@library less]
+[codeblock:declaration]
+template <class T = void> struct less {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x < y].
+[exit:description]
+
+[%@library greater_equal]
+[codeblock:declaration]
+template <class T = void> struct greater_equal {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x >= y].
+[exit:description]
+
+[%@library less_equal]
+[codeblock:declaration]
+template <class T = void> struct less_equal {
+  constexpr bool operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef bool result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x <= y].
+[exit:description]
+
+[%@library equal_to<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct equal_to<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) == std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) == std::forward<U>(u)].
+[exit:description]
+
+[%@library not_equal_to<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct not_equal_to<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) != std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) != std::forward<U>(u)].
+[exit:description]
+
+[%@library greater<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct greater<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) > std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) > std::forward<U>(u)].
+[exit:description]
+
+[%@library less<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct less<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) < std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) < std::forward<U>(u)].
+[exit:description]
+
+[%@library greater_equal<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct greater_equal<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) >= std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) >= std::forward<U>(u)].
+[exit:description]
+
+[%@library less_equal<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct less_equal<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) <= std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) <= std::forward<U>(u)].
+[exit:description]
+
+[para]
+[:en]
+For templates [`greater], [`less], [`greater_equal], and [`less_equal], the
+specializations for any pointer type yield a total order, even if the built-in
+operators [`<], [`>], [`<=], [`>=] do not.

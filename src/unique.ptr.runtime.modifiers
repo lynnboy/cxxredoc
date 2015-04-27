@@ -1,0 +1,35 @@
+﻿[section#unique.ptr.runtime.modifiers
+    [:en] [`unique_ptr] modifiers
+]
+
+[%@library reset[!unique_ptr]]
+[%@library unique_ptr[!reset]]
+[codeblock:declaration]
+void reset(nullptr_t p = nullptr) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`reset(pointer())].
+[exit:description]
+
+[%@library reset[!unique_ptr]]
+[%@library unique_ptr[!reset]]
+[codeblock:declaration]
+template <class U> void reset(U p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+This function behaves the same as the [`reset] member of the primary template,
+except that it shall not participate in overload resolution unless either
+
+[list]
+[item]
+[:en] [`U] is the same type as [`pointer], or
+[item]
+[:en] [`pointer] is the same type as [`element_type*], [`U] is a pointer type
+[`V*], and [`V(*)[`]] is convertible to [`element_type(*)[`]].
+[list:end]
+[exit:description]

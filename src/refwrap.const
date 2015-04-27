@@ -1,0 +1,24 @@
+﻿[section#refwrap.const
+    [:en] [`reference_wrapper] construct/copy/destroy
+]
+
+[%@library reference_wrapper[!reference_wrapper]]
+[codeblock:declaration]
+reference_wrapper(T& t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`reference_wrapper] object that stores a reference to [`t].
+[exit:description]
+
+[%@library reference_wrapper[!reference_wrapper]]
+[codeblock:declaration]
+reference_wrapper(const reference_wrapper& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`reference_wrapper] object that stores a reference to
+[`x.get()].
+[exit:description]

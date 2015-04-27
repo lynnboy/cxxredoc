@@ -1,0 +1,69 @@
+﻿[section#unique.ptr.single.observers
+    [:en] [`unique_ptr] observers
+]
+
+[%@library operator*[!unique_ptr]]
+[%@library unique_ptr[!operator*]]
+[codeblock:declaration]
+add_lvalue_reference_t<T> operator*() const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`get() != nullptr].
+
+[para:returns]
+[:en] [`*get()].
+
+[exit:description]
+
+[%@library operator->[!unique_ptr]]
+[%@library unique_ptr[!operator->]]
+[codeblock:declaration]
+pointer operator->() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`get() != nullptr].
+
+[para:returns]
+[:en] [`get()].
+
+[para:realnote]
+[:en] use typically requires that [`T] be a complete type.
+[exit:description]
+
+[%@library get[!unique_ptr]]
+[%@library unique_ptr[!get]]
+[codeblock:declaration]
+pointer get() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The stored pointer.
+[exit:description]
+
+[%@library get_deleter[!unique_ptr]]
+[%@library unique_ptr[!get_deleter]]
+[codeblock:declaration]
+deleter_type& get_deleter() noexcept;
+const deleter_type& get_deleter() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to the stored deleter.
+[exit:description]
+
+[%@library operator bool[!unique_ptr]]
+[%@library unique_ptr[!operator bool]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`get() != nullptr].
+[exit:description]

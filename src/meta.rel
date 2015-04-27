@@ -1,0 +1,123 @@
+﻿[section#meta.rel
+    [:en] Relationships between types
+]
+
+[para]
+[:en]
+This sub-clause contains templates that may be used to query relationships
+between types at compile time.
+
+[para]
+[:en]
+Each of these templates shall be a BinaryTypeTrait ([#meta.rqmts]) with a
+BaseCharacteristic of [`true_type] if the corresponding condition is true,
+otherwise [`false_type].
+
+[table:listing#tab:type-traits.relationship
+    [:en] Type relationship predicates
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T, class U> [br]
+struct is_same;
+[|] [:en] [`T] and [`U] name the same type with the same cv-qualifications
+[|]
+
+[|]
+template <class Base, class Derived> [br]
+struct is_base_of;
+[|] [:en] [`Base] is a base class of [`Derived] (Clause [#class.derived])
+    without regard to cv-qualifiers or [`Base] and [`Derived] are not unions and
+    name the same class type without regard to cv-qualifiers
+[|] [:en] If [`Base] and [`Derived] are non-union class types and are different
+    types (ignoring possible cv-qualifiers) then [`Derived] shall be a complete
+    type.
+    [enter:note]
+    [:en] Base classes that are private, protected, or ambiguous are,
+    nonetheless, base classes.
+    [exit:note]
+
+[|]
+template <class From, class To> [br]
+struct is_convertible;
+[|] [=Seebelow]
+[|] [:en] [`From] and [`To] shall be complete types, arrays of unknown bound, or
+    (possibly cv-qualified) [`void] types.
+
+[table:end]
+
+[para]
+[enter:example]
+[codeblock]
+struct B {};
+struct B1 : B {};
+struct B2 : B {};
+struct D : private B1, private B2 {};
+
+is_base_of<B, D>::value         // [:en] true
+is_base_of<const B, D>::value   // [:en] true
+is_base_of<B, const D>::value   // [:en] true
+is_base_of<B, const B>::value   // [:en] true
+is_base_of<D, B>::value         // [:en] false
+is_base_of<B&, D&>::value       // [:en] false
+is_base_of<B[3], D[3]>::value   // [:en] false
+is_base_of<int, int>::value     // [:en] false
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en]
+Given the following function declaration:
+
+[codeblock]
+template <class T>
+  add_rvalue_reference_t<T> create() noexcept;
+[codeblock:end]
+
+[:en@~]
+the predicate condition for a template specialization [`is_convertible<From,
+To>] shall be satisfied if and only if the return expression in the following
+code would be well-formed, including any implicit conversions to the return type
+of the function:
+
+[codeblock]
+To test() {
+  return create<From>();
+}
+[codeblock:end]
+
+[enter:note]
+[:en]
+This requirement gives well defined results for reference types, void types,
+array types, and function types.
+[exit:note]
+
+[:en]
+Access checking is performed as if in a context unrelated to [`To] and [`From].
+
+[:en]
+Only the validity of the immediate context of the expression of the
+[~return-statement] (including conversions to the return type) is considered.
+
+[enter:note]
+[:en]
+The evaluation of the conversion can result in side effects such as the
+instantiation of class template specializations and function template
+specializations, the generation of implicitly-defined functions, and so on.
+
+[:en]
+Such side effects are not in the ["immediate context] and can result in the
+program being ill-formed.
+[exit:note]

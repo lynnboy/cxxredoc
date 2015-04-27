@@ -1,0 +1,121 @@
+﻿[section#util.smartptr.shared.obs
+    [:en] [`shared_ptr] observers
+]
+
+[%@library shared_ptr[!get]]
+[%@library get[!shared_ptr]]
+[codeblock:declaration]
+T* get() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] the stored pointer.
+[exit:description]
+
+[%@library shared_ptr[!operator*]]
+[%@library operator*[!shared_ptr]]
+[codeblock:declaration]
+T& operator*() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`get() != 0].
+
+[para:returns]
+[:en] [`*get()].
+
+[para:notes]
+[:en] When [`T] is [`void], it is unspecified whether this member function is
+declared.
+
+[:en] If it is declared, it is unspecified what its return type is, except that
+the declaration (although not necessarily the definition) of the function shall
+be well formed.
+[exit:description]
+
+[%@library shared_ptr[!operator->]]
+[%@library operator->[!shared_ptr]]
+[codeblock:declaration]
+T* operator->() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`get() != 0].
+
+[para:returns]
+[:en] [`get()].
+[exit:description]
+
+[%@library shared_ptr[!use_count]]
+[%@library use_count[!shared_ptr]]
+[codeblock:declaration]
+long use_count() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] the number of [`shared_ptr] objects, [`*this] included, that [+share
+ownership] with [`*this], or [`0] when [`*this] is [+empty].
+
+[para]
+[enter:note]
+[:en] [`use_count()] is not necessarily efficient.
+[exit:note]
+[exit:description]
+
+[%@library shared_ptr[!unique}]]
+[%@library unique[!shared_ptr]]
+[codeblock:declaration]
+bool unique() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_count() == 1].
+
+[para]
+[enter:note]
+[:en] [`unique()] may be faster than [`use_count()].
+
+[:en] If you are using [`unique()] to implement copy on write, do not rely on a
+specific value when [`get() == nullptr].
+[exit:note]
+[exit:description]
+
+[%@library operator bool[!shared_ptr]]
+[%@library shared_ptr[!operator bool]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`get() != 0].
+[exit:description]
+
+[%@library owner_before[!shared_ptr]]
+[%@library shared_ptr[!owner_before]]
+[codeblock:declaration]
+template<class U> bool owner_before(shared_ptr<U> const& b) const;
+template<class U> bool owner_before(weak_ptr<U> const& b) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An unspecified value such that
+
+[list]
+[item]
+[:en] [`x.owner_before(y)] defines a strict weak ordering as defined in
+[#alg.sorting];
+
+[item]
+[:en] under the equivalence relation defined by [`owner_before],
+[`!a.owner_before(b) && !b.owner_before(a)], two [`shared_ptr] or [`weak_ptr]
+instances are equivalent if and only if they share ownership or are both empty.
+[list:end]
+
+[exit:description]

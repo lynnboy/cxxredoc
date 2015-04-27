@@ -1,0 +1,43 @@
+﻿[section#uninitialized.copy
+    [:en] [`uninitialized_copy]
+]
+
+[%@library uninitialized_copy]
+[codeblock:declaration]
+template <class InputIterator, class ForwardIterator>
+  ForwardIterator uninitialized_copy(InputIterator first, InputIterator last,
+                                     ForwardIterator result);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+for (; first != last; ++result, ++first)
+  ::new (static_cast<void*>(&*result))
+    typename iterator_traits<ForwardIterator>::value_type(*first);
+[codeblock:end]
+
+[para:returns]
+[:en] [`result]
+[exit:description]
+
+[%@library uninitialized_copy_n]
+[codeblock:declaration]
+template <class InputIterator, class Size, class ForwardIterator>
+  ForwardIterator uninitialized_copy_n(InputIterator first, Size n,
+                                       ForwardIterator result);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+
+[codeblock:notation]
+for ( ; n > 0; ++result, ++first, --n) {
+  ::new (static_cast<void*>(&*result))
+    typename iterator_traits<ForwardIterator>::value_type(*first);
+}
+[codeblock:end]
+
+[para:returns]
+[:en] [`result]
+[exit:description]

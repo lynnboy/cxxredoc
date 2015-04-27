@@ -1,0 +1,55 @@
+﻿[section#util.smartptr.shared.create
+    [:en] [`shared_ptr] creation
+]
+
+[%@library make_shared]
+[%@library allocate_shared]
+[codeblock:declaration]
+template<class T, class... Args> shared_ptr<T> make_shared(Args&&... args);
+template<class T, class A, class... Args>
+  shared_ptr<T> allocate_shared(const A& a, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`::new (pv) T(std::forward<Args>(args)...)], where [`pv]
+has type [`void*] and points to storage suitable to hold an object of type [`T],
+shall be well formed.
+
+[:en] [`A] shall be an [+allocator] ([#allocator.requirements]).
+
+[:en] The copy constructor and destructor of [`A] shall not throw exceptions.
+
+[para:effects]
+[:en] Allocates memory suitable for an object of type [`T] and constructs an
+object in that memory via the placement [~new-expression] [`::new (pv)
+T(std::forward<Args>(args)...)].
+
+[:en] The template [`allocate_shared] uses a copy of [`a] to allocate memory.
+
+[:en] If an exception is thrown, the functions have no effect.
+
+[para:returns]
+[:en] A [`shared_ptr] instance that stores and owns the address of the newly
+constructed object of type [`T].
+
+[para:postconditions]
+[:en] [`get() != 0 && use_count() == 1]
+
+[para:throws]
+[:en] [`bad_alloc], or an exception thrown from [`A::allocate] or from the
+constructor of [`T].
+
+[para:notes]
+[:en] Implementations should perform no more than one memory allocation.
+
+[enter:note]
+[:en] This provides efficiency equivalent to an intrusive smart pointer.
+[exit:note]
+
+[para]
+[enter:note]
+[:en] These functions will typically allocate more memory than [`sizeof(T)] to
+allow for internal bookkeeping structures such as the reference counts.
+[exit:note]
+[exit:description]

@@ -1,0 +1,19 @@
+﻿[section#uninitialized.fill
+    [:en] [`uninitialized_fill]
+]
+
+[%@library uninitialized_fill]
+[codeblock:declaration]
+template <class ForwardIterator, class T>
+  void uninitialized_fill(ForwardIterator first, ForwardIterator last,
+                          const T& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+for (; first != last; ++first)
+  ::new (static_cast<void*>(&*first))
+    typename iterator_traits<ForwardIterator>::value_type(x);
+[codeblock:end]
+[exit:description]

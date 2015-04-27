@@ -1,0 +1,74 @@
+﻿[section#time.traits.duration_values
+    [:en] [`duration_values]
+]
+
+[%@library duration_values]
+[codeblock:declaration]
+template <class Rep>
+struct duration_values {
+public:
+  static constexpr Rep zero();
+  static constexpr Rep min();
+  static constexpr Rep max();
+};
+[codeblock:end]
+
+[para]
+[:en]
+The [`duration] template uses the [`duration_values] trait to construct special
+values of the durations representation ([`Rep]).
+
+[:en]
+This is done because the representation might be a class type with behavior
+which requires some other implementation to return these special values.
+
+[:en]
+In that case, the author of that class type should specialize [`duration_values]
+to return the indicated values.
+
+[%@library zero[!duration_values]]
+[%@library duration_values[!zero]]
+[codeblock:declaration]
+static constexpr Rep zero();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`Rep(0)].
+
+[enter:note]
+[:en] [`Rep(0)] is specified instead of [`Rep()] because [`Rep()] may have some
+other meaning, such as an uninitialized value.
+[exit:note]
+
+[para:remark]
+[:en] The value returned shall be the additive identity.
+[exit:description]
+
+[%@library min[!duration_values]]
+[%@library duration_values[!min]]
+[codeblock:declaration]
+static constexpr Rep min();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`numeric_limits<Rep>::lowest()].
+
+[para:remark]
+[:en] The value returned shall compare less than or equal to [`zero()].
+[exit:description]
+
+[%@library max[!duration_values]]
+[%@library duration_values[!max]]
+[codeblock:declaration]
+static constexpr Rep max();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`numeric_limits<Rep>::max()].
+
+[para:remark]
+[:en] The value returned shall compare greater than [`zero()].
+[exit:description]

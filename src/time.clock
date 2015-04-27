@@ -1,0 +1,14 @@
+﻿[section#time.clock
+    [:en] Clocks
+]
+
+[para]
+[:en]
+The types defined in this subclause shall satisfy the [`TrivialClock]
+requirements ([#time.clock.req]).
+
+[include time.clock.system]
+
+[include time.clock.steady]
+
+[include time.clock.hires]

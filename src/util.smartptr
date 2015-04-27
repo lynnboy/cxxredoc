@@ -1,0 +1,23 @@
+﻿[section#util.smartptr
+    [:en] Shared-ownership pointers
+]
+
+[%:begin#smart.pointers
+    [:en] smart pointers
+]
+
+[include util.smartptr.weakptr]
+
+[include util.smartptr.shared]
+
+[include util.smartptr.weak]
+
+[include util.smartptr.ownerless]
+
+[include util.smartptr.enab]
+
+[include util.smartptr.shared.atomic]
+
+[include util.smartptr.hash]
+
+[%:end#smart.pointers]

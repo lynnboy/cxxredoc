@@ -1,0 +1,122 @@
+﻿[section#meta.unary.cat
+    [:en] Primary type categories
+]
+
+[para]
+[:en]
+The primary type categories correspond to the descriptions given in section
+[#basic.types] of the [=Cpp] standard.
+
+[para]
+[:en]
+For any given type [`T], the result of applying one of these templates to [`T]
+and to [$cv-qualified] [`T] shall yield the same result.
+
+[para]
+[enter:note]
+[:en]
+For any given type [`T], exactly one of the primary type categories has a
+[`value] member that evaluates to [`true].
+[exit:note]
+
+[table:listing#tab:type-traits.primary
+    [:en] Primary type category predicates
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct is_void;
+[|] [:en] [`T] is [`void]
+[|]
+
+[|]
+template <class T> [br]
+struct is_null_pointer;
+[|] [:en] [`T] is [`std::nullptr_t] ([#basic.fundamental])
+[|]
+
+[|]
+template <class T> [br]
+struct is_integral;
+[|] [:en] [`T] is an integral type ([#basic.fundamental])
+[|]
+
+[|]
+template <class T> [br]
+struct is_floating_point;
+[|] [:en] [`T] is a floating point type ([#basic.fundamental])
+[|]
+
+[|]
+template <class T> [br]
+struct is_array;
+[|] [:en] [`T] is an array type ([#basic.compound]) of known or unknown extend
+[|] [:en] Class template [`array] ([#array]) is not an array type.
+
+[|]
+template <class T> [br]
+struct is_pointer;
+[|] [:en] [`T] is a pointer type ([#basic.compound])
+[|] [:en] Includes pointers to functions but not pointers to non-static members.
+
+[|]
+template <class T> [br]
+struct is_lvalue_reference;
+[|] [:en] [`T] is an lvalue reference type ([#dcl.ref])
+[|]
+
+[|]
+template <class T> [br]
+struct is_rvalue_reference;
+[|] [:en] [`T] is an rvalue reference type ([#dcl.ref])
+[|]
+
+[|]
+template <class T> [br]
+struct is_member_object_pointer;
+[|] [:en] [`T] is a pointer to non-static data member
+[|]
+
+[|]
+template <class T> [br]
+struct is_member_function_pointer;
+[|] [:en] [`T] is a pointer to non-static member function
+[|]
+
+[|]
+template <class T> [br]
+struct is_enum;
+[|] [:en] [`T] is an enumeration type ([#basic.compound])
+[|]
+
+[|]
+template <class T> [br]
+struct is_union;
+[|] [:en] [`T] is a union type ([#basic.compound])
+[|]
+
+[|]
+template <class T> [br]
+struct is_class;
+[|] [:en] [`T] is a class type but not a union type ([#basic.compound])
+[|]
+
+[|]
+template <class T> [br]
+struct is_function;
+[|] [:en] [`T] is a function type ([#basic.compound])
+[|]
+
+[table:end]

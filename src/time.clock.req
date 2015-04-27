@@ -1,0 +1,114 @@
+﻿[section#time.clock.req
+    [:en] Clock requirements
+]
+
+[para]
+[:en]
+A clock is a bundle consisting of a [`duration], a [`time_point], and a function
+[`now()] to get the current [`time_point].
+
+[:en]
+The origin of the clock[=']s [`time_point] is referred to as the clock[=']s
+[def epoch].
+
+[:en]
+A clock shall meet the requirements in Table [#tab:time.clock].
+
+[para]
+[:en]
+In Table [#tab:time.clock] [`C1] and [`C2] denote clock types.
+
+[:en]
+[`t1] and [`t2] are values returned by [`C1::now()] where the call returning
+[`t1] happens before ([#intro.multithread]) the call returning [`t2] and both of
+these calls occur before [`C1::time_point::max()].
+
+[enter:note]
+[:en]
+this means [`C1] did not wrap around between [`t1] and [`t2].
+[exit:note]
+
+[table:listing#tab:time.clock
+    [:en] Clock requirements
+    [columns
+        [column@code@headercenter
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Operational semantics
+        ]
+    ]
+]
+
+[|] C1::rep
+[|] [:en] An arithmetic type or a class emulating an arithmetic type
+[|] [:en] The representation type of [`C1::duration].
+
+[|] C1::period
+[|] [:en] a specialization of [`ratio]
+[|] [:en] The tick period of the clock in seconds.
+
+[|] C1::duration
+[|] [:en] [`chrono::duration<C1::rep, C1::period>]
+[|] [:en] The [`duration] type of the clock.
+
+[|] C1::time_point
+[|] [:en] [`chrono::time_point<C1>] or [`chrono::time_point<C2, C1::duration>]
+[|] [:en] The [`time_point] type of the clock.
+    [:en] [`C1] and [`C2] shall refer to the same epoch.
+
+[|] C1::is_steady
+[|] [`const bool]
+[|] [:en] [`true] if [`t1 <= t2] is always [`true] and the time between clock
+    ticks is constant, otherwise [`false].
+
+[|] C1::now()
+[|] [`C1::time_point]
+[|] [:en] Returns a [`time_point] object representing the current point in time.
+
+[table:end]
+
+[para]
+[enter:note]
+[:en]
+The relative difference in durations between those reported by a given clock and
+the SI definition is a measure of the quality of implementation.
+[exit:note]
+
+[para]
+[:en]
+A type [`TC] meets the [`TrivialClock] requirements if:
+
+[list]
+[item]
+[:en] [`TC] satisfies the [`Clock] requirements ([#time.clock.req]),
+
+[item]
+[:en] the types [`TC::rep], [`TC::duration], and [`TC::time_point] satisfy the
+requirements of [`EqualityComparable] (Table [#equalitycomparable]),
+[`LessThanComparable] (Table [#lessthancomparable]), [`DefaultConstructible]
+(Table [#defaultconstructible]), [`CopyConstructible]
+(Table [#copyconstructible]), [`CopyAssignable] (Table [#copyassignable]),
+[`Destructible] (Table [#destructible]), and the requirements of numeric types
+([#numeric.requirements]).
+
+[enter:note]
+[:en]
+this means, in particular, that operations on these types will not throw
+exceptions.
+[exit:note]
+
+[item]
+[:en] lvalues of the types [`TC::rep], [`TC::duration], and [`TC::time_point]
+are swappable ([#swappable.requirements]),
+
+[item]
+[:en] the function [`TC::now()] does not throw exceptions, and
+
+[item]
+[:en] the type [`TC::time_point::clock] meets the [`TrivialClock] requirements,
+recursively.
+[list:end]

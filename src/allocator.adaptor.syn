@@ -1,0 +1,136 @@
+﻿[section#allocator.adaptor.syn
+    [:en] Header [`<scoped_allocator>] synopsis
+]
+
+[%@library <scoped_allocator> [sortas scoped_allocator]]
+[codeblock:synopsis]
+  // [:en] scoped allocator adaptor
+  template <class OuterAlloc, class... InnerAlloc>
+    class scoped_allocator_adaptor;
+  template <class OuterA1, class OuterA2, class... InnerAllocs>
+    bool operator==(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                    const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+  template <class OuterA1, class OuterA2, class... InnerAllocs>
+    bool operator!=(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                    const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+[codeblock:end]
+
+[para]
+[:en]
+The class template [`scoped_allocator_adaptor] is an allocator template that
+specifies the memory resource (the outer allocator) to be used by a container
+(as any other allocator does) and also specifies an inner allocator resource to
+be passed to the constructor of every element within the container.
+
+[:en]
+This adaptor is instantiated with one outer and zero or more inner allocator
+types.
+
+[:en]
+If instantiated with only one allocator type, the inner allocator becomes the
+[`scoped_allocator_adaptor] itself, thus using the same allocator resource for
+the container and every element within the container and, if the elements
+themselves are containers, each of their elements recursively.
+
+[:en]
+If instantiated with more than one allocator, the first allocator is the outer
+allocator for use by the container, the second allocator is passed to the
+constructors of the container[=']s elements, and, if the elements themselves are
+containers, the third allocator is passed to the elements' elements, and so on.
+
+[:en]
+If containers are nested to a depth greater than the number of allocators, the
+last allocator is used repeatedly, as in the single-allocator case, for any
+remaining recursions.
+
+[enter:note]
+[:en]
+The [`scoped_allocator_adaptor] is derived from the outer allocator type so it
+can be substituted for the outer allocator type in most expressions.
+[exit:note]
+
+[codeblock:synopsis]
+namespace std {
+  template <class OuterAlloc, class... InnerAllocs>
+    class scoped_allocator_adaptor : public OuterAlloc {
+  private:
+    typedef allocator_traits<OuterAlloc> OuterTraits; // [=Expos]
+    scoped_allocator_adaptor<InnerAllocs...> inner;   // [=Expos]
+  public:
+    typedef OuterAlloc outer_allocator_type;
+    typedef [=Seebelow] inner_allocator_type;
+
+    typedef typename OuterTraits::value_type value_type;
+    typedef typename OuterTraits::size_type size_type;
+    typedef typename OuterTraits::difference_type difference_type;
+    typedef typename OuterTraits::pointer pointer;
+    typedef typename OuterTraits::const_pointer const_pointer;
+    typedef typename OuterTraits::void_pointer void_pointer;
+    typedef typename OuterTraits::const_void_pointer const_void_pointer;
+
+    typedef [=Seebelow] propagate_on_container_copy_assignment;
+    typedef [=Seebelow] propagate_on_container_move_assignment;
+    typedef [=Seebelow] propagate_on_container_swap;
+    typedef [=Seebelow] is_always_equal;
+
+    template <class Tp>
+      struct rebind {
+        typedef scoped_allocator_adaptor<
+          OuterTraits::template rebind_alloc<Tp>, InnerAllocs...> other;
+      };
+
+    scoped_allocator_adaptor();
+    template <class OuterA2>
+      scoped_allocator_adaptor(OuterA2&& outerAlloc,
+                               const InnerAllocs&... innerAllocs) noexcept;
+
+    scoped_allocator_adaptor(const scoped_allocator_adaptor& other) noexcept;
+    scoped_allocator_adaptor(scoped_allocator_adaptor&& other) noexcept;
+
+    template <class OuterA2>
+      scoped_allocator_adaptor(
+        const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& other) noexcept;
+    template <class OuterA2>
+      scoped_allocator_adaptor(
+        scoped_allocator_adaptor<OuterA2, InnerAllocs...>&& other) noexcept;
+
+    ~scoped_allocator_adaptor();
+
+    inner_allocator_type& inner_allocator() noexcept;
+    const inner_allocator_type& inner_allocator() const noexcept;
+    outer_allocator_type& outer_allocator() noexcept;
+    const outer_allocator_type& outer_allocator() const noexcept;
+
+    pointer allocate(size_type n);
+    pointer allocate(size_type n, const_void_pointer hint);
+    void deallocate(pointer p, size_type n);
+    size_type max_size() const;
+
+    template <class T, class... Args>
+      void construct(T* p, Args&&... args);
+    template <class T1, class T2, class... Args1, class... Args2>
+      void construct(pair<T1, T2>* p, piecewise_construct_t,
+                     tuple<Args1...> x, tuple<Args2...> y);
+    template <class T1, class T2>
+      void construct(pair<T1, T2>* p);
+    template <class T1, class T2, class U, class V>
+      void construct(pair<T1, T2>* p, U&& x, V&& y);
+    template <class T1, class T2, class U, class V>
+      void construct(pair<T1, T2>* p, const pair<U, V>& x);
+    template <class T1, class T2, class U, class V>
+      void construct(pair<T1, T2>* p, pair<U, V>&& x);
+
+    template <class T>
+      void destroy(T* p);
+
+    scoped_allocator_adaptor select_on_container_copy_construction() const;
+  };
+
+  template <class OuterA1, class OuterA2, class... InnerAllocs>
+    bool operator==(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                    const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+  template <class OuterA1, class OuterA2, class... InnerAllocs>
+    bool operator!=(const scoped_allocator_adaptor<OuterA1, InnerAllocs...>& a,
+                    const scoped_allocator_adaptor<OuterA2, InnerAllocs...>& b) noexcept;
+}
+[codeblock:end]

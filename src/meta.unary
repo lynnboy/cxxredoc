@@ -1,0 +1,20 @@
+﻿[section#meta.unary
+    [:en] Unary type traits
+]
+
+[para]
+[:en]
+This sub-clause contains templates that may be used to query the properties of a
+type at compile time.
+
+[para]
+[:en]
+Each of these templates shall be a UnaryTypeTrait ([#meta.rqmts]) with a
+BaseCharacteristic of [`true_type] if the corresponding condition is true,
+otherwise [`false_type].
+
+[include meta.unary.cat]
+
+[include meta.unary.comp]
+
+[include meta.unary.prop]

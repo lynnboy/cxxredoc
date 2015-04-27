@@ -1,0 +1,19 @@
+﻿[section#func.wrap.badcall.const
+    [:en] [`bad_function_call] constructor
+]
+
+[%@library bad_function_call[!bad_function_call]]
+[codeblock:declaration]
+bad_function_call() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs a [`bad_function_call] object.
+[exit:description]
+
+[enter:description]
+[para:postconditions]
+[:en] [`what()] returns an [%@impldef string returned by [`what()] for
+[`bad_weak_ptr]] implementation-defined NTBS.
+[exit:description]

@@ -1,0 +1,116 @@
+﻿[section#c.malloc
+    [:en] C library
+]
+
+[para]
+Table [#tab:util.hdr.cstdlib] describes the header [`<cstdlib>].
+
+[table:listing#tab:util.hdr.cstdlib
+    [:en] Header [`<cstdlib>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@rolspan=2] [=Functions]
+
+[|] calloc
+[|] free
+[|] malloc
+[|] realloc
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<stdlib.h>], with
+the following changes:
+
+[para]
+[:en]
+The functions [`calloc()][%@library calloc], [`malloc()][%@library malloc], and
+[`realloc()][%@library realloc] do not attempt to allocate storage by calling
+[%@library new[!operator]] [`::operator new()] ([#support.dynamic]).
+
+[para]
+The function [`free()][%@library free] does not attempt to deallocate storage by
+calling [`::operator delete()][%@library delete[!operator]].
+
+[para:xref]
+[:en] ISO C Clause 7.11.2.
+
+[para]
+[:en]
+Storage allocated directly with [`malloc()], [`calloc()], or [`realloc()] is
+implicitly declared reachable (see [#basic.stc.dynamic.safety]) on allocation,
+ceases to be declared reachable on deallocation, and need not cease to be
+declared reachable as the result of an [`undeclare_reachable()] call.
+
+[enter:note]
+[:en]
+This allows existing C libraries to remain unaffected by restrictions on
+pointers that are not safely derived, at the expense of providing far fewer
+garbage collection and leak detection options for [`malloc()]-allocated objects.
+
+[:en]
+It also allows [`malloc()] to be implemented with a separate allocation arena,
+bypassing the normal [`declare_reachable()] implementation.
+
+[:en]
+The above functions should never intentionally be used as a replacement for
+[`declare_reachable()], and newly written code is strongly encouraged to treat
+memory allocated with these functions as though it were allocated with
+[`operator new].
+[exit:note]
+
+[para]
+[:en] Table [#tab:util.hdr.cstring] describes the header [`<cstring>].
+
+[table:grid#tab:util.hdr.cstring
+    [:en] Header [`<cstring>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Functions]
+
+[|] NULL
+
+[-]
+[|] [=Type]
+
+[|] size_t
+
+[-]
+[|] [=Functions]
+
+[|] memchr
+[|] memcmp
+[|] memcpy
+[|] memmove
+[|] memset
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<string.h>], with
+the change to [`memchr()] specified in [#c.strings].
+
+[para:xref]
+[:en] ISO C Clause 7.11.2.

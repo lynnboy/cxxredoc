@@ -1,0 +1,269 @@
+﻿[section#pairs.pair
+    [:en] Class template [`pair]
+]
+
+[%@library pair]
+[codeblock]
+// [:en] defined in header [`<utility>]
+
+namespace std {
+  template <class T1, class T2>
+  struct pair {
+    typedef T1 first_type;
+    typedef T2 second_type;
+
+    T1 first;
+    T2 second;
+    pair(const pair&) = default;
+    pair(pair&&) = default;
+    constexpr pair();
+    constexpr pair(const T1& x, const T2& y);
+    template<class U, class V> constexpr pair(U&& x, V&& y);
+    template<class U, class V> constexpr pair(const pair<U, V>& p);
+    template<class U, class V> constexpr pair(pair<U, V>&& p);
+    template <class... Args1, class... Args2>
+      pair(piecewise_construct_t,
+           tuple<Args1...> first_args, tuple<Args2...> second_args);
+
+    pair& operator=(const pair& p);
+    template<class U, class V> pair& operator=(const pair<U, V>& p);
+    pair& operator=(pair&& p) noexcept([=Seebelow]);
+    template<class U, class V> pair& operator=(pair<U, V>&& p);
+
+    void swap(pair& p) noexcept([=Seebelow]);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+Constructors and member functions of [`pair] shall not throw exceptions unless
+one of the element-wise operations specified to be called for that operation
+throws an exception.
+
+[para]
+[:en]
+The defaulted move and copy constructor, respectively, of pair shall be a
+[`constexpr] function if and only if all required element-wise initializations
+for copy and move, respectively, would satisfy the requirements for a
+[`constexpr] function.
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+constexpr pair();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_default_constructible<first_type>::value] is [`true] and
+[`is_default_constructible<second_type>::value] is [`true].
+
+[para:effects]
+[:en] Value-initializes [`first] and [`second].
+[exit:description]
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+constexpr pair(const T1& x, const T2& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_copy_constructible<first_type>::value] is [`true]
+and [`is_copy_constructible<second_type>::value] is [`true].
+
+[para:effects]
+[:en] The constructor initializes [`first] with [`x] and [`second] with [`y].
+[exit:description]
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+template<class U, class V> constexpr pair(U&& x, V&& y);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<first_type, U&&>::value] is [`true]
+and [`is_constructible<second_type, V&&>::value] is [`true].
+
+[para:effects]
+[:en] The constructor initializes [`first] with [`std::forward<U>(x)] and
+[`second] with [`std::forward<V>(y)].
+
+[para:notes]
+[:en] If [`U] is not implicitly convertible to [`first_type] or [`V] is not
+implicitly convertible to [`second_type] this constructor shall not participate
+in overload resolution.
+[exit:description]
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+template<class U, class V> constexpr pair(const pair<U, V>& p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<first_type, const U&>::value] is [`true]
+and [`is_constructible<second_type, const V&>::value] is [`true].
+
+[para:effects]
+[:en] Initializes members from the corresponding members of the argument.
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless
+[`const U&] is implicitly convertible to [`first_type] and [`const V&] is
+implicitly convertible to [`second_type].
+[exit:description]
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+template<class U, class V> constexpr pair(pair<U, V>&& p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<first_type, U&&>::value] is [`true]
+and [`is_constructible<second_type, V&&>::value] is [`true].
+
+[para:effects]
+[:en] The constructor initializes [`first] with [`std::forward<U>(p.first)]
+and [`second] with [`std::forward<V>(p.second)].
+
+[para:remark]
+[:en] This constructor shall not participate in overload resolution unless [`U]
+is implicitly convertible to [`first_type] and [`V] is implicitly convertible to
+[`second_type].
+[exit:description]
+
+[%@library pair[!pair]]
+[codeblock:declaration]
+template<class... Args1, class... Args2>
+  pair(piecewise_construct_t,
+       tuple<Args1...> first_args, tuple<Args2...> second_args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_constructible<first_type, Args1&&...>::value] is [`true]
+and [`is_constructible<second_type, Args2&&...>::value] is [`true].
+
+[para:effects]
+[:en] The constructor initializes [`first] with arguments of types [`Args1...]
+obtained by forwarding the elements of [`first_args] and initializes [`second]
+with arguments of types [`Args2...] obtained by forwarding the elements of
+[`second_args].
+
+[:en]
+(Here, forwarding an element [`x] of type [`U] within a [`tuple] object means
+calling [`std::forward<U>(x)].)
+
+[:en]
+This form of construction, whereby constructor arguments for [`first] and
+[`second] are each provided in a separate [`tuple] object, is called
+[def piecewise construction].
+[exit:description]
+
+[%@library operator=[!pair]]
+[%@library pair[!operator=]]
+[codeblock:declaration]
+pair& operator=(const pair& p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_copy_assignable<first_type>::value] is [`true]
+and [`is_copy_assignable<second_type>::value] is [`true].
+
+[para:effects]
+[:en] Assigns [`p.first] to [`first] and [`p.second] to [`second].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!pair]]
+[%@library pair[!operator=]]
+[codeblock:declaration]
+template<class U, class V> pair& operator=(const pair<U, V>& p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_assignable<first_type&, const U&>::value] is [`true]
+and [`is_assignable<second_type&, const V&>::value] is [`true].
+
+[para:effects]
+[:en] Assigns [`p.first] to [`first] and [`p.second] to [`second].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!pair]]
+[%@library pair[!operator=]]
+[codeblock:declaration]
+pair& operator=(pair&& p) noexcept([=Seebelow]);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] The expression inside [`noexcept] is equivalent to:
+
+[codeblock]
+is_nothrow_move_assignable<T1>::value &&
+is_nothrow_move_assignable<T2>::value
+[codeblock:end]
+
+[para:requires]
+[:en] [`is_move_assignable<first_type>::value] is [`true]
+and [`is_move_assignable<second_type>::value] is [`true].
+
+[para:effects]
+[:en] Assigns to [`first] with [`std::forward<first_type>(p.first)] and to
+[`second] with [`std::forward<second_type>(p.second)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!pair]]
+[%@library pair[!operator=]]
+[codeblock:declaration]
+template<class U, class V> pair& operator=(pair<U, V>&& p);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`is_assignable<first_type&, U&&>::value] is [`true]
+and [`is_assignable<second_type&, V&&>::value] is [`true].
+
+[para:effects]
+[:en] Assigns to [`first] with [`std::forward<U>(p.first)] and to [`second] with
+[`std::forward<V>(p.second)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!pair]]
+[%@library pair[!swap]]
+[codeblock:declaration]
+void swap(pair& p) noexcept([=Seebelow]);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] The expression inside [`noexcept] is equivalent to:
+
+[codeblock]
+noexcept(swap(first, p.first)) &&
+noexcept(swap(second, p.second))
+[codeblock:end]
+
+[para:requires]
+[:en] [`first] shall be swappable with ([#swappable.requirements]) [`p.first]
+and [`second] shall be swappable with [`p.second].
+
+[para:effects]
+[:en] Swaps [`first] with [`p.first] and [`second] with [`p.second].
+[exit:description]

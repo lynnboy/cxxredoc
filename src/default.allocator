@@ -1,0 +1,56 @@
+﻿[section#default.allocator
+    [:en] The default allocator
+]
+
+[%@library allocator]
+[codeblock]
+namespace std {
+  template <class T> class allocator;
+
+  // [:en] specialize for [`void]:
+  template <> class allocator<void> {
+  public:
+    typedef void*   pointer;
+    typedef const void* const_pointer;
+    // [:en] reference-to-[`void] members are impossible.
+    typedef void  value_type;
+    template <class U> struct rebind { typedef allocator<U> other; };
+  };
+
+  template <class T> class allocator {
+   public:
+    typedef size_t    size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T*        pointer;
+    typedef const T*  const_pointer;
+    typedef T&        reference;
+    typedef const T&  const_reference;
+    typedef T         value_type;
+    template <class U> struct rebind { typedef allocator<U> other; };
+    typedef true_type propagate_on_container_move_assignment;
+    typedef true_type is_always_equal;
+
+    allocator() noexcept;
+    allocator(const allocator&) noexcept;
+    template <class U> allocator(const allocator<U>&) noexcept;
+   ~allocator();
+
+    pointer address(reference x) const noexcept;
+    const_pointer address(const_reference x) const noexcept;
+
+    pointer allocate(
+      size_type, allocator<void>::const_pointer hint = 0);
+    void deallocate(pointer p, size_type n);
+    size_type max_size() const noexcept;
+
+    template<class U, class... Args>
+      void construct(U* p, Args&&... args);
+    template <class U>
+      void destroy(U* p);
+  };
+}
+[codeblock:end]
+
+[include allocator.members]
+
+[include allocator.globals]

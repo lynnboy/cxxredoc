@@ -1,0 +1,32 @@
+﻿[section#func.wrap.func.targ
+    [:en] [`function] target access
+]
+
+[%@library function[!target_type]]
+[%@library target_type[!function]]
+[codeblock:declaration]
+const std::type_info& target_type() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`*this] has a target of type [`T], [`typeid(T)]; otherwise,
+[`typeid(void)].
+[exit:description]
+
+[%@library function[!target]]
+[%@library target[!function]]
+[codeblock:declaration]
+template<class T>       T* target() noexcept;
+template<class T> const T* target() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be a type that is Callable ([#func.wrap.func]) for parameter
+types [`ArgTypes] and return type [`R].
+
+[para:returns]
+[:en] If [`target_type() == typeid(T)] a pointer to the stored function target;
+otherwise a null pointer.
+[exit:description]

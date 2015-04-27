@@ -1,0 +1,79 @@
+﻿[section#utilities.general
+    [:en] General
+]
+
+[para]
+[:en]
+This Clause describes utilities that are generally useful in [=Cpp] programs;
+some of these utilities are used by other elements of the [=Cpp] standard
+library.
+
+[:en]
+These utilities are summarized in Table [#tab:util.lib.summary].
+
+[table:listing#tab:util.lib.summary
+    [:en] Diagnostics library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+[|] [#utility]
+[|] [:en] Utility components
+[|] <utility>
+
+[|] [#pairs]
+[|] [:en] Pairs
+[|] <utility>
+
+[|] [#tuple]
+[|] [:en] Tuples
+[|] <tuple>
+
+[|] [#intseq]
+[|] [:en] Compile-time integer sequences
+[|] <utility>
+
+[|] [#template.bitset]
+[|] [:en] Fixed-size sequences of bits
+[|] <bitset>
+
+[|] [#memory]
+[|] [:en] Memory
+[|] <memory> [br] <cstdlib> [br] <cstring>
+
+[|] [#smartptr]
+[|] [:en] Smart pointers
+[|] <memory>
+
+[|] [#function.objects]
+[|] [:en] Function objects
+[|] <functional>
+
+[|] [#meta]
+[|] [:en] Type traits
+[|] <type_traits>
+
+[|] [#ratio]
+[|] [:en] Compile-time rational arithmetic
+[|] <ratio>
+
+[|] [#time]
+[|] [:en] Time utilities
+[|] <chrono> [br] <ctime>
+
+[|] [#allocator.adaptor]
+[|] [:en] Scoped allocators
+[|] <scoped_allocator>
+
+[|] [#type.index]
+[|] [:en] Type indexes
+[|] <typeindex>
+
+[table:end]

@@ -1,0 +1,43 @@
+﻿[section#meta.trans.ref
+    [:en] Reference modifications
+]
+
+[table:listing#tab:type-traits.reference
+    [:en] Reference modifications
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <class T> [br]
+struct remove_reference;
+[|] [:en] If [`T] has type ["reference to [`T1]] then the member typedef [`type]
+    shall name [`T1]; otherwise, [`type] shall name [`T].
+
+[|]
+template <class T> [br]
+struct add_lvalue_reference;
+[|] [:en] If [`T] names an object or function type then the member typedef
+    [`type] shall name [`T&]; otherwise, if [`T] names a type ["rvalue reference
+    to [`T1]] then the member typedef [`type] shall name [`T1&]; otherwise,
+    [`type] shall name [`T].
+
+[|]
+template <class T> [br]
+struct add_rvalue_reference;
+[|] [:en] If [`T] names an object or function type then the member typedef
+    [`type] shall name [`T&&]; otherwise, [`type] shall name [`T].
+    [enter:note]
+    [:en] This rule reflects the semantics of reference collapsing ([#dcl.ref]).
+    [:en] For example, when a type [`T] names a type [`T1&], the type
+    [`add_rvalue_reference_t<T>] is not an rvalue reference.
+    [exit:note]
+
+[table:end]

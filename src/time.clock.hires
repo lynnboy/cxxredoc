@@ -1,0 +1,25 @@
+﻿[section#time.clock.hires
+    [:en] Class [`high_resolution_clock]
+]
+
+[para]
+[:en]
+Objects of class [`high_resolution_clock] represent clocks with the shortest
+tick period.
+
+[:en]
+[`high_resolution_clock] may be a synonym for [`system_clock] or
+[`steady_clock].
+
+[codeblock:synopsis [special unspecified] ]
+class high_resolution_clock {
+public:
+  typedef unspecified                                rep;
+  typedef ratio<unspecified, unspecified>            period;
+  typedef chrono::duration<rep, period>              duration;
+  typedef chrono::time_point<unspecified, duration>  time_point;
+  static constexpr bool is_steady =               unspecified;
+
+  static time_point now() noexcept;
+};
+[codeblock:end]

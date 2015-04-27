@@ -1,0 +1,14 @@
+﻿[section#bitset.hash
+    [:en] [`bitset] hash support
+]
+
+[%@library hash_code]
+[codeblock:declaration]
+template <size_t N> struct hash<bitset<N> >;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+[exit:description]

@@ -1,0 +1,224 @@
+﻿[section#function.objects
+    [:en] Function objects
+]
+
+[para]
+[:en]
+A [def function object type [% function object[!type]]] is an object type
+([#basic.types]) that can be the type of the [~postfix-expression] in a function
+call ([#expr.call], [#over.match.call]).
+
+[footnote]
+[:en]
+Such a type is a function pointer or a class type which has a member
+[`operator()] or a class type which has a conversion to a pointer to function.
+[footnote:end]
+
+[:en]
+A [def function object] is an object of a function object type.
+
+[:en]
+In the places where one would expect to pass a pointer to a function to an
+algorithmic template (Clause [#algorithms]), the interface is specified to
+accept a function object.
+
+[:en]
+This not only makes algorithmic templates work with pointers to functions, but
+also enables them to work with arbitrary function objects.
+
+[para] [para:synopsis]
+[:en] Header [`<functional>] synopsis
+
+[%@library <functional> [sortas functional]]
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  // [:en] [#func.invoke], invoke:
+  template <class F, class... Args> result_of_t<F&&(Args&&...)> invoke(F&& f, Args&&... args);
+
+  // [:en] [#refwrap], reference_wrapper:
+  template <class T> class reference_wrapper;
+
+  template <class T> reference_wrapper<T> ref(T&) noexcept;
+  template <class T> reference_wrapper<const T> cref(const T&) noexcept;
+  template <class T> void ref(const T&&) = delete;
+  template <class T> void cref(const T&&) = delete;
+
+  template <class T> reference_wrapper<T> ref(reference_wrapper<T>) noexcept;
+  template <class T> reference_wrapper<const T> cref(reference_wrapper<T>) noexcept;
+
+  // [:en] [#arithmetic.operations], arithmetic operations:
+  template <class T = void> struct plus;
+  template <class T = void> struct minus;
+  template <class T = void> struct multiplies;
+  template <class T = void> struct divides;
+  template <class T = void> struct modulus;
+  template <class T = void> struct negate;
+  template <> struct plus<void>;
+  template <> struct minus<void>;
+  template <> struct multiplies<void>;
+  template <> struct divides<void>;
+  template <> struct modulus<void>;
+  template <> struct negate<void>;
+
+  // [:en] [#comparisons], comparisons:
+  template <class T = void> struct equal_to;
+  template <class T = void> struct not_equal_to;
+  template <class T = void> struct greater;
+  template <class T = void> struct less;
+  template <class T = void> struct greater_equal;
+  template <class T = void> struct less_equal;
+  template <> struct equal_to<void>;
+  template <> struct not_equal_to<void>;
+  template <> struct greater<void>;
+  template <> struct less<void>;
+  template <> struct greater_equal<void>;
+  template <> struct less_equal<void>;
+
+  // [:en] [#logical.operations], logical operations:
+  template <class T = void> struct logical_and;
+  template <class T = void> struct logical_or;
+  template <class T = void> struct logical_not;
+  template <> struct logical_and<void>;
+  template <> struct logical_or<void>;
+  template <> struct logical_not<void>;
+
+  // [:en] [#bitwise.operations], bitwise operations:
+  template <class T = void> struct bit_and;
+  template <class T = void> struct bit_or;
+  template <class T = void> struct bit_xor;
+  template <class T = void> struct bit_not;
+  template <> struct bit_and<void>;
+  template <> struct bit_or<void>;
+  template <> struct bit_xor<void>;
+  template <> struct bit_not<void>;
+
+  // [:en] [#negators], negators:
+  template <class Predicate> class unary_negate;
+  template <class Predicate>
+    constexpr unary_negate<Predicate> not1(const Predicate&);
+  template <class Predicate> class binary_negate;
+  template <class Predicate>
+    constexpr binary_negate<Predicate> not2(const Predicate&);
+
+  // [:en] [#func.bind], bind:
+  template<class T> struct is_bind_expression;
+  template<class T> struct is_placeholder;
+
+  template<class F, class... BoundArgs>
+    unspecified bind(F&&, BoundArgs&&...);
+  template<class R, class F, class... BoundArgs>
+    unspecified bind(F&&, BoundArgs&&...);
+
+  namespace placeholders {
+    // [:en] M is the implementation-defined number of placeholders
+    extern unspecified _1;
+    extern unspecified _2;
+                .
+                .
+                .
+    extern unspecified _M;
+  }
+
+  // [:en] [#func.memfn], member function adaptors:
+  template<class R, class T> unspecified mem_fn(R T::*);
+
+  // [:en] [#func.wrap] polymorphic function wrappers:
+  class bad_function_call;
+
+  template<class> class function; // [:en] undefined
+  template<class R, class... ArgTypes> class function<R(ArgTypes...)>;
+
+  template<class R, class... ArgTypes>
+    void swap(function<R(ArgTypes...)>&, function<R(ArgTypes...)>&);
+
+  template<class R, class... ArgTypes>
+    bool operator==(const function<R(ArgTypes...)>&, nullptr_t) noexcept;
+  template<class R, class... ArgTypes>
+    bool operator==(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
+  template<class R, class... ArgTypes>
+    bool operator!=(const function<R(ArgTypes...)>&, nullptr_t) noexcept;
+  template<class R, class... ArgTypes>
+    bool operator!=(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
+
+  // [:en] [#unord.hash], hash function primary template:
+  template <class T> struct hash;
+
+  // [:en] Hash function specializations
+  template <> struct hash<bool>;
+  template <> struct hash<char>;
+  template <> struct hash<signed char>;
+  template <> struct hash<unsigned char>;
+  template <> struct hash<char16_t>;
+  template <> struct hash<char32_t>;
+  template <> struct hash<wchar_t>;
+  template <> struct hash<short>;
+  template <> struct hash<unsigned short>;
+  template <> struct hash<int>;
+  template <> struct hash<unsigned int>;
+  template <> struct hash<long>;
+  template <> struct hash<long long>;
+  template <> struct hash<unsigned long>;
+  template <> struct hash<unsigned long long>;
+
+  template <> struct hash<float>;
+  template <> struct hash<double>;
+  template <> struct hash<long double>;
+
+  template<class T> struct hash<T*>;
+}
+[codeblock:end]
+
+[para]
+[enter:example]
+[:en] If a [=Cpp] program wants to have a by-element addition of two vectors
+[`a] and [`b] containing [`double] and put the result into [`a], it can do:
+
+[codeblock]
+transform(a.begin(), a.end(), b.begin(), a.begin(), plus<double>());
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[:en] To negate every element of [`a]:
+
+[codeblock]
+transform(a.begin(), a.end(), a.begin(), negate<double>());
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:note]
+[:en]
+To enable adaptors and other components to manipulate function objects that take
+one or two arguments many of the function objects in this clause correspondingly
+provide typedefs [`argument_type] and [`result_type] for function objects that
+take one argument and [`first_argument_type], [`second_argument_type], and
+[`result_type] for function objects that take two arguments.
+[exit:note]
+
+[include func.def]
+
+[include func.require]
+
+[include func.invoke]
+
+[include refwrap]
+
+[include arithmetic.operations]
+
+[include comparisons]
+
+[include logical.operations]
+
+[include bitwise.operations]
+
+[include negators]
+
+[include func.bind]
+
+[include func.memfn]
+
+[include func.wrap]
+
+[include unord.hash]

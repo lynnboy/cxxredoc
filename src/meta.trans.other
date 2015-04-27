@@ -1,0 +1,205 @@
+﻿[section#meta.trans.other
+    [:en] Other transformations
+]
+
+[table:listing#tab:type-traits.other
+    [:en] Other transformations
+    [columns
+        [column@headercenter@code
+            [:en] Template
+        ]
+        [column@headercenter
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] Comments
+        ]
+    ]
+    [border:row@both]
+]
+
+[|]
+template <std::size_t Len, [br]
+std::size_t Align [br]
+= [$default-alignment]> [br]
+struct aligned_storage;
+[|] [:en] [`Len] shall not be zero.
+    [:en] [`Align] shall be equal to [`alignof(T)] for some type [`T] or to
+    [$default-alignment].
+[|] [:en] The value of [$default-alignment] shall be the most stringent
+    alignment requirement for any [=Cpp] object type whose size is no greater
+    than [`Len] ([#basic.types]).
+    [:en] The member typedef [`type] shall be a POD type suitable for use as
+    uninitialized storage for any object whose size is at most [`Len] and whose
+    alignment is a divisor of [`Align].
+
+[|]
+template <std::size_t Len, [br]
+class... Types> [br]
+struct aligned_union;
+[|] [:en] At least one type is provided.
+[|] [:en] The member typedef [`type] shall be a POD type suitable for use as
+    uninitialized storage for any object whose type is listed in [`Types];
+    its size shall be at least [`Len].
+    [:en] The static member [`alignment_value] shall be an integral constant of
+    type [`std::size_t] whose value is the strictest alignment of all types
+    listed in [`Types].
+
+[|]
+template <class T> [br]
+struct decay;
+[|]
+[|] [:en] Let [`U] be [`remove_reference_t<T>].
+    [:en] If [`is_array<U>::value] is [`true], the member typedef [`type] shall
+    equal [`remove_extent_t<U>*].
+    [:en] If [`is_function<U>::value] is [`true], the member typedef [`type]
+    shall equal [`add_pointer_t<U>].
+    [:en] Otherwise the member typedef [`type] equals [`remove_cv_t<U>].
+    [enter:note]
+    [:en] This behavior is similar to the lvalue-to-rvalue ([#conv.lval]),
+    array-to-pointer ([#conv.array]), and function-to-pointer ([#conv.func])
+    conversions applied when an lvalue expression is used as an rvalue, but also
+    strips [$cv]-qualifiers from class types in order to more closely model
+    by-value argument passing.
+    [exit:note]
+
+[|]
+template <bool B, class T = void> struct enable_if;
+[|]
+[|] [:en] If [`B] is [`true], the member typedef [`type] shall equal [`T];
+    otherwise, there shall be no member [`type].
+
+[|]
+template <bool B, class T, class F> struct conditional;
+[|]
+[|] [:en] If [`B] is [`true], the member typedef [`type] shall equal [`T].
+    [:en] If [`B] is [`false], the member typedef [`type] shall equal [`F].
+
+[|]
+template <class... T> struct common_type;
+[|]
+[|] [:en] The member typedef [`type] shall be defined or omitted as specified
+    below.
+    [:en] If it is omitted, there shall be no member [`type].
+    [:en] All types in the parameter pack [`T] shall be complete or (possibly
+    [$cv]) [`void].
+    [:en] A program may specialize this trait if at least one template parameter
+    in the specialization is a user-defined type.
+    [enter:note]
+    [:en] Such specializations are needed when only explicit conversions are
+    desired among the template arguments.
+    [exit:note]
+
+[|]
+template <class T> [br]
+struct underlying_type;
+[|] [:en] [`T] shall be a complete enumeration type ([#dcl.enum])
+[|] [:en] The member typedef [`type] shall name the underlying type of [`T].
+
+[|]
+template <class Fn, [br]
+class... ArgTypes> struct [br]
+result_of<Fn(ArgTypes...)>;
+[|] [:en] [`Fn] and all types in the parameter pack [`ArgTypes] shall be
+    complete types, (possibly cv-qualified) [`void], or arrays of unknown bound.
+[|] [:en] If the expression [`[$INVOKE](declval<Fn>(), declval<ArgTypes>()...)]
+    is well formed when treated as an unevaluated operand (Clause [#expr]), the
+    member typedef [`type] shall name the type
+    [`decltype([$INVOKE](declval<Fn>(), declval<ArgTypes>()...))]; otherwise,
+    there shall be no member [`type].
+    [:en] Access checking is performed as if in a context unrelated to [`Fn] and
+    [`ArgTypes].
+    [:en] Only the validity of the immediate context of the expression is
+    considered.
+    [enter:note]
+    [:en] The compilation of the expression can result in side effects such as
+    the instantiation of class template specializations and function template
+    specializations, the generation of implicitly-defined functions, and so on.
+    [:en] Such side effects are not in the ["immediate context] and can result
+    in the program being ill-formed.
+    [exit:note]
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] A typical implementation would define [`aligned_storage] as:
+
+[codeblock]
+template <std::size_t Len, std::size_t Alignment>
+struct aligned_storage {
+  typedef struct {
+    alignas(Alignment) unsigned char __data[Len];
+  } type;
+};
+[codeblock:end]
+[exit:note]
+
+[para]
+[:en] It is [%@impldef support for extended alignment] implementation-defined
+whether any extended alignment is supported ([#basic.align]).
+
+[para]
+[:en] For the [`common_type] trait applied to a parameter pack [`T] of types,
+the member [`type] shall be either defined or not present as follows:
+
+[list]
+[item]
+[:en] If [`sizeof...(T)] is zero, there shall be no member [`type].
+
+[item]
+[:en] If [`sizeof...(T)] is one, let [`T0] denote the sole type in the pack
+[`T].
+
+[:en] The member typedef [`type] shall denote the same type as [`decay_t<T0>].
+
+[item]
+[:en] If [`sizeof...(T)] is greater than one, let [`T1], [`T2], and [`R],
+respectively, denote the first, second, and (pack of) remaining types comprising
+[`T].
+
+[enter:note]
+[:en] [`sizeof...(R)] may be zero.
+[exit:note]
+
+[:en] Let [`C] denote the type, if any, of an unevaluated conditional expression
+([#expr.cond]) whose first operand is an arbitrary value of type [`bool], whose
+second operand is an xvalue of type [`T1], and whose third operand is an xvalue
+of type [`T2].
+
+[:en] If there is such a type [`C], the member typedef [`type] shall denote the
+same type, if any, as [`common_type_t<C,R...>].
+
+[:en] Otherwise, there shall be no member [`type].
+[list:end]
+
+[para]
+[enter:example]
+[:en] Given these definitions:
+
+[codeblock]
+typedef bool (&PF1)();
+typedef short (*PF2)(long);
+
+struct S {
+  operator PF2() const;
+  double operator()(char, int&);
+  void fn(long) const;
+  char data;
+};
+
+typedef void (S::*PMF)(long) const;
+typedef char S::*PMD;
+[codeblock:end]
+
+[:en@~] the following assertions will hold:
+
+[codeblock]
+static_assert(is_same<result_of_t<S(int)>, short>::value, "Error!");
+static_assert(is_same<result_of_t<S&(unsigned char, int&)>, double>::value, "Error!");
+static_assert(is_same<result_of_t<PF1()>, bool>::value, "Error!");
+static_assert(is_same<result_of_t<PMF(unique_ptr<S>, int)>, void>::value, "Error!");
+static_assert(is_same<result_of_t<PMD(S)>, char&&>::value, "Error!");
+static_assert(is_same<result_of_t<PMD(const S*)>, const char&>::value, "Error!");
+[codeblock:end]
+[exit:example]

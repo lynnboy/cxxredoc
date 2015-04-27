@@ -1,0 +1,127 @@
+﻿[section#util.smartptr.enab
+    [:en] Class template [`enable_shared_from_this]
+]
+
+[para]
+[%@library enable_shared_from_this]
+[:en]
+A class [`T] can inherit from [`enable_shared_from_this<T>] to inherit the
+[`shared_from_this] member functions that obtain a [+shared_ptr] instance
+pointing to [`*this].
+
+[para]
+[enter:example]
+[codeblock]
+struct X: public enable_shared_from_this<X> {
+};
+
+int main() {
+  shared_ptr<X> p(new X);
+  shared_ptr<X> q = p->shared_from_this();
+  assert(p == q);
+  assert(!p.owner_before(q) && !q.owner_before(p)); // [:en] p and q share ownership
+}
+[codeblock:end]
+[exit:example]
+
+[codeblock:synopsis]
+namespace std {
+  template<class T> class enable_shared_from_this {
+  protected:
+    constexpr enable_shared_from_this() noexcept;
+    enable_shared_from_this(enable_shared_from_this const&) noexcept;
+    enable_shared_from_this& operator=(enable_shared_from_this const&) noexcept;
+    ~enable_shared_from_this();
+  public:
+    shared_ptr<T> shared_from_this();
+    shared_ptr<T const> shared_from_this() const;
+  };
+} // namespace std
+[codeblock:end]
+
+[para]
+[:en]
+The template parameter [`T] of [`enable_shared_from_this] may be an incomplete
+type.
+
+[%@library enable_shared_from_this[!constructor]]
+[codeblock:declaration]
+constexpr enable_shared_from_this() noexcept;
+enable_shared_from_this(const enable_shared_from_this<T>&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an [`enable_shared_from_this<T>] object.
+[exit:description]
+
+[%@library enable_shared_from_this[!operator=]]
+[%@library operator=[!enable_shared_from_this]]
+[codeblock:declaration]
+enable_shared_from_this<T>& operator=(const enable_shared_from_this<T>&) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library enable_shared_from_this[!destructor]]
+[codeblock:declaration]
+~enable_shared_from_this();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys [`*this].
+[exit:description]
+
+[%@library shared_ptr]
+[%@library enable_shared_from_this[!shared_from_this]]
+[%@library shared_from_this[!enable_shared_from_this]]
+[codeblock:declaration]
+shared_ptr<T>       shared_from_this();
+shared_ptr<T const> shared_from_this() const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`enable_shared_from_this<T>] shall be an accessible base class of [`T].
+
+[:en] [`*this] shall be a subobject of an object [`t] of type [`T].
+
+[:en] There shall be at least one [`shared_ptr] instance [`p] that [+owns]
+[`&t].
+
+[para:returns]
+[:en] A [`shared_ptr<T>] object [`r] that [+shares ownership with] [`p].
+
+[para:postconditions]
+[:en] [`r.get() == this].
+[exit:description]
+
+[para]
+[enter:note]
+[:en] A possible implementation is shown below:
+
+[codeblock]
+template<class T> class enable_shared_from_this {
+private:
+  weak_ptr<T> __weak_this;
+protected:
+  constexpr enable_shared_from_this() : __weak_this() { }
+  enable_shared_from_this(enable_shared_from_this const &) { }
+  enable_shared_from_this& operator=(enable_shared_from_this const &) { return *this; }
+  ~enable_shared_from_this() { }
+public:
+  shared_ptr<T> shared_from_this() { return shared_ptr<T>(__weak_this); }
+  shared_ptr<T const> shared_from_this() const { return shared_ptr<T const>(__weak_this); }
+};
+[codeblock:end]
+
+[para]
+[:en]
+The [`shared_ptr] constructors that create unique pointers can detect the
+presence of an [`enable_shared_from_this] base and assign the newly created
+[`shared_ptr] to its [`__weak_this] member.
+[exit:note]

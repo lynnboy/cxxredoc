@@ -1,0 +1,62 @@
+﻿[section#unique.ptr.single.modifiers
+    [:en] [`unique_ptr] modifiers
+]
+
+[%@library release[!unique_ptr]]
+[%@library unique_ptr[!release]]
+[codeblock:declaration]
+pointer release() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`get() == nullptr].
+
+[para:returns]
+[:en] The value [`get()] had at the start of the call to [`release].
+[exit:description]
+
+[%@library reset[!unique_ptr]]
+[%@library unique_ptr[!reset]]
+[codeblock:declaration]
+void reset(pointer p = pointer()) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`get_deleter()(get())] shall be well formed, shall have
+well-defined behavior, and shall not throw exceptions.
+
+[para:effects]
+[:en] assigns [`p] to the stored pointer, and then if the old value of the
+stored pointer, [`old_p], was not equal to [`nullptr], calls
+[`get_deleter()(old_p)].
+
+[enter:note]
+[:en] The order of these operations is significant because the call to
+[`get_deleter()] may destroy [`*this].
+[exit:note]
+
+[para:postconditions]
+[:en] [`get() == p].
+[enter:note]
+[:en] The postcondition does not hold if the call to [`get_deleter()] destroys
+[`*this] since [`this->get()] is no longer a valid expression.
+[exit:note]
+[exit:description]
+
+[%@library swap[!unique_ptr]]
+[%@library unique_ptr[!swap]]
+[codeblock:declaration]
+void swap(unique_ptr& u) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`get_deleter()] shall be swappable ([#swappable.requirements]) and shall
+not throw an exception under [`swap].
+
+[para:effects]
+[:en] Invokes [`swap] on the stored pointers and on the stored deleters of
+[`*this] and [`u].
+[exit:description]

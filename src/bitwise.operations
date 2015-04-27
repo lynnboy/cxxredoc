@@ -1,0 +1,127 @@
+﻿[section#bitwise.operations
+    [:en] Bitwise operations
+]
+
+[para]
+[:en]
+The library provides basic function object classes for all of the bitwise
+operators in the language ([#expr.bit.and], [#expr.or], [#expr.xor],
+[#expr.unary.op]).
+
+[%@library bit_and]
+[codeblock:declaration]
+template <class T = void> struct bit_and {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x & y].
+[exit:description]
+
+[%@library bit_or]
+[codeblock:declaration]
+template <class T = void> struct bit_or {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x | y].
+[exit:description]
+
+[%@library bit_xor]
+[codeblock:declaration]
+template <class T = void> struct bit_xor {
+  constexpr T operator()(const T& x, const T& y) const;
+  typedef T first_argument_type;
+  typedef T second_argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`x ^ y].
+[exit:description]
+
+[codeblock:declaration]
+template <class T = void> struct bit_not {
+  constexpr T operator()(const T& x) const;
+  typedef T argument_type;
+  typedef T result_type;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`~x].
+[exit:description]
+
+[%@library bit_and<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct bit_and<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) & std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) & std::forward<U>(u)].
+[exit:description]
+
+[%@library bit_or<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct bit_or<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) | std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) | std::forward<U>(u)].
+[exit:description]
+[%@library bit_xor<>]
+
+[codeblock:declaration [special unspecified] ]
+template <> struct bit_xor<void> {
+  template <class T, class U> constexpr auto operator()(T&& t, U&& u) const
+    -> decltype(std::forward<T>(t) ^ std::forward<U>(u));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`std::forward<T>(t) ^ std::forward<U>(u)].
+[exit:description]
+
+[%@library bit_not<>]
+[codeblock:declaration [special unspecified] ]
+template <> struct bit_not<void> {
+  template <class T> constexpr auto operator()(T&& t) const
+    -> decltype(~std::forward<T>(t));
+
+  typedef unspecified is_transparent;
+};
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] [`operator()] returns [`~std::forward<T>(t)].
+[exit:description]
