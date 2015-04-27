@@ -1,0 +1,47 @@
+﻿[section#strings.general
+    [:en] General
+]
+
+[para]
+[:en]
+This Clause describes components for manipulating sequences of any non-array POD
+([#basic.types]) type.
+
+[:en]
+In this Clause such types are called [%char-like type][+char-like types], and
+objects of char-like types are called [+char-like objects][%char-like object] or
+simply [+characters].
+
+[para]
+[:en]
+The following subclauses describe a character traits class, a string class, and
+null-terminated sequence utilities, as summarized in Table
+[#tab:strings.lib.summary].
+
+[table:listing#tab:strings.lib.summary
+    [:en] Strings library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+[|] [#char.traits]
+[|] [:en] Character traits
+[|] <string>
+
+[|] [#string.classes]
+[|] [:en] String classes
+[|] <string>
+
+[|] [#c.strings]
+[|] [:en] Null-terminated sequence utilities
+[|] <cctype> [br] <cwctype> [br] <cstring> [br] <cwchar> [br] <cstdlib> [br]
+    <cuchar>
+
+[table:end]

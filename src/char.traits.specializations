@@ -1,0 +1,32 @@
+﻿[section#char.traits.specializations
+    [:en] [`char_traits] specializations
+]
+
+[%@library char_traits]
+[codeblock:synopsis]
+namespace std {
+  template<> struct char_traits<char>;
+  template<> struct char_traits<char16_t>;
+  template<> struct char_traits<char32_t>;
+  template<> struct char_traits<wchar_t>;
+}
+[codeblock:end]
+
+[para]
+[:en]
+The header [`<string>] shall define four specializations of the template struct
+[`char_traits]: [`char_traits<char>], [`char_traits<char16_t>],
+[`char_traits<char32_t>], and [`char_traits<wchar_t>].
+
+[para]
+[:en]
+The requirements for the members of these specializations are given in
+Clause [#char.traits.require].
+
+[include char.traits.specializations.char]
+
+[include char.traits.specializations.char16_t]
+
+[include char.traits.specializations.char32_t]
+
+[include char.traits.specializations.wchar_t]

@@ -1,0 +1,17 @@
+﻿[section#basic.string.hash
+    [:en] Hash support
+]
+
+[%@library hash]
+[codeblock:declaration]
+template <> struct hash<string>;
+template <> struct hash<u16string>;
+template <> struct hash<u32string>;
+template <> struct hash<wstring>;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specializations shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+[exit:description]

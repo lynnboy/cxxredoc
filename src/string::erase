@@ -1,0 +1,92 @@
+﻿[section#string::erase
+    [:en] [`basic_string::erase]
+]
+
+[%@library basic_string[!erase]]
+[%@library erase[!basic_string]]
+[codeblock:declaration]
+basic_string& erase(size_type pos = 0, size_type n = npos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > size()].
+
+[para:effects]
+[:en] Determines the effective length [`xlen] of the string to be removed as the
+smaller of [`n] and [`size() - pos].
+
+[para]
+[:en] The function then replaces the string controlled by [`*this] with a string
+of length [`size() - xlen] whose first [`pos] elements are a copy of the initial
+elements of the original string controlled by [`*this], and whose remaining
+elements are a copy of the elements of the original string controlled by
+[`*this] beginning at position [`pos + xlen].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library erase[!basic_string]]
+[%@library basic_string[!erase]]
+[codeblock:declaration]
+iterator erase(const_iterator p);
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] Nothing.
+
+[para:effects]
+[:en] removes the character referred to by [`p].
+
+[para:returns]
+[:en] An iterator which points to the element immediately following [`p] prior
+to the element being erased.
+
+[:en] If no such element exists, [`end()] is returned.
+[exit:description]
+
+[%@library erase[!basic_string]]
+[%@library basic_string[!erase]]
+[codeblock:declaration]
+iterator erase(const_iterator first, const_iterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`first] and [`last] are valid iterators on [`*this], defining a range
+[`[first,last)].
+
+[para:throws]
+[:en] Nothing.
+
+[para:effects]
+[:en] removes the characters in the range [`[first,last)].
+
+[para:returns]
+[:en] An iterator which points to the element pointed to by [`last] prior to
+the other elements being erased.
+
+[:en] If no such element exists, [`end()] is returned.
+[exit:description]
+
+[%@library basic_string[!pop_back]]
+[%@library pop_back[!basic_string]]
+[codeblock:declaration]
+void pop_back();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`!empty()]
+
+[para:throws]
+[:en] Nothing.
+
+[para:effects]
+[:en] Equivalent to [`erase(size() - 1, 1)].
+[exit:description]

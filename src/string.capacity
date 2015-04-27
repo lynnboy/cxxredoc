@@ -1,0 +1,170 @@
+﻿[section#string.capacity
+    [:en] [`basic_string] capacity
+]
+
+[%@library basic_string[!size]]
+[%@library size[!basic_string]]
+[codeblock:declaration]
+size_type size() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A count of the number of char-like objects currently in the string.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library length[!basic_string]]
+[%@library basic_string[!length]]
+[codeblock:declaration]
+size_type length() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`size()].
+[exit:description]
+
+[%@library basic_string[!max_size]]
+[%@library max_size[!basic_string]]
+[codeblock:declaration]
+size_type max_size() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The size of the largest possible string.
+
+[para:complexity] Constant time.
+[exit:description]
+
+[%@library basic_string[!resize]]
+[%@library resize[!basic_string]]
+[codeblock:declaration]
+void resize(size_type n, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`n <= max_size()]
+
+[para:throws]
+[:en] [`length_error] if [`n > max_size()].
+
+[para:effects]
+[:en] Alters the length of the string designated by [`*this] as follows:
+
+[list]
+[item]
+[:en] If [`n <= size()], the function replaces the string designated by [`*this]
+with a string of length [`n] whose elements are a copy of the initial elements
+of the original string designated by [`*this].
+
+[item]
+[:en] If [`n > size()], the function replaces the string designated by [`*this]
+with a string of length [`n] whose first [`size()] elements are a copy of the
+original string designated by [`*this], and whose remaining elements are all
+initialized to [`c].
+[list:end]
+[exit:description]
+
+[%@library resize[!basic_string]]
+[%@library basic_string[!resize]]
+[codeblock:declaration]
+void resize(size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`resize(n,charT())].
+[exit:description]
+
+[%@library basic_string[!capacity]]
+[%@library capacity[!basic_string]]
+[codeblock:declaration]
+size_type capacity() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The size of the allocated storage in the string.
+[exit:description]
+
+[%@library basic_string[!reserve]]
+[%@library reserve[!basic_string]]
+[codeblock:declaration]
+void reserve(size_type res_arg=0);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The member function [`reserve()] is a directive that informs a
+[`basic_string] object of a planned change in size, so that it can manage the
+storage allocation accordingly.
+
+[para:effects]
+[:en] After [`reserve()], [`capacity()] is greater or equal to the argument of
+[`reserve].
+
+[enter:note]
+[:en] Calling [`reserve()] with a [`res_arg] argument less than [`capacity()]
+is in effect a non-binding shrink request.
+
+[:en] A call with [`res_arg <= size()] is in effect a non-binding shrink-to-fit
+request.
+[exit:note]
+
+[para:throws]
+[:en] [`length_error] if [`res_arg > max_size()].
+
+[footnote]
+[:en]
+[`reserve()] uses [`allocator_traits<Allocator>::allocate()] which may throw an
+appropriate exception.
+[footnote:end]
+[exit:description]
+
+[%@library basic_string[!shrink_to_fit]]
+[%@library shrink_to_fit[!basic_string]]
+[codeblock:declaration]
+void shrink_to_fit();
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] [`shrink_to_fit] is a non-binding request to reduce [`capacity()] to
+[`size()].
+
+[enter:note]
+[:en] The request is non-binding to allow latitude for implementation-specific
+optimizations.
+[exit:note]
+[exit:description]
+
+[%@library basic_string[!clear]]
+[%@library clear[!basic_string]]
+[codeblock:declaration]
+void clear() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as if the function calls:
+
+[codeblock]
+erase(begin(), end());
+[codeblock:end]
+[exit:description]
+
+[%@library basic_string[!empty]]
+[%@library empty[!basic_string]]
+[codeblock:declaration]
+bool empty() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`size() == 0].
+[exit:description]

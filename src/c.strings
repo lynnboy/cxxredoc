@@ -1,0 +1,506 @@
+﻿[section#c.strings
+    [:en] Null-terminated sequence utilities
+]
+
+[para]
+[:en]
+Tables [#tab:strings.hdr.cctype], [#tab:strings.hdr.cwctype],
+[#tab:strings.hdr.cstring], [#tab:strings.hdr.cwchar],
+[#tab:strings.hdr.cstdlib], and [#tab:strings.hdr.cuchar] describe headers
+[`<cctype>], [`<cwctype>], [`<cstring>], [`<cwchar>], [`<cstdlib>] (character
+conversions), and [`<cuchar>], respectively.
+
+[para]
+[:en]
+The contents of these headers shall be the same as the Standard C Library
+headers [`<ctype.h>], [`<wctype.h>], [`<string.h>], [`<wchar.h>], and
+[`<stdlib.h>] and the C Unicode TR header [`<uchar.h>], respectively, with the
+following modifications:
+
+[para]
+[%[`wchar_t]]
+[:en]
+The headers shall not define the types [`char16_t], [`char32_t], and [`wchar_t]
+([#lex.key]).
+
+[para]
+[%@library strchr]
+[:en]
+The function signature [`strchr(const char*, int)] shall be replaced by the two
+declarations:
+
+[codeblock]
+const char* strchr(const char* s, int c);
+      char* strchr(      char* s, int c);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library strpbrk]
+[:en]
+The function signature [`strpbrk(const char*, const char*)] shall be replaced by
+the two declarations:
+
+[codeblock]
+const char* strpbrk(const char* s1, const char* s2);
+      char* strpbrk(      char* s1, const char* s2);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library strrchr]
+[:en]
+The function signature [`strrchr(const char*, int)] shall be replaced by the two
+declarations:
+
+[codeblock]
+const char* strrchr(const char* s, int c);
+      char* strrchr(      char* s, int c);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library strstr]
+[:en]
+The function signature [`strstr(const char*, const char*)] shall be replaced by
+the two declarations:
+
+[codeblock]
+const char* strstr(const char* s1, const char* s2);
+      char* strstr(      char* s1, const char* s2);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library memchr]
+[:en]
+The function signature [`memchr(const void*, int, size_t)] shall be replaced by
+the two declarations:
+
+[codeblock]
+const void* memchr(const void* s, int c, size_t n);
+      void* memchr(      void* s, int c, size_t n);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library wcschr]
+The function signature [`wcschr(const wchar_t*, wchar_t)] shall be replaced by
+the two declarations:
+
+[codeblock]
+const wchar_t* wcschr(const wchar_t* s, wchar_t c);
+      wchar_t* wcschr(      wchar_t* s, wchar_t c);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library wcspbrk]
+[:en]
+The function signature [`wcspbrk(const wchar_t*, const wchar_t*)] shall be
+replaced by the two declarations:
+
+[codeblock]
+const wchar_t* wcspbrk(const wchar_t* s1, const wchar_t* s2);
+      wchar_t* wcspbrk(      wchar_t* s1, const wchar_t* s2);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library wcsrchr]
+[:en]
+The function signature [`wcsrchr(const wchar_t*, wchar_t)] shall be replaced by
+the two declarations:
+
+[codeblock]
+const wchar_t* wcsrchr(const wchar_t* s, wchar_t c);
+      wchar_t* wcsrchr(      wchar_t* s, wchar_t c);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library wcsstr]
+[:en]
+The function signature [`wcsstr(const wchar_t*, const wchar_t*)] shall be
+replaced by the two declarations:
+
+[codeblock]
+const wchar_t* wcsstr(const wchar_t* s1, const wchar_t* s2);
+      wchar_t* wcsstr(      wchar_t* s1, const wchar_t* s2);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[%@library wmemchr]
+[:en]
+The function signature [`wmemchr(const wwchar_t*, int, size_t)] shall be
+replaced by the two declarations:
+
+[codeblock]
+const wchar_t* wmemchr(const wchar_t* s, wchar_t c, size_t n);
+      wchar_t* wmemchr(      wchar_t* s, wchar_t c, size_t n);
+[codeblock:end]
+
+[:en@~]
+both of which shall have the same behavior as the original declaration.
+
+[para]
+[:en]
+The functions [`strerror] and [`strtok] are not required to avoid data races
+([#res.on.data.races]).
+
+[para]
+[:en]
+Calling the functions listed in Table [#tab:mbstate.data.races] with an
+[`mbstate_t*] argument of [`NULL] may introduce a data race
+([#res.on.data.races]) with other calls to these functions with an [`mbstate_t*]
+argument of [`NULL].
+
+[table:listing@horizontal@simple#tab:mbstate.data.races
+    [:en] Potential [`mbstate_t] data races
+    [column@code@5]
+]
+
+[|] mbrlen
+[|] mbrtowc
+[|] mbsrtowc
+[|] mbtowc
+[|] wcrtomb
+[|] wcsrtomb
+[|] wctomb
+
+[table:end]
+
+[para:xref]
+[:en] ISO C 7.3, 7.10.7, 7.10.8, and 7.11.
+[:en] Amendment 1 4.4, 4.5, and 4.6.
+
+[table:listing#tab:strings.hdr.cctype
+    [:en] Header [`<cctype>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@colspan=all] [=Functions]
+
+[|] isalnum
+[|] tolower
+[|] toupper
+[|] isblank
+[|] isalpha
+[|] iscntrl
+[|] isdigit
+[|] isgraph
+[|] islower
+[|] isprint
+[|] ispunct
+[|] isspace
+[|] isupper
+[|] isxdigit
+
+[table:end]
+
+[table:listing#tab:strings.hdr.cwctype
+    [:en] Header [`<cwctype>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] WEOF
+
+[-]
+[|] [=Types]
+
+[|] wctrans_t
+[|] wctype_t
+[|] wint_t
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] iswalnum
+[|] iswalpha
+[|] iswblank
+[|] iswcntrl
+[|] iswctype
+[|] iswdigit
+[|] iswgraph
+[|] iswlower
+[|] iswprint
+[|] iswpunct
+[|] iswspace
+[|] iswupper
+[|] iswxdigit
+[|] towctrans
+[|] towlower
+[|] towupper
+[|] wctrans
+[|] wctype
+
+[table:end]
+
+[table:listing#tab:strings.hdr.cstring
+    [:en] Header [`<cstring>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|@colspan=2] NULL <cstring>
+
+[-]
+[|] [=Types]
+
+[|@colspan=2] size_t <cstring>
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] memchr
+[|] memcmp
+[|] memcpy
+[|] memmove
+[|] memset
+[|] strcat
+[|] strchr
+[|] strcmp
+[|] strcoll
+[|] strcopy
+[|] strcspn
+[|] strerror
+[|] strlen
+[|] strncat
+[|] strncmp
+[|] strncpy
+[|] strpbrk
+[|] strrchr
+[|] strspn
+[|] strstr
+[|] strtok
+[|] strxfrm
+
+[table:end]
+
+[table:listing#tab:strings.hdr.cwchar
+    [:en] Header [`<cwchar>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] NULL
+[|] WCHAR_MAX
+[|] WCHAR_MIN
+[|] WEOF
+
+[-]
+[|] [=Types]
+
+[|] mbstate_t
+[|] wint_t
+[|] size_t
+[|] tm
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] btowc
+[|] fgetwc
+[|] fgetws
+[|] fputwc
+[|] fputws
+[|] fwide
+[|] fwprintf
+[|] fwscanf
+[|] getwchar
+[|] getwc
+[|] mbrlen
+[|] mbrtowc
+
+[|] mbsinit
+[|] mbsrtowcs
+[|] putwchar
+[|] putwc
+[|] swprintf
+[|] swscanf
+[|] ungetwc
+[|] vfwprintf
+[|] vfwscanf
+[|] vswprintf
+[|] vswscanf
+[|] vwprintf
+
+[|] vwscanf
+[|] wcrtomb
+[|] wcscat
+[|] wcschr
+[|] wcscmp
+[|] wcscoll
+[|] wcscpy
+[|] wcscspn
+[|] wcsftime
+[|] wcslen
+[|] wcsncat
+[|] wcsncmp
+
+[|] wcsncpy
+[|] wcspbrk
+[|] wcsrchr
+[|] wcsrtombs
+[|] wcsspn
+[|] wcsstr
+[|] wcstod
+[|] wcstof
+[|] wcstok
+[|] wcstold
+[|] wcstoll
+[|] wcstol
+
+[|] wcstoull
+[|] wcstoul
+[|] wcsxfrm
+[|] wctob
+[|] wmemchr
+[|] wmemcmp
+[|] wmemcpy
+[|] wmemmove
+[|] wmemset
+[|] wprintf
+[|] wscanf
+
+[table:end]
+
+[table:listing#tab:strings.hdr.cstdlib
+    [:en] Header [`<cstdlib>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] MB_CUR_MAX
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] atof
+[|] atoi
+[|] atol
+[|] atoll
+
+[|] mblen
+[|] mbtowc
+[|] mbstowcs
+[|] strtod
+
+[|] strtof
+[|] strtol
+[|] strtold
+[|] strtoll
+
+[|] strtoul
+[|] strtoull
+[|] wctomb
+[|] wcstombs
+
+[table:end]
+
+[table:listing#tab:strings.hdr.cuchar
+    [:en] Header [`<cuchar>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@rowspan=2] [=Macro]
+
+[|] __STDC_UTF_16__
+[|] __STDC_UTF_32__
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] mbrtoc16
+[|] mbrtoc32
+[|] c16rtomb
+[|] c32rtomb
+
+[table:end]

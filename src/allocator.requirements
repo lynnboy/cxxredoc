@@ -50,7 +50,7 @@ Within Tables [#tab:desc.var.def] and [#tab:utilities.allocator.requirements],
 the use of [`move] and [`forward] always refers to [`std::move]
 and [`std::forward], respectively.
 
-[table:listing@reflable#tab:desc.var.def
+[table:listing@reflabel#tab:desc.var.def
     [:en] Descriptive variable definitions
     [columns
         [column@code@headercenter
@@ -104,7 +104,7 @@ and [`std::forward], respectively.
         [|] [:en] a function parameter pack with the pattern [`Args&&]
 [table:end]
 
-[table:listing@reflable#tab:utilities.allocator.requirements
+[table:listing@reflabel#tab:utilities.allocator.requirements
     [:en] Allocator requirements
     [columns
         [column@code@headercenter

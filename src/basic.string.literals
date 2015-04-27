@@ -1,0 +1,45 @@
+﻿[section#basic.string.literals
+    [:en] Suffix for [`basic_string] literals
+]
+
+[codeblock:declaration]
+string operator "" s(const char* str, size_t len);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`string{str,len}]
+[exit:description]
+
+[codeblock:declaration]
+u16string operator "" s(const char16_t* str, size_t len);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`u16string{str,len}]
+[exit:description]
+
+[codeblock:declaration]
+u32string operator "" s(const char32_t* str, size_t len);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`u32string{str,len}]
+[exit:description]
+
+[codeblock:declaration]
+wstring operator "" s(const wchar_t* str, size_t len);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`wstring{str,len}]
+[exit:description]
+
+[para] [enter:note]
+[:en] The same suffix [`s] is used for [`chrono::duration] literals denoting
+seconds but there is no conflict, since duration suffixes apply to numbers and
+string literal suffixes apply to character array literals.
+[exit:note]

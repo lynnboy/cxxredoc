@@ -1,0 +1,50 @@
+﻿[section#string.require
+    [:en] [`basic_string] general requirements
+]
+
+[para]
+[:en]
+If any operation would cause [`size()] to exceed [`max_size()], that operation
+shall throw an exception object of type [`length_error].
+
+[para]
+[:en]
+If any member function or operator of [`basic_string] throws an exception, that
+function or operator shall have no other effect.
+
+[para]
+[:en]
+In every specialization [`basic_string<charT, traits, Allocator>], the type
+[`allocator_traits<Allocator>::value_type] shall name the same type as [`charT].
+
+[:en]
+Every object of type [`basic_string<charT, traits, Allocator>] shall use an
+object of type [`Allocator] to allocate and free storage for the contained
+[`charT] objects as needed.
+
+[:en]
+The [`Allocator] object used shall be obtained as described in
+[#container.requirements.general].
+
+[para]
+[:en]
+References, pointers, and iterators referring to the elements of a
+[`basic_string] sequence may be invalidated by the following uses of that
+[`basic_string] object:
+
+[list]
+[item]
+[:en] as an argument to any standard library function taking a reference to
+non-const [`basic_string] as an argument.
+
+[footnote]
+[:en]
+For example, as an argument to non-member functions [`swap()]
+([#string.special]), [`operator>>()] ([#string.io]), and [`getline()]
+([#string.io]), or as an argument to [`basic_string::swap()]
+[footnote:end]
+
+[item]
+[:en] Calling non-const member functions, except [`operator[`]], [`at],
+[`front], [`back], [`begin], [`rbegin], [`end], and [`rend].
+[list:end]

@@ -1,0 +1,60 @@
+﻿[section#string::op+=
+    [:en] [`basic_string::operator+=]
+]
+
+[%@library basic_string[!operator+=]]
+[%@library operator+=[!basic_string]]
+[codeblock:declaration]
+basic_string&
+  operator+=(const basic_string& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`append(str)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator+=[!basic_string]]
+[%@library basic_string[!operator+=]]
+[codeblock:declaration]
+basic_string& operator+=(const charT* s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`append(s)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library basic_string[!operator+=]]
+[%@library operator+=[!basic_string]]
+[codeblock:declaration]
+basic_string& operator+=(charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`push_back(c)];
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator+=[!basic_string]]
+[%@library basic_string[!operator+=]]
+[codeblock:declaration]
+basic_string& operator+=(initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`append(il)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

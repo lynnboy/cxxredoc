@@ -1,0 +1,103 @@
+﻿[section#string::compare
+    [:en] [`basic_string::compare]
+]
+
+[%@library basic_string[!compare]]
+[%@library compare[!basic_string]]
+[codeblock:declaration]
+int compare(const basic_string& str) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Determines the effective length [$rlen] of the strings to compare as the
+smallest of [`size()] and [`str.size()].
+
+[:en] The function then compares the two strings by calling
+[`traits::compare(data(), str.data(), rlen)].
+
+[para:returns]
+[:en] The nonzero result if the result of the comparison is nonzero.
+
+[:en] Otherwise, returns a value as indicated in Table [#tab:strings.compare].
+
+[table:listing#tab:strings.compare
+    [:en] [`compare()] results
+    [columns
+        [column@code@headercenter
+            [:en] Condition
+        ]
+        [column@code@headercenter
+            [:en] Return Value
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] size() <  str.size()   [|] < 0
+[|] size() == str.size()   [|]   0
+[|] size() <  str.size()   [|] > 0
+
+[table:end]
+
+[exit:description]
+
+[%@library compare[!basic_string]]
+[%@library basic_string[!compare]]
+[codeblock:declaration]
+int compare(size_type pos1, size_type n1,
+            const basic_string& str) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`basic_string(*this,pos1,n1).compare(str)].
+[exit:description]
+
+[%@library compare[!basic_string]]
+[%@library basic_string[!compare]]
+[codeblock:declaration]
+int compare(size_type pos1, size_type n1,
+            const basic_string& str,
+            size_type pos2, size_type n2 = npos) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`basic_string(*this, pos1, n1).compare(basic_string(str, pos2, n2))].
+[exit:description]
+
+[%@library compare[!basic_string]]
+[%@library basic_string[!compare]]
+[codeblock:declaration]
+int compare(const charT* s) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`compare(basic_string(s))].
+[exit:description]
+
+[%@library compare[!basic_string]]
+[%@library basic_string[!compare]]
+[codeblock:declaration]
+int compare(size_type pos, size_type n1,
+            const charT* s) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`basic_string(*this, pos, n1).compare(basic_string(s))].
+[exit:description]
+
+[%@library compare[!basic_string]]
+[%@library basic_string[!compare]]
+[codeblock:declaration]
+int compare(size_type pos, size_type n1,
+            const charT* s, size_type n2) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`basic_string(*this, pos, n1).compare(basic_string(s, n2))].
+[exit:description]

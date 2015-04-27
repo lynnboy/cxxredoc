@@ -1,0 +1,142 @@
+﻿[section#string::assign
+    [:en] [`basic_string::assign]
+]
+
+[%@library basic_string[!assign]]
+[%@library assign[!basic_string]]
+[codeblock:declaration]
+basic_string& assign(const basic_string& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`assign(str, 0, npos)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+basic_string& assign(basic_string&& str) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The function replaces the string controlled by [`*this] with a string of
+length [`str.size()] whose elements are a copy of the string controlled by
+[`str].
+
+[enter:note]
+[:en] A valid implementation is [`swap(str)].
+[exit:note]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+basic_string&
+  assign(const basic_string& str, size_type pos,
+         size_type n = npos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= str.size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > str.size()].
+
+[para:effects]
+[:en] Determines the effective length [`rlen] of the string to assign as the
+smaller of [`n] and [`str.size() - pos] and calls [`assign(str.data() + pos,
+rlen)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+basic_string& assign(const charT* s, size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`n] elements of [`charT].
+
+[para:throws]
+[:en] [`length_error] if [`n > max_size()].
+
+[para:effects]
+[:en] Replaces the string controlled by [`*this] with a string of length [`n]
+whose elements are a copy of those pointed to by [`s].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+basic_string& assign(const charT* s);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
+[`charT].
+
+[para:effects]
+[:en] Calls [`assign(s, traits::length(s))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+basic_string& assign(initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`assign(il.begin(), il.size())].
+
+[para]
+[:en] [`*this].
+[exit:description]
+
+[%@library length[!char_traits]]
+[codeblock:declaration]
+basic_string& assign(size_type n, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`assign(basic_string(n, c))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library assign[!basic_string]]
+[%@library basic_string[!assign]]
+[codeblock:declaration]
+template<class InputIterator>
+  basic_string& assign(InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`assign(basic_string(first, last))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

@@ -1,0 +1,69 @@
+﻿[section#string::find
+    [:en] [`basic_string::find]
+]
+
+[%@library basic_string[!find]]
+[%@library find[!basic_string]]
+[codeblock:declaration]
+size_type find(const basic_string& str,
+               size_type pos = 0) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Determines the lowest position [`xpos], if possible, such that both of
+the following conditions obtain:
+
+[list]
+[item]
+[:en] [`pos <= xpos] and [`xpos + str.size() <= size()];
+[item]
+[:en] [%@library eq[!char_traits]] [`traits::eq(at(xpos+I), str.at(I))]
+for all elements [`I] of the string controlled by [`str].
+[list:end]
+
+[para:returns]
+[:en] [`xpos] if the function can determine such a value for [`xpos].
+
+[:en] Otherwise, returns [`npos].
+
+[para:notes]
+[:en] Uses [`traits::eq()].
+[exit:description]
+
+[%@library find[!basic_string]]
+[%@library basic_string[!find]]
+[codeblock:declaration]
+size_type find(const charT* s, size_type pos, size_type n) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`find(basic_string(s,n),pos)].
+[exit:description]
+
+[%@library find[!basic_string]]
+[%@library basic_string[!find]]
+[codeblock:declaration]
+size_type find(const charT* s, size_type pos = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
+[`charT].
+
+[para:returns]
+[:en] [`find(basic_string(s), pos)].
+[exit:description]
+
+[%@library basic_string[!find]]
+[%@library find[!basic_string]]
+[codeblock:declaration]
+size_type find(charT c, size_type pos = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`find(basic_string(1,c), pos)].
+[exit:description]

@@ -1,0 +1,35 @@
+﻿[section#string.accessors
+    [:en] [`basic_string] accessors
+]
+
+[%@library c_str[!basic_string]]
+[%@library data[!basic_string]]
+[codeblock:declaration]
+const charT* c_str() const noexcept;
+const charT* data() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A pointer [`p] such that [`p + i == &operator[`](i)] for each [`i] in
+[=crange[0,size()]].
+
+[para:complexity]
+[:en] Constant time.
+
+[para:requires]
+[:en] The program shall not alter any of the values stored in the character
+array.
+[exit:description]
+
+[%@library get_allocator[!basic_string]]
+[%@library basic_string[!get_allocator]]
+[codeblock:declaration]
+allocator_type get_allocator() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A copy of the [`Allocator] object used to construct the string or, if that
+allocator has been replaced, a copy of the most recent replacement.
+[exit:description]

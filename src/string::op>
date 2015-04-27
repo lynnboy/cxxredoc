@@ -1,0 +1,42 @@
+﻿[section#string::op>
+    [:en] [`operator>]
+]
+
+[%@library operator>[!basic_string]]
+[%@library basic_string[!operator>]]
+[codeblock:declaration]
+template<class charT, class traits, class Allocator>
+  bool operator> (const basic_string<charT,traits,Allocator>& lhs,
+                  const basic_string<charT,traits,Allocator>& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) > 0].
+[exit:description]
+
+[%@library operator>[!basic_string]]
+[%@library basic_string[!operator>]]
+[codeblock:declaration]
+template<class charT, class traits, class Allocator>
+  bool operator> (const charT* lhs,
+                  const basic_string<charT,traits,Allocator>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(lhs) < 0].
+[exit:description]
+
+[%@library operator>[!basic_string]]
+[%@library basic_string[!operator>]]
+[codeblock:declaration]
+template<class charT, class traits, class Allocator>
+  bool operator> (const basic_string<charT,traits,Allocator>& lhs,
+                  const charT* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) > 0].
+[exit:description]

@@ -1,0 +1,23 @@
+﻿[section#string::swap
+    [:en] [`basic_string::swap]
+]
+
+[%@library basic_string[!swap]]
+[%@library swap[!basic_string]]
+[codeblock:declaration]
+void swap(basic_string& s)
+  noexcept(allocator_traits<Allocator>::propagate_on_container_swap::value ||
+           allocator_traits<Allocator>::is_always_equal::value);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`*this] contains the same sequence of characters that was in [`s], [`s]
+contains the same sequence of characters that was in [`*this].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]

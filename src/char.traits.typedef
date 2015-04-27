@@ -1,0 +1,69 @@
+﻿[section#char.traits.typedef
+    [:en] traits typedefs
+]
+
+[%@library char_type[!char_traits]]
+[%@library char_traits[!char_type]]
+[codeblock:declaration]
+typedef CHAR_T char_type;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en]
+The type [`char_type] is used to refer to the character container type in the
+implementation of the library classes defined in [#string.classes] and Clause
+[#input.output].
+[exit:description]
+
+[%@library int_type[!char_traits]]
+[%@library char_traits[!int_type]]
+[codeblock:declaration]
+typedef INT_T int_type;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] For a certain character container type [`char_type], a related container
+type [`INT_T] shall be a type or class which can represent all of the valid
+characters converted from the corresponding [`char_type] values, as well as an
+end-of-file value, [`eof()].
+
+[:en] The type [`int_type] represents a character container type which can hold
+end-of-file to be used as a return type of the iostream class member functions.
+
+[footnote]
+[:en]
+If [`eof()] can be held in [`char_type] then some iostreams operations may give
+surprising results.
+[footnote:end]
+[exit:description]
+
+[%@library off_type[!char_traits]]
+[%@library char_traits[!off_type]]
+[%@library pos_type[!char_traits]]
+[%@library char_traits[!pos_type]]
+[codeblock:declaration [special implementation-defined] ]
+typedef implementation-defined off_type;
+typedef implementation-defined pos_type;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Requirements for [`off_type] and [`pos_type] are described in
+[#iostreams.limits.pos] and [#iostream.forward].
+[exit:description]
+
+[%@library state_type[!char_traits]]
+[%@library char_traits[!state_type]]
+[codeblock:declaration]
+typedef STATE_T state_type;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`state_type]
+shall meet the requirements of [`CopyAssignable] (Table [#copyassignable]),
+[`CopyConstructible] (Table [#copyconstructible]), and [`DefaultConstructible]
+(Table [#defaultconstructible]) types.
+[exit:description]

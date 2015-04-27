@@ -1,0 +1,461 @@
+﻿[section#string.cons
+    [:en] [`basic_string] constructors and assignment operators
+]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+explicit basic_string(const Allocator& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_string].
+
+[:en] The postconditions of this function are indicated in Table
+[#tab:strings.ctr.1].
+
+[table:listing#tab:string.ctr.1
+    [:en] [`basic_string(const Allocator&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] a non-null pointer that is copyable and can have 0 added to it
+
+[|] size()
+[|] 0
+
+[|] capacity()
+[|] an unspecified value
+
+[table:end]
+
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(const basic_string& str);
+basic_string(basic_string&& str) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_string] as indicated in Table
+[#tab:strings.ctr.cpy].
+
+[:en] In the second form, [`str] is left in a valid state with an unspecified
+value.
+
+[table:listing#tab:string.ctr.cpy
+    [:en] [`basic_string(const basic_string&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of the array whose
+    first element is pointed at by [`str.data()]
+
+[|] size()
+[|] [`str.size()]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(const basic_string& str,
+             size_type pos, size_type n = npos,
+             const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= str.size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > str.size()].
+
+[para:effects]
+[:en] Constructs an object of class [`basic_string] and determines the effective
+length [`rlen] of the initial string value as the smaller of [`n] and
+[`str.size() - pos], as indicated in Table [#tab:strings.ctr.2].
+
+[table:listing#tab:string.ctr.2
+    [:en] [`basic_string(const basic_string&, size_type, size_type, const
+        Allocator&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of [`rlen]
+    consecutive elements of the string controlled by [`str] beginning at
+    position [`pos]
+
+[|] size()
+[|] [`rlen]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(const charT* s, size_type n,
+             const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`n] elements of [`charT].
+
+[para:effects]
+[:en] Constructs an object of class [`basic_string] and determines its initial
+string value from the array of [`charT] of length [`n] whose first element is
+designated by [`s], as indicated in Table [#tab:strings.ctr.3].
+
+[table:listing#tab:string.ctr.3
+    [:en] [`basic_string(const charT*, size_type, const Allocator&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of the array whose
+    first element is pointed at by [`s]
+
+[|] size()
+[|] [`n]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(const charT* s, const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
+[`charT].
+
+[para:effects]
+[:en] Constructs an object of class [`basic_string] and determines its initial
+string value from the array of [`charT] of length [`traits::length(s)] whose
+first element is designated by [`s], as indicated in Table [#tab:strings.ctr.4].
+
+[table:listing#tab:string.ctr.4
+    [:en] [`basic_string(const charT*, const Allocator&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of the array whose
+    first element is pointed at by [`s]
+
+[|] size()
+[|] [`traits::length(s)]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+
+[para:notes]
+[%@library length[!char_traits]]
+[:en] Uses [`traits::length()].
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(size_type n, charT c, const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`n < npos]
+
+[para:effects]
+[:en] Constructs an object of class [`basic_string] and determines its initial
+string value by repeating the char-like object [`c] for all [`n] elements,
+as indicated in Table [#tab:strings.ctr.5].
+
+[table:listing#tab:string.ctr.5
+    [:en] [`basic_string(size_t, charT, const Allocator&)] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated array of [`n] elements,
+    each storing the initial value [`c]
+
+[|] size()
+[|] [`n]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+template<class InputIterator>
+  basic_string(InputIterator begin, InputIterator end,
+               const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`InputIterator] is an integral type, equivalent to
+
+[codeblock]
+basic_string(static_cast<size_type>(begin), static_cast<value_type>(end), a)
+[codeblock:end]
+
+[para]
+[:en]
+Otherwise constructs a string from the values in the range [[`begin], [`end]),
+as indicated in the Sequence Requirements table (see [#sequence.reqmts]).
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(initializer_list<charT> il, const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Same as [`basic_string(il.begin(), il.end(), a)].
+[exit:description]
+
+[%@library basic_string[![:en]constructor]]
+[codeblock:declaration]
+basic_string(const basic_string& str, const Allocator& alloc);
+basic_string(basic_string&& str, const Allocator& alloc);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_string] as indicated in Table
+[#tab:strings.ctr.6].
+
+[:en] The stored allocator is constructed from [`alloc].
+
+[:en] In the second form, [`str] is left in a valid state with an unspecified
+value.
+
+[table:listing#tab:string.ctr.6
+    [:en] [`basic_string(const basic_string&, const Allocator&)] and [br]
+        [`basic_string(basic_string&&, const Allocator&)] effects
+
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of the array whose
+    first element is pointed at by the original value of [`str.data()].
+
+[|] size()
+[|] [:en] the original value of [`str.size()]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[|] get_allocator()
+[|] [`alloc]
+
+[table:end]
+
+[para:throws]
+[:en] The second form throws nothing if [`alloc == str.get_allocator()].
+[exit:description]
+
+[%@library operator=[!basic_string]]
+[%@library basic_string[!operator=]]
+[codeblock:declaration]
+basic_string& operator=(const basic_string& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`*this] and [`str] are not the same object, modifies [`*this] as shown
+in Table [#tab:strings.op=].
+
+[para]
+[:en] If [`*this] and [`str] are the same object, the member has no effect.
+
+[para:returns]
+[:en] [`*this]
+
+[table:listing#tab:strings.op=
+    [:en] [`operator=(const basic_string&)] effects
+
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the first element of an allocated copy of the array whose
+    first element is pointed at by [`str.data()]
+
+[|] size()
+[|] [`str.size()]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+
+[exit:description]
+
+[%@library operator=[!basic_string]]
+[%@library basic_string[!operator=]]
+[codeblock:declaration]
+basic_string& operator=(basic_string&& str)
+  noexcept(allocator_traits<Allocator>::propagate_on_container_move_assignment::value ||
+           allocator_traits<Allocator>::is_always_equal::value);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`*this] and [`str] are not the same object, modifies [`*this] as shown
+in Table [#tab:strings.op=rv].
+
+[enter:note]
+[:en] A valid implementation is [`swap(str)].
+[exit:note]
+
+[para]
+[:en] If [`*this] and [`str] are the same object, the member has no effect.
+
+[para:returns]
+[:en] [`*this]
+
+[table:listing#tab:strings.op=rv
+    [:en] [`operator=(basic_string&&)] effects
+
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+]
+
+[|] data()
+[|] [:en] points at the array whose first element was pointed at by
+    [`str.data()]
+
+[|] size()
+[|] [:en] previous value of [`str.size()]
+
+[|] capacity()
+[|] [:en] a value at least as large as [`size()]
+
+[table:end]
+
+[exit:description]
+
+[%@library operator=[!basic_string]]
+[%@library basic_string[!operator=]]
+[codeblock:declaration]
+basic_string& operator=(const charT* s);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this = basic_string(s)].
+
+[para:notes]
+[:en] Uses [%@library length[!char_traits]] [`traits::length()].
+[exit:description]
+
+[%@library operator=[!basic_string]]
+[%@library basic_string[!operator=]]
+[codeblock:declaration]
+basic_string& operator=(charT c);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this = basic_string(1,c)].
+[exit:description]
+
+[%@library operator=[!basic_string]]
+[%@library basic_string[!operator=]]
+[codeblock:declaration]
+basic_string& operator=(initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`*this = basic_string(il)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

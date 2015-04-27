@@ -1,0 +1,72 @@
+﻿[section#string.access
+    [:en] [`basic_string] element access
+]
+
+[%@library basic_string[!operator[]]]
+[%@library operator[][!basic_string]]
+[codeblock:declaration]
+const_reference operator[](size_type pos) const;
+reference       operator[](size_type pos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= size()].
+
+[para:returns]
+[:en] [`*(begin() + pos)] if [`pos < size()].
+
+[:en] Otherwise, returns a reference to an object of type [`charT] with value
+[`charT()], where modifying the object leads to undefined behavior.
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library basic_string[!at]]
+[%@library at[!basic_string]]
+[codeblock:declaration]
+const_reference at(size_type pos) const;
+reference       at(size_type pos);
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [`out_of_range] if [`pos >= size()].
+
+[para:returns]
+[:en] [`operator[`](pos)].
+[exit:description]
+
+[%@library basic_string[!front]]
+[%@library front[!basic_string]]
+[codeblock:declaration]
+const charT& front() const;
+charT& front();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`!empty()]
+
+[para:effects]
+[:en] Equivalent to [`operator[`](0)].
+[exit:description]
+
+[%@library basic_string[!back]]
+[%@library back[!basic_string]]
+[codeblock:declaration]
+const charT& back() const;
+charT& back();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`!empty()]
+
+[para:effects]
+[:en] Equivalent to [`operator[`](size() - 1)].
+[exit:description]

@@ -1,0 +1,65 @@
+﻿[section#string.iterators
+    [:en] [`basic_string] iterator support
+]
+
+[%@library basic_string[!begin]]
+[%@library begin[!basic_string]]
+[%@library basic_string[!cbegin]]
+[%@library cbegin[!basic_string]]
+[codeblock:declaration]
+iterator       begin() noexcept;
+const_iterator begin() const noexcept;
+const_iterator cbegin() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator referring to the first character in the string.
+[exit:description]
+
+[%@library end[!basic_string]]
+[%@library basic_string[!end]]
+[%@library cend[!basic_string]]
+[%@library basic_string[!cend]]
+[codeblock:declaration]
+iterator       end() noexcept;
+const_iterator end() const noexcept;
+const_iterator cend() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator which is the past-the-end value.
+[exit:description]
+
+[%@library rbegin[!basic_string]]
+[%@library basic_string[!rbegin]]
+[%@library crbegin[!basic_string]]
+[%@library basic_string[!crbegin]]
+[codeblock:declaration]
+reverse_iterator       rbegin() noexcept;
+const_reverse_iterator rbegin() const noexcept;
+const_reverse_iterator crbegin() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator which is semantically equivalent to
+[`reverse_iterator(end())].
+[exit:description]
+
+[%@library rend[!basic_string]]
+[%@library basic_string[!rend]]
+[%@library crend[!basic_string]]
+[%@library basic_string[!crend]]
+[codeblock:declaration]
+reverse_iterator       rend() noexcept;
+const_reverse_iterator rend() const noexcept;
+const_reverse_iterator crend() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator which is semantically equivalent to
+[`reverse_iterator(begin())].
+[exit:description]

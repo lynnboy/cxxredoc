@@ -1,0 +1,61 @@
+﻿[section#char.traits.specializations.wchar_t
+    [:en] [`struct char_traits<wchar_t>]
+]
+
+[%@library char_traits]
+[codeblock:synopsis]
+namespace std {
+  template<> struct char_traits<wchar_t> {
+    typedef wchar_t      char_type;
+    typedef wint_t       int_type;
+    typedef streamoff    off_type;
+    typedef wstreampos   pos_type;
+    typedef mbstate_t    state_type;
+
+    static void assign(char_type& c1, const char_type& c2) noexcept;
+    static constexpr bool eq(char_type c1, char_type c2) noexcept;
+    static constexpr bool lt(char_type c1, char_type c2) noexcept;
+
+    static int compare(const char_type* s1, const char_type* s2, size_t n);
+    static size_t length(const char_type* s);
+    static const char_type* find(const char_type* s, size_t n,
+                 const char_type& a);
+    static char_type* move(char_type* s1, const char_type* s2, size_t n);
+    static char_type* copy(char_type* s1, const char_type* s2, size_t n);
+    static char_type* assign(char_type* s, size_t n, char_type a);
+
+    static constexpr int_type not_eof(int_type c) noexcept;
+    static constexpr char_type to_char_type(int_type c) noexcept;
+    static constexpr int_type to_int_type(char_type c) noexcept;
+    static constexpr bool eq_int_type(int_type c1, int_type c2) noexcept;
+    static constexpr int_type eof() noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The defined types for [`int_type], [`pos_type], and [`state_type] shall be
+[`wint_t], [`wstreampos], and [`mbstate_t] respectively.
+
+[para]
+[:en]
+The type [`wstreampos] shall be an [%@impldef type of [`wstreampos]]
+implementation-defined type that satisfies the requirements for pos_type in
+[#iostreams.limits.pos] and [#iostream.forward].
+
+[para]
+[:en]
+The type [`mbstate_t] is defined in [`<cwchar>] and can represent any of the
+conversion states that can occur in an [%@impldef supported multibyte character
+encoding rules] implementation-defined set of supported multibyte character
+encoding rules.
+
+[para]
+[:en]
+The two-argument members [`assign], [`eq], and [`lt] shall be defined
+identically to the built-in operators [`=], [`==], and [`<] respectively.
+
+[para]
+[:en]
+The member [`eof()] shall return [`WEOF].

@@ -1,0 +1,140 @@
+﻿[section#string::append
+    [:en] [`basic_string::append]
+]
+
+[%@library basic_string[!append]]
+[%@library append[!basic_string]]
+[codeblock:declaration]
+basic_string&
+  append(const basic_string& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`append(str.data(), str.size())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library append[!basic_string]]
+[%@library basic_string[!append]]
+[codeblock:declaration]
+basic_string&
+  append(const basic_string& str, size_type pos, size_type n = npos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= str.size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > str.size()].
+
+[para:effects]
+[:en] Determines the effective length [`rlen] of the string to append as the
+smaller of [`n] and [`str.size() - pos] and calls [`append(str.data() + pos,
+rlen)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library append[!basic_string]]
+[%@library basic_string[!append]]
+[codeblock:declaration]
+basic_string&
+  append(const charT* s, size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`n] elements of [`charT].
+
+[para:throws]
+[:en] [`length_error] if [`size() + n > max_size()].
+
+[para:effects]
+[:en] The function replaces the string controlled by [`*this] with a string of
+length [`size() + n] whose first [`size()] elements are a copy of the original
+string controlled by [`*this] and whose remaining elements are a copy of the
+initial [`n] elements of [`s].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library append[!basic_string]]
+[%@library basic_string[!append]]
+[codeblock:declaration]
+basic_string& append(const charT* s);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
+[`charT].
+
+[para:effects]
+[:en] Calls [`append(s, traits::length(s))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library basic_string[!append]]
+[%@library append[!basic_string]]
+[codeblock:declaration]
+basic_string& append(size_type n, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`append(basic_string(n, c))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library append[!basic_string]]
+[%@library basic_string[!append]]
+[codeblock:declaration]
+template<class InputIterator>
+  basic_string& append(InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [=range[first,last)] is a valid range.
+
+[para:effects]
+[:en] Equivalent to [`append(basic_string(first, last))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library append[!basic_string]]
+[%@library basic_string[!append]]
+[codeblock:declaration]
+basic_string& append(initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`append(il.begin(), il.size())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library push_back[!basic_string]]
+[%@library basic_string[!push_back]]
+[codeblock:declaration]
+void push_back(charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`append(static_cast<size_type>(1), c)].
+[exit:description]

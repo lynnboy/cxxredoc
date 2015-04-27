@@ -1,0 +1,182 @@
+﻿[section#string::insert
+    [:en] [`basic_string::insert]
+]
+
+[%@library basic_string[!insert]]
+[%@library insert[!basic_string]]
+[codeblock:declaration]
+basic_string&
+  insert(size_type pos1,
+         const basic_string& str);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= size()].
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > size()].
+
+[para:effects]
+[:en] Calls [`insert(pos, str.data(), str.size())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+basic_string&
+  insert(size_type pos1,
+         const basic_string& str,
+         size_type pos2, size_type n = npos);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos1 <= size()] and [`pos2 <= str.size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos1 > size()] or [`pos2 > str.size()].
+
+[para:effects]
+[:en] Determines the effective length [`rlen] of the string to insert as the
+smaller of [`n] and [`str.size() - pos2] and calls [`insert(pos1, str.data() +
+pos2, rlen)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+basic_string&
+  insert(size_type pos, const charT* s, size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] points to an array of at least [`n] elements of [`charT] and
+[`pos <= size()].
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > size()] or [`length_error] if [`size() + n >
+max_size()].
+
+[para:effects]
+[:en] Replaces the string controlled by [`*this] with a string of length
+[`size() + n] whose first [`pos] elements are a copy of the initial elements of
+the original string controlled by [`*this] and whose next [`n] elements are a
+copy of the elements in [`s] and whose remaining elements are a copy of the
+remaining elements of the original string controlled by [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+basic_string&
+  insert(size_type pos, const charT* s);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= size()] and [`s] points to an array of at least
+[`traits::length(s) + 1] elements of [`charT].
+
+[para:effects]
+[:en] Equivalent to [`insert(pos, s, traits::length(s))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library basic_string[!insert]]
+[%@library insert[!basic_string]]
+[codeblock:declaration]
+basic_string&
+  insert(size_type pos, size_type n, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`insert(pos, basic_string(n, c))].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+iterator insert(const_iterator p, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] is a valid iterator on [`*this].
+
+[para:effects]
+[:en] inserts a copy of [`c] before the character referred to by [`p].
+
+[para:returns]
+[:en] An iterator which refers to the copy of the inserted character.
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+iterator insert(const_iterator p, size_type n, charT c);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] is a valid iterator on [`*this].
+
+[para:effects]
+[:en] inserts [`n] copies of [`c] before the character referred to by [`p].
+
+[para:returns]
+[:en] An iterator which refers to the copy of the first inserted character, or
+[`p] if [`n == 0].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+template<class InputIterator>
+  iterator insert(const_iterator p, InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`p] is a valid iterator on [`*this].
+
+[:en] [`[first,last)] is a valid range.
+
+[para:effects]
+[:en] Equivalent to [`insert(p - begin(), basic_string(first, last))].
+
+[para:returns]
+[:en] An iterator which refers to the copy of the first inserted character, or
+[`p] if [`first == last].
+[exit:description]
+
+[%@library insert[!basic_string]]
+[%@library basic_string[!insert]]
+[codeblock:declaration]
+iterator insert(const_iterator p, initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`insert(p, il.begin(), il.end())].
+
+[para:returns]
+[:en] An iterator which refers to the copy of the first inserted character, or
+[`p] if [`i1] is empty.
+[exit:description]

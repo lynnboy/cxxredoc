@@ -1,0 +1,161 @@
+﻿[section#char.traits.require
+    [:en] Character traits requirements
+]
+
+[para]
+[:en]
+In Table [#tab:char.traits.require], [`X] denotes a Traits class defining types
+and functions for the character container type [`CharT]; [`c] and [`d] denote
+values of type [`CharT]; [`p] and [`q] denote values of type [`const CharT*];
+[`s] denotes a value of type [`CharT*]; [`n], [`i] and [`j] denote values of
+type [`std::size_t]; [`e] and [`f] denote values of type [`X::int_type]; [`pos]
+denotes a value of type [`X::pos_type]; [`state] denotes a value of type
+[`X::state_type]; and [`r] denotes an lvalue of type [`CharT].
+
+[:en]
+Operations on Traits shall not throw exceptions.
+
+[table:listing#tab:char.traits.require
+    [:en] Character traits requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter@code
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+]
+
+[|] X::char_type
+[|] charT
+[|] [:en] (described in [#char.traits.typedefs])
+[|] compile-time
+
+[|] X::int_type
+[|] 
+[|] [:en] (described in [#char.traits.typedefs])
+[|] compile-time
+
+[|] X::off_type
+[|] 
+[|] [:en] (described in [#char.traits.typedefs])
+[|] compile-time
+
+[|] X::pos_type
+[|] 
+[|] [:en] (described in [#char.traits.typedefs])
+[|] compile-time
+
+[|] X::state_type
+[|] 
+[|] [:en] (described in [#char.traits.typedefs])
+[|] compile-time
+
+[|] X::eq(c,d)
+[|] bool
+[|] [:en] yields: whether [`c] is to be treated as equal to [`d].
+[|] constant
+
+[|] X::lt(c,d)
+[|] bool
+[|] [:en] yields: whether [`c] is to be treated as less than [`d].
+[|] constant
+
+[|] X::compare(p,q,n)
+[|] int
+[|] [:en] yields: [`0] if for each [`i] in [`[0,n)], [`X::eq(p[i`],q[i`])] is
+    true; else, a negative value if, for some [`j] in [`[0,n)],
+    [`X::lt(p[j`],q[j`])] is true and for each [`i] in [`[0,j)]
+    [`X::eq(p[i`],q[i`])] is true; else a positive value.
+[|] linear
+
+[|] X::length(p)
+[|] std::size_t
+[|] [:en] yields: the smallest [`i] such that [`X::eq(p[i`],charT())] is true.
+[|] linear
+
+[|] X::find(p,n,c)
+[|] const X::char_type*
+[|] [:en] yields: the smallest [`q] in [`[p,p+n)] such that [`X::eq(*q,c)] is
+    true, zero otherwise.
+[|] linear
+
+[|] X::move(s,p,n)
+[|] X::char_type*
+[|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],p[i`])].
+    [:en] Copies correctly even where the ranges [`[p,p+n)] and [`[s,s+n)]
+    overlap. yields: [`s].
+[|] linear
+
+[|] X::copy(s,p,n)
+[|] X::char_type*
+[|] [:en] pre: [`p] not in [`[s,s+n)].
+    [:en] yields: [`s].
+    [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i],p[i])].
+[|] linear
+
+[|] X::assign(r,d)
+[|] [:en] [$(not used)]
+[|] [:en] assigns [`r=d].
+[|] constant
+
+[|] X::assign(s,n,c)
+[|] X::char_type*
+[|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],c)].
+    [:en] yields: [`s].
+[|] linear
+
+[|] X::not_eof(e)
+[|] int_type
+[|] [:en] yields: [`e] if [`X::eq_int_type(e,X::eof())] is false, otherwise a
+    value [`f] such that [`X::eq_int_type(f,X::eof())] is false.
+[|] constant
+
+[|] X::to_char_type(e)
+[|] X::char_type
+[|] [:en] yields: if for some [`c], [`X::eq_int_type(e,X::to_int_type(c))]
+    is true, [`c]; else some unspecified value.
+[|] constant
+
+[|] X::to_int_type(c)
+[|] X::int_type
+[|] [:en] yields: some value [`e], constrained by the definitions of
+    [`to_char_type] and [`eq_int_type].
+[|] constant
+
+[|] X::eq_int_type(e,f)
+[|] bool
+[|] [:en] yields: for all [`c] and [`d], [`X::eq(c,d)] is equal to
+    [`X::eq_int_type(X::to_int_type(c), X::to_int_type(d))]; otherwise, yields
+    true if [`e] and [`f] are both copies of [`X::eof()]; otherwise, yields
+    false if one of [`e] and [`f] is a copy of [`X::eof()] and the other is not;
+    otherwise the value is unspecified.
+[|] constant
+
+[|] X::eof()
+[|] X::int_type
+[|] [:en] yields: a value [`e] such that [`X::eq_int_type(e,X::to_int_type(c))]
+    is false for all values [`c].
+[|] constant
+
+[table:end]
+
+[para]
+[:en]
+The struct template
+
+[%@library char_traits]
+[codeblock]
+template<class charT> struct char_traits;
+[codeblock:end]
+
+[:en@~]
+shall be provided in the header [`<string>] as a basis for explicit
+specializations.

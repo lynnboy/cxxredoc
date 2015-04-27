@@ -1,0 +1,35 @@
+﻿[section#string::copy
+    [:en] [`basic_string::copy]
+]
+
+[%@library basic_string[!copy]]
+[%@library copy[!basic_string]]
+[codeblock:declaration]
+size_type copy(charT* s, size_type n, size_type pos = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pos <= size()]
+
+[para:throws]
+[:en] [`out_of_range] if [`pos > size()].
+
+[para:effects]
+[:en] Determines the effective length [`rlen] of the string to copy as the
+smaller of [`n] and [`size() - pos].
+
+[:en] [`s] shall designate an array of at least [`rlen] elements.
+
+[para:~]
+[:en] The function then replaces the string designated by [`s] with a string of
+length [`rlen] whose elements are a copy of the string controlled by [`*this]
+beginning at position [`pos].
+
+[para:~]
+[:en] The function does not append a null object to the string designated by
+[`s].
+
+[para:returns]
+[:en] [`rlen].
+[exit:description]
