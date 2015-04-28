@@ -1,0 +1,56 @@
+﻿[section#stack.cons.alloc
+    [:en] [`stack] constructors with allocators
+]
+
+[para]
+[:en] If [`uses_allocator<container_type, Alloc>::value] is [`false] the
+constructors in this subclause shall not participate in overload resolution.
+
+[codeblock:declaration]
+template <class Alloc> explicit stack(const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`a].
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> stack(const container_type& cont, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`cont] as the first argument and [`a] as the
+second argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> stack(container_type&& cont, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(cont)] as the first argument and [`a]
+as the second argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> stack(const stack& s, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`s.c] as the first argument and [`a] as the second
+argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> stack(stack&& s, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(s.c)] as the first argument and [`a]
+as the second argument.
+[exit:description]

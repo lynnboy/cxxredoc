@@ -1,0 +1,719 @@
+﻿[section#container.requirements.general
+    [:en] General container requirements
+]
+
+[para]
+[:en]
+Containers are objects that store other objects.
+
+[:en]
+They control allocation and deallocation of these objects through constructors,
+destructors, insert and erase operations.
+
+[para]
+[:en]
+All of the complexity requirements in this Clause are stated solely in terms of
+the number of operations on the contained objects.
+
+[enter:example]
+[:en]
+the copy constructor of type [`vector <vector<int> >] has linear complexity,
+even though the complexity of copying each contained [`vector<int>] is itself
+linear.
+[exit:example]
+
+[para]
+[:en]
+For the components affected by this subclause that declare an [`allocator_type],
+objects stored in these components shall be constructed using the
+[`allocator_traits<allocator_type>::construct] function and destroyed using the
+[`allocator_traits<allocator_type>::destroy] function
+([#allocator.traits.members]).
+
+[:en]
+These functions are called only for the container[=']s element type, not for
+internal types used by the container.
+
+[enter:note]
+[:en]
+This means, for example, that a node-based container might need to construct
+nodes containing aligned buffers and call [`construct] to place the element into
+the buffer.
+[exit:note]
+
+[para]
+[:en]
+In Tables [#tab:containers.container.requirements],
+[#tab:containers.reversible.requirements], and
+[#tab:containers.optional.operations] [`X] denotes a container class containing
+objects of type [`T], [`a] and [`b] denote values of type [`X], [`u] denotes an
+identifier, [`r] denotes a non-const value of type [`X], and [`rv] denotes a
+non-const rvalue of type [`X].
+
+[table:listing#tab:containers.container.requirements
+    [:en] Container requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] X::value_type
+[|] [`T]
+[|]
+[|] [:en] [=Requires] [`T] is [`Erasable] from [`X] (see
+    [#container.requirements.general], below)
+[|] [:en] compile time
+
+[|] X::reference
+[|] [`T&]
+[|]
+[|]
+[|] [:en] compile time
+
+[|] X::const_reference
+[|] [`const T&]
+[|]
+[|]
+[|] [:en] compile time
+
+
+[|] X::iterator
+[|] [:en] iterator type whose value type is [`T]
+[|]
+[|] [:en] any iterator category that meets the forward iterator requirements.
+    [:en] convertible to [`X::const_iterator].
+[|] [:en] compile time
+
+[|] X::const_iterator
+[|] [:en] constant iterator type whose value type is [`T]
+[|]
+[|] [:en] any iterator category that meets the forward iterator requirements.
+[|] [:en] compile time
+
+[|] X::difference_type
+[|] [:en] signed integer type
+[|]
+[|] [:en] is identical to the difference type of [`X::iterator] and
+    [`X::const_iterator]
+[|] [:en] compile time
+
+[|] X::size_type
+[|] [:en] unsigned integer type
+[|]
+[|] [:en] [`size_type] can represent any non-negative value of
+    [`difference_type]
+[|] [:en] compile time
+
+[|] X u;
+[|]
+[|]
+[|] [:en] post: [`u.empty()]
+[|] [:en] constant
+
+[|] X()
+[|]
+[|]
+[|] [:en] post: [`X().empty()]
+[|] [:en] constant
+
+[|] X(a)
+[|]
+[|]
+[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below). [br]
+    post: [`a == X(a)].
+[|] [:en] linear
+
+[|] X u(a) [br] X u = a;
+[|]
+[|]
+[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below). [br]
+    post: [`u == a]       &
+[|] [:en] linear
+
+[|] X u(rv) [br] X u = rv
+[|]
+[|]
+[|] [:en] post: [`u] shall be equal to the value that [`rv] had before this
+    construction
+[|] [:en] (Note B)
+
+[|] a = rv
+[|] [`X&]
+[|] [:en] All existing elements of [`a] are either move assigned to or destroyed
+[|] [:en] [`a] shall be equal to the value that [`rv] had before this assignment
+[|] [:en] linear
+
+[|] (&a)->~X()
+[|] [`void]
+[|]
+[|] [:en] note: the destructor is applied to every element of [`a]; any memory
+    obtained is deallocated.
+[|] [:en] linear
+
+[|] a.begin()
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a]
+[|]
+[|]
+[|] [:en] constant
+
+[|] a.end()
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a]
+[|]
+[|]
+[|] [:en] constant
+
+[|] a.cbegin()
+[|] [`const_iterator]
+[|] [`const_cast<X const&>(a).begin();]
+[|]
+[|] [:en] constant
+
+[|] a.cend()
+[|] [`const_iterator]
+[|] [`const_cast<X const&>(a).end();]
+[|]
+[|] [:en] constant
+
+[|] a == b
+[|] [:en] convertible to [`bool]
+[|] [:en] [`==] is an equivalence relation. [br]
+    [`equal(a.begin(), a.end(), b.begin(), b.end())]
+[|] [:en] [=Requires] [`T] is [`EqualityComparable]
+[|] [:en] Constant if [`a.size() != b.size()], linear otherwise
+
+[|] a != b
+[|] [:en] convertible to [`bool]
+[|] [:en] Equivalent to: [`!(a == b)]
+[|]
+[|] [:en] linear
+
+[|] a.swap(b)
+[|] [`void]
+[|]
+[|] [:en] exchanges the contents of [`a] and [`b]
+[|] (Note A)
+
+[|] swap(a, b)
+[|] [`void]
+[|] [`a.swap(b)]
+[|]
+[|] [:en] (Note A)
+
+[|] r = a
+[|] [`X&]
+[|]
+[|] [:en] post: [`r == a].
+[|] [:en] linear
+
+[|] a.size()
+[|] [`size_type]
+[|] [`distance(a.begin(), a.end())]
+[|]
+[|] [:en] constant
+
+[|] a.max_size()
+[|] [`size_type]
+[|] [`distance(begin(), end())]
+[|] [:en] for the largest possible container
+[|] [:en] constant
+
+[|] a.empty()
+[|] convertible to [`bool]
+[|] [`a.begin() == a.end()]
+[|]
+[|] [:en] constant
+
+[table:end]
+
+[:en]
+Notes: the algorithm [`equal()] is defined in Clause [#algorithms].
+
+[:en]
+Those entries marked ["(Note A)] or ["(Note B)] have linear complexity for
+[`array] and have constant complexity for all other standard containers.
+
+[para]
+[:en]
+The member function [`size()] returns the number of elements in the container.
+
+[:en]
+The number of elements is defined by the rules of constructors, inserts, and
+erases.
+
+[para]
+[:en]
+[`begin()] returns an iterator referring to the first element in the container.
+
+[:en]
+[`end()] returns an iterator which is the past-the-end value for the container.
+
+[:en]
+If the container is empty, then [`begin() == end()];
+
+[para]
+[:en]
+In the expressions
+
+[codeblock:notation]
+i == j
+i != j
+i < j
+i <= j
+i >= j
+i > j
+i - j
+[codeblock:end]
+
+[:en@~]
+where [`i] and [`j] denote objects of a container[=']s [`iterator] type, either
+or both may be replaced by an object of the container[=']s [`const_iterator]
+type referring to the same element with no change in semantics.
+
+[para]
+[:en]
+Unless otherwise specified, all containers defined in this clause obtain memory
+using an allocator (see [#allocator.requirements]).
+
+[:en]
+Copy constructors for these container types obtain an allocator by calling
+[`allocator_traits<allocator_type>::select_on_container_copy_construction] on
+the allocator belonging to the container being copied.
+
+[:en]
+Move constructors obtain an allocator by move construction from the allocator
+belonging to the container being moved. Such move construction of the allocator
+shall not exit via an exception.
+
+[:en]
+All other constructors for these container types take a [`const allocator_type&]
+argument.
+
+[enter:note]
+[:en]
+If an invocation of a constructor uses the default value of an optional
+allocator argument, then the [`Allocator] type must support value
+initialization.
+[exit:note]
+
+[:en]
+A copy of this allocator is used for any memory allocation performed, by these
+constructors and by all member functions, during the lifetime of each container
+object or until the allocator is replaced.
+
+[:en]
+The allocator may be replaced only via assignment or [`swap()].
+
+[:en]
+Allocator replacement is performed by copy assignment, move assignment, or
+swapping of the allocator only if
+[`allocator_traits<allocator_type>::propagate_on_container_copy_assignment::value],
+[`allocator_traits<allocator_type>::propagate_on_container_move_assignment::value],
+or [`allocator_traits<allocator_type>::propagate_on_container_swap::value] is
+true within the implementation of the corresponding container operation.
+
+[:en]
+In all container types defined in this Clause, the member [`get_allocator()]
+returns a copy of the allocator used to construct the container or, if that
+allocator has been replaced, a copy of the most recent replacement.
+
+[para]
+[:en]
+The expression [`a.swap(b)], for containers [`a] and [`b] of a standard
+container type other than [`array], shall exchange the values of [`a] and [`b]
+without invoking any move, copy, or swap operations on the individual container
+elements.
+
+[:en]
+Lvalues of any [`Compare], [`Pred], or [`Hash] types belonging to [`a] and [`b]
+shall be swappable and shall be exchanged by calling [`swap] as described in
+[#swappable.requirements].
+
+[:en]
+If [`allocator_traits<allocator_type>::propagate_on_container_swap::value] is
+[`true], then lvalues of type [`allocator_type] shall be swappable and the
+allocators of [`a] and [`b] shall also be exchanged by calling [`swap] as
+described in [#swappable.requirements].
+
+[:en]
+Otherwise, the allocators shall not be swapped, and the behavior is undefined
+unless [`a.get_allocator() == b.get_allocator()].
+
+[:en]
+Every iterator referring to an element in one container before the swap shall
+refer to the same element in the other container after the swap.
+
+[:en]
+It is unspecified whether an iterator with value [`a.end()] before the swap will
+have value [`b.end()] after the swap.
+
+[para]
+[:en]
+If the iterator type of a container belongs to the bidirectional or random
+access iterator categories ([#iterator.requirements]), the container is called
+[+reversible] and satisfies the additional requirements in Table
+[#tab:containers.reversible.requirements].
+
+[table:listing#tab:containers.reversible.requirements
+    [:en] Reversible container requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] X::reverse_iterator
+[|] [:en] iterator type whose value type is [`T]
+[|] reverse_iterator<iterator>
+[|] [:en] compile time
+
+[|] X::const_reverse_iterator
+[|] [:en] constant iterator type whose value type is [`T]
+[|] reverse_iterator<const_iterator>
+[|] [:en] compile time
+
+[|] a.rbegin()
+[|] [:en] [`reverse_iterator; const_reverse_iterator] for constant [`a]
+[|] reverse_iterator(end())
+[|] [:en] constant
+
+[|] a.rend()
+[|] [:en] [`reverse_iterator; const_reverse_iterator] for constant [`a]
+[|] reverse_iterator(begin())
+[|] [:en] constant
+
+[|] a.crbegin()
+[|] [`const_reverse_iterator]
+[|] const_cast<X const&>(a).rbegin()
+[|] [:en] constant
+
+[|] a.crend()
+[|] [`const_reverse_iterator]
+[|] const_cast<X const&>(a).rend()
+[|] [:en] constant
+
+[table:end]
+
+[para]
+[:en]
+Unless otherwise specified (see [#associative.reqmts.except],
+[#unord.req.except], [#deque.modifiers], and [#vector.modifiers]) all container
+types defined in this Clause meet the following additional requirements:
+
+[list]
+[item]
+[:en] if an exception is thrown by an [`insert()] or [`emplace()] function while
+inserting a single element, that function has no effects.
+
+[item]
+[:en] if an exception is thrown by a [`push_back()], [`push_front()],
+[`emplace_back()], or [`emplace_front()] function, that function has no effects.
+
+[item]
+[:en] no [`erase()], [`clear()], [`pop_back()] or [`pop_front()] function throws
+an exception.
+
+[item]
+[:en] no copy constructor or assignment operator of a returned iterator throws
+an exception.
+
+[item]
+[:en] no [`swap()] function throws an exception.
+
+[item]
+[:en] no [`swap()] function invalidates any references, pointers, or iterators
+referring to the elements of the containers being swapped.
+
+[enter:note]
+[:en] The [`end()] iterator does not refer to any element, so it may be
+invalidated.
+[exit:note]
+[list:end]
+
+[para]
+[:en]
+Unless otherwise specified (either explicitly or by defining a function in terms
+of other functions), invoking a container member function or passing a container
+as an argument to a library function shall not invalidate iterators to, or
+change the values of, objects within that container.
+
+[para]
+[:en]
+[%container[!contiguous]]
+A [def contiguous container] is a container that supports random access
+iterators ([#random.access.iterators]) and whose member types [`iterator] and
+[`const_iterator] are contiguous iterators ([#iterator.requirements.general]).
+
+[para]
+[:en]
+Table [#tab:containers.optional.operations] lists operations that are provided
+for some types of containers but not others.
+
+[:en]
+Those containers for which the listed operations are provided shall implement
+the semantics described in Table [#tab:containers.optional.operations] unless
+otherwise stated.
+
+[table:listing#tab:containers.optional.operations
+    [:en] Optional container operations
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] a < b
+[|] [:en] convertible to [`bool]
+[|] lexicographical_compare( a.begin(), a.end(), b.begin(), b.end())
+[|] [:en] pre: [`<] is defined for values of [`T]. [`<] is a total ordering
+    relationship.
+[|] [:en] linear
+
+[|] a > b
+[|] [:en] convertible to [`bool]
+[|] b < a
+[|]
+[|] [:en] linear
+
+[|] a <= b
+[|] [:en] convertible to [`bool]
+[|] !(a > b)
+[|]
+[|] [:en] linear
+
+[|] a >= b
+[|] [:en] convertible to [`bool]
+[|] !(a < b)
+[|]
+[|] [:en] linear
+
+[table:end]
+
+[:en]
+Note: the algorithm [`lexicographical_compare()] is defined in Clause
+[#algorithms].
+
+[para]
+[:en]
+All of the containers defined in this Clause and in ([#basic.string]) except
+[`array] meet the additional requirements of an allocator-aware container, as
+described in Table [#tab:containers.allocatoraware].
+
+[:en]
+Given a container type [`X] having an [`allocator_type] identical to [`A] and a
+[`value_type] identical to [`T] and given an lvalue [`m] of type [`A], a pointer
+[`p] of type [`T*], an expression [`v] of type (possibly const) [`T], and an
+rvalue [`rv] of type [`T], the following terms are defined.
+
+[:en]
+If [`X] is not allocator-aware, the terms below are defined as if [`A] were
+[`std::allocator<T>] [=--] no allocator object needs to be created and user
+specializations of [`std::allocator<T>] are not instantiated:
+
+[list]
+[item]
+[:en] [`T] is [def [`DefaultInsertable] into [`X]] means that the following
+expression is well-formed:
+
+[codeblock:notation]
+allocator_traits<A>::construct(m, p)
+[codeblock:end]
+
+[item]
+[:en] An element of [`X] is [def default-inserted] if it is initialized
+by evaluation of the expression
+
+[codeblock:notation]
+allocator_traits<A>::construct(m, p)
+[codeblock:end]
+
+[:en@~] where [`p] is the address of the uninitialized storage for the element
+allocated within [`X].
+	
+[item]
+[:en] [`T] is [def [`MoveInsertable] into [`X]] means that the following
+expression is well-formed:
+
+[codeblock:notation]
+allocator_traits<A>::construct(m, p, rv)
+[codeblock:end]
+
+[:en@~] and its evaluation causes the following postcondition to hold:
+
+[:en] The value of [`*p] is equivalent to the value of [`rv] before the
+evaluation.
+
+[enter:note]
+[:en] rv remains a valid object. Its state is unspecified
+[exit:note]
+
+[item]
+[:en] [`T] is [def [`CopyInsertable] into [`X]] means that, in addition to [`T]
+being [`MoveInsertable] into [`X], the following expression is well-formed:
+
+[codeblock:notation]
+allocator_traits<A>::construct(m, p, v)
+[codeblock:end]
+
+[:en@~] and its evaluation causes the following postcondition to hold:
+
+[:en] The value of [`v] is unchanged and is equivalent to [`*p].
+
+[item]
+[:en] [`T] is [def [`EmplaceConstructible] into [`X] from [`args]], for zero
+or more arguments [`args], means that the following expression is well-formed:
+
+[codeblock:notation]
+allocator_traits<A>::construct(m, p, args)
+[codeblock:end]
+
+[item]
+[:en] [`T] is [def [`Erasable] from [`X]] means that the following expression is
+well-formed:
+
+[codeblock:notation]
+allocator_traits<A>::destroy(m, p)
+[codeblock:end]
+[list:end]
+
+[enter:note]
+[:en] A container calls [`allocator_traits<A>::construct(m, p, args)] to
+construct an element at [`p] using [`args].
+
+[:en] The default [`construct] in [`std::allocator] will call [`::new((void*)p)
+T(args)], but specialized allocators may choose a different definition.
+[exit:note]
+
+[para]
+[:en] In Table [#tab:containers.allocatoraware], [`X] denotes an allocator-aware
+container class with a [`value_type] of [`T] using allocator of type [`A], [`u]
+denotes a variable, [`a] and [`b] denote non-const lvalues of type [`X], [`t]
+denotes an lvalue or a const rvalue of type [`X], [`rv] denotes a non-const
+rvalue of type [`X], and [`m] is a value of type [`A].
+
+[table:listing#tab:containers.allocatoraware
+    [:en] Allocator-aware container requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter@code
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] allocator_type
+[|] A
+[|] [:en] [=Requires] [`allocator_type::value_type] is the same as
+    [`X::value_type].
+[|] [:en] compile time
+
+[|] get_allocator()]
+[|] A
+[|]
+[|] [:en] constant
+
+[|] X() [br] X u;
+[|]
+[|] [:en] [=Requires] [`A] is [`DefaultConstructible]. [br]
+    [:en] post: [`u.empty()] returns [`true], [`u.get_allocator() == A()]
+[|] [:en] constant
+
+[|] X(m) [br] X u(m);
+[|]
+[|] [:en] post: [`u.empty()] returns [`true], [`u.get_allocator() == m]
+[|] [:en] constant
+
+[|] X(t, m) [br] X u(t, m);
+[|]
+[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X]. [br]
+    [:en] post: [`u == t], [`u.get_allocator() == m]
+[|] [:en] linear
+
+[|] X(rv) [br] X u(rv)
+[|]
+[|] [:en] [=Requires] move construction of [`A] shall not exit via an exception.
+    [br]
+    [:en] post: [`u] shall have the same elements as [`rv] had before this
+    construction; the value of [`u.get_allocator()] shall be the same as the
+    value of [`rv.get_allocator()] before this construction.
+[|] [:en] constant
+
+[|] X(rv, m) [br] X u(rv, m);
+[|]
+[|] [:en] [=Requires] [`T] is [`MoveInsertable] into [`X]. [br]
+    [:en] post: [`u] shall have the same elements, or copies of the elements,
+    that [`rv] had before this construction, [`u.get_allocator() == m]
+[|] [:en] constant if [`m == rv.get_allocator()], otherwise linear
+
+[|] a = t
+[|] X&
+[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [br]
+    [:en] post: [`a == t]
+[|] [:en] linear
+
+[|] a = rv
+[|] X&
+[|] [:en] [=Requires] If [`allocator_traits<allocator_type>
+    ::propagate_on_container_move_assignment::value] is [`false], [`T] is
+    [`MoveInsertable] into [`X] and [`MoveAssignable].
+    [:en] All existing elements of [`a] are either move assigned to or
+    destroyed. [br]
+    [:en] post: [`a] shall be equal to the value that [`rv] had before this
+    assignment.
+[|] [:en] linear
+
+[|] a.swap(b)
+[|] void
+[|] [:en] exchanges the contents of [`a] and [`b]
+[|] [:en] constant
+
+[table:end]

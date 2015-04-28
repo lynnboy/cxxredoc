@@ -1,0 +1,56 @@
+﻿[section#queue.cons.alloc
+    [:en] [`queue] constructors with allocators
+]
+
+[para]
+[:en] If [`uses_allocator<container_type, Alloc>::value] is [`false] the
+constructors in this subclause shall not participate in overload resolution.
+
+[codeblock:declaration]
+template <class Alloc> explicit queue(const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`a].
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> queue(const container_type& cont, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`cont] as the first argument and [`a] as the second
+argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> queue(container_type&& cont, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(cont)] as the first argument and [`a] as
+the second argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> queue(const queue& q, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`q.c] as the first argument and [`a] as the second
+argument.
+[exit:description]
+
+[codeblock:declaration]
+template <class Alloc> queue(queue&& q, const Alloc& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(q.c)] as the first argument and [`a] as
+the second argument.
+[exit:description]

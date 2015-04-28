@@ -1,0 +1,434 @@
+﻿[section#associative.reqmts
+    [:en] Associative containers
+]
+
+[para]
+[:en] Associative containers provide fast retrieval of data based on keys.
+
+[:en] The library provides four basic kinds of associative containers: [`set],
+[`multiset], [`map] and [`multimap].
+
+[para]
+[:en] Each associative container is parameterized on [`Key] and an ordering
+relation [`Compare] that induces a strict weak ordering ([#alg.sorting]) on
+elements of [`Key].
+
+[:en] In addition, [`map] and [`multimap] associate an arbitrary [+mapped type]
+[`T] with the [`Key].
+
+[:en] The object of type [`Compare] is called the [+comparison object] of a
+container.
+
+[para]
+[:en] The phrase ["equivalence of keys] means the equivalence relation imposed
+by the comparison and [em not] the [`operator==] on keys.
+
+[:en]
+That is, two keys [`k1] and [`k2] are considered to be equivalent if for the
+comparison object [`comp], [`comp(k1, k2) == false && comp(k2, k1) == false].
+
+[:en] For any two keys [`k1] and [`k2] in the same container, calling
+[`comp(k1, k2)] shall always return the same value.
+
+[para]
+[:en] An associative container supports [+unique keys] if it may contain at
+most one element for each key. Otherwise, it supports [+equivalent keys].
+
+[:en] The [`set] and [`map] classes support unique keys; the [`multiset] and
+[`multimap] classes support equivalent keys.
+
+[:en] For [`multiset] and [`multimap], [`insert], [`emplace], and [`erase]
+preserve the relative ordering of equivalent elements.
+
+[para]
+[:en] For [`set] and [`multiset] the value type is the same as the key type.
+
+[:en] For [`map] and [`multimap] it is equal to [`pair<const Key, T>].
+
+[para]
+[:en] [`iterator] of an associative container is of the bidirectional iterator
+category.
+
+[:en] For associative containers where the value type is the same as the key
+type, both [`iterator] and [`const_iterator] are constant iterators.
+
+[:en] It is unspecified whether or not [`iterator] and [`const_iterator] are the
+same type.
+
+[enter:note]
+[:en] [`iterator] and [`const_iterator] have identical semantics in this case,
+and [`iterator] is convertible to [`const_iterator].
+
+[:en] Users can avoid violating the One Definition Rule by always using
+[`const_iterator] in their function parameter lists.
+[exit:note]
+
+[para]
+[:en] The associative containers meet all the requirements of Allocator-aware
+containers ([#container.requirements.general]), except that for [`map] and
+[`multimap], the requirements placed on [`value_type] in Table
+[#tab:containers.container.requirements] apply instead to [`key_type] and
+[`mapped_type].
+
+[enter:note]
+[:en] For example, in some cases [`key_type] and [`mapped_type] are required to
+be [`CopyAssignable] even though the associated [`value_type],
+[`pair<const key_type, mapped_type>], is not [`CopyAssignable].
+[exit:note]
+
+[para]
+[:en] In Table [#tab:containers.associative.requirements], [`X] denotes an
+associative container class, [`a] denotes a value of type [`X], [`u] denotes the
+name of a variable being declared, [`a_uniq] denotes a value of type [`X] when
+[`X] supports unique keys, [`a_eq] denotes a value of type [`X] when [`X]
+supports multiple keys, [`a_tran] denotes a value of type [`X] when the
+[~qualified-id] [`X::key_compare::is_transparent] is valid and denotes a type
+([#temp.deduct]), [`i] and [`j] satisfy input iterator requirements and refer to
+elements implicitly convertible to [`value_type], [=range[i,j)] denotes a valid
+range, [`p] denotes a valid const iterator to [`a], [`q] denotes a valid
+dereferenceable const iterator to [`a], [`[q1, q2)] denotes a valid range of
+const iterators in [`a], [`il] designates an object of type
+[`initializer_list<value_type>], [`t] denotes a value of type [`X::value_type],
+[`k] denotes a value of type [`X::key_type] and [`c] denotes a value of type
+[`X::key_compare]; [`kl] is a value such that [`a] is partitioned
+([#alg.sorting]) with respect to [`c(r, kl)], with [`r] the key value of [`e]
+and [`e] in [`a]; [`ku] is a value such that [`a] is partitioned with respect to
+[`!c(ku, r)]; [`ke] is a value such that [`a] is partitioned with respect to
+[`c(r, ke)] and [`!c(ke, r)], with [`c(r, ke)] implying [`!c(ke, r)].
+
+[:en] [`A] denotes the storage allocator used by [`X], if any, or
+[`std::allocator<X::value_type>] otherwise, and [`m] denotes an allocator of a
+type convertible to [`A].
+
+[table:listing#tab:containers.associative.requirements
+    [:en] Associative container requirements (in addition to container)
+    [columns
+        [column@headercenter
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`X::key_type]
+[|] [`Key]
+[|]
+[|] [:en] compile time
+
+[|] [:en] [`mapped_type] ([`map] and [`multimap] only)
+[|] [`T]
+[|]
+[|] [:en] compile time
+
+[|] [:en] [`X::value_type] ([`set] and [`multiset] only)
+[|] [`Key]
+[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [:en] compile time
+
+[|] [:en] [`X::value_type] ([`map] and [`multimap] only)
+[|] [`pair<const Key, T>]
+[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [:en] compile time
+
+[|] [`X::key_compare]
+[|] [`Compare]
+[|] [:en] defaults to [`less<key_type>]
+[|] [:en] compile time
+
+[|] [`X::value_compare]
+[|] [:en] a binary predicate type
+[|] [:en] is the same as [`key_compare] for [`set] and [`multiset]; is an
+    ordering relation on pairs induced by the first component (i.e., [`Key]) for
+    [`map] and [`multimap].
+[|] [:en] compile time
+
+[|] [`X(c)] [br] [`X u(c);]
+[|]
+[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible]. [br]
+    [:en] [=Effects] Constructs an empty container.
+    [:en] Uses a copy of [`c] as a comparison object.
+[|] [:en] constant
+
+[|] [`X()] [br] [`X u;]
+[|]
+[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible]. [br]
+    [:en] [=Effects] Constructs an empty container.
+    [:en] Uses [`Compare()] as a comparison object
+[|] [:en] constant
+
+[|] [`X(i,j,c)] [br] [`X u(i,j,c);]
+[|]
+[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Constructs an empty container and inserts elements from the
+    range [`[i, j)] into it; uses [`c] as a comparison object.
+[|] [:en] [$N] log [$N] in general ([$N] has the value [`distance(i, j)]);
+    linear if [`[i, j)] is sorted with [`value_comp()]
+
+[|] [`X(i,j)] [br] [`X u(i,j);]
+[|]
+[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Same as above, but uses [`Compare()] as a comparison object
+[|] [:en] same as above
+
+[|] [`X(il);]
+[|]
+[|] [:en] Same as [`X(il.begin(), il.end())].
+[|] [:en] Same as [`X(il.begin(), il.end())].
+
+[|] [`X(il,c);]
+[|]
+[|] [:en] Same as [`X(il.begin(), il.end(), c)].
+[|] [:en] Same as [`X(il.begin(), il.end(), c)].
+
+[|] [`a = il]
+[|] [`X&]
+[|] [:en] [=Requires] [`value_type] is [`CopyInsertable] into [`X] and
+    [`CopyAssignable]. [br]
+[|] [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:en] All existing elements of [`a] are either assigned to or destroyed.
+[|] [$N] log [$N] in general (where $N$ has the value [`il.size() + a.size()]);
+    linear if [=range[il.begin(),il.end())] is sorted with [`value_comp()].
+
+[|] [`a.key_comp()]
+[|] [`X::key_compare]
+[|] [:en] returns the comparison object out of which [`a] was constructed.
+[|] [:en] constant
+
+[|] [`a.value_comp()]
+[|] [`X::value_compare]
+[|] [:en] returns an object of [`value_compare] constructed out of the
+    comparison object
+[|] [:en] constant
+
+[|] [`a_uniq.emplace(args)]
+[|] [`pair<iterator, bool>]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`args]. [br]
+    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+    [`std::forward<Args>(args)...] if and only if there is no element in the
+    container with key equivalent to the key of [`t].
+    [:en] The [`bool] component of the returned pair is true if and only if the
+    insertion takes place, and the iterator component of the pair points to the
+    element with key equivalent to the key of [`t].
+[|] [:en] logarithmic
+
+[|] [`a_eq.emplace(args)]
+[|] [`iterator]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`args]. [br]
+    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+    [`std::forward<Args>(args)...] and returns the iterator pointing
+    to the newly inserted element.
+    [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
+    [`t] is inserted at the end of that range.
+[|] [:en] logarithmic
+
+[|] [`a.emplace_hint(p, args)]
+[|] [`iterator]
+[|] [:en] equivalent to [`a.emplace(std::forward<Args>(args)...)].
+    [:en] Return value is an iterator pointing to the element with the key
+    equivalent to the newly inserted element.
+    [:en] The element is inserted as close as possible to the position just
+    prior to [`p].
+[|] [:en] logarithmic in general, but amortized constant if the element is
+    inserted right before [`p]
+
+[|] [`a_uniq.insert(t)]
+[|] [`pair<iterator, bool>]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Inserts [`t] if and only if there is no element in the
+    container with key equivalent to the key of [`t].
+    [:en] The [`bool] component of the returned pair is true if and only if the
+    insertion takes place, and the [`iterator] component of the pair points to
+    the element with key equivalent to the key of [`t].
+[|] [:en] logarithmic
+
+[|] [`a_eq.insert(t)]
+[|] [`iterator]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Inserts [`t] and returns the iterator pointing to the newly
+    inserted element.
+    [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
+    [`t] is inserted at the end of that range.
+[|] [:en] logarithmic
+
+[|] [`a.insert(p, t)]
+[|] [`iterator]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Inserts [`t] if and only if there is no element with key
+    equivalent to the key of [`t] in containers with unique keys; always inserts
+    [`t] in containers with equivalent keys.
+    [:en] Always returns the iterator pointing to the element with key
+    equivalent to the key of [`t].
+    [:en] [`t] is inserted as close as possible to the position just prior to
+    [`p].
+[|] [:en] logarithmic in general, but amortized constant if [`t] is inserted
+    right before [`p].
+
+[|] [`a.insert(i, j)]
+[|] [`void]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`*i]. [br]
+    [:en] pre: [`i], [`j] are not iterators into [`a].
+    [:en] inserts each element from the range [=range[i,j)] if and only if there
+    is no element with key equivalent to the key of that element in containers
+    with unique keys; always inserts that element in containers with equivalent
+    keys.
+[|] [:en] [$N] log([`a.size()] [$+] [$N][`)] ([$N] has the value
+    [`distance(i, j)]
+
+[|] [`a.insert(il)]
+[|] [`void]
+[|] [:en] Equivalent to [`a.insert(il.begin(), il.end())].
+[|]
+
+[|] [`a.erase(k)]
+[|] [`size_type]
+[|] [:en] erases all elements in the container with key equivalent to [`k].
+    [:en] returns the number of erased elements.
+[|] [:en] log([`a.size()]) [$+] [`a.count([$k])]
+
+[|] [`a.erase(q)]
+[|] [`iterator]
+[|] [:en] erases the element pointed to by [`q].
+    [:en] Returns an iterator pointing to the element immediately following [`q]
+    prior to the element being erased.
+    [:en] If no such element exists, returns [`a.end()].
+[|] [:en] amortized constant
+
+[|] [`a.erase(q1, q2)]
+[|] [`iterator]
+[|] [:en] erases all the elements in the range [=range[q1,q2)].
+    [:en] Returns an iterator pointing to the element pointed to by q2 prior to
+    any elements being erased.
+    [:en] If no such element exists, [`a.end()] is returned.
+[|] [:en] log([`a.size()]) [$+] [$N] where [$N] has the value
+    [`distance(q1, q2)].
+
+[|] [`a.clear()]
+[|] [`void]
+[|] [:en] [`a.erase(a.begin(),a.end())] [br]
+    [:en] post: [`a.empty()] returns [`true]
+[|] [:en] linear in [`a.size()].
+
+[|] [`a.find(k)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+[|] [:en] returns an iterator pointing to an element with the key equivalent to
+    [`k], or [`a.end()] if such an element is not found
+[|] [:en] logarithmic
+
+[|] [`a_tran.find(ke)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+[|] [:en] returns an iterator pointing to an element with key [`r] such that
+    [`!c(r, ke) && !c(ke, r)], or [`a_tran.end()] if such an element is not
+    found
+[|] [:en] logarithmic
+
+[|] [`a.count(k)]
+[|] [`size_type]
+[|] [:en] returns the number of elements with key equivalent to [`k]
+[|] [:en] log([`a.size()]) [$+] [`a.count([$k])]
+
+[|] [`a_tran.count(ke)]
+[|] [`size_type]
+[|] [:en] returns the number of elements with key [`r] such that
+    [`!c(r, ke) && !c(ke, r)]
+[|] [:en] log([`a_tran.size()]) [$+] [`a_tran.count([$ke])]
+
+[|] [`a.lower_bound(k)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+[|] [:en] returns an iterator pointing to the first element with key not less
+    than [`k], or [`a.end()] if such an element is not found.
+[|] [:en] logarithmic
+
+[|] [`a_tran.lower_bound(kl)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+[|] [:en] returns an iterator pointing to the first element with key [`r] such
+    that [`!c(r, kl)], or [`a_tran.end()] if such an element is not found.
+[|] [:en] logarithmic
+
+[|] [`a.upper_bound(k)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+[|] [:en] returns an iterator pointing to the first element with key greater
+    than [`k], or [`a.end()] if such an element is not found.
+[|] [:en] logarithmic
+
+[|] [`a_tran.upper_bound(ku)]
+[|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+[|] [:en] returns an iterator pointing to the first element with key [`r] such
+    that [`c(ku, r)], or [`a_tran.end()] if such an element is not found.
+[|] [:en] logarithmic
+
+[|] [`a.equal_range(k)]
+[|] [:en] [`pair<iterator, iterator>]; [`pair<const_iterator, const_iterator>]
+    for constant [`a].
+[|] [:en] equivalent to [`make_pair(a.lower_bound(k), a.upper_bound(k))].
+[|] [:en] logarithmic
+
+[|] [`a_tran.equal_range(ke)]
+[|] [:en] [`pair<iterator, iterator>]; [`pair<const_iterator, const_iterator>]
+    for constant [`a_tran].
+[|] [:en] equivalent to [`make_pair(a_tran.lower_bound(ke),
+    a_tran.upper_bound(ke))].
+[|] [:en] logarithmic
+
+[table:end]
+
+[para]
+[:en] The [`insert] and [`emplace] members shall not affect the validity of
+iterators and references to the container, and the [`erase] members shall
+invalidate only iterators and references to the erased elements.
+
+[para]
+[:en] The fundamental property of iterators of associative containers is that
+they iterate through the containers in the non-descending order of keys where
+non-descending is defined by the comparison that was used to construct them.
+
+[:en] For any two dereferenceable iterators [`i] and [`j] such that distance
+from [`i] to [`j] is positive,
+
+[codeblock:notation]
+value_comp(*j, *i) == false
+[codeblock:end]
+
+[para]
+[:en] For associative containers with unique keys the stronger condition holds,
+
+[codeblock:notation]
+value_comp(*i, *j) != false.
+[codeblock:end]
+
+[para]
+[:en] When an associative container is constructed by passing a comparison
+object the container shall not store a pointer or reference to the passed
+object, even if that object is passed by reference.
+
+[:en] When an associative container is copied, either through a copy constructor
+or an assignment operator, the target container shall then use the comparison
+object from the container being copied, as if that comparison object had been
+passed to the target container in its constructor.
+
+[para]
+[:en] The member function templates [`find], [`count], [`lower_bound],
+[`upper_bound], and [`equal_range] shall not participate in overload resolution
+unless the [~qualified-id] [`Compare::is_transparent] is valid and denotes a
+type ([#temp.deduct]).
+
+[include associative.reqmts.except]

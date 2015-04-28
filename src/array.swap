@@ -1,0 +1,22 @@
+﻿[section#array.swap
+    [:en] [`array::swap]
+]
+
+[%@library array[!swap]]
+[%@library swap[!array]]
+[codeblock:declaration]
+void swap(array& y) noexcept(noexcept(swap(declval<T&>(), declval<T&>())));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`swap_ranges(begin(), end(), y.begin())]
+
+[para:throws]
+[:en] Nothing unless one of the element-wise swap calls throws an exception.
+
+[para:realnote]
+[:en] Unlike the [`swap] function for other containers, [`array::swap] takes
+linear time, may exit via an exception, and does not cause iterators to become
+associated with the other container.
+[exit:description]

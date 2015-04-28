@@ -1,0 +1,28 @@
+﻿[section#container.requirements.dataraces
+    [:en] Container data races
+]
+
+[para]
+[:en]
+For purposes of avoiding data races ([#res.on.data.races]), implementations shall
+consider the following functions to be [`const]: [`begin], [`end], [`rbegin],
+[`rend], [`front], [`back], [`data], [`find], [`lower_bound], [`upper_bound],
+[`equal_range], [`at] and, except in associative or unordered associative
+containers, [`operator[`]].
+
+[para]
+[:en]
+Notwithstanding ([#res.on.data.races]), implementations are required to avoid
+data races when the contents of the contained object in different elements in
+the same container, excepting [`vector<bool>], are modified concurrently.
+
+[para]
+[enter:note]
+[:en] For a [`vector<int> x] with a size greater than one, [`x[1`] = 5] and
+[`*x.begin() = 10] can be executed concurrently without a data race, but
+[`x[0`] = 5] and [`*x.begin() = 10] executed concurrently may result in a data
+race.
+
+[:en] As an exception to the general rule, for a [`vector<bool> y],
+[`y[0`] = true] may race with [`y[1`] = true].
+[exit:note]

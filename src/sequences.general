@@ -1,0 +1,169 @@
+﻿[section#sequences.general
+    [:en] In general
+]
+
+[para]
+[:en] The headers [`<array>], [`<deque>], [`<forward_list>], [`<list>], and
+[`<vector>] define template classes that meet the requirements for sequence
+containers.
+
+[para]
+[:en] The headers [`<queue>] and [`<stack>] define container adaptors
+([#container.adaptors]) that also meet the requirements for sequence containers.
+
+[para:synopsis]
+[:en] Header [`<array>] synopsis
+
+[%@library <array> [sortas array]]
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+  template <class T, size_t N> struct array;
+  template <class T, size_t N>
+    bool operator==(const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    bool operator!=(const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    bool operator< (const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    bool operator> (const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    bool operator<=(const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    bool operator>=(const array<T, N>& x, const array<T, N>& y);
+  template <class T, size_t N>
+    void swap(array<T, N>& x, array<T, N>& y) noexcept(noexcept(x.swap(y)));
+
+  template <class T> class tuple_size;
+  template <size_t I, class T> class tuple_element;
+  template <class T, size_t N>
+    struct tuple_size<array<T, N> >;
+  template <size_t I, class T, size_t N>
+    struct tuple_element<I, array<T, N> >;
+  template <size_t I, class T, size_t N>
+    constexpr T& get(array<T, N>&) noexcept;
+  template <size_t I, class T, size_t N>
+    constexpr T&& get(array<T, N>&&) noexcept;
+  template <size_t I, class T, size_t N>
+    constexpr const T& get(const array<T, N>&) noexcept;
+}
+[codeblock:end]
+
+[para:synopsis]
+[:en] Header [`<deque>] synopsis
+
+[%@library <deque> [sortas deque]]
+
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+  template <class T, class Allocator = allocator<T> > class deque;
+  template <class T, class Allocator>
+    bool operator==(const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator< (const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator!=(const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator> (const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator>=(const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator<=(const deque<T, Allocator>& x, const deque<T, Allocator>& y);
+  template <class T, class Allocator>
+    void swap(deque<T, Allocator>& x, deque<T, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+}
+[codeblock:end]
+
+[para:synopsis]
+[:en] Header [`<forward_list>] synopsis
+
+[%@library <forward_list> [sortas forward_list]]
+
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+  template <class T, class Allocator = allocator<T> > class forward_list;
+  template <class T, class Allocator>
+    bool operator==(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator< (const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator!=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator> (const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator>=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator<=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    void swap(forward_list<T, Allocator>& x, forward_list<T, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+}
+[codeblock:end]
+
+[para:synopsis]
+[:en] Header [`<list>] synopsis
+
+[%@library <list> [sortas list]]
+
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+  template <class T, class Allocator = allocator<T> > class list;
+  template <class T, class Allocator>
+    bool operator==(const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator< (const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator!=(const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator> (const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator>=(const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator<=(const list<T, Allocator>& x, const list<T, Allocator>& y);
+  template <class T, class Allocator>
+    void swap(list<T, Allocator>& x, list<T, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+}
+[codeblock:end]
+
+[para:synopsis]
+[:en] Header [`<vector>] synopsis
+
+[%@library <vector> [sortas vector]]
+
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+  template <class T, class Allocator = allocator<T> > class vector;
+  template <class T, class Allocator>
+    bool operator==(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator< (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator!=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator> (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator>=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+  template <class T, class Allocator>
+    void swap(vector<T, Allocator>& x, vector<T, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+
+  template <class Allocator> class vector<bool,Allocator>;
+
+  // [:en] hash support
+  template <class T> struct hash;
+  template <class Allocator> struct hash<vector<bool, Allocator> >;
+}
+[codeblock:end]

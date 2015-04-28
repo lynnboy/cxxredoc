@@ -1,0 +1,73 @@
+﻿[section#vector.cons
+    [:en] [`vector] constructors, copy, and assignment
+]
+
+[%@library vector[!vector]]
+[codeblock:declaration]
+explicit vector(const Allocator&);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty [`vector], using the specified allocator.
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library vector[!vector]]
+[codeblock:declaration]
+explicit vector(size_type n, const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`vector] with [`n] default-inserted elements using the
+specified allocator.
+
+[para:requires]
+[:en] [`T] shall be [`DefaultInsertable] into [`*this].
+
+[para:complexity]
+[:en] Linear in [`n].
+[exit:description]
+
+[%@library vector[!vector]]
+[codeblock:declaration]
+vector(size_type n, const T& value,
+       const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`vector] with [`n] copies of [`value], using the specified
+allocator.
+
+[para:requires]
+[:en] [`T] shall be [`CopyInsertable] into [`*this].
+
+[para:complexity]
+[:en] Linear in [`n].
+[exit:description]
+
+[%@library vector[!vector]]
+[codeblock:declaration]
+template <class InputIterator>
+  vector(InputIterator first, InputIterator last,
+         const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+
+[para:effects]
+[:en] Constructs a [`vector] equal to the range [=range[first,last)], using the
+specified allocator.
+
+[para:complexity]
+[:en] Makes only [$N] calls to the copy constructor of [`T] (where [$N] is the
+distance between [`first] and [`last]) and no reallocations if iterators first
+and last are of forward, bidirectional, or random access categories.
+
+[:en] It makes order [`N] calls to the copy constructor of [`T] and order
+log([$N]) reallocations if they are just input iterators.
+[exit:description]

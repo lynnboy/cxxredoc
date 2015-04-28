@@ -1,0 +1,18 @@
+﻿[section#deque.special
+    [:en] [`deque] specialized algorithms
+]
+
+[%@library swap[!deque]]
+[%@library deque[!swap]]
+[codeblock:declaration]
+template <class T, class Allocator>
+  void swap(deque<T, Allocator>& x, deque<T, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+[exit:description]

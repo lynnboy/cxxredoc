@@ -1,0 +1,19 @@
+﻿[section#set.special
+    [:en] [`set] specialized algorithms
+]
+
+[%@library swap[!set]]
+[%@library set[!swap]]
+[codeblock:declaration]
+template <class Key, class Compare, class Allocator>
+  void swap(set<Key, Compare, Allocator>& x,
+            set<Key, Compare, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+[exit:description]

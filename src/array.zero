@@ -1,0 +1,20 @@
+﻿[section#array.zero
+    [:en] Zero sized arrays
+]
+
+[%[`array][!zero sized]]
+[para]
+[:en] [`array] shall provide support for the special case [`N == 0].
+
+[para]
+[:en] In the case that [`N == 0], [`begin() == end() ==] unique value.
+
+[:en] The return value of [`data()] is unspecified.
+
+[para]
+[:en] The effect of calling [`front()] or [`back()] for a zero-sized array is
+undefined.
+
+[para]
+[:en] Member function [`swap()] shall have a [~noexcept-specification] which is
+equivalent to [`noexcept(true)].

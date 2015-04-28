@@ -1,0 +1,59 @@
+﻿[section#deque.capacity
+    [:en] [`deque] capacity
+]
+
+[%@library resize[!deque]]
+[codeblock:declaration]
+void resize(size_type sz);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
+times.
+
+[:en] If [`size() < sz], appends [`sz - size()] default-inserted elements to the
+sequence.
+
+[para:requires]
+[:en] [`T] shall be [`MoveInsertable] and [`DefaultInsertable] into [`*this].
+[exit:description]
+
+[%@library resize[!deque]]
+[codeblock:declaration]
+void resize(size_type sz, const T& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
+times.
+
+[:en] If [`size() < sz], appends [`sz - size()] copies of [`c] to the sequence.
+
+[para:requires]
+[:en] [`T] shall be [`CopyInsertable] into [`*this].
+[exit:description]
+
+[%@library shrink_to_fit[!deque]]
+[%@library deque[!shrink_to_fit]]
+[codeblock:declaration]
+void shrink_to_fit();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be [`MoveInsertable] into [`*this].
+
+[para:complexity]
+[:en] Linear in the size of the sequence.
+
+[para:remarks]
+[:en] [`shrink_to_fit] is a non-binding request to reduce memory use but does
+not change the size of the sequence.
+
+[enter:note]
+[:en] The request is non-binding to allow latitude for implementation-specific
+optimizations.
+[exit:note]
+[exit:description]

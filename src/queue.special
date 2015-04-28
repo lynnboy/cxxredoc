@@ -1,0 +1,15 @@
+﻿[section#queue.special
+    [:en] [`queue] specialized algorithms
+]
+
+[%@library swap[!queue]]
+[%@library queue[!swap]]
+[codeblock:declaration]
+template <class T, class Container>
+  void swap(queue<T, Container>& x, queue<T, Container>& y) noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

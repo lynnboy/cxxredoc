@@ -1,0 +1,18 @@
+﻿[section#unord.multimap.swap
+    [:en] [`unordered_multimap] swap
+]
+
+[%@library unordered_multimap[!swap]]
+[%@library swap[!unordered_multimap]]
+[codeblock:declaration]
+template <class Key, class T, class Hash, class Pred, class Alloc>
+  void swap(unordered_multimap<Key, T, Hash, Pred, Alloc>& x,
+            unordered_multimap<Key, T, Hash, Pred, Alloc>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

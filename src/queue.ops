@@ -1,0 +1,70 @@
+﻿[section#queue.ops
+    [:en] [`queue] operators
+]
+
+[%@library operator==[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator==(const queue<T, Container>& x, const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c == y.c].
+[exit:description]
+
+[%@library operator!=[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator!=(const queue<T, Container>& x,  const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c != y.c].
+[exit:description]
+
+[%@library operator<[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator< (const queue<T, Container>& x, const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c < y.c].
+[exit:description]
+
+[%@library operator<=[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator<=(const queue<T, Container>& x, const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c <= y.c].
+[exit:description]
+
+[%@library operator>[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator> (const queue<T, Container>& x, const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c > y.c].
+[exit:description]
+
+[%@library operator>=[!queue]]
+[codeblock:declaration]
+template <class T, class Container>
+    bool operator>=(const queue<T, Container>& x,
+                    const queue<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c >= y.c].
+[exit:description]

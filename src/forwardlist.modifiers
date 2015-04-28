@@ -1,0 +1,239 @@
+﻿[section#forwardlist.modifiers
+    [:en] [`forward_list] modifiers
+]
+
+[para]
+[:en] None of the overloads of [`insert_after] shall affect the validity of
+iterators and references, and [`erase_after] shall invalidate only iterators and
+references to the erased elements.
+
+[:en] If an exception is thrown during [`insert_after] there shall be no effect.
+
+[:en] Inserting [`n] elements into a [`forward_list] is linear in [`n], and the
+number of calls to the copy or move constructor of [`T] is exactly equal to
+[`n].
+
+[:en] Erasing [`n] elements from a [`forward_list] is linear in [`n] and the
+number of calls to the destructor of type [`T] is exactly equal to [`n].
+
+[%@library emplace_front[!forward_list]]
+[%@library forward_list[!emplace_front]]
+[codeblock:declaration]
+template <class... Args> void emplace_front(Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Inserts an object of type [`value_type] constructed with
+[`value_type(std::forward<Args>(args)...)] at the beginning of the list.
+[exit:description]
+
+[%@library push_front[!forward_list]]
+[%@library forward_list[!push_front]]
+[codeblock:declaration]
+void push_front(const T& x);
+void push_front(T&& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Inserts a copy of [`x] at the beginning of the list.
+[exit:description]
+
+
+[%@library pop[!forward_list]]
+[%@library forward_list[!pop]]
+[codeblock:declaration]
+void pop_front();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`erase_after(before_begin())]
+[exit:description]
+
+[%@library insert_after[!forward_list]]
+[%@library forward_list[!insert_after]]
+[codeblock:declaration]
+iterator insert_after(const_iterator position, const T& x);
+iterator insert_after(const_iterator position, T&& x);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[para:effects]
+[:en] Inserts a copy of [`x] after [`position].
+
+[para:returns]
+[:en] An iterator pointing to the copy of [`x].
+[exit:description]
+
+[%@library insert_after[!forward_list]]
+[%@library forward_list[!insert_after]]
+[codeblock:declaration]
+iterator insert_after(const_iterator position, size_type n, const T& x);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[para:effects]
+[:en] Inserts [`n] copies of [`x] after [`position].
+
+[para:returns]
+[:en] An iterator pointing to the last inserted copy of [`x] or [`position] if
+[`n == 0].
+[exit:description]
+
+[%@library insert_after[!forward_list]]
+[%@library forward_list[!insert_after]]
+[codeblock:declaration]
+template <class InputIterator>
+  iterator insert_after(const_iterator position, InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[:en] [`first] and [`last] are not iterators in [`*this].
+
+[para:effects]
+[:en] Inserts copies of elements in [=range[first,last)] after [`position].
+
+[para:returns]
+[:en] An iterator pointing to the last inserted element or [`position] if
+[`first == last].
+[exit:description]
+
+[%@library insert_after[!forward_list]]
+[%@library forward_list[!insert_after]]
+[codeblock:declaration]
+iterator insert_after(const_iterator position, initializer_list<T> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`insert_after(p, il.begin(), il.end())].
+
+[para:returns]
+[:en] An iterator pointing to the last inserted element or [`position] if [`il]
+is empty.
+[exit:description]
+
+
+[%@library emplace_after[!forward_list]]
+[%@library forward_list[!emplace_after]]
+[codeblock:declaration]
+template <class... Args>
+  iterator emplace_after(const_iterator position, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[para:effects]
+[:en] Inserts an object of type [`value_type] constructed with
+[`value_type(std::forward<Args>(args)...)] after [`position].
+
+[para:returns]
+[:en] An iterator pointing to the new object.
+[exit:description]
+
+[%@library erase_after[!forward_list]]
+[%@library forward_list[!erase_after]]
+[codeblock:declaration]
+iterator erase_after(const_iterator position);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The iterator following [`position] is dereferenceable.
+
+[para:effects]
+[:en] Erases the element pointed to by the iterator following [`position].
+
+[para:returns]
+[:en] An iterator pointing to the element following the one that was erased, or
+[`end()] if no such element exists.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library erased[!forward_list]]
+[%@library forward_list[!erased]]
+[codeblock:declaration]
+iterator erase_after(const_iterator position, const_iterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] All iterators in the range [=orange(position,last)] are dereferenceable.
+
+[para:effects]
+[:en] Erases the elements in the range [=orange(position,last)].
+
+[para:returns]
+[:en] [`last].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library resize[!forward_list]]
+[%@library forward_list[!resize]]
+[codeblock:declaration]
+void resize(size_type sz);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz < distance(begin(), end())], erases the last [`distance(begin(),
+end()) - sz] elements from the list.
+
+[:en] Otherwise, inserts [`sz - distance(begin(), end())] default-inserted
+elements at the end of the list.
+
+[para:requires]
+[:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[exit:description]
+
+[codeblock:declaration]
+void resize(size_type sz, const value_type& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz < distance(begin(), end())], erases the last [`distance(begin(),
+end()) - sz] elements from the list. Otherwise, inserts [`sz - distance(begin(),
+end())] elements at the end of the list such that each new element, [`e], is
+initialized by a method equivalent to calling
+[`allocator_traits<allocator_type>::construct(get_allocator(),
+std::addressof(e), c)].
+
+[para:requires]
+[:en] [`T] shall be [`CopyInsertable] into [`*this].
+[exit:description]
+
+[%@library clear[!forward_list]]
+[%@library forward_list[!clear]]
+[codeblock:declaration]
+void clear() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Erases all elements in the range [=range[begin(),end())].
+
+[para:remarks]
+[:en] Does not invalidate past-the-end iterators.
+[exit:description]

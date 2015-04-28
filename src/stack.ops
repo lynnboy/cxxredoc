@@ -1,0 +1,69 @@
+﻿[section#stack.ops
+    [:en] [`stack] operators
+]
+
+[%@library operator==[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator==(const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c == y.c].
+[exit:description]
+
+[%@library operator!=[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c != y.c].
+[exit:description]
+
+[%@library operator<[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator< (const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c < y.c].
+[exit:description]
+
+[%@library operator<=[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator<=(const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c <= y.c].
+[exit:description]
+
+[%@library operator>[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+  bool operator> (const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c > y.c].
+[exit:description]
+
+[%@library operator>=[!stack]]
+[codeblock:declaration]
+template <class T, class Container>
+    bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.c >= y.c].
+[exit:description]

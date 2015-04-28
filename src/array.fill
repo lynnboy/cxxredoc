@@ -1,0 +1,14 @@
+﻿[section#array.fill
+    [:en] [`array::fill]
+]
+
+[%@library array[!fill]]
+[%@library fill[!array]]
+[codeblock:declaration]
+void fill(const T& u);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`fill_n(begin(), N, u)]
+[exit:description]

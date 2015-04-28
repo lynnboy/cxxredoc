@@ -1,0 +1,23 @@
+﻿[section#stack
+    [:en] Class template [`stack]
+]
+
+[para]
+[%@library stack]
+[:en] Any sequence container supporting operations [`back()], [`push_back()] and
+[`pop_back()] can be used to instantiate [`stack].
+
+[:en] In particular, [`vector] ([#vector]), [`list] ([#list]) and [`deque]
+([#deque]) can be used.
+
+[include stack.syn]
+
+[include stack.defn]
+
+[include stack.cons]
+
+[include stack.cons.alloc]
+
+[include stack.ops]
+
+[include stack.special]

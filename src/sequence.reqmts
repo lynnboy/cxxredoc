@@ -1,0 +1,376 @@
+﻿[section#sequence.reqmts
+    [:en] Sequence containers
+]
+
+[para]
+[:en] A sequence container organizes a finite set of objects, all of the same
+type, into a strictly linear arrangement.
+
+[:en] The library provides four basic kinds of sequence containers: [`vector],
+[`forward_list], [`list], and [`deque].
+
+[:en] In addition, [`array] is provided as a sequence container which provides
+limited sequence operations because it has a fixed number of elements.
+
+[:en] The library also provides container adaptors that make it easy to
+construct abstract data types, such as [`stack]s or [`queue]s, out of the basic
+sequence container kinds (or out of other kinds of sequence containers that the
+user might define).
+
+[para]
+[:en] The sequence containers offer the programmer different complexity
+trade-offs and should be used accordingly.
+
+[:en] [`vector] or [`array] is the type of sequence container that should be
+used by default.
+
+[:en] [`list] or [`forward_list] should be used when there are frequent
+insertions and deletions from the middle of the sequence.
+
+[:en] [`deque] is the data structure of choice when most insertions and
+deletions take place at the beginning or at the end of the sequence.
+
+[para]
+[:en] In Tables [#tab:containers.sequence.requirements] and
+[#tab:containers.sequence.optional], [`X] denotes a sequence container class,
+[`a] denotes a value of type [`X] containing elements of type [`T], [`u] denotes
+the name of a variable being declared, [`A] denotes [`X::allocator_type] if the
+[~qualified-id] [`X::allocator_type] is valid and denotes a type
+([#temp.deduct]) and [`std::allocator<T>] if it doesn[=']t, [`i] and [`j] denote
+iterators satisfying input iterator requirements and refer to elements
+implicitly convertible to [`value_type], [`[i, j)] denotes a valid range, [`il]
+designates an object of type [`initializer_list<value_type>], [`n] denotes a
+value of type [`X::size_type], [`p] denotes a valid const iterator to [`a], [`q]
+denotes a valid dereferenceable const iterator to [`a], [`[q1, q2)] denotes a
+valid range of const iterators in [`a], [`t] denotes an lvalue or a const rvalue
+of [`X::value_type], and [`rv] denotes a non-const rvalue of [`X::value_type].
+
+[:en] [`Args] denotes a template parameter pack; [`args] denotes a function
+parameter pack with the pattern [`Args&&].
+
+[para]
+[:en] The complexities of the expressions are sequence dependent.
+
+[table:listing#tab:containers.sequence.requirements
+    [:en] Sequence container requirements (in addition to container)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter@code
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] X(n, t) [br] X u(n, t)
+[|]
+[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X]. [br]
+    [:en] post: [`distance(begin(), end()) == n] [br]
+    [:en] Constructs a sequence container with [`n] copies of [`t]
+
+[|] X(i, j) [br] X u(i, j)
+[|]
+[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
+    [`*i].
+    [:en] For [`vector], if the iterator does not meet the forward iterator
+    requirements ([#forward.iterators]), [`T] shall also be [`MoveInsertable]
+    into [`X].
+    [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
+    once. [br]
+    [:en] post: [`distance(begin(), end()) == distance(i, j)] Constructs a
+    sequence container equal to the range [`[i, j)]
+
+[|] X(il);
+[|]
+[|] [:en] Equivalent to [`X(il.begin(), il.end())]
+
+[|] a = il;
+[|] X&
+[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:en] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:en] All existing elements of [`a] are either assigned to or destroyed.
+    [br]
+    [:en] [=Returns] [`*this].
+
+[|] a.emplace(p, args);
+[|] iterator
+[|] [:en] [=Requires] [`T] is [`EmplaceConstructible] into [`X] from [`args].
+    [:en] For [`vector] and [`deque], T is also [`MoveInsertable] into [`X] and
+    [`MoveAssignable].
+    [:en] [=Effects] Inserts an object of type [`T] constructed with
+    [`std::forward<Args>(args)...] before [`p].
+
+[|] a.insert(p,t)
+[|] iterator
+[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
+    [:en] For [`vector] and [`deque], [`T] shall also be [`CopyAssignable]. [br]
+    [:en] [=Effects] Inserts a copy of [`t] before [`p].
+
+[|] a.insert(p,rv)
+[|] iterator
+[|] [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
+    [:en] For [`vector] and [`deque], [`T] shall also be [`MoveAssignable]. [br]
+    [:en] [=Effects] Inserts a copy of [`rv] before [`p].
+
+[|] a.insert(p,n,t)
+[|] iterator
+[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X] and
+    [`CopyAssignable]. [br]
+    [:en] Inserts [`n] copies of [`t] before [`p].
+
+[|] a.insert(p,i,j)
+[|] iterator
+[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
+    [`*i].
+    [:en] For [`vector] and [`deque], [`T] shall also be [`MoveInsertable] into
+    [`X], [`MoveConstructible], [`MoveAssignable], and swappable
+    ([#swappable.requirements]).
+    [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
+    once. [br]
+    [:en] pre: [`i] and [`j] are not iterators into [`a]. [br]
+    [:en] Inserts copies of elements in [`[i, j)] before [`p]
+
+[|] a.insert(p, il);
+[|] iterator
+[|] [`a.insert(p, il.begin(), il.end())].
+
+[|] a.erase(q)
+[|] iterator
+[|] [:en] [=Requires] For [`vector] and [`deque], [`T] shall be
+    [`MoveAssignable]. [br]
+    [:en] [=Effects] Erases the element pointed to by [`q]
+
+[|] a.erase(q1,q2)
+[|] iterator
+[|] [:en] [=Requires] For [`vector] and [`deque], [`T] shall be
+    [`MoveAssignable]. [br]
+    [:en] [=Effects] Erases the elements in the range [`[q1, q2)].
+
+[|] a.clear()
+[|] void
+[|] [:en] Destroys all elements in [`a].
+[|] [:en] Invalidates all references, pointers, and iterators referring to the
+    elements of [`a] and may invalidate the past-the-end iterator. [br]
+    [:en] post: [`a.empty()] returns [`true]. [br]
+    [:en] [=Complexity] Linear.
+
+[|] a.assign(i,j)
+[|] void
+[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from [`*i]
+    and assignable from [`*i].
+    [:en] For [`vector], if the iterator does not meet the forward iterator
+    requirements ([#forward.iterators]), [`T] shall also be [`MoveInsertable]
+    into [`X]. [br]
+    [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
+    once. [br]
+    [:en] pre: [`i], [`j] are not iterators into [`a]. [br]
+    [:en] Replaces elements in [`a] with a copy of [`[i, j)].
+
+[|] a.assign(il)
+[|] void
+[|] [`a.assign(il.begin(), il.end())].
+
+[|] a.assign(n,t)
+[|] void
+[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X] and
+    [`CopyAssignable]. [br]
+    [:en] pre: [`t] is not a reference into [`a]. [br]
+    [:en] Replaces elements in [`a] with [`n] copies of [`t].
+
+[table:end]
+
+[para]
+[:en] [`iterator] and [`const_iterator] types for sequence containers shall be
+at least of the forward iterator category.
+
+[para]
+[:en] The iterator returned from [`a.insert(p, t)] points to the copy of [`t]
+inserted into [`a].
+
+[para]
+[:en] The iterator returned from [`a.insert(p, rv)] points to the copy of [`rv]
+inserted into [`a].
+
+[para]
+[:en] The iterator returned from [`a.insert(p, n, t)] points to the copy of the
+first element inserted into [`a], or [`p] if [`n == 0].
+
+[para]
+[:en] The iterator returned from [`a.insert(p, i, j)] points to the copy of the
+first element inserted into [`a], or [`p] if [`i == j].
+
+[para]
+[:en] The iterator returned from [`a.insert(p, il)] points to the copy of the
+first element inserted into [`a], or [`p] if [`il] is empty.
+
+[para]
+[:en] The iterator returned from [`a.emplace(p, args)] points to the new element
+constructed from [`args] into [`a].
+
+[para]
+[:en] The iterator returned from [`a.erase(q)] points to the element immediately
+following [`q] prior to the element being erased.
+
+[:en] If no such element exists, [`a.end()] is returned.
+
+[para]
+[:en] The iterator returned by [`a.erase(q1,q2)] points to the element pointed
+to by [`q2] prior to any elements being erased.
+
+[:en] If no such element exists, [`a.end()] is returned.
+
+[para]
+[:en] For every sequence container defined in this Clause and in Clause
+[#strings]:
+
+[list]
+[item]
+[:en] If the constructor
+
+[codeblock:notation]
+template <class InputIterator>
+X(InputIterator first, InputIterator last,
+  const allocator_type& alloc = allocator_type())
+[codeblock:end]
+
+[:en@~] is called with a type [`InputIterator] that does not qualify as an input
+iterator, then the constructor shall not participate in overload resolution.
+
+[item]
+[:en] If the member functions of the forms:
+
+[codeblock:notation]
+template <class InputIterator>          // [:en] such as insert()
+  rt fx1(const_iterator p, InputIterator first, InputIterator last);
+
+template <class InputIterator>          // [:en] such as append(), assign()
+  rt fx2(InputIterator first, InputIterator last);
+
+template <class InputIterator>          // [:en] such as replace()
+  rt fx3(const_iterator i1, const_iterator i2, InputIterator first, InputIterator last);
+[codeblock:end]
+
+[:en@~] are called with a type [`InputIterator] that does not qualify as an
+input iterator, then these functions shall not participate in overload
+resolution.
+[list:end]
+
+[para]
+[:en] The extent to which an implementation determines that a type cannot be an
+input iterator is unspecified, except that as a minimum integral types shall not
+qualify as input iterators.
+
+[para]
+[:en] Table [#tab:containers.sequence.optional] lists operations that are
+provided for some types of sequence containers but not others.
+
+[:en] An implementation shall provide these operations for all container types
+shown in the ["container] column, and shall implement them so as to take
+amortized constant time.
+
+[table:listing#tab:containers.sequence.optional
+    [:en] Optional sequence container operations
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Container
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] a.front()
+[|] [:en] [`reference]; [`const_reference] for constant [`a]
+[|] [`*a.begin()]
+[|] [`basic_string], [`array], [`deque], [`forward_list], [`list], [`vector]
+
+[|] a.back()
+[|] [:en] [`reference]; [`const_reference] for constant [`a]
+[|] [`{ auto tmp = a.end();] [br]
+    [`    --tmp;] [br]
+    [`    return *tmp; }]
+[|] [`basic_string], [`array], [`deque], [`list], [`vector]
+
+[|] a.emplace_front(args)
+[|] [`void]
+[|] [:en] Prepends an object of type [`T] constructed with
+    [`std::forward<Args>(args)...]. [br]
+    [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
+    [`args].
+[|] [`deque], [`forward_list], [`list]
+
+[|] a.emplace_back(args)
+[|] [`void]
+[|] [:en] Appends an object of type [`T] constructed with
+    [`std::forward<Args>(args)...]. [br]
+    [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
+    [`args].
+    [:en] For [`vector], [`T] shall also be [`MoveInsertable] into [`X].
+[|] [`deque], [`list], [`vector]
+
+[|] a.push_front(t)
+[|] [`void]
+[|] [:en] Prepends a copy of [`t]. [br]
+    [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
+[|] [`deque], [`forward_list], [`list]
+
+[|] a.push_front(rv)
+[|] [`void]
+[|] [:en] Prepends a copy of [`rv]. [br]
+    [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
+[|] [`deque], [`forward_list], [`list]
+
+[|] a.push_back(t)
+[|] [`void]
+[|] [:en] Appends a copy of [`t]. [br]
+    [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
+[|] [`basic_string], [`deque], [`list], [`vector]
+
+[|] a.push_back(rv)
+[|] [`void]
+[|] [:en] Appends a copy of [`rv]. [br]
+    [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
+[|] [`basic_string], [`deque], [`list], [`vector]
+
+[|] a.pop_front()
+[|] [`void]
+[|] [:en] Destroys the first element. [br]
+    [:en] [=Requires] [`a.empty()] shall be [`false].
+[|] [`deque], [`forward_list], [`list]
+
+[|] a.pop_back()
+[|] [`void]
+[|] [:en] Destroys the last element. [br]
+    [:en] [=Requires] [`a.empty()] shall be [`false].
+[|] [`basic_string], [`deque], [`list], [`vector]
+
+[|] a[n]
+[|] [:en] [`reference]; [`const_reference] for constant [`a]
+[|] [`*(a.begin() + n)]
+[|] [`basic_string], [`array], [`deque], [`vector]
+
+[|] a.at(n)
+[|] [:en] [`reference]; [`const_reference] for constant [`a]
+[|] [`*(a.begin() + n)]
+[|] [`basic_string], [`array], [`deque], [`vector]
+
+[table:end]
+
+[para]
+[:en] The member function [`at()] provides bounds-checked access to container
+elements.
+
+[:en] [`at()] throws [`out_of_range] if [`n >= a.size()].

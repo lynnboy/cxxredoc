@@ -1,0 +1,22 @@
+﻿[section#associative.reqmts.except
+    [:en] Exception safety guarantees
+]
+
+[%associative containers[!exception safety]]
+[%associative containers[!requirements]]
+
+[para]
+[:en] For associative containers, no [`clear()] function throws an exception.
+
+[:en] [`erase(k)] does not throw an exception unless that exception is thrown
+by the container[=']s [`Compare] object (if any).
+
+[para]
+[:en] For associative containers, if an exception is thrown by any operation
+from within an [`insert] or [`emplace] function inserting a single element, the
+insertion has no effect.
+
+[para]
+[:en] For associative containers, no [`swap] function throws an exception unless
+that exception is thrown by the swap of the container[=']s [`Compare] object
+(if any).

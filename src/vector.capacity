@@ -1,0 +1,138 @@
+﻿[section#vector.capacity
+    [:en] [`vector] capacity
+]
+
+[%@library capacity[!vector]]
+[codeblock:declaration]
+size_type capacity() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The total number of elements that the vector can hold without requiring
+reallocation.
+[exit:description]
+
+[%@library reserve[!vector]]
+[codeblock:declaration]
+void reserve(size_type n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be [`MoveInsertable] into [`*this].
+
+[para:effects]
+[:en] A directive that informs a [`vector] of a planned change in size, so that
+it can manage the storage allocation accordingly.
+
+[:en] After [`reserve()], [`capacity()] is greater or equal to the argument of
+[`reserve] if reallocation happens; and equal to the previous value of
+[`capacity()] otherwise.
+
+[:en] Reallocation happens at this point if and only if the current capacity is
+less than the argument of [`reserve()].
+
+[:en] If an exception is thrown other than by the move constructor of a
+non-[`CopyInsertable] type, there are no effects.
+
+[para:complexity]
+[:en] It does not change the size of the sequence and takes at most linear
+time in the size of the sequence.
+
+[para:throws]
+[:en] [`length_error] if [`n > max_size()].
+
+[footnote]
+[:en] [`reserve()] uses [`Allocator::allocate()] which may throw an appropriate
+exception.
+[footnote:end]
+
+[para:notes]
+[:en] Reallocation invalidates all the references, pointers, and iterators
+referring to the elements in the sequence.
+
+[:en] No reallocation shall take place during insertions that happen after a
+call to [`reserve()] until the time when an insertion would make the size of the
+vector greater than the value of [`capacity()].
+[exit:description]
+
+[%@library shrink_to_fit[!vector]]
+[codeblock:declaration]
+void shrink_to_fit();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be [`MoveInsertable] into [`*this].
+
+[para:complexity]
+[:en] Linear in the size of the sequence.
+
+[para:notes]
+[:en] [`shrink_to_fit] is a non-binding request to reduce [`capacity()] to
+[`size()].
+
+[enter:note]
+[:en] The request is non-binding to allow latitude for implementation-specific
+optimizations.
+[exit:note]
+
+[:en] If an exception is thrown other than by the move constructor of a
+non-[`CopyInsertable] [`T] there are no effects.
+[exit:description]
+
+[%@library swap[!vector]]
+[codeblock:declaration]
+void swap(vector& x)
+  noexcept(allocator_traits<Allocator>::propagate_on_container_swap::value ||
+           allocator_traits<Allocator>::is_always_equal::value);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the contents and [`capacity()] of [`*this] with that of [`x].
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library resize[!vector]]
+[codeblock:declaration]
+void resize(size_type sz);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
+times.
+
+[:en] If [`size() < sz], appends [`sz - size()] default-inserted elements to the
+sequence.
+
+[para:requires]
+[:en] [`T] shall be [`MoveInsertable] and [`DefaultInsertable] into [`*this].
+
+[para:notes]
+[:en] If an exception is thrown other than by the move constructor of a
+non-[`CopyInsertable] [`T] there are no effects.
+[exit:description]
+
+[%@library resize[!vector]]
+[codeblock:declaration]
+void resize(size_type sz, const T& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
+times.
+
+[:en] If [`size() < sz], appends [`sz - size()] copies of [`c] to the sequence.
+
+[para:requires]
+[:en] [`T] shall be [`CopyInsertable] into [`*this].
+
+[para:notes]
+[:en] If an exception is thrown there are no effects.
+[exit:description]

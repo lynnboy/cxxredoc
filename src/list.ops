@@ -1,0 +1,244 @@
+﻿[section#list.ops
+    [:en] [`list] operations
+]
+
+[para]
+[:en] Since lists allow fast insertion and erasing from the middle of a list,
+certain operations are provided specifically for them.
+
+[footnote]
+[:en] As specified in [#allocator.requirements], the requirements in this Clause
+apply only to lists whose allocators compare equal.
+[footnote:end]
+
+[para]
+[:en] [`list] provides three splice operations that destructively move elements
+from one list to another.
+
+[:en] The behavior of splice operations is undefined if [`get_allocator() !=
+x.get_allocator()].
+
+[%@library splice[!list]]
+[codeblock:declaration]
+void splice(const_iterator position, list& x);
+void splice(const_iterator position, list&& x);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`&x != this].
+
+[para:effects]
+[:en] Inserts the contents of [`x] before [`position] and [`x] becomes empty.
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library splice[!list]]
+[%@library list[!splice]]
+[codeblock:declaration]
+void splice(const_iterator position, list& x, const_iterator i);
+void splice(const_iterator position, list&& x, const_iterator i);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Inserts an element pointed to by [`i] from list [`x] before [`position]
+and removes the element from [`x].
+
+[:en] The result is unchanged if [`position == i] or [`position == ++i].
+
+[:en] Pointers and references to [`*i] continue to refer to this same element
+but as a member of [`*this].
+
+[:en] Iterators to [`*i] (including [`i] itself) continue to refer to the same
+element, but now behave as iterators into [`*this], not into [`x].
+
+[para:requires]
+[:en] [`i] is a valid dereferenceable iterator of [`x].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library splice[!list]]
+[%@library list[!splice]]
+[codeblock:declaration]
+void splice(const_iterator position, list& x, const_iterator first,
+            const_iterator last);
+void splice(const_iterator position, list&& x, const_iterator first,
+            const_iterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Inserts elements in the range [=range[first,last)] before [`position]
+and removes the elements from [`x].
+
+[para:requires]
+[:en] [`[first, last)] is a valid range in [`x].
+
+[:en] The result is undefined if [`position] is an iterator in the range
+[=range[first,last)].
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time if [`&x == this]; otherwise, linear time.
+[exit:description]
+
+[%@library remove[!list]]
+[codeblock:declaration]
+void remove(const T& value);
+template <class Predicate> void remove_if(Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Erases all the elements in the list referred by a list iterator [`i] for
+which the following conditions hold: [`*i == value, pred(*i) != false].
+
+[:en] Invalidates only the iterators and references to the erased elements.
+
+[para:throws]
+[:en] Nothing unless an exception is thrown by [`*i == value] or [`pred(*i) !=
+false].
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[para:complexity]
+[:en] Exactly [`size()] applications of the corresponding predicate.
+[exit:description]
+
+[%@library unique[!list]]
+[codeblock:declaration]
+void unique();
+template <class BinaryPredicate> void unique(BinaryPredicate binary_pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Erases all but the first element from every consecutive group of equal
+elements referred to by the iterator [`i] in the range [=range[first + 1,last)]
+for which [`*i == *(i-1)] (for the version of [`unique] with no arguments) or
+[`pred(*i, *(i - 1))] (for the version of [`unique] with a predicate argument)
+holds.
+
+[:en] Invalidates only the iterators and references to the erased elements.
+
+[para:throws]
+[:en] Nothing unless an exception is thrown by [`*i == *(i-1)] or
+[`pred(*i, *(i - 1))]
+
+[para:complexity]
+[:en] If the range [`[first, last)] is not empty, exactly [`(last - first) - 1]
+applications of the corresponding predicate, otherwise no applications of the
+predicate.
+[exit:description]
+
+[%@library merge[!list]]
+[codeblock:declaration]
+void merge(list& x);
+void merge(list&& x);
+template <class Compare> void merge(list& x, Compare comp);
+template <class Compare> void merge(list&& x, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`comp] shall define a strict weak ordering ([#alg.sorting]), and both the
+list and the argument list shall be sorted according to this ordering.
+
+[para:effects]
+[:en] If [`(&x == this)] does nothing; otherwise, merges the two sorted ranges
+[`[begin(), end())] and [`[x.begin(), x.end())].
+
+[:en] The result is a range in which the elements will be sorted in
+non-decreasing order according to the ordering defined by [`comp]; that is, for
+every iterator [`i], in the range other than the first, the condition
+[`comp(*i, *(i - 1))] will be false.
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[:en] If [`(&x != this)] the range [`[x.begin(), x.end())] is empty after the
+merge.
+
+[:en] No elements are copied by this operation.
+
+[:en]
+The behavior is undefined if [`this->get_allocator() != x.get_allocator()].
+
+[para:complexity]
+[:en]
+At most [`size() + x.size() - 1] applications of [`comp] if [`(&x != this)];
+otherwise, no applications of [`comp] are performed.
+
+[:en] If an exception is thrown other than by a comparison there are no effects.
+[exit:description]
+
+[%@library reverse[!list]]
+[codeblock:declaration]
+void reverse() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reverses the order of the elements in the list.
+
+[:en] Does not affect the validity of iterators and references.
+
+[para:complexity]
+[:en] Linear time.
+[exit:description]
+
+[%@library sort[!list]]
+[codeblock:declaration]
+void sort();
+template <class Compare> void sort(Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`operator<] (for the first version) or [`comp] (for the second version)
+shall define a strict weak ordering ([#alg.sorting]).
+
+[para:effects]
+[:en] Sorts the list according to the [`operator<] or a [`Compare] function
+object.
+
+[:en] Does not affect the validity of iterators and references.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[para:complexity]
+[:en] Approximately [$N] log([$N]) comparisons, where [`N == size()].
+[exit:description]

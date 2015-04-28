@@ -1,0 +1,24 @@
+﻿[section#container.adaptors.general
+    [:en] In general
+]
+
+[para]
+[:en] The headers [`<queue>] and [`<stack>] define the container adaptors
+[`queue], [`priority_queue], and [`stack].
+
+[para]
+[:en] The container adaptors each take a [`Container] template parameter, and
+each constructor takes a [`Container] reference argument.
+
+[:en] This container is copied into the [`Container] member of each adaptor.
+
+[:en] If the container takes an allocator, then a compatible allocator may be
+passed in to the adaptor[=']s constructor.
+
+[:en] Otherwise, normal copy or move construction is used for the container
+argument.
+
+[para]
+[:en] For container adaptors, no [`swap] function throws an exception unless
+that exception is thrown by the swap of the adaptor[=']s [`Container] or
+[`Compare] object (if any).

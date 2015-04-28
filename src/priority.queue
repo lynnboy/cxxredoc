@@ -1,0 +1,79 @@
+﻿[section#priority.queue
+    [:en] Class template [`priority_queue]
+]
+
+[para]
+[%@library priority_queue]
+[:en] Any sequence container with random access iterator and supporting
+operations [`front()], [`push_back()] and [`pop_back()] can be used to
+instantiate [`priority_queue].
+
+[:en] In particular, [`vector] ([#vector]) and [`deque] ([#deque]) can be used.
+
+[:en] Instantiating [`priority_queue] also involves supplying a function or
+function object for making priority comparisons; the library assumes that the
+function or function object defines a strict weak ordering ([#alg.sorting]).
+
+[codeblock:synopsis]
+namespace std {
+  template <class T, class Container = vector<T>,
+    class Compare = less<typename Container::value_type> >
+  class priority_queue {
+  public:
+    typedef typename Container::value_type            value_type;
+    typedef typename Container::reference             reference;
+    typedef typename Container::const_reference       const_reference;
+    typedef typename Container::size_type             size_type;
+    typedef          Container                        container_type;
+
+  protected:
+    Container c;
+    Compare comp;
+
+  public:
+    priority_queue(const Compare& x, const Container&);
+    explicit priority_queue(const Compare& x = Compare(), Container&& = Container());
+    template <class InputIterator>
+      priority_queue(InputIterator first, InputIterator last,
+             const Compare& x, const Container&);
+    template <class InputIterator>
+      priority_queue(InputIterator first, InputIterator last,
+             const Compare& x = Compare(), Container&& = Container());
+    template <class Alloc> explicit priority_queue(const Alloc&);
+    template <class Alloc> priority_queue(const Compare&, const Alloc&);
+    template <class Alloc> priority_queue(const Compare&, const Container&, const Alloc&);
+    template <class Alloc> priority_queue(const Compare&, Container&&, const Alloc&);
+    template <class Alloc> priority_queue(const priority_queue&, const Alloc&);
+    template <class Alloc> priority_queue(priority_queue&&, const Alloc&);
+
+    bool      empty() const       { return c.empty(); }
+    size_type size()  const       { return c.size(); }
+    const_reference   top() const { return c.front(); }
+    void push(const value_type& x);
+    void push(value_type&& x);
+    template <class... Args> void emplace(Args&&... args);
+    void pop();
+    void swap(priority_queue& q) noexcept(noexcept(swap(c, q.c)) &&
+                                          noexcept(swap(comp, q.comp)))
+      { using std::swap; swap(c, q.c); swap(comp, q.comp); }
+  };
+
+  // [:en] no equality is provided
+
+  template <class T, class Container, class Compare>
+    void swap(priority_queue<T, Container, Compare>& x,
+              priority_queue<T, Container, Compare>& y) noexcept(noexcept(x.swap(y)));
+
+  template <class T, class Container, class Compare, class Alloc>
+    struct uses_allocator<priority_queue<T, Container, Compare>, Alloc>
+      : uses_allocator<Container, Alloc>::type { };
+}
+[codeblock:end]
+
+[include priqueue.cons]
+
+[include priqueue.cons.alloc]
+
+[include priqueue.members]
+
+[include priqueue.special]

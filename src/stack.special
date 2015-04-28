@@ -1,0 +1,15 @@
+﻿[section#stack.special
+    [:en] [`stack] specialized algorithms
+]
+
+[%@library swap[!stack]]
+[%@library stack[!swap]]
+[codeblock:declaration]
+template <class T, class Container>
+  void swap(stack<T, Container>& x, stack<T, Container>& y) noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

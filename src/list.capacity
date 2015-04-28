@@ -1,0 +1,48 @@
+﻿[section#list.capacity
+    [:en] [`list] capacity
+]
+
+[%@library resize[!list]]
+[codeblock:declaration]
+void resize(size_type sz);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`size() < sz], appends [`sz - size()] default-inserted elements to the
+sequence.
+
+[:en] If [`sz <= size()], equivalent to
+
+[codeblock:notation]
+list<T>::iterator it = begin();
+advance(it, sz);
+erase(it, end());
+[codeblock:end]
+
+[para:requires]
+[:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[exit:description]
+
+[%@library resize[!list]]
+[codeblock:declaration]
+void resize(size_type sz, const T& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+if (sz > size())
+  insert(end(), sz-size(), c);
+else if (sz < size()) {
+  iterator i = begin();
+  advance(i, sz);
+  erase(i, end());
+}
+else
+  ;                 // [:en] do nothing
+[codeblock:end]
+
+[para:requires]
+[:en] [`T] shall be [`CopyInsertable] into [`*this].
+[exit:description]

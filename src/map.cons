@@ -1,0 +1,42 @@
+﻿[section#map.cons
+    [:en] [`map] constructors, copy, and assignment
+]
+
+[%@library map[!operator==]]
+[%@library map[!operator<]]
+
+[%@library map[!map]]
+[codeblock:declaration]
+explicit map(const Compare& comp, const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty [`map] using the specified comparison object and
+allocator.
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library map[![:en]constructor]]
+[codeblock:declaration]
+template <class InputIterator>
+  map(InputIterator first, InputIterator last,
+      const Compare& comp = Compare(), const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If the iterator[=']s indirection operator returns an lvalue or a const
+rvalue [`pair<key_type, mapped_type>], then both [`key_type] and [`mapped_type]
+shall be [`CopyInsertable] into [`*this].
+
+[para:effects]
+[:en] Constructs an empty [`map] using the specified comparison object and
+allocator, and inserts elements from the range [=range[first,last)].
+
+[para:complexity]
+[:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
+[`comp] and otherwise [$N] log([$N]), where [$N] is [`last] - [`first].
+[exit:description]

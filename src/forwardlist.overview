@@ -1,0 +1,179 @@
+﻿[section#forwardlist.overview
+    [:en] Class template [`forward_list] overview
+]
+
+[para]
+[:en] A [`forward_list] is a container that supports forward iterators and
+allows constant time insert and erase operations anywhere within the sequence,
+with storage management handled automatically.
+
+[:en] Fast random access to list elements is not supported.
+
+[enter:note]
+[:en] It is intended that [`forward_list] have zero space or time overhead
+relative to a hand-written C-style singly linked list.
+
+[:en] Features that would conflict with that goal have been omitted.
+[exit:note]
+
+[para]
+[:en] A [`forward_list] satisfies all of the requirements of a container
+(Table [#tab:containers.container.requirements]), except that the [`size()]
+member function is not provided and [`operator==] has linear complexity.
+
+[:en] A [`forward_list] also satisfies all of the requirements for an
+allocator-aware container (Table [#tab:containers.allocatoraware]).
+
+[:en] In addition, a [`forward_list] provides the [`assign] member functions
+(Table [#tab:containers.sequence.requirements]) and several of the optional
+container requirements (Table [#tab:containers.sequence.optional]).
+
+[:en] Descriptions are provided here only for operations on [`forward_list] that
+are not described in that table or for operations where there is additional
+semantic information.
+
+[para]
+[enter:note]
+[:en] Modifying any list requires access to the element preceding the first
+element of interest, but in a [`forward_list] there is no constant-time way to
+access a preceding element.
+
+[:en] For this reason, ranges that are modified, such as those supplied to
+[`erase] and [`splice], must be open at the beginning.
+[exit:note]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  template <class T, class Allocator = allocator<T> >
+  class forward_list {
+  public:
+    // [:en] types:
+    typedef value_type&                                           reference;
+    typedef const value_type&                                     const_reference;
+    typedef implementation-defined iterator;       // [:en] See [#container.requirements]
+    typedef implementation-defined const_iterator; // [:en] See [#container.requirements]
+    typedef implementation-defined size_type;      // [:en] See [#container.requirements]
+    typedef implementation-defined difference_type;// [:en] See [#container.requirements]
+    typedef T value_type;
+    typedef Allocator allocator_type;
+    typedef typename allocator_traits<Allocator>::pointer         pointer;
+    typedef typename allocator_traits<Allocator>::const_pointer   const_pointer;
+
+    // [:en] [#forwardlist.cons], construct/copy/destroy:
+    forward_list() : forward_list(Allocator()) { }
+    explicit forward_list(const Allocator&);
+    explicit forward_list(size_type n, const Allocator& = Allocator());
+    forward_list(size_type n, const T& value,
+                 const Allocator& = Allocator());
+    template <class InputIterator>
+      forward_list(InputIterator first, InputIterator last,
+                   const Allocator& = Allocator());
+    forward_list(const forward_list& x);
+    forward_list(forward_list&& x);
+    forward_list(const forward_list& x, const Allocator&);
+    forward_list(forward_list&& x, const Allocator&);
+    forward_list(initializer_list<T>, const Allocator& = Allocator());
+    ~forward_list();
+    forward_list& operator=(const forward_list& x);
+    forward_list& operator=(forward_list&& x)
+      noexcept(allocator_traits<Allocator>::is_always_equal::value);
+    forward_list& operator=(initializer_list<T>);
+    template <class InputIterator>
+      void assign(InputIterator first, InputIterator last);
+    void assign(size_type n, const T& t);
+    void assign(initializer_list<T>);
+    allocator_type get_allocator() const noexcept;
+
+    // [:en] [#forwardlist.iter], iterators:
+    iterator before_begin() noexcept;
+    const_iterator before_begin() const noexcept;
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+
+    const_iterator cbegin() const noexcept;
+    const_iterator cbefore_begin() const noexcept;
+    const_iterator cend() const noexcept;
+
+    // [:en] capacity:
+    bool empty() const noexcept;
+    size_type max_size() const noexcept;
+
+    // [:en] [#forwardlist.access], element access:
+    reference front();
+    const_reference front() const;
+
+    // [:en] [#forwardlist.modifiers], modifiers:
+    template <class... Args> void emplace_front(Args&&... args);
+    void push_front(const T& x);
+    void push_front(T&& x);
+    void pop_front();
+
+    template <class... Args> iterator emplace_after(const_iterator position, Args&&... args);
+    iterator insert_after(const_iterator position, const T& x);
+    iterator insert_after(const_iterator position, T&& x);
+
+    iterator insert_after(const_iterator position, size_type n, const T& x);
+    template <class InputIterator>
+      iterator insert_after(const_iterator position, InputIterator first, InputIterator last);
+    iterator insert_after(const_iterator position, initializer_list<T> il);
+
+    iterator erase_after(const_iterator position);
+    iterator erase_after(const_iterator position, const_iterator last);
+    void swap(forward_list&)
+      noexcept(allocator_traits<Allocator>::is_always_equal::value);
+
+    void resize(size_type sz);
+    void resize(size_type sz, const value_type& c);
+    void clear() noexcept;
+
+    // [:en] [#forwardlist.ops], forward_list operations:
+    void splice_after(const_iterator position, forward_list& x);
+    void splice_after(const_iterator position, forward_list&& x);
+    void splice_after(const_iterator position, forward_list& x,
+                      const_iterator i);
+    void splice_after(const_iterator position, forward_list&& x,
+                      const_iterator i);
+    void splice_after(const_iterator position, forward_list& x,
+                      const_iterator first, const_iterator last);
+    void splice_after(const_iterator position, forward_list&& x,
+                      const_iterator first, const_iterator last);
+
+    void remove(const T& value);
+    template <class Predicate> void remove_if(Predicate pred);
+
+    void unique();
+    template <class BinaryPredicate> void unique(BinaryPredicate binary_pred);
+
+    void merge(forward_list& x);
+    void merge(forward_list&& x);
+    template <class Compare> void merge(forward_list& x, Compare comp);
+    template <class Compare> void merge(forward_list&& x, Compare comp);
+
+    void sort();
+    template <class Compare> void sort(Compare comp);
+
+    void reverse() noexcept;
+  };
+
+  // [:en] Comparison operators
+  template <class T, class Allocator>
+    bool operator==(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator< (const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator!=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator> (const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator>=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+  template <class T, class Allocator>
+    bool operator<=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
+
+  // [:en] [#forwardlist.spec], specialized algorithms:
+  template <class T, class Allocator>
+    void swap(forward_list<T, Allocator>& x, forward_list<T, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+}
+[codeblock:end]

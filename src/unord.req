@@ -1,0 +1,707 @@
+﻿[section#unord.req
+    [:en] Unordered associative containers
+]
+
+[%:begin#unordered.associative.containers
+    [:en] unordered associative containers
+]
+[%associative containers[!unordered][see unordered associative containers]]
+[%hash tables[see unordered associative containers]]
+
+[para]
+[%unordered associative containers[!complexity]]
+[:en] Unordered associative containers provide an ability for fast retrieval of
+data based on keys.
+
+[:en] The worst-case complexity for most operations is linear, but the average
+case is much faster.
+
+[:en] The library provides four unordered associative containers:
+[`unordered_set], [`unordered_map], [`unordered_multiset], and
+[`unordered_multimap].
+
+[para]
+[:en]
+[%unordered associative containers[!lack of comparison operators]]
+[%unordered associative containers[!requirements]]
+[%requirements[!container[!not required for unordered associated containers]]]
+Unordered associative containers conform to the requirements for Containers
+([#container.requirements]), except that the expressions [`a == b] and [`a != b]
+have different semantics than for the other container types.
+
+[para]
+[:en] Each unordered associative container is parameterized by [`Key], by a
+function object type [`Hash] that meets the [`Hash] requirements
+([#hash.requirements]) and acts as a hash function for argument values of type
+[`Key], and by a binary predicate [`Pred] that induces an equivalence relation
+on values of type [`Key].
+
+[:en] Additionally, [`unordered_map] and [`unordered_multimap] associate an
+arbitrary [+mapped type] [`T] with the [`Key].
+
+[para]
+[:en]
+[%unordered associative containers[!hash function]]
+[%hash function]
+The container[=']s object of type [`Hash] [=--] denoted by [`hash] [=--] is
+called the [+hash function] of the container.
+
+[:en] The container[=']s object of type [`Pred] [=--] denoted by [`pred] [=--]
+is called the [+key equality predicate] of the container.
+
+[para]
+[:en]
+[%unordered associative containers[!equality function]]
+Two values [`k1] and [`k2] of type [`Key] are considered equivalent if the
+container[=']s key equality predicate returns [`true] when passed those values.
+
+[:en] If [`k1] and [`k2] are equivalent, the container[=']s hash function shall
+return the same value for both.
+
+[enter:note]
+[:en] Thus, when an unordered associative container is instantiated with
+a non-default [`Pred] parameter it usually needs a non-default [`Hash] parameter
+as well.
+[exit:note]
+
+[:en] For any two keys [`k1] and [`k2] in the same container, calling
+[`pred(k1, k2)] shall always return the same value.
+
+[:en] For any key [`k] in a container, calling [`hash(k)] shall always return
+the same value.
+
+[para]
+[:en]
+[%unordered associative containers[!unique keys]]
+[%unordered associative containers[!equivalent keys]]
+An unordered associative container supports [+unique keys] if it may contain at
+most one element for each key.
+
+[:en] Otherwise, it supports [+equivalent keys].
+
+[:en] [`unordered_set] and [`unordered_map] support unique keys.
+
+[:en] [`unordered_multiset] and [`unordered_multimap] support equivalent keys.
+
+[:en] In containers that support equivalent keys, elements with equivalent keys
+are adjacent to each other in the iteration order of the container.
+
+[:en] Thus, although the absolute order of elements in an unordered container is
+not specified, its elements are grouped into [def equivalent-key group]s such
+that all elements of each group have equivalent keys.
+
+[:en] Mutating operations on unordered containers shall preserve the relative
+order of elements within each equivalent-key group unless otherwise specified.
+
+[para]
+[:en] For [`unordered_set] and [`unordered_multiset] the value type is the same
+as the key type.
+
+[:en] For [`unordered_map] and [`unordered_multimap] it is
+[`std::pair<const Key, T>].
+
+[para]
+[:en] For unordered containers where the value type is the same as the key type,
+both [`iterator] and [`const_iterator] are constant iterators.
+
+[:en] It is unspecified whether or not [`iterator] and [`const_iterator] are the
+same type.
+
+[enter:note]
+[:en] [`iterator] and [`const_iterator] have identical semantics in this case,
+and [`iterator] is convertible to [`const_iterator].
+
+[:en] Users can avoid violating the One Definition Rule by always using
+[`const_iterator] in their function parameter lists.
+[exit:note]
+
+[para]
+[:en]
+[%buckets]
+[%hash code]
+The elements of an unordered associative container are organized into
+[+buckets].
+
+[:en] Keys with the same hash code appear in the same bucket.
+
+[:en] The number of buckets is automatically increased as elements are added to
+an unordered associative container, so that the average number of elements per
+bucket is kept below a bound.
+
+[:en] Rehashing invalidates iterators, changes ordering between elements, and
+changes which buckets elements appear in, but does not invalidate pointers or
+references to elements.
+
+[:en] For [`unordered_multiset] and [`unordered_multimap], rehashing preserves
+the relative ordering of equivalent elements.
+
+[para]
+[:en] The unordered associative containers meet all the requirements of
+Allocator-aware containers ([#container.requirements.general]), except that for
+[`unordered_map] and [`unordered_multimap], the requirements placed on
+[`value_type] in Table [#tab:containers.container.requirements] apply instead to
+[`key_type] and [`mapped_type].
+
+[enter:note]
+[:en] For example, [`key_type] and [`mapped_type] are sometimes required to be
+[`CopyAssignable] even though the associated [`value_type], [`pair<const
+key_type, mapped_type>], is not [`CopyAssignable].
+[exit:note]
+
+[para]
+[:en]
+[%unordered associative containers]
+[%unordered associative containers[!requirements]]
+[%requirements[!unordered associative container]]
+[%unordered associative containers[!unique keys]]
+[%unordered associative containers[!equivalent keys]]
+[%requirements[!container]]
+In Table [#tab:HashRequirements]: [`X] denotes an unordered associative
+container class, [`a] denotes a value of type [`X], [`b] denotes a possibly
+const value of type [`X], [`a_uniq] denotes a value of type [`X] when [`X]
+supports unique keys, [`a_eq] denotes a value of type [`X] when [`X] supports
+equivalent keys, [`i] and [`j] denote input iterators that refer to
+[`value_type], [`[i, j)] denotes a valid range, [`p] and [`q2] denote valid
+const iterators to [`a], [`q] and [`q1] denote valid dereferenceable const
+iterators to [`a], [`[q1, q2)] denotes a valid range in [`a], [`il] designates
+an object of type [`initializer_list<value_type>], [`t] denotes a value of type
+[`X::value_type], [`k] denotes a value of type [`key_type], [`hf] denotes a
+possibly const value of type [`hasher], [`eq] denotes a possibly const value of
+type [`key_equal], [`n] denotes a value of type [`size_type], and [`z] denotes a
+value of type [`float].
+
+[table:listing#tab:HashRequirements
+    [:en] Unordered associative container requirements (in addition to
+        container)
+    [columns
+        [column@headercenter
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note pre-/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`X::key_type]
+[|]
+[%unordered associative containers[![`key_type]]]
+[%[`key_type][!unordered associative containers]]
+    [`Key]
+[|]
+[|] [:en] compile time
+
+[|] [:en] [`X::mapped_type] ([`unordered_map] and [`unordered_multimap] only)
+[|] [`T]
+[|]
+[|] [:en] compile time
+
+[|] [:en] [`X::value_type] ([`unordered_set] and [`unordered_multiset] only)
+[|] [`Key]
+[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [:en] compile time
+
+[|] [:en] [`X::value_type] ([`unordered_map] and [`unordered_multimap] only)
+[|] [`pair<const Key, T>]
+[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [:en] compile time
+
+[|] [`X::hasher]
+[|] [`Hash]
+[|] [:en] [`Hash] shall be a unary function object type such that the expression
+    [`hf(k)] has type [`std::size_t].
+    [%unordered associative containers[![`hasher]]]
+    [%[`hasher][!unordered associative containers]]
+[|] [:en] compile time
+
+[|] [`X::key_equal]
+[|] [`Pred]
+[|] [:en] [`Pred] shall be a binary predicate that takes two arguments of type
+    [`Key].
+    [:en] [`Pred] is an equivalence relation.
+    [%unordered associative containers[![`key_equal]]]
+    [%[`key_equal][!unordered associative containers]]
+[|] [:en] compile time
+
+[|] [`X::local_iterator]
+[|] [:en] An iterator type whose category, value type, difference type, and
+    pointer and reference types are the same as [`X::iterator][=']s.
+    [%[`local_iterator]]
+[|] [:en] A [`local_iterator] object may be used to iterate through a single
+    bucket, but may not be used to iterate across buckets.
+    [%unordered associative containers[![`local_iterator]]]
+    [%[`local_iterator][!unordered associative containers]]
+[|] [:en] compile time
+
+[|] [`X::const_local_iterator]
+[|] [:en] An iterator type whose category, value type, difference type, and
+    pointer and reference types are the same as [`X::const_iterator][=']s.
+    [%[`const_local_iterator]]
+[|] [:en] A [`const_local_iterator] object may be used to iterate through a
+    single bucket, but may not be used to iterate across buckets.
+    [%unordered associative containers[![`const_local_iterator]]]
+    [%[`const_local_iterator][!unordered associative containers]]
+[|] [:en] compile time
+
+[|] [`X(n, hf, eq)] [br] [`X a(n, hf, eq)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`CopyConstructible]. [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hf] as the hash function and [`eq] as the key equality predicate.
+[|] [$[=bigoh](n)]
+
+[|] [`X(n, hf)] [br] [`X a(n, hf)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] is [`CopyConstructible] and [`key_equal]
+    is [`DefaultConstructible]. [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hf] as the hash function and [`key_equal()] as the key equality
+    predicate.
+[|] [$[=bigoh](n)]
+
+[|] [`X(n)] [br] [`X a(n)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hasher()] as the hash function and [`key_equal()] as the key
+    equality predicate.
+[|] [$[=bigoh](n)]
+
+[|] [`X()] [br] [`X a]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [br]
+    [:en] [=Effects] Constructs an empty container with an unspecified number of
+    buckets, using [`hasher()] as the hash function and [`key_equal()] as the
+    key equality predicate.
+[|] [:en] constant
+
+[|] [`X(i, j, n, hf, eq)] [br] [`X a(i, j, n, hf, eq)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`CopyConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hf] as the hash function and [`eq] as the key equality predicate,
+    and inserts elements from [`[i, j)] into it.
+[|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+
+[|] [`X(i, j, n, hf)] [br] [`X a(i, j, n, hf)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] is [`CopyConstructible] and [`key_equal]
+    is [`DefaultConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hf] as the hash function and [`key_equal()] as the key equality
+    predicate, and inserts elements from [`[i, j)] into it.
+[|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+
+[|] [`X(i, j, n)] [br] [`X a(i, j, n)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
+    using [`hasher()] as the hash function and [`key_equal()] as the key
+    equality predicate, and inserts elements from [`[i, j)] into it.
+[|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+
+[|] [`X(i, j)] [br] [`X a(i, j)]
+[|] [`X]
+[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:en] [=Effects] Constructs an empty container with an unspecified number of
+    buckets, using [`hasher()] as the hash function and [`key_equal()] as the
+    key equality predicate, and inserts elements from [`[i, j)] into it.
+[|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+
+[|] [`X(il)]
+[|] [`X]
+[|] [:en] Same as [`X(il.begin(), il.end())].
+[|] [:en] Same as [`X(il.begin(), il.end())].
+
+[|] [`X(il, n)]
+[|] [`X]
+[|] [:en] Same as [`X(il.begin(), il.end(), n)].
+[|] [:en] Same as [`X(il.begin(), il.end(), n)].
+
+[|] [`X(il, n, hf)]
+[|] [`X]
+[|] [:en] Same as [`X(il.begin(), il.end(), n, hf)].
+[|] [:en] Same as [`X(il.begin(), il.end(), n, hf)].
+
+[|] [`X(il, n, hf, eq)]
+[|] [`X]
+[|] [:en] Same as [`X(il.begin(), il.end(), n, hf, eq)].
+[|] [:en] Same as [`X(il.begin(), il.end(), n, hf, eq)].
+
+[|] [`X(b)] [br] [`X a(b)]
+[|] [`X]
+[|] [:en] Copy constructor.
+    [:en] In addition to the requirements of Table
+    [#tab:containers.container.requirements], copies the hash function,
+    predicate, and maximum load factor.
+[|] [:en] Average case linear in [`b.size()], worst case quadratic.
+
+[|] [`a = b]
+[|] [`X&]
+[|] [:en] Copy assignment operator.
+[|] [:en] In addition to the requirements of Table
+    [#tab:containers.container.requirements], copies the hash function,
+    predicate, and maximum load factor.
+[|] [:en] Average case linear in [`b.size()], worst case quadratic.
+
+[|] [`a = il]
+[|] [`X&]
+[|] [:en] [=Requires] [`value_type] is [`CopyInsertable] into [`X] and
+    [`CopyAssignable]. [br]
+    [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:en] All existing elements of [`a] are either assigned to or destroyed.
+[|] [:en] Same as [`a = X(il)].
+
+[|] [`b.hash_function()]
+[|] [`hasher]
+[|] [:en] Returns [`b][=']s hash function.
+    [%unordered associative containers[![`hash_function]]]
+    [%[`hash_function][!unordered associative containers]]
+[|] [:en] constant
+
+[|] [`b.key_eq()]
+[|] [`key_equal]
+[|] [:en] Returns [`b][=']s key equality predicate.
+    [%unordered associative containers[![`key_eq]]]
+    [%[`key_eq][!unordered associative containers]]
+[|] [:en] constant
+
+[|] [`a_uniq.emplace(args)]
+[|] [`pair<iterator, bool>]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`args]. [br]
+    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+    [`std::forward<Args>(args)...] if and only if there is no element in the
+    container with key equivalent to the key of [`t].
+    [:en] The [`bool] component of the returned pair is true if and only if the
+    insertion takes place, and the iterator
+    [:en] component of the pair points to the element with key equivalent to the
+    key of [`t].
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_uniq.size()])].
+
+[|] [`a_eq.emplace(args)]
+[|] [`iterator]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`args]. [br]
+    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+    [`std::forward<Args>(args)...] and returns the iterator pointing to the
+    newly inserted element.
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_eq.size()])].
+
+[|] [`a.emplace_hint(p, args)]
+[|] [`iterator]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`args]. [br]
+    [:en] [=Effects] Equivalent to [`a.emplace(std::forward<Args>(args)...)].
+    [:en] Return value is an iterator pointing to the element with the key
+    equivalent to the newly inserted element.
+    [:en] The [`const_iterator p] is a hint pointing to where the search should
+    start.
+    [:en] Implementations are permitted to ignore the hint.
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+
+[|] [`a_uniq.insert(t)]
+[|] [:en] [`pair<iterator, bool>]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Inserts [`t] if and only if there is no element in the
+    container with key equivalent to the key of [`t].
+    [:en] The [`bool] component of the returned pair indicates whether the
+    insertion takes place, and the [`iterator] component points to the element
+    with key equivalent to the key of [`t].
+    [%unordered associative containers[![`insert]]]
+    [%[`insert][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_uniq.size()])].
+
+[|] [`a_eq.insert(t)]
+[|] [`iterator]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Inserts [`t], and returns an iterator pointing to the newly
+    inserted element.
+    [%unordered associative containers[![`insert]]]
+    [%[`insert][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_eq.size()])].
+
+[|] [`a.insert(q, t)]
+[|] [`iterator]
+[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
+    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X]. [br]
+    [:en] [=Effects] Equivalent to [`a.insert(t)].
+    [:en] Return value is an iterator pointing to the element with the key
+    equivalent to that of [`t].
+    [:en] The iterator [`q] is a hint pointing to where the search should start.
+    [:en] Implementations are permitted to ignore the hint.
+    [%unordered associative containers[![`insert]]]
+    [%[`insert][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+
+[|] [`a.insert(i, j)]
+[|] [`void]
+[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
+    from [`*i]. [br]
+    [:en] Pre: [`i] and [`j] are not iterators in [`a].
+    [:en] Equivalent to [`a.insert(t)] for each element in [`[i,j)].
+    [%unordered associative containers[![`insert]]]
+    [%[`insert][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](N)], where [$N] is [`distance(i, j)].
+    [:en] Worst case [$[=bigoh](N * [`(a.size()) + N])].
+
+[|] [`a.insert(il)]
+[|] [`void]
+[|] [:en] Same as [`a.insert(il.begin(), il.end())].
+[|] [:en] Same as [`a.insert(il.begin(), il.end())].
+
+[|] [`a.erase(k)]
+[|] [`size_type]
+[|] [:en] Erases all elements with key equivalent to [`k].
+    [:en] Returns the number of elements erased.
+[|] [:en] Average case [$[=bigoh]([`a.count(k)])].
+    [:en] Worst case [$[=bigoh]([`a.size()])].
+
+[|] [`a.erase(q)]
+[|] [`iterator]
+[|] [:en] Erases the element pointed to by [`q].
+    [:en] Return value is the iterator immediately following [`q] prior to the
+    erasure.
+    [%unordered associative containers[![`erase]]]
+    [%[`erase][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+
+[|] [`a.erase(q1, q2)]
+[|] [`iterator]
+[|] [:en] Erases all elements in the range [`[q1, q2)].
+    [:en] Return value is the iterator immediately following the erased elements
+    prior to the erasure.
+    [%unordered associative containers[![`erase]]]
+    [%[`erase][!unordered associative containers]]
+[|] [:en] Average case linear in [`distance(q1, q2)], worst case
+    [$[=bigoh]([`a.size()])].
+
+[|] [`a.clear()]
+[|] [`void]
+[|] [:en] Erases all elements in the container.
+    [:en] Post: [`a.empty()] returns [`true]
+    [%unordered associative containers[![`clear]]]
+    [%[`clear][!unordered associative containers]]
+[|] [:en] Linear.
+
+[|] [`b.find(k)]
+[|] [:en] [`iterator]; [br] [`const_iterator] for const [`b].
+[|] [:en] Returns an iterator pointing to an element with key equivalent to
+    [`k], or [`b.end()] if no such element exists.
+    [%unordered associative containers[![`find]]]
+    [%[`find][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`b.size()])].
+
+[|] [`b.count(k)]
+[|] [`size_type]
+[|] [:en] Returns the number of elements with key equivalent to [`k].
+    [%unordered associative containers[![`count]]]
+    [%[`count][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh]([`b.count(k)])], worst case
+    [$[=bigoh]([`b.size()])].
+
+[|] [`b.equal_range(k)]
+[|] [`pair<iterator, iterator>]; [br]
+    [`pair<const_iterator, const_iterator>] for const [`b].
+[|] [:en] Returns a range containing all elements with keys equivalent to [`k].
+    [:en] Returns [`make_pair(b.end(), b.end())] if no such elements exist.
+    [%unordered associative containers[![`equal_range]]]
+    [%[`equal_range][!unordered associative containers]]
+[|] [:en] Average case [$[=bigoh]([`b.count(k)])].
+    [:en] Worst case [$[=bigoh]([`b.size()])].
+
+[|] [`b.bucket_count()]
+[|] [`size_type]
+[|] [:en] Returns the number of buckets that [`b] contains.
+    [%unordered associative containers[![`bucket_count]]]
+    [%[`bucket_count][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.max_bucket_count()]
+[|] [`size_type]
+[|] [:en] Returns an upper bound on the number of buckets that [`b] might ever
+    contain.
+    [%unordered associative containers[![`max_bucket_count]]]
+    [%[`max_bucket_count][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.bucket(k)]
+[|] [`size_type]
+[|] [:en] Pre: [`b.bucket_count() > 0]. [br]
+    [:en] Returns the index of the bucket in which elements with keys equivalent
+    to [`k] would be found, if any such element existed.
+    [:en] Post: the return value shall be in the range [`[0, b.bucket_count())].
+    [%unordered associative containers[![`bucket]]]
+    [%[`bucket][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.bucket_size(n)]
+[|] [`size_type]
+[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+    [:en] Returns the number of elements in the [$n][^th] bucket.
+    [%unordered associative containers[![`bucket_size]]]
+    [%[`bucket_size][!unordered associative containers]]
+[|] [$[=bigoh]([`b.bucket_size(n)])]
+
+[|] [`b.begin(n)]
+[|] [:en] [`local_iterator]; [br] [`const_local_iterator] for const [`b].
+[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+    [:en] [`b.begin(n)] returns an iterator referring to the first element in
+    the bucket.
+    [:en] If the bucket is empty, then [`b.begin(n) == b.end(n)].
+    [%unordered associative containers[![`begin]]]
+    [%[`begin][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.end(n)]
+[|] [:en] [`local_iterator]; [br] [`const_local_iterator] for const [`b].
+[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+    [:en] [`b.end(n)] returns an iterator which is the past-the-end value for
+    the bucket.
+    [%unordered associative containers[![`end]]]
+    [%[`end][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.cbegin(n)]
+[|] [`const_local_iterator]
+[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+    [:en] Note: [`[b.cbegin(n), b.cend(n))] is a valid range containing all of
+    the elements in the [$n][^th] bucket.
+    [%unordered associative containers[![`cbegin]]]
+    [%[`cbegin][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.cend(n)]
+[|] [`const_local_iterator]
+[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+    [%unordered associative containers[![`cend]]]
+    [%[`cend][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.load_factor()]
+[|] [`float]
+[|] [:en] Returns the average number of elements per bucket.
+    [%unordered associative containers[![`load_factor]]]
+    [%[`load_factor][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`b.max_load_factor()]
+[|] [`float]
+[|] [:en] Returns a positive number that the container attempts to keep the load
+    factor less than or equal to.
+    [:en] The container automatically increases the number of buckets as
+    necessary to keep the load factor below this number.
+    [%unordered associative containers[![`max_load_factor]]]
+    [%[`max_load_factor][!unordered associative containers]]
+[|] [:en] Constant
+
+[|] [`a.max_load_factor(z)]
+[|] [`void]
+[|] [:en] Pre: [`z] shall be positive.
+    [:en] May change the container[=']s maximum load factor, using [`z] as a
+    hint.
+[|] [:en] Constant
+
+[|] [`a.rehash(n)]
+[|] [`void]
+[|] [:en] Post: [`a.bucket_count() > a.size() / a.max_load_factor()] and
+    [`a.bucket_count() >= n].
+    [%unordered associative containers[![`rehash]]]
+    [%[`rehash][!unordered associative containers]]
+[|] [:en] Average case linear in [`a.size()], worst case quadratic.
+
+[|] [`a.reserve(n)]
+[|] [`void]
+[|] [:en] Same as [`a.rehash(ceil(n / a.max_load_factor()))].
+[|] [:en] Average case linear in [`a.size()], worst case quadratic.
+
+[table:end]
+
+[para]
+[:en] Two unordered containers [`a] and [`b] compare equal if [`a.size() ==
+b.size()] and, for every equivalent-key group [=range[Ea1,Ea2)] obtained from
+[`a.equal_range(Ea1)], there exists an equivalent-key group [=range[Eb1,Eb2)]
+obtained from [`b.equal_range(Ea1)], such that [`is_permutation(Ea1, Ea2, Eb1,
+Eb2)] returns [`true].
+
+[:en] For [`unordered_set] and [`unordered_map], the complexity of [`operator==]
+(i.e., the number of calls to the [`==] operator of the [`value_type], to the
+predicate returned by [`key_equal()], and to the hasher returned by
+[`hash_function()]) is proportional to [$N] in the average case and to [$N[^2]]
+in the worst case, where [$N] is [`a.size()].
+
+[:en] For [`unordered_multiset] and [`unordered_multimap], the complexity of
+[`operator==] is proportional to [$[=sum]E[_i][^2]] in the average case and to
+[$N[^2]] in the worst case, where [$N] is [`a.size()], and [$E[_i]] is the size
+of the [$i[^th]] equivalent-key group in [`a].
+
+[:en] However, if the respective elements of each corresponding pair of
+equivalent-key groups [$Ea[_i]] and [$Eb[_i]] are arranged in the same order
+(as is commonly the case, e.g., if [`a] and [`b] are unmodified copies of the
+same container), then the average-case complexity for [`unordered_multiset] and
+[`unordered_multimap] becomes proportional to [$N] (but worst-case complexity
+remains [$[=bigoh](N[^2])], e.g., for a pathologically bad hash function).
+
+[:en] The behavior of a program that uses [`operator==] or [`operator!=] on
+unordered containers is undefined unless the [`Hash] and [`Pred] function
+objects respectively have the same behavior for both containers and the equality
+comparison operator for [`Key] is a refinement
+
+[footnote]
+[:en] Equality comparison is a refinement of partitioning if no two objects that
+compare equal fall into different partitions.
+[footnote:end]
+
+[:en@~] of the partition into equivalent-key groups produced by [`Pred].
+
+[para]
+[:en]
+[%unordered associative containers[!iterators]]
+The iterator types [`iterator] and [`const_iterator] of an unordered associative
+container are of at least the forward iterator category.
+
+[:en] For unordered associative containers where the key type and value type are
+the same, both [`iterator] and [`const_iterator] are const iterators.
+
+[para]
+[:en]
+[%unordered associative containers[!iterator invalidation]]
+The [`insert] and [`emplace] members shall not affect the validity of references
+to container elements, but may invalidate all iterators to the container.
+
+[:en] The [`erase] members shall invalidate only iterators and references to the
+erased elements, and preserve the relative order of the elements that are not
+erased.
+
+[para]
+[:en]
+[%unordered associative containers[!iterator invalidation]]
+[%unordered associative containers[!requirements]]
+The [`insert] and [`emplace] members shall not affect the validity of iterators
+if [`(N+n) < z * B], where [`N] is the number of elements in the container prior
+to the insert operation, [`n] is the number of elements inserted, [`B] is the
+container[=']s bucket count, and [`z] is the container[=']s maximum load factor.
+
+[include unord.req.except]

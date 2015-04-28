@@ -1,0 +1,38 @@
+﻿[section#set.cons
+    [:en] [`set] constructors, copy, and assignment
+]
+
+[%@library set[!set]]
+[codeblock:declaration]
+explicit set(const Compare& comp, const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty set using the specified comparison objects and
+allocator.
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library set[!set]]
+[codeblock:declaration]
+template <class InputIterator>
+  set(InputIterator first, InputIterator last,
+      const Compare& comp = Compare(), const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty [`set] using the specified comparison object and
+allocator, and inserts elements from the range [=range[first,last)].
+
+[para:requires]
+[:en] If the iterator[=']s indirection operator returns an lvalue or a non-const
+rvalue, then [`Key] shall be [`CopyInsertable] into [`*this].
+
+[para:complexity]
+[:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
+[`comp] and otherwise [$N] log([$N]), where [$N] is [`last - first].
+[exit:description]

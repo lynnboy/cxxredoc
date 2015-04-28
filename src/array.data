@@ -1,0 +1,15 @@
+﻿[section#array.data
+    [:en] [`array::data]
+]
+
+[%@library array[!data]]
+[%@library data[!array]]
+[codeblock:declaration]
+T* data() noexcept;
+const T* data() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`elems].
+[exit:description]

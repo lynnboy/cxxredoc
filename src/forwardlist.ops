@@ -1,0 +1,244 @@
+﻿[section#forwardlist.ops
+    [:en] [`forward_list] operations
+]
+
+[%@library splice_after[!forward_list]]
+[%@library forward_list[!splice_after]]
+[codeblock:declaration]
+void splice_after(const_iterator position, forward_list& x);
+void splice_after(const_iterator position, forward_list&& x);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[:en] [`get_allocator() == x.get_allocator()].
+
+[:en] [`&x != this].
+
+[para:effects]
+[:en] Inserts the contents of [`x] after [`position], and [`x] becomes empty.
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity] [$[=bigoh]([`distance(x.begin(), x.end())])]
+[exit:description]
+
+[%@library splice_after[!forward_list]]
+[%@library forward_list[!splice_after]]
+[codeblock:declaration]
+void splice_after(const_iterator position, forward_list& x, const_iterator i);
+void splice_after(const_iterator position, forward_list&& x, const_iterator i);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[:en] The iterator following [`i] is a dereferenceable iterator in [`x].
+
+[:en] [`get_allocator() == x.get_allocator()].
+
+[para:effects]
+[:en] Inserts the element following [`i] into [`*this], following [`position],
+and removes it from [`x].
+
+[:en] The result is unchanged if [`position == i] or [`position == ++i].
+
+[:en] Pointers and references to [`*++i] continue to refer to the same element
+but as a member of [`*this].
+
+[:en] Iterators to [`*++i] continue to refer to the same element, but now behave
+as iterators into [`*this], not into [`x].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[$[=bigoh](1)]
+[exit:description]
+
+[%@library splice_after[!forward_list]]
+[%@library forward_list[!splice_after]]
+[codeblock:declaration]
+void splice_after(const_iterator position, forward_list& x,
+                  const_iterator first, const_iterator last);
+void splice_after(const_iterator position, forward_list&& x,
+                  const_iterator first, const_iterator last);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
+range [=range[begin(),end())].
+
+[:en] [=orange(first,last)] is a valid range in [`x], and all iterators in the
+range [=orange(first,last)] are dereferenceable.
+
+[:en] [`position] is not an iterator in the range [=orange(first,last)].
+
+[:en] [`get_allocator() == x.get_allocator()].
+
+[para:effects]
+[:en] Inserts elements in the range [=orange(first,last)] after [`position] and
+removes the elements from [`x].
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:complexity]
+[$[=bigoh]([`distance(first, last)])]
+[exit:description]
+
+[%@library remove[!forward_list]]
+[%@library forward_list[!remove]]
+[%@library remove_if[!forward_list]]
+[%@library forward_list[!remove_if]]
+[codeblock:declaration]
+void remove(const T& value);
+template <class Predicate> void remove_if(Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Erases all the elements in the list referred by a list iterator [`i] for
+which the following conditions hold: [`*i == value] (for [`remove()]),
+[`pred(*i)] is true (for [`remove_if()]).
+
+[:en] Invalidates only the iterators and references to the erased elements.
+
+[para:throws]
+[:en] Nothing unless an exception is thrown by the equality comparison or the
+predicate.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[para:complexity]
+[:en] Exactly [`distance(begin(), end())] applications of the corresponding
+predicate.
+[exit:description]
+
+[%@library unique[!forward_list]]
+[%@library forward_list[!unique]]
+[codeblock:declaration]
+void unique();
+template <class BinaryPredicate> void unique(BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Erases all but the first element from every consecutive group of equal
+elements referred to by the iterator [`i] in the range [=range[first + 1,last)]
+for which [`*i == *(i-1)] (for the version with no arguments) or [`pred(*i, *(i
+- 1))] (for the version with a predicate argument) holds.
+
+[:en] Invalidates only the iterators and references to the erased elements.
+
+[para:throws]
+[:en] Nothing unless an exception is thrown by the equality comparison or the
+predicate.
+
+[para:complexity]
+[:en] If the range [=range[first,last)] is not empty, exactly [`(last - first)
+- 1] applications of the corresponding predicate, otherwise no applications of
+the predicate.
+[exit:description]
+
+[%@library merge[!forward_list]]
+[%@library forward_list[!merge]]
+[codeblock:declaration]
+void merge(forward_list& x);
+void merge(forward_list&& x);
+template <class Compare> void merge(forward_list& x, Compare comp);
+template <class Compare> void merge(forward_list&& x, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`comp] defines a strict weak ordering ([#alg.sorting]), and [`*this] and
+[`x] are both sorted according to this ordering.
+
+[:en] [`get_allocator() == x.get_allocator()].
+
+[para:effects]
+[:en] Merges the two sorted ranges [`[begin(), end())] and [`[x.begin(),
+x.end())].
+
+[:en] [`x] is empty after the merge.
+
+[:en] If an exception is thrown other than by a comparison there are no effects.
+
+[:en] Pointers and references to the moved elements of [`x] now refer to those
+same elements but as members of [`*this].
+
+[:en] Iterators referring to the moved elements will continue to refer to their
+elements, but they now behave as iterators into [`*this], not into [`x].
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]). The behavior is undefined if
+[`this->get_allocator() != x.get_allocator()].
+
+[para:complexity]
+[:en] At most [`distance(begin(), end()) + distance(x.begin(), x.end()) - 1]
+comparisons.
+[exit:description]
+
+[%@library sort[!forward_list]]
+[%@library forward_list[!sort]]
+[codeblock:declaration]
+void sort();
+template <class Compare> void sort(Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`operator<] (for the version with no arguments) or [`comp] (for the
+version with a comparison argument) defines a strict weak ordering
+([#alg.sorting]).
+
+[para:effects]
+[:en] Sorts the list according to the [`operator<] or the [`comp] function
+object.
+
+[:en] If an exception is thrown the order of the elements in [`*this] is
+unspecified.
+
+[:en] Does not affect the validity of iterators and references.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[para:complexity]
+[:en] Approximately [$N] log [$N] comparisons, where [$N] is [`distance(begin(),
+end())].
+[exit:description]
+
+[%@library reverse[!forward_list]]
+[%@library forward_list[!reverse]]
+[codeblock:declaration]
+void reverse() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reverses the order of the elements in the list.
+
+[:en] Does not affect the validity of iterators and references.
+
+[para:complexity]
+[:en] Linear time.
+[exit:description]

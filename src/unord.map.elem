@@ -1,0 +1,51 @@
+﻿[section#unord.map.elem
+    [:en] [`unordered_map] element access
+]
+
+[%@library unordered_map[!operator'[']]]
+[%@library operator'['][!unordered_map]]
+[%[`unordered_map][!element access]]
+[codeblock:declaration]
+mapped_type& operator[](const key_type& k);
+mapped_type& operator[](key_type&& k);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`mapped_type] shall be [`DefaultInsertable] into [`*this].
+
+[:en] For the first operator, [`key_type] shall be [`CopyInsertable] into
+[`*this].
+
+[:en] For the second operator, [`key_type] shall be [`MoveConstructible].
+
+[para:effects]
+[:en] If the [`unordered_map] does not already contain an element whose key is
+equivalent to [`[$k]], the first operator inserts the value [`value_type(k,
+mapped_type())] and the second operator inserts the value
+[`value_type(std::move(k), mapped_type())].
+
+[para:returns]
+[:en] A reference to [`x.second], where [`x] is the (unique) element whose key
+is equivalent to [`[$k]].
+
+[para:complexity]
+[:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`size()])].
+[exit:description]
+
+[%@library unordered_map][!at]]
+[%@library at[!unordered_map]]
+[%[`unordered_map][!element access]]
+[codeblock:declaration]
+mapped_type& at(const key_type& k);
+const mapped_type& at(const key_type& k) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to [`x.second], where [`x] is the (unique) element whose key
+is equivalent to [`k].
+
+[para:throws]
+[:en] An exception object of type [`out_of_range] if no such element is present.
+[exit:description]

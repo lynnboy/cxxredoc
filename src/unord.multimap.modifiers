@@ -1,0 +1,35 @@
+﻿[section#unord.multimap.modifiers
+    [:en] [`unordered_multimap] modifiers
+]
+
+[%@library unordered_multimap[!insert]]
+[%@library insert[!unordered_multimap]]
+[codeblock:declaration]
+template <class P>
+  iterator insert(P&& obj);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`return emplace(std::forward<P>(obj))]. 
+
+[para:remarks]
+[:en] This signature shall not participate in overload resolution unless
+[`std::is_constructible<value_type, P&&>::value] is [`true].
+[exit:description]
+
+[%@library unordered_multimap[!insert]]
+[%@library insert[!unordered_multimap]]
+[codeblock:declaration]
+template <class P>
+  iterator insert(const_iterator hint, P&& obj);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to  [`return emplace_hint(hint, std::forward<P>(obj))].
+
+[para:remarks]
+[:en] This signature shall not participate in overload resolution unless
+[`std::is_constructible<value_type, P&&>::value] is [`true].
+[exit:description]

@@ -1,0 +1,19 @@
+﻿[section#multiset.special
+    [:en] [`multiset] specialized algorithms
+]
+
+[%@library swap[!multiset]]
+[%@library multiset[!swap]]
+[codeblock:declaration]
+template <class Key, class Compare, class Allocator>
+  void swap(multiset<Key, Compare, Allocator>& x,
+            multiset<Key, Compare, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+[exit:description]

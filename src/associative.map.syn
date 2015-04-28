@@ -1,0 +1,63 @@
+﻿[section#associative.map.syn
+    [:en] Header [`<map>] synopsis
+]
+
+[%@library <map> [sortas map]]
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+
+  template <class Key, class T, class Compare = less<Key>,
+            class Allocator = allocator<pair<const Key, T> > >
+    class map;
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator==(const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator< (const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator!=(const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator> (const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator>=(const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator<=(const map<Key, T, Compare, Allocator>& x,
+                    const map<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    void swap(map<Key, T, Compare, Allocator>& x,
+              map<Key, T, Compare, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+
+  template <class Key, class T, class Compare = less<Key>,
+            class Allocator = allocator<pair<const Key, T> > >
+    class multimap;
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator==(const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator< (const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator!=(const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator> (const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator>=(const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    bool operator<=(const multimap<Key, T, Compare, Allocator>& x,
+                    const multimap<Key, T, Compare, Allocator>& y);
+  template <class Key, class T, class Compare, class Allocator>
+    void swap(multimap<Key, T, Compare, Allocator>& x,
+              multimap<Key, T, Compare, Allocator>& y)
+      noexcept(noexcept(x.swap(y)));
+}
+[codeblock:end]

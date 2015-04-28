@@ -1,0 +1,31 @@
+﻿[section#unord.req.except
+    [:en] Exception safety guarantees
+]
+
+[para]
+[:en]
+[%unordered associative containers[!exception safety]]
+[%unordered associative containers[!requirements]]
+For unordered associative containers, no [`clear()] function throws an
+exception.
+
+[:en] [`erase(k)] does not throw an exception unless that exception is thrown by
+the container[=']s [`Hash] or [`Pred] object (if any).
+
+[para]
+[:en] For unordered associative containers, if an exception is thrown by any
+operation other than the container[=']s hash function from within an [`insert]
+or [`emplace] function inserting a single element, the insertion has no effect.
+
+[para]
+[:en] For unordered associative containers, no [`swap] function throws
+an exception unless that exception is thrown by the swap of the container[=']s
+Hash or Pred object (if any).
+
+[para]
+[:en]
+[%unordered associative containers[!exception safety]]
+[%unordered associative containers[!requirements]]
+For unordered associative containers, if an exception is thrown from within a
+[`rehash()] function other than by the container[=']s hash function or
+comparison function, the [`rehash()] function has no effect.

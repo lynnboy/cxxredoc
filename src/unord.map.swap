@@ -1,0 +1,17 @@
+﻿[section#unord.map.swap
+    [:en] [`unordered_map] swap
+]
+
+[%@library unordered_map[!swap]]
+[%@library swap[!unordered_map]]
+[codeblock:declaration]
+template <class Key, class T, class Hash, class Pred, class Alloc>
+  void swap(unordered_map<Key, T, Hash, Pred, Alloc>& x,
+            unordered_map<Key, T, Hash, Pred, Alloc>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

@@ -1,0 +1,21 @@
+﻿[section#stack.cons
+    [:en] [`stack] constructors
+]
+
+[codeblock:declaration]
+explicit stack(const Container& cont);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`cont].
+[exit:description]
+
+[codeblock:declaration]
+explicit stack(Container&& cont = Container());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(cont)].
+[exit:description]

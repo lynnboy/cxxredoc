@@ -1,0 +1,22 @@
+﻿[section#multimap.modifiers
+    [:en] [`multimap] modifiers
+]
+
+[%@library insert[!multimap]]
+[%@library multimap[!insert]]
+[codeblock:declaration]
+template <class P> iterator insert(P&& x);
+template <class P> iterator insert(const_iterator position, P&& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The first form is equivalent to  [`return emplace(std::forward<P>(x))].
+
+[:en] The second form is equivalent to [`return emplace_hint(position,
+std::forward<P>(x))].
+
+[para:remarks]
+[:en] These signatures shall not participate in overload resolution unless
+[`std::is_constructible<value_type, P&&>::value] is [`true].
+[exit:description]

@@ -1,0 +1,50 @@
+﻿[section#containers.general
+    [:en] General
+]
+
+[para]
+[:en]
+This Clause describes components that [=Cpp] programs may use to organize
+collections of information.
+
+[para]
+[:en]
+The following subclauses describe container requirements, and components for
+sequence containers and associative containers, as summarized in
+Table [#tab:containers.lib.summary].
+
+[table:listing#tab:containers.lib.summary
+    [:en] Containers library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [#container.requirements]
+[|] [:en] Requirements
+[|] 
+
+[|] [#sequences]
+[|] [:en] Sequence containers
+[|] <array> [br] <deque> [br] <forward_list> [br] <list> [br] <vector>
+
+[|] [#associative]
+[|] [:en] Associative containers
+[|] <map> [br] <set>
+
+[|] [#unord]
+[|] [:en] Unordered associative containers
+[|] <unordered_map> [br] <unordered_set>
+
+[|] [#container.adaptors]
+[|] [:en] Container adaptors
+[|] <queue> [br] <stack>
+
+[table:end]

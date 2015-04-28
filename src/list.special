@@ -1,0 +1,20 @@
+﻿[section#list.special
+    [:en] [`list] specialized algorithms
+]
+
+[%@library swap[!list]]
+[%@library list[!swap]]
+[codeblock:declaration]
+template <class T, class Allocator>
+  void swap(list<T, Allocator>& x, list<T, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+
+[exit:description]

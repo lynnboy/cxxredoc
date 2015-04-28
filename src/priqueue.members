@@ -1,0 +1,56 @@
+﻿[section#priqueue.members
+    [:en] [`priority_queue] members
+]
+
+[%@library push[!priority_queue]]
+[codeblock:declaration]
+void push(const value_type& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+c.push_back(x);
+push_heap(c.begin(), c.end(), comp);
+[codeblock:end]
+[exit:description]
+
+[%@library push[!priority_queue]]
+[codeblock:declaration]
+void push(value_type&& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+c.push_back(std::move(x));
+push_heap(c.begin(), c.end(), comp);
+[codeblock:end]
+[exit:description]
+
+[%@library emplace[!priority_queue]]
+[%@library priority_queue[!emplace]]
+[codeblock:declaration]
+template <class... Args> void emplace(Args&&... args)
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+c.emplace_back(std::forward<Args>(args)...);
+push_heap(c.begin(), c.end(), comp);
+[codeblock:end]
+[exit:description]
+
+[%@library pop[!priority_queue]]
+[codeblock:declaration]
+void pop();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+pop_heap(c.begin(), c.end(), comp);
+c.pop_back();
+[codeblock:end]
+[exit:description]

@@ -1,0 +1,180 @@
+﻿[section#vector.bool
+    [:en] Class [`vector<bool>]
+]
+
+[para]
+[%@library vector<bool>]
+[:en] To optimize space allocation, a specialization of vector for [`bool]
+elements is provided:
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  template <class Allocator> class vector<bool, Allocator> {
+  public:
+    // [:en] types:
+    typedef bool                                  const_reference;
+    typedef implementation-defined                iterator;       // [:en] see [#container.requirements]
+    typedef implementation-defined                const_iterator; // [:en] see [#container.requirements]
+    typedef implementation-defined                size_type;      // [:en] see [#container.requirements]
+    typedef implementation-defined                difference_type;// [:en] see [#container.requirements]
+    typedef bool                                  value_type;
+    typedef Allocator                             allocator_type;
+    typedef implementation-defined                pointer;
+    typedef implementation-defined                const_pointer;
+    typedef std::reverse_iterator<iterator>       reverse_iterator;
+    typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+    // [:en] bit reference:
+    class reference {
+      friend class vector;
+      reference() noexcept;
+    public:
+      ~reference();
+      operator bool() const noexcept;
+      reference& operator=(const bool x) noexcept;
+      reference& operator=(const reference& x) noexcept;
+      void flip() noexcept;     // [:en] flips the bit
+    };
+
+    // [:en] construct/copy/destroy:
+    vector() : vector(Allocator()) { }
+    explicit vector(const Allocator&);
+    explicit vector(size_type n, const Allocator& = Allocator());
+    vector(size_type n, const bool& value,
+           const Allocator& = Allocator());
+    template <class InputIterator>
+      vector(InputIterator first, InputIterator last,
+             const Allocator& = Allocator());
+    vector(const vector<bool, Allocator>& x);
+    vector(vector<bool, Allocator>&& x);
+    vector(const vector&, const Allocator&);
+    vector(vector&&, const Allocator&);
+    vector(initializer_list<bool>, const Allocator& = Allocator()));
+   ~vector();
+    vector<bool, Allocator>& operator=(const vector<bool, Allocator>& x);
+    vector<bool, Allocator>& operator=(vector<bool, Allocator>&& x);
+    vector& operator=(initializer_list<bool>);
+    template <class InputIterator>
+      void assign(InputIterator first, InputIterator last);
+    void assign(size_type n, const bool& t);
+    void assign(initializer_list<bool>);
+    allocator_type get_allocator() const noexcept;
+
+    // [:en] iterators:
+    iterator               begin() noexcept;
+    const_iterator         begin() const noexcept;
+    iterator               end() noexcept;
+    const_iterator         end() const noexcept;
+    reverse_iterator       rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator       rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator         cbegin() const noexcept;
+    const_iterator         cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    // [:en] capacity:
+    bool      empty() const noexcept;
+    size_type size() const noexcept;
+    size_type max_size() const noexcept;
+    size_type capacity() const noexcept;
+    void      resize(size_type sz, bool c = false);
+    void      reserve(size_type n);
+    void      shrink_to_fit();
+
+    // [:en] element access:
+    reference       operator[](size_type n);
+    const_reference operator[](size_type n) const;
+    const_reference at(size_type n) const;
+    reference       at(size_type n);
+    reference       front();
+    const_reference front() const;
+    reference       back();
+    const_reference back() const;
+
+    // [:en] modifiers:
+    template <class... Args> void emplace_back(Args&&... args);
+    void push_back(const bool& x);
+    void pop_back();
+    template <class... Args> iterator emplace(const_iterator position, Args&&... args);
+    iterator insert(const_iterator position, const bool& x);
+    iterator insert (const_iterator position, size_type n, const bool& x);
+    template <class InputIterator>
+      iterator insert(const_iterator position,
+                      InputIterator first, InputIterator last);
+    iterator insert(const_iterator position, initializer_list<bool> il);
+
+    iterator erase(const_iterator position);
+    iterator erase(const_iterator first, const_iterator last);
+    void swap(vector<bool, Allocator>&);
+    static void swap(reference x, reference y) noexcept;
+    void flip() noexcept;       // [:en] flips all bits
+    void clear() noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] Unless described below, all operations have the same requirements and
+semantics as the primary [`vector] template, except that operations dealing with
+the [`bool] value type map to bit values in the container storage and
+[`allocator_traits::construct] ([#allocator.traits.members]) is not used to
+construct these values.
+
+[para]
+[:en] There is no requirement that the data be stored as a contiguous allocation
+of [`bool] values.
+
+[:en] A space-optimized representation of bits is recommended instead.
+
+[para]
+[:en] [`reference] is a class that simulates the behavior of references of a
+single bit in [`vector<bool>].
+
+[:en] The conversion operator returns [`true] when the bit is set, and [`false]
+otherwise.
+
+[:en] The assignment operator sets the bit when the argument is (convertible to)
+[`true] and clears it otherwise.
+
+[:en] [`flip] reverses the state of the bit.
+
+[%@library flip[!vector<bool>]]
+[%@library vector<bool>[!flip]]
+[codeblock:declaration]
+void flip() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Replaces each element in the container with its complement.
+[exit:description]
+
+[%@library swap[!vector<bool>]]
+[%@library vector<bool>[!swap]]
+[codeblock:declaration]
+static void swap(reference x, reference y) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] exchanges the contents of [`x] and [`y] as if by
+
+[codeblock:notation]
+bool b = x;
+x = y;
+y = b;
+[codeblock:end]
+[exit:description]
+
+[codeblock:declaration]
+template <class Allocator> struct hash<vector<bool, Allocator> >;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The template specialization shall meet the requirements of class template
+[`hash] ([#unord.hash]).
+[exit:description]

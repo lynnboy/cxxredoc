@@ -1,0 +1,62 @@
+﻿[section#vector.modifiers
+    [:en] [`vector] modifiers
+]
+
+[%@library insert[!vector]]
+[codeblock:declaration]
+iterator insert(const_iterator position, const T& x);
+iterator insert(const_iterator position, T&& x);
+iterator insert(const_iterator position, size_type n, const T& x);
+template <class InputIterator>
+  iterator insert(const_iterator position, InputIterator first, InputIterator last);
+iterator insert(const_iterator position, initializer_list<T>);
+
+template <class... Args> void emplace_back(Args&&... args);
+template <class... Args> iterator emplace(const_iterator position, Args&&... args);
+void push_back(const T& x);
+void push_back(T&& x);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] Causes reallocation if the new size is greater than the old capacity.
+
+[:en] If no reallocation happens, all the iterators and references before the
+insertion point remain valid.
+
+[:en] If an exception is thrown other than by the copy constructor, move
+constructor, assignment operator, or move assignment operator of [`T] or by any
+[`InputIterator] operation there are no effects.
+
+[:en] If an exception is thrown while inserting a single element at the end and
+[`T] is [`CopyInsertable] or [`is_nothrow_move_constructible<T>::value] is
+[`true], there are no effects.
+
+[:en] Otherwise, if an exception is thrown by the move constructor of a
+non-[`CopyInsertable] [`T], the effects are unspecified.
+
+[para:complexity]
+[:en] The complexity is linear in the number of elements inserted plus the
+distance to the end of the vector.
+[exit:description]
+
+[%@library erase[!vector]]
+[codeblock:declaration]
+iterator erase(const_iterator position);
+iterator erase(const_iterator first, const_iterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Invalidates iterators and references at or after the point of the erase.
+
+[para:complexity]
+[:en] The destructor of [`T] is called the number of times equal to the number
+of the elements erased, but the move assignment operator of [`T] is called the
+number of times equal to the number of elements in the vector after the erased
+elements.
+
+[para:throws]
+[:en] Nothing unless an exception is thrown by the copy constructor, move
+constructor, assignment operator, or move assignment operator of [`T].
+[exit:description]

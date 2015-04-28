@@ -1,0 +1,58 @@
+﻿[section#unord.multimap.cnstr
+    [:en] [`unordered_multimap] constructors
+]
+
+[%@library unordered_multimap[!unordered_multimap]]
+[codeblock:declaration]
+unordered_multimap() : unordered_multimap(size_type([=Seebelow])) { }
+explicit unordered_multimap(size_type n,
+                            const hasher& hf = hasher(),
+                            const key_equal& eql = key_equal(),
+                            const allocator_type& a = allocator_type());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty [`unordered_multimap] using the specified hash
+function, key equality function, and allocator, and using at least [`n] buckets.
+
+[:en] For the default constructor, the number of buckets is [%@impldef default
+number of buckets in [`unordered_multimap]] implementation-defined.
+
+[:en] [`max_load_factor()] returns 1.0.
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library unordered_multimap[!unordered_multimap]]
+[codeblock:declaration]
+template <class InputIterator>
+  unordered_multimap(InputIterator f, InputIterator l,
+                     size_type n = [=Seebelow],
+                     const hasher& hf = hasher(),
+                     const key_equal& eql = key_equal(),
+                     const allocator_type& a = allocator_type());
+unordered_multimap(initializer_list<value_type> il,
+                   size_type n = [=Seebelow],
+                   const hasher& hf = hasher(),
+                   const key_equal& eql = key_equal(),
+                   const allocator_type& a = allocator_type());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty [`unordered_multimap] using the specified hash
+function, key equality function, and allocator, and using at least [`n] buckets.
+
+[:en] If [`n] is not provided, the number of buckets is [%@impldef default
+number of buckets in [`unordered_multimap]] implementation-defined.
+
+[:en] Then inserts elements from the range [=range[f,l)] for the first form, or
+from the range  [=range[il.begin(),il.end())] for the second form.
+
+[:en] [`max_load_factor()] returns 1.0.
+
+[para:complexity]
+[:en] Average case linear, worst case quadratic.
+[exit:description]

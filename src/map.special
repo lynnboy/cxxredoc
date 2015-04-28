@@ -1,0 +1,19 @@
+﻿[section#map.special
+    [:en] [`map] specialized algorithms
+]
+
+[%@library swap[!map]]
+[%@library map[!swap]]
+[codeblock:declaration]
+template <class Key, class T, class Compare, class Allocator>
+  void swap(map<Key, T, Compare, Allocator>& x,
+            map<Key, T, Compare, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+[exit:description]

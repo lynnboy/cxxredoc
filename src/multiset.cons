@@ -1,0 +1,38 @@
+﻿[section#multiset.cons
+    [:en] [`multiset] constructors
+]
+
+[%@library multiset[!multiset]]
+[codeblock:declaration]
+explicit multiset(const Compare& comp, const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an empty set using the specified comparison object and
+allocator.
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library multiset[!multiset]]
+[codeblock:declaration]
+template <class InputIterator>
+  multiset(InputIterator first, InputIterator last,
+           const Compare& comp = Compare(), const Allocator& = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If the iterator[=']s indirection operator returns an lvalue or a const
+rvalue, then [`Key] shall be [`CopyInsertable] into [`*this].
+
+[para:effects]
+[:en] Constructs an empty [`multiset] using the specified comparison object and
+allocator, and inserts elements from the range [=range[first,last)].
+
+[para:complexity]
+[:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
+[`comp] and otherwise [$N] log([$N]), where [$N] is [`last - first].
+[exit:description]

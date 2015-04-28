@@ -1,0 +1,19 @@
+﻿[section#multimap.special
+    [:en] [`multimap] specialized algorithms
+]
+
+[%@library swap[!multimap]]
+[%@library multimap[!swap]]
+[codeblock:declaration]
+template <class Key, class T, class Compare, class Allocator>
+  void swap(multimap<Key, T, Compare, Allocator>& x,
+            multimap<Key, T, Compare, Allocator>& y)
+    noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+x.swap(y);
+[codeblock:end]
+[exit:description]

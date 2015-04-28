@@ -1,0 +1,61 @@
+﻿[section#map.access
+    [:en] [`map] element access
+]
+
+[%@library operator['][!map]]
+[codeblock:declaration]
+T& operator[](const key_type& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If there is no key equivalent to [`x] in the map, inserts [`value_type(x,
+T())] into the map.
+
+[para:requires]
+[:en] [`key_type] shall be [`CopyInsertable] and [`mapped_type] shall be
+[`DefaultInsertable] into [`*this].
+
+[para:returns]
+[:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+
+[para:complexity]
+[:en] Logarithmic.
+[exit:description]
+
+[%@library operator['][!map]]
+[codeblock:declaration]
+T& operator[](key_type&& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If there is no key equivalent to [`x] in the map, inserts
+[`value_type(std::move(x), T())] into the map.
+
+[para:requires]
+[:en] [`mapped_type] shall be [`DefaultInsertable] into [`*this].
+
+[para:returns]
+[:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+
+[para:complexity]
+[:en] Logarithmic.
+[exit:description]
+
+[%@library at[!map]]
+[codeblock:declaration]
+T&       at(const key_type& x);
+const T& at(const key_type& x) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+
+[para:throws]
+[:en] An exception object of type [`out_of_range] if no such element is present.
+
+[para:complexity]
+[:en] Logarithmic.
+[exit:description]

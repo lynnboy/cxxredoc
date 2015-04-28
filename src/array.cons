@@ -1,0 +1,17 @@
+﻿[section#array.cons
+    [:en] [`array] constructors, copy, and assignment
+]
+
+[para]
+[:en]
+[%[`array][!initialization]]
+[%requirements[!container]]
+The conditions for an aggregate ([#dcl.init.aggr]) shall be met.
+
+[:en] Class [`array] relies on the implicitly-declared special member functions
+([#class.ctor], [#class.dtor], and [#class.copy]) to conform to the container
+requirements table in [#container.requirements].
+
+[:en] In addition to the requirements specified in the container requirements
+table, the implicit move constructor and move assignment operator for [`array]
+require that [`T] be [`MoveConstructible] or [`MoveAssignable], respectively.

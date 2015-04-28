@@ -1,0 +1,19 @@
+﻿[section#vector.data
+    [:en] [`vector] data
+]
+
+[%@library data[!vector]]
+[codeblock:declaration]
+T*         data() noexcept;
+const T*   data() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A pointer such that [=range[data(),data() + size())] is a valid range.
+
+[:en] For a non-empty vector, [`data() == &front()].
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]

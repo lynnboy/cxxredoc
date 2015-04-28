@@ -1,0 +1,42 @@
+﻿[section#priqueue.cons
+    [:en] [`priority_queue] constructors
+]
+
+[%@library priority_queue[!priority_queue]]
+[codeblock:declaration]
+priority_queue(const Compare& x,
+               const Container& y);
+explicit priority_queue(const Compare& x = Compare(),
+               Container&& y = Container());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`x] shall define a strict weak ordering ([#alg.sorting]).
+
+[para:effects]
+[:en] Initializes [`comp] with [`x] and [`c] with [`y] (copy constructing or
+move constructing as appropriate); calls [`make_heap(c.begin(), c.end(), comp)].
+[exit:description]
+
+[%@library priority_queue[!priority_queue]]
+[codeblock:declaration]
+template <class InputIterator>
+  priority_queue(InputIterator first, InputIterator last,
+                 const Compare& x,
+                 const Container& y);
+template <class InputIterator>
+  priority_queue(InputIterator first, InputIterator last,
+                 const Compare& x = Compare(),
+                 Container&& y = Container());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`x] shall define a strict weak ordering ([#alg.sorting]).
+
+[para:effects]
+[:en] Initializes [`comp] with [`x] and [`c] with [`y] (copy constructing or
+move constructing as appropriate); calls [`c.insert(c.end(), first, last)];
+and finally calls [`make_heap(c.begin(), c.end(), comp)].
+[exit:description]

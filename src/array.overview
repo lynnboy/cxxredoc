@@ -1,0 +1,122 @@
+﻿[section#array.overview
+    [:en] Class template [`array] overview
+]
+
+[para]
+[:en]
+[%[`array][!contiguous storage]]
+The header [`<array>] defines a class template for storing fixed-size sequences
+of objects.
+
+[:en] An [`array] is a contiguous container ([#container.requirements.general]).
+
+[:en] An instance of [`array<T, N>] stores [`N] elements of type [`T], so that
+[`size() == N] is an invariant.
+
+[para]
+[:en]
+[%[`array][!initialization]]
+[%[`array][!as aggregate]]
+An [`array] is an aggregate ([#dcl.init.aggr]) that can be initialized with the
+syntax
+
+[codeblock:notation]
+array<T, N> a = { [~initializer-list] };
+[codeblock:end]
+
+[:en@~] where [~initializer-list] is a comma-separated list of up to [`N]
+elements whose types are convertible to [`T].
+
+[para]
+[:en]
+[%requirements[!container]]
+An [`array] satisfies all of the requirements of a container and of a reversible
+container ([#container.requirements]), except that a default constructed
+[`array] object is not empty and that [`swap] does not have constant complexity.
+
+[:en] An [`array] satisfies some of the requirements of a sequence container
+([#sequence.reqmts]).
+
+[:en] Descriptions are provided here only for operations on [`array] that are
+not described in one of these tables and for operations where there is
+additional semantic information.
+
+[%@library array]
+[%@library array[!begin]]
+[%@library begin[!array]]
+[%@library array[!end]]
+[%@library end[!array]]
+[%@library array[!size]]
+[%@library size[!array]]
+[%@library array[!max_size]]
+[%@library max_size[!array]]
+[%@impldef type of [`array::iterator]]
+[%@impldef type of [`array::const_iterator]]
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  template <class T, size_t N>
+  struct array {
+    // [:en] types:
+    typedef T&                                    reference;
+    typedef const T&                              const_reference;
+    typedef implementation-defined                iterator;
+    typedef implementation-defined                const_iterator;
+    typedef size_t                                size_type;
+    typedef ptrdiff_t                             difference_type;
+    typedef T                                     value_type;
+    typedef T*                                    pointer;
+    typedef const T*                              const_pointer;
+    typedef std::reverse_iterator<iterator>       reverse_iterator;
+    typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+    T       elems[N];           // [=Expos]
+
+    // [:en] no explicit construct/copy/destroy for aggregate type
+
+    void fill(const T& u);
+    void swap(array&) noexcept(noexcept(swap(declval<T&>(), declval<T&>())));
+
+    // [:en] iterators:
+    iterator               begin() noexcept;
+    const_iterator         begin() const noexcept;
+    iterator               end() noexcept;
+    const_iterator         end() const noexcept;
+
+    reverse_iterator       rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator       rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator         cbegin() const noexcept;
+    const_iterator         cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    // [:en] capacity:
+    constexpr bool      empty() const noexcept;
+    constexpr size_type size() const noexcept;
+    constexpr size_type max_size() const noexcept;
+
+    // [:en] element access:
+    reference                 operator[](size_type n);
+    constexpr const_reference operator[](size_type n) const;
+    reference                 at(size_type n);
+    constexpr const_reference at(size_type n) const;
+    reference                 front();
+    constexpr const_reference front() const;
+    reference                 back();
+    constexpr const_reference back() const;
+
+    T *       data() noexcept;
+    const T * data() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[enter:note]
+[:en] The member variable [`elems] is shown for exposition only, to emphasize
+that [`array] is a class aggregate.
+
+[:en] The name [`elems] is not part of [`array][=']s interface.
+[exit:note]

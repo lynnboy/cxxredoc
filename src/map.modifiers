@@ -1,0 +1,89 @@
+﻿[section#map.modifiers
+    [:en] [`map] modifiers
+]
+
+[%@library insert[!map]]
+[%@library map[!insert]]
+[codeblock:declaration]
+template <class P> pair<iterator, bool> insert(P&& x);
+template <class P> iterator insert(const_iterator position, P&& x);
+template <class InputIterator>
+  void insert(InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The first form is equivalent to [`return emplace(std::forward<P>(x))].
+
+[:en] The second form is equivalent to [`return emplace_hint(position,
+std::forward<P>(x))].
+
+[para:remarks]
+[:en] These signatures shall not participate in overload resolution unless
+[`std::is_constructible<value_type, P&&>::value] is [`true].
+[exit:description]
+
+[%@library try_emplace[!map]]
+[%@library map[!try_emplace]]
+[codeblock:declaration]
+template <class... Args> pair<iterator, bool> try_emplace(const key_type& k, Args&&... args);
+template <class... Args> pair<iterator, bool> try_emplace(key_type&& k, Args&&... args);
+template <class... Args> iterator try_emplace(const_iterator hint, const key_type& k, Args&&... args);
+template <class... Args> iterator try_emplace(const_iterator hint, key_type&& k, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If the key [`k] already exists in the map, there is no effect.
+
+[:en] Otherwise, inserts an element into the map.
+
+[:en] In the first and third forms, the element is constructed from the
+arguments as [`value_type(k, std::forward<Args>(args)...)].
+
+[:en] In the second and fourth forms, the element is constructed from the
+arguments as [`value_type(std::move(k), std::forward<Args>(args)...)].
+
+[:en] In the first two overloads, the [`bool] component of the returned pair is
+[`true] if and only if the insertion took place.
+
+[:en] The returned [`iterator] points to the element of the map whose key is
+equivalent to [`k].
+
+[para:complexity]
+[:en] The same as [`emplace] and [`emplace_hint], respectively.
+[exit:description]
+
+[%@library insert_or_assign[!map]]
+[%@library map[!insert_or_assign]]
+[codeblock:declaration]
+template <class M> pair<iterator, bool> insert_or_assign(const key_type& k, M&& obj);
+template <class M> pair<iterator, bool> insert_or_assign(key_type&& k, M&& obj);
+template <class M> iterator insert_or_assign(const_iterator hint, const key_type& k, M&& obj);
+template <class M> iterator insert_or_assign(const_iterator hint, key_type&& k, M&& obj);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If the key [`k] does not exist in the map, inserts an element into the
+map.
+
+[:en] In the first and third forms, the element is constructed from the
+arguments as [`value_type(k, std::forward<Args>(args)...)].
+
+[:en] In the second and fourth forms, the element is constructed from the
+arguments as [`value_type(std::move(k), std::forward<Args>(args)...)].
+
+[:en] If the key already exists, [`std::forward<M>(obj)] is assigned to the
+[`mapped_type] corresponding to the key.
+
+[:en] In the first two overloads, the [`bool] component of the returned value is
+[`true] if and only if the insertion took place.
+
+[:en] The returned [`iterator] points to the element that was inserted or
+updated.
+
+[para:complexity]
+The same as [`emplace] and [`emplace_hint],
+respectively.
+[exit:description]

@@ -1,0 +1,21 @@
+﻿[section#queue.cons
+    [:en] [`queue] constructors
+]
+
+[codeblock:declaration]
+explicit queue(const Container& cont);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`cont].
+[exit:description]
+
+[codeblock:declaration]
+explicit queue(Container&& cont = Container());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`c] with [`std::move(cont)].
+[exit:description]

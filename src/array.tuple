@@ -1,0 +1,74 @@
+﻿[section#array.tuple
+    [:en] Tuple interface to class template [`array]
+]
+
+[%@library array]
+[%@library tuple]
+[%[`array][!tuple interface to]]
+[%@library tuple_size]
+[codeblock:declaration]
+template <class T, size_t N>
+  struct tuple_size<array<T, N>> : integral_constant<size_t, N> { };
+[codeblock:end]
+
+[%@library tuple_element]
+[codeblock:declaration]
+tuple_element<I, array<T, N> >::type
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < N].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:value]
+[:en] The type T.
+[exit:description]
+
+[%@library array[!get]]
+[%@library get[!array]]
+[codeblock:declaration]
+template <size_t I, class T, size_t N>
+  constexpr T& get(array<T, N>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < N].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:returns]
+[:en] A reference to the [`I]th element of [`a], where indexing is zero-based.
+[exit:description]
+
+[%@library array[!get]]
+[%@library get[!array]]
+[codeblock:declaration]
+template <size_t I, class T, size_t N>
+  constexpr T&& get(array<T, N>&& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`return std::move(get<I>(a));]
+[exit:description]
+
+[%@library array[!get]]
+[%@library get[!array]]
+[codeblock:declaration]
+template <size_t I, class T, size_t N>
+  constexpr const T& get(const array<T, N>& a) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`I < N].
+
+[:en] The program is ill-formed if [`I] is out of bounds.
+
+[para:returns]
+[:en] A const reference to the [`I]th element of [`a], where indexing is
+zero-based.
+[exit:description]

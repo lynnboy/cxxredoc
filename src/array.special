@@ -1,0 +1,21 @@
+﻿[section#array.special
+    [:en] [`array] specialized algorithms
+]
+
+[%@library array[!swap]]
+[%@library swap[!array]]
+[codeblock:declaration]
+template <class T, size_t N>
+  void swap(array<T, N>& x, array<T, N>& y) noexcept(noexcept(x.swap(y)));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+
+[codeblock]
+x.swap(y);
+[codeblock:end]
+
+[para:complexity]
+[:en] Linear in [`N].
+[exit:description]
