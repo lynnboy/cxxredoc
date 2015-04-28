@@ -1,0 +1,143 @@
+﻿[section#facet.ctype.char.members
+    [:en] [`ctype<char>] members
+]
+
+[para]
+[%@library ctype<char>[!ctype<char>]]
+[:en]
+In the following member descriptions, for [`unsigned char] values [`v] where
+[`v >= table_size], [`table()[v`]] is assumed to have an implementation-specific
+value (possibly different for each such value [`v]) without performing the array
+lookup.
+
+[%@library ctype<char>[![:en]constructor]]
+[codeblock:declaration]
+explicit ctype(const mask* tbl = 0, bool del = false,
+               size_t refs = 0);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`tbl] either 0 or an array of at least [`table_size] elements.
+
+[para:effects]
+[:en] Passes its [`refs] argument to its base class constructor.
+[exit:description]
+
+[%@library ctype<char>[!is]]
+[%@library is[!ctype<char>]]
+[codeblock:declaration]
+bool        is(mask m, char c) const;
+const char* is(const char* low, const char* high,
+               mask* vec) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The second form, for all [`*p] in the range [=range[low,high)], assigns
+into [`vec[p-low`]] the value [`table()[(unsigned char)*p`]].
+
+[para:returns]
+[:en] The first form returns [`table()[(unsigned char)c`] & m]; the second form
+returns [`high].
+[exit:description]
+
+[%@library ctype<char>[!scan_is]]
+[%@library scan_is[!ctype<char>]]
+[codeblock:declaration]
+const char* scan_is(mask m,
+                    const char* low, const char* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The smallest [`p] in the range [=range[low,high)] such that
+
+[codeblock:notation]
+table()[(unsigned char) *p] & m
+[codeblock:end]
+
+[:en@~] is [`true].
+[exit:description]
+
+[%@library ctype<char>[!scan_not]]
+[%@library scan_not[!ctype<char>]]
+[codeblock:declaration]
+const char* scan_not(mask m,
+                     const char* low, const char* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The smallest [`p] in the range [=range[low,high)] such that
+
+[codeblock:notation]
+table()[(unsigned char) *p] & m
+[codeblock:end]
+
+[:en@~] is [`false].
+[exit:description]
+
+[%@library ctype<char>[!toupper]]
+[%@library toupper[!ctype<char>]]
+[codeblock:declaration]
+char        toupper(char c) const;
+const char* toupper(char* low, const char* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_toupper(c)] or [`do_toupper(low,high)], respectively.
+[exit:description]
+
+[%@library ctype<char>[!tolower]]
+[%@library tolower[!ctype<char>]]
+[codeblock:declaration]
+char        tolower(char c) const;
+const char* tolower(char* low, const char* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_tolower(c)] or [`do_tolower(low,high)], respectively.
+[exit:description]
+
+[%@library ctype<char>[!widen]]
+[%@library widen[!ctype<char>]]
+[codeblock:declaration]
+char  widen(char c) const;
+const char* widen(const char* low, const char* high,
+    char* to) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_widen(c)] or [%@library do_widen] [`do_widen(low, high, to)],
+respectively.
+[exit:description]
+
+[%@library ctype<char>[!narrow]]
+[%@library narrow[!ctype<char>]]
+[codeblock:declaration]
+char        narrow(char c, char dfault) const;
+const char* narrow(const char* low, const char* high,
+                   char dfault, char* to) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [%@library do_narrow] [`do_narrow(c, dfault)] or [%@library do_narrow]
+[`do_narrow(low, high, dfault, to)], respectively.
+[exit:description]
+
+[%@library ctype<char>[!table]]
+[%@library table[!ctype<char>]]
+[codeblock:declaration]
+const mask* table() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first constructor argument, if it was non-zero, otherwise
+[`classic_table()].
+[exit:description]

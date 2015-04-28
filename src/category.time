@@ -1,0 +1,27 @@
+﻿[section#category.time
+    [:en] The time category
+]
+
+[para]
+[:en]
+Templates [`time_get<charT,InputIterator>] and [`time_put<charT,OutputIterator>]
+provide date and time formatting and parsing.
+
+[:en]
+All specifications of member functions for [`time_put] and [`time_get] in the
+subclauses of [#category.time] only apply to the specializations required in
+Tables [#tab:localization.category.facets] and
+[#tab:localization.required.specializations] ([#locale.category]).
+
+[:en]
+Their members use their [`ios_base&], [`ios_base::iostate&], and [`fill]
+arguments as described in ([#locale.categories]), and the [`ctype<>] facet, to
+determine formatting details.
+
+[include locale.time.get]
+
+[include locale.time.get.byname]
+
+[include locale.time.put]
+
+[include locale.time.put.byname]

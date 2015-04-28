@@ -1,0 +1,27 @@
+﻿[section#category.monetary
+    [:en] The monetary category
+]
+
+[para]
+[:en] These templates handle monetary formats.
+
+[:en] A template parameter indicates whether local or international monetary
+formats are to be used.
+
+[para]
+[:en] All specifications of member functions for [`money_put] and [`money_get]
+in the subclauses of [#category.monetary] only apply to the specializations
+required in Tables [#tab:localization.category.facets] and
+[#tab:localization.required.specializations] ([#locale.category]).
+
+[:en] Their members use their [`ios_base&], [`ios_base::iostate&], and [`fill]
+arguments as described in ([#locale.categories]), and the [`moneypunct<>] and
+[`ctype<>] facets, to determine formatting details.
+
+[include locale.money.get]
+
+[include locale.money.put]
+
+[include locale.moneypunct]
+
+[include locale.moneypunct.byname]

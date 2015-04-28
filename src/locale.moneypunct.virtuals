@@ -1,0 +1,127 @@
+﻿[section#locale.moneypunct.virtuals
+    [:en] [`moneypunct] virtual functions
+]
+
+[%@library moneypunct[!do_decimal_point]]
+[%@library do_decimal_point[!moneypunct]]
+[codeblock:declaration]
+charT do_decimal_point() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The radix separator to use in case [`do_frac_digits()] is greater than
+zero.
+
+[footnote]
+[:en] In common U.S. locales this is [`'.'].
+[footnote]
+[exit:description]
+
+[%@library moneypunct[!do_thousands_sep]]
+[%@library do_thousands_sep[!moneypunct]]
+[codeblock:declaration]
+charT do_thousands_sep() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The digit group separator to use in case [`do_grouping()] specifies a
+digit grouping pattern.
+
+[footnote]
+[:en] In common U.S. locales this is [`','].
+[footnote:end]
+[exit:description]
+
+[%@library moneypunct[!do_grouping]]
+[%@library do_grouping[!moneypunct]]
+[codeblock:declaration]
+string do_grouping() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A pattern defined identically as, but not necessarily equal to, the result
+of [`numpunct<charT>::do_grouping()].
+
+[footnote]
+[:en] To specify grouping by 3s, the value is [`"\003"] [em not] [`"3"].
+[footnote:end]
+[exit:description]
+
+[%@library moneypunct[!do_curr_symbol]]
+[%@library do_curr_symbol[!moneypunct]]
+[codeblock:declaration]
+string_type do_curr_symbol() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A string to use as the currency identifier symbol.
+
+[footnote]
+[:en] For international specializations (second template parameter [`true]) this
+is typically four characters long, usually three letters and a space.
+[footnote:end]
+[exit:description]
+
+[%@library moneypunct[!do_positive_sign]]
+[%@library do_positive_sign[!moneypunct]]
+[%@library moneypunct[!do_negative_sign]]
+[%@library do_negative_sign[!moneypunct]]
+[codeblock:declaration]
+string_type do_positive_sign() const;
+string_type do_negative_sign() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_positive_sign()] returns the string to use to indicate a positive
+monetary value;
+
+[footnote]
+[:en] This is usually the empty string.
+[footnote:end]
+
+[:en] [`do_negative_sign()] returns the string to use to indicate a negative
+value.
+[exit:description]
+
+[%@library moneypunct[!do_frac_digits]]
+[%@library do_frac_digits[!moneypunct]]
+[codeblock:declaration]
+int do_frac_digits() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The number of digits after the decimal radix separator, if any.
+
+[footnote]
+[:en] In common U.S. locales, this is 2.
+[footnote:end]
+[exit:description]
+
+[%@library moneypunct[!do_pos_format]]
+[%@library do_pos_format[!moneypunct]]
+[%@library moneypunct[!do_neg_format]]
+[%@library do_neg_format[!moneypunct]]
+[codeblock:declaration]
+pattern do_pos_format() const;
+pattern do_neg_format() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The specializations required in Table
+[#tab:localization.required.specializations] ([#locale.category]), namely
+[`moneypunct<char>], [`moneypunct<wchar_t>], [`moneypunct<char,true>], and
+[`moneypunct<wchar_t,true>], return an object of type [`pattern] initialized to
+[`{ symbol, sign, none, value }].
+
+[footnote]
+[:en] Note that the international symbol returned by [`do_curr_sym()] usually
+contains a space, itself; for example, [`"USD "].
+[footnote:end]
+[exit:description]

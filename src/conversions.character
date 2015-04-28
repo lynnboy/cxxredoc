@@ -1,0 +1,23 @@
+﻿[section#conversions.character
+    [:en] Character conversions
+]
+
+[%@library toupper]
+[codeblock:declaration]
+template <class charT> charT toupper(charT c, const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_facet<ctype<charT> >(loc).toupper(c)].
+[exit:description]
+
+[%@library tolower]
+[codeblock:declaration]
+template <class charT> charT tolower(charT c, const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_facet<ctype<charT> >(loc).tolower(c)].
+[exit:description]

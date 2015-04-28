@@ -1,0 +1,50 @@
+﻿[section#facet.numpunct.members
+    [:en] [`numpunct] members
+]
+
+[%@library numpunct[!decimal_point]]
+[%@library decimal_point[!numpunct]]
+[codeblock:declaration]
+char_type decimal_point() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_decimal_point()]
+[exit:description]
+
+[%@library numpunct[!thousands_sep]]
+[%@library thousands_sep[!numpunct]]
+[codeblock:declaration]
+char_type thousands_sep() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_thousands_sep()]
+[exit:description]
+
+[%@library numpunct[!grouping]]
+[%@library grouping[!numpunct]]
+[codeblock:declaration]
+string grouping()  const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_grouping()]
+[exit:description]
+
+[%@library numpunct[!truename]]
+[%@library truename[!numpunct]]
+[%@library numpunct[!falsename]]
+[%@library falsename[!numpunct]]
+[codeblock:declaration]
+string_type truename()  const;
+string_type falsename() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_truename()] or [`do_falsename()], respectively.
+[exit:description]

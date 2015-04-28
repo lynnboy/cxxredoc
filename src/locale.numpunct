@@ -1,0 +1,75 @@
+﻿[section#locale.numpunct
+    [:en] Class template [`numpunct]
+]
+
+[%@library numpunct]
+[codeblock:synopsis]
+namespace std {
+  template <class charT>
+  class numpunct : public locale::facet {
+  public:
+    typedef charT               char_type;
+    typedef basic_string<charT> string_type;
+
+    explicit numpunct(size_t refs = 0);
+
+    char_type    decimal_point()   const;
+    char_type    thousands_sep()   const;
+    string       grouping()        const;
+    string_type  truename()        const;
+    string_type  falsename()       const;
+
+    static locale::id id;
+
+  protected:
+   ~numpunct();                 // [:en] virtual
+    virtual char_type    do_decimal_point() const;
+    virtual char_type    do_thousands_sep() const;
+    virtual string       do_grouping()      const;
+    virtual string_type  do_truename()      const;      // [:en] for [`bool]
+    virtual string_type  do_falsename()     const;      // [:en] for [`bool]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] [`numpunct<>] specifies numeric punctuation.
+
+[:en] The specializations required in Table [#tab:localization.category.facets]
+([#locale.category]), namely [`numpunct<wchar_t>] and [`numpunct<char>], provide
+classic [`"C"] numeric formats, i.e., they contain information equivalent to
+that contained in the [`"C"] locale or their wide character counterparts as if
+obtained by a call to [`widen].
+
+[para]
+[:en] The syntax for number formats is as follows, where [`digit] represents the
+radix set specified by the [`fmtflags] argument value, and [`thousands-sep] and
+[`decimal-point] are the results of corresponding [`numpunct<charT>] members.
+
+[:en] Integer values have the format:
+
+[codeblock]
+integer   ::= [sign] units
+sign      ::= plusminus
+plusminus ::= '+' | '-'
+units     ::= digits [thousands-sep units]
+digits    ::= digit [digits]
+[codeblock:end]
+
+[:en@~] and floating-point values have:
+
+[codeblock]
+floatval ::= [sign] units [decimal-point [digits]] [e [sign] digits] |
+             [sign]        decimal-point  digits   [e [sign] digits]
+e        ::= 'e' | 'E'
+[codeblock:end]
+
+[:en@~] where the number of digits between [`thousands-sep]s is as specified by
+[`do_grouping()].
+
+[:en] For parsing, if the [`digits] portion contains no thousands-separators, no
+grouping constraint is applied.
+
+[include facet.numpunct.members]
+
+[include facet.numpunct.virtuals]

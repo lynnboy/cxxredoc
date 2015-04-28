@@ -1,0 +1,45 @@
+﻿[section#category.numeric
+    [:en] The numeric category
+]
+
+[para]
+[:en]
+The classes [`num_get<>] and [`num_put<>] handle numeric formatting and parsing.
+
+[:en]
+Virtual functions are provided for several numeric types.
+
+[:en]
+Implementations may (but are not required to) delegate extraction of smaller
+types to extractors for larger types.
+
+[footnote]
+[:en]
+Parsing [`"-1"] correctly into, e.g., an [`unsigned short] requires that the
+corresponding member [`get()] at least extract the sign before delegating.
+[footnote:end]
+
+[para]
+[:en]
+All specifications of member functions for [`num_put] and [`num_get] in the
+subclauses of [#category.numeric] only apply to the specializations required in
+Tables [#tab:localization.category.facets] and
+[#tab:localization.required.specializations] ([#locale.category]), namely
+[`num_get<char>], [`num_get<wchar_t>], [`num_get<C, InputIterator>],
+[`num_put<char>], [`num_put<wchar_t>], and [`num_put<C,OutputIterator>].
+
+[:en]
+These specializations refer to the [`ios_base&] argument for formatting
+specifications ([#locale.categories]), and to its imbued locale for the
+[`numpunct<>] facet to identify all numeric punctuation preferences, and also
+for the [`ctype<>] facet to perform character classification.
+
+[para]
+[:en]
+Extractor and inserter members of the standard iostreams use [`num_get<>] and
+[`num_put<>] member functions for formatting and parsing numeric values
+([#istream.formatted.reqmts], [#ostream.formatted.reqmts]).
+
+[include locale.num.get]
+
+[include locale.nm.put]

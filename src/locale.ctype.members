@@ -1,0 +1,89 @@
+﻿[section#locale.ctype.members
+    [:en] [`ctype] members
+]
+
+[%@library ctype[!is]]
+[%@library is[!ctype]]
+[codeblock:declaration]
+bool         is(mask m, charT c) const;
+const charT* is(const charT* low, const charT* high,
+                mask* vec) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_is(m,c)] or [`do_is(low,high,vec)]
+[exit:description]
+
+[%@library ctype[!scan_is]]
+[%@library scan_is[!ctype]]
+[codeblock:declaration]
+const charT* scan_is(mask m,
+                     const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_scan_is(m,low,high)]
+[exit:description]
+
+[%@library ctype[!scan_not]]
+[%@library scan_not[!ctype]]
+[codeblock:declaration]
+const charT* scan_not(mask m,
+                      const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_scan_not(m,low,high)]
+[exit:description]
+
+[%@library ctype[!toupper]]
+[%@library toupper[!ctype]]
+[codeblock:declaration]
+charT        toupper(charT) const;
+const charT* toupper(charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_toupper(c)] or [`do_toupper(low,high)]
+[exit:description]
+
+[%@library ctype[!tolower]]
+[%@library tolower[!ctype]]
+[codeblock:declaration]
+charT        tolower(charT c) const;
+const charT* tolower(charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_tolower(c)] or [`do_tolower(low,high)]
+[exit:description]
+
+[%@library ctype[!widen]]
+[%@library widen[!ctype]]
+[codeblock:declaration]
+charT       widen(char c) const;
+const char* widen(const char* low, const char* high, charT* to) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_widen(c)] or [`do_widen(low,high,to)]
+[exit:description]
+
+[%@library ctype[!narrow]]
+[%@library narrow[!ctype]]
+[codeblock:declaration]
+char         narrow(charT c, char dfault) const;
+const charT* narrow(const charT* low, const charT*, char dfault,
+                    char* to) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_narrow(c,dfault)] or [`do_narrow(low,high,dfault,to)]
+[exit:description]

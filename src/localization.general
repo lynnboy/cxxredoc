@@ -1,0 +1,53 @@
+﻿[section#localization.general
+    [:en] Localization library
+]
+
+[para]
+[:en]
+This Clause describes components that [=Cpp] programs may use to encapsulate
+(and therefore be more portable when confronting) cultural differences.
+
+[:en]
+The locale facility includes internationalization support for character
+classification and string collation, numeric, monetary, and date/time formatting
+and parsing, and message retrieval.
+
+[para]
+[:en]
+The following subclauses describe components for locales themselves, the
+standard facets, and facilities from the ISO C library, as summarized in Table
+[#tab:localization.lib.summary].
+
+[table:listing#tab:localization.lib.summary
+    [:en] Localization library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [#locales]
+[|] [:en] Locales
+[|@rowspan=2] <locale>
+
+[|] [#locale.categories]
+[|] [:en] Standard [`locale] Categories
+
+[-]
+[|] [#locale.stdcvt]
+[|] [:en] Standard code conversion facets
+[|] <codecvt>
+
+[-]
+[|] [#c.locales]
+[|] [:en] C library locales
+[|] <clocale>
+
+[table:end]

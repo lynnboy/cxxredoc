@@ -1,0 +1,20 @@
+﻿[section#locale.time.get.byname
+    [:en] Class template [`time_get_byname]
+]
+
+[%@library time_get_byname]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class InputIterator = istreambuf_iterator<charT> >
+  class time_get_byname : public time_get<charT, InputIterator> {
+  public:
+    typedef time_base::dateorder dateorder;
+    typedef InputIterator        iter_type;
+
+    explicit time_get_byname(const char*, size_t refs = 0);
+    explicit time_get_byname(const string&, size_t refs = 0);
+  protected:
+    ~time_get_byname();
+  };
+}
+[codeblock:end]

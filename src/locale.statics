@@ -1,0 +1,57 @@
+﻿[section#locale.statics
+    [:en] [`locale] static members
+]
+
+[%@library locale[!global]]
+[%@library global[!locale]]
+[codeblock:declaration]
+static locale global(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Sets the global locale to its argument.
+
+[para:effects]
+[:en] Causes future calls to the constructor [`locale()] to return a copy of the
+argument.
+
+[:en] If the argument has a name, does
+
+[codeblock:notation]
+std::setlocale(LC_ALL, loc.name().c_str());
+[codeblock:end]
+
+[:en@~] otherwise, the effect on the C locale, if any, is [%@impldef effect on C
+locale of calling [`locale::global]] implementation-defined.
+
+[:en] No library function other than [`locale::global()] shall affect the value
+returned by [`locale()].
+
+[enter:note]
+[:en] See [#c.locales] for data race considerations when [`setlocale] is
+invoked.
+[exit:note]
+
+[para:returns]
+[:en] The previous value of [`locale()].
+[exit:description]
+
+[%@library locale[!classic]]
+[%@library classic[!locale]]
+[codeblock:declaration]
+static const locale& classic();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The [`"C"] locale.
+
+[para:returns]
+[:en] A locale that implements the classic [`"C"] locale semantics, equivalent
+to the value [`locale("C")].
+
+[para:notes]
+[:en] This locale, its facets, and their member functions, do not change with
+time.
+[exit:description]

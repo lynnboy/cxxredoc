@@ -1,0 +1,56 @@
+﻿[section#locale.time.put.members
+    [:en] [`time_put] members
+]
+
+[%@library time_put[!put]]
+[%@library put[!time_put]]
+[codeblock:declaration]
+iter_type put(iter_type s, ios_base& str, char_type fill, const tm* t,
+              const charT* pattern, const charT* pat_end) const;
+iter_type put(iter_type s, ios_base& str, char_type fill, const tm* t,
+              char format, char modifier = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The first form steps through the sequence from [`pattern] to [`pat_end],
+identifying characters that are part of a format sequence.
+
+[:en] Each character that is not part of a format sequence is written to [`s]
+immediately, and each format sequence, as it is identified, results in a call to
+[`do_put]; thus, format elements and other characters are interleaved in the
+output in the order in which they appear in the pattern.
+
+[:en] Format sequences are identified by converting each character [`c] to a
+[`char] value as if by [`ct.narrow(c,0)], where [`ct] is a reference to
+[`ctype<charT>] obtained from [`str.getloc()].
+
+[:en] The first character of each sequence is equal to [`'%'], followed by an
+optional modifier character [`mod]
+
+[footnote]
+[:en] Although the C programming language defines no modifiers, most vendors do.
+[footnote:end]
+
+[:en@~] and a format specifier character [`spec] as defined for the function
+[`strftime].
+
+[:en] If no modifier character is present, [`mod] is zero.
+
+[:en] For each valid format sequence identified, calls
+[`do_put(s, str, fill, t, spec, mod)].
+
+[para]
+[:en] The second form calls [`do_put(s, str, fill, t, format, modifier)].
+
+[para]
+[enter:note]
+[:en] The [`fill] argument may be used in the implementation-defined formats or
+by derivations.
+
+[:en] A space character is a reasonable default for this argument.
+[exit:note]
+
+[para:returns]
+[:en] An iterator pointing immediately after the last character produced.
+[exit:description]

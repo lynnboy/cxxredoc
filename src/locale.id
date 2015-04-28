@@ -1,0 +1,36 @@
+﻿[section#locale.id
+    [:en] Class [`locale::id]
+]
+
+[%@library locale[!id]]
+[%@library id[!locale]]
+[codeblock:synopsis]
+namespace std {
+  class locale::id {
+  public:
+    id();
+    void operator=(const id&) = delete;
+    id(const id&) = delete;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class locale::id provides identification of a locale facet interface, used
+as an index for lookup and to encapsulate initialization.
+
+[para]
+[enter:note]
+[:en]
+Because facets are used by iostreams, potentially while static constructors are
+running, their initialization cannot depend on programmed static initialization.
+
+[:en]
+One initialization strategy is for [`locale] to initialize each facet[=']s [`id]
+member the first time an instance of the facet is installed into a locale.
+
+[:en]
+This depends only on static storage being zero before constructors run
+([#basic.start.init]).
+[exit:note]

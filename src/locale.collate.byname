@@ -1,0 +1,18 @@
+﻿[section#locale.collate.byname
+    [:en] Class template [`collate_byname]
+]
+
+[%@library collate_byname]
+[codeblock:synopsis]
+namespace std {
+  template <class charT>
+  class collate_byname : public collate<charT> {
+  public:
+    typedef basic_string<charT> string_type;
+    explicit collate_byname(const char*, size_t refs = 0);
+    explicit collate_byname(const string&, size_t refs = 0);
+  protected:
+    ~collate_byname();
+  };
+}
+[codeblock:end]

@@ -1,0 +1,20 @@
+﻿[section#locale.moneypunct.byname
+    [:en] Class template [`moneypunct_byname]
+]
+
+[%@library moneypunct_byname]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, bool Intl = false>
+  class moneypunct_byname : public moneypunct<charT, Intl> {
+  public:
+    typedef money_base::pattern pattern;
+    typedef basic_string<charT> string_type;
+
+    explicit moneypunct_byname(const char*, size_t refs = 0);
+    explicit moneypunct_byname(const string&, size_t refs = 0);
+  protected:
+    ~moneypunct_byname();
+  };
+}
+[codeblock:end]

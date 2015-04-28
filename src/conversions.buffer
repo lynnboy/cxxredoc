@@ -1,0 +1,147 @@
+﻿[section#conversions.buffer
+    [:en] Buffer conversions
+]
+
+[para]
+[:en]
+Class template [`wbuffer_convert] looks like a wide stream buffer, but performs
+all its I/O through an underlying byte stream buffer that you specify when you
+construct it.
+
+[:en]
+Like class template [`wstring_convert], it lets you specify a code conversion
+facet to perform the conversions, without affecting any streams or locales.
+
+[para] [para:synopsis]
+[:en] Class template [`wbuffer_convert] synopsis
+
+[%@library wbuffer_convert]
+[codeblock:synopsis]
+namespace std {
+template<class Codecvt,
+    class Elem = wchar_t,
+    class Tr = std::char_traits<Elem> >
+  class wbuffer_convert
+    : public std::basic_streambuf<Elem, Tr> {
+  public:
+    typedef typename Codecvt::state_type state_type;
+
+    explicit wbuffer_convert(std::streambuf* bytebuf = 0,
+                             Codecvt* pcvt = new Codecvt,
+                             state_type state = state_type());
+
+    ~wbuffer_convert();
+
+    wbuffer_convert(const wbuffer_convert&) = delete;
+    wbuffer_convert& operator=(const wbuffer_convert&) = delete;
+
+    std::streambuf* rdbuf() const;
+    std::streambuf* rdbuf(std::streambuf* bytebuf);
+
+    state_type state() const;
+
+  private:
+    std::streambuf* bufptr;         // [=Expos]
+    Codecvt* cvtptr;                // [=Expos]
+    state_type cvtstate;            // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class template describes a stream buffer that controls the transmission of
+elements of type [`Elem], whose character traits are described by the class
+[`Tr], to and from a byte stream buffer of type [`std::streambuf].
+
+[:en]
+Conversion between a sequence of [`Elem] values and multibyte sequences is
+performed by an object of class [`Codecvt], which shall meet the requirements of
+the standard code-conversion facet [`std::codecvt<Elem, char, std::mbstate_t>].
+
+[para]
+[:en]
+An object of this class template stores:
+
+[list]
+[item]
+[:en] [`bufptr] [=--] a pointer to its underlying byte stream buffer
+[item]
+[:en] [`cvtptr] [=--] a pointer to the allocated conversion object (which is
+freed when the [`wbuffer_convert] object is destroyed)
+[item]
+[:en] [`cvtstate] [=--] a conversion state object
+[list:end]
+
+[%@library state[!wbuffer_convert]]
+[%@library wbuffer_convert[!state]]
+[codeblock:declaration]
+state_type state() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`cvtstate].
+[exit:description]
+
+[%@library rdbuf[!wbuffer_convert]]
+[%@library wbuffer_convert[!rdbuf]]
+[codeblock:declaration]
+std::streambuf* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`bufptr].
+[exit:description]
+
+[%@library rdbuf[!wbuffer_convert]]
+[%@library wbuffer_convert[!rdbuf]]
+[codeblock:declaration]
+std::streambuf* rdbuf(std::streambuf* bytebuf);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] stores [`bytebuf] in [`bufptr].
+
+[para:returns]
+[:en] The previous value of [`bufptr].
+[exit:description]
+
+[%@library state_type[!wbuffer_convert]]
+[%@library wbuffer_convert[!state_type]]
+[codeblock:declaration]
+typedef typename Codecvt::state_type state_type;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type shall be a synonym for [`Codecvt::state_type].
+[exit:description]
+
+[%@library wbuffer_convert}!constructor}%
+[codeblock:declaration]
+explicit wbuffer_convert(std::streambuf* bytebuf = 0,
+    Codecvt* pcvt = new Codecvt, state_type state = state_type());
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`pcvt != nullptr].
+
+[para:effects]
+[:en] The constructor constructs a stream buffer object, initializes [`bufptr]
+to [`bytebuf], initializes [`cvtptr] to [`pcvt], and initializes [`cvtstate] to
+[`state].
+[exit:description]
+
+[%@library wbuffer_convert[![:en]destructor]]
+[codeblock:declaration]
+~wbuffer_convert();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The destructor shall delete [`cvtptr].
+[exit:description]

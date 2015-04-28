@@ -1,0 +1,29 @@
+﻿[section#facet.num.put.members
+    [:en] [`num_put] members
+]
+
+[%@library num_put[!put]]
+[%@library put[!num_put]]
+[codeblock:declaration]
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  bool val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  long val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  long long val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  unsigned long val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  unsigned long long val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  double val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  long double val) const;
+iter_type put(iter_type out, ios_base& str, char_type fill,
+  const void* val) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_put(out, str, fill, val)].
+[exit:description]

@@ -1,0 +1,37 @@
+﻿[section#locale.collate.members
+    [:en] [`collate] members
+]
+
+[%@library collate[!compare]]
+[%@library compare[!collate]]
+[codeblock:declaration]
+int compare(const charT* low1, const charT* high1,
+            const charT* low2, const charT* high2) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_compare(low1, high1, low2, high2)]
+[exit:description]
+
+[%@library collate[!transform]]
+[%@library transform[!collate]]
+[codeblock:declaration]
+string_type transform(const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_transform(low, high)]
+[exit:description]
+
+[%@library collate[!hash]]
+[%@library hash[!collate]]
+[codeblock:declaration]
+long hash(const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_hash(low, high)]
+[exit:description]

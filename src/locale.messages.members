@@ -1,0 +1,37 @@
+﻿[section#locale.messages.members
+    [:en] [`messages] members
+]
+
+[%@library messages[!open]]
+[%@library open[!messages]]
+[codeblock:declaration]
+catalog open(const basic_string<char>& name, const locale& loc) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_open(name, loc)].
+[exit:description]
+
+[%@library messages[!get]]
+[%@library get[!messages]]
+[codeblock:declaration]
+string_type get(catalog cat, int set, int msgid,
+                const string_type& dfault) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_get(cat, set, msgid, dfault)].
+[exit:description]
+
+[%@library messages[!close]]
+[%@library close[!messages]]
+[codeblock:declaration]
+void  close(catalog cat) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`do_close(cat)].
+[exit:description]

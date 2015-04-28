@@ -1,0 +1,60 @@
+﻿[section#locale.nm.put
+    [:en] Class template [`num_put]
+]
+
+[%@library num_put]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class OutputIterator = ostreambuf_iterator<charT> >
+  class num_put : public locale::facet {
+  public:
+    typedef charT            char_type;
+    typedef OutputIterator   iter_type;
+
+    explicit num_put(size_t refs = 0);
+
+    iter_type put(iter_type s, ios_base& f, char_type fill, bool v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill, long v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill, long long v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill,
+                  unsigned long v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill,
+                  unsigned long long v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill,
+                  double v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill,
+                  long double v) const;
+    iter_type put(iter_type s, ios_base& f, char_type fill,
+                  const void* v) const;
+
+    static locale::id id;
+
+  protected:
+    ~num_put();
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             bool v) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             long v) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             long long v) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             unsigned long) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             unsigned long long) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             double v) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             long double v) const;
+    virtual iter_type do_put(iter_type, ios_base&, char_type fill,
+                             const void* v) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The facet [`num_put] is used to format numeric values to a character
+sequence such as an ostream.
+
+[include facet.num.put.members]
+
+[include facet.num.put.virtuals]

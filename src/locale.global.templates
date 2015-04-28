@@ -1,0 +1,36 @@
+﻿[section#locale.global.templates
+    [:en] [`locale] globals
+]
+
+[%@library locale[!use_facet]]
+[%@library use_facet[!locale]]
+[codeblock:declaration]
+template <class Facet> const Facet& use_facet(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Facet] is a facet class whose definition contains the public static
+member [`id] as defined in [#locale.facet].
+
+[para:returns]
+[:en] A reference to the corresponding facet of [`loc], if present.
+
+[para:throws]
+[:en] [`bad_cast] if [`has_facet<Facet>(loc)] is [`false].
+
+[para:notes]
+[:en] The reference returned remains valid at least as long as any copy of
+[`loc] exists.
+[exit:description]
+
+[%@library locale[!has_facet]]
+[%@library has_facet[!locale]]
+[codeblock:declaration]
+template <class Facet> bool has_facet(const locale& loc) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] True if the facet requested is present in [`loc]; otherwise false.
+[exit:description]

@@ -1,0 +1,62 @@
+﻿[section#locale.operators
+    [:en] [`locale] operators
+]
+
+[%@library locale[!operators==]]
+[%@library operators==[!locale]]
+[codeblock:declaration]
+bool operator==(const locale& other) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if both arguments are the same locale, or one is a copy of the
+other, or each has a name and the names are identical; [`false] otherwise.
+[exit:description]
+
+[%@library locale[!operator"!=]]
+[%@library operator"!=[!locale]]
+[codeblock:declaration]
+bool operator!=(const locale& other) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The result of the expression: [`!(*this == other)].
+[exit:description]
+
+[%@library locale[!operator()]]
+[%@library operator()[!locale]]
+[codeblock:declaration]
+template <class charT, class traits, class Allocator>
+  bool operator()(const basic_string<charT,traits,Allocator>& s1,
+                  const basic_string<charT,traits,Allocator>& s2) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Compares two strings according to the [`collate<charT>] facet.
+
+[para:notes]
+[:en] This member operator template (and therefore [`locale] itself) satisfies
+requirements for a comparator predicate template argument (Clause [#algorithms])
+applied to strings.
+
+[para:returns]
+[:en] The result of the following expression:
+
+[codeblock:notation]
+use_facet< collate<charT> >(*this).compare
+  (s1.data(), s1.data()+s1.size(), s2.data(), s2.data()+s2.size()) < 0;
+[codeblock:end]
+
+[para]
+[enter:example]
+[:en] A vector of strings [`v] can be collated according to collation rules in
+locale [`loc] simply by ([#alg.sort], [#vector]):
+
+[codeblock:synopsis]
+std::sort(v.begin(), v.end(), loc);
+[codeblock:end]
+[exit:example]
+[exit:description]

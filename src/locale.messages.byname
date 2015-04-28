@@ -1,0 +1,20 @@
+﻿[section#locale.messages.byname
+    [:en] Class template [`messages_byname]
+]
+
+[%@library messages_byname]]
+[codeblock:synopsis]
+namespace std {
+  template <class charT>
+  class messages_byname : public messages<charT> {
+  public:
+    typedef messages_base::catalog catalog;
+    typedef basic_string<charT>    string_type;
+
+    explicit messages_byname(const char*, size_t refs = 0);
+    explicit messages_byname(const string&, size_t refs = 0);
+  protected:
+    ~messages_byname();
+  };
+}
+[codeblock:end]

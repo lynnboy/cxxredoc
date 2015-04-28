@@ -1,0 +1,41 @@
+﻿[section#locale.members
+    [:en] [`locale] members
+]
+
+[%@library locale[!combine]]
+[%@library combine[!locale]]
+[codeblock:declaration]
+template <class Facet> locale combine(const locale& other) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale incorporating all facets from [`*this] except for that
+one facet of [`other] that is identified by [`Facet].
+
+[para:returns]
+[:en] The newly created locale.
+
+[para:throws]
+[:en] [`runtime_error] if [`has_facet<Facet>(other)] is false.
+
+[para:notes]
+[:en] The resulting locale has no name.
+[exit:description]
+
+[%@library locale[!name]]
+[%@library name[!locale]]
+[codeblock:declaration]
+basic_string<char> name() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The name of [`*this], if it has one; otherwise, the string [`"*"].
+
+[:en] If [`*this] has a name, then [`locale(name().c_str())] is equivalent to
+[`*this].
+
+[:en] Details of the contents of the resulting string are otherwise
+[%implementation-defined] implementation-defined.
+[exit:description]

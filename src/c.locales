@@ -1,0 +1,109 @@
+﻿[section#c.locales
+    [:en] C library locales
+]
+
+[para]
+[:en]
+Table [#tab:localization.hdr.clocale] describes header [`<clocale>].
+
+[table:listing@horizontal#tab:localization.hdr.clocale
+    [columns
+        [column@headercenter
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|@rowspan=all] [=Macros]
+[|] LC_ALL
+[|] LC_COLLATE
+[|] LC_CTYPE
+[|] LC_MONETARY
+[|] LC_NUMERIC
+[|] LC_TIME
+[|] NULL
+
+[-]
+[|@rowspan=all] [=Struct]
+[|] lconv
+
+[-]
+[|@rowspan=all] [=Functions]
+[|] localeconv
+[|] setlocale
+
+[table:end]
+
+[para]
+[:en]
+The contents are the same as the Standard C library header [`<locale.h>].
+
+[para]
+[:en]
+Calls to the function [`setlocale] may introduce a data race
+([#res.on.data.races]) with other calls to [`setlocale] or with calls to
+the functions listed in Table [#tab:setlocale.data.races].
+
+[table:listing@simple#tab:setlocale.data.races
+    [columns@repeated=5]
+]
+
+[|] fprintf
+[|] fscanf
+[|] isalnum
+[|] isalpha
+[|] isblank
+[|] iscntrl
+[|] isdigit
+[|] isgraph
+[|] islower
+
+[|] isprint
+[|] ispunct
+[|] isspace
+[|] isupper
+[|] iswalnum
+[|] iswalpha
+[|] iswblank
+[|] iswcntrl
+[|] iswctype
+
+[|] iswdigit
+[|] iswgraph
+[|] iswlower
+[|] iswprint
+[|] iswpunct
+[|] iswspace
+[|] iswupper
+[|] iswxdigit
+[|] isxdigit
+
+[|] localeconv
+[|] mblen
+[|] mbstowcs
+[|] mbtowc
+[|] setlocale
+[|] strcoll
+[|] strerror
+[|] strtod
+[|] strxfrm
+
+[|] tolower
+[|] toupper
+[|] towlower
+[|] towupper
+[|] wcscoll
+[|] wcstod
+[|] wcstombs
+[|] wcsxfrm
+[|] wctomb
+
+[table:end]
+
+[para:xref]
+[:en] ISO C Clause 7.4.

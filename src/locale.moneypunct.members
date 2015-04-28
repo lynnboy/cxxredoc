@@ -1,0 +1,38 @@
+﻿[section#locale.moneypunct.members
+    [:en] [`moneypunct] members
+]
+
+[%@library moneypunct[!decimal_point]]
+[%@library decimal_point[!moneypunct]]
+[%@library moneypunct[!thousands_sep]]
+[%@library thousands_sep[!moneypunct]]
+[%@library moneypunct[!grouping]]
+[%@library grouping[!moneypunct]]
+[%@library moneypunct[!curr_symbol]]
+[%@library curr_symbol[!moneypunct]]
+[%@library moneypunct[!positive_sign]]
+[%@library positive_sign[!moneypunct]]
+[%@library moneypunct[!negative_sign]]
+[%@library negative_sign[!moneypunct]]
+[%@library moneypunct[!frac_digits]]
+[%@library frac_digits[!moneypunct]]
+[%@library moneypunct[!positive_sign]]
+[%@library positive_sign[!moneypunct]]
+[%@library moneypunct[!negative_sign]]
+[%@library negative_sign[!moneypunct]]
+[codeblock:synopsis]
+charT        decimal_point() const;
+charT        thousands_sep() const;
+string       grouping()      const;
+string_type  curr_symbol()   const;
+string_type  positive_sign() const;
+string_type  negative_sign() const;
+int          frac_digits()   const;
+pattern      pos_format()    const;
+pattern      neg_format()    const;
+[codeblock:end]
+
+[para]
+[:en]
+Each of these functions [`F] returns the result of calling the corresponding
+virtual member function [`do_][$@bi F][`()].

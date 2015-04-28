@@ -1,0 +1,187 @@
+﻿[section#locale.ctype.virtuals
+    [:en] [`ctype] virtual functions
+]
+
+[%@library ctype[!do_is]]
+[%@library do_is[!ctype]]
+[codeblock:declaration]
+bool         do_is(mask m, charT c) const;
+const charT* do_is(const charT* low, const charT* high,
+                   mask* vec) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Classifies a character or sequence of characters.
+
+[:en] For each argument character, identifies a value [`M] of type
+[`ctype_base::mask].
+
+[:en] The second form identifies a value [`M] of type [`ctype_base::mask] for
+each [`*p] where [`(low<=p && p<high)], and places it into [`vec[p-low`]].
+
+[para:returns]
+[:en] The first form returns the result of the expression [`(M & m) != 0]; i.e.,
+[`true] if the character has the characteristics specified.
+
+[:en] The second form returns [`high].
+[exit:description]
+
+[%@library ctype_base[!do_scan_is]]
+[%@library do_scan_is[!ctype_base]]
+[codeblock:declaration]
+const charT* do_scan_is(mask m,
+                       const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Locates a character in a buffer that conforms to a classification [`m].
+
+[para:returns]
+[:en] The smallest pointer [`p] in the range [`[low, high)] such that
+[`is(m,*p)] would return [`true]; otherwise, returns [`high].
+[exit:description]
+
+[%@library ctype[!do_scan_not]]
+[%@library do_scan_not[!ctype]]
+[codeblock:declaration]
+const charT* do_scan_not(mask m,
+                        const charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Locates a character in a buffer that fails to conform to a classification
+[`m].
+
+[para:returns]
+[:en] The smallest pointer [`p], if any, in the range [=range[low,high)] such
+that [`is(m,*p)] would return [`false]; otherwise, returns [`high].
+[exit:description]
+
+[%@library ctype[!do_toupper]]
+[%@library do_toupper[!ctype]]
+[codeblock:declaration]
+charT        do_toupper(charT c) const;
+const charT* do_toupper(charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Converts a character or characters to upper case.
+
+[:en] The second form replaces each character [`*p] in the range
+[=range[low,high)] for which a corresponding upper-case character exists, with
+that character.
+
+[para:returns]
+[:en] The first form returns the corresponding upper-case character if it is
+known to exist, or its argument if not.
+
+[:en] The second form returns [`high].
+[exit:description]
+
+[%@library ctype[!do_tolower]]
+[%@library do_tolower[!ctype]]
+[codeblock:declaration]
+charT        do_tolower(charT c) const;
+const charT* do_tolower(charT* low, const charT* high) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Converts a character or characters to lower case.
+
+[:en] The second form replaces each character [`*p] in the range
+[=range[low,high)] and for which a corresponding lower-case character exists,
+with that character.
+
+[para:returns]
+[:en] The first form returns the corresponding lower-case character if it is
+known to exist, or its argument if not.
+
+[:en] The second form returns [`high].
+[exit:description]
+
+[%@library ctype[!do_widen]]
+[%@library do_widen[!ctype]]
+[codeblock:declaration]
+charT        do_widen(char c) const;
+const char*  do_widen(const char* low, const char* high,
+                      charT* dest) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Applies the simplest reasonable transformation from a [`char] value or
+sequence of [`char] values to the corresponding [`charT] value or values.
+
+[footnote]
+[:en] The char argument of [`do_widen] is intended to accept values derived from
+character literals for conversion to the locale[=']s encoding.
+[footnote:end]
+
+[:en] The only characters for which unique transformations are required are
+those in the basic source character set ([#lex.charset]).
+
+[:en] For any named [`ctype] category with a [`ctype<charT>] facet [`ctc] and
+valid [`ctype_base::mask] value [`M], [`(ctc.is(M, c) || !is(M, do_widen(c)) )]
+is [`true].
+
+[footnote]
+[:en] In other words, the transformed character is not a member of any character
+classification that [`c] is not also a member of.
+[footnote:end]
+
+[:en] The second form transforms each character [`*p] in the range
+[=range[low,high)], placing the result in [`dest[p-low`]].
+
+[para:returns]
+[:en] The first form returns the transformed value.
+
+[:en] The second form returns [`high].
+[exit:description]
+
+[%@library ctype[!do_narrow]]
+[%@library do_narrow[!ctype]]
+[codeblock:declaration]
+char         do_narrow(charT c, char dfault) const;
+const charT* do_narrow(const charT* low, const charT* high,
+                       char dfault, char* dest) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Applies the simplest reasonable transformation from a [`charT] value or
+sequence of [`charT] values to the corresponding [`char] value or values.
+
+[:en] For any character [`c] in the basic source character set ([#lex.charset])
+the transformation is such that
+
+[codeblock:synopsis]
+do_widen(do_narrow(c,0)) == c
+[codeblock:end]
+
+[:en] For any named [`ctype] category with a [`ctype<char>] facet [`ctc]
+however, and [`ctype_base::mask] value [`M],
+
+[codeblock:synopsis]
+(is(M,c) || !ctc.is(M, do_narrow(c,dfault)) )
+[codeblock:end]
+
+[:en@~] is [`true] (unless [`do_narrow] returns [`dfault]).
+
+[:en] In addition, for any digit character [`c], the expression [`(do_narrow(c,
+dfault) - '0')] evaluates to the digit value of the character.
+
+[:en] The second form transforms each character [`*p] in the range
+[=range[low,high)], placing the result (or [`dfault] if no simple transformation
+is readily available) in [`dest[p-low`]].
+
+[para:returns]
+[:en] The first form returns the transformed value; or [`dfault] if no mapping
+is readily available.
+
+[:en] The second form returns [`high].
+[exit:description]

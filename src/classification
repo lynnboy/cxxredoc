@@ -1,0 +1,47 @@
+﻿[section#classification
+    [:en] Character classification
+]
+
+[%@library isspace]
+[%@library isprint]
+[%@library iscntrl]
+[%@library isupper]
+[%@library islower]
+[%@library isalpha]
+[%@library isdigit]
+[%@library ispunct]
+[%@library isxdigit]
+[%@library isalnum]
+[%@library isgraph]
+[%@library isblank]
+[codeblock:declaration]
+template <class charT> bool isspace (charT c, const locale& loc);
+template <class charT> bool isprint (charT c, const locale& loc);
+template <class charT> bool iscntrl (charT c, const locale& loc);
+template <class charT> bool isupper (charT c, const locale& loc);
+template <class charT> bool islower (charT c, const locale& loc);
+template <class charT> bool isalpha (charT c, const locale& loc);
+template <class charT> bool isdigit (charT c, const locale& loc);
+template <class charT> bool ispunct (charT c, const locale& loc);
+template <class charT> bool isxdigit(charT c, const locale& loc);
+template <class charT> bool isalnum (charT c, const locale& loc);
+template <class charT> bool isgraph (charT c, const locale& loc);
+template <class charT> bool isblank (charT c, const locale& loc);
+[codeblock:end]
+
+[para]
+[:en] Each of these functions [`is[$@bi F]] returns the result of the
+expression:
+
+[codeblock:notation [special@bi F] ]
+use_facet< ctype<charT> >(loc).is(ctype_base::F, c)
+[codeblock:end]
+
+[:en@~] where [`[$@bi F]] is the [`ctype_base::mask] value corresponding to that
+function ([#category.ctype]).
+
+[footnote]
+[:en]
+When used in a loop, it is faster to cache the [`ctype<>] facet and use it
+directly, or use the vector form of [`ctype<>::is].
+[footnote:end]

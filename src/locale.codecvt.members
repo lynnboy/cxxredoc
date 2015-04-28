@@ -1,0 +1,86 @@
+﻿[section#locale.codecvt.members
+    [:en] [`codecvt] members
+]
+
+[%@library codecvt[!out]]
+[%@library out[!codecvt]]
+[codeblock:declaration]
+result out(stateT& state,
+  const internT* from, const internT* from_end, const internT*& from_next,
+        externT* to, externT* to_end, externT*& to_next) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_out(state, from, from_end, from_next, to, to_end, to_next)]
+[exit:description]
+
+[%@library codecvt[!unshift]]
+[%@library unshift[!codecvt]]
+[codeblock:declaration]
+result unshift(stateT& state,
+        externT* to, externT* to_end, externT*& to_next) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_unshift(state, to, to_end, to_next)]
+[exit:description]
+
+[%@library codecvt[!in]]
+[%@library in[!codecvt]]
+[codeblock:declaration]
+result in(stateT& state,
+  const externT* from, const externT* from_end, const externT*& from_next,
+        internT* to, internT* to_end, internT*& to_next) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_in(state, from, from_end, from_next, to, to_end, to_next)]
+[exit:description]
+
+[%@library codecvt[!encoding]]
+[%@library encoding[!codecvt]]
+[codeblock:declaration]
+int encoding() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_encoding()]
+[exit:description]
+
+[%@library codecvt[!always_noconv]]
+[%@library always_noconv[!codecvt]]
+[codeblock:declaration]
+bool always_noconv() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_always_noconv()]
+[exit:description]
+
+[%@library codecvt[!length]]
+[%@library length[!codecvt]]
+[codeblock:declaration]
+int length(stateT& state, const externT* from, const externT* from_end,
+           size_t max) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_length(state, from,from_end,max)]
+[exit:description]
+
+[%@library codecvt[!max_length]]
+[%@library max_length[!codecvt]]
+[codeblock:declaration]
+int max_length() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_max_length()]
+[exit:description]

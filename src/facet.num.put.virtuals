@@ -1,0 +1,368 @@
+﻿[section#facet.num.put.virtuals
+    [:en] [`num_put] virtual functions
+]
+
+[%@library num_put[!do_put]]
+[%@library do_put[!num_put]]
+[codeblock:declaration]
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  long val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  long long val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  unsigned long val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  unsigned long long val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  double val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  long double val) const;
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+  const void* val) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Writes characters to the sequence [`out], formatting [`val] as desired.
+
+[:en] In the following description, a local variable initialized with
+
+[codeblock]
+locale loc = str.getloc();
+[codeblock:end]
+
+[para]
+[:en] The details of this operation occur in several stages:
+
+[list]
+[item]
+[:en] Stage 1: Determine a printf conversion specifier [`spec] and determining
+the characters that would be printed by [`printf] ([#c.files]) given this
+conversion specifier for
+
+[codeblock]
+printf(spec, val )
+[codeblock:end]
+
+[:en@~] assuming that the current locale is the [`"C"] locale.
+
+[item]
+[:en] Stage 2: Adjust the representation by converting each [`char] determined
+by stage 1 to a [`charT] using a conversion and values returned by members of
+[`use_facet< numpunct<charT> >(str.getloc())]
+
+[item]
+[:en] Stage 3: Determine where padding is required.
+
+[item]
+[:en] Stage 4: Insert the sequence into the [`out].
+[list:end]
+
+[para]
+[:en] Detailed descriptions of each stage follow.
+
+[para:returns]
+[:en] [`out].
+
+[para]
+[enter:description]
+[:en] [em@bf Stage 1] The first action of stage 1 is to determine a conversion
+specifier.
+
+[:en] The tables that describe this determination use the following local
+variables
+
+[codeblock]
+fmtflags flags = str.flags() ;
+fmtflags basefield =  (flags & (ios_base::basefield));
+fmtflags uppercase =  (flags & (ios_base::uppercase));
+fmtflags floatfield = (flags & (ios_base::floatfield));
+fmtflags showpos =    (flags & (ios_base::showpos));
+fmtflags showbase =   (flags & (ios_base::showbase));
+[codeblock:end]
+
+[:en] All tables used in describing stage 1 are ordered.
+
+[:en] That is, the first line whose condition is true applies.
+
+[:en] A line without a condition is the default behavior when none of the
+earlier lines apply.
+
+[:en] For conversion from an integral type other than a character type, the
+function determines the integral conversion specifier as indicated in
+Table [#tab:localization.integer.conversions.out].
+
+[table:listing#tab:localization.integer.conversions.out
+    [:en] Integer conversions
+    [columns
+        [column@headercenter
+            [:en] State
+        ]
+        [column@headercenter@code@center
+            [:en] [`stdio] equivalent
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`basefield == ios_base::oct]
+[|] %o
+
+[|] [`(basefield == ios_base::hex) && !uppercase]
+[|] %x
+
+[|] [`(basefield == ios_base::hex)]
+[|] %X
+
+[|] [:en] for a [`signed] integral type
+[|] %d
+
+[|] [:en] for an [`unsigned] integral type
+[|] %u
+
+[table:end]
+
+[:en]
+For conversion from a floating-point type, the function determines the
+floating-point conversion specifier as indicated in
+Table [#tab:localization.fp.conversions.out].
+
+[table:listing#tab:localization.fp.conversions.out
+    [:en] Floating-point conversions
+    [columns
+        [column@headercenter
+            [:en] State
+        ]
+        [column@headercenter@code@center
+            [:en] [`stdio] equivalent
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`floatfield == ios_base::fixed]
+[|] %f
+
+[|] [`floatfield == ios_base::scientific && !uppercase]
+[|] %e
+
+[|] [`floatfield == ios_base::scientific]
+[|] %E
+
+[|] [`floatfield == (ios_base::fixed | ios_base::scientific) && !uppercase]
+[|] %a
+
+[|] [`floatfield == (ios_base::fixed | ios_base::scientific)]
+[|] %A
+
+[|] [`!uppercase]
+[|] %g
+
+[|] [:en] [$otherwise]
+[|] %G
+
+[table:end]
+
+[:en]
+For conversions from an integral or floating-point type a length modifier is
+added to the conversion specifier as indicated in
+Table [#tab:localization.length.modifier.out].
+
+[table:listing#tab:localization.length.modifier.out
+    [:en] Length modifier
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code@center
+            [:en] Length modifier
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] long
+[|] l
+
+[|] long long
+[|] ll
+
+[|] unsigned long
+[|] l
+
+[|] unsigned long long
+[|] ll
+
+[|] long double
+[|] L
+
+[|] [$otherwise]
+[|] [$none]
+
+[table:end]
+
+[:en]
+The conversion specifier has the following optional additional qualifiers
+prepended as indicated in Table [#tab:localization.numeric.conversions].
+
+[table:listing#tab:localization.numeric.conversions
+    [:en] Numeric conversions
+    [columns
+        [column@headercenter
+            [:en] Type(s)
+        ]
+        [column@headercenter@code
+            [:en] State
+        ]
+        [column@headercenter@code@center
+            [:en] [`stdio] equivalent
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] an integral type
+[|] flags & showpos
+[|] +
+
+[|]
+[|] flags & showbase
+[|] #
+
+[-]
+[|] a floating-point type
+[|] flags & showpos
+[|] +
+
+[|]
+[|] flags & showpoint
+[|] #
+
+[table:end]
+
+[:en]
+For conversion from a floating-point type,
+if [`floatfield != (ios_base::fixed | ios_base::scientific)], [`str.precision()]
+is specified as precision in the conversion specification.
+
+[:en]
+Otherwise, no precision is specified.
+ 
+[:en]
+For conversion from [`void*] the specifier is [`%p].
+ 
+[:en]
+The representations at the end of stage 1 consists of the [`char][=']s that
+would be printed by a call of [`printf(s, val)] where [`s] is the conversion
+specifier determined above.
+
+[:en]
+[em@bf Stage 2] Any character [`c] other than a decimal point(.) is converted to
+a [`charT] via [`use_facet<ctype<charT> >(loc).widen( c )]
+
+[:en]
+A local variable [`punct] is initialized via
+
+[codeblock]
+const numpunct<charT>& punct = use_facet< numpunct<charT> >(str.getloc());
+[codeblock:end]
+
+[:en]
+For arithmetic types, [`punct.thousands_sep()] characters are inserted into the
+sequence as determined by the value returned by [`punct.do_grouping()] using the
+method described in [#facet.numpunct.virtuals]
+ 
+[:en]
+Decimal point characters(.) are replaced by [`punct.decimal_point()]
+
+[:en]
+[em@bf Stage 3] A local variable is initialized as
+
+[codeblock]
+fmtflags adjustfield=   (flags & (ios_base::adjustfield));
+[codeblock:end]
+ 
+[:en]
+The location of any padding
+
+[footnote]
+[:en]
+The conversion specification [`#o] generates a leading [`0] which is [em not]
+a padding character.
+[footnote:end]
+
+[:en@~]
+is determined according to Table [#tab:localization.fill.padding].
+
+[table:listing#tab:localization.fill.padding
+    [:en] Fill padding
+    [columns
+        [column@headercenter
+            [:en] State
+        ]
+        [column@headercenter
+            [:en] Location
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`adjustfield == ios_base::left]
+[|] [:en] pad after
+
+[|] [`adjustfield == ios_base::right]
+[|] [:en] pad before
+
+[|] [`adjustfield == internal] and a sign occurs in the representation
+[|] [:en] pad after the sign
+
+[|] [`adjustfield == internal] and representation after stage 1 began with 0x or
+    0X
+[|] [:en] pad after x or X
+
+[|] [:en][$otherwise]
+[|] [:en] pad before
+
+[table:end]
+
+[:en]
+If [`str.width()] is nonzero and the number of [`charT][=']s in the sequence
+after stage 2 is less than [`str.width()], then enough [`fill] characters are
+added to the sequence at the position indicated for padding to bring the length
+of the sequence to [`str.width()].
+ 
+[:en]
+[`str.width(0)] is called.
+
+[:en]
+[em@bf Stage 4] The sequence of [`charT][=']s at the end of stage 3 are output
+via
+
+[codeblock]
+*out++ = c
+[codeblock:end]
+[exit:description]
+[exit:description]
+
+[%@library do_put[!num_put]]
+[%@library num_put[!do_put]]
+[codeblock:declaration]
+iter_type do_put(iter_type out, ios_base& str, char_type fill,
+                 bool val) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`(str.flags() & ios_base::boolalpha) == 0] returns [`do_put(out, str,
+fill, (int)val)], otherwise obtains a string [`s] as if by
+
+[codeblock]
+string_type s =
+  val ? use_facet<numpunct<charT>>(loc).truename()
+    : use_facet<numpunct<charT>>(loc).falsename();
+[codeblock:end]
+
+[:en@~] and then inserts each character [`c] of [`s] into [`out] via
+[`*out++ = c] and returns [`out].
+[exit:description]

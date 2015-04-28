@@ -1,0 +1,77 @@
+﻿[section#facet.numpunct.virtuals
+    [:en] [`numpunct] virtual functions
+]
+
+[%@library numpunct[!do_decimal_point]]
+[%@library do_decimal_point[!numpunct]]
+[codeblock:declaration]
+char_type do_decimal_point() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A character for use as the decimal radix separator.
+
+[:en] The required specializations return [`'.'] or [`L'.'].
+[exit:description]
+
+[%@library numpunct[!do_thousands_sep]]
+[%@library do_thousands_sep[!numpunct]]
+[codeblock:declaration]
+char_type do_thousands_sep() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A character for use as the digit group separator.
+
+[:en] The required specializations return [`','] or [`L','].
+[exit:description]
+
+[%@library numpunct[!do_grouping]]
+[%@library do_grouping[!numpunct]]
+[codeblock:declaration]
+string do_grouping() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A basic_string<char> [`vec] used as a vector of integer values, in which
+each element [`vec[i`]] represents the number of digits
+
+[footnote]
+[:en] Thus, the string [`"\003"] specifies groups of 3 digits each, and [`"3"]
+probably indicates groups of 51 (!) digits each, because 51 is the ASCII value
+of [`"3"].
+[footnote:end]
+
+[:en@~] in the group at position [`i], starting with position 0 as the rightmost
+group.
+
+[:en] If [`vec.size() <= i], the number is the same as group [`(i-1)]; if
+[`(i<0 || vec[i`]<=0 || vec[i`]==CHAR_MAX)], the size of the digit group is
+unlimited.
+
+[para]
+[:en] The required specializations return the empty string, indicating
+no grouping.
+[exit:description]
+
+[%@library numpunct[!do_truename]]
+[%@library do_truename[!numpunct]]
+[%@library numpunct[!do_falsename]]
+[%@library do_falsename[!numpunct]]
+[codeblock:declaration]
+string_type do_truename()  const;
+string_type do_falsename() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A string representing the name of the boolean value [`true] or [`false],
+respectively.
+
+[para]
+[:en] In the base class implementation these names are [`"true"] and [`"false"],
+or [`L"true"] and [`L"false"].
+[exit:description]

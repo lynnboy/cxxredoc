@@ -1,0 +1,14 @@
+﻿[section#facet.ctype.char.dtor
+    [:en] [`ctype<char>] destructor
+]
+
+[%@library ctype<char>[![:en]destructor]]
+[codeblock:declaration]
+~ctype();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If the constructor[=']s first argument was nonzero, and its second
+argument was true, does [`delete [`] table()].
+[exit:description]

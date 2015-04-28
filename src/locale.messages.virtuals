@@ -1,0 +1,63 @@
+﻿[section#locale.messages.virtuals
+    [:en] [`messages] virtual functions
+]
+
+[%@library messages[!do_open]]
+[%@library do_open[!messages]]
+[codeblock:declaration]
+catalog do_open(const basic_string<char>& name,
+                const locale& loc) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A value that may be passed to [`get()] to retrieve a message from the
+message catalog identified by the string [`name] according to an
+[%@impldef mapping from name to catalog when calling [`messages::do_open]]
+implementation-defined mapping.
+
+[:en] The result can be used until it is passed to [`close()].
+
+[para]
+[:en] Returns a value less than 0 if no such catalog can be opened.
+
+[para:notes]
+[:en] The locale argument [`loc] is used for character set code conversion when
+retrieving messages, if needed.
+[exit:description]
+
+[%@library messages[!do_get]]
+[%@library do_get[!messages]]
+[codeblock:declaration]
+string_type do_get(catalog cat, int set, int msgid,
+              const string_type& dfault) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`cat] shall be a catalog obtained from [`open()] and not yet closed.
+
+[para:returns]
+[:en] A message identified by arguments [`set], [`msgid], and [`dfault],
+according to an [%@impldef mapping to message when calling [`messages::do_get]]
+implementation-defined mapping.
+
+[:en] If no such message can be found, returns [`dfault].
+[exit:description]
+
+[%@library message[!do_close]]
+[%@library do_close[!message]]
+[codeblock:declaration]
+void do_close(catalog cat) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`cat] shall be a catalog obtained from [`open()] and not yet closed.
+
+[para:effects]
+[:en] Releases unspecified resources associated with [`cat].
+
+[para:notes]
+[:en] The limit on such resources, if any, is implementation-defined.
+[exit:description]

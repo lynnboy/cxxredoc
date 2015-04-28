@@ -1,0 +1,148 @@
+﻿[section#locale.cons
+    [:en] [`locale] constructors and destructor
+]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+locale() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Default constructor: a snapshot of the current global locale.
+
+[para:effects]
+[:en] Constructs a copy of the argument last passed to
+[`locale::global(locale&)], if it has been called; else, the resulting facets
+have virtual function semantics identical to those of [`locale::classic()].
+
+[enter:note]
+[:en] This constructor is commonly used as the default value for arguments
+of functions that take a [`const locale&] argument.
+[exit:note]
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+locale(const locale& other) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale which is a copy of [`other].
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+explicit locale(const char* std_name);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale using standard C locale names, e.g., [`"POSIX"].
+
+[:en] The resulting locale implements semantics defined to be associated with
+that name.
+
+[para:throws]
+[:en] [`runtime_error] if the argument is not valid, or is null.
+
+[para:notes]
+[:en] The set of valid string argument values is [`"C"], [`""], and any
+[%@impldef locale names] implementation-defined values.
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+explicit locale(const string& std_name);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The same as [`locale(std_name.c_str())].
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+locale(const locale& other, const char* std_name, category);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale as a copy of [`other] except for the facets identified
+by the [`category] argument, which instead implement the same semantics as
+[`locale(std_name)].
+
+[para:throws]
+[:en] [`runtime_error] if the argument is not valid, or is null.
+
+[para:notes]
+[:en] The locale has a name if and only if [`other] has a name.
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+locale(const locale& other, const string& std_name, category cat);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The same as [`locale(other, std_name.c_str(), cat)].
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+template <class Facet> locale(const locale& other, Facet* f);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale incorporating all facets from the first argument
+except that of type [`Facet], and installs the second argument as the remaining
+facet.
+
+[:en] If [`f] is null, the resulting object is a copy of [`other].
+
+[para:notes]
+[:en] The resulting locale has no name.
+[exit:description]
+
+[%@library locale[![:en]constructor]]
+[codeblock:declaration]
+locale(const locale& other, const locale& one, category cats);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a locale incorporating all facets from the first argument
+except those that implement [`cats], which are instead incorporated from the
+second argument.
+
+[para:notes]
+[:en] The resulting locale has a name if and only if the first two arguments
+have names.
+[exit:description]
+
+[%@library operator=[!locale]]
+[%@library locale[!operator=]]
+[codeblock:declaration]
+const locale& operator=(const locale& other) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Creates a copy of [`other], replacing the current value.
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library locale[![:en]destructor]]
+[codeblock:declaration]
+~locale();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] A non-virtual destructor that throws no exceptions.
+[exit:description]

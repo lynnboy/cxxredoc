@@ -1,0 +1,333 @@
+﻿[section#facet.num.get.virtuals
+    [:en] [`num_get] virtual functions
+]
+
+[%@library num_get[!do_get]]
+[%@library do_get[!num_get]]
+[codeblock:declaration]
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, long& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, long long& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, unsigned short& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, unsigned int& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, unsigned long& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, unsigned long long& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, float& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, double& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, long double& val) const;
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+  ios_base::iostate& err, void*& val) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads characters from [`in], interpreting them according to
+[`str.flags()], [`use_facet<ctype<charT> >(loc)], and
+[`use_facet< numpunct<charT> >(loc)], where [`loc] is [`str.getloc()].
+
+[para]
+[:en] The details of this operation occur in three stages
+
+[list]
+[item]
+[:en] Stage 1: Determine a conversion specifier
+[item]
+[:en] Stage 2: Extract characters from [`in] and determine a corresponding
+[`char] value for the format expected by the conversion specification determined
+in stage 1.
+[item]
+[:en] Stage 3: Store results
+[list:end]
+
+[para]
+[:en] The details of the stages are presented below.
+
+[enter:description]
+[:en]
+[em@bf Stage 1] The function initializes local variables via
+
+[codeblock:synopsis]
+fmtflags flags = str .flags();
+fmtflags basefield = (flags & ios_base::basefield);
+fmtflags uppercase = (flags & ios_base::uppercase);
+fmtflags boolalpha = (flags & ios_base::boolalpha);
+[codeblock:end]
+
+[:en]
+For conversion to an integral type, the function determines the integral
+conversion specifier as indicated in
+Table [#tab:localization.integer.conversions.in].
+
+[:en]
+The table is ordered.
+
+[:en]
+That is, the first line whose condition is true applies.
+
+[table:listing#tab:localization.integer.conversions.in
+    [:en] Integer conversions
+    [columns
+        [column@headercenter
+            [:en] State
+        ]
+        [column@headercenter@code@center
+            [:en] [`stdio] equivalent
+        ]
+    ]
+    [border:row@both]
+    [border:group@both@double]
+]
+
+[-]
+[|] [`basefield == oct]
+[|] %o
+
+[|] [`basefield == hex]
+[|] %X
+
+[|] [`basefield == 0]
+[|] %i
+
+[-]
+[|] [`signed] integral type
+[|] %d
+
+[|] [`unsigned] integral type
+[|] %u
+
+[table:end]
+
+[:en]
+For conversions to a  floating type the specifier is [`%g].
+
+[:en]
+For conversions to [`void*] the specifier is [`%p].
+
+[:en]
+A length modifier is added to the conversion specification, if needed,
+as indicated in Table [#tab:localization.length.modifier.in].
+
+[table:listing#tab:localization.length.modifier.in
+    [:en] Length modifier
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code@center
+            [:en] Length modifier
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] short
+[|] h
+
+[|] unsigned short
+[|] h
+
+[|] long
+[|] l
+
+[|] unsigned long
+[|] l
+
+[|] long long
+[|] ll
+
+[|] unsigned long long
+[|] ll
+
+[|] double
+[|] l
+
+[|] long double
+[|] L
+
+[table:end]
+
+[:en]
+[em@bf Stage 2] If [`in==end] then stage 2 terminates.
+
+[:en]
+Otherwise a [`charT] is taken from [`in] and local variables are initialized as
+if by
+
+[codeblock]
+char_type ct = *in ;
+char c = src[find(atoms, atoms + sizeof(src) - 1, ct) - atoms];
+if (ct ==  use_facet<numpunct<charT> >(loc).decimal_point())
+c = '.';
+bool discard =
+  ct == use_facet<numpunct<charT> >(loc).thousands_sep()
+  && use_facet<numpunct<charT> >(loc).grouping().length() != 0;
+[codeblock:end]
+
+[:en@~]
+where the values [`src] and [`atoms] are defined as if by:
+
+[codeblock]
+static const char src[] = "0123456789abcdefxABCDEFX+-";
+char_type atoms[sizeof(src)];
+use_facet<ctype<charT> >(loc).widen(src, src + sizeof(src), atoms);
+[codeblock:end]
+
+[:en@~]
+for this value of [`loc].
+
+[para:~]
+[:en]
+If [`discard] is true, then if [`'.'] has not yet been accumulated, then the
+position of the character is remembered, but the character is otherwise ignored.
+
+[:en]
+Otherwise, if [`'.'] has already been accumulated, the character is discarded
+and Stage 2 terminates.
+
+[:en]
+If it is not discarded, then a check is made to determine if [`c] is allowed as
+the next character of an input field of the conversion specifier returned by
+Stage 1.
+
+[:en]
+If so, it is accumulated.
+
+[para:~]
+[:en]
+If the character is either discarded or accumulated then [`in] is advanced by
+[`++in] and processing returns to the beginning of stage 2.
+
+[:en]
+[em@bf Stage 3] The sequence of [`char]s accumulated in stage 2 (the field) is
+converted to a numeric value by the rules of one of the functions declared in
+the header [`<cstdlib>]:
+
+[list]
+[item]
+[:en] For a signed integer value, the function [`strtoll].
+
+[item]
+[:en] For an unsigned integer value, the function [`strtoull].
+
+[item]
+[:en] For a floating-point value, the function [`strtold].
+[list:end]
+
+[:en]
+The numeric value to be stored can be one of:
+
+[list]
+[item]
+[:en] zero, if the conversion function fails to convert the entire field.
+
+[:en] [`ios_base::failbit] is assigned to [`err].
+
+[item]
+[:en] the most positive representable value, if the field represents a value too
+large positive to be represented in [`val].
+
+[:en] [`ios_base::failbit] is assigned to [`err].
+
+[item]
+[:en] the most negative representable value or zero for an unsigned integer
+type, if the field represents a value too large negative to be represented in
+[`val].
+
+[:en] [`ios_base::failbit] is assigned to [`err].
+
+[item]
+[:en] the converted value, otherwise.
+[list:end]
+
+[:en]
+The resultant numeric value is stored in [`val].
+
+[exit:description]
+
+[para]
+[:en] Digit grouping is checked.
+
+[:en] That is, the positions of discarded separators is examined for consistency
+with [`use_facet<numpunct<charT> >(loc).grouping()].
+
+[:en] If they are not consistent then [`ios_base::failbit] is assigned to
+[`err].
+
+[para]
+[:en] In any case, if stage 2 processing was terminated by the test for
+[`in==end] then [`err |=ios_base::eofbit] is performed.
+[exit:description]
+
+[%@library do_get[!num_get]]
+[%@library num_get[!do_get]]
+[codeblock:declaration]
+iter_type do_get(iter_type in, iter_type end, ios_base& str,
+                 ios_base::iostate& err, bool& val) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`(str.flags()&ios_base::boolalpha)==0] then input proceeds as it would
+for a [`long] except that if a value is being stored into [`val], the value is
+determined according to the following:
+
+[:en] If the value to be stored is 0 then [`false] is stored.
+
+[:en] If the value is 1 then [`true] is stored.
+
+[:en] Otherwise [`true] is stored and [`ios_base::failbit] is assigned to
+[`err].
+
+[para]
+[:en] Otherwise target sequences are determined ["as if] by calling the members
+[`falsename()] and [`truename()] of the facet obtained by
+[`use_facet<numpunct<charT> >(str.getloc())].
+
+[:en] Successive characters in the range [=range[in,end)] (see
+[#sequence.reqmts]) are obtained and matched against corresponding positions in
+the target sequences only as necessary to identify a unique match.
+
+[:en] The input iterator [`in] is compared to [`end] only when necessary to
+obtain a character.
+
+[:en] If a target sequence is uniquely matched, [`val] is set to the
+corresponding value.
+
+[:en] Otherwise [`false] is stored and [`ios_base::failbit] is assigned to
+[`err].
+
+[para]
+[:en] The [`in] iterator is always left pointing one position beyond the last
+character successfully matched.
+
+[:en] If [`val] is set, then [`err] is set to [`str.goodbit]; or to
+[`str.eofbit] if, when seeking another character to match, it is found that
+[`(in == end)].
+
+[:en] If [`val] is not set, then [`err] is set to [`str.failbit]; or to
+[`(str.failbit|str.eofbit)] if the reason for the failure was that
+[`(in == end)].
+
+[enter:example]
+[:en] For targets [`true]: [`"a"] and [`false]: [`"abb"], the input sequence
+[`"a"] yields [`val == true] and [`err == str.eofbit]; the input sequence
+[`"abc"] yields [`err = str.failbit], with [`in] ending at the [`'c'] element.
+
+[:en] For targets [`true]: [`"1"] and [`false]: [`"0"], the input sequence
+[`"1"] yields [`val == true] and [`err == str.goodbit].
+
+[:en] For empty targets [`("")], any input sequence yields
+[`err == str.failbit].
+[exit:example]
+
+[para:returns]
+[:en] [`in].
+[exit:description]

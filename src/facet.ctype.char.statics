@@ -1,0 +1,15 @@
+﻿[section#facet.ctype.char.statics
+    [:en] [`ctype<char>] static members
+]
+
+[%@library ctype<char>[!classic_table]]
+[%@library classic_table[!ctype<char>]]
+[codeblock:declaration]
+static const mask* classic_table() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A pointer to the initial element of an array of size [`table_size] which
+represents the classifications of characters in the "C" locale.
+[exit:description]

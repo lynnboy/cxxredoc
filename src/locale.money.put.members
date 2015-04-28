@@ -1,0 +1,17 @@
+﻿[section#locale.money.put.members
+    [:en] [`money_put] members
+]
+
+[%@library money_put[!put]]
+[%@library put[!money_put]]
+[codeblock:declaration]
+iter_type put(iter_type s, bool intl, ios_base& f, char_type fill,
+              long double quant) const;
+iter_type put(iter_type s, bool intl, ios_base& f, char_type fill,
+              const string_type& quant) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`do_put(s, intl, f, loc, quant)]
+[exit:description]

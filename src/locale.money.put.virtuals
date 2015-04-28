@@ -1,0 +1,67 @@
+﻿[section#locale.money.put.virtuals
+    [:en] [`money_put] virtual functions
+]
+
+[%@library money_put[!do_put]]
+[%@library do_put[!money_put]]
+[codeblock:declaration]
+iter_type do_put(iter_type s, bool intl, ios_base& str,
+                 char_type fill, long double units) const;
+iter_type do_put(iter_type s, bool intl, ios_base& str,
+                 char_type fill, const string_type& digits) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Writes characters to [`s] according to the format specified by a
+[`moneypunct<charT,Intl>] facet reference [`mp] and the character mapping
+specified by a [`ctype<charT>] facet reference [`ct] obtained from the locale
+returned by [`str.getloc()], and [`str.flags()].
+
+[:en] The argument [`units] is transformed into a sequence of wide characters as
+if by
+
+[codeblock]
+ct.widen(buf1, buf1 + sprintf(buf1, "%.0Lf", units), buf2)
+[codeblock:end]
+
+[:en@~] for character buffers [`buf1] and [`buf2].
+
+[:en] If the first character in [`digits] or [`buf2] is equal to
+[`ct.widen('-')], then the pattern used for formatting is the result of
+[`mp.neg_format()]; otherwise the pattern is the result of [`mp.pos_format()].
+
+[:en] Digit characters are written, interspersed with any thousands separators
+and decimal point specified by the format, in the order they appear (after the
+optional leading minus sign) in [`digits] or [`buf2].
+
+[:en] In [`digits], only the optional leading minus sign and the immediately
+subsequent digit characters (as classified according to [`ct]) are used; any
+trailing characters (including digits appearing after a non-digit character) are
+ignored.
+
+[:en] Calls [`str.width(0)].
+
+[para:notes]
+[/% issues 22-021, 22-030, 22-034 from 97-0058/N1096, 97-0036/N1074/]
+[:en] The currency symbol is generated if and only if
+[`(str.flags() & str.showbase)] is nonzero.
+
+[:en] If the number of characters generated for the specified format is less
+than the value returned by [`str.width()] on entry to the function, then copies
+of [`fill] are inserted as necessary to pad to the specified width.
+
+[:en] For the value [`af] equal to [`(str.flags() & str.adjustfield)], if
+[`(af == str.internal)] is true, the fill characters are placed where [`none] or
+[`space] appears in the formatting pattern; otherwise if [`(af == str.left)]
+is true, they are placed after the other characters; otherwise, they are placed
+before the other characters.
+
+[enter:note]
+[:en] It is possible, with some combinations of format patterns and flag values,
+to produce output that cannot be parsed using [`num_get<>::get].
+[exit:note]
+
+[para:returns]
+[:en] An iterator pointing immediately after the last character produced.
+[exit:description]

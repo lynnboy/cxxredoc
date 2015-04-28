@@ -1,0 +1,44 @@
+﻿[section#locale.messages
+    [:en] Class template [`messages]
+]
+
+[%@library messages]
+[codeblock:synopsis [special unspecified signed integer type] ]
+namespace std {
+  class messages_base {
+  public:
+    typedef unspecified signed integer type catalog;
+  };
+
+  template <class charT>
+  class messages : public locale::facet, public messages_base {
+  public:
+    typedef charT char_type;
+    typedef basic_string<charT> string_type;
+
+    explicit messages(size_t refs = 0);
+
+    catalog open(const basic_string<char>& fn, const locale&) const;
+    string_type get(catalog c, int set, int msgid,
+                     const string_type& dfault) const;
+    void close(catalog c) const;
+
+    static locale::id id;
+
+  protected:
+    ~messages();
+    virtual catalog do_open(const basic_string<char>&, const locale&) const;
+    virtual string_type do_get(catalog, int set, int msgid,
+                               const string_type& dfault) const;
+    virtual void do_close(catalog) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] Values of type [`messages_base::catalog] usable as arguments to members
+[`get] and [`close] can be obtained only by calling member [`open].
+
+[include locale.messages.members]
+
+[include locale.messages.virtuals]

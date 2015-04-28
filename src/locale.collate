@@ -1,0 +1,51 @@
+﻿[section#locale.collate
+    [:en] Class template [`collate]
+]
+
+[%@library collate]
+[codeblock:synopsis]
+namespace std {
+  template <class charT>
+  class collate : public locale::facet {
+  public:
+    typedef charT               char_type;
+    typedef basic_string<charT> string_type;
+
+    explicit collate(size_t refs = 0);
+
+    int compare(const charT* low1, const charT* high1,
+                const charT* low2, const charT* high2) const;
+    string_type transform(const charT* low, const charT* high) const;
+    long hash(const charT* low, const charT* high) const;
+
+    static locale::id id;
+
+  protected:
+    ~collate();
+    virtual int do_compare(const charT* low1, const charT* high1,
+                           const charT* low2, const charT* high2) const;
+    virtual string_type do_transform(const charT* low, const charT* high) const;
+    virtual long do_hash (const charT* low, const charT* high) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`collate<charT>] provides features for use in the collation
+(comparison) and hashing of strings.
+
+[:en] A locale member function template, [`operator()], uses the collate facet
+to allow a locale to act directly as the predicate argument for standard
+algorithms (Clause [#algorithms]) and containers operating on strings.
+
+[:en] The specializations required in Table [#tab:localization.category.facets]
+([#locale.category]), namely [`collate<char>] and [`collate<wchar_t>], apply
+lexicographic ordering ([#alg.lex.comparison]).
+
+[para]
+[:en] Each function compares a string of characters [`*p] in the range
+[=range[low,high)].
+
+[include locale.collate.members]
+
+[include locale.collate.virtuals]

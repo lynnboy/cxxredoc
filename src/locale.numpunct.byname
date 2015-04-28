@@ -1,0 +1,20 @@
+﻿[section#locale.numpunct.byname
+    [:en] Class template [`numpunct_byname]
+]
+
+[%@library numpunct_byname]
+[codeblock:synopsis]
+namespace std {
+  template <class charT>
+  class numpunct_byname : public numpunct<charT> {
+  // [:en] this class is specialized for [`char] and [`wchar_t].
+  public:
+    typedef charT                char_type;
+    typedef basic_string<charT>  string_type;
+    explicit numpunct_byname(const char*, size_t refs = 0);
+    explicit numpunct_byname(const string&, size_t refs = 0);
+  protected:
+   ~numpunct_byname();
+  };
+}
+[codeblock:end]

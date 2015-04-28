@@ -1,0 +1,100 @@
+﻿[section#locale.codecvt
+    [:en] Class template [`codecvt]
+]
+
+[%@library codecvt]
+[codeblock:synopsis]
+namespace std {
+  class codecvt_base {
+  public:
+    enum result { ok, partial, error, noconv };
+  };
+
+  template <class internT, class externT, class stateT>
+  class codecvt : public locale::facet, public codecvt_base {
+  public:
+    typedef internT  intern_type;
+    typedef externT  extern_type;
+    typedef stateT state_type;
+
+    explicit codecvt(size_t refs = 0);
+
+    result out(stateT& state,
+               const internT* from, const internT* from_end, const internT*& from_next,
+               externT*   to,       externT* to_end, externT*& to_next) const;
+    result unshift(stateT& state,
+                   externT*   to,        externT* to_end, externT*& to_next) const;
+    result in(stateT& state,
+              const externT* from, const externT* from_end, const externT*& from_next,
+              internT*   to,       internT* to_end, internT*& to_next) const;
+    int encoding() const noexcept;
+    bool always_noconv() const noexcept;
+    int length(stateT&, const externT* from, const externT* end,
+               size_t max) const;
+    int max_length() const noexcept;
+
+    static locale::id id;
+
+  protected:
+    ~codecvt();
+    virtual result do_out(stateT& state,
+                          const internT* from, const internT* from_end, const internT*& from_next,
+                          externT* to,         externT* to_end, externT*& to_next) const;
+    virtual result do_in(stateT& state,
+                         const externT* from, const externT* from_end, const externT*& from_next,
+                         internT* to,         internT* to_end, internT*& to_next) const;
+    virtual result do_unshift(stateT& state,
+                              externT* to,         externT* to_end, externT*& to_next) const;
+    virtual int do_encoding() const noexcept;
+    virtual bool do_always_noconv() const noexcept;
+    virtual int do_length(stateT&, const externT* from,
+                          const externT* end, size_t max) const;
+    virtual int do_max_length() const noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+The class [`codecvt<internT,externT,stateT>] is for use when converting from one
+character encoding to another, such as from wide characters to multibyte
+characters or between wide character encodings such as Unicode and EUC.
+
+[para]
+[:en]
+The [`stateT] argument selects the pair of character encodings being mapped
+between.
+
+[para]
+[:en]
+The specializations required in Table [#tab:localization.category.facets]
+([#locale.category]) convert the implementation-defined native character set.
+
+[:en]
+[`codecvt<char, char, mbstate_t>] implements a degenerate conversion; it does
+not convert at all.
+
+[:en]
+The specialization [`codecvt<char16_t, char, mbstate_t>] converts between the
+UTF-16 and UTF-8 encoding forms, and the specialization [`codecvt <char32_t,
+char, mbstate_t>] converts between the UTF-32 and UTF-8 encoding forms.
+
+[:en]
+[`codecvt<wchar_t,char,mbstate_t>] converts between the native character sets
+for narrow and wide characters.
+
+[:en]
+Specializations on [`mbstate_t] perform conversion between encodings known to
+the library implementer.
+
+[:en]
+Other encodings can be converted by specializing on a user-defined [`stateT]
+type.
+
+[:en]
+Objects of type [`stateT] can contain any state that is useful to communicate to
+or from the specialized [`do_in] or [`do_out] members.
+
+[include locale.codecvt.members]
+
+[include locale.codecvt.virtuals]

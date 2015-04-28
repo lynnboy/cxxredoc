@@ -1,0 +1,73 @@
+﻿[section#locale.facet
+    [:en] Class [`locale::facet]
+]
+
+[%@library locale[!facet]]
+[%@library facet[!locale]]
+[codeblock:synopsis]
+namespace std {
+  class locale::facet {
+  protected:
+    explicit facet(size_t refs = 0);
+    virtual ~facet();
+    facet(const facet&) = delete;
+    void operator=(const facet&) = delete;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+Template parameters in this Clause which are required to be facets are those
+named [`Facet] in declarations.
+
+[:en]
+A program that passes a type that is [em not] a facet, or a type that refers to
+a volatile-qualified facet, as an (explicit or deduced) template parameter to a
+locale function expecting a facet, is ill-formed.
+
+[:en]
+A const-qualified facet is a valid template argument to any locale function that
+expects a Facet template parameter.
+
+[para]
+[:en]
+The [`refs] argument to the constructor is used for lifetime management.
+
+[list]
+[item]
+[:en]
+For [`refs == 0], the implementation performs
+[`delete static_cast<locale::facet*>(f)] (where [`f] is a pointer to the facet)
+when the last [`locale] object containing the facet is destroyed; for
+[`refs == 1], the implementation never destroys the facet.
+[list:end]
+
+[para]
+[:en]
+Constructors of all facets defined in this Clause take such an argument and pass
+it along to their [`facet] base class constructor.
+
+[:en]
+All one-argument constructors defined in this Clause are [+explicit], preventing
+their participation in automatic conversions.
+
+[para]
+[:en]
+For some standard facets a standard ["[=ldots][`_byname]] class, derived from
+it, implements the virtual function semantics equivalent to that facet of the
+locale constructed by [`locale(const char*)] with the same name.
+
+[:en]
+Each such facet provides a constructor that takes a [`const char*] argument,
+which names the locale, and a [`refs] argument, which is passed to the base
+class constructor.
+
+[:en]
+Each such facet also provides a constructor that takes a [`string] argument
+[`str] and a [`refs] argument, which has the same effect as calling the first
+constructor with the two arguments [`str.c_str()] and [`refs].
+
+[:en]
+If there is no ["[=ldots][`_byname]] version of a facet, the base class
+implements named locale semantics itself by reference to other facets.

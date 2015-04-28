@@ -1,0 +1,196 @@
+﻿[section#locale.time.get.virtuals
+    [:en] [`time_get] virtual functions
+]
+
+[%@library time_get[!do_date_order]]
+[%@library do_date_order[!time_get]]
+[codeblock:declaration]
+dateorder do_date_order() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An enumeration value indicating the preferred order of components for
+those date formats that are composed of day, month, and year.
+
+[footnote]
+[:en] This function is intended as a convenience only, for common formats, and
+may return [`no_order] in valid locales.
+[footnote:end]
+
+[:en] Returns [`no_order] if the date format specified by [`'x'] contains other
+variable components (e.g., Julian day, week number, week day).
+[exit:description]
+
+[%@library time_get[!do_get_time]]
+[%@library do_get_time[!time_get]]
+[codeblock:declaration]
+iter_type do_get_time(iter_type s, iter_type end, ios_base& str,
+                      ios_base::iostate& err, tm* t) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads characters starting at [`s] until it has extracted those
+[`struct tm] members, and remaining format characters, used by
+[`time_put<>::put] to produce the format specified by [`"%H:%M:%S"], or until it
+encounters an error or end of sequence.
+
+[para:returns]
+[:en] An iterator pointing immediately beyond the last character recognized
+as possibly part of a valid time.
+[exit:description]
+
+[%@library time_get[!do_get_date]]
+[%@library do_get_date[!time_get]]
+[codeblock:declaration]
+iter_type do_get_date(iter_type s, iter_type end, ios_base& str,
+                      ios_base::iostate& err, tm* t) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads characters starting at [`s] until it has extracted those
+[`struct tm] members and remaining format characters used by
+[`time_put<>::put] to produce one of the following formats, or until it
+encounters an error.
+
+[:en] The format depends on the value returned by [`date_order()] as shown in
+Table [#tab:lib.locale.time.get.virtuals.dogetdate].
+
+[table:listing#tab:lib.locale.time.get.virtuals.dogetdate
+    [:en] [`do_get_date] effects
+    [columns
+        [column@code
+            [:en] [`date_order()]
+        ]
+        [column@headercenter@code
+            [:en] Format
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] no_order
+[|] "%m%d%y"
+
+[|] dmy
+[|] "%d%m%y"
+
+[|] mdy
+[|] "%m%d%y"
+
+[|] ymd
+[|] "%y%m%d"
+
+[|] ydm
+[|] "%y%d%m"
+
+[table:end]
+
+[para]
+[:en] An implementation may also accept additional [%@impldef additional formats
+for [`time_get::do_get_date]] implementation-defined formats.
+
+[para:returns]
+[:en] An iterator pointing immediately beyond the last character recognized
+as possibly part of a valid date.
+[exit:description]
+
+[%@library time_get[!do_get_weekday]]
+[%@library do_get_weekday[!time_get]]
+[%@library time_get[!do_get_monthname]]
+[%@library do_get_monthname[!time_get]]
+[codeblock:declaration]
+iter_type do_get_weekday(iter_type s, iter_type end, ios_base& str,
+                         ios_base::iostate& err, tm* t) const;
+iter_type do_get_monthname(iter_type s, iter_type end, ios_base& str,
+                           ios_base::iostate& err, tm* t) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads characters starting at [`s] until it has extracted the (perhaps
+abbreviated) name of a weekday or month.
+
+[:en] If it finds an abbreviation that is followed by characters that could
+match a full name, it continues reading until it matches the full name or
+fails.
+
+[:en] It sets the appropriate [`struct tm] member accordingly.
+
+[para:returns]
+[:en] An iterator pointing immediately beyond the last character recognized
+as part of a valid name.
+[exit:description]
+
+[%@library time_get[!do_get_year]]
+[%@library do_get_year[!time_get]]
+[codeblock:declaration]
+iter_type do_get_year(iter_type s, iter_type end, ios_base& str,
+                      ios_base::iostate& err, tm* t) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads characters starting at [`s] until it has extracted an unambiguous
+year identifier.
+
+[:en] It is [%@impldef whether [`time_get::do_get_year] accepts two-digit year
+numbers] implementation-defined whether two-digit year numbers are accepted,
+and (if so) what century they are assumed to lie in.
+
+[:en] Sets the [`t->tm_year] member accordingly.
+
+[para:returns]
+[:en] An iterator pointing immediately beyond the last character recognized
+as part of a valid year identifier.
+[exit:description]
+
+[%@library do_get[!time_get]]
+[%@library time_get[!do_get]]
+[codeblock:declaration]
+iter_type do_get(iter_type s, iter_type end, ios_base& f,
+    ios_base::iostate& err, tm* t, char format, char modifier) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`t] shall point to an object.
+
+[para:effects]
+[:en] The function starts by evaluating [`err = ios_base::goodbit].
+
+[:en] It then reads characters starting at [`s] until it encounters an error, or
+until it has extracted and assigned those [`struct tm] members, and any
+remaining format characters, corresponding to a conversion directive appropriate
+for the ISO/IEC 9945 function [`strptime], formed by concatenating [`'%'], the
+[`modifier] character, when non-NUL, and the [`format] character.
+
+[:en] When the concatenation fails to yield a complete valid directive the
+function leaves the object pointed to by [`t] unchanged and evaluates
+[`err |= ios_base::failbit].
+
+[:en] When [`s == end] evaluates to true after reading a character the function
+evaluates [`err |= ios_base::eofbit].
+
+[para]
+[:en] For complex conversion directives such as [`%c], [`%x], or [`%X], or
+directives that involve the optional modifiers [`E] or [`O], when the function
+is unable to unambiguously determine some or all [`struct tm] members from the
+input sequence [=range[s,end)], it evaluates [`err |= ios_base::eofbit].
+
+[:en] In such cases the values of those [`struct tm] members are unspecified
+and may be outside their valid range.
+
+[para:note]
+[:en] It is unspecified whether multiple calls to [`do_get()] with the address
+of the same [`struct tm] object will update the current contents of the object
+or simply overwrite its members.
+
+[:en] Portable programs must zero out the object before invoking the function.
+
+[para:returns]
+[:en] An iterator pointing immediately beyond the last character recognized as
+possibly part of a valid input sequence for the given [`format] and [`modifier].
+[exit:description]

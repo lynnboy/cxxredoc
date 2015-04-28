@@ -1,0 +1,31 @@
+﻿[section#facet.ctype.char.virtuals
+    [:en] [`ctype<char>] virtual functions
+]
+
+[%@library ctype<char>[!do_toupper]]
+[%@library do_toupper[!ctype<char>]]
+[%@library ctype<char>[!do_tolower]]
+[%@library do_tolower[!ctype<char>]]
+[%@library ctype<char>[!do_widen]]
+[%@library do_widen[!ctype<char>]]
+[%@library ctype<char>[!do_narrow]]
+[%@library do_narrow[!ctype<char>]]
+[codeblock:synopsis]
+char        do_toupper(char) const;
+const char* do_toupper(char* low, const char* high) const;
+char        do_tolower(char) const;
+const char* do_tolower(char* low, const char* high) const;
+
+virtual char        do_widen(char c) const;
+virtual const char* do_widen(const char* low,
+                             const char* high,
+                             char* to) const;
+virtual char        do_narrow(char c, char dfault) const;
+virtual const char* do_narrow(const char* low,
+                              const char* high,
+                              char dfault, char* to) const;
+[codeblock:end]
+
+[:en]
+These functions are described identically as those members of the same name in
+the [`ctype] class template ([#locale.ctype.members]).
