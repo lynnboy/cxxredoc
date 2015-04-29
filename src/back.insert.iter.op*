@@ -1,0 +1,13 @@
+﻿[section#back.insert.iter.op*
+    [:en] [`back_insert_iterator::operator*]
+]
+
+[%@library operator*[!back_insert_iterator]]
+[codeblock:declaration]
+back_insert_iterator& operator*();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]

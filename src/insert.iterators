@@ -1,0 +1,58 @@
+﻿[section#insert.iterators
+    [:en] Insert iterators
+]
+
+[para]
+[:en] To make it possible to deal with insertion in the same way as writing into
+an array, a special kind of iterator adaptors, called [+insert iterators], are
+provided in the library.
+
+[:en] With regular iterator classes,
+
+[codeblock:notation]
+while (first != last) *result++ = *first++;
+[codeblock:end]
+
+[:en@~] causes a range [=range[first,last)] to be copied into a range starting
+with result.
+
+[:en] The same code with [`result] being an insert iterator will insert
+corresponding elements into the container.
+
+[:en] This device allows all of the copying algorithms in the library to work in
+the [+insert mode] instead of the [+regular overwrite] mode.
+
+[para]
+[:en] An insert iterator is constructed from a container and possibly one of its
+iterators pointing to where insertion takes place if it is neither at the
+beginning nor at the end of the container.
+
+[:en] Insert iterators satisfy the requirements of output iterators.
+
+[:en] [`operator*] returns the insert iterator itself.
+
+[:en] The assignment [`operator=(const T& x)] is defined on insert iterators to
+allow writing into them, it inserts [`x] right before where the insert iterator
+is pointing.
+
+[:en] In other words, an insert iterator is like a cursor pointing into the
+container where the insertion takes place.
+
+[:en] [`back_insert_iterator] inserts elements at the end of a container,
+[`front_insert_iterator] inserts elements at the beginning of a container, and
+[`insert_iterator] inserts elements where the iterator points to in a container.
+
+[:en] [`back_inserter], [`front_inserter], and [`inserter] are three functions
+making the insert iterators out of a container.
+
+[include back.insert.iterator]
+
+[include back.insert.iter.ops]
+
+[include front.insert.iterator]
+
+[include front.insert.iter.ops]
+
+[include insert.iterator]
+
+[include insert.iter.ops]

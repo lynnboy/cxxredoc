@@ -1,0 +1,13 @@
+﻿[section#back.insert.iter.cons
+    [:en] [`back_insert_iterator] constructor
+]
+
+[%@library back_insert_iterator[!back_insert_iterator]]
+[codeblock:declaration]
+explicit back_insert_iterator(Container& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`container] with [`std::addressof(x)].
+[exit:description]

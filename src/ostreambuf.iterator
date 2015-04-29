@@ -1,0 +1,41 @@
+﻿[section#ostreambuf.iterator
+    [:en] Class template [`ostreambuf_iterator]
+]
+
+[%@library ostreambuf_iterator]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class ostreambuf_iterator :
+    public iterator<output_iterator_tag, void, void, void, void> {
+  public:
+    typedef charT                         char_type;
+    typedef traits                        traits_type;
+    typedef basic_streambuf<charT,traits> streambuf_type;
+    typedef basic_ostream<charT,traits>   ostream_type;
+
+  public:
+    ostreambuf_iterator(ostream_type& s) noexcept;
+    ostreambuf_iterator(streambuf_type* s) noexcept;
+    ostreambuf_iterator& operator=(charT c);
+
+    ostreambuf_iterator& operator*();
+    ostreambuf_iterator& operator++();
+    ostreambuf_iterator& operator++(int);
+    bool failed() const noexcept;
+
+  private:
+    streambuf_type* sbuf_;                // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class template [`ostreambuf_iterator] writes successive [$characters]
+onto the output stream from which it was constructed.
+
+[:en] It is not possible to get a character value out of the output iterator.
+
+[include ostreambuf.iter.cons]
+
+[include ostreambuf.iter.ops]

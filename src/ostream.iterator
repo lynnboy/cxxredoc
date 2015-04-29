@@ -1,0 +1,53 @@
+﻿[section#ostream.iterator
+    [:en] Class template [`ostream_iterator]
+]
+
+[para]
+[%@library ostream_iterator]
+[:en] [`ostream_iterator] writes (using [`operator<<]) successive elements onto
+the output stream from which it was constructed.
+
+[:en] If it was constructed with [`charT*] as a constructor argument, this
+string, called a [+delimiter string], is written to the stream after every [`T]
+is written.
+
+[:en] It is not possible to get a value out of the output iterator.
+
+[:en] Its only use is as an output iterator in situations like
+
+[codeblock:notation]
+while (first != last)
+  *result++ = *first++;
+[codeblock:end]
+
+[para]
+[:en] [`ostream_iterator] is defined as:
+
+[codeblock:synopsis]
+namespace std {
+  template <class T, class charT = char, class traits = char_traits<charT> >
+  class ostream_iterator:
+    public iterator<output_iterator_tag, void, void, void, void> {
+  public:
+    typedef charT char_type;
+    typedef traits traits_type;
+    typedef basic_ostream<charT,traits> ostream_type;
+    ostream_iterator(ostream_type& s);
+    ostream_iterator(ostream_type& s, const charT* delimiter);
+    ostream_iterator(const ostream_iterator& x);
+   ~ostream_iterator();
+    ostream_iterator& operator=(const T& value);
+
+    ostream_iterator& operator*();
+    ostream_iterator& operator++();
+    ostream_iterator& operator++(int);
+  private:
+    basic_ostream<charT,traits>* out_stream;  // [=Expos]
+    const charT* delim;                       // [=Expos]
+  };
+}
+[codeblock:end]
+
+[include ostream.iterator.cons.des]
+
+[include ostream.iterator.ops]

@@ -1,0 +1,14 @@
+﻿[section#front.inserter
+    [:en] [`front_inserter]
+]
+
+[%@library front_inserter]
+[codeblock:declaration]
+template <class Container>
+  front_insert_iterator<Container> front_inserter(Container& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`front_insert_iterator<Container>(x)].
+[exit:description]

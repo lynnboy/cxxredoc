@@ -1,0 +1,60 @@
+﻿[section#iterator.iterators
+    [:en] Iterator
+]
+
+[para]
+[:en] The [`Iterator] requirements form the basis of the iterator concept
+taxonomy; every iterator satisfies the [`Iterator] requirements.
+
+[:en] This set of requirements specifies operations for dereferencing and
+incrementing an iterator.
+
+[:en] Most algorithms will require additional operations to read
+([#input.iterators]) or write ([#output.iterators]) values, or to provide a
+richer set of iterator movements ([#forward.iterators],
+[#bidirectional.iterators], [#random.access.iterators]).)
+
+[para]
+[:en] A type [`X] satisfies the [`Iterator] requirements if:
+
+[list]
+[item]
+[:en] [`X] satisfies the [`CopyConstructible], [`CopyAssignable], and
+[`Destructible] requirements ([#utility.arg.requirements]) and lvalues of type
+[`X] are swappable ([#swappable.requirements]), and
+
+[item]
+[:en] the expressions in Table [#tab:iterator.requirements] are valid and have
+the indicated semantics.
+[list:end]
+
+[table:listing#tab:iterator.requirements
+    [:en] Iterator requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter@code
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] *r
+[|] reference
+[|]
+[|] [:en] pre: [`r] is dereferenceable.
+
+[|] ++r
+[|] X&
+[|]
+[|]
+
+[table:end]

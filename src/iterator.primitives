@@ -1,0 +1,15 @@
+﻿[section#iterator.primitives
+    [:en] Iterator primitives
+]
+
+[para]
+[:en] To simplify the task of defining iterators, the library provides several
+classes and functions:
+
+[include iterator.traits]
+
+[include iterator.basic]
+
+[include std.iterator.tags]
+
+[include iterator.operations]

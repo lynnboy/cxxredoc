@@ -1,0 +1,14 @@
+﻿[section#istreambuf.iterator::equal
+    [:en] [`istreambuf_iterator::equal]
+]
+
+[%@library equal[!istreambuf_iterator]]
+[codeblock:declaration]
+bool equal(const istreambuf_iterator& b) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if and only if both iterators are at end-of-stream, or neither is
+at end-of-stream, regardless of what [`streambuf] object they use.
+[exit:description]

@@ -1,0 +1,13 @@
+﻿[section#istreambuf.iterator::op*
+    [:en] [`istreambuf_iterator::operator*]
+]
+
+[%@library operator*[!istreambuf_iterator]]
+[codeblock:declaration]
+charT operator*() const
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The character obtained via the [`streambuf] member [`sbuf_->sgetc()].
+[exit:description]

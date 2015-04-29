@@ -1,0 +1,14 @@
+﻿[section#move.iter.op.conv
+    [:en] [`move_iterator] conversion
+]
+
+[%@library base[!move_iterator]]
+[%@library move_iterator[!base]]
+[codeblock:declaration]
+Iterator base() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`current].
+[exit:description]

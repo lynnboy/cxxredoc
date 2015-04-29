@@ -1,0 +1,14 @@
+﻿[section#reverse.iter.op-
+    [:en] [`operator-]
+]
+
+[%@library operator-[!reverse_iterator]]
+[codeblock:declaration]
+reverse_iterator
+operator-(typename reverse_iterator<Iterator>::difference_type n) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`reverse_iterator(current+n)].
+[exit:description]

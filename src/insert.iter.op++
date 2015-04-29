@@ -1,0 +1,14 @@
+﻿[section#insert.iter.op++
+    [:en] [`insert_iterator::operator++]
+]
+
+[%@library operator++[!insert_iterator]]
+[codeblock:declaration]
+insert_iterator& operator++();
+insert_iterator& operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]

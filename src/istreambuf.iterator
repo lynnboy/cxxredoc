@@ -1,0 +1,90 @@
+﻿[section#istreambuf.iterator
+    [:en] Class template [`istreambuf_iterator]
+]
+
+[para]
+[:en] The class template [`istreambuf_iterator] defines an input iterator
+([#input.iterators]) that reads successive [$characters] from the streambuf for
+which it was constructed.
+
+[:en] [`operator*] provides access to the current input character, if any.
+
+[enter:note]
+[:en] [`operator->] may return a proxy.
+[exit:note]
+
+[:en] Each time [`operator++] is evaluated, the iterator advances to the next
+input character.
+
+[:en] If the end of stream is reached ([`streambuf_type::sgetc()] returns
+[`traits::eof()]), the iterator becomes equal to the [+end-of-stream] iterator
+value.
+
+[:en] The default constructor [`istreambuf_iterator()] and the constructor
+[`istreambuf_iterator(0)] both construct an end-of-stream iterator object
+suitable for use as an end-of-range.
+
+[:en] All specializations of [`istreambuf_iterator] shall have a trivial copy
+constructor, a [`constexpr] default constructor, and a trivial destructor.
+
+[para]
+[:en] The result of [`operator*()] on an end-of-stream iterator is
+[%behavior[!undefined]] undefined.
+
+[:en] For any other iterator value a [`char_type] value is returned.
+
+[:en] It is impossible to assign a character via an input iterator.
+
+[%@library istreambuf_iterator]
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  template<class charT, class traits = char_traits<charT> >
+  class istreambuf_iterator
+     : public iterator<input_iterator_tag, charT,
+                       typename traits::off_type, unspecified, charT> {
+  public:
+    typedef charT                         char_type;
+    typedef traits                        traits_type;
+    typedef typename traits::int_type     int_type;
+    typedef basic_streambuf<charT,traits> streambuf_type;
+    typedef basic_istream<charT,traits>   istream_type;
+
+    class proxy;                          // [=Expos]
+
+    constexpr istreambuf_iterator() noexcept;
+    istreambuf_iterator(const istreambuf_iterator&) noexcept = default;
+    ~istreambuf_iterator() = default;
+    istreambuf_iterator(istream_type& s) noexcept;
+    istreambuf_iterator(streambuf_type* s) noexcept;
+    istreambuf_iterator(const proxy& p) noexcept;
+    charT operator*() const;
+    pointer operator->() const;
+    istreambuf_iterator& operator++();
+    proxy operator++(int);
+    bool equal(const istreambuf_iterator& b) const;
+  private:
+    streambuf_type* sbuf_;                // [=Expos]
+  };
+
+  template <class charT, class traits>
+    bool operator==(const istreambuf_iterator<charT,traits>& a,
+            const istreambuf_iterator<charT,traits>& b);
+  template <class charT, class traits>
+    bool operator!=(const istreambuf_iterator<charT,traits>& a,
+            const istreambuf_iterator<charT,traits>& b);
+}
+[codeblock:end]
+
+[include istreambuf.iterator::proxy]
+
+[include istreambuf.iterator.cons]
+
+[include istreambuf.iterator::op*]
+
+[include istreambuf.iterator::op++]
+
+[include istreambuf.iterator::equal]
+
+[include istreambuf.iterator::op==]
+
+[include istreambuf.iterator::op!=]

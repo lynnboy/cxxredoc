@@ -1,0 +1,81 @@
+﻿[section#output.iterators
+    [:en] Output iterators
+]
+
+[para]
+[:en] A class or pointer type [`X] satisfies the requirements of an output
+iterator if [`X] satisfies the [`Iterator] requirements ([#iterator.iterators])
+and the expressions in Table [#tab:iterator.output.requirements] are valid and
+have the indicated semantics.
+
+[table:listing#tab:iterator.output.requirements
+    [:en] Output iterator requirements (in addition to Iterator)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] *r = o
+[|] [:en] result is not used
+[|]
+[|] [:en] [=Remark] After this operation [`r] is not required to be
+    dereferenceable. [br]
+    [:en] post: [`r] is incrementable.
+
+[|] ++r
+[|] [`X&]
+[|]
+[|] [`&r == &++r]. [br]
+    [:en] [=Remark] After this operation [`r] is not required to be
+    dereferenceable. [br]
+    [:en] post: [`r] is incrementable.
+
+[|] r++
+[|] [:en] convertible to [`const X&]
+[|]
+{ X tmp = r; [br]
+  ++r; [br]
+  return tmp; }
+[|] [:en] [=Remark] After this operation [`r] is not required to be
+    dereferenceable. [br]
+    [:en] post: [`r] is incrementable.
+
+[|] *r++ = o
+[|] [:en] result is not used
+[|]
+[|] [:en] [=Remark] After this operation [`r] is not required to be
+    dereferenceable. [br]
+    [:en] post: [`r] is incrementable.
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] The only valid use of an [`operator*] is on the left side of the
+assignment statement.
+
+[:en] [em Assignment through the same value of the iterator happens only once.]
+
+[:en] Algorithms on output iterators should never attempt to pass through the
+same iterator twice.
+
+[:en] They should be [+single pass] algorithms.
+
+[:en] Equality and inequality might not be defined.
+
+[:en] Algorithms that take output iterators can be used with ostreams as the
+destination for placing data through the [`ostream_iterator] class as well as
+with insert iterators and insert pointers.
+[exit:note]

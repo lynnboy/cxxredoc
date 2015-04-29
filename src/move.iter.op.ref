@@ -1,0 +1,14 @@
+﻿[section#move.iter.op.ref
+    [:en] [`move_iterator::operator->]
+]
+
+[%@library operator->[!move_iterator]]
+[%@library move_iterator[!operator->]]
+[codeblock:declaration]
+pointer operator->() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`current].
+[exit:description]

@@ -1,0 +1,30 @@
+﻿[section#istreambuf.iterator::proxy
+    [:en] Class template [`istreambuf_iterator::proxy]
+]
+
+[%@library proxy[!istreambuf_iterator]]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class istreambuf_iterator<charT, traits>::proxy { // [=Expos]
+    charT keep_;
+    basic_streambuf<charT,traits>* sbuf_;
+    proxy(charT c, basic_streambuf<charT,traits>* sbuf)
+      : keep_(c), sbuf_(sbuf) { }
+  public:
+    charT operator*() { return keep_; }
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] Class [`istreambuf_iterator<charT,traits>::proxy] is for exposition only.
+
+[:en] An implementation is permitted to provide equivalent functionality without
+providing a class with this name.
+
+[:en] Class [`istreambuf_iterator<charT, traits>::proxy] provides a temporary
+placeholder as the return value of the post-increment operator ([`operator++]).
+
+[:en] It keeps the character pointed to by the previous value of the iterator
+for some possible future access to get the character.

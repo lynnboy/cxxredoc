@@ -1,0 +1,55 @@
+﻿[section#bidirectional.iterators
+    [:en] Bidirectional iterators
+]
+
+[para]
+[:en] A class or pointer type [`X] satisfies the requirements of a bidirectional
+iterator if, in addition to satisfying the requirements for forward iterators,
+the following expressions are valid as shown in Table
+[#tab:iterator.bidirectional.requirements].
+
+[table:listing#tab:iterator.bidirectional.requirements
+    [:en] Bidirectional iterator requirements (in addition to forward iterator)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] --r
+[|] [`X&]
+[|]
+[|] [:en] pre: there exists [`s] such that [`r == ++s]. [br]
+    [:en] post: [`r] is dereferenceable. [br]
+    [:en] [`--(++r) == r]. [br]
+    [:en] [`--r == --s] implies [`r == s]. [br]
+    [:en] [`&r == &--r].
+
+[|] r--
+[|] [:en] convertible to [`const X&]
+[|]
+{ X tmp = r; [br]
+  --r; [br]
+  return tmp; }
+
+[|] *r--
+[|] [`reference]
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] Bidirectional iterators allow algorithms to move iterators backward as
+well as forward.
+[exit:note]

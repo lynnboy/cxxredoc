@@ -1,0 +1,105 @@
+﻿[section#std.iterator.tags
+    [:en] Standard iterator tags
+]
+
+[para]
+[%@library input_iterator_tag]
+[%@library output_iterator_tag]
+[%@library forward_iterator_tag]
+[%@library bidirectional_iterator_tag]
+[%@library random_access_iterator_tag]
+[:en] It is often desirable for a function template specialization to find out
+what is the most specific category of its iterator argument, so that the
+function can select the most efficient algorithm at compile time.
+
+[:en] To facilitate this, the library introduces [+category tag] classes which
+are used as compile time tags for algorithm selection.
+
+[:en] They are: [`input_iterator_tag], [`output_iterator_tag],
+[`forward_iterator_tag], [`bidirectional_iterator_tag] and
+[`random_access_iterator_tag].
+
+[:en] For every iterator of type [`Iterator],
+[`iterator_traits<Iterator>::iterator_category] shall be defined to be the most
+specific category tag that describes the iterator[=']s behavior.
+
+[codeblock:synopsis]
+namespace std {
+  struct input_iterator_tag { };
+  struct output_iterator_tag { };
+  struct forward_iterator_tag: public input_iterator_tag { };
+  struct bidirectional_iterator_tag: public forward_iterator_tag { };
+  struct random_access_iterator_tag: public bidirectional_iterator_tag { };
+}
+[codeblock:end]
+
+[para]
+[%@library empty]
+[%@library input_iterator_tag]
+[%@library output_iterator_tag]
+[%@library forward_iterator_tag]
+[%@library bidirectional_iterator_tag]
+[%@library random_access_iterator_tag]
+[enter:example]
+[:en] For a program-defined iterator [`BinaryTreeIterator], it could be included
+into the bidirectional iterator category by specializing the [`iterator_traits]
+template:
+
+[codeblock:synopsis]
+template<class T> struct iterator_traits<BinaryTreeIterator<T> > {
+  typedef std::ptrdiff_t difference_type;
+  typedef T value_type;
+  typedef T* pointer;
+  typedef T& reference;
+  typedef bidirectional_iterator_tag iterator_category;
+};
+[codeblock:end]
+
+[:en] Typically, however, it would be easier to derive [`BinaryTreeIterator<T>]
+from [`iterator<bidirectional_iterator_tag,T,ptrdiff_t,T*,T&>].
+[exit:example]
+
+[para]
+[enter:example]
+[:en] If [`evolve()] is well defined for bidirectional iterators, but can be
+implemented more efficiently for random access iterators, then the
+implementation is as follows:
+
+[codeblock]
+template <class BidirectionalIterator>
+inline void
+evolve(BidirectionalIterator first, BidirectionalIterator last) {
+  evolve(first, last,
+    typename iterator_traits<BidirectionalIterator>::iterator_category());
+}
+
+template <class BidirectionalIterator>
+void evolve(BidirectionalIterator first, BidirectionalIterator last,
+  bidirectional_iterator_tag) {
+  // [:en] more generic, but less efficient algorithm
+}
+
+template <class RandomAccessIterator>
+void evolve(RandomAccessIterator first, RandomAccessIterator last,
+  random_access_iterator_tag) {
+  // [:en] more efficient, but less generic algorithm
+}
+[codeblock:end]
+[exit:example]
+
+[para]
+[enter:example]
+[:en] If a [=Cpp] program wants to define a bidirectional iterator for some data
+structure containing [`double] and such that it works on a large memory model of
+the implementation, it can do so with:
+
+[codeblock]
+class MyIterator :
+  public iterator<bidirectional_iterator_tag, double, long, T*, T&> {
+  // [:en] code implementing [`++], etc.
+};
+[codeblock:end]
+
+[para]
+[:en] Then there is no need to specialize the [`iterator_traits] template.
+[exit:example]

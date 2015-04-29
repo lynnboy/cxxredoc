@@ -1,0 +1,12 @@
+﻿[section#move.iter.requirements
+    [:en] [`move_iterator] requirements
+]
+
+[para]
+[:en] The template parameter [`Iterator] shall meet the requirements for an
+Input Iterator ([#input.iterators]).
+
+[:en] Additionally, if any of the bidirectional or random access traversal
+functions are instantiated, the template parameter shall meet the requirements
+for a Bidirectional Iterator ([#bidirectional.iterators]) or a Random Access
+Iterator ([#random.access.iterators]), respectively.

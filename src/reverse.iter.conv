@@ -1,0 +1,14 @@
+﻿[section#reverse.iter.conv
+    [:en] Conversion
+]
+
+[%@library base[!reverse_iterator]]
+[%@library reverse_iterator[!base]]
+[codeblock:declaration]
+Iterator base() const;          // [:en] explicit
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`current].
+[exit:description]

@@ -1,0 +1,14 @@
+﻿[section#inserter
+    [:en] [`inserter]
+]
+
+[%@library inserter]
+[codeblock:declaration]
+template <class Container>
+  insert_iterator<Container> inserter(Container& x, typename Container::iterator i);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`insert_iterator<Container>(x, i)].
+[exit:description]

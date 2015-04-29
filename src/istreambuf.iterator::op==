@@ -1,0 +1,15 @@
+﻿[section#istreambuf.iterator::op==
+    [:en] [`operator==]
+]
+
+[%@library operator==[!istreambuf_iterator]]
+[codeblock:declaration]
+template <class charT, class traits>
+  bool operator==(const istreambuf_iterator<charT,traits>& a,
+                  const istreambuf_iterator<charT,traits>& b);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`a.equal(b)].
+[exit:description]

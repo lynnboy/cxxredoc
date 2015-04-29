@@ -1,0 +1,14 @@
+﻿[section#move.iter.op.index
+    [:en] [`move_iterator::operator[`]]
+]
+
+[%@library operator['][!move_iterator]]
+[%@library move_iterator[!operator[']]]
+[codeblock:declaration [special unspecified] ]
+unspecified operator[](difference_type n) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`std::move(current[n`])].
+[exit:description]

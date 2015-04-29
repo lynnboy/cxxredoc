@@ -1,0 +1,79 @@
+﻿[section#move.iterator
+    [:en] Class template [`move_iterator]
+]
+
+[%@library move_iterator]
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  template <class Iterator>
+  class move_iterator {
+  public:
+    typedef Iterator                                              iterator_type;
+    typedef typename iterator_traits<Iterator>::difference_type   difference_type;
+    typedef Iterator                                              pointer;
+    typedef typename iterator_traits<Iterator>::value_type        value_type;
+    typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
+    typedef [=Seebelow]                                             reference;
+
+    move_iterator();
+    explicit move_iterator(Iterator i);
+    template <class U> move_iterator(const move_iterator<U>& u);
+    template <class U> move_iterator& operator=(const move_iterator<U>& u);
+
+    iterator_type base() const;
+    reference operator*() const;
+    pointer operator->() const;
+
+    move_iterator& operator++();
+    move_iterator operator++(int);
+    move_iterator& operator--();
+    move_iterator operator--(int);
+
+    move_iterator operator+(difference_type n) const;
+    move_iterator& operator+=(difference_type n);
+    move_iterator operator-(difference_type n) const;
+    move_iterator& operator-=(difference_type n);
+    unspecified operator[](difference_type n) const;
+
+  private:
+    Iterator current;   // [=Expos]
+  };
+
+  template <class Iterator1, class Iterator2>
+    bool operator==(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator!=(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator<(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator<=(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator>(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator>=(
+      const move_iterator<Iterator1>& x, const move_iterator<Iterator2>& y);
+
+  template <class Iterator1, class Iterator2>
+    auto operator-(
+      const move_iterator<Iterator1>& x,
+      const move_iterator<Iterator2>& y) -> decltype(x.base() - y.base());
+  template <class Iterator>
+    move_iterator<Iterator> operator+(
+      typename move_iterator<Iterator>::difference_type n, const move_iterator<Iterator>& x);
+  template <class Iterator>
+    move_iterator<Iterator> make_move_iterator(Iterator i);
+}
+[codeblock:end]
+
+[para]
+[:en] Let [$R] be [`iterator_traits<Iterator>::reference].
+
+[:en] If [`is_reference<][$R][`>::value] is [`true], the template specialization
+[`move_iterator<Iterator>] shall define the nested type named [`reference] as a
+synonym for [`remove_reference<][$R][`>::type&&], otherwise as a synonym for
+[$R].

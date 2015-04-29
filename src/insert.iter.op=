@@ -1,0 +1,35 @@
+﻿[section#insert.iter.op=
+    [:en] [`insert_iterator:operator=]
+]
+
+[%@library operator=[!insert_iterator]]
+[codeblock:declaration]
+insert_iterator& operator=(const typename Container::value_type& value);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+iter = container->insert(iter, value);
+++iter;
+[codeblock:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator=[!insert_iterator]]
+[codeblock:declaration]
+insert_iterator& operator=(typename Container::value_type&& value);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+iter = container->insert(iter, std::move(value));
+++iter;
+[codeblock:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

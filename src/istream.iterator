@@ -1,0 +1,78 @@
+﻿[section#istream.iterator
+    [:en] Class template [`istream_iterator]
+]
+
+[para]
+[%@library istream_iterator]
+[:en] The class template [`istream_iterator] is an input iterator
+([#input.iterators]) that reads (using [`operator>>]) successive elements from
+the input stream for which it was constructed.
+
+[:en] After it is constructed, and every time [`++] is used, the iterator reads
+and stores a value of [`T].
+
+[:en] If the iterator fails to read and store a value of [`T] ([`fail()] on the
+stream returns [`true]), the iterator becomes equal to the [+end-of-stream]
+iterator value.
+
+[:en] The constructor with no arguments [`istream_iterator()] always constructs
+an end-of-stream input iterator object, which is the only legitimate iterator to
+be used for the end condition.
+
+[:en] The result of [`operator*] on an end-of-stream iterator is not defined.
+
+[:en] For any other iterator value a [`const T&] is returned.
+
+[:en] The result of [`operator->] on an end-of-stream iterator is not defined.
+
+[:en] For any other iterator value a [`const T*] is returned.
+
+[:en] The behavior of a program that applies [`operator++()] to an end-of-stream
+iterator is undefined.
+
+[:en] It is impossible to store things into istream iterators.
+
+[para]
+[:en] Two end-of-stream iterators are always equal.
+
+[:en] An end-of-stream iterator is not equal to a non-end-of-stream iterator.
+
+[:en] Two non-end-of-stream iterators are equal when they are constructed from
+the same stream.
+
+[codeblock:synopsis]
+namespace std {
+  template <class T, class charT = char, class traits = char_traits<charT>,
+      class Distance = ptrdiff_t>
+  class istream_iterator:
+    public iterator<input_iterator_tag, T, Distance, const T*, const T&> {
+  public:
+    typedef charT char_type;
+    typedef traits traits_type;
+    typedef basic_istream<charT,traits> istream_type;
+    [=Seebelow] istream_iterator();
+    istream_iterator(istream_type& s);
+    istream_iterator(const istream_iterator& x) = default;
+   ~istream_iterator() = default;
+
+    const T& operator*() const;
+    const T* operator->() const;
+    istream_iterator& operator++();
+    istream_iterator  operator++(int);
+  private:
+    basic_istream<charT,traits>* in_stream; // [=Expos]
+    T value;                                // [=Expos]
+  };
+
+  template <class T, class charT, class traits, class Distance>
+    bool operator==(const istream_iterator<T,charT,traits,Distance>& x,
+            const istream_iterator<T,charT,traits,Distance>& y);
+  template <class T, class charT, class traits, class Distance>
+    bool operator!=(const istream_iterator<T,charT,traits,Distance>& x,
+            const istream_iterator<T,charT,traits,Distance>& y);
+}
+[codeblock:end]
+
+[include istream.iterator.cons]
+
+[include istream.iterator.ops]

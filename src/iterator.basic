@@ -1,0 +1,21 @@
+﻿[section#iterator.basic
+    [:en] Basic iterator
+]
+
+[para]
+[:en] The [`iterator] template may be used as a base class to ease the
+definition of required types for new iterators.
+
+[codeblock:synopsis]
+namespace std {
+  template<class Category, class T, class Distance = ptrdiff_t,
+    class Pointer = T*, class Reference = T&>
+  struct iterator {
+    typedef T         value_type;
+    typedef Distance  difference_type;
+    typedef Pointer   pointer;
+    typedef Reference reference;
+    typedef Category  iterator_category;
+  };
+}
+[codeblock:end]

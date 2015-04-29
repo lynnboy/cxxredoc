@@ -1,0 +1,98 @@
+﻿[section#forward.iterators
+    [:en] Forward iterators
+]
+
+[para]
+[:en] A class or pointer type [`X] satisfies the requirements of a forward
+iterator if
+
+[list]
+[item]
+[:en] [`X] satisfies the requirements of an input iterator ([#input.iterators]),
+
+[item]
+[:en] X satisfies the [`DefaultConstructible] requirements
+([#utility.arg.requirements]),
+
+[item]
+[:en] if [`X] is a mutable iterator, [`reference] is a reference to [`T]; if
+[`X] is a const iterator, [`reference] is a reference to [`const T],
+
+[item]
+[:en] the expressions in Table [#tab:iterator.forward.requirements] are valid
+and have the indicated semantics, and
+
+[item]
+[:en] objects of type [`X] offer the multi-pass guarantee, described below.
+[list:end]
+
+[para]
+[:en] The domain of == for forward iterators is that of iterators over the same
+underlying sequence. However, value-initialized iterators may be compared and
+shall compare equal to other value-initialized iterators of the same type.
+
+[enter:note]
+[:en] value initialized iterators behave as if they refer past the end of the
+same empty sequence
+[exit:note]
+
+[para]
+[:en] Two dereferenceable iterators [`a] and [`b] of type [`X] offer the
+[def multi-pass guarantee] if:
+
+[list]
+[item]
+[:en] [`a == b] implies [`++a == ++b] and
+[item]
+[:en] [`X] is a pointer type or the expression [`(void)++X(a), *a] is equivalent
+to the expression [`*a].
+[list:end]
+
+[para]
+[enter:note]
+[:en] The requirement that [`a == b] implies [`++a == ++b] (which is not true
+for input and output iterators) and the removal of the restrictions on the
+number of the assignments through a mutable iterator (which applies to output
+iterators) allows the use of multi-pass one-directional algorithms with forward
+iterators.
+[exit:note]
+
+[table:listing#tab:iterator.forward.requirements
+    [:en] Forward iterator requirements (in addition to input iterator)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] r++
+[|] [:en] convertible to [`const X&]
+[|]
+{ X tmp = r; [br]
+  ++r; [br]
+  return tmp; }
+
+[|] *r++
+[|] [`reference]
+[|]
+
+[table:end]
+
+[para]
+[:en] If [`a] and [`b] are equal, then either [`a] and [`b] are both
+dereferenceable or else neither is dereferenceable.
+
+[para]
+[:en] If [`a] and [`b] are both dereferenceable, then [`a == b] if and only if
+[`*a] and [`*b] are bound to the same object.

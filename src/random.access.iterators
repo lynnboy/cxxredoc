@@ -1,0 +1,95 @@
+﻿[section#random.access.iterators
+    [:en] Random access iterators
+]
+
+[para]
+[:en] A class or pointer type [`X] satisfies the requirements of a random access
+iterator if, in addition to satisfying the requirements for bidirectional
+iterators, the following expressions are valid as shown in Table
+[#tab:iterator.random.access.requirements].
+
+[table:listing#tab:iterator.random.access.requirements
+    [:en] Random access iterator requirements (in addition to bidirectional
+        iterator)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] r += n
+[|] [`X&]
+[|]
+{ difference_type m = n; [br]
+  if (m >= 0) [br]
+    while (m--) [br]
+      ++r; [br]
+  else [br]
+    while (m++) [br]
+      --r; [br]
+  return r; }
+[|]
+
+[|] a + n [br] n + a
+[|] [`X]
+[|]
+{ X tmp = a; [br]
+  return tmp += n; }
+[|] [:en] [`a + n == n + a].
+
+[|] r -= n
+[|] [`X&]
+[|] [`return r += -n;]
+[|]
+
+[|] a - n
+[|] [`X]
+[|]
+{ X tmp = a; [br]
+  return tmp -= n; }
+[|]
+
+[|] b - a
+[|] [`difference_type]
+[|] return n
+[|] [:en] pre: there exists a value [`n] of type [`difference_type] such that
+    [`a + n == b]. [br]
+    [:en] [`b == a + (b - a)].
+
+[|] a[=[]n[=]]
+[|] [:en] convertible to [`reference]
+[|] *(a + n)
+[|]
+
+[|] a < b
+[|] [:en] contextually convertible to [`bool]
+[|] b - a > 0
+[|] [:en] [`<] is a total ordering relation
+
+[|] a > b
+[|] [:en] contextually convertible to [`bool]
+[|] b < a
+[|] [:en] [`>] is a total ordering relation opposite to [`<].
+
+[|] a >= b
+[|] [:en] contextually convertible to [`bool]
+[|] !(a < b)
+[|]
+
+[|] a <= b
+[|] [:en] contextually convertible to [`bool]
+[|] !(a > b)
+[|]
+
+[table:end]

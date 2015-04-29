@@ -1,0 +1,13 @@
+﻿[section#front.insert.iter.cons
+    [:en] [`front_insert_iterator] constructor
+]
+
+[%@library front_insert_iterator[!front_insert_iterator]]
+[codeblock:declaration]
+explicit front_insert_iterator(Container& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`container] with [`std::addressof(x)].
+[exit:description]

@@ -1,0 +1,69 @@
+﻿[section#iterator.operations
+    [:en] Iterator operations
+]
+
+[para]
+[:en] Since only random access iterators provide [`+] and [`-] operators, the
+library provides two function templates [`advance] and [`distance].
+
+[:en] These function templates use [`+] and [`-] for random access iterators
+(and are, therefore, constant time for them); for input, forward and
+bidirectional iterators they use [`++] to provide linear time implementations.
+
+[%@library advance]
+[codeblock:declaration]
+template <class InputIterator, class Distance>
+  void advance(InputIterator& i, Distance n);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`n] shall be negative only for bidirectional and random access iterators.
+
+[para:effects]
+[:en] Increments (or decrements for negative [`n]) iterator reference [`i] by
+[`n].
+[exit:description]
+
+[%@library distance]
+[codeblock:declaration]
+template <class InputIterator>
+  typename iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`InputIterator] meets the requirements of random access iterator,
+returns [`(last - first)]; otherwise, returns the number of increments needed to
+get from [`first] to [`last].
+
+[para:requires]
+[:en] If [`InputIterator] meets the requirements of random access iterator,
+[`last] shall be reachable from [`first] or [`first] shall be reachable from
+[`last]; otherwise, [`last] shall be reachable from [`first].
+[exit:description]
+
+[%@library next]
+[codeblock:declaration]
+template <class ForwardIterator>
+  ForwardIterator next(ForwardIterator x,
+    typename std::iterator_traits<ForwardIterator>::difference_type n = 1);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`advance(x, n); return x;]
+[exit:description]
+
+[%@library prev]
+[codeblock:declaration]
+template <class BidirectionalIterator>
+  BidirectionalIterator prev(BidirectionalIterator x,
+    typename std::iterator_traits<BidirectionalIterator>::difference_type n = 1);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`advance(x, -n); return x;]
+[exit:description]

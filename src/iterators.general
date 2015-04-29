@@ -1,0 +1,47 @@
+﻿[section#iterators.general
+    [:en] General
+]
+
+[para]
+[:en] This Clause describes components that [=Cpp] programs may use to perform
+iterations over containers (Clause [#containers]), streams ([#iostream.format]),
+and stream buffers ([#stream.buffers]).
+
+[para]
+[:en] The following subclauses describe iterator requirements, and components
+for iterator primitives, predefined iterators, and stream iterators, as
+summarized in Table [#tab:iterators.lib.summary].
+
+[table:listing#tab:iterators.lib.summary
+    [:en] Iterators library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [#iterator.requirements]
+[|] [:en] Requirements
+[|] 
+
+[-]
+[|] [#iterator.primitives]
+[|] [:en] Iterator primitives
+[|] <iterator>
+
+[|] [#predef.iterators]
+[|] [:en] Predefined iterators
+[|] 
+
+[|] [#stream.iterators]
+[|] [:en] Stream iterators
+[|] 
+
+[table:end]

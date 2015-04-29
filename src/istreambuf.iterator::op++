@@ -1,0 +1,27 @@
+﻿[section#istreambuf.iterator::op++
+    [:en] [`istreambuf_iterator::operator++]
+]
+
+[%@library operator++[!istreambuf_iterator]]
+[codeblock:declaration]
+istreambuf_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`sbuf_->sbumpc()].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator++[!istreambuf_iterator]]
+[%@library istreambuf_iterator[!operator++]]
+[codeblock:declaration]
+proxy operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`proxy(sbuf_->sbumpc(), sbuf_)].
+[exit:description]

@@ -1,0 +1,80 @@
+﻿[section#reverse.iterator
+    [:en] Class template [`reverse_iterator]
+]
+
+[%@library reverse_iterator]
+[codeblock:synopsis [special unspecified] ]
+namespace std {
+  template <class Iterator>
+  class reverse_iterator : public
+        iterator<typename iterator_traits<Iterator>::iterator_category,
+        typename iterator_traits<Iterator>::value_type,
+        typename iterator_traits<Iterator>::difference_type,
+        typename iterator_traits<Iterator>::pointer,
+        typename iterator_traits<Iterator>::reference> {
+  public:
+    typedef Iterator                                            iterator_type;
+    typedef typename iterator_traits<Iterator>::difference_type difference_type;
+    typedef typename iterator_traits<Iterator>::reference       reference;
+    typedef typename iterator_traits<Iterator>::pointer         pointer;
+
+    reverse_iterator();
+    explicit reverse_iterator(Iterator x);
+    template <class U> reverse_iterator(const reverse_iterator<U>& u);
+    template <class U> reverse_iterator& operator=(const reverse_iterator<U>& u);
+
+    Iterator base() const;      // [:en] explicit
+    reference operator*() const;
+    pointer   operator->() const;
+
+    reverse_iterator& operator++();
+    reverse_iterator  operator++(int);
+    reverse_iterator& operator--();
+    reverse_iterator  operator--(int);
+
+    reverse_iterator  operator+ (difference_type n) const;
+    reverse_iterator& operator+=(difference_type n);
+    reverse_iterator  operator- (difference_type n) const;
+    reverse_iterator& operator-=(difference_type n);
+    unspecified operator[](difference_type n) const;
+  protected:
+    Iterator current;
+  };
+
+  template <class Iterator1, class Iterator2>
+    bool operator==(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator<(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator!=(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator>(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator>=(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    bool operator<=(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y);
+  template <class Iterator1, class Iterator2>
+    auto operator-(
+      const reverse_iterator<Iterator1>& x,
+      const reverse_iterator<Iterator2>& y) -> decltype(y.base() - x.base());
+  template <class Iterator>
+    reverse_iterator<Iterator> operator+(
+      typename reverse_iterator<Iterator>::difference_type n,
+      const reverse_iterator<Iterator>& x);
+
+  template <class Iterator>
+    reverse_iterator<Iterator> make_reverse_iterator(Iterator i);      
+}
+[codeblock:end]

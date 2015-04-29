@@ -1,0 +1,28 @@
+﻿[section#back.insert.iterator
+    [:en] Class template [`back_insert_iterator]
+]
+
+[%@library back_insert_iterator]
+[codeblock:synopsis]
+namespace std {
+  template <class Container>
+  class back_insert_iterator :
+    public iterator<output_iterator_tag,void,void,void,void> {
+  protected:
+    Container* container;
+
+  public:
+    typedef Container container_type;
+    explicit back_insert_iterator(Container& x);
+    back_insert_iterator& operator=(const typename Container::value_type& value);
+    back_insert_iterator& operator=(typename Container::value_type&& value);
+
+    back_insert_iterator& operator*();
+    back_insert_iterator& operator++();
+    back_insert_iterator  operator++(int);
+  };
+
+  template <class Container>
+    back_insert_iterator<Container> back_inserter(Container& x);
+}
+[codeblock:end]

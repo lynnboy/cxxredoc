@@ -1,0 +1,58 @@
+﻿[section#istream.iterator.cons
+    [:en] [`istream_iterator] constructors and destructor
+]
+
+[%@library istream_iterator[![:en]constructor]]
+[codeblock:declaration]
+[=Seebelow] istream_iterator();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs the end-of-stream iterator.
+
+[:en] If [`T] is a literal type, then this constructor shall be a [`constexpr]
+constructor.
+
+[para:postcondition]
+[:en] [`in_stream == 0].
+[exit:description]
+
+[%@library istream_iterator[![:en]constructor]]
+[codeblock:declaration]
+istream_iterator(istream_type& s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [$in_stream] with [`&s]. [$value] may be initialized during
+construction or the first time it is referenced.
+
+[para:postcondition]
+[:en] [`in_stream == &s].
+[exit:description]
+
+[%@library istream_iterator[![:en]constructor]]
+[codeblock:declaration]
+istream_iterator(const istream_iterator& x) = default;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a copy of [`x]. If [`T] is a literal type, then this
+constructor shall be a trivial copy constructor.
+
+[para:postcondition]
+[:en] [`in_stream == x.in_stream].
+[exit:description]
+
+[%@library istream_iterator[![:en]destructor]]
+[codeblock:declaration]
+~istream_iterator() = default;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The iterator is destroyed. If [`T] is a literal type, then this destructor
+shall be a trivial destructor.
+[exit:description]

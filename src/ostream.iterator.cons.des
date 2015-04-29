@@ -1,0 +1,44 @@
+﻿[section#ostream.iterator.cons.des
+    [:en] [`ostream_iterator] constructors and destructor
+]
+
+
+[%@library ostream_iterator[![:en]constructor]]
+[codeblock:declaration]
+ostream_iterator(ostream_type& s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [$out_stream] with [`&s] and [$delim] with null.
+[exit:description]
+
+[%@library ostream_iterator[![:en]constructor]]
+[codeblock:declaration]
+ostream_iterator(ostream_type& s, const charT* delimiter);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [$out_stream] with [`&s] and [$delim] with [`delimiter].
+[exit:description]
+
+[%@library ostream_iterator[![:en]constructor]]
+[codeblock:declaration]
+ostream_iterator(const ostream_iterator& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a copy of [`x].
+[exit:description]
+
+[%@library ostream_iterator[![:en]destructor]]
+[codeblock:declaration]
+~ostream_iterator();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The iterator is destroyed.
+[exit:description]

@@ -1,0 +1,39 @@
+﻿[section#reverse.iter.cons
+    [:en] [`reverse_iterator] constructor
+]
+
+[%@library reverse_iterator[!reverse_iterator]]
+[codeblock:declaration]
+reverse_iterator();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Value initializes [`current].
+
+[:en] Iterator operations applied to the resulting iterator have defined
+behavior if and only if the corresponding operations are defined on a
+value-initialized iterator of type [`Iterator].
+[exit:description]
+
+[%@library reverse_iterator[![:en]constructor]]
+
+[codeblock:declaration]
+explicit reverse_iterator(Iterator x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`current] with [`x].
+[exit:description]
+
+[%@library reverse_iterator[![:en]constructor]]
+
+[codeblock:declaration]
+template <class U> reverse_iterator(const reverse_iterator<U> &u);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`current] with [`u.current].
+[exit:description]

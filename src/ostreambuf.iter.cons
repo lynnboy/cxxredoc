@@ -1,0 +1,30 @@
+﻿[section#ostreambuf.iter.cons
+    [:en] [`ostreambuf_iterator] constructors
+]
+
+
+[%@library ostreambuf_iterator[![:en]constructor]]
+[codeblock:declaration]
+ostreambuf_iterator(ostream_type& s) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s.rdbuf()] shall not be a null pointer.
+
+[para:effects]
+[:en] Initializes [`sbuf_] with [`s.rdbuf()].
+[exit:description]
+
+[%@library ostreambuf_iterator[![:en]constructor]]
+[codeblock:declaration]
+ostreambuf_iterator(streambuf_type* s) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] shall not be a null pointer.
+
+[para:effects]
+[:en] Initializes [`sbuf_] with [`s].
+[exit:description]

@@ -1,0 +1,75 @@
+﻿[section#iterator.container
+    [:en] Container access
+]
+
+[para]
+[:en] In addition to being available via inclusion of the [`<iterator>] header,
+the function templates in [#iterator.container] are available when any of the
+following headers are included: [`<array>], [`<deque>], [`<forward_list>],
+[`<list>], [`<map>], [`<regex>], [`<set>], [`<string>], [`<unordered_map>],
+[`<unordered_set>], and [`<vector>].
+
+[codeblock:declaration]
+template <class C> constexpr auto size(const C& c) -> decltype(c.size());
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`c.size()].
+[exit:description]
+
+[codeblock:declaration]
+template <class T, size_t N> constexpr size_t size(const T (&array)[N]) noexcept;
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`N].
+[exit:description]
+
+[codeblock:declaration]
+template <class C> constexpr auto empty(const C& c) -> decltype(c.empty());
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`c.empty()].
+[exit:description]
+
+[codeblock:declaration]
+template <class T, size_t N> constexpr bool empty(const T (&array)[N]) noexcept;
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`false].
+[exit:description]
+
+[codeblock:declaration]
+template <class E> constexpr bool empty(initializer_list<E> il) noexcept;
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`il.size() == 0].
+[exit:description]
+
+[codeblock:declaration]
+template <class C> constexpr auto data(C& c) -> decltype(c.data());
+template <class C> constexpr auto data(const C& c) -> decltype(c.data());
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`c.data()].
+[exit:description]
+
+[codeblock:declaration]
+template <class T, size_t N> constexpr T* data(T (&array)[N]) noexcept;
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`array].
+[exit:description]
+
+[codeblock:declaration]
+template <class E> constexpr const E* data(initializer_list<E> il) noexcept;
+[codeblock:end]
+[enter:description]
+[para:returns]
+[:en] [`il.begin()].
+[exit:description]

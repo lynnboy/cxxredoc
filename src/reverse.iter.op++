@@ -1,0 +1,31 @@
+﻿[section#reverse.iter.op++
+    [:en] [`operator++]
+]
+
+[%@library operator++[!reverse_iterator]]
+[codeblock:declaration]
+reverse_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`--current;]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator++[!reverse_iterator]]
+[%@library reverse_iterator[!operator++]]
+[codeblock:declaration]
+reverse_iterator operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+reverse_iterator tmp = *this;
+--current;
+return tmp;
+[codeblock:end]
+[exit:description]

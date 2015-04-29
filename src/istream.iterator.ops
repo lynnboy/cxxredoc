@@ -1,0 +1,88 @@
+﻿[section#istream.iterator.ops
+    [:en] [`istream_iterator] operations
+]
+
+[%@library operator*[!istream_iterator]]
+[%@library istream_iterator[!operator*]]
+[codeblock:declaration]
+const T& operator*() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [$value].
+[exit:description]
+
+[%@library operator->[!istream_iterator]]
+[%@library istream_iterator[!operator->]]
+[codeblock:declaration]
+const T* operator->() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`&(operator*())].
+[exit:description]
+
+[%@library operator++[!istream_iterator]]
+[%@library istream_iterator[!operator++]]
+[codeblock:declaration]
+istream_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`in_stream != 0].
+
+[para:effects]
+[:en] [`*in_stream >> value].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator++[!istream_iterator]]
+[%@library istream_iterator[!operator++]]
+[codeblock:declaration]
+istream_iterator operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`in_stream != 0].
+
+[para:effects]
+[codeblock:notation]
+istream_iterator tmp = *this;
+*in_stream >> value;
+return (tmp);
+[codeblock:end]
+[exit:description]
+
+[%@library operator==[!istream_iterator]]
+[%@library istream_iterator[!operator==]]
+[codeblock:declaration]
+template <class T, class charT, class traits, class Distance>
+  bool operator==(const istream_iterator<T,charT,traits,Distance> &x,
+                  const istream_iterator<T,charT,traits,Distance> &y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.in_stream == y.in_stream].
+[%@library istream_iterator[!operator==]]
+[exit:description]
+
+[%@library operator!=[!istream_iterator]]
+[%@library istream_iterator[!operator!=]]
+[codeblock:declaration]
+template <class T, class charT, class traits, class Distance>
+  bool operator!=(const istream_iterator<T,charT,traits,Distance> &x,
+                  const istream_iterator<T,charT,traits,Distance> &y);
+[codeblock:end]
+
+[%@library istream_iterator[!operator!=]]
+[enter:description]
+[para:returns]
+[:en] [`!(x == y)]
+[exit:description]

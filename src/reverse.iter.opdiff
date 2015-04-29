@@ -1,0 +1,16 @@
+﻿[section#reverse.iter.opdiff
+    [:en] [`operator-]
+]
+
+[%@library operator-[!reverse_iterator]]
+[codeblock:declaration]
+template <class Iterator1, class Iterator2>
+    auto operator-(
+    const reverse_iterator<Iterator1>& x,
+    const reverse_iterator<Iterator2>& y) -> decltype(y.base() - x.base());
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`y.current - x.current].
+[exit:description]

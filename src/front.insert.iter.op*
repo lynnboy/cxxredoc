@@ -1,0 +1,13 @@
+﻿[section#front.insert.iter.op*
+    [:en] [`front_insert_iterator::operator*]
+]
+
+[%@library operator*[!front_insert_iterator]]
+[codeblock:declaration]
+front_insert_iterator& operator*();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]

@@ -1,0 +1,39 @@
+﻿[section#istreambuf.iterator.cons
+    [:en] [`istreambuf_iterator] constructors
+]
+
+
+[%@library istreambuf_iterator[![:en]constructor]]
+[codeblock:declaration]
+constexpr istreambuf_iterator() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs the end-of-stream iterator.
+[exit:description]
+
+[%@library istreambuf_iterator[![:en]constructor]]
+[codeblock:declaration]
+istreambuf_iterator(basic_istream<charT,traits>& s) noexcept;
+istreambuf_iterator(basic_streambuf<charT,traits>* s) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an [`istreambuf_iterator<>] that uses the [`basic_streambuf<>]
+object [`*(s.rdbuf())], or [`*s], respectively.
+
+[:en] Constructs an end-of-stream iterator if [`s.rdbuf()] is null.
+[exit:description]
+
+[%@library istreambuf_iterator[![:en]constructor]]
+[codeblock:declaration]
+istreambuf_iterator(const proxy& p) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`istreambuf_iterator<>] that uses the [`basic_streambuf<>]
+object pointed to by the [`proxy] object[=']s constructor argument [`p].
+[exit:description]

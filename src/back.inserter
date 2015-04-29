@@ -1,0 +1,14 @@
+﻿[section#back.inserter
+    [:en] [`back_inserter]
+]
+
+[%@library back_inserter]
+[codeblock:declaration]
+template <class Container>
+  back_insert_iterator<Container> back_inserter(Container& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`back_insert_iterator<Container>(x)].
+[exit:description]

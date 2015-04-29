@@ -1,0 +1,32 @@
+﻿[section#move.iter.op.decr
+    [:en] [`move_iterator::operator--]
+]
+
+[%@library operator--[!move_iterator]]
+[%@library move_iterator[!operator--]]
+[codeblock:declaration]
+move_iterator& operator--();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`--current].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator--[!move_iterator]]
+[%@library move_iterator[!operator--]]
+[codeblock:declaration]
+move_iterator operator--(int);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+move_iterator tmp = *this;
+--current;
+return tmp;
+[codeblock:end]
+[exit:description]

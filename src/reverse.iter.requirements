@@ -1,0 +1,18 @@
+﻿[section#reverse.iter.requirements
+    [:en] [`reverse_iterator] requirements
+]
+
+[para]
+[:en] The template parameter [`Iterator] shall meet all the requirements of
+a Bidirectional Iterator ([#bidirectional.iterators]).
+
+[para]
+[:en] Additionally, [`Iterator] shall meet the requirements of a Random Access
+Iterator ([#random.access.iterators]) if any of the members [`operator+]
+([#reverse.iter.op+]), [`operator-] ([#reverse.iter.op-]), [`operator+=]
+([#reverse.iter.op+=]), [`operator-=] ([#reverse.iter.op-=]), [`operator[`]]
+([#reverse.iter.opindex]), or the global operators [`operator<]
+([#reverse.iter.op<]), [`operator>] ([#reverse.iter.op>]), [`operator<=]
+([#reverse.iter.op<=]), [`operator>=] ([#reverse.iter.op>=]), [`operator-]
+([#reverse.iter.opdiff]) or [`operator+] ([#reverse.iter.opsum]) are referenced
+in a way that requires instantiation ([#temp.inst]).

@@ -1,0 +1,105 @@
+﻿[section#input.iterators
+    [:en] Input iterators
+]
+
+[para]
+[:en] A class or pointer type [`X] satisfies the requirements of an input
+iterator for the value type [`T] if X satisfies the [`Iterator]
+([#iterator.iterators]) and [`EqualityComparable] (Table [#equalitycomparable])
+requirements and the expressions in Table [#tab:iterator.input.requirements] are
+valid and have the indicated semantics.
+
+[para]
+[:en] In Table [#tab:iterator.input.requirements], the term [+the domain of
+[`==]] is used in the ordinary mathematical sense to denote the set of values
+over which [`==] is (required to be) defined.
+
+[:en] This set can change over time.
+
+[:en] Each algorithm places additional requirements on the domain of [`==] for
+the iterator values it uses.
+
+[:en] These requirements can be inferred from the uses that algorithm makes of
+[`==] and [`!=].
+
+[enter:example]
+[:en] the call [`find(a,b,x)] is defined only if the value of [`a] has the
+property [$p] defined as follows: [`b] has property [$p] and a value [`i] has
+property [$p] if [`(*i==x)] or if [`(*i!=x] and [`++i] has property [`p]).
+[exit:example]
+
+[table:listing#tab:iterator.input.requirements
+    [:en] Input iterator requirements (in addition to Iterator)
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter@code
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] a != b
+[|] [:en] contextually convertible to [`bool]
+[|] !(a == b)
+[|] [:en] pre: [=orange(a,b)] is in the domain of [`==].
+
+[|] *a
+[|] [:en] convertible to [`T]
+[|]
+[|] [:en] pre: [`a] is dereferenceable. [br]
+    [:en] The expression [br] [`(void)*a, *a] is equivalent to [`*a]. [br]
+    [:en] If [`a == b] and [=orange(a,b)] is in the domain of [`==] then [`*a]
+    is equivalent to [`*b].
+
+[|] [:en] a->m
+[|]
+[|] (*a).m
+[|] [:en] pre: [`a] is dereferenceable.
+
+[|] ++r
+[|] [`X&]
+[|]
+[|] [:en] pre: [`r] is dereferenceable. [br]
+    [:en] post: [`r] is dereferenceable or [`r] is past-the-end. [br]
+    [:en] post: any copies of the previous value of [`r] are no longer required
+    either to be dereferenceable or to be in the domain of [`==].
+
+[|] (void)r++
+[|]
+[|]
+[|] [:en] equivalent to [`(void)++r]
+
+[|] *r++
+[|] [:en] convertible to [`T]
+[|] [`{ T tmp = *r;] [br] [`++r;] [br] [`return tmp; }]
+[|]
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] For input iterators, [`a == b] does not imply [`++a == ++b].
+
+[:en] (Equality does not guarantee the substitution property or referential
+transparency.)
+
+[:en] Algorithms on input iterators should never attempt to pass through the
+same iterator twice.
+
+[:en] They should be [+single pass] algorithms.
+
+[:en] Value type [`T] is not required to be a [`CopyAssignable] type (Table
+[#copyassignable]).
+
+[:en] These algorithms can be used with istreams as the source of the input data
+through the [`istream_iterator] class template.
+[exit:note]

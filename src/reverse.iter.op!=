@@ -1,0 +1,16 @@
+﻿[section#reverse.iter.op!=
+    [:en] [`operator!=]
+]
+
+[%@library operator!=[!reverse_iterator]]
+[codeblock:declaration]
+template <class Iterator1, class Iterator2>
+  bool operator!=(
+    const reverse_iterator<Iterator1>& x,
+    const reverse_iterator<Iterator2>& y);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.current != y.current].
+[exit:description]

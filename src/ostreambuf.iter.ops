@@ -1,0 +1,49 @@
+﻿[section#ostreambuf.iter.ops
+    [:en] [`ostreambuf_iterator] operations
+]
+
+[%@library operator=[!ostreambuf_iterator]]
+[codeblock:declaration]
+ostreambuf_iterator& operator=(charT c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`failed()] yields [`false], calls [`sbuf_->sputc(c)]; otherwise has no
+effect.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator*[!ostreambuf_iterator]]
+[codeblock:declaration]
+ostreambuf_iterator& operator*();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator++[!ostreambuf_iterator]]
+[codeblock:declaration]
+ostreambuf_iterator& operator++();
+ostreambuf_iterator& operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library failed[!ostreambuf_iterator]]
+[codeblock:declaration]
+bool failed() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if in any prior use of member [`operator=], the call to
+[`sbuf_->sputc()] returned [`traits::eof()]; or [`false] otherwise.
+[exit:description]

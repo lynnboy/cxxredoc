@@ -1,0 +1,18 @@
+﻿[section#reverse.iter.op=
+    [:en] [`reverse_iterator::operator=]
+]
+
+[%@library operator=[!reverse_iterator]]
+[codeblock:declaration]
+template <class U>
+reverse_iterator&
+  operator=(const reverse_iterator<U>& u);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns [`u.base()] to current.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

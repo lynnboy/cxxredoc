@@ -1,0 +1,183 @@
+﻿[section#iterator.requirements.general
+    [:en] In general
+]
+
+[para]
+[:en]
+[%requirements[!iterator]]
+Iterators are a generalization of pointers that allow a [=Cpp] program to work
+with different data structures (containers) in a uniform manner.
+
+[:en] To be able to construct template algorithms that work correctly and
+efficiently on different types of data structures, the library formalizes not
+just the interfaces but also the semantics and complexity assumptions of
+iterators.
+
+[:en] All input iterators [`i] support the expression [`*i], resulting in a
+value of some object type [`T], called the [+value type] of the iterator.
+
+[:en] All output iterators support the expression [`*i = o] where [`o] is a
+value of some type that is in the set of types that are [+writable] to the
+particular iterator type of [`i].
+
+[:en] All iterators [`i] for which the expression [`(*i).m] is well-defined,
+support the expression [`i->m] with the same semantics as [`(*i).m].
+
+[:en] For every iterator type [`X] for which equality is defined, there is a
+corresponding signed integer type called the [+difference type] of the iterator.
+
+[para]
+[:en] Since iterators are an abstraction of pointers, their semantics is
+a generalization of most of the semantics of pointers in [=Cpp].
+
+[:en] This ensures that every function template that takes iterators works as
+well with regular pointers.
+
+[:en] This International Standard defines five categories of iterators,
+according to the operations defined on them: [+input iterators], [+output
+iterators], [+forward iterators], [+bidirectional iterators] and [+random access
+iterators], as shown in Table [#tab:iterators.relations].
+
+[table:grid@simple#tab:iterators.relations
+    [:en] Relations among iterator categories
+    [columns@repeat=4]
+]
+
+[|] [:en] [em@bf Random Access]
+[|] [:en] [=rightarrow] [em@bf Bidirectional]
+[|] [:en] [=rightarrow] [em@bf Forward]
+[|] [:en] [=rightarrow] [em@bf Input]
+
+[|]
+[|]
+[|]
+[|] [:en] [=rightarrow] [em@bf Output]
+
+[table:end]
+
+[para]
+[:en] Forward iterators satisfy all the requirements of input iterators and can
+be used whenever an input iterator is specified; Bidirectional iterators also
+satisfy all the requirements of forward iterators and can be used whenever a
+forward iterator is specified; Random access iterators also satisfy all the
+requirements of bidirectional iterators and can be used whenever a bidirectional
+iterator is specified.
+
+[para]
+[:en] Iterators that further satisfy the requirements of output iterators are
+called [def mutable iterator]s.
+
+[:en] Nonmutable iterators are referred to as [def constant iterator]s.
+
+[para]
+[:en] Iterators that further satisfy the requirement that, for integral values
+[`n] and dereferenceable iterator values [`a] and [`(a + n)], [`*(a + n)] is
+equivalent to [`*(addressof(*a) + n)], are called [def contiguous iterators].
+
+[enter:note]
+[:en] For example, the type ["pointer to [`int]] is a contiguous iterator, but
+[`reverse_iterator<int *>] is not.
+
+[:en] For a valid iterator range [=range[a,b)] with dereferenceable [`a], the
+corresponding range denoted by pointers is [=range[addressof(*a),addressof(*a)
++ (b - a))]; [`b] might not be dereferenceable.
+[exit:note]
+
+[para]
+[:en] Just as a regular pointer to an array guarantees that there is a pointer
+value pointing past the last element of the array, so for any iterator type
+there is an iterator value that points past the last element of a corresponding
+sequence.
+
+[:en] These values are called [+past-the-end] values.
+
+[:en] Values of an iterator [`i] for which the expression [`*i] is defined are
+called
+
+[:en] [+dereferenceable].
+
+[:en] The library never assumes that past-the-end values are dereferenceable.
+
+[:en] Iterators can also have singular values that are not associated with any
+sequence.
+
+[enter:example]
+[:en] After the declaration of an uninitialized pointer [`x] (as with
+[`int* x;]), [`x] must always be assumed to have a singular value of a pointer.
+[exit:example]
+
+[:en] Results of most expressions are undefined for singular values; the only
+exceptions are destroying an iterator that holds a singular value, the
+assignment of a non-singular value to an iterator that holds a singular value,
+and, for iterators that satisfy the [`DefaultConstructible] requirements, using
+a value-initialized iterator as the source of a copy or move operation.
+
+[enter:note]
+[:en] This guarantee is not offered for default initialization, although the
+distinction only matters for types with trivial default constructors such as
+pointers or aggregates holding pointers.
+[exit:note]
+
+[:en] In these cases the singular value is overwritten the same way as any other
+value.
+
+[:en] Dereferenceable values are always non-singular.
+
+[para]
+[:en] An iterator [`j] is called [+reachable] from an iterator [`i] if and only
+if there is a finite sequence of applications of the expression [`++i] that
+makes [`i == j].
+
+[:en] If [`j] is reachable from [`i], they refer to elements of the same
+sequence.
+
+[para]
+[:en] Most of the library[=']s algorithmic templates that operate on data
+structures have interfaces that use ranges.
+
+[:en] A [+range] is a pair of iterators that designate the beginning and end of
+the computation.
+
+[:en] A range [=range[i,i)] is an empty range; in general, a range [=range[i,j)]
+refers to the elements in the data structure starting with the element pointed
+to by [`i] and up to but not including the element pointed to by [`j].
+
+[:en] Range [=range[i,j)] is valid if and only if [`j] is reachable from [`i].
+
+[:en] The result of the application of functions in the library to invalid
+ranges is undefined.
+
+[para]
+[:en] All the categories of iterators require only those functions that are
+realizable for a given category in constant time (amortized).
+
+[:en] Therefore, requirement tables for the iterators do not have a complexity
+column.
+
+[para]
+[:en] Destruction of an iterator may invalidate pointers and references
+previously obtained from that iterator.
+
+[para]
+[:en] An [+invalid] iterator is an iterator that may be singular.
+
+[footnote]
+[:en] This definition applies to pointers, since pointers are iterators.
+
+[:en] The effect of dereferencing an iterator that has been invalidated is
+undefined.
+[footnote:end]
+
+[para]
+[:en] In the following sections, [`a] and [`b] denote values of type [`X] or
+[`const X], [`difference_type] and [`reference] refer to the types
+[`iterator_traits<X>::difference_type] and [`iterator_traits<X>::reference],
+respectively, [`n] denotes a value of [`difference_type], [`u], [`tmp], and [`m]
+denote identifiers, [`r] denotes a value of [`X&], [`t] denotes a value of value
+type [`T], [`o] denotes a value of some type that is writable to the output
+iterator.
+
+[enter:note]
+[:en] For an iterator type [`X] there must be an instantiation of
+[`iterator_traits<X>] ([#iterator.traits]).
+[exit:note]

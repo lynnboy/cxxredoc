@@ -1,0 +1,17 @@
+﻿[section#move.iter.op=
+    [:en] [`move_iterator::operator=]
+]
+
+[%@library operator=[!move_iterator]]
+[%@library move_iterator[!operator=]]
+[codeblock:declaration]
+template <class U> move_iterator& operator=(const move_iterator<U>& u);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns [`u.base()] to [`current].
+
+[para:requires]
+[:en] [`U] shall be convertible to [`Iterator].
+[exit:description]
