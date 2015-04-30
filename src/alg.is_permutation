@@ -1,0 +1,55 @@
+﻿[section#alg.is_permutation
+    [:en] Is permutation
+]
+
+[%@library is_permutation]
+[codeblock:declaration]
+template<class ForwardIterator1, class ForwardIterator2>
+  bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                      ForwardIterator2 first2);
+template<class ForwardIterator1, class ForwardIterator2,
+                 class BinaryPredicate>
+  bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                      ForwardIterator2 first2, BinaryPredicate pred);
+template<class ForwardIterator1, class ForwardIterator2>
+  bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                      ForwardIterator2 first2, ForwardIterator2 last2);
+template<class ForwardIterator1, class ForwardIterator2,
+                 class BinaryPredicate>
+  bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                      ForwardIterator2 first2, ForwardIterator2 last2,
+                      BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ForwardIterator1] and [`ForwardIterator2] shall have the same value
+type.
+
+[:en] The comparison function shall be an equivalence relation.
+
+[para:remarks]
+[:en] If [`last2] was not given in the argument list, it denotes
+[`first2 + (last1 - first1)] below.
+
+[para:returns]
+[:en] If [`last1 - first1 != last2 - first2], return [`false].
+
+[:en] Otherwise return [`true] if there exists a permutation of the elements in
+the range [=range[first2,first2 + (last1 - first1))], beginning with
+[`ForwardIterator2 begin], such that [`equal(first1, last1, begin)] returns
+[`true] or  [`equal(first1, last1, begin, pred)] returns [`true]; otherwise,
+returns [`false].
+
+[para:complexity]
+[:en] No applications of the corresponding predicate if [`ForwardIterator1] and
+[`ForwardIterator2] meet the requirements of random access iterators and
+[`last1 - first1 != last2 - first2].
+
+[:en] Otherwise, exactly [`distance(first1, last1)] applications of the
+corresponding predicate if [`equal(first1, last1, first2, last2)] would return
+[`true] if [`pred] was not given in the argument list or [`equal(first1, last1,
+first2, last2, pred)] would return [`true] if pred was given in the argument
+list; otherwise, at worst [=bigoh]([$N[^2]]), where $N$ has the value
+[`distance(first1, last1)].
+[exit:description]

@@ -1,0 +1,206 @@
+﻿[section#alg.min.max
+    [:en] Minimum and maximum
+]
+
+[%@library min]
+[codeblock:declaration]
+template<class T> constexpr const T& min(const T& a, const T& b);
+template<class T, class Compare>
+  constexpr const T& min(const T& a, const T& b, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[:en] The smaller value.
+
+[para:notes]
+[:en] Returns the first argument when the arguments are equivalent.
+[exit:description]
+
+[%@library min]
+[codeblock:declaration]
+template<class T>
+  constexpr T min(initializer_list<T> t);
+template<class T, class Compare>
+  constexpr T min(initializer_list<T> t, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
+[`t.size() > 0].
+
+[para:returns]
+[:en] The smallest value in the initializer_list.
+
+[para:remarks]
+[:en] Returns a copy of the leftmost argument when several arguments are
+equivalent to the smallest.
+[exit:description]
+
+[%@library max]
+[codeblock:declaration]
+template<class T> constexpr const T& max(const T& a, const T& b);
+template<class T, class Compare>
+  constexpr const T& max(const T& a, const T& b, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[:en] The larger value.
+
+[para:notes]
+[:en] Returns the first argument when the arguments are equivalent.
+[exit:description]
+
+[%@library max]
+[codeblock:declaration]
+template<class T>
+  constexpr T max(initializer_list<T> t);
+template<class T, class Compare>
+  constexpr T max(initializer_list<T> t, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
+[`t.size() > 0].
+
+[para:returns]
+[:en] The largest value in the initializer_list.
+
+[para:remarks]
+[:en] Returns a copy of the leftmost argument when several arguments are
+equivalent to the largest.
+[exit:description]
+
+[%@library minmax]
+[codeblock:declaration]
+template<class T> constexpr pair<const T&, const T&> minmax(const T& a, const T& b);
+template<class T, class Compare>
+  constexpr pair<const T&, const T&> minmax(const T& a, const T& b, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`T] shall be [`LessThanComparable] (Table [#lessthancomparable]).
+
+[para:returns]
+[:en] [`pair<const T&, const T&>(b, a)] if [`b] is smaller than [`a], and
+[`pair<const T&, const T&>(a, b)] otherwise.
+
+[para:notes]
+[:en] Returns [`pair<const T&, const T&>(a, b)] when the arguments are
+equivalent.
+
+[para:complexity]
+[:en] Exactly one comparison.
+[exit:description]
+
+[%@library minmax]
+[codeblock:declaration]
+template<class T>
+  constexpr pair<T, T> minmax(initializer_list<T> t);
+template<class T, class Compare>
+  constexpr pair<T, T> minmax(initializer_list<T> t, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
+[`t.size() > 0].
+
+[para:returns]
+[:en] [`pair<T, T>(x, y)], where [`x] has the smallest and [`y] has the largest
+value in the initializer list.
+
+[para:remarks]
+[:en] [`x] is a copy of the leftmost argument when several arguments are
+equivalent to the smallest.
+
+[:en] [`y] is a copy of the rightmost argument when several arguments are
+equivalent to the largest.
+
+[para:complexity]
+[:en] At most [`(3/2) * t.size()] applications of the corresponding predicate.
+[exit:description]
+
+[%@library min_element]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
+
+template<class ForwardIterator, class Compare>
+  ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
+                            Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first iterator [`i] in the range [=range[first,last)] such that for
+every iterator [`j] in the range [=range[first,last)] the following
+corresponding conditions hold: [`!(*j < *i)] or [`comp(*j, *i) == false].
+
+[:en] Returns [`last] if [`first == last].
+
+[para:complexity]
+[:en] Exactly [`max((last - first) - 1, 0)] applications of the corresponding
+comparisons.
+[exit:description]
+
+[%@library max_element]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
+template<class ForwardIterator, class Compare>
+  ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
+                            Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first iterator [`i] in the range [=range[first,last)] such that for
+every iterator [`j] in the range [=range[first,last)] the following
+corresponding conditions hold: [`!(*i < *j)] or [`comp(*i, *j) == false].
+
+[:en] Returns [`last] if [`first == last].
+
+[para:complexity]
+[:en] Exactly [`max((last - first) - 1, 0)] applications of the corresponding
+comparisons.
+[exit:description]
+
+[%@library minmax_element]
+[codeblock:declaration]
+template<class ForwardIterator>
+  pair<ForwardIterator, ForwardIterator>
+    minmax_element(ForwardIterator first, ForwardIterator last);
+template<class ForwardIterator, class Compare>
+  pair<ForwardIterator, ForwardIterator>
+    minmax_element(ForwardIterator first, ForwardIterator last, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`make_pair(first, first)] if [=range[first,last)] is empty, otherwise
+[`make_pair(m, M)], where [`m] is the first iterator in [=range[first,last)]
+such that no iterator in the range refers to a smaller element, and where [`M]
+is the last iterator
+
+[footnote]
+[:en] This behavior intentionally differs from [`max_element()].
+[footnote:end]
+
+[:en@~] in [=range[first,last)] such that no iterator in the range refers to a
+larger element.
+
+[para:complexity]
+[:en] At most [$max([=lfloor][=frac@3@2] (N-1)[=rfloor], 0)] applications of the
+corresponding predicate, where [$N] is [`distance(first, last)].
+[exit:description]

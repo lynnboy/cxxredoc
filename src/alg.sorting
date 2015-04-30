@@ -1,0 +1,101 @@
+﻿[section#alg.sorting
+    [:en] Sorting and related operations
+]
+
+[para]
+[:en] All the operations in [#alg.sorting] have two versions: one that takes a
+function object of type [`Compare] and one that uses an [`operator<].
+
+[para]
+[:en] [`Compare] is a function object type ([#function.objects]).
+
+[:en] The return value of the function call operation applied to an object of
+type [`Compare], when contextually converted to [`bool] (Clause [#conv]), yields
+[`true] if the first argument of the call is less than the second, and [`false]
+otherwise.
+
+[:en] [`Compare comp] is used throughout for algorithms assuming an ordering
+relation.
+
+[:en] It is assumed that [`comp] will not apply any non-constant function
+through the dereferenced iterator.
+
+[para]
+[:en] For all algorithms that take [`Compare], there is a version that uses
+[`operator<] instead.
+
+[:en] That is, [`comp(*i, *j) != false] defaults to [`*i < *j != false].
+
+[:en] For algorithms other than those described in [#alg.binary.search] to work
+correctly, [`comp] has to induce a strict weak ordering on the values.
+
+[para]
+[:en] The term [+strict] refers to the requirement of an irreflexive relation
+([`!comp(x, x)] for all [`x]), and the term [+weak] to requirements that are not
+as strong as those for a total ordering, but stronger than those for a partial
+ordering.
+
+[:en] If we define [`equiv(a, b)] as [`!comp(a, b) && !comp(b, a)], then the
+requirements are that [`comp] and [`equiv] both be transitive  relations:
+
+[list]
+[item]
+[:en] [`comp(a, b) && comp(b, c)] implies [`comp(a, c)]
+[item]
+[:en] [`equiv(a, b) && equiv(b, c)] implies [`equiv(a, c)]
+[list:end]
+
+[enter:note]
+[:en] Under these conditions, it can be shown that
+
+[list]
+[item]
+[:en] [`equiv] is an equivalence relation
+[item]
+[:en] [`comp] induces a well-defined relation on the equivalence classes
+determined by [`equiv]
+[item]
+[:en] The induced relation is a strict total ordering.
+[list:end]
+[exit:note]
+
+[para]
+[:en] A sequence is [+sorted with respect to a comparator] [`comp] if for every
+iterator [`i] pointing to the sequence and every non-negative integer [`n] such
+that [`i + n] is a valid iterator pointing to an element of the sequence,
+[`comp(*(i + n), *i) == false].
+
+[para]
+[:en] A sequence [=range[start,finish)] is [+partitioned with respect to an
+expression] [`f(e)] if there exists an integer [`n] such that for all
+[`0 <= i < distance(start, finish)], [`f(*(start + i))] is true if and only if
+[`i < n].
+
+[para]
+[:en] In the descriptions of the functions that deal with ordering relationships
+we frequently use a notion of equivalence to describe concepts such as
+stability.
+
+[:en] The equivalence to which we refer is not necessarily an [`operator==], but
+an equivalence relation induced by the strict weak ordering.
+
+[:en] That is, two elements [`a] and [`b] are considered equivalent if and only
+if [`!(a < b) && !(b < a)].
+
+[include alg.sort]
+
+[include alg.nth.element]
+
+[include alg.binary.search]
+
+[include alg.merge]
+
+[include alg.set.operations]
+
+[include alg.heap.operations]
+
+[include alg.min.max]
+
+[include alg.lex.comparison]
+
+[include alg.permutation.generators]

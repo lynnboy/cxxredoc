@@ -1,0 +1,27 @@
+﻿[section#alg.adjacent.find
+    [:en] Adjacent find
+]
+
+[%@library adjacent_find]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator adjacent_find(ForwardIterator first, ForwardIterator last);
+
+template<class ForwardIterator, class BinaryPredicate>
+  ForwardIterator adjacent_find(ForwardIterator first, ForwardIterator last,
+                              BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first iterator [`i] such that both [`i] and [`i + 1] are in the range
+[=range[first,last)] for which the following corresponding conditions hold:
+[`*i == *(i + 1), pred(*i, *(i + 1)) != false].
+
+[:en] Returns [`last] if no such iterator is found.
+
+[para:complexity]
+[:en] For a nonempty range, exactly [`min((i - first) + 1, (last - first) - 1)]
+applications of the corresponding predicate, where [`i] is [`adjacent_find][=']s
+return value.
+[exit:description]

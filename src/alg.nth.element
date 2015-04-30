@@ -1,0 +1,36 @@
+﻿[section#alg.nth.element
+    [:en] Nth element
+]
+
+[%@library nth_element]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void nth_element(RandomAccessIterator first, RandomAccessIterator nth,
+                   RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void nth_element(RandomAccessIterator first, RandomAccessIterator nth,
+                   RandomAccessIterator last,  Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] After [`nth_element] the element in the position pointed to by [`nth] is
+the element that would be in that position if the whole range were sorted,
+unless [`nth == last].
+
+[:en] Also for every iterator [`i] in the range [=range[first,nth)] and every
+iterator [`j] in the range [=range[nth,last)] it holds that: [`!(*j < *i)] or
+[`comp(*j, *i) == false].
+
+[para:requires]
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] Linear on average.
+[exit:description]

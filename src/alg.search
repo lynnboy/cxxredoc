@@ -1,0 +1,70 @@
+﻿[section#alg.search
+    [:en] Search
+]
+
+[%@library search]
+[codeblock:declaration]
+template<class ForwardIterator1, class ForwardIterator2>
+  ForwardIterator1
+    search(ForwardIterator1 first1, ForwardIterator1 last1,
+           ForwardIterator2 first2, ForwardIterator2 last2);
+
+template<class ForwardIterator1, class ForwardIterator2,
+         class BinaryPredicate>
+  ForwardIterator1
+    search(ForwardIterator1 first1, ForwardIterator1 last1,
+           ForwardIterator2 first2, ForwardIterator2 last2,
+           BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Finds a subsequence of equal values in a sequence.
+
+[para:returns]
+[:en] The first iterator [`i] in the range [=range[first1,last1 -
+(last2-first2))] such that for every non-negative integer [`n] less than
+[`last2 - first2] the following corresponding conditions hold:
+[`*(i + n) == *(first2 + n), pred(*(i + n), *(first2 + n)) != false].
+
+[:en] Returns [`first1] if [=range[first2,last2)] is empty, otherwise returns
+[`last1] if no such iterator is found.
+
+[para:complexity]
+[:en] At most [`(last1 - first1) * (last2 - first2)] applications of the
+corresponding predicate.
+[exit:description]
+
+[%@library search_n]
+[codeblock:declaration]
+template<class ForwardIterator, class Size, class T>
+  ForwardIterator
+    search_n(ForwardIterator first, ForwardIterator last, Size count,
+           const T& value);
+
+template<class ForwardIterator, class Size, class T,
+         class BinaryPredicate>
+  ForwardIterator
+    search_n(ForwardIterator first, ForwardIterator last, Size count,
+           const T& value, BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The type [`Size] shall be convertible to integral type ([#conv.integral],
+[#class.conv]).
+
+[para:effects]
+[:en] Finds a subsequence of equal values in a sequence.
+
+[para:returns]
+[:en] The first iterator [`i] in the range [=range[first,last-count)] such that
+for every non-negative integer [`n] less than [`count] the following
+corresponding conditions hold:
+[`*(i + n) == value, pred(*(i + n),value) != false].
+
+[:en] Returns [`last] if no such iterator is found.
+
+[para:complexity]
+[:en] At most [`last - first] applications of the corresponding predicate.
+[exit:description]

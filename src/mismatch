@@ -1,0 +1,57 @@
+﻿[section#mismatch
+    [:en] Mismatch
+]
+
+[%@library mismatch]
+[codeblock:declaration]
+template<class InputIterator1, class InputIterator2>
+  pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2);
+
+template<class InputIterator1, class InputIterator2,
+          class BinaryPredicate>
+  pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, BinaryPredicate pred);
+
+template<class InputIterator1, class InputIterator2>
+  pair<InputIterator1, InputIterator2>
+    mismatch(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2, InputIterator2 last2);
+
+template <class InputIterator1, class InputIterator2,
+           class BinaryPredicate>
+  pair<InputIterator1, InputIterator2>
+    mismatch(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2, InputIterator2 last2,
+             BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] If [`last2] was not given in the argument list, it denotes
+[`first2 + (last1 - first1)] below.
+
+[para:returns]
+[:en] A pair of iterators [`i] and [`j] such that [`j == first2 + (i - first1)]
+and [`i] is the first iterator in the range [=range[first1,last1)] for which the
+following corresponding conditions hold:
+
+[list]
+[item]
+[:en] [`j] is in the range [`[first2, last2)].
+[item]
+[:en] [`!(*i == *(first2 + (i - first1)))]
+[item]
+[:en] [`pred(*i, *(first2 + (i - first1))) == false]
+[list:end]
+
+[:en] Returns the pair [`first1 + min(last1 - first1, last2 - first2)] and
+[`first2 + min(last1 - first1, last2 - first2)] if such an iterator [`i] is not
+found.
+
+[para:complexity]
+[:en] At most [`min(last1 - first1, last2 - first2)] applications of the
+corresponding predicate.
+[exit:description]

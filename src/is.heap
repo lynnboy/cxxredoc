@@ -1,0 +1,45 @@
+﻿[section#is.heap
+    [:en] [`is_heap]
+]
+
+[%@library is_heap]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  bool is_heap(RandomAccessIterator first, RandomAccessIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`is_heap_until(first, last) == last]
+[exit:description]
+
+[%@library is_heap]
+[codeblock:declaration]
+template<class RandomAccessIterator, class Compare>
+  bool is_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`is_heap_until(first, last, comp) == last]
+[exit:description]
+
+[%@library is_heap_until]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  RandomAccessIterator is_heap_until(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+  RandomAccessIterator is_heap_until(RandomAccessIterator first, RandomAccessIterator last,
+    Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`distance(first, last) < 2], returns [`last].
+
+[:en] Otherwise, returns the last iterator [`i] in [=crange[first,last`]] for
+which the range [=range[first,i)] is a heap.
+
+[para:complexity]
+[:en] Linear.
+[exit:description]

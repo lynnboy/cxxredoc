@@ -1,0 +1,34 @@
+﻿[section#alg.heap.operations
+    [:en] Heap operations
+]
+
+[para]
+[:en] A [+heap] is a particular organization of elements in a range between two
+random access iterators [=range[a,b)].
+
+[:en] Its two key properties are:
+
+[list:ol@nparen]
+[item]
+[:en] There is no element greater than [`*a] in the range and
+[item]
+[:en] [`*a] may be removed by [`pop_heap()], or a new element added by
+[`push_heap()], in [=bigoh](log([$N])) time.
+[list:end]
+
+[para]
+[:en] These properties make heaps useful as priority queues.
+
+[para]
+[:en] [`make_heap()] converts a range into a heap and [`sort_heap()] turns a
+heap into a sorted sequence.
+
+[include push.heap]
+
+[include pop.heap]
+
+[include make.heap]
+
+[include sort.heap]
+
+[include is.heap]

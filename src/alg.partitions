@@ -1,0 +1,146 @@
+﻿[section#alg.partitions
+    [:en] Partitions
+]
+
+[%@library is_partitioned]
+[codeblock:declaration]
+template <class InputIterator, class Predicate>
+  bool is_partitioned(InputIterator first, InputIterator last, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`InputIterator][=']s value type shall be convertible to [`Predicate][=']s
+argument type.
+
+[para:returns]
+[:en] [`true] if [=range[first,last)] is empty or if [=range[first,last)] is
+partitioned by [`pred], i.e. if all elements that satisfy [`pred] appear before
+those that do not.
+
+[para:complexity]
+[:en] Linear.
+
+[:en] At most [`last - first] applications of [`pred].
+[exit:description]
+
+[%@library partition]
+[codeblock:declaration]
+template<class ForwardIterator, class Predicate>
+  ForwardIterator
+    partition(ForwardIterator first,
+              ForwardIterator last, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Places all the elements in the range [=range[first,last)] that satisfy
+[`pred] before all the elements that do not satisfy it.
+
+[para:returns]
+[:en] An iterator [`i] such that for every iterator [`j] in the range
+[=range[first,i)] [`pred(*j) != false], and for every iterator [`k] in the
+range [=range[i,last)], [`pred(*k) == false].
+
+[para:requires]
+[:en] [`ForwardIterator] shall satisfy the requirements of [`ValueSwappable]
+([#swappable.requirements]).
+
+[para:complexity]
+[:en] If ForwardIterator meets the requirements for a BidirectionalIterator, at
+most [`(last - first) / 2] swaps are done; otherwise at most [`last - first]
+swaps are done.
+
+[:en] Exactly [`last - first] applications of the predicate are done.
+[exit:description]
+
+[%@library stable_partition]
+[codeblock:declaration]
+template<class BidirectionalIterator, class Predicate>
+  BidirectionalIterator
+    stable_partition(BidirectionalIterator first,
+                     BidirectionalIterator last, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Places all the elements in the range [=range[first,last)] that satisfy
+[`pred] before all the elements that do not satisfy it.
+
+[para:returns]
+[:en] An iterator [`i] such that for every iterator [`j] in the range
+[=range[first,i)], [`pred(*j) != false], and for every iterator [`k] in the
+range [=range[i,last)], [`pred(*k) == false].
+
+[:en] The relative order of the elements in both groups is preserved.
+
+[para:requires]
+[:en] [`BidirectionalIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] At most [`(last - first) * log(last - first)] swaps, but only linear
+number of swaps if there is enough extra memory.
+
+[:en] Exactly [`last - first] applications of the predicate.
+[exit:description]
+
+[%@library partition_copy]
+[codeblock:declaration]
+template <class InputIterator, class OutputIterator1,
+          class OutputIterator2, class Predicate>
+  pair<OutputIterator1, OutputIterator2>
+  partition_copy(InputIterator first, InputIterator last,
+                 OutputIterator1 out_true, OutputIterator2 out_false,
+                 Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`InputIterator][=']s value type shall be [`CopyAssignable], and shall be
+writable to the [`out_true] and [`out_false] [`OutputIterator]s, and shall be
+convertible to [`Predicate][=']s argument type.
+
+[:en] The input range shall not overlap with either of the output ranges.
+
+[para:effects]
+[:en] For each iterator [`i] in [=range[first,last)], copies [`*i] to the output
+range beginning with [`out_true] if [`pred(*i)] is [`true], or to the output
+range beginning with [`out_false] otherwise.
+
+[para:returns]
+[:en] A pair [`p] such that [`p.first] is the end of the output range beginning
+at [`out_true] and [`p.second] is the end of the output range beginning at
+[`out_false].
+
+[para:complexity]
+[:en] Exactly [`last - first] applications of [`pred].
+[exit:description]
+
+[%@library partition_point]
+[codeblock:declaration]
+template<class ForwardIterator, class Predicate>
+  ForwardIterator partition_point(ForwardIterator first,
+                                  ForwardIterator last,
+                                  Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ForwardIterator][=']s value type shall be convertible to
+[`Predicate][=']s argument type.
+
+[:en] [=range[first,last)] shall be partitioned by [`pred], i.e. all elements
+that satisfy [`pred] shall appear before those that do not.
+
+[para:returns]
+[:en] An iterator [`mid] such that [`all_of(first, mid, pred)] and
+[`none_of(mid, last, pred)] are both true.
+
+[para:complexity]
+[:en] [=bigoh](log([`last] - [`first])) applications of [`pred].
+[exit:description]

@@ -1,0 +1,89 @@
+﻿[section#alg.merge
+    [:en] Merge
+]
+
+[%@library merge]
+[codeblock:declaration]
+template<class InputIterator1, class InputIterator2,
+         class OutputIterator>
+  OutputIterator
+    merge(InputIterator1 first1, InputIterator1 last1,
+          InputIterator2 first2, InputIterator2 last2,
+          OutputIterator result);
+
+template<class InputIterator1, class InputIterator2,
+         class OutputIterator, class Compare>
+  OutputIterator
+    merge(InputIterator1 first1, InputIterator1 last1,
+          InputIterator2 first2, InputIterator2 last2,
+          OutputIterator result, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Copies all the elements of the two ranges [=range[first1,last1)] and
+[=range[first2,last2)] into the range [=range[result,result_last)], where
+[`result_last] is [`result + (last1 - first1) + (last2 - first2)], such that the
+resulting range satisfies [`is_sorted(result, result_last)] or
+[`is_sorted(result, result_last, comp)], respectively.
+
+[para:requires]
+[:en] The ranges [=range[first1,last1)] and [=range[first2,last2)] shall be
+sorted with respect to [`operator<] or [`comp].
+
+[:en] The resulting range shall not overlap with either of the original ranges.
+
+[para:returns]
+[:en] [`result + (last1 - first1) + (last2 - first2)].
+
+[para:complexity]
+[:en] At most [`(last1 - first1) + (last2 - first2) - 1] comparisons.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+[exit:description]
+
+[%@library inplace_merge]
+[codeblock:declaration]
+template<class BidirectionalIterator>
+  void inplace_merge(BidirectionalIterator first,
+                     BidirectionalIterator middle,
+                     BidirectionalIterator last);
+
+template<class BidirectionalIterator, class Compare>
+  void inplace_merge(BidirectionalIterator first,
+                     BidirectionalIterator middle,
+                     BidirectionalIterator last, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Merges two sorted consecutive ranges [=range[first,middle)] and
+[=range[middle,last)], putting the result of the merge into the range
+[=range[first,last)].
+
+[:en] The resulting range will be in non-decreasing order; that is, for every
+iterator [`i] in [=range[first,last)] other than [`first], the condition
+[`*i < *(i - 1)] or, respectively, [`comp(*i, *(i - 1))] will be false.
+
+[para:requires]
+[:en] The ranges [=range[first,middle)] and [=range[middle,last)] shall be
+sorted with respect to [`operator<] or [`comp].
+
+[:en] [`BidirectionalIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] When enough additional memory is available, [`(last - first) - 1]
+comparisons.
+
+[:en] If no additional memory is available, an algorithm with complexity
+[$N] log([$N]) (where [`N] is equal to [`last - first]) may be used.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+[exit:description]

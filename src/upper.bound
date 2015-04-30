@@ -1,0 +1,30 @@
+﻿[section#upper.bound
+    [:en] [`upper_bound]
+]
+
+[%@library upper_bound]
+[codeblock:declaration]
+template<class ForwardIterator, class T>
+  ForwardIterator
+    upper_bound(ForwardIterator first, ForwardIterator last,
+                const T& value);
+
+template<class ForwardIterator, class T, class Compare>
+  ForwardIterator
+    upper_bound(ForwardIterator first, ForwardIterator last,
+                const T& value, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The elements [`e] of [=range[first,last)] shall be partitioned with
+respect to the expression [`!(value < e)] or [`!comp(value, e)].
+
+[para:returns]
+[:en] The furthermost iterator [`i] in the range [=crange[first,last`]] such
+that for every iterator [`j] in the range [=range[first,i)] the following
+corresponding conditions hold: [`!(value < *j)] or [`comp(value, *j) == false].
+
+[para:complexity]
+[:en] At most log[_2]([`last - first]) + [=bigoh](1) comparisons.
+[exit:description]

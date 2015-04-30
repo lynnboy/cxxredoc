@@ -1,0 +1,33 @@
+﻿[section#stable.sort
+    [:en] [`stable_sort]
+]
+
+[%@library stable_sort]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void stable_sort(RandomAccessIterator first, RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void stable_sort(RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Sorts the elements in the range [=range[first,last)].
+
+[para:requires]
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] It does at most [$N] log[^2]([$N]) (where [`[$N] == last - first])
+comparisons; if enough extra memory is available, it is [$N] log([$N]).
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+[exit:description]

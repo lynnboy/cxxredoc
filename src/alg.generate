@@ -1,0 +1,37 @@
+﻿[section#alg.generate
+    [:en] Generate
+]
+
+[%@library generate]
+[%@library generate_n]
+[codeblock:declaration]
+template<class ForwardIterator, class Generator>
+  void generate(ForwardIterator first, ForwardIterator last,
+                Generator gen);
+
+template<class OutputIterator, class Size, class Generator>
+  OutputIterator generate_n(OutputIterator first, Size n, Generator gen);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The first algorithm invokes the function object [`gen] and assigns the
+return value of [`gen] through all the iterators in the range
+[=range[first,last)].
+
+[:en] The second algorithm invokes the function object [`gen] and assigns the
+return value of [`gen] through all the iterators in the range
+[=range[first,first + n)] if [`n] is positive, otherwise it does nothing.
+
+[para:requires]
+[:en] [`gen] takes no arguments, [`Size] shall be convertible to an integral
+type ([#conv.integral], [#class.conv]).
+
+[para:returns]
+[:en] [`generate_n] returns [`first + n] for non-negative values of [`n] and
+[`first] for negative values.
+
+[para:complexity]
+[:en] Exactly [`last - first], [`n], or 0 invocations of [`gen] and assignments,
+respectively.
+[exit:description]

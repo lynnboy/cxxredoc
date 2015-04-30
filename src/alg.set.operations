@@ -1,0 +1,24 @@
+﻿[section#alg.set.operations
+    [:en] Set operations on sorted structures
+]
+
+[para]
+[:en] This section defines all the basic set operations on sorted structures.
+
+[:en] They also work with [`multiset]s ([#multiset]) containing multiple copies
+of equivalent elements.
+
+[:en] The semantics of the set operations are generalized to [`multiset]s
+in a standard way by defining [`set_union()] to contain the maximum number of
+occurrences of every element, [`set_intersection()] to contain the minimum, and
+so on.
+
+[include includes]
+
+[include set.union]
+
+[include set.intersection]
+
+[include set.difference]
+
+[include set.symmetric.difference]

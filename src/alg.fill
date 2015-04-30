@@ -1,0 +1,35 @@
+﻿[section#alg.fill
+    [:en] Fill
+]
+
+[%@library fill]
+[%@library fill_n]
+[codeblock:declaration]
+template<class ForwardIterator, class T>
+  void fill(ForwardIterator first, ForwardIterator last, const T& value);
+
+template<class OutputIterator, class Size, class T>
+  OutputIterator fill_n(OutputIterator first, Size n, const T& value);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The expression [`value] shall be writable to the output iterator.
+
+[:en] The type [`Size] shall be convertible to an integral type
+([#conv.integral], [#class.conv]).
+
+[para:effects]
+[:en] The first algorithm assigns [`value] through all the iterators in the
+range [=range[first,last)].
+
+[:en] The second algorithm assigns [`value] through all the iterators in the
+range [=range[first,first + n)] if [`n] is positive, otherwise it does nothing.
+
+[para:returns]
+[:en] [`fill_n] returns [`first + n] for non-negative values of [`n] and
+[`first] for negative values.
+
+[para:complexity]
+[:en] Exactly [`last - first], [`n], or 0 assignments, respectively.
+[exit:description]

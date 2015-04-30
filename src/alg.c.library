@@ -1,0 +1,90 @@
+﻿[section#alg.c.library
+    [:en] C library algorithms
+]
+
+[para]
+[:en] Table [#tab:algorithms.hdr.cstdlib] describes some of the contents of the
+header [`<cstdlib>].
+
+[table:listing#tab:algorithms.hdr.cstdlib
+    [:en] Header [`<cstdlib>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [=Type]
+
+[|] size_t
+
+[-]
+[|] [=Functions]
+
+[|] bsearch
+[|] qsort
+
+[table:end]
+
+[para]
+[:en] The contents are the same as the Standard C library header [`<stdlib.h>]
+with the following exceptions:
+
+[para]
+[:en] The function signature:
+
+[codeblock:notation]
+bsearch(const void *, const void *, size_t, size_t,
+  int (*)(const void *, const void *));
+[codeblock:end]
+
+[:en@~] is replaced by the two declarations:
+
+[codeblock:notation]
+extern "C" void* bsearch(const void* key, const void* base,
+                         size_t nmemb, size_t size,
+                         int (*compar)(const void*, const void*));
+extern "C++" void* bsearch(const void* key, const void* base,
+                           size_t nmemb, size_t size,
+                           int (*compar)(const void*, const void*));
+[codeblock:end]
+
+[:en@~] both of which have the same behavior as the original declaration.
+
+[para]
+[:en] The function signature:
+
+[codeblock:notation]
+qsort(void *, size_t, size_t,
+  int (*)(const void *, const void *));
+[codeblock:end]
+
+[:en@~] is replaced by the two declarations:
+
+[codeblock:notation]
+extern "C" void qsort(void* base, size_t nmemb, size_t size,
+                      int (*compar)(const void*, const void*));
+extern "C++" void qsort(void* base, size_t nmemb, size_t size,
+                        int (*compar)(const void*, const void*));
+[codeblock:end]
+
+[:en@~] both of which have the same behavior as the original declaration.
+
+[:en] The behavior is undefined unless the objects in the array pointed to by
+[`base] are of trivial type.
+
+[enter:note]
+[:en] Because the function argument [`compar()] may throw an exception,
+[`bsearch()] and [`qsort()] are allowed to propagate the exception
+([#res.on.exception.handling]).
+[exit:note]
+
+[para:xref]
+[:en] ISO C 7.10.5.

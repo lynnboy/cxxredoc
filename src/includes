@@ -1,0 +1,26 @@
+﻿[section#includes
+    [:en] [`includes]
+]
+
+[%@library includes]
+[codeblock:declaration]
+template<class InputIterator1, class InputIterator2>
+  bool includes(InputIterator1 first1, InputIterator1 last1,
+                InputIterator2 first2, InputIterator2 last2);
+
+template<class InputIterator1, class InputIterator2, class Compare>
+  bool includes(InputIterator1 first1, InputIterator1 last1,
+                InputIterator2 first2, InputIterator2 last2,
+                Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [=range[first2,last2)] is empty or if every element in the
+range [=range[first2,last2)] is contained in the range [=range[first1,last1)].
+
+[:en] Returns [`false] otherwise.
+
+[para:complexity]
+[:en] At most [`2 * ((last1 - first1) + (last2 - first2)) - 1] comparisons.
+[exit:description]

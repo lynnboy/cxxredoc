@@ -1,0 +1,46 @@
+﻿[section#alg.swap
+    [:en] swap
+]
+
+[%@library swap_ranges]
+[codeblock:declaration]
+template<class ForwardIterator1, class ForwardIterator2>
+  ForwardIterator2
+    swap_ranges(ForwardIterator1 first1, ForwardIterator1 last1,
+                ForwardIterator2 first2);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] For each non-negative integer [`n < (last1 - first1)] performs:
+[`swap(*(first1 + n), *(first2 + n))].
+
+[para:requires]
+[:en] The two ranges [=range[first1,last1)] and
+[=range[first2,first2 + (last1 - first1))] shall not overlap.
+
+[:en] [`*(first1 + n)] shall be swappable with ([#swappable.requirements])
+[`*(first2 + n)].
+
+[para:returns]
+[:en] [`first2 + (last1 - first1)].
+
+[para:complexity]
+[:en] Exactly [`last1 - first1] swaps.
+[exit:description]
+
+[%@library iter_swap]
+[codeblock:declaration]
+template<class ForwardIterator1, class ForwardIterator2>
+  void iter_swap(ForwardIterator1 a, ForwardIterator2 b);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`swap(*a, *b)].
+
+[para:requires]
+[:en] [`a] and [`b] shall be dereferenceable.
+
+[:en] [`*a] shall be swappable with ([#swappable.requirements]) [`*b].
+[exit:description]

@@ -1,0 +1,31 @@
+﻿[section#alg.find
+    [:en] Find
+]
+
+[%@library find]
+[%@library find_if]
+[%@library find_if_not]
+[codeblock:declaration]
+template<class InputIterator, class T>
+  InputIterator find(InputIterator first, InputIterator last,
+                     const T& value);
+
+template<class InputIterator, class Predicate>
+  InputIterator find_if(InputIterator first, InputIterator last,
+                        Predicate pred);
+template<class InputIterator, class Predicate>
+  InputIterator find_if_not(InputIterator first, InputIterator last,
+                            Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The first iterator [`i] in the range [=range[first,last)] for which the
+following corresponding conditions hold: [`*i == value], [`pred(*i) != false],
+[`pred(*i) == false].
+
+[:en] Returns [`last] if no such iterator is found.
+
+[para:complexity]
+[:en] At most [`last - first] applications of the corresponding predicate.
+[exit:description]

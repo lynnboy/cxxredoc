@@ -1,0 +1,29 @@
+﻿[section#push.heap
+    [:en] [`push_heap]
+]
+
+[%@library push_heap]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void push_heap(RandomAccessIterator first, RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void push_heap(RandomAccessIterator first, RandomAccessIterator last,
+                 Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Places the value in the location [`last - 1] into the resulting heap
+[=range[first,last)].
+
+[para:requires]
+[:en] The range [=range[first,last - 1)] shall be a valid heap.
+
+[:en] The type of [`*first] shall satisfy the [`MoveConstructible] requirements
+(Table [#moveconstructible]) and the [`MoveAssignable] requirements
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] At most [`log(last - first)] comparisons.
+[exit:description]

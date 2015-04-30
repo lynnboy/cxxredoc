@@ -1,0 +1,48 @@
+﻿[section#alg.equal
+    [:en] Equal
+]
+
+[%@library equal]
+[codeblock:declaration]
+template<class InputIterator1, class InputIterator2>
+  bool equal(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2);
+
+template<class InputIterator1, class InputIterator2,
+          class BinaryPredicate>
+  bool equal(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2, BinaryPredicate pred);
+
+template<class InputIterator1, class InputIterator2>
+  bool equal(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2, InputIterator2 last2);
+
+template<class InputIterator1, class InputIterator2,
+           class BinaryPredicate>
+  bool equal(InputIterator1 first1, InputIterator1 last1,
+             InputIterator2 first2, InputIterator2 last2,
+             BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] If [`last2] was not given in the argument list, it denotes
+[`first2 + (last1 - first1)] below.
+
+[para:returns]
+[:en] If [`last1 - first1 != last2 - first2], return [`false].
+
+[:en] Otherwise return [`true] if for every iterator [`i] in the range
+[=range[first1,last1)] the following corresponding conditions hold:
+[`*i == *(first2 + (i - first1)), pred(*i, *(first2 + (i - first1))) != false].
+
+[:en] Otherwise, returns [`false].
+
+[para:complexity]
+[:en] No applications of the corresponding predicate if [`InputIterator1] and
+[`InputIterator2] meet the requirements of random access iterators and
+[`last1 - first1 != last2 - first2].
+
+[:en] Otherwise, at most [`min(last1 - first1, last2 - first2)] applications of
+the corresponding predicate.
+[exit:description]

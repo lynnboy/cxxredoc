@@ -1,0 +1,34 @@
+﻿[section#alg.random.shuffle
+    [:en] Shuffle
+]
+
+[%@library shuffle]
+[codeblock:declaration]
+template<class RandomAccessIterator, class UniformRandomNumberGenerator>
+  void shuffle(RandomAccessIterator first,
+                      RandomAccessIterator last,
+                      UniformRandomNumberGenerator&& g);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Permutes the elements in the range [=range[first,last)] such that each
+possible permutation of those elements has equal probability of appearance.
+
+[para:requires]
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type [`UniformRandomNumberGenerator] shall meet the requirements of a
+uniform random number generator ([#rand.req.urng]) type whose return type is
+convertible to [`iterator_traits<RandomAccessIterator>::difference_type].
+
+[para:complexity]
+[:en] Exactly [`(last - first) - 1] swaps.
+
+[para:notes]
+[:en] To the extent that the implementation of this function makes use of random
+numbers, the object [`g] shall serve as the implementation[=']s source of
+randomness.
+
+[exit:description]

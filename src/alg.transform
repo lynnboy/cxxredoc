@@ -1,0 +1,45 @@
+﻿[section#alg.transform
+    [:en] Transform
+]
+
+[%@library transform]
+[codeblock:declaration]
+template<class InputIterator, class OutputIterator,
+         class UnaryOperation>
+  OutputIterator
+    transform(InputIterator first, InputIterator last,
+              OutputIterator result, UnaryOperation op);
+
+template<class InputIterator1, class InputIterator2,
+         class OutputIterator, class BinaryOperation>
+  OutputIterator
+    transform(InputIterator1 first1, InputIterator1 last1,
+              InputIterator2 first2, OutputIterator result,
+              BinaryOperation binary_op);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns through every iterator [`i] in the range [=range[result,result +
+(last1 - first1))] a new corresponding value equal to [`op(*(first1 + (i -
+result))] or [`binary_op(*(first1 + (i - result)), *(first2 + (i - result)))].
+
+[para:requires]
+[:en] [`op] and [`binary_op] shall not invalidate iterators or subranges, or
+modify elements in the ranges [=crange[first1,last1`]], [=crange[first2,first2 +
+(last1 - first1)`]], and [=crange[result,result + (last1 - first1)`]].
+
+[footnote]
+[:en] The use of fully closed ranges is intentional.
+[footnote:end]
+
+[para:returns]
+[:en] [`result + (last1 - first1)].
+
+[para:complexity]
+[:en] Exactly [`last1 - first1] applications of [`op] or [`binary_op].
+
+[para:notes]
+[:en] [`result] may be equal to [`first] in case of unary transform, or to
+[`first1] or [`first2] in case of binary transform.
+[exit:description]

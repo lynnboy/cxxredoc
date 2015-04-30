@@ -1,0 +1,32 @@
+﻿[section#pop.heap
+    [:en] [`pop_heap]
+]
+
+[%@library pop_heap]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void pop_heap(RandomAccessIterator first, RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void pop_heap(RandomAccessIterator first, RandomAccessIterator last,
+                Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The range [=range[first,last)] shall be a valid non-empty heap.
+
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:effects]
+[:en] Swaps the value in the location [`first] with the value in the location
+[`last - 1] and makes [=range[first,last - 1)] into a heap.
+
+[para:complexity]
+[:en] At most [`2 * log(last - first)] comparisons.
+[exit:description]

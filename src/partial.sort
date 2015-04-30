@@ -1,0 +1,39 @@
+﻿[section#partial.sort
+    [:en] [`partial_sort]
+]
+
+[%@library partial_sort]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void partial_sort(RandomAccessIterator first,
+                    RandomAccessIterator middle,
+                    RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void partial_sort(RandomAccessIterator first,
+                    RandomAccessIterator middle,
+                    RandomAccessIterator last,
+                    Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Places the first [`middle - first] sorted elements from the range
+[=range[first,last)] into the range [=range[first,middle)].
+
+[:en] The rest of the elements in the range [=range[middle,last)] are placed in
+an unspecified order.
+[%unspecified]
+
+[para:requires]
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] It takes approximately [`(last - first) * log(middle - first)]
+comparisons.
+[exit:description]

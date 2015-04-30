@@ -1,0 +1,46 @@
+﻿[section#is.sorted
+    [:en] [`is_sorted]
+]
+
+[%@library is_sorted]
+[codeblock:declaration]
+template<class ForwardIterator>
+  bool is_sorted(ForwardIterator first, ForwardIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`is_sorted_until(first, last) == last]
+[exit:description]
+
+[%@library is_sorted]
+[codeblock:declaration]
+template<class ForwardIterator, class Compare>
+  bool is_sorted(ForwardIterator first, ForwardIterator last,
+    Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`is_sorted_until(first, last, comp) == last]
+[exit:description]
+
+[%@library is_sorted_until]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator is_sorted_until(ForwardIterator first, ForwardIterator last);
+template<class ForwardIterator, class Compare>
+  ForwardIterator is_sorted_until(ForwardIterator first, ForwardIterator last,
+    Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`distance(first, last) < 2], returns [`last].
+
+[:en] Otherwise, returns the last iterator [`i] in [=crange[first,last`]] for
+which the range [=range[first,i)] is sorted.
+
+[para:complexity]
+[:en] Linear.
+[exit:description]

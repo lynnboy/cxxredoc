@@ -1,0 +1,31 @@
+﻿[section#sort.heap
+    [:en] [`sort_heap]
+]
+
+[%@library sort_heap]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void sort_heap(RandomAccessIterator first, RandomAccessIterator last);
+
+template<class RandomAccessIterator, class Compare>
+  void sort_heap(RandomAccessIterator first, RandomAccessIterator last,
+                 Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Sorts elements in the heap [=range[first,last)].
+
+[para:requires]
+[:en] The range [=range[first,last)] shall be a valid heap.
+
+[:en] [`RandomAccessIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
+(Table [#moveassignable]).
+
+[para:complexity]
+[:en] At most [$N] log([$N]) comparisons (where [`N == last - first]).
+[exit:description]

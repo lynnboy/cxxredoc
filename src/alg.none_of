@@ -1,0 +1,18 @@
+﻿[section#alg.none_of
+    [:en] None of
+]
+
+[%@library none_of]
+[codeblock:declaration]
+template <class InputIterator, class Predicate>
+  bool none_of(InputIterator first, InputIterator last, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [=range[first,last)] is empty or if [`pred(*i)] is [`false] for
+every iterator [`i] in the range [=range[first,last)], and [`false] otherwise.
+
+[para:complexity]
+[:en] At most [`last - first] applications of the predicate.
+[exit:description]

@@ -1,0 +1,25 @@
+﻿[section#alg.binary.search
+    [:en] Binary search
+]
+
+[para]
+[:en] All of the algorithms in this section are versions of binary search and
+assume that the sequence being searched is partitioned with respect to an
+expression formed by binding the search key to an argument of the implied or
+explicit comparison function.
+
+[:en] They work on non-random access iterators minimizing the number of
+comparisons, which will be logarithmic for all types of iterators.
+
+[:en] They are especially appropriate for random access iterators, because these
+algorithms do a logarithmic number of steps through the data structure.
+
+[:en] For non-random access iterators they execute a linear number of steps.
+
+[include lower.bound]
+
+[include upper.bound]
+
+[include equal.range]
+
+[include binary.search]

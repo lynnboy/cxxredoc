@@ -1,0 +1,726 @@
+﻿[section#algorithms.general
+    [:en] General
+]
+
+[para]
+[:en] This Clause describes components that [=Cpp] programs may use to perform
+algorithmic operations on containers (Clause [#containers]) and other sequences.
+
+[para]
+[:en] The following subclauses describe components for non-modifying sequence
+operation, modifying sequence operations, sorting and related operations, and
+algorithms from the ISO C library, as summarized in Table
+[#tab:algorithms.summary].
+
+[table:listing#tab:algorithms.summary
+    [:en] Algorithms library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code@vcenter
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [#alg.nonmodifying]
+[|] [:en] Non-modifying sequence operations
+[|@rowspan=3] <algorithm>
+
+[|] [#alg.modifying.operations]
+[|] [:en] Mutating sequence operations
+
+[|] [#alg.sorting]
+[|] [:en] Sorting and related operations
+
+[-]
+[|] [#alg.c.library]
+[|] [:en] C library algorithms
+[|] <cstdlib>
+
+[table:end]
+
+[para:synopsis]
+[:en] Header [`<algorithm>] synopsis
+
+[%@library <algorithm> [sortas algorithm]]
+
+[codeblock:synopsis]
+#include <initializer_list>
+
+namespace std {
+
+  // [:en] [#alg.nonmodifying], non-modifying sequence operations:
+  template <class InputIterator, class Predicate>
+    bool all_of(InputIterator first, InputIterator last, Predicate pred);
+  template <class InputIterator, class Predicate>
+    bool any_of(InputIterator first, InputIterator last, Predicate pred);
+  template <class InputIterator, class Predicate>
+    bool none_of(InputIterator first, InputIterator last, Predicate pred);
+
+  template<class InputIterator, class Function>
+    Function for_each(InputIterator first, InputIterator last, Function f);
+  template<class InputIterator, class T>
+    InputIterator find(InputIterator first, InputIterator last,
+                       const T& value);
+  template<class InputIterator, class Predicate>
+    InputIterator find_if(InputIterator first, InputIterator last,
+                          Predicate pred);
+  template<class InputIterator, class Predicate>
+    InputIterator find_if_not(InputIterator first, InputIterator last,
+                              Predicate pred);
+  template<class ForwardIterator1, class ForwardIterator2>
+    ForwardIterator1
+      find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+               ForwardIterator2 first2, ForwardIterator2 last2);
+  template<class ForwardIterator1, class ForwardIterator2,
+     class BinaryPredicate>
+    ForwardIterator1
+      find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+               ForwardIterator2 first2, ForwardIterator2 last2,
+               BinaryPredicate pred);
+
+  template<class InputIterator, class ForwardIterator>
+    InputIterator
+      find_first_of(InputIterator first1, InputIterator last1,
+                    ForwardIterator first2, ForwardIterator last2);
+  template<class InputIterator, class ForwardIterator,
+     class BinaryPredicate>
+    InputIterator
+      find_first_of(InputIterator first1, InputIterator last1,
+                    ForwardIterator first2, ForwardIterator last2,
+                    BinaryPredicate pred);
+
+  template<class ForwardIterator>
+    ForwardIterator adjacent_find(ForwardIterator first,
+                                  ForwardIterator last);
+  template<class ForwardIterator, class BinaryPredicate>
+    ForwardIterator adjacent_find(ForwardIterator first,
+                                  ForwardIterator last,
+                                  BinaryPredicate pred);
+
+  template<class InputIterator, class T>
+    typename iterator_traits<InputIterator>::difference_type
+      count(InputIterator first, InputIterator last, const T& value);
+  template<class InputIterator, class Predicate>
+    typename iterator_traits<InputIterator>::difference_type
+      count_if(InputIterator first, InputIterator last, Predicate pred);
+
+  template<class InputIterator1, class InputIterator2>
+    pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2);
+  template
+   <class InputIterator1, class InputIterator2, class BinaryPredicate>
+    pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, BinaryPredicate pred);
+
+  template<class InputIterator1, class InputIterator2>
+    pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, InputIterator2 last2);
+
+  template
+   <class InputIterator1, class InputIterator2, class BinaryPredicate>
+    pair<InputIterator1, InputIterator2>
+      mismatch(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, InputIterator2 last2,
+               BinaryPredicate pred);
+
+  template<class InputIterator1, class InputIterator2>
+    bool equal(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2);
+  template
+   <class InputIterator1, class InputIterator2, class BinaryPredicate>
+    bool equal(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, BinaryPredicate pred);
+
+  template<class InputIterator1, class InputIterator2>
+    bool equal(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, InputIterator2 last2);
+
+  template
+   <class InputIterator1, class InputIterator2, class BinaryPredicate>
+    bool equal(InputIterator1 first1, InputIterator1 last1,
+               InputIterator2 first2, InputIterator2 last2,
+               BinaryPredicate pred);
+
+  template<class ForwardIterator1, class ForwardIterator2>
+    bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                        ForwardIterator2 first2);
+  template<class ForwardIterator1, class ForwardIterator2,
+                   class BinaryPredicate>
+    bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                        ForwardIterator2 first2, BinaryPredicate pred);
+
+  template<class ForwardIterator1, class ForwardIterator2>
+    bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                        ForwardIterator2 first2, ForwardIterator2 last2);
+
+  template<class ForwardIterator1, class ForwardIterator2,
+                      class BinaryPredicate>
+    bool is_permutation(ForwardIterator1 first1, ForwardIterator1 last1,
+                        ForwardIterator2 first2, ForwardIterator2 last2,
+                        BinaryPredicate pred);
+
+  template<class ForwardIterator1, class ForwardIterator2>
+    ForwardIterator1 search(
+      ForwardIterator1 first1, ForwardIterator1 last1,
+      ForwardIterator2 first2, ForwardIterator2 last2);
+  template<class ForwardIterator1, class ForwardIterator2,
+     class BinaryPredicate>
+    ForwardIterator1 search(
+      ForwardIterator1 first1, ForwardIterator1 last1,
+      ForwardIterator2 first2, ForwardIterator2 last2,
+      BinaryPredicate pred);
+  template<class ForwardIterator, class Size, class T>
+    ForwardIterator search_n(ForwardIterator first, ForwardIterator last,
+                             Size count, const T& value);
+  template
+   <class ForwardIterator, class Size, class T, class BinaryPredicate>
+    ForwardIterator search_n(ForwardIterator first, ForwardIterator last,
+                             Size count, const T& value,
+                             BinaryPredicate pred);
+
+  // [:en] [#alg.modifying.operations], modifying sequence operations:
+  // [:en] [#alg.copy], copy:
+  template<class InputIterator, class OutputIterator>
+    OutputIterator copy(InputIterator first, InputIterator last,
+                        OutputIterator result);
+  template<class InputIterator, class Size, class OutputIterator>
+    OutputIterator copy_n(InputIterator first, Size n,
+                          OutputIterator result);
+  template<class InputIterator, class OutputIterator, class Predicate>
+    OutputIterator copy_if(InputIterator first, InputIterator last,
+                          OutputIterator result, Predicate pred);
+  template<class BidirectionalIterator1, class BidirectionalIterator2>
+    BidirectionalIterator2 copy_backward(
+      BidirectionalIterator1 first, BidirectionalIterator1 last,
+      BidirectionalIterator2 result);
+
+  // [:en] [#alg.move], move:
+  template<class InputIterator, class OutputIterator>
+    OutputIterator move(InputIterator first, InputIterator last,
+                        OutputIterator result);
+  template<class BidirectionalIterator1, class BidirectionalIterator2>
+    BidirectionalIterator2 move_backward(
+      BidirectionalIterator1 first, BidirectionalIterator1 last,
+      BidirectionalIterator2 result);
+
+  // [:en] [#alg.swap], swap:
+  template<class ForwardIterator1, class ForwardIterator2>
+    ForwardIterator2 swap_ranges(ForwardIterator1 first1,
+    ForwardIterator1 last1, ForwardIterator2 first2);
+  template<class ForwardIterator1, class ForwardIterator2>
+    void iter_swap(ForwardIterator1 a, ForwardIterator2 b);
+
+  template<class InputIterator, class OutputIterator, class UnaryOperation>
+    OutputIterator transform(InputIterator first, InputIterator last,
+                             OutputIterator result, UnaryOperation op);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+     class BinaryOperation>
+    OutputIterator transform(InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, OutputIterator result,
+                             BinaryOperation binary_op);
+
+  template<class ForwardIterator, class T>
+    void replace(ForwardIterator first, ForwardIterator last,
+                 const T& old_value, const T& new_value);
+  template<class ForwardIterator, class Predicate, class T>
+    void replace_if(ForwardIterator first, ForwardIterator last,
+                    Predicate pred, const T& new_value);
+  template<class InputIterator, class OutputIterator, class T>
+    OutputIterator replace_copy(InputIterator first, InputIterator last,
+                                OutputIterator result,
+                                const T& old_value, const T& new_value);
+  template<class InputIterator, class OutputIterator, class Predicate, class T>
+    OutputIterator replace_copy_if(InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   Predicate pred, const T& new_value);
+
+  template<class ForwardIterator, class T>
+    void fill(ForwardIterator first, ForwardIterator last, const T& value);
+  template<class OutputIterator, class Size, class T>
+    OutputIterator fill_n(OutputIterator first, Size n, const T& value);
+
+  template<class ForwardIterator, class Generator>
+    void generate(ForwardIterator first, ForwardIterator last,
+                  Generator gen);
+  template<class OutputIterator, class Size, class Generator>
+    OutputIterator generate_n(OutputIterator first, Size n, Generator gen);
+
+  template<class ForwardIterator, class T>
+    ForwardIterator remove(ForwardIterator first, ForwardIterator last,
+                           const T& value);
+  template<class ForwardIterator, class Predicate>
+    ForwardIterator remove_if(ForwardIterator first, ForwardIterator last,
+                              Predicate pred);
+  template<class InputIterator, class OutputIterator, class T>
+    OutputIterator remove_copy(InputIterator first, InputIterator last,
+                               OutputIterator result, const T& value);
+  template<class InputIterator, class OutputIterator, class Predicate>
+    OutputIterator remove_copy_if(InputIterator first, InputIterator last,
+                                  OutputIterator result, Predicate pred);
+
+  template<class ForwardIterator>
+    ForwardIterator unique(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class BinaryPredicate>
+    ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+                           BinaryPredicate pred);
+  template<class InputIterator, class OutputIterator>
+    OutputIterator unique_copy(InputIterator first, InputIterator last,
+                               OutputIterator result);
+  template<class InputIterator, class OutputIterator, class BinaryPredicate>
+    OutputIterator unique_copy(InputIterator first, InputIterator last,
+                               OutputIterator result, BinaryPredicate pred);
+
+  template<class BidirectionalIterator>
+    void reverse(BidirectionalIterator first, BidirectionalIterator last);
+  template<class BidirectionalIterator, class OutputIterator>
+    OutputIterator reverse_copy(BidirectionalIterator first,
+                                BidirectionalIterator last,
+                                OutputIterator result);
+
+  template<class ForwardIterator>
+    ForwardIterator rotate(ForwardIterator first, ForwardIterator middle,
+                           ForwardIterator last);
+  template<class ForwardIterator, class OutputIterator>
+    OutputIterator rotate_copy(
+      ForwardIterator first, ForwardIterator middle,
+      ForwardIterator last, OutputIterator result);
+
+  // [:en] [#alg.random.shuffle], shuffle:
+  template<class RandomAccessIterator, class UniformRandomNumberGenerator>
+    void shuffle(RandomAccessIterator first,
+                        RandomAccessIterator last,
+                        UniformRandomNumberGenerator&& g);
+
+  // [:en] [#alg.partitions], partitions:
+  template <class InputIterator, class Predicate>
+    bool is_partitioned(InputIterator first, InputIterator last, Predicate pred);
+
+  template<class ForwardIterator, class Predicate>
+    ForwardIterator partition(ForwardIterator first,
+                              ForwardIterator last,
+                              Predicate pred);
+  template<class BidirectionalIterator, class Predicate>
+    BidirectionalIterator stable_partition(BidirectionalIterator first,
+                                           BidirectionalIterator last,
+                                           Predicate pred);
+  template <class InputIterator, class OutputIterator1,
+            class OutputIterator2, class Predicate>
+    pair<OutputIterator1, OutputIterator2>
+    partition_copy(InputIterator first, InputIterator last,
+                   OutputIterator1 out_true, OutputIterator2 out_false,
+                   Predicate pred);
+  template<class ForwardIterator, class Predicate>
+    ForwardIterator partition_point(ForwardIterator first,
+                                    ForwardIterator last,
+                                    Predicate pred);
+
+  // [:en] [#alg.sorting], sorting and related operations:
+  // [:en] [#alg.sort], sorting:
+  template<class RandomAccessIterator>
+    void sort(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void sort(RandomAccessIterator first, RandomAccessIterator last,
+              Compare comp);
+
+  template<class RandomAccessIterator>
+    void stable_sort(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void stable_sort(RandomAccessIterator first, RandomAccessIterator last,
+                     Compare comp);
+
+  template<class RandomAccessIterator>
+    void partial_sort(RandomAccessIterator first,
+                      RandomAccessIterator middle,
+                      RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void partial_sort(RandomAccessIterator first,
+                      RandomAccessIterator middle,
+                      RandomAccessIterator last, Compare comp);
+  template<class InputIterator, class RandomAccessIterator>
+    RandomAccessIterator partial_sort_copy(
+      InputIterator first, InputIterator last,
+      RandomAccessIterator result_first,
+      RandomAccessIterator result_last);
+  template<class InputIterator, class RandomAccessIterator, class Compare>
+    RandomAccessIterator partial_sort_copy(
+      InputIterator first, InputIterator last,
+      RandomAccessIterator result_first,
+      RandomAccessIterator result_last,
+      Compare comp);
+  template<class ForwardIterator>
+    bool is_sorted(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class Compare>
+    bool is_sorted(ForwardIterator first, ForwardIterator last,
+                   Compare comp);
+  template<class ForwardIterator>
+    ForwardIterator is_sorted_until(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class Compare>
+    ForwardIterator is_sorted_until(ForwardIterator first, ForwardIterator last,
+                                    Compare comp);
+
+  template<class RandomAccessIterator>
+    void nth_element(RandomAccessIterator first, RandomAccessIterator nth,
+                     RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void nth_element(RandomAccessIterator first, RandomAccessIterator nth,
+                     RandomAccessIterator last, Compare comp);
+
+  // [:en] [#alg.binary.search], binary search:
+  template<class ForwardIterator, class T>
+    ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last,
+                                const T& value);
+  template<class ForwardIterator, class T, class Compare>
+    ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last,
+                                const T& value, Compare comp);
+
+  template<class ForwardIterator, class T>
+    ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last,
+                                const T& value);
+  template<class ForwardIterator, class T, class Compare>
+    ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last,
+                                const T& value, Compare comp);
+
+  template<class ForwardIterator, class T>
+    pair<ForwardIterator, ForwardIterator>
+      equal_range(ForwardIterator first, ForwardIterator last,
+                  const T& value);
+  template<class ForwardIterator, class T, class Compare>
+    pair<ForwardIterator, ForwardIterator>
+      equal_range(ForwardIterator first, ForwardIterator last,
+                  const T& value, Compare comp);
+
+  template<class ForwardIterator, class T>
+    bool binary_search(ForwardIterator first, ForwardIterator last,
+                       const T& value);
+  template<class ForwardIterator, class T, class Compare>
+    bool binary_search(ForwardIterator first, ForwardIterator last,
+                       const T& value, Compare comp);
+
+  // [:en] [#alg.merge], merge:
+  template<class InputIterator1, class InputIterator2, class OutputIterator>
+    OutputIterator merge(InputIterator1 first1, InputIterator1 last1,
+                         InputIterator2 first2, InputIterator2 last2,
+                         OutputIterator result);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+     class Compare>
+    OutputIterator merge(InputIterator1 first1, InputIterator1 last1,
+                         InputIterator2 first2, InputIterator2 last2,
+                         OutputIterator result, Compare comp);
+
+  template<class BidirectionalIterator>
+    void inplace_merge(BidirectionalIterator first,
+                       BidirectionalIterator middle,
+                       BidirectionalIterator last);
+  template<class BidirectionalIterator, class Compare>
+    void inplace_merge(BidirectionalIterator first,
+                       BidirectionalIterator middle,
+                       BidirectionalIterator last, Compare comp);
+
+  // [:en] [#alg.set.operations], set operations:
+  template<class InputIterator1, class InputIterator2>
+    bool includes(InputIterator1 first1, InputIterator1 last1,
+                  InputIterator2 first2, InputIterator2 last2);
+  template<class InputIterator1, class InputIterator2, class Compare>
+    bool includes(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2, Compare comp);
+
+  template<class InputIterator1, class InputIterator2, class OutputIterator>
+    OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, InputIterator2 last2,
+                             OutputIterator result);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+     class Compare>
+    OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, InputIterator2 last2,
+                             OutputIterator result, Compare comp);
+
+  template<class InputIterator1, class InputIterator2, class OutputIterator>
+    OutputIterator set_intersection(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+     class Compare>
+    OutputIterator set_intersection(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result, Compare comp);
+
+  template<class InputIterator1, class InputIterator2, class OutputIterator>
+    OutputIterator set_difference(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+     class Compare>
+    OutputIterator set_difference(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result, Compare comp);
+
+  template<class InputIterator1, class InputIterator2, class OutputIterator>
+    OutputIterator set_symmetric_difference(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result);
+  template<class InputIterator1, class InputIterator2, class OutputIterator,
+      class Compare>
+    OutputIterator set_symmetric_difference(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      OutputIterator result, Compare comp);
+
+  // [:en] [#alg.heap.operations], heap operations:
+  template<class RandomAccessIterator>
+    void push_heap(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void push_heap(RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp);
+
+  template<class RandomAccessIterator>
+    void pop_heap(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void pop_heap(RandomAccessIterator first, RandomAccessIterator last,
+                  Compare comp);
+
+  template<class RandomAccessIterator>
+    void make_heap(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void make_heap(RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp);
+
+  template<class RandomAccessIterator>
+    void sort_heap(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    void sort_heap(RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp);
+
+  template<class RandomAccessIterator>
+    bool is_heap(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    bool is_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+  template<class RandomAccessIterator>
+    RandomAccessIterator is_heap_until(RandomAccessIterator first, RandomAccessIterator last);
+  template<class RandomAccessIterator, class Compare>
+    RandomAccessIterator is_heap_until(RandomAccessIterator first, RandomAccessIterator last,
+                                       Compare comp);
+
+  // [:en] [#alg.min.max], minimum and maximum:
+  template<class T> constexpr const T& min(const T& a, const T& b);
+  template<class T, class Compare>
+    constexpr const T& min(const T& a, const T& b, Compare comp);
+  template<class T>
+    constexpr T min(initializer_list<T> t);
+  template<class T, class Compare>
+    constexpr T min(initializer_list<T> t, Compare comp);
+
+  template<class T> constexpr const T& max(const T& a, const T& b);
+  template<class T, class Compare>
+    constexpr const T& max(const T& a, const T& b, Compare comp);
+  template<class T>
+    constexpr T max(initializer_list<T> t);
+  template<class T, class Compare>
+    constexpr T max(initializer_list<T> t, Compare comp);
+
+  template<class T> constexpr pair<const T&, const T&> minmax(const T& a, const T& b);
+  template<class T, class Compare>
+    constexpr pair<const T&, const T&> minmax(const T& a, const T& b, Compare comp);
+  template<class T>
+    constexpr pair<T, T> minmax(initializer_list<T> t);
+  template<class T, class Compare>
+    constexpr pair<T, T> minmax(initializer_list<T> t, Compare comp);
+
+  template<class ForwardIterator>
+    ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class Compare>
+    ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
+                                Compare comp);
+  template<class ForwardIterator>
+    ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class Compare>
+    ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
+                                Compare comp);
+  template<class ForwardIterator>
+    pair<ForwardIterator, ForwardIterator>
+      minmax_element(ForwardIterator first, ForwardIterator last);
+  template<class ForwardIterator, class Compare>
+    pair<ForwardIterator, ForwardIterator>
+      minmax_element(ForwardIterator first, ForwardIterator last, Compare comp);
+
+  template<class InputIterator1, class InputIterator2>
+    bool lexicographical_compare(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2);
+  template<class InputIterator1, class InputIterator2, class Compare>
+    bool lexicographical_compare(
+      InputIterator1 first1, InputIterator1 last1,
+      InputIterator2 first2, InputIterator2 last2,
+      Compare comp);
+
+  // [:en] [#alg.permutation.generators], permutations:
+  template<class BidirectionalIterator>
+    bool next_permutation(BidirectionalIterator first,
+                          BidirectionalIterator last);
+  template<class BidirectionalIterator, class Compare>
+    bool next_permutation(BidirectionalIterator first,
+                          BidirectionalIterator last, Compare comp);
+  template<class BidirectionalIterator>
+    bool prev_permutation(BidirectionalIterator first,
+                          BidirectionalIterator last);
+  template<class BidirectionalIterator, class Compare>
+    bool prev_permutation(BidirectionalIterator first,
+                          BidirectionalIterator last, Compare comp);
+}
+[codeblock:end]
+
+[para]
+[:en] All of the algorithms are separated from the particular implementations of
+data structures and are parameterized by iterator types.
+
+[:en] Because of this, they can work with program-defined data structures, as
+long as these data structures have iterator types satisfying the assumptions on
+the algorithms.
+
+[para]
+[:en] For purposes of determining the existence of data races, algorithms shall
+not modify objects referenced through an iterator argument unless the
+specification requires such modification.
+
+[para]
+[:en] Throughout this Clause, the names of template parameters are used to
+express type requirements.
+
+[list]
+[item]
+[:en] If an algorithm[=']s template parameter is named [`InputIterator],
+[`InputIterator1], or [`InputIterator2], the template argument shall satisfy the
+requirements of an input iterator ([#input.iterators]).
+
+[item]
+[:en] If an algorithm[=']s template parameter is named [`OutputIterator],
+[`OutputIterator1], or [`OutputIterator2], the template argument shall satisfy
+the requirements of an output iterator ([#output.iterators]).
+
+[item]
+[:en] If an algorithm[=']s template parameter is named [`ForwardIterator],
+[`ForwardIterator1], or [`ForwardIterator2], the template argument shall satisfy
+the requirements of a forward iterator ([#forward.iterators]).
+
+[item]
+[:en] If an algorithm[=']s template parameter is named [`BidirectionalIterator],
+[`BidirectionalIterator1], or [`BidirectionalIterator2], the template argument
+shall satisfy the requirements of a bidirectional iterator
+([#bidirectional.iterators]).
+
+[item]
+[:en] If an algorithm[=']s template parameter is named [`RandomAccessIterator],
+[`RandomAccessIterator1], or [`RandomAccessIterator2], the template argument
+shall satisfy the requirements of a random-access iterator
+([#random.access.iterators]).
+[list:end]
+
+[para]
+[:en] If an algorithm[=']s [=Effects] section says that a value pointed to by
+any iterator passed as an argument is modified, then that algorithm has an
+additional type requirement:
+
+[:en] The type of that argument shall satisfy the requirements of a mutable
+iterator ([#iterator.requirements]).
+
+[enter:note]
+[:en] This requirement does not affect arguments that are named
+[`OutputIterator], [`OutputIterator1], or [`OutputIterator2], because output
+iterators must always be mutable.
+[exit:note]
+
+[para]
+[:en] Both in-place and copying versions are provided for certain algorithms.
+
+[footnote]
+[:en] The decision whether to include a copying version was usually based on
+complexity considerations.
+
+[:en] When the cost of doing the operation dominates the cost of copy, the
+copying version is not included.
+
+[:en] For example, [`sort_copy] is not included because the cost of sorting is
+much more significant, and users might as well do [`copy] followed by [`sort].
+
+[footnote]
+[:en] When such a version is provided for [$algorithm] it is called
+[$algorithm[`_copy]]. Algorithms that take predicates end with the suffix [`_if]
+(which follows the suffix [`_copy]).
+
+[para]
+[:en] The [`Predicate] parameter is used whenever an algorithm expects a
+function object ([#function.objects]) that, when applied to the result of
+dereferencing the corresponding iterator, returns a value testable as [`true].
+
+[:en] In other words, if an algorithm takes [`Predicate pred] as its argument
+and [`first] as its iterator argument, it should work correctly in the construct
+[`pred(*first)] contextually converted to [`bool] (Clause [#conv]).
+
+[:en] The function object [`pred] shall not apply any non-constant function
+through the dereferenced iterator.
+
+[para]
+[:en] The [`BinaryPredicate] parameter is used whenever an algorithm expects a
+function object that when applied to the result of dereferencing two
+corresponding iterators or to dereferencing an iterator and type [`T] when [`T]
+is part of the signature returns a value testable as [`true].
+
+[:en] In other words, if an algorithm takes [`BinaryPredicate binary_pred] as
+its argument and [`first1] and [`first2] as its iterator arguments, it should
+work correctly in the construct [`binary_pred(*first1, *first2)] contextually
+converted to [`bool] (Clause [#conv]).
+
+[:en] [`BinaryPredicate] always takes the first iterator[=']s [`value_type] as
+its first argument, that is, in those cases when [`T value] is part of the
+signature, it should work correctly in the construct [`binary_pred(*first1,
+value)] contextually converted to [`bool] (Clause [#conv]).
+
+[:en] [`binary_pred] shall not apply any non-constant function through the
+dereferenced iterators.
+
+[para]
+[enter:note]
+[:en] Unless otherwise specified, algorithms that take function objects as
+arguments are permitted to copy those function objects freely.
+
+[:en] Programmers for whom object identity is important should consider using a
+wrapper class that points to a noncopied implementation object such as
+[`reference_wrapper<T>] ([#refwrap]), or some equivalent solution.
+[exit:note]
+
+[para]
+[:en] When the description of an algorithm gives an expression such as
+[`*first == value] for a condition, the expression shall evaluate to either true
+or false in boolean contexts.
+
+[para]
+[:en] In the description of the algorithms operators [`+] and [`-] are used for
+some of the iterator categories for which they do not have to be defined.
+
+[:en] In these cases the semantics of [`a+n] is the same as that of
+
+[codeblock:notation]
+X tmp = a;
+advance(tmp, n);
+return tmp;
+[codeblock:end]
+
+[:en@~] and that of [`b-a] is the same as of
+
+[codeblock:notation]
+return distance(a, b);
+[codeblock:end]

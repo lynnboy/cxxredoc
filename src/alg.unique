@@ -1,0 +1,78 @@
+﻿[section#alg.unique
+    [:en] Unique
+]
+
+[%@library unique]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator unique(ForwardIterator first, ForwardIterator last);
+
+template<class ForwardIterator, class BinaryPredicate>
+  ForwardIterator unique(ForwardIterator first, ForwardIterator last,
+                         BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] For a nonempty range, eliminates all but the first element from every
+consecutive group of equivalent elements referred to by the iterator [`i] in the
+range [=range[first + 1,last)] for which the following conditions hold:
+[`*(i - 1) == *i] or [`pred(*(i - 1), *i) != false].
+
+[para:requires]
+[:en] The comparison function shall be an equivalence relation.
+
+[:en] The type of [`*first] shall satisfy the [`MoveAssignable] requirements
+(Table [#moveassignable]).
+
+[para:returns]
+[:en] The end of the resulting range.
+
+[para:complexity]
+[:en] For nonempty ranges, exactly [`(last - first) - 1] applications of the
+corresponding predicate.
+[exit:description]
+
+[%@library unique_copy]
+[codeblock:declaration]
+template<class InputIterator, class OutputIterator>
+  OutputIterator
+    unique_copy(InputIterator first, InputIterator last,
+                OutputIterator result);
+
+template<class InputIterator, class OutputIterator,
+         class BinaryPredicate>
+  OutputIterator
+    unique_copy(InputIterator first, InputIterator last,
+                OutputIterator result, BinaryPredicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The comparison function shall be an equivalence relation.
+
+[:en] The ranges [=range[first,last)] and [=range[result,result+(last-first))]
+shall not overlap.
+
+[:en] The expression [`*result = *first] shall be valid.
+
+[:en] If neither [`InputIterator] nor [`OutputIterator] meets the requirements
+of forward iterator then the value type of [`InputIterator] shall be
+[`CopyConstructible] (Table [#copyconstructible]) and [`CopyAssignable] (Table
+[#copyassignable]).
+
+[:en] Otherwise [`CopyConstructible] is not required.
+
+[para:effects]
+[:en] Copies only the first element from every consecutive group of equal
+elements referred to by the iterator [`i] in the range [=range[first,last)]
+for which the following corresponding conditions hold: [`*i == *(i - 1)] or
+[`pred(*i, *(i - 1)) != false].
+
+[para:returns]
+[:en] The end of the resulting range.
+
+[para:complexity]
+[:en] For nonempty ranges, exactly [`last - first - 1] applications of the
+corresponding predicate.
+[exit:description]

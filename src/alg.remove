@@ -1,0 +1,74 @@
+﻿[section#alg.remove
+    [:en] Remove
+]
+
+[%@library remove]
+[%@library remove_if]
+[codeblock:declaration]
+template<class ForwardIterator, class T>
+  ForwardIterator remove(ForwardIterator first, ForwardIterator last,
+                         const T& value);
+
+template<class ForwardIterator, class Predicate>
+  ForwardIterator remove_if(ForwardIterator first, ForwardIterator last,
+                            Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The type of [`*first] shall satisfy the [`MoveAssignable] requirements
+(Table [#moveassignable]).
+
+[para:effects]
+[:en] Eliminates all the elements referred to by iterator [`i] in the range
+[=range[first,last)] for which the following corresponding conditions hold:
+[`*i == value, pred(*i) != false].
+
+[para:returns]
+[:en] The end of the resulting range.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+
+[para:complexity]
+[:en] Exactly [`last - first] applications of the corresponding predicate.
+
+[para:realnote]
+[:en] each element in the range [=range[ret,last)], where [`ret] is the returned
+value, has a valid but unspecified state, because the algorithms can eliminate
+elements by moving from elements that were originally in that range.
+[exit:description]
+
+[%@library remove_copy]
+[%@library remove_copy_if]
+[codeblock:declaration]
+template<class InputIterator, class OutputIterator, class T>
+  OutputIterator
+    remove_copy(InputIterator first, InputIterator last,
+                OutputIterator result, const T& value);
+
+template<class InputIterator, class OutputIterator, class Predicate>
+  OutputIterator
+    remove_copy_if(InputIterator first, InputIterator last,
+                   OutputIterator result, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The ranges [=range[first,last)] and [=range[result,result + (last -
+first))] shall not overlap. The expression [`*result = *first] shall be valid.
+
+[para:effects]
+[:en] Copies all the elements referred to by the iterator [`i] in the range
+[=range[first,last)] for which the following corresponding conditions do not
+hold: [`*i == value, pred(*i) != false].
+
+[para:returns]
+[:en] The end of the resulting range.
+
+[para:complexity]
+[:en] Exactly [`last - first] applications of the corresponding predicate.
+
+[para:remarks]
+[:en] Stable ([#algorithm.stable]).
+[exit:description]

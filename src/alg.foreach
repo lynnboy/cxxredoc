@@ -1,0 +1,38 @@
+﻿[section#alg.foreach
+    [:en] For each
+]
+
+[%@library for_each]
+[codeblock:declaration]
+template<class InputIterator, class Function>
+  Function for_each(InputIterator first, InputIterator last, Function f);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Function] shall meet the requirements of [`MoveConstructible] (Table
+[#moveconstructible]).
+
+[enter:note]
+[:en] [`Function] need not meet the requirements of [`CopyConstructible] (Table
+[#copyconstructible]).
+[exit:note]
+
+[para:effects]
+[:en] Applies [`f] to the result of dereferencing every iterator in the range
+[=range[first,last)], starting from [`first] and proceeding to [`last - 1].
+
+[enter:note]
+[:en] If the type of [`first] satisfies the requirements of a mutable iterator,
+[`f] may apply nonconstant functions through the dereferenced iterator.
+[exit:note]
+
+[para:returns]
+[:en] [`std::move(f)].
+
+[para:complexity]
+[:en] Applies [`f] exactly [`last - first] times.
+
+[para:notes]
+[:en] If [`f] returns a result, the result is ignored.
+[exit:description]

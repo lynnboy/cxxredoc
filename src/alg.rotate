@@ -1,0 +1,62 @@
+﻿[section#alg.rotate
+    [:en] Rotate
+]
+
+[%@library rotate]
+[codeblock:declaration]
+template<class ForwardIterator>
+  ForwardIterator rotate(ForwardIterator first, ForwardIterator middle,
+              ForwardIterator last);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] For each non-negative integer [`i < (last - first)], places the element
+from the position [`first + i] into position
+[`first + (i + (last - middle)) % (last - first)].
+
+[para:returns]
+[:en] [`first + (last - middle)].
+
+[para:notes]
+[:en] This is a left rotate.
+
+[para:requires]
+[:en] [=range[first,middle)] and [=range[middle,last)] shall be valid ranges.
+
+[:en] [`ForwardIterator] shall satisfy the requirements of [`ValueSwappable]
+([#swappable.requirements]).
+
+[:en] The type of [`*first] shall satisfy the requirements of
+[`MoveConstructible] (Table [#moveconstructible]) and the requirements of
+[`MoveAssignable] (Table [#moveassignable]).
+
+[para:complexity]
+[:en] At most [`last - first] swaps.
+[exit:description]
+
+[%@library rotate_copy]
+[codeblock:declaration]
+template<class ForwardIterator, class OutputIterator>
+  OutputIterator
+    rotate_copy(ForwardIterator first, ForwardIterator middle,
+                ForwardIterator last, OutputIterator result);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Copies the range [=range[first,last)] to the range [=range[result,result +
+(last - first))] such that for each non-negative integer [`i < (last - first)]
+the following assignment takes place: [`*(result + i) =  *(first + (i + (middle
+- first)) % (last - first))].
+
+[para:returns]
+[:en] [`result + (last - first)].
+
+[para:requires]
+[:en] The ranges [=range[first,last)] and
+[=range[result,result + (last - first))] shall not overlap.
+
+[para:complexity]
+[:en] Exactly [`last - first] assignments.
+[exit:description]

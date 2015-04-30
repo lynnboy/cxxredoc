@@ -1,0 +1,69 @@
+﻿[section#alg.permutation.generators
+    [:en] Permutation generators
+]
+
+[%@library next_permutation]
+[codeblock:declaration]
+template<class BidirectionalIterator>
+  bool next_permutation(BidirectionalIterator first,
+                        BidirectionalIterator last);
+
+template<class BidirectionalIterator, class Compare>
+  bool next_permutation(BidirectionalIterator first,
+                        BidirectionalIterator last, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Takes a sequence defined by the range [=range[first,last)] and transforms
+it into the next permutation.
+
+[:en] The next permutation is found by assuming that the set of all permutations
+is lexicographically sorted with respect to [`operator<] or [`comp].
+
+[:en] If such a permutation exists, it returns [`true].
+
+[:en] Otherwise, it transforms the sequence into the smallest permutation, that
+is, the ascendingly sorted one, and returns [`false].
+
+[para:requires]
+[:en] [`BidirectionalIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[para:complexity]
+[:en] At most [`(last - first)/2] swaps.
+[exit:description]
+
+[%@library prev_permutation]
+[codeblock:declaration]
+template<class BidirectionalIterator>
+  bool prev_permutation(BidirectionalIterator first,
+                        BidirectionalIterator last);
+
+template<class BidirectionalIterator, class Compare>
+  bool prev_permutation(BidirectionalIterator first,
+                        BidirectionalIterator last, Compare comp);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Takes a sequence defined by the range [=range[first,last)] and transforms
+it into the previous permutation.
+
+[:en] The previous permutation is found by assuming that the set of all
+permutations is lexicographically sorted with respect to [`operator<] or
+[`comp].
+
+[para:returns]
+[:en] [`true] if such a permutation exists.
+
+[:en] Otherwise, it transforms the sequence into the largest permutation, that
+is, the descendingly sorted one, and returns [`false].
+
+[para:requires]
+[:en] [`BidirectionalIterator] shall satisfy the requirements of
+[`ValueSwappable] ([#swappable.requirements]).
+
+[para:complexity]
+[:en] At most [`(last - first)/2] swaps.
+[exit:description]
