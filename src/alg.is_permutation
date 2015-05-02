@@ -50,6 +50,6 @@ returns [`false].
 corresponding predicate if [`equal(first1, last1, first2, last2)] would return
 [`true] if [`pred] was not given in the argument list or [`equal(first1, last1,
 first2, last2, pred)] would return [`true] if pred was given in the argument
-list; otherwise, at worst [=bigoh]([$N[^2]]), where $N$ has the value
+list; otherwise, at worst [=bigoh]([$N[^2]]), where [$N] has the value
 [`distance(first1, last1)].
 [exit:description]

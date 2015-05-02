@@ -538,6 +538,7 @@ All of the containers defined in this Clause and in ([#basic.string]) except
 [`array] meet the additional requirements of an allocator-aware container, as
 described in Table [#tab:containers.allocatoraware].
 
+[para:~]
 [:en]
 Given a container type [`X] having an [`allocator_type] identical to [`A] and a
 [`value_type] identical to [`T] and given an lvalue [`m] of type [`A], a pointer

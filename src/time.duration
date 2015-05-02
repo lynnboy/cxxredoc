@@ -89,11 +89,12 @@ copy and move, respectively, would satisfy the requirements for a [`constexpr]
 function.
 [exit:description]
 
+[para:~]
 [enter:example]
 [codeblock]
 duration<long, ratio<60>> d0;       // [:en] holds a count of minutes using a [`long]
 duration<long long, milli> d1;      // [:en] holds a count of milliseconds using a [`long long]
-duration<double, ratio<1, 30>>  d2; // [:en] holds a count with a tick period of [=frac_1_30] of a second
+duration<double, ratio<1, 30>>  d2; // [:en] holds a count with a tick period of [$[=frac@1@30]] of a second
                                     // [:en@~] (30 Hz) using a [`double]
 [codeblock:end]
 [exit:example]

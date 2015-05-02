@@ -1,0 +1,178 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% mersenne_twister_engine engine:
+/]
+
+[section#rand.eng.mers
+    [:en] Class template [`mersenne_twister_engine]
+]
+
+[%@library mersenne_twister_engine]
+[%[:en]random number engine[![`mersenne_twister_engine]]]
+
+[para]
+[:en] A [`mersenne_twister_engine] random number engine
+
+[footnote]
+[:en] The name of this engine refers, in part, to a property of its period:
+
+[:en] For properly-selected values of the parameters, the period is closely
+related to a large Mersenne prime number.
+[footnote:end]
+
+[:en@~] produces unsigned integer random numbers in the closed interval
+[0,[$2[^w]-1]].
+
+[:en] The
+[%[`mersenne_twister_engine][!state]]
+[%state[![`mersenne_twister_engine]]]
+state [$[`x][_i]] of a [`mersenne_twister_engine] object [`x] is of size [$n]
+and consists of a sequence [$X] of [$n] values of the type delivered by [`x];
+all subscripts applied to [$X] are to be taken modulo [$n].
+
+[para]
+[:en] The transition algorithm
+[%[`mersenne_twister_engine][!transition algorithm]]
+[%transition algorithm[![`mersenne_twister_engine]]]
+employs a twisted generalized feedback shift register defined by shift values
+[$n] and [$m], a twist value [$r], and a conditional xor-mask [$a].
+
+[:en] To improve the uniformity of the result, the bits of the raw shift
+register are additionally [+tempered] ([em i.e.], scrambled) according to a
+bit-scrambling matrix defined by values [$u], [$d], [$s], [$b], [$t], [$c], and
+[$l].
+
+[:en] The state transition is performed as follows:
+
+[list:ol@arparen]
+[item]
+[:en] Concatenate the upper [$w-r] bits of [$X[_i-n]] with the lower [$r] bits
+of [$X[_i+1-n]] to obtain an unsigned integer value [$Y].
+[item]
+[:en] With [$[=alpha] = a [=cdot] (Y [$@sf bitand] 1)], set [$X[_i]] to
+[$X[_i+m-n] [$@sf xor] (Y [$@sf rshift] 1) [$@sf xor] [=alpha]].
+[list:end]
+
+[:en] The sequence [$X] is initialized with the help of an initialization
+multiplier [$f].
+
+[para]
+[:en] The generation algorithm
+[%[`mersenne_twister_engine][!generation algorithm]]
+[%generation algorithm[![`mersenne_twister_engine]]]
+determines the unsigned integer values [$z[_1]], [$z[_2]], [$z[_3]], [$z[_4]] as
+follows, then delivers [$z[_4]] as its result:
+
+[list:ol@arparen]
+[item]
+[:en] Let [$z[_1] = [X[_i] [$@sf xor] [=fenced@(@)@ (X[_i] [$@sf rshift] u)
+[$@sf bitand] d]].
+[item]
+[:en] Let [$z[_2] = [z[_1] [$@sf xor] [=fenced@(@)@ (z[_1] [$@sf lshift][_w] s)
+[$@sf bitand] b]].
+[item]
+[:en] Let [$z[_3] = [z[_2] [$@sf xor] [=fenced@(@)@ (z[_2] [$@sf lshift][_w] t)
+[$@sf bitand] c]].
+[item]
+[:en] Let [$z[_4] = [z[_3] [$@sf xor] (z[_3] [$@sf rshift] l)].
+[list:end]
+
+[codeblock:synopsis]
+template<class UIntType, size_t w, size_t n, size_t m, size_t r,
+          UIntType a, size_t u, UIntType d, size_t s,
+          UIntType b, size_t t,
+          UIntType c, size_t l, UIntType f>
+ class mersenne_twister_engine
+{
+public:
+ // [:en] types
+ typedef UIntType result_type;
+
+ // [:en] engine characteristics
+ static constexpr size_t word_size = w;
+ static constexpr size_t state_size = n;
+ static constexpr size_t shift_size = m;
+ static constexpr size_t mask_bits = r;
+ static constexpr UIntType xor_mask = a;
+ static constexpr size_t tempering_u = u;
+ static constexpr UIntType tempering_d = d;
+ static constexpr size_t tempering_s = s;
+ static constexpr UIntType tempering_b = b;
+ static constexpr size_t tempering_t = t;
+ static constexpr UIntType tempering_c = c;
+ static constexpr size_t tempering_l = l;
+ static constexpr UIntType initialization_multiplier = f;
+ static constexpr result_type min() { return 0; }
+ static constexpr result_type max() { return [$2[^w] - 1]; }
+ static constexpr result_type default_seed = 5489u;
+
+ // [:en] constructors and seeding functions
+ explicit mersenne_twister_engine(result_type value = default_seed);
+ template<class Sseq> explicit mersenne_twister_engine(Sseq& q);
+ void seed(result_type value = default_seed);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+};
+[codeblock:end]
+
+[para]
+[:en] The following relations shall hold: [`0 < m], [`m <= n], [`2u < w],
+[`r <= w], [`u <= w], [`s <= w], [`t <= w], [`l <= w],
+[`w <= numeric_limits<UIntType>::digits], [`a <= (1u<<w) - 1u],
+[`b <= (1u<<w) - 1u], [`c <= (1u<<w) - 1u], [`d <= (1u<<w) - 1u], and
+[`f <= (1u<<w) - 1u].
+
+[para]
+[:en] The textual representation
+[%[`mersenne_twister_engine][!textual representation]]
+of [$[`x][_i]] consists of the values of [$X[_i-n], [=ldots], X[_i-1]], in that
+order.
+
+[%@library mersenne_twister_engine[![:en]constructor]]
+
+[codeblock:declaration]
+explicit mersenne_twister_engine(result_type value = default_seed);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`mersenne_twister_engine] object.
+
+[:en] Sets [$X[_-n]] to [$[`value] [=mod] 2[^w]].
+
+[:en] Then, iteratively for [$i = 1-n,[=ldots],-1], sets [$X[_i]] to
+
+[math]
+[=fenced@[@`]@
+    f [=cdot] [=fenced@(@)@
+        X[_i-1] [$@bf xor] [=fenced@(@)@ X[_i-1] [$@bf rshift] (w - 2)]
+    ] + i [=mod] n
+] [=mod] 2[^w] .
+[math:end]
+
+[para:complexity]
+[:en] [$[=bigoh](n)].
+[exit:description]
+
+[%@library mersenne_twister_engine[![:en]constructor]]
+
+[codeblock:declaration]
+template<class Sseq> explicit mersenne_twister_engine(Sseq& q);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`mersenne_twister_engine] object.
+
+[:en] With [$@math k = [=fenced@lceil@rceil@ w/32]] and [$a] an array (or
+equivalent) of length [$n [=cdot] k], invokes [`q.generate(][$a + 0][`, ][$a + n
+[=cdot] k$][`)] and then, iteratively for [$i = -n, [=ldots] , -1], sets
+[$X[_i]] to [$@math [=fenced@(@)@[=sum@j=0@k-1] a[_k(i+n)+j] [=cdot] 2[^32j]]
+[=mod] 2[^w]].
+
+[:en] Finally, if the most significant [$w - r] bits of [$X[_-n]] are zero, and
+if each of the other resulting [$X[_i]] is 0, changes [$X[_-n]] to [$2[^w-1]].
+[exit:description]

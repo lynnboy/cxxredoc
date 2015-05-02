@@ -1,0 +1,95 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% normal_distribution
+/]
+
+[section#rand.dist.norm.normal
+    [:en] Class template [`normal_distribution]
+]
+
+[%@library normal_distribution]
+[%[:en]random number distribution[![`normal_distribution]]]
+
+[para]
+[:en] A [`normal_distribution] random number distribution produces random
+numbers [$x] distributed according to the probability density function
+[%probability density function[![`normal_distribution]]]
+[%[`normal_distribution][!probability density function]]
+
+[math]
+p(x | [=mu], [=sigma]) = [=frac@ 1 @ [=sigma][=sqrt@ 2[=pi] ]] [=cdot]
+    [=exp] [$@op (] - [=frac@ (x - [=mu])[^2] @ 2[=sigma][^2]] [$@op )] .
+[math:end]
+
+[:en] The distribution parameters [$[=mu]] and [$[=sigma]] are also known as
+this distribution[=']s [+mean] [%mean[![`normal_distribution]]]
+[%[`normal_distribution][!mean]] and [+standard deviation]
+[%standard deviation[![`normal_distribution]]]
+[%[`normal_distribution][!standard deviation]] .
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class normal_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit normal_distribution(RealType mean = 0.0, RealType stddev = 1.0);
+ explicit normal_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType mean() const;
+ RealType stddev() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library normal_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit normal_distribution(RealType mean = 0.0, RealType stddev = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`stddev].
+
+[para:effects]
+[:en] Constructs a [`normal_distribution] object; [`mean] and [`stddev]
+correspond to the respective parameters of the distribution.
+[exit:description]
+
+[%@library normal_distribution[!mean]]
+[%@library mean[!normal_distribution]]
+[codeblock:declaration]
+RealType mean() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`mean] parameter with which the object was constructed.
+[exit:description]
+
+[%@library normal_distribution[!stddev]]
+[%@library stddev[!normal_distribution]]
+[codeblock:declaration]
+RealType stddev() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`stddev] parameter with which the object was
+constructed.
+[exit:description]

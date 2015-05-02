@@ -1,0 +1,93 @@
+﻿[section#cfenv.syn
+    [:en] Header [`<cfenv>] synopsis
+]
+
+[%@library <cfenv> [sortas cfenv]]
+[codeblock:synopsis [special object integer type] ]
+namespace std {
+  // [:en] types
+  typedef object type  fenv_t;
+  typedef integer type fexcept_t;
+
+  // [:en] functions
+  int feclearexcept(int except);
+  int fegetexceptflag(fexcept_t* pflag, int except);
+  int feraiseexcept(int except);
+  int fesetexceptflag(const fexcept_t* pflag, int except);
+  int fetestexcept(int except);
+
+  int fegetround(void);
+  int fesetround(int mode);
+
+  int fegetenv(fenv_t* penv);
+  int feholdexcept(fenv_t* penv);
+  int fesetenv(const fenv_t* penv);
+  int feupdateenv(const fenv_t* penv);
+}
+[codeblock:end]
+
+[para]
+[%@library fenv_t]
+[%@library fexcept_t]
+[%@library feclearexcept]
+[%@library fegetexceptflag]
+[%@library feraiseexcept]
+[%@library fesetexceptflag]
+[%@library fetestexcept]
+[%@library fegetround]
+[%@library fesetround]
+[%@library fegetenv]
+[%@library feholdexcept]
+[%@library fesetenv]
+[%@library feupdateenv]
+[%@library FE_ALL_EXCEPT]
+[%@library FE_DIVBYZERO]
+[%@library FE_INEXACT]
+[%@library FE_INVALID]
+[%@library FE_OVERFLOW]
+[%@library FE_UNDERFLOW]
+[%@library FE_DOWNWARD]
+[%@library FE_TONEAREST]
+[%@library FE_TOWARDZERO]
+[%@library FE_UPWARD]
+[%@library FE_DFL_ENV]
+[:en] The header also defines the macros:
+
+[codeblock:notation]
+  FE_ALL_EXCEPT
+  FE_DIVBYZERO
+  FE_INEXACT
+  FE_INVALID
+  FE_OVERFLOW
+  FE_UNDERFLOW
+
+  FE_DOWNWARD
+  FE_TONEAREST
+  FE_TOWARDZERO
+  FE_UPWARD
+
+  FE_DFL_ENV
+[codeblock:end]
+
+[para]
+[:en] The header defines all functions, types, and macros the same as Clause 7.6
+of the C standard.
+
+[para]
+[:en] The floating-point environment has thread storage duration
+([#basic.stc.thread]).
+
+[:en] The initial state for a thread[=']s floating-point environment is the
+state of the floating-point environment of the thread that constructs the
+corresponding [`std::thread] object ([#thread.thread.class]) at the time it
+constructed the object.
+
+[enter:note]
+[:en] That is, the child thread gets the floating-point state of the parent
+thread at the time of the child[=']s creation.
+[exit:note]
+
+[para]
+[:en] A separate floating-point environment shall be maintained for each thread.
+
+[:en] Each function accesses the environment corresponding to its calling thread.

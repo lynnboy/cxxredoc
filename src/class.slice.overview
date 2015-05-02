@@ -1,0 +1,33 @@
+﻿[section#class.slice.overview
+    [:en] Class [`slice] overview
+]
+
+[%@library slice]
+[codeblock:synopsis]
+namespace std {
+  class slice {
+  public:
+    slice();
+    slice(size_t, size_t, size_t);
+
+    size_t start() const;
+    size_t size() const;
+    size_t stride() const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The [`slice] class represents a BLAS-like slice from an array.
+
+[:en] Such a slice is specified by a starting index, a length, and a stride.
+
+[footnote]
+[:en] BLAS stands for [cite Basic Linear Algebra Subprograms.] [=Cpp] programs
+may instantiate this class.
+
+[:en] See, for example, Dongarra, Du Croz, Duff, and Hammerling: [cite A set of
+Level 3 Basic Linear Algebra Subprograms]; Technical Report MCS-P1-0888, Argonne
+National Laboratory (USA), Mathematics and Computer Science Division, August,
+1988.
+[footnote:end]

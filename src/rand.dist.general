@@ -1,0 +1,26 @@
+﻿[section#rand.dist.general
+    [:en] In general
+]
+
+[para]
+[:en] Each type instantiated from a class template specified in this section
+[#rand.dist] satisfies the requirements of a random number distribution
+([#rand.req.dist]) type.
+
+[para]
+[:en] Descriptions are provided in this section [#rand.dist] only for
+distribution operations that are not described in [#rand.req.dist] or for
+operations where there is additional semantic information.
+
+[:en] In particular, declarations for copy constructors, for copy assignment
+operators, for streaming operators, and for equality and inequality operators
+are not shown in the synopses.
+
+[para]
+[:en] The algorithms for producing each of the specified distributions are
+implementation-defined.
+
+[para]
+[:en] The value of each probability density function [$p(z)] and of each
+discrete probability function [$P(z[_i])] specified in this section is 0
+everywhere outside its stated domain.

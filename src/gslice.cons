@@ -1,0 +1,20 @@
+﻿[section#gslice.cons
+    [:en] [`gslice] constructors
+]
+
+[%@library gslice[![:en]constructor]]
+[codeblock:declaration]
+gslice();
+gslice(size_t start, const valarray<size_t>& lengths,
+         const valarray<size_t>& strides);
+gslice(const gslice&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The default constructor is equivalent to
+[`gslice(0, valarray<size_t>(), valarray<size_t>())].
+
+[:en] The constructor with arguments builds a [`gslice] based on a specification
+of start, lengths, and strides, as explained in the previous section.
+[exit:description]

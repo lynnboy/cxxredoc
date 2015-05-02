@@ -1,0 +1,130 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Seed Sequence requirements:
+/]
+
+[section#rand.req.seedseq
+    [:en] Seed sequence requirements
+]
+
+[%:begin#seed.sequence.requirements
+    [:en] seed sequence[!requirements]
+]
+[%:begin#requirements.seed.sequence
+    [:en] requirements[!seed sequence]
+]
+
+[para]
+[:en] A [+seed sequence][%seed sequence] is an object that consumes a sequence
+of integer-valued data and produces a requested number of unsigned integer
+values [$i], [$0 [=le] i < 2[^32]], based on the consumed data.
+
+[enter:note]
+[:en] Such an object provides a mechanism to avoid replication of streams of
+random variates.
+
+[:en] This can be useful, for example, in applications requiring large numbers
+of random number engines.
+[exit:note]
+
+[para]
+[:en] A class [`S] satisfies the requirements of a seed sequence if the
+expressions shown in Table [#tab:SeedSequence] are valid and have the indicated
+semantics, and if [`S] also satisfies all other requirements of this section
+[#rand.req.seedseq].
+
+[:en] In that Table and throughout this section:
+
+[list:ol@arparen]
+[item]
+[:en] [`T] is the type named by [`S][=']s associated [`result_type];
+[item]
+[:en] [`q] is a value of [`S] and [`r] is a possibly const value of [`S];
+[item]
+[:en] [`ib] and [`ie] are input iterators with an unsigned integer [`value_type]
+of at least 32 bits;
+[item]
+[:en] [`rb] and [`re] are mutable random access iterators with an unsigned
+integer [`value_type] of at least 32 bits;
+[item]
+[:en] [`ob] is an output iterator; and
+[item]
+[:en] [`il] is a value of [`initializer_list<T>].
+[list:end]
+
+[table:listing#tab:SeedSequence
+    [:en] Seed sequence requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter@code
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Pre/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] S::result_type
+[%[`result_type][!seed sequence requirement]]
+[|] T
+[|] [:en] [`T] is an unsigned integer type ([#basic.fundamental]) of at least 32
+    bits.
+[|] [:en] compile-time
+
+[|][`S()]
+[%default constructor[!seed sequence requirement]]
+[|]
+[|] [:en] Creates a seed sequence with the same initial state as all other
+    default-constructed seed sequences of type [`S].
+[|] [:en] constant
+
+[|] S(ib,ie)
+[%sequence constructor[!seed sequence requirement]]
+[|]
+[|] [:en] Creates a seed sequence having internal state that depends on some or
+    all of the bits of the supplied sequence [[`ib], [`ie]).
+[|] [=bigoh]([`ie] - [`ib])
+
+[|] S(il)
+[%initializer-list constructor[!seed sequence requirement]]
+[|]
+[|] [:en] Same as [`S(il.begin(), il.end())].
+[|] same as [`S(il.begin(), il.end())]
+
+[|] q.generate(rb,re)
+[%[`generate][!seed sequence requirement]]
+[|] void
+[|] [:en] Does nothing if [`rb == re].
+    [:en] Otherwise, fills the supplied sequence [[`rb],[`re]) with 32-bit
+    quantities that depend on the sequence supplied to the constructor and
+    possibly also depend on the history of [`generate][=']s previous
+    invocations.
+[|] [=bigoh]([`re] - [`rb])
+
+[|] r.size()
+[%[`size][!seed sequence requirement]]
+[|] size_t
+[|] [:en] The number of 32-bit units that would be copied by a call to
+    [`r.param].
+[|] constant
+
+[|] r.param(ob)
+[%[`param][!seed sequence requirement]]
+[|] void
+[|] [:en] Copies to the given destination a sequence of 32-bit units that can be
+    provided to the constructor of a second object of type [`S], and that would
+    reproduce in that second object a state indistinguishable from the state of
+    the first object.
+[|] [=bigoh]([`r.size()])
+
+[table:end]
+
+[%:end#requirements.seed.sequence]
+[%:end#seed.sequence.requirements]

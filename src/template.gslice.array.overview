@@ -1,0 +1,52 @@
+﻿[section#template.gslice.array.overview
+    [:en] Class template [`gslice_array] overview
+]
+
+[%@library gslice_array]
+[codeblock:synopsis]
+namespace std {
+  template <class T> class gslice_array {
+  public:
+    typedef T value_type;
+
+    void operator=  (const valarray<T>&) const;
+    void operator*= (const valarray<T>&) const;
+    void operator/= (const valarray<T>&) const;
+    void operator%= (const valarray<T>&) const;
+    void operator+= (const valarray<T>&) const;
+    void operator-= (const valarray<T>&) const;
+    void operator^= (const valarray<T>&) const;
+    void operator&= (const valarray<T>&) const;
+    void operator|= (const valarray<T>&) const;
+    void operator<<=(const valarray<T>&) const;
+    void operator>>=(const valarray<T>&) const;
+
+    gslice_array(const gslice_array&);
+    ~gslice_array();
+    const gslice_array& operator=(const gslice_array&) const;
+    void operator=(const T&) const;
+
+    gslice_array() = delete;      // [:en] as implied by declaring copy constructor above
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] This template is a helper template used by the [`slice] subscript operator
+
+[%@library gslice_array]
+[%@library valarray]
+[codeblock:declaration]
+gslice_array<T> valarray<T>::operator[](const gslice&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] It has reference semantics to a subset of an array specified by a
+[`gslice] object.
+
+[para]
+[:en] Thus, the expression [`a[gslice(1, length, stride)`] = b] has the effect
+of assigning the elements of [`b] to a generalized slice of the elements in
+[`a].
+[exit:description]

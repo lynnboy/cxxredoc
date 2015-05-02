@@ -1,0 +1,90 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% gamma_distribution
+/]
+
+[section#rand.dist.pois.gamma
+    [:en] Class template [`gamma_distribution]
+]
+
+[%@library gamma_distribution]
+[%[:en]random number distribution[![`gamma_distribution]]]
+
+[para]
+[:en] A [`gamma_distribution] random number distribution produces random numbers
+[$x > 0] distributed according to the probability density function
+[%probability density function[![`gamma_distribution]]]
+[%[`gamma_distribution][!probability density function]]
+
+[math]
+p(x | [=alpha], [=beta]) =
+    [=frac@ e[^-x/[=beta]]
+          @ [=beta][^[=alpha]] [=cdot] [=Gamma]([=alpha]) ]
+    [=cdot] x[^[=alpha]-1] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class gamma_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit gamma_distribution(RealType alpha = 1.0, RealType beta = 1.0);
+ explicit gamma_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType alpha() const;
+ RealType beta() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library gamma_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit gamma_distribution(RealType alpha = 1.0, RealType beta = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`alpha] and 0 < [`beta].
+
+[para:effects]
+[:en] Constructs a [`gamma_distribution] object; [`alpha] and [`beta] correspond
+to the parameters of the distribution.
+[exit:description]
+
+[%@library gamma_distribution[!alpha]]
+[%@library alpha[!gamma_distribution]]
+[codeblock:declaration]
+RealType alpha() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`alpha] parameter with which the object was constructed.
+[exit:description]
+
+[%@library gamma_distribution[!beta]]
+[%@library beta[!gamma_distribution]]
+[codeblock:declaration]
+RealType beta() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`beta] parameter with which the object was constructed.
+[exit:description]

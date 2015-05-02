@@ -1,0 +1,89 @@
+﻿[/
+% ----------------------------------------------------------------------
+% Class template lognormal_distribution
+% ----------------------------------------------------------------------
+/]
+
+[section#rand.dist.norm.lognormal
+    [:en] Class template [`lognormal_distribution]
+]
+
+[%@library lognormal_distribution]
+[%[:en]random number distribution[![`lognormal_distribution]]]
+
+[para]
+[:en] A [`lognormal_distribution] random number distribution produces random
+numbers [$x > 0] distributed according to the probability density function
+[%probability density function[![`lognormal_distribution]]]
+[%[`lognormal_distribution][!probability density function]]
+
+[math]
+p(x | m, s) = [=frac@ 1 @ sx[=sqrt@2[=pi]]] [=cdot]
+    [=exp] [$@op (] - [=frac@ ([=ln] x - m)[^2] @ 2s[^2]] [$@op )] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class lognormal_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructor and reset functions
+ explicit lognormal_distribution(RealType m = 0.0, RealType s = 1.0);
+ explicit lognormal_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType m() const;
+ RealType s() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library lognormal_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit lognormal_distribution(RealType m = 0.0, RealType s = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`s].
+
+[para:effects]
+[:en] Constructs a [`lognormal_distribution] object; [`m] and [`s] correspond to
+the respective parameters of the distribution.
+[exit:description]
+
+[%@library lognormal_distribution[!m]]
+[%@library m[!lognormal_distribution]]
+[codeblock:declaration]
+RealType m() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`m] parameter with which the object was constructed.
+[exit:description]
+
+[%@library lognormal_distribution[!s]]
+[%@library s[!lognormal_distribution]]
+[codeblock:declaration]
+RealType s() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`s] parameter with which the object was constructed.
+[exit:description]

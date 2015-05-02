@@ -88,6 +88,7 @@ fmtflags showbase =   (flags & (ios_base::showbase));
 [:en] A line without a condition is the default behavior when none of the
 earlier lines apply.
 
+[para:~]
 [:en] For conversion from an integral type other than a character type, the
 function determines the integral conversion specifier as indicated in
 Table [#tab:localization.integer.conversions.out].
@@ -249,9 +250,11 @@ is specified as precision in the conversion specification.
 [:en]
 Otherwise, no precision is specified.
  
+[para:~]
 [:en]
 For conversion from [`void*] the specifier is [`%p].
  
+[para:~]
 [:en]
 The representations at the end of stage 1 consists of the [`char][=']s that
 would be printed by a call of [`printf(s, val)] where [`s] is the conversion
@@ -261,6 +264,7 @@ specifier determined above.
 [em@bf Stage 2] Any character [`c] other than a decimal point(.) is converted to
 a [`charT] via [`use_facet<ctype<charT> >(loc).widen( c )]
 
+[para:~]
 [:en]
 A local variable [`punct] is initialized via
 
@@ -332,6 +336,7 @@ after stage 2 is less than [`str.width()], then enough [`fill] characters are
 added to the sequence at the position indicated for padding to bring the length
 of the sequence to [`str.width()].
  
+[para:~]
 [:en]
 [`str.width(0)] is called.
 

@@ -1,0 +1,16 @@
+﻿[section#mask.array.assign
+    [:en] [`mask_array] assignment
+]
+
+[%@library operator=[!mask_array]]
+[codeblock:declaration]
+void operator=(const valarray<T>&) const;
+const mask_array& operator=(const mask_array&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These assignment operators have reference semantics, assigning the values
+of the argument array elements to selected elements of the [`valarray<T>] object
+to which it refers.
+[exit:description]

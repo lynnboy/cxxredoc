@@ -1,0 +1,223 @@
+﻿[section#complex.transcendentals
+    [:en] [`complex] transcendentals
+]
+
+[%@library acos[!complex]]
+[%@library cacos[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> acos(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc cosine of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`cacos], defined in 7.3.5.1.
+[exit:description]
+
+[%@library asin[!complex]]
+[%@library casin[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> asin(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc sine of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`casin], defined in 7.3.5.2.
+[exit:description]
+
+[%@library atan[!complex]]
+[%@library catan[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> atan(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc tangent of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`catan], defined in 7.3.5.3.
+[exit:description]
+
+[%@library acosh[!complex]]
+[%@library cacosh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> acosh(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc hyperbolic cosine of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`cacosh], defined in 7.3.6.1.
+[exit:description]
+
+[%@library asinh[!complex]]
+[%@library casinh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> asinh(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc hyperbolic sine of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`casinh], defined in 7.3.6.2.
+[exit:description]
+
+[%@library atanh[!complex]]
+[%@library catanh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> atanh(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex arc hyperbolic tangent of [`x].
+
+[para:remarks]
+[:en] Behaves the same as C function [`catanh], defined in 7.3.6.3.
+[exit:description]
+
+[%@library cos[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> cos(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex cosine of [`x].
+[exit:description]
+
+[%@library cosh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> cosh(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex hyperbolic cosine of [`x].
+[exit:description]
+
+[%@library exp[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> exp(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex base e exponential of [`x].
+[exit:description]
+
+[%@library log[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> log(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] the branch cuts are along the negative real axis.
+
+[para:returns]
+[:en] The complex natural (base e) logarithm of [`x], in the range of a strip
+mathematically unbounded along the real axis and in the interval
+[=crange[-i times pi,i times pi`]] along the imaginary axis.
+
+[:en] When [`x] is a negative real number, [`imag(log(x))] is pi.
+[exit:description]
+
+[%@library log10[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> log10(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] the branch cuts are along the negative real axis.
+
+[para:returns]
+[:en] The complex common (base 10) logarithm of [`x], defined as
+[`log(x)/log(10)].
+[exit:description]
+
+[%@library pow[!complex]]
+[codeblock:declaration]
+template<class T>
+  complex<T> pow(const complex<T>& x, const complex<T>& y);
+template<class T> complex<T> pow  (const complex<T>& x, const T& y);
+template<class T> complex<T> pow  (const T& x, const complex<T>& y);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] the branch cuts are along the negative real axis.
+
+[para:returns]
+[:en] The complex power of base [`x] raised to the [`y]-th power, defined as
+[`exp(y*log(x))].
+
+[:en] The value returned for [`pow(0,0)] is implementation-defined.
+[exit:description]
+
+[%@library sin[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> sin  (const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex sine of [`x].
+[exit:description]
+
+[%@library sinh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> sinh (const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex hyperbolic sine of [`x].
+[exit:description]
+
+[%@library sqrt[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> sqrt (const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] the branch cuts are along the negative real axis.
+
+[para:returns]
+[:en] The complex square root of [`x], in the range of the right half-plane.
+
+[:en] If the argument is a negative real number, the value returned lies on the
+positive imaginary axis.
+[exit:description]
+
+[%@library tan[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> tan  (const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex tangent of [`x].
+[exit:description]
+
+[%@library tanh[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> tanh (const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex hyperbolic tangent of [`x].
+[exit:description]

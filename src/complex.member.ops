@@ -1,0 +1,117 @@
+﻿[section#complex.member.ops
+    [:en] [`complex] member operators
+]
+
+[%@library operator+=[!complex]]
+[codeblock:declaration]
+complex<T>& operator+=(const T& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Adds the scalar value [`rhs] to the real part of the complex value
+[`*this] and stores the result in the real part of [`*this], leaving the
+imaginary part unchanged.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator-=[!complex]]
+[codeblock:declaration]
+complex<T>& operator-=(const T& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Subtracts the scalar value [`rhs] from the real part of the complex value
+[`*this] and stores the result in the real part of [`*this], leaving the
+imaginary part unchanged.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator*=[!complex]]
+[codeblock:declaration]
+complex<T>& operator*=(const T& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Multiplies the scalar value [`rhs] by the complex value [`*this] and
+stores the result in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator/=[!complex]]
+[codeblock:declaration]
+complex<T>& operator/=(const T& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Divides the scalar value [`rhs] into the complex value [`*this] and stores
+the result in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator+=[!complex]]
+[codeblock:declaration]
+template<class X> complex<T>& operator+=(const complex<X>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Adds the complex value [`rhs] to the complex value [`*this] and stores the
+sum in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator-=[!complex]]
+[codeblock:declaration]
+template<class X> complex<T>& operator-=(const complex<X>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Subtracts the complex value [`rhs] from the complex value [`*this] and
+stores the difference in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator*=[!complex]]
+[codeblock:declaration]
+template<class X> complex<T>& operator*=(const complex<X>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Multiplies the complex value [`rhs] by the complex value [`*this] and
+stores the product in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator/=[!complex]]
+[codeblock:declaration]
+template<class X> complex<T>& operator/=(const complex<X>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Divides the complex value [`rhs] into the complex value [`*this] and
+stores the quotient in [`*this].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

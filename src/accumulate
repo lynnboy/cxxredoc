@@ -1,0 +1,37 @@
+﻿[section#accumulate
+    [:en] Accumulate
+]
+
+[%@library accumulate]
+[codeblock:declaration]
+template <class InputIterator, class T>
+  T accumulate(InputIterator first, InputIterator last, T init);
+template <class InputIterator, class T, class BinaryOperation>
+  T accumulate(InputIterator first, InputIterator last, T init,
+               BinaryOperation binary_op);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Computes its result by initializing the accumulator [`acc] with the
+initial value [`init] and then modifies it with [`acc = acc + *i] or
+[`acc = binary_op(acc, *i)] for every iterator [`i] in the range
+[=range[first,last)] in order.
+
+[footnote]
+[:en] [`accumulate] is similar to the APL reduction operator and Common Lisp
+reduce function, but it avoids the difficulty of defining the result of
+reduction on an empty sequence by always requiring an initial value.
+[footnote]
+
+[para:requires]
+[:en] [`T] shall meet the requirements of [`CopyConstructible] (Table
+[#copyconstructible]) and [`CopyAssignable] (Table [#copyassignable]) types.
+
+[:en] In the range [=crange[first,last`]], [`binary_op] shall neither modify
+elements nor invalidate iterators or subranges.
+
+[footnote]
+[:en] The use of fully closed ranges is intentional
+[footnote:end]
+[exit:description]

@@ -34,5 +34,5 @@ rvalue, then [`Key] shall be [`CopyInsertable] into [`*this].
 
 [para:complexity]
 [:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
-[`comp] and otherwise [$N] log([$N]), where [$N] is [`last - first].
+[`comp] and otherwise [$N [=log](N)], where [$N] is [`last - first].
 [exit:description]

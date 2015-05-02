@@ -1,0 +1,57 @@
+﻿[section#numerics.general
+    [:en] General
+]
+
+[para]
+[:en] This Clause describes components that [=Cpp] programs may use to perform
+seminumerical operations.
+
+[para]
+[:en] The following subclauses describe components for complex number types,
+random number generation, numeric ([$n]-at-a-time) arrays, generalized numeric
+algorithms, and facilities included from the ISO C library, as summarized in
+Table [#tab:numerics.lib.summary].
+
+[table:listing#tab:numerics.lib.summary
+    [:en] Numerics library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code@vcenter
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [#numeric.requirements]
+[|] [:en] Requirements
+[|]
+
+[|] [#cfenv]
+[|] [:en] Floating-Point Environment
+[|] <cfenv>
+
+[|] [#complex.numbers]
+[|] [:en] Complex Numbers
+[|] <complex>
+
+[|] [#rand]
+[|] [:en] Random number generation
+[|] <random>
+
+[|] [#numarray]
+[|] [:en] Numeric arrays
+[|] <valarray>
+
+[|] [#numeric.ops]
+[|] [:en] Generalized numeric operations
+[|] <numeric>
+
+[|] [#c.math]
+[|] [:en] C library
+[|] <cmath> [br] <ctgmath> [br] <tgmath.h> [br] <cstdlib>
+
+[table:end]

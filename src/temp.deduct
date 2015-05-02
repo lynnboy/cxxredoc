@@ -238,6 +238,7 @@ Such side effects are not in the ["immediate context] and can result in the
 program being ill-formed.
 [exit:note]
 
+[para:~]
 [enter:example]
 [codeblock]
 struct X { };
@@ -253,6 +254,7 @@ X x3 = f(x1, x2);  // [:en] deduction fails on #1 (cannot add [`X+X]), calls #2
 [codeblock:end]
 [exit:example]
 
+[para:~]
 [enter:note]
 [:en]
 Type deduction may fail for the following reasons:

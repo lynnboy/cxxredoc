@@ -1,0 +1,145 @@
+﻿[section#valarray.members
+    [:en] [`valarray] member functions
+]
+
+[%@library swap[!valarray]]
+[%@library valarray[!swap]]
+[codeblock:declaration]
+void swap(valarray& v) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`*this] obtains the value of [`v].
+
+[:en] [`v] obtains the value of [`*this].
+
+[para:complexity]
+[:en] Constant.
+[exit:description]
+
+[%@library length[!valarray]]
+[codeblock:declaration]
+size_t size() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The number of elements in the array.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library sum[!valarray]]
+[codeblock:declaration]
+T sum() const;
+[codeblock:end]
+
+[enter:description]
+[:en] This function may only be instantiated for a type [`T] to which
+[`operator+=] can be applied.
+
+[:en] This function returns the sum of all the elements of the array.
+
+[para]
+[:en] If the array has length 0, the behavior is [%undefined] undefined.
+
+[:en] If the array has length 1, [`sum()] returns the value of element 0.
+
+[:en] Otherwise, the returned value is calculated by applying [`operator+=] to
+a copy of an element of the array and all other elements of the array in an
+[%unspecified behavior] unspecified order.
+[exit:description]
+
+[%@library min[!valarray]]
+[codeblock:declaration]
+T min() const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function returns the minimum value contained in [`*this].
+
+[:en] The value returned for an array of length 0 is undefined.
+
+[:en] For an array of length 1, the value of element 0 is returned.
+
+[:en] For all other array lengths, the determination is made using [`operator<].
+[exit:description]
+
+[%@library max[!valarray]]
+[codeblock:declaration]
+T max() const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function returns the maximum value contained in [`*this].
+
+[:en] The value returned for an array of length 0 is undefined.
+
+[:en] For an array of length 1, the value of element 0 is returned.
+
+[:en] For all other array lengths, the determination is made using [`operator<].
+[exit:description]
+
+[%@library shift[!valarray]]
+[codeblock:declaration]
+valarray shift(int n) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function returns an object of class [`valarray<T>] of length
+[`size()], each of whose elements [$I] is [`(*this)[I + n`]] if [`I + n]
+is non-negative and less than [`size()], otherwise [`T()].
+
+[:en] Thus if element zero is taken as the leftmost element, a positive value of
+[`n] shifts the elements left [`n] places, with zero fill.
+
+[para]
+[enter:example]
+[:en] If the argument has the value -2, the first two elements of the result
+will be value-initialized ([#dcl.init]); the third element of the result will be
+assigned the value of the first element of the argument; etc.
+[exit:example]
+
+[%@library cshift[!valarray]]
+[codeblock:declaration]
+valarray cshift(int n) const;
+[codeblock:end]
+
+[para]
+[:en] This function returns an object of class [`valarray<T>] of length
+[`size()] that is a circular shift of [`*this].
+
+[:en] If element zero is taken as the leftmost element, a non-negative value of
+[$n] shifts the elements circularly left [$n] places and a negative value of
+[$n] shifts the elements circularly right [$-n] places.
+[exit:description]
+
+[%@library apply[!valarray]]
+[codeblock:declaration]
+valarray apply(T func(T)) const;
+valarray apply(T func(const T&)) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These functions return an array whose length is equal to the array.
+
+[:en] Each element of the returned array is assigned the value returned by
+applying the argument function to the corresponding element of the array.
+
+[%@library resize[!valarray]]
+[codeblock:declaration]
+void resize(size_t sz, T c = T());
+[codeblock:end]
+
+[para]
+[:en] This member function changes the length of the [`*this] array to [`sz]
+and then assigns to each element the value of the second argument.
+
+[:en] Resizing invalidates all pointers and references to elements in the array.
+[exit:description]

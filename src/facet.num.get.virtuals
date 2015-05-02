@@ -54,7 +54,7 @@ in stage 1.
 [:en]
 [em@bf Stage 1] The function initializes local variables via
 
-[codeblock:synopsis]
+[codeblock:notation]
 fmtflags flags = str .flags();
 fmtflags basefield = (flags & ios_base::basefield);
 fmtflags uppercase = (flags & ios_base::uppercase);
@@ -108,9 +108,11 @@ That is, the first line whose condition is true applies.
 [:en]
 For conversions to a  floating type the specifier is [`%g].
 
+[para:~]
 [:en]
 For conversions to [`void*] the specifier is [`%p].
 
+[para:~]
 [:en]
 A length modifier is added to the conversion specification, if needed,
 as indicated in Table [#tab:localization.length.modifier.in].

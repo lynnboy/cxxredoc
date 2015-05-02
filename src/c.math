@@ -1,0 +1,496 @@
+﻿[section#c.math
+    [:en] C library
+]
+
+[%@library <ctgmath> [sortas ctgmath]]
+
+[para]
+[:en] The header [`<ctgmath>] simply includes the headers [`<ccomplex>] and
+[`<cmath>].
+
+[para]
+[enter:note]
+[:en] The overloads provided in C by type-generic macros are already provided in
+[`<ccomplex>] and [`<cmath>] by ["sufficient] additional overloads.
+[exit:note]
+
+[para]
+[:en] Tables [#tab:numerics.hdr.cmath] and [#tab:numerics.hdr.cstdlib] describe
+headers [`<cmath>] and [`<cstdlib>], respectively.
+
+[table:listing#tab:numerics.hdr.cmath
+    [:en] Header [`<cmath>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@colspan=all] [=Macros]
+
+[|] FP_FAST_FMA
+[|] FP_FAST_FMAF
+[|] FP_FAST_FMAL
+[|] FP_ILOGB0
+[|] FP_ILOGBNAN
+[|] FP_INFINITE
+[|] FP_NAN
+[|] FP_NORMAL
+[|] FP_SUBNORMAL
+[|] FP_ZERO
+[|] HUGE_VAL
+[|] HUGE_VALF
+[|] HUGE_VALL
+[|] INFINITY
+[|] NAN
+[|] MATH_ERRNO
+[|] MATH_ERREXCEPT
+[|] math_errhandling
+
+[-]
+[|] [=Types]
+
+[|] double_t
+[|] float_t
+
+[-]
+[|@colspan=all] [=Mfunctions]
+
+[|] abs
+[|] acos
+[|] acosh
+[|] asin
+[|] asinh
+[|] atan
+[|] atan2
+[|] atanh
+[|] cbrt
+[|] ceil
+[|] copysign
+[|] cos
+[|] cosh
+[|] erf
+[|] erfc
+[|] exp2
+[|] exp
+[|] expm1
+[|] fabs
+[|] fdim
+[|] floor
+[|] fma
+[|] fmax
+[|] fmin
+[|] fmod
+[|] frexp
+[|] hypot
+[|] ilogb
+[|] ldexp
+[|] lgamma
+[|] llrint
+[|] llround
+[|] log
+[|] log10
+[|] log1p
+[|] log2
+[|] logb
+[|] lrint
+[|] lround
+[|] modf
+[|] nan
+[|] nanf
+[|] nanl
+[|] nearbyint
+[|] nextafter
+[|] nexttoward
+[|] pow
+[|] remainder
+[|] remquo
+[|] rint
+[|] round
+[|] scalbln
+[|] scalbn
+[|] sin
+[|] sinh
+[|] sqrt
+[|] tan
+[|] tanh
+[|] tgamma
+[|] trunc
+
+[-]
+[|@colspan=all] [=Cfunctions]
+
+[|] fpclassify
+[|] isfinite
+[|] isgreater
+[|] isgreaterequal
+[|] isinf
+[|] isless
+[|] islessequal
+[|] islessgreater
+[|] isnan
+[|] isnormal
+[|] isunordered
+[|] signbit
+
+[table:end]
+
+[table:listing#tab:numerics.hdr.cstdlib
+    [:en] Header [`<cstdlib>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|] [=Macro]
+
+[|] RAND_MAX
+
+[-]
+[|@colspan=all] [=Types]
+
+[|] div_t
+[|] ldiv_t
+[|] lldiv_t
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] abs
+[|] div
+[|] labs
+[|] ldiv
+[|] llabs
+[|] lldiv
+[|] rand
+[|] srand
+
+[table:end]
+
+[para]
+[:en] The contents of these headers are the same as the Standard C library
+headers [`<math.h>] and [`<stdlib.h>] respectively, with the following changes:
+
+[para]
+[:en] The [`rand] function has the semantics specified in the C standard, except
+that the implementation may specify that particular library functions may call
+[`rand].
+
+[:en] It is implementation-defined whether the [`rand] function may introduce
+data races ([#res.on.data.races]).
+
+[enter:note]
+[:en] The random number generation ([#rand]) facilities in this standard are
+often preferable to [`rand], because [`rand][=']s underlying algorithm is
+unspecified.
+
+[:en] Use of [`rand] therefore continues to be nonportable, with unpredictable
+and oft-questionable quality and performance.
+[exit:note]
+
+[para]
+[:en] In addition to the [`int] versions of certain math functions in
+[`<cstdlib>], [=Cpp] adds [`long] and [`long long] overloaded versions of these
+functions, with the same semantics.
+
+[para]
+[:en] The added signatures are:
+
+[%@library abs]
+[%@library div]
+[codeblock:synopsis]
+long abs(long);                     // [`labs()]
+long long abs(long long);           // [`llabs()]
+ldiv_t div(long, long);             // [`ldiv()]
+lldiv_t div(long long, long long);  // [`lldiv()]
+[codeblock:end]
+
+[para]
+[:en] In addition to the [`double] versions of the math functions in [`<cmath>],
+[=Cpp] adds [`float] and [`long double] overloaded versions of these functions,
+with the same semantics.
+
+[para]
+[:en] The added signatures are:
+
+[%@library abs]
+[%@library acos]
+[%@library acosh]
+[%@library asin]
+[%@library asinh]
+[%@library atan]
+[%@library atanh]
+[%@library atan2]
+[%@library atan]
+[%@library cbrt]
+[%@library copysign]
+[%@library cos]
+[%@library cosh]
+[%@library erf]
+[%@library erfc]
+[%@library exp]
+[%@library exp]
+[%@library exp2]
+[%@library expm1]
+[%@library fdim]
+[%@library floor]
+[%@library fma]
+[%@library fmax]
+[%@library fmin]
+[%@library frexp]
+[%@library hypot]
+[%@library ilogb]
+[%@library lgamma]
+[%@library llrint]
+[%@library llround]
+[%@library log]
+[%@library log10]
+[%@library log1p]
+[%@library log2]
+[%@library logb]
+[%@library lrint]
+[%@library lround]
+[%@library mod]
+[%@library modf]
+[%@library nan]
+[%@library nearbyint]
+[%@library nextafter]
+[%@library nexttoward]
+[%@library pow]
+[%@library pow]
+[%@library remainder]
+[%@library remquo]
+[%@library rint]
+[%@library round]
+[%@library scalbln]
+[%@library scalbn]
+[%@library sin]
+[%@library sinh]
+[%@library sqrt]
+[%@library tan]
+[%@library tanh]
+[%@library tgamma]
+[%@library trunc]
+
+[codeblock:synopsis]
+float abs(float);
+float acos(float);
+float acosh(float);
+float asin(float);
+float asinh(float);
+float atan(float);
+float atan2(float, float);
+float atanh(float);
+float cbrt(float);
+float ceil(float);
+float copysign(float, float);
+float cos(float);
+float cosh(float);
+float erf(float);
+float erfc(float);
+float exp(float);
+float exp2(float);
+float expm1(float);
+float fabs(float);
+float fdim(float, float);
+float floor(float);
+float fma(float, float, float);
+float fmax(float, float);
+float fmin(float, float);
+float fmod(float, float);
+float frexp(float, int*);
+float hypot(float, float);
+int ilogb(float);
+float ldexp(float, int);
+float lgamma(float);
+long long llrint(float);
+long long llround(float);
+float log(float);
+float log10(float);
+float log1p(float);
+float log2(float);
+float logb(float);
+long lrint(float);
+long lround(float);
+float modf(float, float*);
+float nearbyint(float);
+float nextafter(float, float);
+float nexttoward(float, long double);
+float pow(float, float);
+float remainder(float, float);
+float remquo(float, float, int *);
+float rint(float);
+float round(float);
+float scalbln(float, long);
+float scalbn(float, int);
+float sin(float);
+float sinh(float);
+float sqrt(float);
+float tan(float);
+float tanh(float);
+float tgamma(float);
+float trunc(float);
+
+double abs(double);            // fabs()
+
+long double abs(long double);
+long double acos(long double);
+long double acosh(long double);
+long double asin(long double);
+long double asinh(long double);
+long double atan(long double);
+long double atan2(long double, long double);
+long double atanh(long double);
+long double cbrt(long double);
+long double ceil(long double);
+long double copysign(long double, long double);
+long double cos(long double);
+long double cosh(long double);
+long double erf(long double);
+long double erfc(long double);
+long double exp(long double);
+long double exp2(long double);
+long double expm1(long double);
+long double fabs(long double);
+long double fdim(long double, long double);
+long double floor(long double);
+long double fma(long double, long double, long double);
+long double fmax(long double, long double);
+long double fmin(long double, long double);
+long double fmod(long double, long double);
+long double frexp(long double, int*);
+long double hypot(long double, long double);
+int ilogb(long double);
+long double ldexp(long double, int);
+long double lgamma(long double);
+long long llrint(long double);
+long long llround(long double);
+long double log(long double);
+long double log10(long double);
+long double log1p(long double);
+long double log2(long double);
+long double logb(long double);
+long lrint(long double);
+long lround(long double);
+long double modf(long double, long double*);
+long double nearbyint(long double);
+long double nextafter(long double, long double);
+long double nexttoward(long double, long double);
+long double pow(long double, long double);
+long double remainder(long double, long double);
+long double remquo(long double, long double, int *);
+long double rint(long double);
+long double round(long double);
+long double scalbln(long double, long);
+long double scalbn(long double, int);
+long double sin(long double);
+long double sinh(long double);
+long double sqrt(long double);
+long double tan(long double);
+long double tanh(long double);
+long double tgamma(long double);
+long double trunc(long double);
+[codeblock:end]
+
+[para]
+[:en] The classification/comparison functions behave the same as the C macros
+with the corresponding names defined in 7.12.3, Classification macros, and
+7.12.14, Comparison macros in the C Standard.
+
+[:en] Each function is overloaded for the three floating-point types, as
+follows:
+
+[%@library signbit]
+[%@library fpclassify]
+[%@library isfinite]
+[%@library isinf]
+[%@library isnan]
+[%@library isnormal]
+[%@library isgreater]
+[%@library isgreaterequal]
+[%@library isless]
+[%@library islessequal]
+[%@library islessgreater]
+[%@library isunordered]
+[codeblock:synopsis]
+int fpclassify(float x);
+bool isfinite(float x);
+bool isinf(float x);
+bool isnan(float x);
+bool isnormal(float x);
+bool signbit(float x);
+
+bool isgreater(float x, float y);
+bool isgreaterequal(float x, float y);
+bool isless(float x, float y);
+bool islessequal(float x, float y);
+bool islessgreater(float x, float y);
+bool isunordered(float x, float y);
+
+int fpclassify(double x);
+bool isfinite(double x);
+bool isinf(double x);
+bool isnan(double x);
+bool isnormal(double x);
+bool signbit(double x);
+
+bool isgreater(double x, double y);
+bool isgreaterequal(double x, double y);
+bool isless(double x, double y);
+bool islessequal(double x, double y);
+bool islessgreater(double x, double y);
+bool isunordered(double x, double y);
+
+int fpclassify(long double x);
+bool isfinite(long double x);
+bool isinf(long double x);
+bool isnan(long double x);
+bool isnormal(long double x);
+bool signbit(long double x);
+
+bool isgreater(long double x, long double y);
+bool isgreaterequal(long double x, long double y);
+bool isless(long double x, long double y);
+bool islessequal(long double x, long double y);
+bool islessgreater(long double x, long double y);
+bool isunordered(long double x, long double y);
+[codeblock:end]
+
+[para]
+[:en] Moreover, there shall be additional overloads sufficient to ensure:
+
+[list:ol@ndot]
+[item]
+[:en] If any argument of arithmetic type corresponding to a [`double] parameter
+has type [`long double], then all arguments of arithmetic type
+([#basic.fundamental]) corresponding to [`double] parameters are effectively
+cast to [`long double].
+
+[item]
+[:en] Otherwise, if any argument of arithmetic type corresponding to a [`double]
+parameter has type [`double] or an integer type, then all arguments of
+arithmetic type corresponding to [`double] parameters are effectively cast to
+[`double].
+
+[item]
+[:en] Otherwise, all arguments of arithmetic type corresponding to [`double]
+parameters have type [`float].
+[list:end]
+
+[para:xref]
+[:en] ISO C 7.5, 7.10.2, 7.10.6.

@@ -1,0 +1,100 @@
+﻿[section#valarray.cassign
+    [:en] [`valarray] computed assignment
+]
+
+[%@library operator*=[!valarray]]
+[%@library operator/=[!valarray]]
+[%@library operator%=[!valarray]]
+[%@library operator+=[!valarray]]
+[%@library operator-=[!valarray]]
+[%@library operator^=[!valarray]]
+[%@library operator&=[!valarray]]
+[%@library operator|=[!valarray]]
+[%@library operator<<=[!valarray]]
+[%@library operator>>=[!valarray]]
+[codeblock:declaration]
+valarray& operator*= (const valarray&);
+valarray& operator/= (const valarray&);
+valarray& operator%= (const valarray&);
+valarray& operator+= (const valarray&);
+valarray& operator-= (const valarray&);
+valarray& operator^= (const valarray&);
+valarray& operator&= (const valarray&);
+valarray& operator|= (const valarray&);
+valarray& operator<<=(const valarray&);
+valarray& operator>>=(const valarray&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Each of these operators may only be instantiated for a type [`T] to which
+the indicated operator can be applied.
+
+[:en] Each of these operators performs the indicated operation on each of its
+elements and the corresponding element of the argument array.
+
+[para]
+[:en] The array is then returned by reference.
+
+[para]
+[:en] If the array and the argument array do not have the same length, the
+behavior is [%undefined] undefined.
+
+[:en] The appearance of an array on the left-hand side of a computed assignment
+does [`not] invalidate references or pointers.
+
+[para]
+[:en] If the value of an element in the left-hand side of a valarray computed
+assignment operator depends on the value of another element in that left hand
+side, the resulting behavior is undefined.
+[exit:description]
+
+[%@library operator*=[!valarray]]
+[%@library valarray[!operator*=]]
+[%@library operator/=[!valarray]]
+[%@library valarray[!operator/=]]
+[%@library operator%=[!valarray]]
+[%@library valarray[!operator%=]]
+[%@library operator+=[!valarray]]
+[%@library valarray[!operator+=]]
+[%@library operator-=[!valarray]]
+[%@library valarray[!operator-=]]
+[%@library operator^=[!valarray]]
+[%@library valarray[!operator^=]]
+[%@library operator&=[!valarray]]
+[%@library valarray[!operator&=]]
+[%@library operator|=[!valarray]]
+[%@library valarray[!operator|=]]
+[%@library operator<<=[!valarray]]
+[%@library valarray[!operator<<=]]
+[%@library operator>>=[!valarray]]
+[%@library valarray[!operator>>=]]
+[codeblock:declaration]
+valarray& operator*= (const T&);
+valarray& operator/= (const T&);
+valarray& operator%= (const T&);
+valarray& operator+= (const T&);
+valarray& operator-= (const T&);
+valarray& operator^= (const T&);
+valarray& operator&= (const T&);
+valarray& operator|= (const T&);
+valarray& operator<<=(const T&);
+valarray& operator>>=(const T&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Each of these operators may only be instantiated for a type [`T] to which
+the indicated operator can be applied.
+
+[para]
+[:en] Each of these operators applies the indicated operation to each element of
+the array and the non-array argument.
+
+[para]
+[:en] The array is then returned by reference.
+
+[para]
+[:en] The appearance of an array on the left-hand side of a computed assignment
+does [em not] invalidate references or pointers to the elements of the array.
+[exit:description]

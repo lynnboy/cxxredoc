@@ -1,0 +1,15 @@
+﻿[section#slice.arr.fill
+    [:en] [`slice_array] fill function
+]
+
+[%@library fill[!slice_array]]
+[codeblock:declaration]
+void operator=(const T&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function has reference semantics, assigning the value of its argument
+to the elements of the [`valarray<T>] object to which the [`slice_array] object
+refers.
+[exit:description]

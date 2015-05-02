@@ -1,0 +1,228 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Random Number Engine requirements:
+/]
+
+[section#rand.req.eng
+    [:en] Random number engine requirements
+]
+
+[%:begin#random.number.engine.requirements
+    [:en] random number engine [!requirements]
+]
+[%:begin#requirements.random.number.engine
+    [:en] requirements [!random number engine]
+]
+
+[para]
+[:en] A [+random number engine] (commonly shortened to [+engine]) [`e] of type
+[`E] is a uniform random number generator that additionally meets the
+requirements ([em e.g.], for seeding and for input/output) specified in this
+section.
+
+[para]
+[:en] At any given time, [`e] has a state [$[`e][_i]] for some integer
+[$i [=geq] 0].
+
+[:en] Upon construction, [`e] has an initial state [$[`e][_0]].
+
+[:en] An engine[=']s state may be established via a constructor, a [`seed]
+function, assignment, or a suitable [`operator>>].
+
+[para]
+[:en] [`E][=']s specification shall define:
+
+[list:ol@arparen]
+[item]
+[:en] the size of [`E][=']s state in multiples of the size of [`result_type],
+given as an integral constant expression;
+[item]
+[:en] the [+transition algorithm] [$@sf TA] by which [`e][=']s state [$[`e][_i]]
+is advanced to its [+successor state] [$[`e][_i+1]]; and
+[item]
+[:en] the [+generation algorithm] [$@sf GA] by which an engine[=']s state is
+mapped to a value of type [`result_type].
+[list:end]
+
+[para]
+[:en] A class [`E] that satisfies the requirements of a uniform random number
+generator ([#rand.req.urng]) also satisfies the requirements of a [+random
+number engine] if the expressions shown in Table [#tab:RandomEngine] are valid
+and have the indicated semantics, and if [`E] also satisfies all other
+requirements of this section [#rand.req.eng].
+
+[:en] In that Table and throughout this section:
+
+[list:ol@arparen]
+[item]
+[:en] [`T] is the type named by [`E][=']s associated [`result_type];
+[item]
+[:en] [`e] is a value of [`E], [`v] is an lvalue of [`E], [`x] and [`y] are
+(possibly [`const]) values of [`E];
+[item]
+[:en] [`s] is a value of [`T];
+[item]
+[:en] [`q] is an lvalue satisfying the requirements of a seed sequence
+([#rand.req.seedseq]);
+[item]
+[:en] [`z] is a value of type [`unsigned long long];
+[item]
+[:en] [`os] is an lvalue of the type of some class template specialization
+[`basic_ostream<charT, traits>]; and
+[item]
+[:en] [`is] is an lvalue of the type of some class template specialization
+[`basic_istream<charT, traits>];
+[list:end]
+[:en] where [`charT] and [`traits] are constrained according to Clause
+[#strings] and Clause [#input.output].
+
+[table:listing#tab:RandomEngine
+    [:en] Random number engine requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Pre/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] E()
+[%constructor[!random number engine requirement]]
+[|]
+[|] [:en] Creates an engine with the same initial state as all other
+    default-constructed engines of type [`E].
+[|] [:en] [=bigoh](size of state)
+
+[|] E(x)
+[%copy constructor!random number engine requirement]]
+[|]
+[|] [:en] Creates an engine that compares equal to [`x].
+[|] [:en] [=bigoh](size of state)
+
+[|] E(s)
+[%constructor[!random number engine requirement]]
+[|]
+[|] [:en] Creates an engine with initial state determined by [`s].
+[|] [:en] [=bigoh](size of state)
+
+[|] E(q)
+[%constructor[!random number engine requirement]]
+
+[footnote]
+[:en] This constructor (as well as the subsequent corresponding [`seed()]
+function) may be particularly useful to applications requiring a large number of
+independent random sequences.
+[footnote:end]
+
+[|]
+[|] [:en] Creates an engine with an initial state that depends on a sequence
+    produced by one call to [`q.generate].
+[|] [:en] same as complexity of [`q.generate] called on a sequence whose length
+    is size of state
+
+[|] e.seed()
+[%[`seed][!random number engine requirement]]
+[|] [`void]
+[|] [:en] post: [`e == E()].
+[|] [:en] same as [`E()]
+
+[|] e.seed(s)
+[%[`seed][!random number engine requirement]]
+[|] [`void]
+[|] [:en] post: [`e == E(s)].
+[|] [:en] same as [`E(s)]
+
+[|] e.seed(q)
+[%[`seed][!random number engine requirement]]
+[|] [`void]
+[|] [:en] post: [`e == E(q)].
+[|] [:en] same as [`E(q)]
+
+[|] e()
+[%[`operator()][!random number engine requirement]]
+[|] [`T]
+[|] [:en] Advances [`e][=']s state [$[`e][_i]] to
+    [$[`e][_i+1] = [$@sf TA]([`e][_i])] and returns [$[$@sf GA]([`e][_i])].
+[|] [:en] per Table [#tab:UniformRandomNumberGenerator]
+
+[|] e.discard(z)
+[%[`discard][!random number engine requirement]]
+
+[footnote]
+[:en] This operation is common in user code, and can often be implemented in an
+engine-specific manner so as to provide significant performance improvements
+over an equivalent naive loop that makes [`z] consecutive calls [`e()].
+[footnote:end]
+
+[|] [`void]
+[|] [:en] Advances [`e][=']s state [$[`e][_i]] to [$[`e][_i+[`z]]] by any means
+    equivalent to [`z] consecutive calls [`e()].
+[|] [:en] no worse than the complexity of [`z] consecutive calls [`e()]
+
+[|] x == y
+[%[`operator==][!random number engine requirement]]
+[|] [`bool]
+[|] [:en] This operator is an equivalence relation.
+    [:en] With [$S[_x]] and [$S[_y]] as the infinite sequences of values that
+    would be generated by repeated future calls to [`x()] and [`y()],
+    respectively, returns [`true] if [$S[_x] = S[_y]]; else returns [`false].
+[|] [:en] [=bigoh](size of state)
+
+[|] x != y
+[%[`operator!=][!random number engine requirement]]
+[|] [`bool]
+[|] [`!(x == y)].
+[|] [:en] [=bigoh](size of state)
+
+[|] os << x
+[%[`operator<<][!random number engine requirement]]
+[|] [:en] reference to the type of [`os]
+[|] [:en] With [`os.][$fmtflags] set to [`ios_base::dec|ios_base::left] and the
+    fill character set to the space character, writes to [`os] the textual
+    representation of [`x][=']s current state.
+    [:en] In the output, adjacent numbers are separated by one or more space
+    characters.
+    [br]
+    [:en] post: The [`os.][$fmtflags] and fill character are unchanged.
+[|] [:en] [=bigoh](size of state)
+
+[|] is >> v
+[%[`operator>>][!random number engine requirement]]
+[|] [:en] reference to the type of [`is]
+[|] [:en] With [`is.fmtflags] set to [`ios_base::dec], sets [`v][=']s state as
+    determined by reading its textual representation from [`is].
+    [:en] If bad input is encountered, ensures that [`v][=']s state is unchanged
+    by the operation and calls [`is.setstate(ios::failbit)] (which may throw
+    [`ios::failure] [[#iostate.flags]]).
+    [:en] If a textual representation written via [`os << x] was subsequently
+    read via [`is >> v], then [`x == v] provided that there have been no
+    intervening invocations of [`x] or of [`v].
+    [br]
+    [:en] pre: [`is] provides a textual representation that was previously
+    written using an output stream whose imbued locale was the same as that of
+    [`is], and whose type[=']s template specialization arguments [`charT] and
+    [`traits] were respectively the same as those of [`is].
+    [br]
+    [:en] post: The [`is.][$fmtflags] are unchanged.
+[|] [:en] [=bigoh](size of state)
+
+[table:end]
+
+[para]
+[:en] [`E] shall meet the requirements of [`CopyConstructible] (Table
+[#copyconstructible]) and [`CopyAssignable] (Table [#copyassignable]) types.
+
+[:en] These operations shall each be of complexity no worse than [=bigoh](size
+of state).
+
+[%:end#requirements.random.number.engine]
+[%:end#random.number.engine.requirements]

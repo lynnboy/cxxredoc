@@ -27,5 +27,5 @@ template<class RandomAccessIterator, class Compare>
 (Table [#moveassignable]).
 
 [para:complexity]
-[:en] At most [$N] log([$N]) comparisons (where [`N == last - first]).
+[:en] At most [$N [=log](N)] comparisons (where [`N == last - first]).
 [exit:description]

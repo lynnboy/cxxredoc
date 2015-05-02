@@ -1,0 +1,185 @@
+﻿[section#valarray.sub
+    [:en] [`valarray] subset operations
+]
+
+[%@library operator['][!valarray]]
+[para]
+[:en] The member [`operator[`]] is overloaded to provide several ways to select
+sequences of elements from among those controlled by [`*this].
+
+[:en] Each of these operations returns a subset of the array.
+
+[:en] The const-qualified versions return this subset as a new [`valarray]
+object.
+
+[:en] The non-const versions return a class template object which has reference
+semantics to the original array, working in conjunction with various overloads
+of [`operator=] and other assigning operators to allow selective replacement
+(slicing) of the controlled sequence.
+
+[:en] In each case the selected element(s) must exist.
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+valarray operator[](slice slicearr) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of class [`valarray<T>] containing those elements of the
+controlled sequence designated by [`slicearr].
+
+[enter:example]
+[codeblock]
+const valarray<char> v0("abcdefghijklmnop", 16);
+// [`v0[slice(2, 5, 3)`]] returns [`valarray<char>("cfilo", 5)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator[`][!valarray]]
+[codeblock:declaration]
+slice_array<T> operator[](slice slicearr);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object that holds references to elements of the controlled sequence
+selected by [`slicearr].
+
+[enter:example]
+[codeblock]
+valarray<char> v0("abcdefghijklmnop", 16);
+valarray<char> v1("ABCDE", 5);
+v0[slice(2, 5, 3)] = v1;
+// [`v0 == valarray<char>("abAdeBghCjkDmnEp", 16);]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+valarray operator[](const gslice& gslicearr) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of class [`valarray<T>] containing those elements of the
+controlled sequence designated by [`gslicearr].
+
+[enter:example]
+[codeblock]
+const valarray<char> v0("abcdefghijklmnop", 16);
+const size_t lv[] = { 2, 3 };
+const size_t dv[] = { 7, 2 };
+const valarray<size_t> len(lv, 2), str(dv, 2);
+// [:en] [`v0[gslice(3, len, str)`]] returns
+// [:en@~] [`valarray<char>("dfhkmo", 6)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+gslice_array<T> operator[](const gslice& gslicearr);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object that holds references to elements of the controlled sequence
+selected by [`gslicearr].
+
+[enter:example]
+[codeblock]
+valarray<char> v0("abcdefghijklmnop", 16);
+valarray<char> v1("ABCDE", 5);
+const size_t lv[] = { 2, 3 };
+const size_t dv[] = { 7, 2 };
+const valarray<size_t> len(lv, 2), str(dv, 2);
+v0[gslice(3, len, str)] = v1;
+// [`v0 == valarray<char>("abcAeBgCijDlEnFp", 16)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+valarray operator[](const valarray<bool>& boolarr) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of class [`valarray<T>] containing those elements of the
+controlled sequence designated by [`boolarr].
+
+[enter:example]
+[codeblock]
+const valarray<char> v0("abcdefghijklmnop", 16);
+const bool vb[] = { false, false, true, true, false, true };
+// [:en] [`v0[valarray<bool>(vb, 6)`]] returns
+// [:en@~] [`valarray<char>("cdf", 3)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+mask_array<T> operator[](const valarray<bool>& boolarr);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object that holds references to elements of the controlled sequence
+selected by [`boolarr].
+
+[enter:example]
+[codeblock]
+valarray<char> v0("abcdefghijklmnop", 16);
+valarray<char> v1("ABC", 3);
+const bool vb[] = { false, false, true, true, false, true };
+v0[valarray<bool>(vb, 6)] = v1;
+// [`v0 == valarray<char>("abABeCghijklmnop", 16)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+valarray operator[](const valarray<size_t>& indarr) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of class [`valarray<T>] containing those elements of the
+controlled sequence designated by [`indarr].
+
+[enter:example]
+[codeblock]
+const valarray<char> v0("abcdefghijklmnop", 16);
+const size_t vi[] = { 7, 5, 2, 3, 8 };
+// [:en] [`v0[valarray<size_t>(vi, 5)`]] returns
+// [:en@~] [`valarray<char>("hfcdi", 5)]
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+indirect_array<T> operator[](const valarray<size_t>& indarr);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object that holds references to elements of the controlled sequence
+selected by [`indarr].
+
+[enter:example]
+[codeblock]
+valarray<char> v0("abcdefghijklmnop", 16);
+valarray<char> v1("ABCDE", 5);
+const size_t vi[] = { 7, 5, 2, 3, 8 };
+v0[valarray<size_t>(vi, 5)] = v1;
+// [`v0 == valarray<char>("abCDeBgAEjklmnop", 16)]
+[codeblock:end]
+[exit:example]
+[exit:description]

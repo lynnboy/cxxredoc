@@ -1,0 +1,33 @@
+﻿[section#gslice.array.comp.assign
+    [:en] [`gslice_array]
+]
+
+[%@library operator*=[!gslice_array]]
+[%@library operator/=[!gslice_array]]
+[%@library operator%=[!gslice_array]]
+[%@library operator+=[!gslice_array]]
+[%@library operator-=[!gslice_array]]
+[%@library operator^=[!gslice_array]]
+[%@library operator&=[!gslice_array]]
+[%@library operator|=[!gslice_array]]
+[%@library operator<<=[!gslice_array]]
+[%@library operator>>=[!gslice_array]]
+[codeblock:declaration]
+void operator*= (const valarray<T>&) const;
+void operator/= (const valarray<T>&) const;
+void operator%= (const valarray<T>&) const;
+void operator+= (const valarray<T>&) const;
+void operator-= (const valarray<T>&) const;
+void operator^= (const valarray<T>&) const;
+void operator&= (const valarray<T>&) const;
+void operator|= (const valarray<T>&) const;
+void operator<<=(const valarray<T>&) const;
+void operator>>=(const valarray<T>&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These computed assignments have reference semantics, applying the
+indicated operation to the elements of the argument array and selected elements
+of the [`valarray<T>] object to which the [`gslice_array] object refers.
+[exit:description]

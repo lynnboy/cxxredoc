@@ -1,0 +1,180 @@
+﻿[section#valarray.syn
+    [:en] Header [`<valarray>] synopsis
+]
+
+[%@library <valarray> [sortas valarray]]
+[codeblock:synopsis [special unspecified1 unspecified2] ]
+#include <initializer_list>
+
+namespace std {
+
+  template<class T> class valarray;         // [:en] An array of type [`T]
+  class slice;                              // [:en] a BLAS-like slice out of an array
+  template<class T> class slice_array;
+  class gslice;                             // [:en] a generalized slice out of an array
+  template<class T> class gslice_array;
+  template<class T> class mask_array;       // [:en] a masked array
+  template<class T> class indirect_array;   // [:en] an indirected array
+
+  template<class T> void swap(valarray<T>&, valarray<T>&) noexcept;
+
+  template<class T> valarray<T> operator* (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator* (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator* (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator/ (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator/ (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator/ (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator% (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator% (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator% (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator+ (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator+ (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator+ (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator- (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator- (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator- (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator^ (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator^ (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator^ (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator& (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator& (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator& (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator| (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator| (const valarray<T>&, const T&);
+  template<class T> valarray<T> operator| (const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator<<(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator<<(const valarray<T>&, const T&);
+  template<class T> valarray<T> operator<<(const T&, const valarray<T>&);
+
+  template<class T> valarray<T> operator>>(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> operator>>(const valarray<T>&, const T&);
+  template<class T> valarray<T> operator>>(const T&, const valarray<T>&);
+
+  template<class T> valarray<bool> operator&&(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator&&(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator&&(const T&, const valarray<T>&);
+
+  template<class T> valarray<bool> operator||(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator||(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator||(const T&, const valarray<T>&);
+
+  template<class T>
+    valarray<bool> operator==(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator==(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator==(const T&, const valarray<T>&);
+  template<class T>
+    valarray<bool> operator!=(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator!=(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator!=(const T&, const valarray<T>&);
+
+  template<class T>
+    valarray<bool> operator< (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator< (const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator< (const T&, const valarray<T>&);
+  template<class T>
+    valarray<bool> operator> (const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator> (const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator> (const T&, const valarray<T>&);
+  template<class T>
+    valarray<bool> operator<=(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator<=(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator<=(const T&, const valarray<T>&);
+  template<class T>
+    valarray<bool> operator>=(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<bool> operator>=(const valarray<T>&, const T&);
+  template<class T> valarray<bool> operator>=(const T&, const valarray<T>&);
+
+  template<class T> valarray<T> abs  (const valarray<T>&);
+  template<class T> valarray<T> acos (const valarray<T>&);
+  template<class T> valarray<T> asin (const valarray<T>&);
+  template<class T> valarray<T> atan (const valarray<T>&);
+
+  template<class T> valarray<T> atan2(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> atan2(const valarray<T>&, const T&);
+  template<class T> valarray<T> atan2(const T&, const valarray<T>&);
+
+  template<class T> valarray<T> cos  (const valarray<T>&);
+  template<class T> valarray<T> cosh (const valarray<T>&);
+  template<class T> valarray<T> exp  (const valarray<T>&);
+  template<class T> valarray<T> log  (const valarray<T>&);
+  template<class T> valarray<T> log10(const valarray<T>&);
+
+  template<class T> valarray<T> pow(const valarray<T>&, const valarray<T>&);
+  template<class T> valarray<T> pow(const valarray<T>&, const T&);
+  template<class T> valarray<T> pow(const T&, const valarray<T>&);
+
+  template<class T> valarray<T> sin  (const valarray<T>&);
+  template<class T> valarray<T> sinh (const valarray<T>&);
+  template<class T> valarray<T> sqrt (const valarray<T>&);
+  template<class T> valarray<T> tan  (const valarray<T>&);
+  template<class T> valarray<T> tanh (const valarray<T>&);
+
+  template <class T> unspecified1 begin(valarray<T>& v);
+  template <class T> unspecified2 begin(const valarray<T>& v);
+  template <class T> unspecified1 end(valarray<T>& v);
+  template <class T> unspecified2 end(const valarray<T>& v);
+}
+[codeblock:end]
+
+[para]
+[:en] The header [`<valarray>] defines five class templates ([`valarray],
+[`slice_array], [`gslice_array], [`mask_array], and [`indirect_array]), two
+classes ([`slice] and [`gslice]), and a series of related function templates
+for representing and manipulating arrays of values.
+
+[para]
+[:en] The [`valarray] array classes are defined to be free of certain forms of
+aliasing, thus allowing operations on these classes to be optimized.
+
+[para]
+[:en] Any function returning a [`valarray<T>] is permitted to return an object
+of another type, provided all the const member functions of [`valarray<T>] are
+also applicable to this type.
+
+[:en] This return type shall not add more than two levels of template nesting
+over the most deeply nested argument type.
+
+[footnote]
+[:en] Annex [#implimits] recommends a minimum number of recursively nested
+template instantiations.
+
+[:en] This requirement thus indirectly suggests a minimum allowable complexity
+for valarray expressions.
+[footnote:end]
+
+[para]
+[:en] Implementations introducing such replacement types shall provide
+additional functions and operators as follows:
+
+[list]
+[item]
+[:en] for every function taking a [`const valarray<T>&] other than [`begin] and
+[`end] ([#valarray.range]), identical functions taking the replacement types
+shall be added;
+
+[item]
+[:en] for every function taking two [`const valarray<T>&] arguments, identical
+functions taking every combination of [`const valarray<T>&] and replacement
+types shall be added.
+[list:end]
+
+[para]
+[:en] In particular, an implementation shall allow a [`valarray<T>] to be
+constructed from such replacement types and shall allow assignments and computed
+assignments of such types to [`valarray<T>], [`slice_array<T>],
+[`gslice_array<T>], [`mask_array<T>] and [`indirect_array<T>] objects.
+
+[para]
+[:en] These library functions are permitted to throw a [`bad_alloc]
+([#bad.alloc]) exception if there are not sufficient resources available
+to carry out the operation.
+
+[:en] Note that the exception is not mandated.

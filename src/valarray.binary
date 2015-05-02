@@ -1,0 +1,117 @@
+﻿[section#valarray.binary
+    [:en] [`valarray] binary operators
+]
+
+[%@library operator*[!valarray]]
+[%@library operator/[!valarray]]
+[%@library operator%[!valarray]]
+[%@library operator+[!valarray]]
+[%@library operator-[!valarray]]
+[%@library operator^[!valarray]]
+[%@library operator&[!valarray]]
+[%@library operator|[!valarray]]
+[%@library operator<<[!valarray]]
+[%@library operator>>[!valarray]]
+[%@library operator&&[!valarray]]
+[%@library operator||[!valarray]]
+[codeblock:declaration]
+template<class T> valarray<T> operator*
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator/
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator%
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator+
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator-
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator^
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator&
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator|
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator<<
+    (const valarray<T>&, const valarray<T>&);
+template<class T> valarray<T> operator>>
+    (const valarray<T>&, const valarray<T>&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Each of these operators may only be instantiated for a type [`T] to which
+the indicated operator can be applied and for which the indicated operator
+returns a value which is of type [`T] or which can be unambiguously implicitly
+converted to type [`T].
+
+[para]
+[:en] Each of these operators returns an array whose length is equal to the
+lengths of the argument arrays.
+
+[:en] Each element of the returned array is initialized with the result of
+applying the indicated operator to the corresponding elements of the argument
+arrays.
+
+[para]
+[:en] If the argument arrays do not have the same length, the behavior is
+[%undefined] undefined.
+[exit:description]
+
+[%@library operator*[!valarray]]
+[%@library valarray[!operator*]]
+[%@library operator/[!valarray]]
+[%@library valarray[!operator/]]
+[%@library operator%[!valarray]]
+[%@library valarray[!operator%]]
+[%@library operator+[!valarray]]
+[%@library valarray[!operator+]]
+[%@library operator=[!valarray]]
+[%@library valarray[!operator=]]
+[%@library operator^[!valarray]]
+[%@library valarray[!operator^]]
+[%@library operator&[!valarray]]
+[%@library valarray[!operator&]]
+[%@library operator|[!valarray]]
+[%@library valarray[!operator|]]
+[%@library operator<<[!valarray]]
+[%@library valarray[!operator<<]]
+[%@library operator>>[!valarray]]
+[%@library valarray[!operator>>]]
+[codeblock:declaration]
+template<class T> valarray<T> operator* (const valarray<T>&, const T&);
+template<class T> valarray<T> operator* (const T&, const valarray<T>&);
+template<class T> valarray<T> operator/ (const valarray<T>&, const T&);
+template<class T> valarray<T> operator/ (const T&, const valarray<T>&);
+template<class T> valarray<T> operator% (const valarray<T>&, const T&);
+template<class T> valarray<T> operator% (const T&, const valarray<T>&);
+template<class T> valarray<T> operator+ (const valarray<T>&, const T&);
+template<class T> valarray<T> operator+ (const T&, const valarray<T>&);
+template<class T> valarray<T> operator- (const valarray<T>&, const T&);
+template<class T> valarray<T> operator- (const T&, const valarray<T>&);
+template<class T> valarray<T> operator^ (const valarray<T>&, const T&);
+template<class T> valarray<T> operator^ (const T&, const valarray<T>&);
+template<class T> valarray<T> operator& (const valarray<T>&, const T&);
+template<class T> valarray<T> operator& (const T&, const valarray<T>&);
+template<class T> valarray<T> operator| (const valarray<T>&, const T&);
+template<class T> valarray<T> operator| (const T&, const valarray<T>&);
+template<class T> valarray<T> operator<<(const valarray<T>&, const T&);
+template<class T> valarray<T> operator<<(const T&, const valarray<T>&);
+template<class T> valarray<T> operator>>(const valarray<T>&, const T&);
+template<class T> valarray<T> operator>>(const T&, const valarray<T>&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Each of these operators may only be instantiated for a type [`T] to which
+the indicated operator can be applied and for which the indicated operator
+returns a value which is of type [`T] or which can be unambiguously implicitly
+converted to type [`T].
+
+[para]
+[:en] Each of these operators returns an array whose length is equal to the
+length of the array argument.
+
+[:en] Each element of the returned array is initialized with the result of
+applying the indicated operator to the corresponding element of the array
+argument and the non-array argument.
+[exit:description]

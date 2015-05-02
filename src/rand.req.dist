@@ -1,0 +1,254 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Random Number Distribution requirements:
+/]
+
+[section#rand.req.dist
+    [:en] Random number distribution requirements
+]
+
+[%:begin#random.number.distribution.requirements
+    [:en] random number distribution [!requirements]
+]
+[%:begin#requirements.random.number.distribution
+    [:en] requirements [!random number distribution]
+]
+
+[para]
+[:en] A [+random number distribution] (commonly shortened to [+distribution])
+[`d] of type [`D] is a function object returning values that are distributed
+according to an associated mathematical [+probability density function] [$p(z)]
+or according to an associated [+discrete probability function] [$P(z[_i])].
+
+[:en] A distribution[=']s specification identifies its associated probability
+function [$p(z)] or [$P(z[_i])].
+
+[para]
+[:en] An associated probability function is typically expressed using certain
+externally-supplied quantities known as the [+parameters of the distribution].
+
+[:en] Such distribution parameters are identified in this context by writing,
+for example, [$p(z|a,b)] or [$P(z[_i]|a,b)], to name specific parameters, or by
+writing, for example, [$p(z|{[`p]})] or [$P(z[_i]|{[`p]})], to denote a
+distribution[=']s parameters [`p] taken as a whole.
+
+[para]
+[:en] A class [`D] satisfies the requirements of a [+random number distribution]
+if the expressions shown in Table [#tab:RandomDistribution] are valid and have
+the indicated semantics, and if [`D] and its associated types also satisfy all
+other requirements of this section [#rand.req.dist].
+
+[:en] In that Table and throughout this section,
+
+[list:ol@arparen]
+[item]
+[:en] [`T] is the type named by [`D][=']s associated [`result_type];
+[item]
+[:en] [`P] is the type named by [`D][=']s associated [`param_type];
+[item]
+[:en] [`d] is a value of [`D], and [`x] and [`y] are (possibly [`const]) values
+of [`D];
+[item]
+[:en] [`glb] and [`lub] are values of [`T] respectively corresponding to the
+greatest lower bound and the least upper bound on the values potentially
+returned by [`d][=']s [`operator()], as determined by the current values of
+[`d][=']s parameters;
+[item]
+[:en] [`p] is a (possibly [`const]) value of [`P];
+[item]
+[:en] [`g], [`g1], and [`g2] are lvalues of a type satisfying the requirements
+of a uniform random number generator [[#rand.req.urng]];
+[item]
+[:en] [`os] is an lvalue of the type of some class template specialization
+[`basic_ostream<charT, traits>]; and
+[item]
+[:en] [`is] is an lvalue of the type of some class template specialization
+[`basic_istream<charT, traits>];
+[list:end]
+
+[:en@~] where [`charT] and [`traits] are constrained according to Clauses
+[#strings] and [#input.output].
+
+[table:listing#tab:RandomDistribution
+    [:en] Random number distribution requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Pre/post-condition
+        ]
+        [column@headercenter
+            [:en] Complexity
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] D::result_type
+[%[`result_type][!random number distribution requirement]]
+[|] [`T]
+[|] [:en] [`T] is an arithmetic type ([#basic.fundamental]).
+[|] [:en] compile-time
+
+[|] D::param_type
+[%[`param_type][!random number distribution requirement]]
+[|] [:en] [`P]
+[|]
+[|] [:en] compile-time
+
+[|] D()
+[%default constructor[!random number distribution requirement]]
+[|]
+[|] [:en] Creates a distribution whose behavior is indistinguishable from that
+    of any other newly default-constructed distribution of type [`D].
+[|] [:en] constant
+
+[|] D(p)
+[%constructor[!random number distribution requirement]]
+[|]
+[|] [:en] Creates a distribution whose behavior is indistinguishable from that
+    of a distribution newly constructed directly from the values used to
+    construct [`p].
+[|] [:en] same as [`p][=']s construction
+
+[|] d.reset()
+[%[`reset][!random number distribution requirement]]
+[|] [`void]
+[|] [:en] Subsequent uses of [`d] do not depend on values produced by any engine
+    prior to invoking [`reset].
+[|] [:en] constant
+
+[|] x.param()
+[%[`param][!random number distribution requirement]]
+[|] [`P]
+[|] [:en] Returns a value [`p] such that [`D(p).param() == p].
+[|] [:en] no worse than the complexity of [`D(p)]
+
+[|] d.param(p)
+[%[`param][!random number distribution requirement]]
+[|] [`void]
+[|] [:en] post: [`d.param() == p].
+[|] [:en] no worse than the complexity of [`D(p)]
+
+[|] d(g)
+[%[`operator()][!random number distribution requirement]]
+[|] [`T]
+[|] [:en] With [`p] = [`d.param()], the sequence of numbers returned by
+    successive invocations with the same object [`g] is randomly distributed
+    according to the associated [$p(z|{[`p]})] or [$P(z[_i]|{[`p]})] function.
+[|] [:en] amortized constant number of invocations of [`g]
+
+[|] d(g,p)
+[%[`operator()][!random number distribution requirement]]
+[|] [`T]
+[|] [:en] The sequence of numbers returned by successive invocations with the
+    same objects [`g] and [`p] is randomly distributed according to the
+    associated [$p(z|{[`p]})] or [$P(z[_i]|{[`p]})] function.
+[|] [:en] amortized constant number of invocations of [`g]
+
+[|] x.min()
+[%[`min][!random number distribution requirement]]
+[|] [`T]
+[|] [:en] Returns [`glb].
+[|] [:en] constant
+
+[|] x.max()
+[%[`max][!random number distribution requirement]]
+[|] [`T]
+[|] [:en] Returns [`lub].
+[|] [:en] constant
+
+[|] x == y
+[%[`operator==][!random number distribution requirement]]
+[|] [`bool]
+[|] [:en] This operator is an equivalence relation.
+    [:en] Returns [`true] if [`x.param() == y.param()] and [$S[_1] = [S[_2]],
+    where [$S[_1]] and [$S[_2]] are the infinite sequences of values that would
+    be generated, respectively, by repeated future calls to [`x(g1)] and
+    [`y(g2)] whenever [`g1 == g2].
+    [:en] Otherwise returns [`false].
+[|] [:en] constant
+
+[|] x != y
+[%[`operator!=][!random number distribution requirement]]
+[|] [`bool]
+[|] [:en] [`!(x == y)].
+[|] [:en] same as [`x == y].
+
+[|] os << x
+[%[`operator<<][!random number distribution requirement]]
+[|] [:en] reference to the type of [`os]
+[|] [:en] Writes to [`os] a textual representation for the parameters and the
+    additional internal data of [`x].
+    [br]
+    [:en] post: The [`os.][$fmtflags] and fill character are unchanged.
+[|]
+
+[|] is >> d
+[%[`operator>>][!random number distribution requirement]]
+[|] [:en] reference to the type of [`is]
+[|] [:en] Restores from [`is] the parameters and additional internal data of the
+    lvalue [`d].
+    [:en] If bad input is encountered, ensures that [`d] is unchanged by the
+    operation and calls [`is.setstate(ios::failbit)] (which may throw
+    [`ios::failure] [[#iostate.flags]]).
+    [br]
+    [:en] pre: [`is] provides a textual representation that was previously
+    written using an [`os] whose imbued locale and whose type[=']s template
+    specialization arguments [`charT] and [`traits] were the same as those of
+    [`is].
+    [br]
+    [:en] post: The [`is.][`fmtflags] are unchanged.
+
+[table:end]
+
+[para]
+[:en] [`D] shall satisfy the requirements of [`CopyConstructible] (Table
+[#copyconstructible]) and [`CopyAssignable] (Table [#copyassignable]) types.
+
+[para]
+[:en] The sequence of numbers produced by repeated invocations of [`d(g)] shall
+be independent of any invocation of [`os << d] or of any [`const] member
+function of [`D] between any of the invocations [`d(g)].
+
+[para]
+[:en] If a textual representation is written using [`os << x] and that
+representation is restored into the same or a different object [`y] of the same
+type using [`is >> y], repeated invocations of [`y(g)] shall produce the same
+sequence of numbers as would repeated invocations of [`x(g)].
+
+[para]
+[:en] It is unspecified whether [`D::param_type] is declared as a (nested)
+[`class] or via a [`typedef].
+
+[:en] In this subclause [#rand], declarations of [`D::param_type] are in the
+form of [`typedef]s for convenience of exposition only.
+
+[para]
+[:en] [`P] shall satisfy the requirements of [`CopyConstructible] (Table
+[#copyconstructible]), [`CopyAssignable] (Table [#copyassignable]), and
+[`EqualityComparable] (Table [#equalitycomparable]) types.
+
+[para]
+[:en] For each of the constructors of [`D] taking arguments corresponding to
+parameters of the distribution, [`P] shall have a corresponding constructor
+subject to the same requirements and taking arguments identical in number, type,
+and default values.
+
+[:en] Moreover, for each of the member functions of [`D] that return values
+corresponding to parameters of the distribution, [`P] shall have a corresponding
+member function with the identical name, type, and semantics.
+
+[para]
+[:en] [`P] shall have a declaration of the form
+
+[codeblock:notation]
+typedef  D  distribution_type;
+[codeblock:end]
+
+[%:end#requirements.random.number.distribution]
+[%:end#random.number.distribution.requirements]

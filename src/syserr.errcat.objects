@@ -42,6 +42,7 @@ string [`"system"].
 [:en] The object[=']s [`default_error_condition] virtual function shall behave
 as follows:
 
+[para:~]
 [:en] If the argument [`ev] corresponds to a POSIX [`errno] value [`posv], the
 function shall return [`error_condition(posv, generic_category())].
 

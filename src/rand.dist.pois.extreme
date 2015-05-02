@@ -1,0 +1,95 @@
+﻿[/
+% ----------------------------------------------------------------------
+% Class template extreme_value_distribution
+% ----------------------------------------------------------------------
+/]
+
+[section#rand.dist.pois.extreme
+    [:en] Class template [`extreme_value_distribution]
+]
+
+[%@library extreme_value_distribution]
+[%[:en]random number distribution[![`extreme_value_distribution]]]
+
+[para]
+[:en] An [`extreme_value_distribution] random number distribution produces
+random numbers [$x] distributed according to the probability density function
+
+[footnote]
+[:en] The distribution corresponding to this probability density function is
+also known (with a possible change of variable) as the Gumbel Type I, the
+log-Weibull, or the Fisher-Tippett Type I distribution.
+[footnote:end]
+
+[%probability density function[![`extreme_value_distribution]]]
+[%[`extreme_value_distribution][!probability density function]]
+[math]
+p(x | a, b) = [=frac@1@b] [=cdot] [=exp] [$@op (] [=frac@a - x@b] -
+    [=exp] [$@op (] [=frac@a - x@b] [$@op )] [$@op )] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class extreme_value_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructor and reset functions
+ explicit extreme_value_distribution(RealType a = 0.0, RealType b = 1.0);
+ explicit extreme_value_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType a() const;
+ RealType b() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library extreme_value_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit extreme_value_distribution(RealType a = 0.0, RealType b = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`b].
+
+[para:effects]
+[:en] Constructs an [`extreme_value_distribution] object; [`a] and [`b]
+correspond to the respective parameters of the distribution.
+[exit:description]
+
+[%@library extreme_value_distribution[!a]]
+[%@library a[!extreme_value_distribution]]
+[codeblock:declaration]
+RealType a() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`a] parameter with which the object was constructed.
+[exit:description]
+
+[%@library extreme_value_distribution[!b]]
+[%@library b[!extreme_value_distribution]]
+[codeblock:declaration]
+RealType b() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`b] parameter with which the object was constructed.
+[exit:description]

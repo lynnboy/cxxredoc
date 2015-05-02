@@ -1,0 +1,33 @@
+﻿[section#indirect.array.assign
+    [:en] [`indirect_array] assignment
+]
+
+[%@library operator=[!indirect_array]]
+[codeblock:declaration]
+void operator=(const valarray<T>&) const;
+const indirect_array& operator=(const indirect_array&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These assignment operators have reference semantics, assigning the values
+of the argument array elements to selected elements of the [`valarray<T>] object
+to which it refers.
+
+[para]
+[:en] If the [`indirect_array] specifies an element in the [`valarray<T>] object
+to which it refers more than once, the behavior is [%undefined] undefined.
+
+[para]
+[enter:example]
+[codeblock]
+int addr[] = {2, 3, 1, 4, 4};
+valarray<size_t> indirect(addr, 5);
+valarray<double> a(0., 10), b(1., 5);
+a[indirect] = b;
+[codeblock:end]
+
+[:en] results in undefined behavior since element 4 is specified twice in the
+indirection.
+[exit:example]
+[exit:description]

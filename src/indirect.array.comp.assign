@@ -1,0 +1,39 @@
+﻿[section#indirect.array.comp.assign
+    [:en] [`indirect_array] computed assignment
+]
+
+[%@library operator*=[!indirect_array]]
+[%@library operator*=[!indirect_array]]
+[%@library operator*=[!indirect_array]]
+[%@library operator/=[!indirect_array]]
+[%@library operator%=[!indirect_array]]
+[%@library operator+=[!indirect_array]]
+[%@library operator-=[!indirect_array]]
+[%@library operator^=[!indirect_array]]
+[%@library operator&=[!indirect_array]]
+[%@library operator|=[!indirect_array]]
+[%@library operator<<=[!indirect_array]]
+[%@library operator>>=[!indirect_array]]
+[codeblock:declaration]
+void operator*= (const valarray<T>&) const;
+void operator/= (const valarray<T>&) const;
+void operator%= (const valarray<T>&) const;
+void operator+= (const valarray<T>&) const;
+void operator-= (const valarray<T>&) const;
+void operator^= (const valarray<T>&) const;
+void operator&= (const valarray<T>&) const;
+void operator|= (const valarray<T>&) const;
+void operator<<=(const valarray<T>&) const;
+void operator>>=(const valarray<T>&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These computed assignments have reference semantics, applying the
+indicated operation to the elements of the argument array and selected elements
+of the [`valarray<T>] object to which the [`indirect_array] object refers.
+
+[para]
+[:en] If the [`indirect_array] specifies an element in the [`valarray<T>] object
+to which it refers more than once, the behavior is [%undefined] undefined.
+[exit:description]

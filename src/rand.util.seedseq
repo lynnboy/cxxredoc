@@ -1,0 +1,212 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% class seed_seq:
+/]
+
+[section#rand.util.seedseq
+    [:en] Class [`seed_seq]
+]
+
+[codeblock:synopsis]
+class seed_seq
+{
+public:
+ // [:en] types
+ typedef uint_least32_t result_type;
+
+ // [:en] constructors
+ seed_seq();
+ template<class T>
+   seed_seq(initializer_list<T> il);
+ template<class InputIterator>
+   seed_seq(InputIterator begin, InputIterator end);
+
+ // [:en] generating functions
+ template<class RandomAccessIterator>
+   void generate(RandomAccessIterator begin, RandomAccessIterator end);
+
+ // [:en] property functions
+ size_t size() const;
+ template<class OutputIterator>
+   void param(OutputIterator dest) const;
+
+ // [:en] no copy functions
+ seed_seq(const seed_seq& ) = delete;
+ void operator=(const seed_seq& ) = delete;
+
+private:
+ vector<result_type> v;   // [=Expos]
+};
+[codeblock:end]
+
+
+[%@library seed_seq[![:en]constructor]]
+[codeblock:declaration]
+seed_seq();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`seed_seq] object as if by default-constructing its member
+[`v].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library seed_seq[![:en]constructor]]
+[codeblock:declaration]
+template<class T>
+ seed_seq(initializer_list<T> il);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be an integer type.
+
+[para:effects]
+[:en] Same as [`seed_seq(il.begin(), il.end())].
+[exit:description]
+
+[%@library seed_seq[![:en]constructor]]
+[codeblock:declaration]
+template<class InputIterator>
+  seed_seq(InputIterator begin, InputIterator end);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`InputIterator] shall satisfy the requirements of an input iterator
+(Table [#tab:iterator.input.requirements]) type.
+
+[:en] Moreover, [`iterator_traits<InputIterator>::value_type] shall denote an
+integer type.
+
+[para:effects]
+[:en] Constructs a [`seed_seq] object by the following algorithm:
+
+[codeblock:notation]
+for( InputIterator s = begin; s != end; ++s)
+ v.push_back((*s)[$[=mod] 2[^32]]);
+[codeblock:end]
+[exit:description]
+
+[%@library seed_seq[!generate]]
+[%@library generate[!seed_seq]]
+[codeblock:declaration]
+template<class RandomAccessIterator>
+  void generate(RandomAccessIterator begin, RandomAccessIterator end);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`RandomAccessIterator] shall meet the requirements of a mutable random
+access iterator (Table [#tab:iterator.random.access.requirements]) type.
+
+[:en] Moreover, [`iterator_traits<RandomAccessIterator>::value_type] shall
+denote an unsigned integer type capable of accommodating 32-bit quantities.
+
+[para:effects]
+[:en] Does nothing if [`begin == end].
+
+[:en] Otherwise, with [$s] = [`v.size()] and  [$n] = [`end] - [`begin], fills
+the supplied range [[`begin],[`end]) according to the following algorithm in
+which each operation is to be carried out modulo [$2[^32]], each indexing
+operator applied to [`begin] is to be taken modulo [$n], and [$T(x)] is
+defined as [$x [$@bf xor] (x [$@bf rshift] 27)]:
+
+[list:ol@arparen]
+[item]
+[:en] By way of initialization, set each element of the range to the value
+[`0x8b8b8b8b].
+
+[:en] Additionally, for use in subsequent steps, let [$p = (n - t) / 2] and let
+[$q = p + t], where
+
+[math]
+t = (n [=ge] 623) ? 11 : (n [=ge] 68) ? 7 : (n [=ge] 39) ? 5 : (n [=ge] 7) ? 3 :
+    (n - 1)/2;
+[math:end]
+
+[item]
+[:en] With [$m] as the larger of [$s + 1] and [$n], transform the elements of
+the range: iteratively for [$k] = 0, [=ldots], [$m-1], calculate values
+
+[math@aligned]
+[| r[_1] [$@align]= [$@align]1664525 [=cdot] [`T]([`begin[]k[``]] [$@bf xor]
+    [`begin[]k + p[``]] [$@bf xor] [`begin[]k - 1[``]]) ]
+
+[| r[_2] [$@align]= [$@align]r[_1] + [$@op {]
+    [rows@aligned@center,left]
+        [| s                            [$@align], k = 0 ]
+        [| k [=mod] n + [`v[]k - 1[``]] [$@align], 0 < k [=le] s ]
+        [| k [=mod] n                   [$@align], s < k ]
+    [rows:end] ]
+[math:end]
+
+[:en@~] and, in order, increment [`begin[][$k + p][``]] by [$r[_1]], increment
+[`begin[][$k + q][``]] by [$r[_2]], and set [`begin[k`]] to [$r[_2]].
+
+[item]
+[:en] Transform the elements of the range again, beginning where the previous
+step ended: iteratively for [$k = m, [=ldots], m + n - 1], calculate values
+
+[math@aligned]
+[| r[_3] [$@align]= [$@align]1566083941 [=cdot] [`T]([`begin[]k[``]] +
+    [`begin[]k + p[``]] + [`begin[]k - 1[``]]) ]
+[| r[_4] [$@align]= [$@align]r[_3] - (k [=mod] n) ]
+[math:end]
+
+[:en@~] and, in order, update [`begin[][$k + p][``]] by xoring it with [$r[_3]],
+update [`begin[][$k + q][``]] by xoring it with [$r[_4]], and set
+[`begin[][$k][``]] to [$r[_4]].
+[list:end]
+
+[para:throws]
+[:en] What and when [`RandomAccessIterator] operations of [`begin] and [`end]
+throw.
+[exit:description]
+
+[%@library seed_seq[!size]]
+[%@library size[!seed_seq]]
+[codeblock:declaration]
+size_t size() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The number of 32-bit units that would be returned by a call to [`param()].
+
+[para:throws]
+[:en] Nothing.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library seed_seq[!param]]
+[%@library param[!seed_seq]]
+[codeblock:declaration]
+template<class OutputIterator>
+  void param(OutputIterator dest) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`OutputIterator] shall satisfy the requirements of an output iterator
+(Table [#tab:iterator.output.requirements]) type.
+
+[:en] Moreover, the expression [`*dest = rt] shall be valid for a value [`rt] of
+type [`result_type].
+
+[para:effects]
+[:en] Copies the sequence of prepared 32-bit units to the given destination, as
+if by executing the following statement:
+
+[codeblock:notation]
+copy(v.begin(), v.end(), dest);
+[codeblock:end]
+
+[para:throws]
+[:en] What and when [`OutputIterator] operations of [`dest] throw.
+[exit:description]

@@ -1,0 +1,14 @@
+﻿[section#valarray.special
+    [:en] [`valarray] specialized algorithms
+]
+
+[%@library swap[!valarray]]
+[%@library valarray[!swap]]
+[codeblock:declaration]
+template <class T> void swap(valarray<T>& x, valarray<T>& y) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

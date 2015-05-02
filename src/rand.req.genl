@@ -1,0 +1,53 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  general requirements section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.req.genl
+    [:en] General requirements
+]
+
+[para]
+[:en] Throughout this subclause [#rand], the effect of instantiating a template:
+
+[list:ol@arparen]
+[item]
+[:en] that has a template type parameter named [`Sseq] is undefined unless the
+corresponding template argument is cv-unqualified and satisfies the requirements
+of seed sequence ([#rand.req.seedseq]).
+[item]
+[:en] that has a template type parameter named [`URNG] is undefined unless the
+corresponding template argument is cv-unqualified and satisfies the requirements
+of uniform random number generator ([#rand.req.urng]).
+[item]
+[:en] that has a template type parameter named [`Engine] is undefined unless the
+corresponding template argument is cv-unqualified and satisfies the requirements
+of random number engine ([#rand.req.eng]).
+[item]
+[:en] that has a template type parameter named [`RealType] is undefined unless
+the corresponding template argument is cv-unqualified and is one of [`float],
+[`double], or [`long double].
+[item]
+[:en] that has a template type parameter named [`IntType] is undefined unless
+the corresponding template argument is cv-unqualified and is one of [`short],
+[`int], [`long], [`long long], [`unsigned short], [`unsigned int], [`unsigned
+long], or [`unsigned long long].
+[item]
+[:en] that has a template type parameter named [`UIntType] is undefined unless
+the corresponding template argument is cv-unqualified and is one of [`unsigned
+short], [`unsigned int], [`unsigned long], or [`unsigned long long].
+[list:end]
+
+[para]
+[:en] Throughout this subclause [#rand], phrases of the form ["[`x] is an
+iterator of a specific kind] shall be interpreted as equivalent to the more
+formal requirement that ["[`x] is a value of a type satisfying the requirements
+of the specified iterator type.]
+
+[para]
+[:en] Throughout this subclause [#rand], any constructor that can be called with
+a single argument and that satisfies a requirement specified in this subclause
+shall be declared [`explicit].

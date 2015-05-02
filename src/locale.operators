@@ -14,8 +14,8 @@ bool operator==(const locale& other) const;
 other, or each has a name and the names are identical; [`false] otherwise.
 [exit:description]
 
-[%@library locale[!operator"!=]]
-[%@library operator"!=[!locale]]
+[%@library locale[!operator!=]]
+[%@library operator!=[!locale]]
 [codeblock:declaration]
 bool operator!=(const locale& other) const;
 [codeblock:end]
@@ -55,7 +55,7 @@ use_facet< collate<charT> >(*this).compare
 [:en] A vector of strings [`v] can be collated according to collation rules in
 locale [`loc] simply by ([#alg.sort], [#vector]):
 
-[codeblock:synopsis]
+[codeblock]
 std::sort(v.begin(), v.end(), loc);
 [codeblock:end]
 [exit:example]

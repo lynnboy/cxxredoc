@@ -1,0 +1,20 @@
+﻿[section#slice.access
+    [:en] [`slice] access functions
+]
+
+[%@library start[!slice]]
+[%@library size[!slice]]
+[%@library stride[!slice]]
+[codeblock:declaration]
+size_t start() const;
+size_t size() const;
+size_t stride() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The start, length, or stride specified by a [`slice] object.
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]

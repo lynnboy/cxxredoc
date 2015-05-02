@@ -25,5 +25,5 @@ template<class RandomAccessIterator, class Compare>
 (Table [#moveassignable]).
 
 [para:complexity]
-[:en] [=bigoh]([$N]log([$N])) (where [`[$N] == last - first]) comparisons.
+[:en] [$[=bigoh](N [=log](N))] (where [`[$N] == last - first]) comparisons.
 [exit:description]

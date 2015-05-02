@@ -1,0 +1,44 @@
+﻿[section#valarray.range
+    [:en] valarray range access
+]
+
+[para]
+[:en] In the [`begin] and [`end] function templates that follow, [$unspecified1]
+is a type that meets the requirements of a mutable random access iterator
+([#random.access.iterators]) and of a contiguous iterator
+([#iterator.requirements.general]) whose [`value_type] is the template parameter
+[`T] and whose [`reference] type is [`T&]. [$unspecified2] is a type that meets
+the requirements of a constant random access iterator
+([#random.access.iterators]) and of a contiguous iterator
+([#iterator.requirements.general]) whose [`value_type] is the template parameter
+[`T] and whose [`reference] type is [`const T&].
+
+[para]
+[:en] The iterators returned by [`begin] and [`end] for an array are guaranteed
+to be valid until the member function [`resize(size_t, T)] ([#valarray.members])
+is called for that array or until the lifetime of that array ends, whichever
+happens first.
+
+[%@library begin[!valarray]]
+[%@library valarray[!begin]]
+[codeblock:declaration [special unspecified1 unspecified2] ]
+template <class T> unspecified1 begin(valarray<T>& v);
+template <class T> unspecified2 begin(const valarray<T>& v);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator referencing the first value in the numeric array.
+[exit:description]
+
+[%@library end[!valarray]]
+[%@library valarray[!end]]
+[codeblock:declaration [special unspecified1 unspecified2] ]
+template <class T> unspecified1 end(valarray<T>& v);
+template <class T> unspecified2 end(const valarray<T>& v);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An iterator referencing one past the last value in the numeric array.
+[exit:description]

@@ -1,0 +1,87 @@
+﻿[section#complex.value.ops
+    [:en] [`complex] value operations
+]
+
+[%@library real[!complex]]
+[codeblock:declaration]
+template<class T> constexpr T real(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.real()].
+[exit:description]
+
+[%@library imag[!complex]]
+[codeblock:declaration]
+template<class T> constexpr T imag(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`x.imag()].
+[exit:description]
+
+[%@library abs[!complex]]
+[codeblock:declaration]
+template<class T> T abs(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The magnitude of [`x].
+[exit:description]
+
+[%@library arg[!complex]]
+[codeblock:declaration]
+template<class T> T arg(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The phase angle of [`x], or [`atan2(imag(x), real(x))].
+[exit:description]
+
+[%@library norm[!complex]]
+[codeblock:declaration]
+template<class T> T norm(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The squared magnitude of [`x].
+[exit:description]
+
+[%@library conj[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> conj(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The complex conjugate of [`x].
+[exit:description]
+
+[%@library proj[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> proj(const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The projection of [`x] onto the Riemann sphere.
+
+[para:remarks]
+[:en] Behaves the same as the C function [`cproj], defined in 7.3.9.4.
+[exit:description]
+
+[%@library polar[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> polar(const T& rho, const T& theta = 0);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The [`complex] value corresponding to a complex number whose magnitude is
+[`rho] and whose phase angle is [`theta].
+[exit:description]

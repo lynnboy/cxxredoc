@@ -1,0 +1,15 @@
+﻿[section#gslice.array.fill
+    [:en] [`gslice_array] fill function
+]
+
+[%@library fill[!gslice_array]]
+[codeblock:declaration]
+void operator=(const T&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function has reference semantics, assigning the value of its argument
+to the elements of the [`valarray<T>] object to which the [`gslice_array] object
+refers.
+[exit:description]

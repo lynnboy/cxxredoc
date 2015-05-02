@@ -121,6 +121,7 @@ const char* what() const noexcept;
 [para:returns]
 [:en] An [em@sc ntbs] incorporating the arguments supplied in the constructor.
 
+[para:~]
 [enter:note]
 [:en] The returned NTBS might be the contents of [`what_arg + ": " +
 code.message()].

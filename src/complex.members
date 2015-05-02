@@ -1,0 +1,60 @@
+﻿[section#complex.members
+    [:en] [`complex] member functions
+]
+
+[%@library complex[!complex]]
+[codeblock:declaration]
+template<class T> constexpr complex(const T& re = T(), const T& im = T());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`complex].
+
+[para:postcondition]
+[:en] [`real() == re && imag() == im].
+[exit:description]
+
+[%@library real[!complex]]
+[%@library complex[!real]]
+[codeblock:declaration]
+constexpr T real() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the real component.
+[exit:description]
+
+[%@library real[!complex]]
+[%@library complex[!real]]
+[codeblock:declaration]
+void real(T val);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns [`val] to the real component.
+[exit:description]
+
+[%@library imag[!complex]]
+[%@library complex[!imag]]
+[codeblock:declaration]
+constexpr T imag() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the imaginary component.
+[exit:description]
+
+[%@library imag[!complex]]
+[%@library complex[!imag]]
+[codeblock:declaration]
+void imag(T val);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns [`val] to the imaginary component.
+[exit:description]

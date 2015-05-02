@@ -1,0 +1,49 @@
+﻿[section#valarray.access
+    [:en] [`valarray] element access
+]
+
+[%@library operator['][!valarray]]
+[codeblock:declaration]
+const T&  operator[](size_t) const;
+T& operator[](size_t);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The subscript operator returns a reference to the corresponding element of
+the array.
+
+[para]
+[:en] Thus, the expression [`(a[i`] = q, a[i`]) == q] evaluates as true for any
+non-constant [`valarray<T> a], any [`T q], and for any [`size_t i] such that the
+value of [`i] is less than the length of [`a].
+
+[para]
+[:en] The expression [`&a[i+j`] == &a[i`] + j] evaluates as true for all
+[`size_t i] and [`size_t j] such that [`i+j] is less than the length of the
+array [`a].
+
+[para]
+[:en] Likewise, the expression [`&a[i`] != &b[j`]] evaluates as [`true] for any
+two arrays [`a] and [`b] and for any [`size_t i] and [`size_t j] such that [`i]
+is less than the length of [`a] and [`j] is less than the length of [`b].
+
+[:en] This property indicates an absence of aliasing and may be used to
+advantage by optimizing compilers.
+
+[footnote]
+[:en] Compilers may take advantage of inlining, constant propagation, loop
+fusion, tracking of pointers obtained from [`operator new], and other techniques
+to generate efficient [`valarray]s.
+[footnote:end]
+
+[para]
+[:en] The reference returned by the subscript operator for an array shall be
+valid until the member function [`resize(size_t, T)] ([#valarray.members]) is
+called for that array or until the lifetime of that array ends, whichever
+happens first.
+
+[para]
+[:en] If the subscript operator is invoked with a [`size_t] argument whose value
+is not less than the length of the array, the behavior is [%undefined] undefined.
+[exit:description]

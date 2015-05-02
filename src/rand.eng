@@ -1,0 +1,79 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Engine class templates section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.eng
+    [:en] Random number engine class templates
+]
+
+[para]
+[:en] Each type instantiated from a class template specified in this section
+[#rand.eng] satisfies the requirements of a random number engine
+([#rand.req.eng]) type.
+
+[para]
+[:en] Except where specified otherwise, the complexity of each function
+specified in this section [#rand.eng] is constant.
+
+[para]
+[:en] Except where specified otherwise, no function described in this section
+[#rand.eng] throws an exception.
+
+[para]
+[:en] Descriptions are provided in this section [#rand.eng] only for engine
+operations that are not described in [#rand.req.eng] or for operations where
+there is additional semantic information.
+
+[:en] In particular, declarations for copy constructors, for copy assignment
+operators, for streaming operators, and for equality and inequality operators
+are not shown in the synopses.
+
+[para]
+[:en] Each template specified in this section [#rand.eng] requires one or more
+relationships, involving the value(s) of its non-type template parameter(s), to
+hold.
+
+[:en] A program instantiating any of these templates is ill-formed if any such
+required relationship fails to hold.
+
+[para]
+[:en] For every random number engine and for every random number engine adaptor
+[`X] defined in this sub-clause ([#rand.eng]) and in sub-clause [#rand.adapt]:
+
+[list]
+[item]
+[:en] if the constructor
+
+[codeblock:notation]
+template <class Sseq> explicit X(Sseq& q);
+[codeblock:end]
+
+[:en@~] is called with a type [`Sseq] that does not qualify as a seed sequence,
+then this constructor shall not participate in overload resolution;
+
+[item]
+[:en] if the member function
+
+[codeblock:notation]
+template <class Sseq> void seed(Sseq& q);
+[codeblock:end]
+
+[:en@~] is called with a type [`Sseq] that does not qualify as a seed sequence,
+then this function shall not participate in overload resolution.
+[list:end]
+
+[:en] The extent to which an implementation determines that a type cannot be a
+seed sequence is unspecified, except that as a minimum a type shall not qualify
+as a seed sequence if it is implicitly convertible to [`X::result_type].
+
+[include rand.eng.lcong]
+
+[include rand.eng.mers]
+
+[include rand.eng.sub]

@@ -1,0 +1,117 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% independent_bits_engine engine adaptor:
+/]
+
+[section#rand.adapt.ibits
+    [:en] Class template [`independent_bits_engine]
+]
+
+[%@library independent_bits_engine]
+[%[:en] random number engine adaptor[![`independent_bits_engine]]]
+
+[para]
+[:en] An [`independent_bits_engine] random number engine adaptor combines random
+numbers that are produced by some base engine [$e], so as to produce random
+numbers with a specified number of bits [$w].
+
+[:en] The state
+[%[`independent_bits_engine][!state]]
+[%state[![`independent_bits_engine]]]
+[$[`x][_i]] of an [`independent_bits_engine] engine adaptor object [`x] consists
+of the state [$[`e][_i]] of its base engine [`e]; the size of the state is
+the size of [$e][=']s state.
+
+[para]
+[:en] The transition and generation algorithms are described in terms of the
+following integral constants:%
+[list:ol@arparen]
+[item]
+[:en] Let [$R] = [`e.max() - e.min() + 1] and
+[$m = [=lfloor] [=log][_2] R [=rfloor]].
+[item]
+[:en] With [$n] as determined below, let [$w[_0] = [=lfloor] w / n [=rfloor]],
+[$n[_0] = n - w [=mod] n],
+[$y[_0] = 2[^w[_0]] [=lfloor] R / 2[^w[_0]] [=rfloor]], and
+[$y[_1] = 2[^w[_0]+1] [=lfloor] R / 2[^w[_0]+1] [=rfloor]].
+[item]
+[:en] Let [$n = [=lceil] w / m [=rceil]] if and only if the relation
+[$R - y[_0] [=leq] [=lfloor] y[_0] / n [=rfloor]] holds as a result.
+
+[:en] Otherwise let [$n = 1 + [=lceil] w / m [=rceil]].
+[list:end]
+
+[enter:note]
+[:en] The relation [$w = n[_0]w[_0] + (n - n[_0])(w[_0] + 1)] always holds.
+[exit:note]
+
+[para]
+[:en] The transition algorithm
+[%[`independent_bits_engine][!transition algorithm]]
+[%transition algorithm[![`independent_bits_engine]]]
+is carried out by invoking [`e()] as often as needed to obtain [$n[_0]] values
+less than [$y[_0] + [`e.min()]] and [$n - n[_0]] values less than
+[$y[_1] + [`e.min()]].
+
+[para]
+[:en] The generation algorithm
+[%[`independent_bits_engine][!generation algorithm]]
+[%generation algorithm[![`independent_bits_engine]]]
+uses the values produced while advancing the state as described above to yield a
+quantity [$S] obtained as if by the following algorithm:
+
+[codeblock:notation]
+[$S] = 0;
+for ([$k] = 0; [$k [=neq] n[_0]]; [$k] += 1)  {
+ do [$u] = e() - e.min(); while ([$u [=ge] y[_0]]);
+ [$S] = [$2[^w[_0]] [=cdot] S + u [=mod] 2[^w[_0]]];
+}
+for ([$k] = [$n[_0]]; [$k [=neq] n]; [$k] += 1)  {
+ do [$u] = e() - e.min(); while ([$u [=ge] y[_1]]);
+ [$S] = [$2[^w[_0] + 1] [=cdot] S + u [=mod] 2[^w[_0] + 1]];
+}
+[codeblock:end]
+
+[codeblock:synopsis]
+template<class Engine, size_t w, class UIntType>
+class independent_bits_engine
+{
+public:
+ // [:en] types
+ typedef UIntType result_type;
+
+ // [:en] engine characteristics
+ static constexpr result_type min() { return 0; }
+ static constexpr result_type max() { return @$2^w - 1$@; }
+
+ // [:en] constructors and seeding functions
+ independent_bits_engine();
+ explicit independent_bits_engine(const Engine& e);
+ explicit independent_bits_engine(Engine&& e);
+ explicit independent_bits_engine(result_type s);
+ template<class Sseq> explicit independent_bits_engine(Sseq& q);
+ void seed();
+ void seed(result_type s);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+
+ // [:en] property functions
+ const Engine& base() const noexcept { return e; };
+
+private:
+ Engine e;   // [=Expos]
+};
+[codeblock:end]
+
+[para]
+[:en] The following relations shall hold: [`0 < w] and
+[`w <= numeric_limits<result_type>::digits].
+
+[para]
+[:en] The textual representation
+[%[`independent_bits_engine][!textual representation]]
+[%textual representation[![`independent_bits_engine]]]
+consists of the textual representation of [`e].

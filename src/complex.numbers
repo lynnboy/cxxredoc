@@ -1,0 +1,67 @@
+﻿[section#complex.numbers
+    [:en] Complex numbers
+]
+
+[para]
+[%@library <complex> [sortas complex]]
+[:en] The header [`<complex>] defines a class template, and numerous functions
+for representing and manipulating complex numbers.
+
+[para]
+[:en] The effect of instantiating the template [`complex] for any type other
+than [`float], [`double], or [`long double] is unspecified.
+
+[:en] The specializations [`complex<float>], [`complex<double>], and
+[`complex<long double>] are literal types ([#basic.types]).
+
+[para]
+[:en] If the result of a function is not mathematically defined or not in the
+range of representable values for its type, the behavior is undefined.
+
+[para]
+[:en] If [`z] is an lvalue expression of type [$cv] [`std::complex<T>] then:
+
+[list]
+[item]
+[:en] the expression [`reinterpret_cast<cv T(&)[2`]>(z)] shall be well-formed,
+[item]
+[:en] [`reinterpret_cast<cv T(&)[2`]>(z)[0`]] shall designate the real part of
+[`z], and
+[item]
+[:en] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] shall designate the imaginary part
+of [`z].
+[list:end]
+
+[:en] Moreover, if [`a] is an expression of type [`cv std::complex<T>*] and the
+expression [`a[i`]] is well-defined for an integer expression [`i], then:
+
+[list]
+[item]
+[:en] [`reinterpret_cast<cv T*>(a)[2*i`]] shall designate the real part of
+[`a[i`]], and
+[item]
+[:en] [`reinterpret_cast<cv T*>(a)[2*i + 1`]] shall designate the imaginary part
+of [`a[i`]].
+[list:end]
+
+[include complex.syn]
+
+[include complex]
+
+[include complex.special]
+
+[include complex.members]
+
+[include complex.member.ops]
+
+[include complex.ops]
+
+[include complex.value.ops]
+
+[include complex.transcendentals]
+
+[include cmplx.over]
+
+[include complex.literals]
+
+[include ccmplx]

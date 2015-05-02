@@ -1,0 +1,22 @@
+﻿[section#gslice.access
+    [:en] [`gslice] access functions
+]
+
+[%@library start[!gslice]]
+[%@library size[!gslice]]
+[%@library stride[!gslice]]
+[codeblock:declaration]
+size_t           start()  const;
+valarray<size_t> size() const;
+valarray<size_t> stride() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The representation of the start, lengths, or strides specified for the
+[`gslice].
+
+[para:complexity]
+[:en] [`start()] is constant time. [`size()] and [`stride()] are linear in the
+number of strides.
+[exit:description]

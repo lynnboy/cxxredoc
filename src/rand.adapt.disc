@@ -1,0 +1,96 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% discard_block_engine engine adaptor:
+/]
+
+[section#rand.adapt.disc
+    [:en] Class template [`discard_block_engine]
+]
+
+[%@library discard_block_engine]
+[%[:en]random number engine adaptor[![`discard_block_engine]]]
+
+[para]
+[:en] A [`discard_block_engine] random number engine adaptor produces random
+numbers selected from those produced by some base engine [$e].
+
+[:en] The state
+[%[`discard_block_engine][!state]]
+[%state[![`discard_block_engine]]]
+[$[`x][_i]] of a [`discard_block_engine] engine adaptor object [`x] consists of
+the state [$[`e][_i]] of its base engine [`e] and an additional integer [$n].
+
+[:en] The size of the state is the size of [$e][=']s state plus 1.
+
+[para]
+[:en] The transition algorithm
+[%[`discard_block_engine][!transition algorithm]]
+[%transition algorithm[![`discard_block_engine]]]
+discards all but [$r > 0] values from each block of [$p [=geq] r] values
+delivered by [$e].
+
+[:en] The state transition is performed as follows:
+
+[:en] If [$n [=geq] r], advance the state of [`e] from [$[`e][_i]] to
+[$[`e][_i+p-r]] and set [$n] to 0.
+
+[:en] In any case, then increment [$n] and advance [`e][=']s then-current state
+[$[`e][_j]] to [$[`e][_j+1]].
+
+[para]
+[:en] The generation algorithm
+[%[`discard_block_engine][!generation algorithm]]
+[%generation algorithm[![`discard_block_engine]]]
+yields the value returned by the last invocation of [`e()] while advancing
+[`e][=']s state as described above.
+
+[codeblock:synopsis]
+template<class Engine, size_t p, size_t r>
+ class discard_block_engine
+{
+public:
+ // [:en] types
+ typedef typename Engine::result_type result_type;
+
+ // [:en] engine characteristics
+ static constexpr size_t block_size = p;
+ static constexpr size_t used_block = r;
+ static constexpr result_type min() { return Engine::min(); }
+ static constexpr result_type max() { return Engine::max(); }
+
+ // [:en] constructors and seeding functions
+ discard_block_engine();
+ explicit discard_block_engine(const Engine& e);
+ explicit discard_block_engine(Engine&& e);
+ explicit discard_block_engine(result_type s);
+ template<class Sseq> explicit discard_block_engine(Sseq& q);
+ void seed();
+ void seed(result_type s);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+
+ // [:en] property functions
+ const Engine& base() const noexcept { return e; };
+
+private:
+ Engine e;   // [=Expos]
+ int n;      // [=Expos]
+};
+[codeblock:end]
+
+[para]
+[:en] The following relations shall hold: [`0 < r] and [`r <= p].
+
+[para]
+[:en] The textual representation
+[%[`discard_block_engine][!textual representation]]
+[%textual representation[![`discard_block_engine]]]
+consists of the textual representation of [`e] followed by the value of [`n].
+
+[para]
+[:en] In addition to its behavior pursuant to section [#rand.req.adapt], each
+constructor [%@library discard_block_engine[![:en]constructor]] that is not a
+copy constructor sets [`n] to 0.

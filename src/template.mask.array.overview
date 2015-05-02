@@ -1,0 +1,51 @@
+﻿[section#template.mask.array.overview
+    [:en] Class template [`mask_array] overview
+]
+
+[%@library mask_array]
+[codeblock:synopsis]
+namespace std {
+  template <class T> class mask_array {
+  public:
+    typedef T value_type;
+
+    void operator=  (const valarray<T>&) const;
+    void operator*= (const valarray<T>&) const;
+    void operator/= (const valarray<T>&) const;
+    void operator%= (const valarray<T>&) const;
+    void operator+= (const valarray<T>&) const;
+    void operator-= (const valarray<T>&) const;
+    void operator^= (const valarray<T>&) const;
+    void operator&= (const valarray<T>&) const;
+    void operator|= (const valarray<T>&) const;
+    void operator<<=(const valarray<T>&) const;
+    void operator>>=(const valarray<T>&) const;
+
+    mask_array(const mask_array&);
+   ~mask_array();
+    const mask_array& operator=(const mask_array&) const;
+    void operator=(const T&) const;
+
+    mask_array() = delete;        // [:en] as implied by declaring copy constructor above
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] This template is a helper template used by the mask subscript operator:
+
+[%@library operator['][!mask_array]]
+[%@library mask_array[!operator[']]]
+[codeblock:declaration]
+mask_array<T> valarray<T>::operator[](const valarray<bool>&).
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] It has reference semantics to a subset of an array specified by a boolean
+mask.
+
+[:en] Thus, the expression [`a[mask`] = b;] has the effect of assigning the
+elements of [`b] to the masked elements in [`a] (those for which the
+corresponding element in [`mask] is [`true].)
+[exit:description]

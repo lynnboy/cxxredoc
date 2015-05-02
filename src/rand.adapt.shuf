@@ -1,0 +1,101 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% shuffle_order_engine engine adaptor:
+/]
+
+[section#rand.adapt.shuf
+    [:en] Class template [`shuffle_order_engine]
+]
+
+[%@library shuffle_order_engine]
+[%[:en]random number engine adaptor[![`shuffle_order_engine]]]
+
+[para]
+[:en] A [`shuffle_order_engine] random number engine adaptor produces the same
+random numbers that are produced by some base engine [$e], but delivers them in
+a different sequence.
+
+[:en] The state
+[%[`shuffle_order_engine][!state]]
+[%state[![`shuffle_order_engine]]]
+[$[`x][_i]] of a [`shuffle_order_engine] engine adaptor object [`x] consists of
+the state [$[`e][_i]] of its base engine [`e], an additional value [$Y] of the
+type delivered by [`e], and an additional sequence [$V] of [$k] values also of
+the type delivered by [`e].
+
+[:en] The size of the state is the size of [$e][=']s state plus [$k+1].
+
+[para]
+[:en] The transition algorithm
+[%[`shuffle_order_engine][!transition algorithm]]
+[%transition algorithm[![`shuffle_order_engine]]]
+permutes the values produced by [$e].
+
+[:en] The state transition is performed as follows:
+[list:ol@arparen]
+[item]
+[:en] Calculate an integer [$@math j = [=fenced@lfloor@rfloor@
+[=frac@ k [=cdot] (Y - e[_[=min]]) @ e[_[=max]] - e[_[=min]] +1]]].
+[item]
+[:en] Set [$Y] to [$V[_j]] and then set [$V[_j]] to [`e()].
+[list:end]
+
+[para]
+[:en] The generation algorithm
+[%[`shuffle_order_engine][!generation algorithm]]
+[%generation algorithm[![`shuffle_order_engine]]]
+yields the last value of [`Y] produced while advancing [`e][=']s state as
+described above.
+
+[codeblock:synopsis]
+template<class Engine, size_t k>
+ class shuffle_order_engine
+{
+public:
+ // [:en] types
+ typedef typename Engine::result_type result_type;
+
+ // [:en] engine characteristics
+ static constexpr size_t table_size = k;
+ static constexpr result_type min() { return Engine::min(); }
+ static constexpr result_type max() { return Engine::max(); }
+
+ // [:en] constructors and seeding functions
+ shuffle_order_engine();
+ explicit shuffle_order_engine(const Engine& e);
+ explicit shuffle_order_engine(Engine&& e);
+ explicit shuffle_order_engine(result_type s);
+ template<class Sseq> explicit shuffle_order_engine(Sseq& q);
+ void seed();
+ void seed(result_type s);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+
+ // [:en] property functions
+ const Engine& base() const noexcept { return e; };
+
+private:
+ Engine e;           // [=Expos]
+ result_type Y;      // [=Expos]
+ result_type V[k];   // [=Expos]
+};
+[codeblock:end]
+
+[para]
+[:en] The following relation shall hold: [`0 < k].
+
+[para]
+[:en] The textual representation
+[%[`shuffle_order_engine][!textual representation]]
+[%textual representation[![`shuffle_order_engine]]]
+consists of the textual representation of [`e], followed by the [`k] values of
+[$V], followed by the value of [$Y].
+
+[para]
+[:en] In addition to its behavior pursuant to section [#rand.req.adapt], each
+constructor [%@library shuffle_order_engine[![:en]constructor]] that is not a
+copy constructor initializes [`V[0`]], [=ldots], [`V[k-1`]] and [$Y], in that
+order, with values returned by successive invocations of [`e()].

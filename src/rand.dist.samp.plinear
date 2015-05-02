@@ -1,0 +1,210 @@
+﻿[/
+% ----------------------------------------------------------------------
+% Class template piecewise_linear_distribution
+% ----------------------------------------------------------------------
+/]
+
+[section#rand.dist.samp.plinear
+    [:en] Class template [`piecewise_linear_distribution]
+]
+
+[%@library piecewise_linear_distribution]
+[%[:en]random number distribution[![`piecewise_linear_distribution]]]
+
+[para]
+[:en] A [`piecewise_linear_distribution] random number distribution produces
+random numbers [$x], [$b[_0] [=leq] x < b[_n]], distributed over each
+subinterval [[$b[_i]], [$b[_i+1]]) according to the probability density function
+
+[:en]
+[%probability density function[![`piecewise_linear_distribution]]]
+[%[`piecewise_linear_distribution][!probability density function]]
+[math]
+p(x | b[_0], [=ldots], b[_n], [=rho][_0], [=ldots], [=rho][_n]) =
+    [=rho][_i] [=cdot] [=frac@b[_i+1] - x@b[_i+1] - b[_i]] +
+    [=rho][_i+1] [=cdot] [=frac@x - b[_i]@b[_i+1] - b[_i]]
+    , [=for] b[_i] [=le] x < b[_i+1] .
+[math:end]
+
+[para]
+[:en] The [$n+1] distribution parameters [$b[_i]], also known as this
+distribution[=']s [+interval boundaries]
+[%[`piecewise_linear_distribution][!interval boundaries]]
+[%interval boundaries[![`piecewise_linear_distribution]]]
+, shall satisfy the relation [$b[_i] < b[_i+1]] for [$i = 0, [=ldots], n-1].
+
+[:en] Unless specified otherwise, the remaining [$n+1] distribution parameters
+are calculated as [$[=rho][_k] = w[_k]/S] for [$k = 0, [=ldots], n], in which
+the values [$w[_k]], commonly known as the [+weights at boundaries]
+[%[`piecewise_linear_distribution][!weights at boundaries]]
+[%weights at boundaries[![`piecewise_linear_distribution]]]
+, shall be non-negative, non-NaN, and non-infinity.
+
+[:en] Moreover, the following relation shall hold:
+[math]
+0 < S = [=frac@1@2] [=cdot] [=sum@k=0@n-1] (w[_k] + w[_k+1])
+    [=cdot] (b[_k+1] - b[_k]) .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class piecewise_linear_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructor and reset functions
+ piecewise_linear_distribution();
+ template<class InputIteratorB, class InputIteratorW>
+   piecewise_linear_distribution(InputIteratorB firstB, InputIteratorB lastB,
+                                 InputIteratorW firstW);
+ template<class UnaryOperation>
+   piecewise_linear_distribution(initializer_list<RealType> bl, UnaryOperation fw);
+ template<class UnaryOperation>
+   piecewise_linear_distribution(size_t nw, RealType xmin, RealType xmax, UnaryOperation fw);
+ explicit piecewise_linear_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ vector<result_type> intervals() const;
+ vector<result_type> densities() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library piecewise_linear_distribution[![:en]constructor]]
+[codeblock:declaration]
+piecewise_linear_distribution();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`piecewise_linear_distribution] object with [$n] = 1,
+[$[=rho][_0]] = [[=rho][_1]] = 1, [$b[_0]] = 0, and [$b[_1]] = 1.
+[exit:description]
+
+[%@library piecewise_linear_distribution[![:en]constructor]]
+[codeblock:declaration]
+template<class InputIteratorB, class InputIteratorW>
+ piecewise_linear_distribution(InputIteratorB firstB, InputIteratorB lastB,
+                               InputIteratorW firstW);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`InputIteratorB] and [`InputIteratorW] shall each satisfy the
+requirements of an input iterator (Table [#tab:iterator.input.requirements])
+type.
+
+[:en] Moreover, [`iterator_traits<InputIteratorB>::value_type] and
+[`iterator_traits<InputIteratorW>::value_type] shall each denote a type that is
+convertible to [`double].
+
+[:en] If [`firstB == lastB] or [`++firstB == lastB], let [$n] = 1,
+[$[=rho][_0]] = [[=rho][_1]] = 1, [$b[_0]] = 0, and [$b[_1]] = 1.
+
+[:en] Otherwise, [[`firstB], [`lastB]) shall form a sequence [$b] of length
+[$n + 1], the length of the sequence [$w] starting from [`firstW] shall be at
+least [$n + 1], and any [$w[_k]] for [$k [=geq] n + 1] shall be ignored by the
+distribution.
+
+[para:effects]
+[:en] Constructs a [`piecewise_linear_distribution] object with parameters as
+specified above.
+[exit:description]
+
+[%@library piecewise_linear_distribution[![:en]constructor]]
+[codeblock:declaration]
+template<class UnaryOperation>
+ piecewise_linear_distribution(initializer_list<RealType> bl, UnaryOperation fw);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Each instance of type [`UnaryOperation] shall be a function object
+([#function.objects]) whose return type shall be convertible to [`double].
+
+[:en] Moreover, [`double] shall be convertible to the type of
+[`UnaryOperation][=']s sole parameter.
+
+[para:effects]
+[:en] Constructs a [`piecewise_linear_distribution] object with parameters taken
+or calculated from the following values:
+
+[:en] If [`bl.size()] < 2, let [$n] = 1, [$[=rho][_0]] = [$[=rho][_1]] = 1,
+[$b[_0]] = 0, and [$b[_1]] = 1.
+
+[:en] Otherwise, let [[`bl.begin()], [`bl.end()]) form a sequence
+[$b[_0], [=ldots], b[_n]], and let [$w[_k] = [`fw](b[_k])] for
+[$k = 0, [=ldots], n].
+
+[para:complexity]
+[:en] The number of invocations of [`fw] shall not exceed $n+1$.
+[exit:description]
+
+
+[%@library piecewise_linear_distribution[![:en]constructor]]
+[codeblock:declaration]
+template<class UnaryOperation>
+ piecewise_linear_distribution(size_t nw, RealType xmin, RealType xmax, UnaryOperation fw);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Each instance of type [`UnaryOperation] shall be a function object
+([#function.objects]) whose return type shall be convertible to [`double].
+
+[:en] Moreover, [`double] shall be convertible to the type of
+[`UnaryOperation][=']s sole parameter.
+
+[:en] If [`nw] = 0, let [$n] = 1, otherwise let [$n] = [`nw].
+
+[:en] The relation [$0 < [=delta] = ([`xmax] - [`xmin]) / n] shall hold.
+
+[para:effects]
+[:en] Constructs a [`piecewise_linear_distribution] object with parameters taken
+or calculated from the following values:
+
+[:en] Let [$b[_k] = [`xmin] + k [=cdot] [=delta]] for [$k = 0, [=ldots], n],
+and [$w[_k] = [`fw](b[_k])] for [$k = 0, [=ldots], n].
+
+[para:complexity]
+[:en] The number of invocations of [`fw] shall not exceed [$n + 1].
+[exit:description]
+
+[%@library piecewise_linear_distribution[!intervals]]
+[%@library intervals[!piecewise_linear_distribution]]
+[codeblock:declaration]
+vector<result_type> intervals() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A [`vector<result_type>] whose [`size] member returns [$n + 1] and whose
+[`operator[`]] member returns [$b[_k]] when invoked with argument [$k] for
+[$k = 0, [=ldots], n].
+[exit:description]
+
+[%@library piecewise_linear_distribution[!densities]]
+[%@library densities[!piecewise_linear_distribution]]
+[codeblock:declaration]
+vector<result_type> densities() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A [`vector<result_type>] whose [`size] member returns [$n] and whose
+[`operator[`]] member returns [$[=rho][_k]] when invoked with argument [$k] for
+[$k = 0, [=ldots], n].
+[exit:description]

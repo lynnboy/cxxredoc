@@ -201,6 +201,6 @@ is the last iterator
 larger element.
 
 [para:complexity]
-[:en] At most [$max([=lfloor][=frac@3@2] (N-1)[=rfloor], 0)] applications of the
+[:en] At most [$max([=lfloor][=frac@3@2](N-1)[=rfloor], 0)] applications of the
 corresponding predicate, where [$N] is [`distance(first, last)].
 [exit:description]

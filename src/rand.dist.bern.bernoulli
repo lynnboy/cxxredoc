@@ -1,0 +1,78 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bernoulli_distribution
+/]
+
+[section#rand.dist.bern.bernoulli
+    [:en] Class [`bernoulli_distribution]
+]
+
+[%@library bernoulli_distribution]
+[%[:en]random number distribution[![`bernoulli_distribution]]]
+
+[para]
+[:en] A [`bernoulli_distribution] random number distribution produces [`bool]
+values [$b] distributed according to the discrete probability function
+[%discrete probability function [![`bernoulli_distribution]]]
+[%[`bernoulli_distribution][!discrete probability function]]
+
+[math]
+P(b | p) = [$@op {]
+    [rows@aligned]
+        [| p     [$@align] if [$@align] b = [`true] ]
+        [| 1 - p [$@align] if [$@align] b = [`false] ]
+    [rows:end] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+class bernoulli_distribution
+{
+public:
+ // [:en] types
+ typedef bool result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit bernoulli_distribution(double p = 0.5);
+ explicit bernoulli_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ double p() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library bernoulli_distribution[![:en] constructor]]
+[codeblock:declaration]
+explicit bernoulli_distribution(double p = 0.5);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 [=leq] [`p] [=leq] 1.
+
+[para:effects]
+[:en] Constructs a [`bernoulli_distribution] object; [`p] corresponds to the
+parameter of the distribution.
+[exit:description]
+
+[%@library bernoulli_distribution[!p]]
+[%@library p[!bernoulli_distribution]]
+[codeblock:declaration]
+double p() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`p] parameter with which the object was constructed.
+[exit:description]

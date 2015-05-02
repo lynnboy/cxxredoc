@@ -1,0 +1,88 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% binomial_distribution
+/]
+
+[section#rand.dist.bern.bin
+    [:en] Class template [`binomial_distribution]
+]
+
+[%@library binomial_distribution]
+[%[:en]random number distribution[![`binomial_distribution]]]
+
+[para]
+[:en] A [`binomial_distribution] random number distribution produces integer
+values [$i [=geq] 0] distributed according to the discrete probability function
+[%discrete probability function[![`binomial_distribution]]]
+[%[`binomial_distribution][!discrete probability function]]
+
+[math]
+P(i | t, p) = [$@op (] [rows][| t][| i][rows:end] [$@op )]
+    [=cdot] p[^i] [=cdot] (1 - p)[^t-i] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class IntType = int>
+ class binomial_distribution
+{
+public:
+ // [:en] types
+ typedef IntType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit binomial_distribution(IntType t = 1, double p = 0.5);
+ explicit binomial_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ IntType t() const;
+ double p() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library binomial_distribution[! [:en] constructor]]
+[codeblock:declaration]
+explicit binomial_distribution(IntType t = 1, double p = 0.5);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en]  0 [=leq] [`p] [=leq] 1 and 0 [=leq] [`t].
+
+[para:effects]
+[:en] Constructs a [`binomial_distribution] object; [`t] and [`p] correspond to
+the respective parameters of the distribution.
+[exit:description]
+
+[%@library binomial_distribution[!t]]
+[%@library t[!binomial_distribution]]
+[codeblock:declaration]
+IntType t() const;
+[codeblock:end]%
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`t] parameter with which the object was constructed.
+[exit:description]
+
+[%@library binomial_distribution[!p]]
+[%@library p[!binomial_distribution]]
+[codeblock:declaration]
+double p() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`p] parameter with which the object was constructed.
+[exit:description]

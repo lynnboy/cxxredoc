@@ -1,0 +1,27 @@
+﻿[section#cons.slice
+    [:en] [`slice] constructors
+]
+
+[%@library slice[!slice]]
+[codeblock:declaration]
+slice();
+slice(size_t start, size_t length, size_t stride);
+slice(const slice&);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The default constructor is equivalent to [`slice(0, 0, 0)].
+
+[:en] A default constructor is provided only to permit the declaration of arrays
+of slices.
+
+[:en] The constructor with arguments for a slice takes a start, length, and
+stride parameter.
+
+[para]
+[enter:example]
+[:en] [`slice(3, 8, 2)] constructs a slice which selects elements 3, 5, 7, ...
+17 from an array.
+[exit:example]
+[exit:description]

@@ -120,8 +120,8 @@ namespace A {
   // [:en] [`A::f], [`A::g] and [`A::h] are not visible here
   X x;
   void g() { f(x); }            // [:en] definition of [`A::g]
-  void f(X) @[`\{ /* ... */\]]@       // [:en] definition of [`A::f]
-  void h(int) @[`\{ /* ... */ \]]@    // [:en] definition of [`A::h]
+  void f(X) { /* ... */ }       // [:en] definition of [`A::f]
+  void h(int) { /* ... */ }     // [:en] definition of [`A::h]
   // [:en] [`A::f], [`A::g] and [`A::h] are visible here and known to be friends
 }
 

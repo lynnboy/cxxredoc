@@ -1,0 +1,121 @@
+﻿[section#template.valarray.overview
+    [:en] Class template [`valarray] overview
+]
+
+[%@library valarray]
+[codeblock:synopsis]
+namespace std {
+  template<class T> class valarray {
+  public:
+    typedef T value_type;
+
+    // [:en] [#valarray.cons] construct/destroy:
+    valarray();
+    explicit valarray(size_t);
+    valarray(const T&, size_t);
+    valarray(const T*, size_t);
+    valarray(const valarray&);
+    valarray(valarray&&) noexcept;
+    valarray(const slice_array<T>&);
+    valarray(const gslice_array<T>&);
+    valarray(const mask_array<T>&);
+    valarray(const indirect_array<T>&);
+    valarray(initializer_list<T>);
+    ~valarray();
+
+    // [:en] [#valarray.assign] assignment:
+    valarray& operator=(const valarray&);
+    valarray& operator=(valarray&&) noexcept;
+    valarray& operator=(initializer_list<T>);
+    valarray& operator=(const T&);
+    valarray& operator=(const slice_array<T>&);
+    valarray& operator=(const gslice_array<T>&);
+    valarray& operator=(const mask_array<T>&);
+    valarray& operator=(const indirect_array<T>&);
+
+    // [:en] [#valarray.access] element access:
+    const T&          operator[](size_t) const;
+    T&                operator[](size_t);
+
+    // [:en] [#valarray.sub] subset operations:
+    valarray          operator[](slice) const;
+    slice_array<T>    operator[](slice);
+    valarray          operator[](const gslice&) const;
+    gslice_array<T>   operator[](const gslice&);
+    valarray          operator[](const valarray<bool>&) const;
+    mask_array<T>     operator[](const valarray<bool>&);
+    valarray          operator[](const valarray<size_t>&) const;
+    indirect_array<T> operator[](const valarray<size_t>&);
+
+    // [:en] [#valarray.unary] unary operators:
+    valarray operator+() const;
+    valarray operator-() const;
+    valarray operator~() const;
+    valarray<bool> operator!() const;
+
+    // [:en] [#valarray.cassign] computed assignment:
+    valarray& operator*= (const T&);
+    valarray& operator/= (const T&);
+    valarray& operator%= (const T&);
+    valarray& operator+= (const T&);
+    valarray& operator-= (const T&);
+    valarray& operator^= (const T&);
+    valarray& operator&= (const T&);
+    valarray& operator|= (const T&);
+    valarray& operator<<=(const T&);
+    valarray& operator>>=(const T&);
+
+    valarray& operator*= (const valarray&);
+    valarray& operator/= (const valarray&);
+    valarray& operator%= (const valarray&);
+    valarray& operator+= (const valarray&);
+    valarray& operator-= (const valarray&);
+    valarray& operator^= (const valarray&);
+    valarray& operator|= (const valarray&);
+    valarray& operator&= (const valarray&);
+    valarray& operator<<=(const valarray&);
+    valarray& operator>>=(const valarray&);
+
+    // [:en] [#valarray.members] member functions:
+    void swap(valarray&) noexcept;
+
+    size_t size() const;
+
+    T sum() const;
+    T min() const;
+    T max() const;
+
+    valarray shift (int) const;
+    valarray cshift(int) const;
+    valarray apply(T func(T)) const;
+    valarray apply(T func(const T&)) const;
+    void resize(size_t sz, T c = T());
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class template [`valarray<T>] is a one-dimensional smart array, with
+elements numbered sequentially from zero.
+
+[:en] It is a representation of the mathematical concept of an ordered set of
+values.
+
+[:en] The illusion of higher dimensionality may be produced by the familiar
+idiom of computed indices, together with the powerful subsetting capabilities
+provided by the generalized subscript operators.
+
+[footnote]
+[:en] The intent is to specify an array template that has the minimum
+functionality necessary to address aliasing ambiguities and the proliferation of
+temporaries.
+
+[:en] Thus, the [`valarray] template is neither a matrix class nor a field
+class.
+
+[:en] However, it is a very useful building block for designing such classes.
+[footnote:end]
+
+[para]
+[:en] An implementation is permitted to qualify any of the functions declared in
+[`<valarray>] as [`inline].

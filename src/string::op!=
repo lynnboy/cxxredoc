@@ -15,8 +15,8 @@ template<class charT, class traits, class Allocator>
 [:en] [`!(lhs == rhs)].
 [exit:description]
 
-[%@library operator"!=[!basic_string]]
-[%@library basic_string[!operator"!=]]
+[%@library operator!=[!basic_string]]
+[%@library basic_string[!operator!=]]
 [codeblock:declaration]
 template<class charT, class traits, class Allocator>
   bool operator!=(const charT* lhs,
@@ -28,8 +28,8 @@ template<class charT, class traits, class Allocator>
 [:en] [`rhs != lhs].
 [exit:description]
 
-[%@library operator"!=[!basic_string]]
-[%@library basic_string[!operator"!=]]
+[%@library operator!=[!basic_string]]
+[%@library basic_string[!operator!=]]
 [codeblock:declaration]
 template<class charT, class traits, class Allocator>
   bool operator!=(const basic_string<charT,traits,Allocator>& lhs,

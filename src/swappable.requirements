@@ -54,6 +54,7 @@ set described above is equivalent to that of the qualified name lookup applied
 to the expression [`std::swap(t, u)] or [`std::swap(u, t)] as appropriate.
 [exit:note]
 
+[para:~]
 [enter:note]
 [:en]
 It is unspecified whether a library component that has a swappable requirement
@@ -71,6 +72,7 @@ A type [`X] satisfying any of the iterator requirements
 ([#iterator.requirements]) satisfies the requirements of [`ValueSwappable] if,
 for any dereferenceable object [`x] of type [`X], [`*x] is swappable.
 
+[para:~]
 [enter:example]
 [:en]
 User code can ensure that the evaluation of [`swap] calls is performed in an

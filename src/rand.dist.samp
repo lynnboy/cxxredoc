@@ -1,0 +1,27 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Sampling distributions section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.dist.samp
+    [:en] Sampling distributions
+]
+
+[%:begin#sampling.distributions
+    [:en] sampling distributions
+]
+[%:begin#random.number.distributions.sampling
+    [:en] random number distributions [!sampling]
+]
+
+[include rand.dist.samp.discrete]
+
+[include rand.dist.samp.pconst]
+
+[include rand.dist.samp.plinear]
+
+[%:end#random.number.distributions.sampling]
+[%:end#sampling.distributions]

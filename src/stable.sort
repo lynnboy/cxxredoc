@@ -25,8 +25,8 @@ template<class RandomAccessIterator, class Compare>
 (Table [#moveassignable]).
 
 [para:complexity]
-[:en] It does at most [$N] log[^2]([$N]) (where [`[$N] == last - first])
-comparisons; if enough extra memory is available, it is [$N] log([$N]).
+[:en] It does at most [$N [=log][_2](N)] (where [`[$N] == last - first])
+comparisons; if enough extra memory is available, it is [$N [=log(N)].
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).

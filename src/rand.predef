@@ -1,0 +1,174 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Engines with predefined parameters section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.predef
+    [:en] Engines and engine adaptors with predefined parameters
+]
+
+[%:begin#random.number.engine.with.predefined.parameters
+    [:en] random number engine [!with predefined parameters]
+]
+[%:begin#random.number.engine.adaptor.with.predefined.parameters
+    [:en] random number engine adaptor [!with predefined parameters]
+]
+[%:begin#random.number.generation.predefined.engines.and.adaptors
+    [:en] random number generation [!predefined engines and adaptors]
+]
+
+[%@library minstd_rand0]
+[%[:en]engines with predefined parameters[![`minstd_rand0]]]
+[codeblock:declaration]
+typedef linear_congruential_engine<uint_fast32_t, 16807, 0, 2147483647>
+       minstd_rand0;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`minstd_rand0] shall produce the value 1043618065.
+[exit:description]
+
+[%@library minstd_rand]
+[%[:en]engines with predefined parameters[![`minstd_rand]]]
+[codeblock:declaration]
+typedef linear_congruential_engine<uint_fast32_t, 48271, 0, 2147483647>
+       minstd_rand;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`minstd_rand] shall produce the value 399268537.
+[exit:description]
+
+[%@library mt19937]
+[%[:en]engines with predefined parameters[![`mt19937]]]
+[codeblock:declaration]
+typedef mersenne_twister_engine<uint_fast32_t,
+       32,624,397,31,0x9908b0df,11,0xffffffff,7,0x9d2c5680,15,0xefc60000,18,1812433253>
+       mt19937;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`mt19937] shall produce the value 4123659995.
+[exit:description]
+
+[%@library mt19937_64]
+[%[:en]engines with predefined parameters[![`mt19937_64]]]
+[codeblock:declaration]
+typedef mersenne_twister_engine<uint_fast64_t,
+       64,312,156,31,0xb5026f5aa96619e9,29,
+       0x5555555555555555,17,
+       0x71d67fffeda60000,37,
+       0xfff7eee000000000,43,
+       6364136223846793005>
+       mt19937_64;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`mt19937_64] shall produce the value 9981545732273789042.
+[exit:description]
+
+[%@library ranlux24_base]
+[%[:en]engines with predefined parameters[![`ranlux24_base]]]
+[codeblock:declaration]
+typedef subtract_with_carry_engine<uint_fast32_t, 24, 10, 24>
+       ranlux24_base;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`ranlux24_base] shall produce the value 7937952.
+[exit:description]
+
+[%@library ranlux48_base]
+[%[:en]engines with predefined parameters[![`ranlux48_base]]]
+[codeblock:declaration]
+typedef subtract_with_carry_engine<uint_fast64_t, 48, 5, 12>
+       ranlux48_base;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`ranlux48_base] shall produce the value 61839128582725.
+[exit:description]
+
+[%@library ranlux24]
+[%[:en]engines with predefined parameters[![`ranlux24]]]
+[codeblock:declaration]
+typedef discard_block_engine<ranlux24_base, 223, 23>
+       ranlux24;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`ranlux24] shall produce the value 9901578.
+[exit:description]
+
+[%@library ranlux48]
+[%[:en]engines with predefined parameters[![`ranlux48]]]
+[codeblock:declaration]
+typedef discard_block_engine<ranlux48_base, 389, 11>
+       ranlux48;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`ranlux48] shall produce the value 249142670248501.
+[exit:description]
+
+[%@library knuth_b]
+[%[:en]engines with predefined parameters[![`knuth_b]]]
+[codeblock:declaration]
+typedef shuffle_order_engine<minstd_rand0,256>
+       knuth_b;
+[codeblock:end]
+
+[enter:description]
+[para:required]
+[:en] The 10000[^th] consecutive invocation of a default-constructed object of
+type [`knuth_b] shall produce the value 1112339016.
+[exit:description]
+
+[%@library default_random_engine]
+[%[:en]engines with predefined parameters[![`default_random_engine]]]
+[codeblock:declaration [special implementation-defined] ]
+typedef implementation-defined
+       default_random_engine;
+[codeblock:end]
+
+[enter:description]
+[para:note]
+[:en] The choice of engine type named by this [`typedef] is
+implementation-defined.
+
+[enter:note]
+[:en] The implementation may select this type on the basis of performance, size,
+quality, or any combination of such factors, so as to provide at least
+acceptable engine behavior for relatively casual, inexpert, and/or lightweight
+use.
+
+[:en] Because different implementations may select different underlying engine
+types, code that uses this [`typedef] need not generate identical sequences
+across implementations.
+[exit:note]
+[exit:description]
+
+[%:end#random.number.generation.predefined.engines.and.adaptors]
+[%:end#random.number.engine.adaptor.with.predefined.parameters]
+[%:end#random.number.engine.with.predefined.parameters]

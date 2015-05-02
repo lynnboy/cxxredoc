@@ -223,7 +223,7 @@ unspecified.
 [:en] Stable ([#algorithm.stable]).
 
 [para:complexity]
-[:en] Approximately [$N] log [$N] comparisons, where [$N] is [`distance(begin(),
+[:en] Approximately [$N [=log] N] comparisons, where [$N] is [`distance(begin(),
 end())].
 [exit:description]
 

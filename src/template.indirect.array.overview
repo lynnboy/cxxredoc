@@ -1,0 +1,50 @@
+﻿[section#template.indirect.array.overview
+    [:en] Class template [`indirect_array] overview
+]
+
+[%@library indirect_array]
+[codeblock:synopsis]
+namespace std {
+  template <class T> class indirect_array {
+  public:
+    typedef T value_type;
+
+    void operator=  (const valarray<T>&) const;
+    void operator*= (const valarray<T>&) const;
+    void operator/= (const valarray<T>&) const;
+    void operator%= (const valarray<T>&) const;
+    void operator+= (const valarray<T>&) const;
+    void operator-= (const valarray<T>&) const;
+    void operator^= (const valarray<T>&) const;
+    void operator&= (const valarray<T>&) const;
+    void operator|= (const valarray<T>&) const;
+    void operator<<=(const valarray<T>&) const;
+    void operator>>=(const valarray<T>&) const;
+
+    indirect_array(const indirect_array&);
+   ~indirect_array();
+    const indirect_array& operator=(const indirect_array&) const;
+    void operator=(const T&) const;
+
+    indirect_array() = delete;        // [:en] as implied by declaring copy constructor above
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] This template is a helper template used by the indirect subscript operator
+
+[%@library operator['][!indirect_array]]
+[%@library indirect_array[!operator[']]]
+[codeblock:declaration]
+indirect_array<T> valarray<T>::operator[](const valarray<size_t>&).
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] It has reference semantics to a subset of an array specified by an
+[`indirect_array].
+
+[:en] Thus the expression [`a[indirect`] = b;] has the effect of assigning the
+elements of [`b] to the elements in [`a] whose indices appear in [`indirect].
+[exit:description]

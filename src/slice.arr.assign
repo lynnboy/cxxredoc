@@ -1,0 +1,16 @@
+﻿[section#slice.arr.assign
+    [:en] [`slice_array] assignment
+]
+
+[%@library operator=[!slice_array]]
+[codeblock:declaration]
+void operator=(const valarray<T>&) const;
+const slice_array& operator=(const slice_array&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These assignment operators have reference semantics, assigning the values
+of the argument array elements to selected elements of the [`valarray<T>] object
+to which the [`slice_array] object refers.
+[exit:description]

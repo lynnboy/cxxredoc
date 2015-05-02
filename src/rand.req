@@ -1,0 +1,31 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Requirements section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.req
+    [:en] Requirements
+]
+
+[%:begin#random.number.generation.requirements
+    [:en] random number generation[!requirements]
+]
+
+[include rand.req.genl]
+
+[include rand.req.seedseq]
+
+[include rand.req.urng]
+
+[include rand.req.eng]
+
+[include rand.req.adapt]
+
+[include rand.req.dist]
+
+[%:end#random.number.generation.requirements]

@@ -1,0 +1,40 @@
+﻿[section#complex
+    [:en] Class template [`complex]
+]
+
+[%@library complex]
+[codeblock:synopsis]
+namespace std {
+  template<class T>
+  class complex {
+  public:
+    typedef T value_type;
+
+    constexpr complex(const T& re = T(), const T& im = T());
+    constexpr complex(const complex&);
+    template<class X> constexpr complex(const complex<X>&);
+
+    constexpr T real() const;
+    void real(T);
+    constexpr T imag() const;
+    void imag(T);
+
+    complex<T>& operator= (const T&);
+    complex<T>& operator+=(const T&);
+    complex<T>& operator-=(const T&);
+    complex<T>& operator*=(const T&);
+    complex<T>& operator/=(const T&);
+
+    complex& operator=(const complex&);
+    template<class X> complex<T>& operator= (const complex<X>&);
+    template<class X> complex<T>& operator+=(const complex<X>&);
+    template<class X> complex<T>& operator-=(const complex<X>&);
+    template<class X> complex<T>& operator*=(const complex<X>&);
+    template<class X> complex<T>& operator/=(const complex<X>&);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`complex] describes an object that can store the Cartesian
+components, [`real()] and [`imag()], of a complex number.

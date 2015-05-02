@@ -1,0 +1,31 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Distribution class templates section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.dist
+    [:en] Random number distribution class templates
+]
+
+[%:begin#random.number.generation.distributions
+    [:en] random number generation [!distributions]
+]
+
+[include rand.dist.general]
+
+[include rand.dist.uni]
+
+[include rand.dist.bern]
+
+[include rand.dist.pois]
+
+[include rand.dist.norm]
+
+[include rand.dist.samp]
+
+[%:end#random.number.generation.distributions]

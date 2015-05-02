@@ -50,12 +50,14 @@ bitset(const basic_string<charT, traits, Allocator>& str,
 [:en] Determines the effective length [`rlen] of the initializing string as the
 smaller of [`n] and [`str.size() - pos].
 
+[para:~]
 [:en] The function then throws [%@library invalid_argument] [`invalid_argument]
 if any of the [`rlen] characters in [`str] beginning at position [`pos] is
 other than [`zero] or [`one].
 
 [:en] The function uses [`traits::eq()] to compare the character values.
 
+[para:~]
 [:en] Otherwise, the function constructs an object of class [`bitset<N>],
 initializing the first [`M] bit positions to values determined from the
 corresponding characters in the string [`str].

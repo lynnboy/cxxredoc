@@ -6,6 +6,7 @@
 [:en] To make it possible for algorithmic templates to work directly with
 input/output streams, appropriate iterator-like class templates are provided.
 
+[para:~]
 [enter:example]
 [codeblock]
 partial_sum(istream_iterator<double, char>(cin),

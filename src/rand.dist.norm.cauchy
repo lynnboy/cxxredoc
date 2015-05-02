@@ -1,0 +1,89 @@
+﻿[/
+% ----------------------------------------------------------------------
+% Class template cauchy_distribution
+% ----------------------------------------------------------------------
+/]
+
+[section#rand.dist.norm.cauchy
+    [:en] Class template [`cauchy_distribution]
+]
+
+[%@library cauchy_distribution]
+
+[para]
+[:en] A [`cauchy_distribution] random number distribution produces random
+numbers [$x] distributed according to the probability density function
+
+[:en]
+[%probability density function[![`cauchy_distribution]]]
+[%[`cauchy_distribution][!probability density function]]
+[math]
+p(x | a, b) = [$@op (] [=pi]b [$@op (] 1 + [$@op (] [=frac@x - a@b]
+    [$@op )] [^2] [$@op )] [$@op )] [^-1] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class cauchy_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructor and reset functions
+ explicit cauchy_distribution(RealType a = 0.0, RealType b = 1.0);
+ explicit cauchy_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType a() const;
+ RealType b() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library cauchy_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit cauchy_distribution(RealType a = 0.0, RealType b = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`b].
+
+[para:effects]
+[:en] Constructs a [`cauchy_distribution] object; [`a] and [`b] correspond to
+the respective parameters of the distribution.
+[exit:description]
+
+[%@library cauchy_distribution[!a]]
+[%@library a[!cauchy_distribution]]
+[codeblock:declaration]
+RealType a() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`a] parameter with which the object was constructed.
+[exit:description]
+
+[%@library cauchy_distribution[!b]]
+[%@library b[!cauchy_distribution]]
+[codeblock:declaration]
+RealType b() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`b] parameter with which the object was constructed.
+[exit:description]

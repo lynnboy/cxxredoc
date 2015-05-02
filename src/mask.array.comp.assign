@@ -1,0 +1,33 @@
+﻿[section#mask.array.comp.assign
+    [:en] [`mask_array] computed assignment
+]
+
+[%@library operator*=[!mask_array]]
+[%@library operator/=[!mask_array]]
+[%@library operator%=[!mask_array]]
+[%@library operator+=[!mask_array]]
+[%@library operator-=[!mask_array]]
+[%@library operator^=[!mask_array]]
+[%@library operator&=[!mask_array]]
+[%@library operator|=[!mask_array]]
+[%@library operator<<=[!mask_array]]
+[%@library operator>>=[!mask_array]]
+[codeblock:declaration]
+void operator*= (const valarray<T>&) const;
+void operator/= (const valarray<T>&) const;
+void operator%= (const valarray<T>&) const;
+void operator+= (const valarray<T>&) const;
+void operator-= (const valarray<T>&) const;
+void operator^= (const valarray<T>&) const;
+void operator&= (const valarray<T>&) const;
+void operator|= (const valarray<T>&) const;
+void operator<<=(const valarray<T>&) const;
+void operator>>=(const valarray<T>&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] These computed assignments have reference semantics, applying the
+indicated operation to the elements of the argument array and selected elements
+of the [`valarray<T>] object to which the mask object refers.
+[exit:description]

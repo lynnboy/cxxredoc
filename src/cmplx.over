@@ -1,0 +1,50 @@
+﻿[section#cmplx.over
+    [:en] Additional overloads
+]
+
+[para]
+[%@library arg]
+[%@library conj]
+[%@library imag]
+[%@library norm]
+[%@library real]
+[:en] The following function templates shall have additional overloads:
+
+[codeblock:notation]
+arg                   norm 
+conj                  proj
+imag                  real 
+[codeblock:end]
+
+[para]
+[%overloads[!floating point]]
+[:en] The additional overloads shall be sufficient to ensure:
+
+[list:ol@ndot]
+[item]
+[:en] If the argument has type [`long double], then it is effectively cast to
+[`complex<long double>].
+[item]
+[:en] Otherwise, if the argument has type [`double] or an integer type, then it
+is effectively cast to [`complex<double>].
+[item]
+[:en] Otherwise, if the argument has type [`float], then it is effectively cast
+to [`complex<float>].
+[list:end]
+
+[para]
+[%@library pow]
+[:en] Function template [`pow] shall have additional overloads sufficient to
+ensure, for a call with at least one argument of type [`complex<T>]:
+
+[list:ol@ndot]
+[item]
+[:en] If either argument has type [`complex<long double>] or type [`long
+double], then both arguments are effectively cast to [`complex<long double>].
+[item]
+[:en] Otherwise, if either argument has type [`complex<double>], [`double], or
+an integer type, then both arguments are effectively cast to [`complex<double>].
+[item]
+[:en] Otherwise, if either argument has type [`complex<float>] or [`float], then
+both arguments are effectively cast to [`complex<float>].
+[list:end]

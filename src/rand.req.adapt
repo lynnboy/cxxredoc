@@ -1,0 +1,109 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Random Number Engine Adaptor requirements:
+/]
+
+[section#rand.req.adapt
+    [:en] Random number engine adaptor requirements
+]
+
+[para]
+[:en] A [+random number engine adaptor] (commonly shortened to [+adaptor]) [`a]
+of type [`A] is a random number engine that takes values produced by some other
+random number engine, and applies an algorithm to those values in order to
+deliver a sequence of values with different randomness properties.
+
+[:en] An engine [`b] of type [`B] adapted in this way is termed a [+base engine]
+in this context.
+
+[:en] The expression [`a.base()] shall be valid and shall return a const
+reference to [`a][=']s base engine.
+
+[para]
+[:en] The requirements of a random number engine type shall be interpreted as
+follows with respect to a random number engine adaptor type.
+
+[codeblock:declaration]
+A::A();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The base engine is initialized as if by its default constructor.
+[exit:description]
+
+[codeblock:declaration]
+bool operator==(const A& a1, const A& a2);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`a1][=']s base engine is equal to [`a2][=']s base engine.
+
+[:en] Otherwise returns [`false].
+[exit:description]
+
+[codeblock:declaration]
+A::A(result_type s);  
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The base engine is initialized with [`s].
+[exit:description]
+
+[codeblock:declaration]
+template<class Sseq> void A::A(Sseq& q);  
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The base engine is initialized with [`q].
+[exit:description]
+
+[codeblock:declaration]
+void seed();  
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] With [`b] as the base engine, invokes [`b.seed()].
+[exit:description]
+
+[codeblock:declaration]
+void seed(result_type s);  
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] With [`b] as the base engine, invokes [`b.seed(s)].
+[exit:description]
+
+[codeblock:declaration]
+template<class Sseq> void seed(Sseq& q);  
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] With [`b] as the base engine, invokes [`b.seed(q)].
+[exit:description]
+
+[para]
+[:en] [`A] shall also satisfy the following additional requirements:
+
+[list:ol@arparen]
+[item]
+[:en] The complexity of each function shall not exceed the complexity of the
+corresponding function applied to the base engine.
+[item]
+[:en] The state of [`A] shall include the state of its base engine.
+
+[:en] The size of [`A][=']s state shall be no less than the size of the base
+engine.
+[item]
+[:en] Copying [`A][=']s state ([$em e.g.], during copy construction or copy
+assignment) shall include copying the state of the base engine of [`A].
+[item]
+[:en] The textual representation of [`A] shall include the textual
+representation of its base engine.
+[list:end]

@@ -1,0 +1,90 @@
+﻿[/
+% ----------------------------------------------------------------------
+% Class template negative_binomial_distribution
+% ----------------------------------------------------------------------
+/]
+
+[section#rand.dist.bern.negbin
+    [:en] Class template [`negative_binomial_distribution]
+]
+
+[%@library negative_binomial_distribution]
+[%[:en]random number distribution[!negative_binomial_distribution]]
+
+[para]
+[:en] A [`negative_binomial_distribution] random number distribution produces
+random integers [$i] [=geq] 0 distributed according to the discrete probability
+function
+[%discrete probability function[![`negative_binomial_distribution]]]
+[%[`negative_binomial_distribution][!discrete probability function]]
+
+[math]
+P(i | k, p) = [$@op (] [rows][| k + i - 1][| i][rows:end] [$@op )]
+    [=cdot] p[^k] [=cdot] (1 - p)[^i] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class IntType = int>
+ class negative_binomial_distribution
+{
+public:
+ // [:en] types
+ typedef IntType  result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructor and reset functions
+ explicit negative_binomial_distribution(IntType k = 1, double p = 0.5);
+ explicit negative_binomial_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ IntType k() const;
+ double p() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library negative_binomial_distribution[![:en] constructor]]
+[codeblock:declaration]
+explicit negative_binomial_distribution(IntType k = 1, double p = 0.5);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`p] [=leq] 1 and 0 < [`k].
+
+[para:effects]
+[:en] Constructs a [`negative_binomial_distribution] object; [`k] and [`p]
+correspond to the respective parameters of the distribution.
+[exit:description]
+
+[%@library negative_binomial_distribution[!t]]
+[%@library t[!negative_binomial_distribution]]
+[codeblock:declaration]
+IntType k() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`k] parameter with which the object was constructed.
+[exit:description]
+
+[%@library negative_binomial_distribution[!p]]
+[%@library p[!negative_binomial_distribution]]
+[codeblock:declaration]
+double p() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`p] parameter with which the object was constructed.
+[exit:description]

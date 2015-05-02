@@ -1,0 +1,149 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% subtract_with_carry_engine engine:
+/]
+
+[section#rand.eng.sub
+    [:en] Class template [`subtract_with_carry_engine]
+]
+
+[%@library subtract_with_carry_engine]
+[%[:en]random number engine[![`subtract_with_carry_engine]]]
+
+[para]
+[:en] A [`subtract_with_carry_engine] random number engine produces unsigned
+integer random numbers.
+
+[para]
+[:en] The state
+[%[`subtract_with_carry_engine][!state]]
+[%state[![`subtract_with_carry_engine]]]
+[$[`x][_i]] of a [`subtract_with_carry_engine] object [`x] is of size
+[$[=bigoh](r)], and consists of a sequence [$X] of [$r] integer values
+[$0 [=leq] X[_i] < m = 2[^w]]; all subscripts applied to [$X] are to be taken
+modulo [$r].
+
+[:en] The state [$[`x][_i]] additionally consists of an integer [$c] (known as
+the [+carry])
+[%[`subtract_with_carry_engine][!carry]]
+[%carry[![`subtract_with_carry_engine]]]
+whose value is either 0 or 1.
+
+[para]
+[:en] The state transition
+[%[`subtract_with_carry_engine][!transition algorithm]]
+[%transition algorithm[![`subtract_with_carry_engine]]]
+is performed as follows:
+
+[list:ol@arparen]
+[item]
+[:en] Let [$ Y = X[_i-s] - X[_i-r] - c].
+[item]
+[:en] Set [$X[_i]] to [$y = Y [=mod] m].
+
+[:en] Set [$c] to 1 if [$Y < 0], otherwise set [$c] to 0.
+[list:end]
+
+[enter:note]
+[:en] This algorithm corresponds to a modular linear function of the form
+[$[$@sf TA]([`x][_i]) = (a [=cdot] [`x][_i]) [=mod] b], where [$b] is of the
+form [$m[^r] - m[^s] + 1] and [$a = b - (b-1) / m].
+[exit:note]
+
+[para]
+[:en] The generation algorithm
+[%[`subtract_with_carry_engine][!generation algorithm]]
+[%generation algorithm[![`subtract_with_carry_engine]]]
+is given by [$[$@sf GA]([`x][_i]) = y], where [$y] is the value produced as a
+result of advancing the engine[=']s state as described above.
+
+[codeblock:synopsis]
+template<class UIntType, size_t w, size_t s, size_t r>
+ class subtract_with_carry_engine
+{
+public:
+ // [:en] types
+ typedef UIntType result_type;
+
+ // [:en] engine characteristics
+ static constexpr size_t word_size = w;
+ static constexpr size_t short_lag = s;
+ static constexpr size_t long_lag = r;
+ static constexpr result_type min() { return 0; }
+ static constexpr result_type max() { return [$m - 1]; }
+ static constexpr result_type default_seed = 19780503u;
+
+ // [:en] constructors and seeding functions
+ explicit subtract_with_carry_engine(result_type value = default_seed);
+ template<class Sseq> explicit subtract_with_carry_engine(Sseq& q);
+ void seed(result_type value = default_seed);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+};
+[codeblock:end]
+
+[para]
+[:en] The following relations shall hold: [`0u < s], [`s < r], [`0 < w], and
+[`w <= numeric_limits<UIntType>::digits].
+
+[para]
+[:en] The textual representation
+[%[`subtract_with_carry_engine][!textual representation]]
+[%textual representation[![`subtract_with_carry_engine]]]
+consists of the values of [$X[_i-r], [=ldots], X[_i-1]], in that order, followed
+by [$c].
+
+
+[%@library subtract_with_carry_engine[![:en]constructor]]
+[codeblock:declaration]
+explicit subtract_with_carry_engine(result_type value = default_seed);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`subtract_with_carry_engine] object.
+
+[:en] Sets the values of [$X[_-r], [=ldots], X[_-1]], in that order, as
+specified below.
+
+[:en] If [$X[_-1]] is then 0, sets [$c] to 1; otherwise sets [$c] to 0.
+
+[para:~]
+[:en] To set the values [$X[_k]], first construct [`e], a
+[`linear_congruential_engine] object, as if by the following definition:
+
+[codeblock:notation]
+linear_congruential_engine<result_type,
+                          40014u,0u,2147483563u> e(value == 0u ? default_seed : value);
+[codeblock:end]
+
+[:en] Then, to set each [$X[_k]], obtain new values [$z[_0], [=ldots], z[_n-1]]
+from [$n = [=lceil] w/32 [=rceil]] successive invocations of [`e] taken modulo
+[$2[^32]].
+
+[:en] Set [$X[_k]] to [$@math [=fenced@(@)@ [=sum@j=0@n-1] z[_j] [=cdot]
+2[^32j]] [=mod] m].
+
+[para:complexity]
+[:en] Exactly [$n [=cdot] [`r]] invocations of [`e].
+[exit:description]
+
+[%@library subtract_with_carry_engine[![:en]constructor]]
+[codeblock:declaration]
+template<class Sseq> explicit subtract_with_carry_engine(Sseq& q);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`subtract_with_carry_engine] object.
+
+[:en] With [$k = [=lceil] w / 32 [=rceil]] and [$a] an array (or equivalent) of
+length [$r [=cdot] k], invokes [`q.generate(][$a+0][`, ][$a+r [=cdot] k][`)]
+and then, iteratively for [$i = -r, [=ldots], -1], sets [$X[_i]] to
+[$@math [=fenced@(@)@ [=sum@j=0@k-1] a[_k(i+r)+j] [=cdot] 2[^32j]] [=mod] m].
+
+[:en] If [$X[_-1]] is then 0, sets [$c] to 1; otherwise sets [$c] to 0.
+[exit:description]

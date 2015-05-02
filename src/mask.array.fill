@@ -1,0 +1,15 @@
+﻿[section#mask.array.fill
+    [:en] [`mask_array] fill function
+]
+
+[%@library fill[!mask_array]]
+[codeblock:declaration]
+void operator=(const T&) const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] This function has reference semantics, assigning the value of its argument
+to the elements of the [`valarray<T>] object to which the [`mask_array] object
+refers.
+[exit:description]

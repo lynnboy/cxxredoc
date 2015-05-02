@@ -1,0 +1,110 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% linear_congruential_engine engine:
+/]
+
+[section#rand.eng.lcong
+    [:en] Class template [`linear_congruential_engine]
+]
+
+[%@library linear_congruential_engine]
+[%[:en] random number engine[![`linear_congruential_engine]]]
+
+[para]
+[:en] A [`linear_congruential_engine] random number engine produces unsigned
+integer random numbers.
+
+[:en] The state
+[%[`linear_congruential_engine][!state]]
+[%state[!linear_congruential_engine]]
+[$[`x][_i]] of a [`linear_congruential_engine] object [`x] is of size [$1] and
+consists of a single integer.
+
+[:en] The transition algorithm
+[%[`linear_congruential_engine][!transition algorithm]]
+[%transition algorithm[![`linear_congruential_engine]]]
+is a modular linear function of the form
+[$[$@sf TA]([`x][_i]) = (a [=cdot] [`x][_i] + c) [=mod] m];
+the generation algorithm
+[%[`linear_congruential_engine][!generation algorithm]]
+[%generation algorithm[![`linear_congruential_engine]]]
+is [$[$@sf GA]([`x][_i]) = [`x][_i+1]].
+
+[codeblock:synopsis]
+template<class UIntType, UIntType a, UIntType c, UIntType m>
+ class linear_congruential_engine
+{
+public:
+ // [:en] types
+ typedef UIntType result_type;
+
+ // [:en] engine characteristics
+ static constexpr result_type multiplier = a;
+ static constexpr result_type increment = c;
+ static constexpr result_type modulus = m;
+ static constexpr result_type min() { return c == 0u ? 1u: 0u; }
+ static constexpr result_type max() { return m - 1u; }
+ static constexpr result_type default_seed = 1u;
+
+ // [:en] constructors and seeding functions
+ explicit linear_congruential_engine(result_type s = default_seed);
+ template<class Sseq> explicit linear_congruential_engine(Sseq& q);
+ void seed(result_type s = default_seed);
+ template<class Sseq> void seed(Sseq& q);
+
+ // [:en] generating functions
+ result_type operator()();
+ void discard(unsigned long long z);
+};
+[codeblock:end]
+
+[para]
+[:en] If the template parameter [`m] is 0, the modulus [$m] used throughout this
+section [#rand.eng.lcong] [%[`linear_congruential_engine][!modulus]]
+is [`numeric_limits<result_type>::max()] plus 1.
+
+[enter:note]
+[:en] [$m] need not be representable as a value of type [`result_type].
+[exit:note]
+
+[para]
+[:en] If the template parameter [`m] is not 0, the following relations shall
+hold: [`a < m] and [`c < m].
+
+[para]
+[:en] The textual representation
+[%[`linear_congruential_engine][!textual representation]]
+consists of the value of [$[`x][_i]].
+
+[%@library linear_congruential_engine[![:en]constructor]]
+
+[codeblock:declaration]
+explicit linear_congruential_engine(result_type s = default_seed);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`linear_congruential_engine] object.
+
+[:en] If [$c] mod [$m] is 0 and [`s] mod [$m] is 0, sets the engine[=']s state
+to 1, otherwise sets the engine[=']s state to [`s] mod [$m].
+[exit:description]
+
+[%@library linear_congruential_engine[![:en] constructor]]
+
+[codeblock:declaration]
+template<class Sseq> explicit linear_congruential_engine(Sseq& q);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`linear_congruential_engine] object.
+
+[:en] With [$@math k = [=fenced@lceil@rceil@ [=frac@log[_2] m @32]]] and [$a] an
+array (or equivalent) of length [$k + 3], invokes
+[`q.generate([$a+0], [$a+k+3])] and then computes
+[$@math S = [=fenced@(@)@ [=sum@j=0@k-1] a[_j+3] [=cdot] 2[^32j]] [=mod] m].
+
+[:en] If [$c [=mod] m] is 0 and [$S] is 0, sets the engine[=']s state to 1, else
+sets the engine[=']s state to [$S].
+[exit:description]

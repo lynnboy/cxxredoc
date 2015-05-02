@@ -171,7 +171,7 @@ type convertible to [`A].
     [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
     [:en] [=Effects] Constructs an empty container and inserts elements from the
     range [`[i, j)] into it; uses [`c] as a comparison object.
-[|] [:en] [$N] log [$N] in general ([$N] has the value [`distance(i, j)]);
+[|] [:en] [$N [=log] N] in general ([$N] has the value [`distance(i, j)]);
     linear if [`[i, j)] is sorted with [`value_comp()]
 
 [|] [`X(i,j)] [br] [`X u(i,j);]
@@ -197,7 +197,7 @@ type convertible to [`A].
     [`CopyAssignable]. [br]
 [|] [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
     [:en] All existing elements of [`a] are either assigned to or destroyed.
-[|] [$N] log [$N] in general (where $N$ has the value [`il.size() + a.size()]);
+[|] [$N [=log] N] in general (where [$N] has the value [`il.size() + a.size()]);
     linear if [=range[il.begin(),il.end())] is sorted with [`value_comp()].
 
 [|] [`a.key_comp()]
@@ -291,8 +291,7 @@ type convertible to [`A].
     is no element with key equivalent to the key of that element in containers
     with unique keys; always inserts that element in containers with equivalent
     keys.
-[|] [:en] [$N] log([`a.size()] [$+] [$N][`)] ([$N] has the value
-    [`distance(i, j)]
+[|] [:en] [$N [=log]([`a.size()] + N)] ([$N] has the value [`distance(i, j)]
 
 [|] [`a.insert(il)]
 [|] [`void]
@@ -303,7 +302,7 @@ type convertible to [`A].
 [|] [`size_type]
 [|] [:en] erases all elements in the container with key equivalent to [`k].
     [:en] returns the number of erased elements.
-[|] [:en] log([`a.size()]) [$+] [`a.count([$k])]
+[|] [:en] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
 
 [|] [`a.erase(q)]
 [|] [`iterator]
@@ -319,7 +318,7 @@ type convertible to [`A].
     [:en] Returns an iterator pointing to the element pointed to by q2 prior to
     any elements being erased.
     [:en] If no such element exists, [`a.end()] is returned.
-[|] [:en] log([`a.size()]) [$+] [$N] where [$N] has the value
+[|] [:en] [$[=log]([`a.size()]) + N] where [$N] has the value
     [`distance(q1, q2)].
 
 [|] [`a.clear()]
@@ -344,13 +343,13 @@ type convertible to [`A].
 [|] [`a.count(k)]
 [|] [`size_type]
 [|] [:en] returns the number of elements with key equivalent to [`k]
-[|] [:en] log([`a.size()]) [$+] [`a.count([$k])]
+[|] [:en] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
 
 [|] [`a_tran.count(ke)]
 [|] [`size_type]
 [|] [:en] returns the number of elements with key [`r] such that
     [`!c(r, ke) && !c(ke, r)]
-[|] [:en] log([`a_tran.size()]) [$+] [`a_tran.count([$ke])]
+[|] [:en] [$[=log]([`a_tran.size()]) + [`a_tran.count(]ke[`)]]
 
 [|] [`a.lower_bound(k)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a].

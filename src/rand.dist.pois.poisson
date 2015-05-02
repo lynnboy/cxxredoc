@@ -1,0 +1,79 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poisson_distribution
+/]
+
+[section#rand.dist.pois.poisson
+    [:en] Class template [`poisson_distribution]
+]
+
+[%@library poisson_distribution]
+[%[:en]random number distribution[![`poisson_distribution]]]
+
+[para]
+[:en] A [`poisson_distribution] random number distribution produces integer
+values [$i] [=geq] 0 distributed according to the discrete probability function
+[%discrete probability function[![`poisson_distribution]]]
+[%[`poisson_distribution][!discrete probability function]]
+
+[math]
+P(i | [=mu]) = [=frac@ e[^-[=mu]][=mu][^i] @ i! ] .
+[math:end]
+
+[:en] The distribution parameter [$[=mu]] is also known as this
+distribution[=']s [+mean] [%mean[![`poisson_distribution]]]
+[%[`poisson_distribution][!mean]] .
+
+[codeblock:synopsis [special unspecified] ]
+template<class IntType = int>
+ class poisson_distribution
+{
+public:
+ // [:en] types
+ typedef IntType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit poisson_distribution(double mean = 1.0);
+ explicit poisson_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ double mean() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library poisson_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit poisson_distribution(double mean = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`mean].
+
+[para:effects]
+[:en] Constructs a [`poisson_distribution] object; [`mean] corresponds to the
+parameter of the distribution.
+[exit:description]
+
+[%@library poisson_distribution[!mean]]
+[%@library mean[!poisson_distribution]]
+[codeblock:declaration]
+double mean() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`mean] parameter with which the object was constructed.
+[exit:description]

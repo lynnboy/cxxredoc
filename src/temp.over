@@ -54,6 +54,7 @@ be given preference over a template specialization if the two functions are
 otherwise equally good candidates for an overload match.
 [footnote:end]
 
+[para:~]
 [enter:example]
 [codeblock]
 template<class T> T max(T a, T b) { return a>b?a:b; }

@@ -1,0 +1,116 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% random_device class section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/]
+
+[section#rand.device
+    [:en] Class [`random_device]
+]
+
+[%@library random_device]
+
+[para]
+[:en] A [`random_device] uniform random number generator produces
+non-deterministic random numbers.
+
+[para]
+[:en] If implementation limitations
+[%[`random_device][!implementation leeway]]
+prevent generating non-deterministic random numbers, the implementation may
+employ a random number engine.
+
+[codeblock:synopsis [special implementation-defined] ]
+class random_device
+{
+public:
+ // [:en] types
+ typedef unsigned int result_type;
+
+ // [:en] generator characteristics
+ static constexpr result_type min() { return numeric_limits<result_type>::min(); }
+ static constexpr result_type max() { return numeric_limits<result_type>::max(); }
+
+ // [:en] constructors
+ explicit random_device(const string& token = implementation-defined);
+
+ // [:en] generating functions
+ result_type operator()();
+
+ // [:en] property functions
+ double entropy() const noexcept;
+
+ // [:en] no copy functions
+ random_device(const random_device& ) = delete;
+ void operator=(const random_device& ) = delete;
+};
+[codeblock:end]
+
+[%@library random_device[![:en] constructor]]
+[codeblock:declaration [special implementation-defined] ]
+explicit random_device(const string& token = implementation-defined);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`random_device] non-deterministic uniform random number
+generator object.
+
+[:en] The semantics and default value of the [`token] parameter are
+implementation-defined.
+
+[footnote]
+The parameter is intended
+   to allow an implementation to differentiate
+   between different sources of randomness.
+[footnote:end]
+
+[para:throws]
+[:en] A value of an implementation-defined type derived from [`exception] if the
+[`random_device] could not be initialized.
+[exit:description]
+
+[%@library random_device[!entropy]]
+[%@library entropy[!random_device]]
+[codeblock:declaration]
+double entropy() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the implementation employs a random number engine, returns 0.0.
+
+[:en] Otherwise, returns an entropy estimate
+
+[footnote]
+[:en] If a device has [$n] states whose respective probabilities are [$P[_0],
+[=ldots], P[_n-1]], the device entropy [$S] is defined as
+[$@math S = - [=sum@i=0@n-1] P[_i] [=cdot] [=log] P[_i]].
+[footnote:end]
+
+[:en@~] for the random numbers returned by [`operator()], in the range [`min()]
+to [$[=log][_2]([`max()] + 1)].
+[exit:description]
+
+[%@library random_device[!operator()]]
+[%@library operator()[!random_device]]
+
+[codeblock:declaration]
+result_type operator()();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A non-deterministic random value, uniformly distributed between [`min()]
+and [`max()], inclusive.
+
+[:en] It is implementation-defined how these values are generated.
+
+[para:throws]
+[:en] A value of an implementation-defined type derived from [`exception] if a
+random number could not be obtained.
+[exit:description]

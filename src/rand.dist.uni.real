@@ -1,0 +1,90 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% uniform_real distribution:
+/]
+
+[/     4[rand.dist.uni.real]{Class template [`uniform_real_distribution]/]
+[section#rand.dist.uni.real
+    [:en] Class template [`uniform_real_distribution]
+]
+
+[%@library uniform_real_distribution]
+[%[:en]random number distribution[![`uniform_real_distribution]]]
+
+[para]
+[:en] A [`uniform_real_distribution] random number distribution produces random
+numbers [$x], [$a [=leq] x < b], distributed according to the constant
+probability density function
+[%probability density function[![`uniform_real_distribution]]]
+[%[`uniform_real_distribution][!probability density function]]
+
+[math]
+p(x | a, b) = 1 / (b - a) .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class uniform_real_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit uniform_real_distribution(RealType a = 0.0, RealType b = 1.0);
+ explicit uniform_real_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ result_type a() const;
+ result_type b() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library uniform_real_distribution[![:en] constructor]]
+[codeblock:declaration]
+explicit uniform_real_distribution(RealType a = 0.0, RealType b = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`a] [=leq] [`b] and [`b] - [`a] [=leq]
+[`numeric_limits<RealType>::max()].
+
+[para:effects]
+[:en] Constructs a [`uniform_real_distribution] object; [`a] and [`b] correspond
+to the respective parameters of the distribution.
+[exit:description]
+
+[%@library uniform_real_distribution[!a]]
+[%@library a[!uniform_real_distribution]]
+[codeblock:declaration]
+result_type a() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`a] parameter with which the object was constructed.
+[exit:description]
+
+[%@library uniform_real_distribution[!b]]
+[%@library b[!uniform_real_distribution]]
+[codeblock:declaration]
+result_type b() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`b] parameter with which the object was constructed.
+[exit:description]

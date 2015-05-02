@@ -1,0 +1,29 @@
+﻿[section#valarray.unary
+    [:en] [`valarray] unary operators
+]
+
+[%@library operator+[!valarray]]
+[%@library operator-[!valarray]]
+[%@library operator~[!valarray]]
+[%@library operator![!valarray]]
+[codeblock:declaration]
+valarray operator+() const;
+valarray operator-() const;
+valarray operator~() const;
+valarray<bool> operator!() const;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Each of these operators may only be instantiated for a type [`T] to which
+the indicated operator can be applied and for which the indicated operator
+returns a value which is of type [`T] ([`bool] for [`operator!]) or which may be
+unambiguously implicitly converted to type [`T] ([`bool] for [`operator!]).
+
+[para]
+[:en] Each of these operators returns an array whose length is equal to the
+length of the array.
+
+[:en] Each element of the returned array is initialized with the result of
+applying the indicated operator to the corresponding element of the array.
+[exit:description]

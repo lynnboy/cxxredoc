@@ -1,0 +1,76 @@
+﻿[/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% exponential_distribution
+/]
+
+[section#rand.dist.pois.exp
+    [:en] Class template [`exponential_distribution]
+]
+
+[%@library exponential_distribution]
+[%[:en]random number distribution[![`exponential_distribution]]]
+
+[para]
+[:en] An [`exponential_distribution] random number distribution produces random
+numbers [$x > 0] distributed according to the probability density function
+[%probability density function[![`exponential_distribution]]]
+[%[`exponential_distribution][!probability density function]]
+
+[math]
+p(x | [=lambda]) = [=lambda]e[^-[=lambda]x] .
+[math:end]
+
+[codeblock:synopsis [special unspecified] ]
+template<class RealType = double>
+ class exponential_distribution
+{
+public:
+ // [:en] types
+ typedef RealType result_type;
+ typedef unspecified param_type;
+
+ // [:en] constructors and reset functions
+ explicit exponential_distribution(RealType lambda = 1.0);
+ explicit exponential_distribution(const param_type& parm);
+ void reset();
+
+ // [:en] generating functions
+ template<class URNG>
+   result_type operator()(URNG& g);
+ template<class URNG>
+   result_type operator()(URNG& g, const param_type& parm);
+
+ // [:en] property functions
+ RealType lambda() const;
+ param_type param() const;
+ void param(const param_type& parm);
+ result_type min() const;
+ result_type max() const;
+};
+[codeblock:end]
+
+[%@library exponential_distribution[![:en]constructor]]
+[codeblock:declaration]
+explicit exponential_distribution(RealType lambda = 1.0);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] 0 < [`lambda].
+
+[para:effects]
+[:en] Constructs a [`exponential_distribution] object; [`lambda] corresponds to
+the parameter of the distribution.
+[exit:description]
+
+[%@library exponential_distribution[!lambda]]
+[%@library lambda[!exponential_distribution]]
+[codeblock:declaration]
+RealType lambda() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of the [`lambda] parameter with which the object was
+constructed.
+[exit:description]

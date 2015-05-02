@@ -125,6 +125,7 @@ character literals for conversion to the locale[=']s encoding.
 [:en] The only characters for which unique transformations are required are
 those in the basic source character set ([#lex.charset]).
 
+[para:~]
 [:en] For any named [`ctype] category with a [`ctype<charT>] facet [`ctc] and
 valid [`ctype_base::mask] value [`M], [`(ctc.is(M, c) || !is(M, do_widen(c)) )]
 is [`true].
@@ -134,6 +135,7 @@ is [`true].
 classification that [`c] is not also a member of.
 [footnote:end]
 
+[para:~]
 [:en] The second form transforms each character [`*p] in the range
 [=range[low,high)], placing the result in [`dest[p-low`]].
 
@@ -156,17 +158,18 @@ const charT* do_narrow(const charT* low, const charT* high,
 [:en] Applies the simplest reasonable transformation from a [`charT] value or
 sequence of [`charT] values to the corresponding [`char] value or values.
 
+[para:~]
 [:en] For any character [`c] in the basic source character set ([#lex.charset])
 the transformation is such that
 
-[codeblock:synopsis]
+[codeblock:notation]
 do_widen(do_narrow(c,0)) == c
 [codeblock:end]
 
 [:en] For any named [`ctype] category with a [`ctype<char>] facet [`ctc]
 however, and [`ctype_base::mask] value [`M],
 
-[codeblock:synopsis]
+[codeblock:notation]
 (is(M,c) || !ctc.is(M, do_narrow(c,dfault)) )
 [codeblock:end]
 

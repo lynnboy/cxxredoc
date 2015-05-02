@@ -1,0 +1,24 @@
+﻿[section#numeric.iota
+    [:en] Iota
+]
+
+[%@library iota]
+[codeblock:declaration]
+template <class ForwardIterator, class T>
+  void iota(ForwardIterator first, ForwardIterator last, T value);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`T] shall be convertible to [`ForwardIterator][=']s value type.
+
+[:en] The expression [`++val], where [`val] has type [`T], shall be well formed.
+
+[para:effects]
+[:en] For each element referred to by the iterator [`i] in the range
+[=range[first,last)], assigns [`*i = value] and increments [`value] as if by
+[`++value].
+
+[para:complexity]
+[:en] Exactly [`last - first] increments and assignments.
+[exit:description]

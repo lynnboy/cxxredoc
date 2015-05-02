@@ -69,5 +69,5 @@ distance between [`first] and [`last]) and no reallocations if iterators first
 and last are of forward, bidirectional, or random access categories.
 
 [:en] It makes order [`N] calls to the copy constructor of [`T] and order
-log([$N]) reallocations if they are just input iterators.
+[$[=log](N)] reallocations if they are just input iterators.
 [exit:description]

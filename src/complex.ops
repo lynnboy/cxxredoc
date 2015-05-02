@@ -1,0 +1,175 @@
+﻿[section#complex.ops
+    [:en] [`complex] non-member operations
+]
+
+[%@library operator+[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> operator+(const complex<T>& lhs);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] unary operator.
+
+[para:returns]
+[:en] [`complex<T>(lhs)].
+[exit:description]
+
+[codeblock:declaration]
+template<class T>
+  complex<T> operator+(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> complex<T> operator+(const complex<T>& lhs, const T& rhs);
+template<class T> complex<T> operator+(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`complex<T>(lhs) += rhs].
+[exit:description]
+
+[%@library operator-[!complex]]
+[codeblock:declaration]
+template<class T> complex<T> operator-(const complex<T>& lhs);
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] unary operator.
+
+[para:returns]
+[:en] [`complex<T>(-lhs.real(),-lhs.imag())].
+[exit:description]
+
+[%@library operator-[!complex]]
+[%@library complex[!operator-]]
+[codeblock:declaration]
+template<class T>
+  complex<T> operator-(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> complex<T> operator-(const complex<T>& lhs, const T& rhs);
+template<class T> complex<T> operator-(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`complex<T>(lhs) -= rhs].
+[exit:description]
+
+[%@library operator*[!complex]]
+[codeblock:declaration]
+template<class T>
+  complex<T> operator*(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> complex<T> operator*(const complex<T>& lhs, const T& rhs);
+template<class T> complex<T> operator*(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`complex<T>(lhs) *= rhs].
+[exit:description]
+
+[%@library operator/[!complex]]
+[%@library complex[!operator/]]
+[codeblock:declaration]
+template<class T>
+  complex<T> operator/(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> complex<T> operator/(const complex<T>& lhs, const T& rhs);
+template<class T> complex<T> operator/(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`complex<T>(lhs) /= rhs].
+[exit:description]
+
+[%@library operator==[!complex]]
+[codeblock:declaration]
+template<class T>
+  constexpr bool operator==(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> constexpr bool operator==(const complex<T>& lhs, const T& rhs);
+template<class T> constexpr bool operator==(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.real() == rhs.real() && lhs.imag() == rhs.imag()].
+
+[para:notes]
+[:en] The imaginary part is assumed to be [`T()], or 0.0, for the [`T]
+arguments.
+[exit:description]
+
+[%@library operator!=[!complex]]
+[codeblock:declaration]
+template<class T>
+  constexpr bool operator!=(const complex<T>& lhs, const complex<T>& rhs);
+template<class T> constexpr bool operator!=(const complex<T>& lhs, const T& rhs);
+template<class T> constexpr bool operator!=(const T& lhs, const complex<T>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.real() != lhs.real() || rhs.imag() != lhs.imag()].
+[exit:description]
+
+[%@library operator>>[!complex]]
+[codeblock:declaration]
+template<class T, class charT, class traits>
+basic_istream<charT, traits>&
+operator>>(basic_istream<charT, traits>& is, complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Extracts a complex number [`x] of the form: [`u], [`(u)], or [`(u,v)],
+where [`u] is the real part and [`v] is the imaginary part
+([#istream.formatted]).
+
+[para:requires]
+[:en] The input values shall be convertible to [`T].
+
+[:en] If bad input is encountered, calls [`is.setstate(ios_base::failbit)]
+(which may throw [`ios::failure] ([#iostate.flags])).
+
+[para:returns]
+[:en] [`is].
+
+[para:notes]
+[:en] This extraction is performed as a series of simpler extractions.
+
+[:en] Therefore, the skipping of whitespace is specified to be the same for each
+of the simpler extractions.
+[exit:description]
+
+[%@library operator<<[!complex]]
+[codeblock:declaration]
+template<class T, class charT, class traits>
+basic_ostream<charT, traits>&
+operator<<(basic_ostream<charT, traits>& o, const complex<T>& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] inserts the complex number [`x] onto the stream [`o] as if it were
+implemented as follows:
+
+[codeblock:notation]
+template<class T, class charT, class traits>
+basic_ostream<charT, traits>&
+operator<<(basic_ostream<charT, traits>& o, const complex<T>& x) {
+  basic_ostringstream<charT, traits> s;
+  s.flags(o.flags());
+  s.imbue(o.getloc());
+  s.precision(o.precision());
+  s << '(' << x.real() << "," << x.imag() << ')';
+  return o << s.str();
+}
+[codeblock:end]
+
+[para:realnote]
+[:en] In a locale in which comma is used as a decimal point character, the use
+of comma as a field separator can be ambiguous.
+
+[:en] Inserting [`std::showpoint] into the output stream forces all outputs to
+show an explicit decimal point character; as a result, all inserted sequences of
+complex numbers can be extracted unambiguously.
+[exit:description]

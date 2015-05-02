@@ -73,7 +73,7 @@ Note that in the call to [`put] the stream is implicitly converted to an
 [`ostreambuf_iterator<charT,traits>].
 [footnote:end]
 
-[codeblock:synopsis]
+[codeblock]
 template <class charT, class traits>
 basic_ostream<charT,traits>&
 operator<< (basic_ostream<charT,traits>& s, Date d) {

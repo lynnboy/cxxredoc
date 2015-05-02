@@ -80,6 +80,7 @@ extern "C++" void qsort(void* base, size_t nmemb, size_t size,
 [:en] The behavior is undefined unless the objects in the array pointed to by
 [`base] are of trivial type.
 
+[para:~]
 [enter:note]
 [:en] Because the function argument [`compar()] may throw an exception,
 [`bsearch()] and [`qsort()] are allowed to propagate the exception
