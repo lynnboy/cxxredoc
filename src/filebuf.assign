@@ -1,0 +1,44 @@
+﻿[section#filebuf.assign
+    [:en] Assign and swap
+]
+
+[%@library operator=[!basic_filebuf]]
+[%@library basic_filebuf[!operator=]]
+[codeblock:declaration]
+basic_filebuf& operator=(basic_filebuf&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`this->close()] then move assigns from [`rhs].
+
+[:en] After the move assignment [`*this] has the observable state it would have
+had if it had been move constructed from [`rhs] (see [#filebuf.cons]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_filebuf]]
+[%@library basic_filebuf[!swap]]
+[codeblock:declaration]
+void swap(basic_filebuf& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the state of [`*this] and [`rhs].
+[exit:description]
+
+[%@library swap[!basic_filebuf]]
+[%@library basic_filebuf[!swap]]
+[codeblock:declaration]
+template <class charT, class traits>
+void swap(basic_filebuf<charT, traits>& x,
+          basic_filebuf<charT, traits>& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

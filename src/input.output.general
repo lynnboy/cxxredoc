@@ -1,0 +1,98 @@
+﻿[section#input.output.general
+    [:en] General
+]
+
+[para]
+[:en] This Clause describes components that [=Cpp] programs may use to perform
+input/output operations.
+
+[para]
+[:en] The following subclauses describe requirements for stream parameters, and
+components for forward declarations of iostreams, predefined iostreams objects,
+base iostreams classes, stream buffering, stream formatting and manipulators,
+string streams, and file streams, as summarized in Table
+[#tab:iostreams.lib.summary].
+
+[table:listing#tab:iostreams.lib.summary
+    [:en] Input/output library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[|] [#iostreams.requirements]
+[|] [:en] Requirements
+[|]
+
+[|] [#iostream.forward]
+[|] [:en] Forward declarations
+[|] <iosfwd>
+
+[|] [#iostream.objects]
+[|] [:en] Standard iostream objects
+[|] <iostream>
+
+[|] [#iostreams.base]
+[|] [:en] Iostreams base classes
+[|] <ios>
+
+[|] [#stream.buffers]
+[|] [:en] Stream buffers
+[|] <streambuf>
+
+[|] [#iostream.format]
+[|] [:en] Formatting and manipulators
+[|] <istream> [br] <ostream> [br] <iomanip>
+
+[|] [#string.streams]
+[|] [:en] String streams
+[|] <sstream>
+
+[|] [#file.streams]
+[|] [:en] File streams
+[|] <fstream> [br] <cstdio> [br] <cinttypes>
+
+[table:end]
+
+[para]
+[:en] Figure [#fig:streampos] illustrates relationships among various types
+described in this clause.
+
+[:en] A line from [$@bf A] to [$@bf B] indicates that [$@bf A] is an alias (e.g.
+a typedef) for [$@bf B] or that [$@bf A] is defined in terms of [$@bf B].
+
+[figure:graphviz@dot#fig:streampos
+    [:en] Stream position, offset, and size types [non-normative]
+    [:zh_CN]
+]
+[:en]
+digraph figstreampos
+{
+  traits_pos_type_char [label="char_traits<char>\n::pos_type"];
+  traits_pos_type_wchar_t [label="char_traits<wchar_t>\n::pos_type"];
+  traits_pos_type_char -> streampos [label=" iostreams.limits.pos"];
+  traits_pos_type_wchar_t -> wstreampos [label=" iostreams.limits.pos"];
+  streampos -> fpos [label=" iostream.forward"];
+  fpos [label="fpos<mbstate_t>"];
+
+  traits_off_type_char [label="char_traits<char>\n::off_type"];
+  traits_off_type_wchar_t [label="char_traits<wchar_t>\n::off_type"];
+  traits_off_type_char -> streamoff [label=" iostreams.limits.pos"];
+  traits_off_type_wchar_t -> streamoff [label=" iostreams.limits.pos"];
+  wstreampos -> fpos [label=" iostream.forward"];
+
+  streamoff -> streamoff_type [label=" stream.types"];
+  streamoff_type  [label="signed integer type\nsufficient for\n O/S maximum file size"];
+
+  streamsize -> streamsize_type [label=" stream.types"];
+  streamsize_type [label="signed integer type\nrepresents characters xfered\nor buffer sizes"];
+}
+[:zh_CN]
+[figure:end]

@@ -1,0 +1,29 @@
+﻿[section#iostream.cons
+    [:en] [`basic_iostream] constructors
+]
+[%@library basic_iostream[!basic_iostream]]
+[%@library basic_iostream[![:en]constructor]]
+[codeblock:declaration]
+explicit basic_iostream(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_iostream], assigning initial values
+to the base classes by calling [`basic_istream<charT,traits>(sb)] ([#istream])
+and [`basic_ostream<charT,traits>(sb)] ([#ostream])
+
+[para:postcondition]
+[:en] [`rdbuf()==sb] and [`gcount()==0].
+[exit:description]
+
+[%@library basic_iostream[![:en]constructor]]
+[codeblock:declaration]
+basic_iostream(basic_iostream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs from the rvalue [`rhs] by constructing the
+[`basic_istream] base class with [`move(rhs)].
+[exit:description]

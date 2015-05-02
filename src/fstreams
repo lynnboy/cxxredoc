@@ -1,0 +1,95 @@
+﻿[section#fstreams
+    [:en] File streams
+]
+
+[para]
+[:en] The header [`<fstream>] defines four class templates and eight types that
+associate stream buffers with files and assist reading and writing files.
+
+[para:synopsis]
+[:en] Header [`<fstream>] synopsis
+
+[%@library <fstream> [sortasfstream]]
+[%@library filebuf]
+[%@library basic_filebuf<char>]
+[%@library wfilebuf]
+[%@library basic_filebuf<wchar_t>]
+[%@library ifstream]
+[%@library basic_ifstream<char>]
+[%@library wifstream]
+[%@library basic_ifstream<wchar_t>]
+[%@library ofstream]
+[%@library basic_ofstream<char>]
+[%@library wofstream]
+[%@library basic_ofstream<wchar_t>]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+    class basic_filebuf;
+  typedef basic_filebuf<char>    filebuf;
+  typedef basic_filebuf<wchar_t> wfilebuf;
+
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ifstream;
+  typedef basic_ifstream<char>    ifstream;
+  typedef basic_ifstream<wchar_t> wifstream;
+
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ofstream;
+  typedef basic_ofstream<char>    ofstream;
+  typedef basic_ofstream<wchar_t> wofstream;
+
+  template <class charT, class traits = char_traits<charT> >
+    class basic_fstream;
+  typedef basic_fstream<char>     fstream;
+  typedef basic_fstream<wchar_t> wfstream;
+}
+[codeblock:end]
+
+[para]
+[:en] In this subclause, the type name [`FILE] refers to the type [`FILE]
+declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>] ([#c.files]).
+
+[para]
+[enter:note]
+[:en] The class template [`basic_filebuf] treats a file as a source or sink of
+bytes.
+
+[:en] In an environment that uses a large character set, the file typically
+holds multibyte character sequences and the [`basic_filebuf] object converts
+those multibyte sequences into wide character sequences.
+[exit:note]
+
+[include filebuf]
+
+[include filebuf.cons]
+
+[include filebuf.assign]
+
+[include filebuf.members]
+
+[include filebuf.virtuals]
+
+[include ifstream]
+
+[include ifstream.cons]
+
+[include ifstream.assign]
+
+[include ifstream.members]
+
+[include ofstream]
+
+[include ofstream.cons]
+
+[include ofstream.assign]
+
+[include ofstream.members]
+
+[include fstream]
+
+[include fstream.cons]
+
+[include fstream.assign]
+
+[include fstream.members]

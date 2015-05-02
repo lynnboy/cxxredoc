@@ -1,0 +1,30 @@
+﻿[section#istream.assign
+    [:en] Class [`basic_istream] assign and swap
+]
+
+[%@library operator=[!basic_istream]]
+[%@library basic_istream[!operator=]]
+[codeblock:declaration]
+basic_istream& operator=(basic_istream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`swap(rhs);].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_istream]]
+[%@library basic_istream[!swap]]
+[codeblock:declaration]
+void swap(basic_istream& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`basic_ios<charT, traits>::swap(rhs)].
+
+[:en] Exchanges the values returned by [`gcount()] and [`rhs.gcount()].
+[exit:description]

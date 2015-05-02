@@ -1,0 +1,29 @@
+﻿[section#ios.base.callback
+    [:en] [`ios_base] callbacks
+]
+
+[%@library register_callback[!ios_base]]
+[codeblock:declaration]
+void register_callback(event_callback fn, int index);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Registers the pair [`(fn,index)] such that during calls to [`imbue()]
+([#ios.base.locales]), [`copyfmt()], or [`~ios_base()] ([#ios.base.cons]), the
+function [`fn] is called with argument [`index].
+
+[:en] Functions registered are called when an event occurs, in opposite order of
+registration.
+
+[:en] Functions registered while a callback function is active are not called
+until the next event.
+
+[para:requires]
+[:en] The function [`fn] shall not throw exceptions.
+
+[para:notes]
+[:en] Identical pairs are not merged.
+
+[:en] A function registered twice will be called twice.
+[exit:description]

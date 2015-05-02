@@ -1,0 +1,75 @@
+﻿[section#filebuf.cons
+    [:en] [`basic_filebuf] constructors
+]
+
+[%@library basic_filebuf[!basic_filebuf]]
+[codeblock:declaration]
+basic_filebuf();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_filebuf<charT,traits>], initializing
+the base class with [`basic_streambuf<charT,traits>()] ([#streambuf.cons]).
+
+[para:postcondition]
+[:en] [`is_open() == false].
+[exit:description]
+
+[%@library basic_filebuf[![:en]constructor]]
+[codeblock:declaration]
+basic_filebuf(basic_filebuf&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs from the rvalue [`rhs].
+
+[:en] It is [%@impldef whether sequence pointers are copied by [`basic_filebuf]
+move constructor] implementation-defined whether the sequence pointers in
+[`*this] ([`eback()], [`gptr()], [`egptr()], [`pbase()], [`pptr()], [`epptr()])
+obtain the values which [`rhs] had.
+
+[:en] Whether they do or not, [`*this] and [`rhs] reference separate buffers (if
+any at all) after the construction.
+
+[:en] Additionally [`*this] references the file which [`rhs] did before the
+construction, and [`rhs] references no file after the construction.
+
+[:en] The openmode, locale and any other state of [`rhs] is also copied.
+
+[para:postconditions]
+[:en] Let [`rhs_p] refer to the state of [`rhs] just prior to this construction
+and let [`rhs_a] refer to the state of [`rhs] just after this construction.
+
+[list]
+[item] [`is_open() == rhs_p.is_open()]
+[item] [`rhs_a.is_open() == false]
+[item] [`gptr() - eback() == rhs_p.gptr() - rhs_p.eback()]
+[item] [`egptr() - eback() == rhs_p.egptr() - rhs_p.eback()]
+[item] [`pptr() - pbase() == rhs_p.pptr() - rhs_p.pbase()]
+[item] [`epptr() - pbase() == rhs_p.epptr() - rhs_p.pbase()]
+[item] [`if (eback()) eback() != rhs_a.eback()]
+[item] [`if (gptr()) gptr() != rhs_a.gptr()]
+[item] [`if (egptr()) egptr() != rhs_a.egptr()]
+[item] [`if (pbase()) pbase() != rhs_a.pbase()]
+[item] [`if (pptr()) pptr() != rhs_a.pptr()]
+[item] [`if (epptr()) epptr() != rhs_a.epptr()]
+[list:end]
+[exit:description]
+
+[%@library basic_filebuf[![:en]destructor]]
+[codeblock:declaration]
+virtual ~basic_filebuf();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`basic_filebuf<charT,traits>].
+
+[:en] Calls [`close()].
+
+[:en] If an exception occurs during the destruction of the object, including the
+call to [`close()], the exception is caught but not rethrown (see
+[#res.on.exception.handling]).
+[exit:description]

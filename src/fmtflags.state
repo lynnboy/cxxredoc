@@ -1,0 +1,113 @@
+﻿[section#fmtflags.state
+    [:en] [`ios_base] state functions
+]
+
+[%@library flags[!ios_base]]
+[codeblock:declaration]
+fmtflags flags() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The format control information for both input and output.
+[exit:description]
+
+[%@library fmtflags[!ios_base]]
+[%@library ios_base[!fmtflags]]
+[codeblock:declaration]
+fmtflags flags(fmtflags fmtfl);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`fmtfl == flags()].
+
+[para:returns]
+[:en] The previous value of [`flags()].
+[exit:description]
+
+[%@library setf[!ios_base]]
+[codeblock:declaration]
+fmtflags setf(fmtflags fmtfl);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Sets [`fmtfl] in [`flags()].
+
+[para:returns]
+[:en] The previous value of [`flags()].
+[exit:description]
+
+[%@library setf[!ios_base]]
+[%@library ios_base[!setf]]
+[codeblock:declaration]
+fmtflags setf(fmtflags fmtfl, fmtflags mask);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Clears [`mask] in [`flags()], sets [`fmtfl & mask] in [`flags()].
+
+[para:returns]
+[:en] The previous value of [`flags()].
+[exit:description]
+
+[%@library unsetf[!ios_base]]
+[codeblock:declaration]
+void unsetf(fmtflags mask);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Clears [`mask] in [`flags()].
+[exit:description]
+
+[%@library precision[!ios_base]]
+[codeblock:declaration]
+streamsize precision() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The precision to generate on certain output conversions.
+[exit:description]
+
+[%@library precision[!ios_base]]
+[%@library ios_base[!precision]]
+[codeblock:declaration]
+streamsize precision(streamsize prec);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`prec == precision()].
+
+[para:returns]
+[:en] The previous value of [`precision()].
+[exit:description]
+
+[%@library width[!ios_base]]
+[codeblock:declaration]
+streamsize width() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The minimum field width (number of characters) to generate on certain
+output conversions.
+[exit:description]
+
+[%@library streamsize[!ios_base]]
+[%@library ios_base[!streamsize]]
+[codeblock:declaration]
+streamsize width(streamsize wide);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`wide == width()].
+
+[para:returns]
+[:en] The previous value of [`width()].
+[exit:description]

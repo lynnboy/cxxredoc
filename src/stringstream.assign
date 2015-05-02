@@ -1,0 +1,43 @@
+﻿[section#stringstream.assign
+    [:en] Assign and swap
+]
+
+[%@library operator=[!basic_stringstream]]
+[%@library basic_stringstream[!operator=]]
+[codeblock:declaration]
+basic_stringstream& operator=(basic_stringstream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move assigns the base and members of [`*this] from the base and
+corresponding members of [`rhs].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_stringstream]]
+[%@library basic_stringstream[!swap]]
+[codeblock:declaration]
+void swap(basic_stringstream& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the state of [`*this] and [`rhs] by calling
+[`basic_iostream<charT,traits>::swap(rhs)] and [`sb.swap(rhs.sb)].
+[exit:description]
+
+[%@library swap[!basic_stringstream]]
+[%@library basic_stringstream[!swap]]
+[codeblock:declaration]
+template <class charT, class traits, class Allocator>
+void swap(basic_stringstream<charT, traits, Allocator>& x,
+          basic_stringstream<charT, traits, Allocator>& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

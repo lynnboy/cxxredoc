@@ -1,0 +1,146 @@
+﻿[section#filebuf.members
+    [:en] Member functions
+]
+
+[%@library is_open[!basic_filebuf]]
+[codeblock:declaration]
+bool is_open() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if a previous call to [`open] succeeded (returned a non-null
+value) and there has been no intervening call to close.
+[exit:description]
+
+[%@library open[!basic_filebuf]]
+[codeblock:declaration]
+basic_filebuf<charT,traits>* open(const char* s,
+    ios_base::openmode mode);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`is_open() != false], returns a null pointer.
+
+[:en] Otherwise, initializes the [`filebuf] as required.
+
+[:en] It then opens a file, if possible, whose name is the [%NTBS] [em@sc ntbs]
+[`s] (as if by calling [%@library fopen] [`std::fopen(s,modstr)]).
+
+[:en] The [em@sc ntbs] [`modstr] is determined from [`mode & ~ios_base::ate] as
+indicated in Table [#tab:iostreams.file.open.modes].
+
+[:en] If [`mode] is not some combination of flags shown in the table then the
+open fails.
+
+[table:listing#tab:iostreams.file.open.modes
+    [columns
+        [columngroup@headercenter
+            [:en] [`ios_base] flag combination
+            [column [`binary] ]
+            [column [`in] ]
+            [column [`out] ]
+            [column [`trunc] ]
+            [column [`app] ]
+        ]
+        [column@headercenter@code
+            [:en] [`stdio] equivalent
+        ]
+    ]
+    [border:row@both]
+    [border:group@both@double]
+]
+
+[-]
+[|]     [|]     [|] +   [|]     [|]     [|] "w"
+[|]     [|]     [|] +   [|]     [|] +   [|] "a"
+[|]     [|]     [|]     [|]     [|] +   [|] "a"
+[|]     [|]     [|] +   [|] +   [|]     [|] "w"
+[|]     [|] +   [|]     [|]     [|]     [|] "r"
+[|]     [|] +   [|] +   [|]     [|]     [|] "r+"
+[|]     [|] +   [|] +   [|] +   [|]     [|] "w+"
+[|]     [|] +   [|] +   [|]     [|] +   [|] "a+"
+[|]     [|] +   [|]     [|]     [|] +   [|] "a+"
+
+[-]
+[|] +   [|]     [|] +   [|]     [|]     [|] "wb"
+[|] +   [|]     [|] +   [|]     [|] +   [|] "ab"
+[|] +   [|]     [|]     [|]     [|] +   [|] "ab"
+[|] +   [|]     [|] +   [|] +   [|]     [|] "wb"
+[|] +   [|] +   [|]     [|]     [|]     [|] "rb"
+[|] +   [|] +   [|] +   [|]     [|]     [|] "r+b"
+[|] +   [|] +   [|] +   [|] +   [|]     [|] "w+b"
+[|] +   [|] +   [|] +   [|]     [|] +   [|] "a+b"
+[|] +   [|] +   [|]     [|]     [|] +   [|] "a+b"
+
+[table:end]
+
+[para]
+[:en] If the open operation succeeds and [`(mode & ios_base::ate) != 0],
+positions the file to the end (as if by calling [`std::fseek(file,0,SEEK_END)]).
+
+[footnote]
+[:en] The macro [`SEEK_END] is defined, and the function signatures
+[%@library fopen] [`fopen(const char*, const char*)] and
+[%@library fseek] [`fseek(FILE*, long, int)] are declared, in
+[%@library <cstdio> [sortas cstdio]] [`<cstdio>] ([#c.files]).
+[footnote:end]
+
+[para]
+[:en] If the repositioning operation fails, calls [`close()] and returns a null
+pointer to indicate failure.
+
+[para:returns]
+[:en] [`this] if successful, a null pointer otherwise.
+[exit:description]
+
+[%@library open[!basic_filebuf]]
+[codeblock:declaration]
+basic_filebuf<charT,traits>* open(const string& s,
+    ios_base::openmode mode);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`open(s.c_str(), mode);]
+[exit:description]
+
+[%@library close[!basic_filebuf]]
+[codeblock:declaration]
+basic_filebuf<charT,traits>* close();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`is_open() == false], returns a null pointer.
+
+[:en] If a put area exists, calls [`overflow(traits::eof())] to flush
+characters.
+
+[:en] If the last virtual member function called on [`*this] (between
+[`underflow], [`overflow], [`seekoff], and [`seekpos]) was [`overflow] then
+calls [`a_codecvt.unshift] (possibly several times) to determine a termination
+sequence, inserts those characters and calls [`overflow(traits::eof())] again.
+
+[:en] Finally, regardless of whether any of the preceding calls fails or throws
+an exception, the function closes the file (as if by calling [%@library fclose]
+[`std::fclose(file)]).
+
+[footnote]
+[:en] The function signature [%@library fclose] [`fclose(FILE*)] is declared in
+[%@library <cstdio> [sortas cstdio]] [`<cstdio>] ([#c.files]).
+[footnote:end]
+
+[:en] If any of the calls made by the function, including [`std::fclose], fails,
+[`close] fails by returning a null pointer.
+
+[:en] If one of these calls throws an exception, the exception is caught and
+rethrown after closing the file.
+
+[para:returns]
+[:en] [`this] on success, a null pointer otherwise.
+
+[para:postcondition]
+[:en] [`is_open() == false].
+[exit:description]

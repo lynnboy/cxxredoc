@@ -1,0 +1,57 @@
+﻿[section#stringbuf.members
+    [:en] Member functions
+]
+
+[%@library str[!basic_stringbuf]]
+[codeblock:declaration]
+basic_string<charT,traits,Allocator> str() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A [`basic_string] object whose content is equal to the [`basic_stringbuf]
+underlying character sequence.
+
+[:en] If the [`basic_stringbuf] was created only in input mode, the resultant
+[`basic_string] contains the character sequence in the range
+[=range[eback(),egptr())].
+
+[:en] If the [`basic_stringbuf] was created with [`which & ios_base::out] being
+true then the resultant [`basic_string] contains the character sequence in the
+range [=range[pbase(),high_mark)], where [`high_mark] represents the position
+one past the highest initialized character in the buffer.
+
+[:en] Characters can be initialized by writing to the stream, by constructing
+the [`basic_stringbuf] with a [`basic_string], or by calling the
+[`str(basic_string)] member function.
+
+[:en] In the case of calling the [`str(basic_string)] member function, all
+characters initialized prior to the call are now considered uninitialized
+(except for those characters re-initialized by the new [`basic_string]).
+
+[:en] Otherwise the [`basic_stringbuf] has been created in neither input nor
+output mode and a zero length [`basic_string] is returned.
+[exit:description]
+
+[%@library str[!basic_stringbuf]]
+[%@library basic_stringbuf[!str]]
+[codeblock:declaration]
+void str(const basic_string<charT,traits,Allocator>& s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Copies the content of [`s] into the [`basic_stringbuf] underlying
+character sequence and initializes the input and output sequences according to
+[`mode].
+
+[para:postconditions]
+[:en] If [`mode & ios_base::out] is true, [`pbase()] points to the first
+underlying character and [`epptr() >= pbase() + s.size()] holds; in addition, if
+[`mode & ios_base::ate] is true, [`pptr() == pbase() + s.size()] holds,
+otherwise [`pptr() == pbase()] is true.
+
+[:en] If [`mode & ios_base::in] is true, [`eback()] points to the first
+underlying character, and both [`gptr() == eback()] and
+[`egptr() == eback() + s.size()] hold.
+[exit:description]

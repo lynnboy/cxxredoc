@@ -1,0 +1,46 @@
+﻿[section#ostream.manip
+    [:en] Standard [`basic_ostream] manipulators
+]
+
+[%@library endl]
+[codeblock:declaration]
+template <class charT, class traits>
+  basic_ostream<charT,traits>& endl(basic_ostream<charT,traits>& os);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`os.put(os.widen('\n'))], then [`os.flush()].
+
+[para:returns]
+[:en] [`os].
+[exit:description]
+
+[%@library ends]
+[codeblock:declaration]
+template <class charT, class traits>
+  basic_ostream<charT,traits>& ends(basic_ostream<charT,traits>& os);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Inserts a null character into the output sequence: calls
+[`os.put(charT())].
+
+[para:returns]
+[:en] [`os].
+[exit:description]
+
+[%@library flush]
+[codeblock:declaration]
+template <class charT, class traits>
+  basic_ostream<charT,traits>& flush(basic_ostream<charT,traits>& os);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`os.flush()].
+
+[para:returns]
+[:en] [`os].
+[exit:description]

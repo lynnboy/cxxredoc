@@ -1,0 +1,131 @@
+﻿[section#ostream
+    [:en] Class template [`basic_ostream]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class basic_ostream : virtual public basic_ios<charT,traits> {
+  public:
+    // [:en] types (inherited from [`basic_ios] ([#ios])):
+    typedef charT                     char_type;
+    typedef typename traits::int_type int_type;
+    typedef typename traits::pos_type pos_type;
+    typedef typename traits::off_type off_type;
+    typedef traits                    traits_type;
+
+    // [:en] [#ostream.cons] Constructor/destructor:
+    explicit basic_ostream(basic_streambuf<char_type,traits>* sb);
+    virtual ~basic_ostream();
+
+    // [:en] [#ostream::sentry] Prefix/suffix:
+    class sentry;
+
+    // [:en] [#ostream.formatted] Formatted output:
+    basic_ostream<charT,traits>& operator<<(
+      basic_ostream<charT,traits>& (*pf)(basic_ostream<charT,traits>&));
+    basic_ostream<charT,traits>& operator<<(
+      basic_ios<charT,traits>& (*pf)(basic_ios<charT,traits>&));
+    basic_ostream<charT,traits>& operator<<(
+      ios_base& (*pf)(ios_base&));
+
+    basic_ostream<charT,traits>& operator<<(bool n);
+    basic_ostream<charT,traits>& operator<<(short n);
+    basic_ostream<charT,traits>& operator<<(unsigned short n);
+    basic_ostream<charT,traits>& operator<<(int n);
+    basic_ostream<charT,traits>& operator<<(unsigned int n);
+    basic_ostream<charT,traits>& operator<<(long n);
+    basic_ostream<charT,traits>& operator<<(unsigned long n);
+    basic_ostream<charT,traits>& operator<<(long long n);
+    basic_ostream<charT,traits>& operator<<(unsigned long long n);
+    basic_ostream<charT,traits>& operator<<(float f);
+    basic_ostream<charT,traits>& operator<<(double f);
+    basic_ostream<charT,traits>& operator<<(long double f);
+
+    basic_ostream<charT,traits>& operator<<(const void* p);
+    basic_ostream<charT,traits>& operator<<(
+      basic_streambuf<char_type,traits>* sb);
+
+    // [:en] [#ostream.unformatted] Unformatted output:
+    basic_ostream<charT,traits>& put(char_type c);
+    basic_ostream<charT,traits>& write(const char_type* s, streamsize n);
+
+    basic_ostream<charT,traits>& flush();
+
+    // [:en] [#ostream.seeks] seeks:
+    pos_type tellp();
+    basic_ostream<charT,traits>& seekp(pos_type);
+    basic_ostream<charT,traits>& seekp(off_type, ios_base::seekdir);
+  protected:
+    basic_ostream(const basic_ostream& rhs) = delete;
+    basic_ostream(basic_ostream&& rhs);
+
+    // [:en] [#ostream.assign] Assign/swap
+    basic_ostream& operator=(const basic_ostream& rhs) = delete;
+    basic_ostream& operator=(basic_ostream&& rhs);
+    void swap(basic_ostream& rhs);
+  };
+
+  // [:en] [#ostream.inserters.character] character inserters
+  template<class charT, class traits>
+    basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>&,
+                                            charT);
+  template<class charT, class traits>
+    basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>&,
+                                            char);
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           char);
+
+  // [:en] signed and unsigned
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           signed char);
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           unsigned char);
+
+  template<class charT, class traits>
+    basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>&,
+                                            const charT*);
+  template<class charT, class traits>
+    basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>&,
+                                            const char*);
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           const char*);
+
+  // [:en] signed and unsigned
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           const signed char*);
+  template<class traits>
+    basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>&,
+                                           const unsigned char*);
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`basic_ostream] defines a number of member function signatures
+that assist in formatting and writing output to output sequences controlled by
+a stream buffer.
+
+[para]
+[:en] Two groups of member function signatures share common properties: the
+[+formatted output functions] (or [+inserters]) and the [+unformatted output
+functions.]
+
+[:en] Both groups of output functions generate (or [+insert]) output
+[+characters] by actions equivalent to calling [`rdbuf()->sputc(int_type)].
+
+[:en] They may use other public members of [`basic_ostream] except that they
+shall not invoke any virtual members of [`rdbuf()] except [`overflow()],
+[`xsputn()], and [`sync()].
+
+[para]
+[:en] If one of these called functions throws an exception, then unless
+explicitly noted otherwise the output function sets [`badbit] in error state.
+
+[:en] If [`badbit] is on in [`exceptions()], the output function rethrows the
+exception without completing its actions, otherwise it does not throw anything
+and treat as an error.

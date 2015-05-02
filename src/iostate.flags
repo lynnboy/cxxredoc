@@ -1,0 +1,134 @@
+﻿[section#iostate.flags
+    [:en] [`basic_ios] flags functions
+]
+
+[%@library operator bool[!basic_ios]]
+[codeblock:declaration]
+explicit operator bool() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!fail()].
+[exit:description]
+
+[%@library operator![!basic_ios]]
+[codeblock:declaration]
+bool operator!() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`fail()].
+[exit:description]
+
+[%@library rdstate[!basic_ios]]
+[codeblock:declaration]
+iostate rdstate() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The error state of the stream buffer.
+[exit:description]
+
+[%@library clear[!basic_ios]]
+[codeblock:declaration]
+void clear(iostate state = goodbit);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] If [`rdbuf()!=0] then [`state == rdstate()]; otherwise
+[`rdstate()==(state | ios_base::badbit)].
+
+[para:effects]
+[:en] If [`((state | (rdbuf() ? goodbit : badbit)) & exceptions()) == 0],
+returns.
+
+[:en] Otherwise, the function throws an object [`fail] of class
+[`basic_ios::failure] ([#ios::failure]), constructed with
+[%[`basic_ios::failure] argument[!implementation-defined]]
+[%@impldef argument values to construct [`basic_ios::failure]]
+implementation-defined argument values.
+[exit:description]
+
+[%@library setstate[!basic_ios]]
+[codeblock:declaration]
+void setstate(iostate state);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`clear(rdstate() | state)] (which may throw [`basic_ios::failure]
+([#ios::failure])).
+[exit:description]
+
+[%@library good[!basic_ios]]
+[codeblock:declaration]
+bool good() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdstate() == 0]
+[exit:description]
+
+[%@library eof[!basic_ios]]
+[codeblock:declaration]
+bool eof() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`eofbit] is set in [`rdstate()].
+[exit:description]
+
+[%@library fail[!basic_ios]]
+[codeblock:declaration]
+bool fail() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`failbit] or [`badbit] is set in [`rdstate()].
+
+[footnote]
+[:en] Checking [`badbit] also for [`fail()] is historical practice.
+[footnote:end]
+[exit:description]
+
+[%@library bad[!basic_ios]]
+[codeblock:declaration]
+bool bad() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`badbit] is set in [`rdstate()].
+[exit:description]
+
+[%@library exceptions[!basic_ios]]
+[codeblock:declaration]
+iostate exceptions() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A mask that determines what elements set in [`rdstate()] cause exceptions
+to be thrown.
+[exit:description]
+
+[%@library exceptions[!basic_ios]]
+[%@library basic_ios[!exceptions]]
+[codeblock:declaration]
+void exceptions(iostate except);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`except == exceptions()].
+
+[para:effects]
+[:en] Calls [`clear(rdstate())].
+[exit:description]

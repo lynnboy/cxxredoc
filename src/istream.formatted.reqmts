@@ -1,0 +1,24 @@
+﻿[section#istream.formatted.reqmts
+    [:en] Common requirements
+]
+
+[para]
+[:en] Each formatted input function begins execution by constructing an object
+of class [`sentry] with the [`noskipws] (second) argument [`false].
+
+[:en] If the [`sentry] object returns [`true], when converted to a value of type
+[`bool], the function endeavors to obtain the requested input.
+
+[:en] If an exception is thrown during input then [`ios::badbit] is turned on
+
+[footnote]
+[:en] This is done without causing an [`ios::failure] to be thrown.
+[footnote:end]
+
+[:en@~] in [`*this][=']s error state.
+
+[:en] If [`(exceptions()&badbit) != 0] then the exception is rethrown.
+
+[:en] In any case, the formatted input function destroys the [`sentry] object.
+
+[:en] If no exception has been thrown, it returns [`*this].

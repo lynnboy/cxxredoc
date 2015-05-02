@@ -1,0 +1,51 @@
+﻿[section#ios::iostate
+    [:en] Type [`ios_base::iostate]
+]
+
+[%@library iostate[!ios_base]]
+[%@library ios_base[!iostate]]
+[codeblock:declaration [special T2] ]
+typedef T2 iostate;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`iostate] is a bitmask type ([#bitmask.types]) that contains the
+elements indicated in Table [#tab:iostreams.iostate.effects].
+
+[table:listing#tab:iostreams.iostate.effects
+    [:en] [`iostate] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effects(s) if set
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] badbit
+[|] [:en] indicates a loss of integrity in an input or output sequence (such as
+    an irrecoverable read error from a file);
+
+[|] eofbit
+[|] [:en] indicates that an input operation reached the end of an input
+    sequence;
+
+[|] failbit
+[|] [:en] indicates that an input operation failed to read the expected
+    characters, or that an output operation failed to generate the desired
+    characters.
+
+[table:end]
+
+[para]
+[:en] Type [`iostate] also defines the constant:
+
+[list]
+[item]
+[:en] [`goodbit], the value zero.
+[list:end]
+[exit:description]

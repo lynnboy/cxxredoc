@@ -1,0 +1,103 @@
+﻿[section#ostream.inserters.character
+    [:en] Character inserter function templates
+]
+
+[%@library operator<<[!basic_ostream]]
+[%@library basic_ostream[!operator<<]]
+[codeblock:declaration]
+template<class charT, class traits>
+  basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>& out,
+                                          charT c);
+template<class charT, class traits>
+  basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>& out,
+                                          char c);
+  // [:en] specialization
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         char c);
+  // [:en] signed and unsigned
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         signed char c);
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         unsigned char c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as a formatted output function ([#ostream.formatted.reqmts]) of
+[`out].
+
+[:en] Constructs a character sequence [`seq].
+
+[:en] If [`c] has type [`char] and the character type of the stream is not
+[`char], then [`seq] consists of [`out.widen(c)]; otherwise [`seq] consists of
+[`c].
+
+[:en] Determines padding for [`seq] as described in [#ostream.formatted.reqmts].
+
+[:en] Inserts [`seq] into [`out].
+
+[:en] Calls [`os.width(0)].
+
+[para:returns]
+[:en] [`out].
+[exit:description]
+
+[%@library operator<<[!basic_ostream]]
+[%@library basic_ostream[!operator<<]]
+[codeblock:declaration]
+template<class charT, class traits>
+  basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>& out,
+                                          const charT* s);
+template<class charT, class traits>
+  basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>& out,
+                                          const char* s);
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         const char* s);
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         const signed char* s);
+template<class traits>
+  basic_ostream<char,traits>& operator<<(basic_ostream<char,traits>& out,
+                                         const unsigned char* s);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`s] shall not be a null pointer.
+
+[para:effects]
+[:en] Behaves like a formatted inserter (as described in
+[#ostream.formatted.reqmts]) of [`out].
+
+[:en] Creates a character sequence [`seq] of [`n] characters starting at [`s],
+each widened using [`out.widen()] ([#basic.ios.members]), where [`n] is the
+number that would be computed as if by:
+
+[list]
+[item]
+[:en] [`traits::length(s)] for the overload where the first argument is of type
+[`basic_ostream<charT, traits>&] and the second is of type [`const charT*], and
+also for the overload where the first argument is of type
+[`basic_ostream<char, traits>&] and the second is of type [`const char*],
+[item]
+[:en] [`std::char_traits<char>::length(s)] for the overload where the first
+argument is of type [`basic_ostream<charT, traits>&] and the second is of type
+[`const char*],
+[item]
+[:en] [`traits::length(reinterpret_cast<const char*>(s))] for the other two
+overloads.
+[list:end]
+
+[:en] Determines padding for [`seq] as described in [#ostream.formatted.reqmts].
+
+[:en] Inserts [`seq] into [`out].
+
+[:en] Calls [`width(0)].
+
+[para:returns]
+[:en] [`out].
+[exit:description]

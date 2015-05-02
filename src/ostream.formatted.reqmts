@@ -1,0 +1,46 @@
+﻿[section#ostream.formatted.reqmts
+    [:en] Common requirements
+]
+
+[para]
+[:en] Each formatted output function begins execution by constructing an object
+of class [`sentry].
+
+[:en] If this object returns [`true] when converted to a value of type [`bool],
+the function endeavors to generate the requested output.
+
+[:en] If the generation fails, then the formatted output function does
+[`setstate(ios_base::failbit)], which might throw an exception.
+
+[:en] If an exception is thrown during output, then [`ios::badbit] is turned on
+
+[footnote]
+[:en] without causing an [`ios::failure] to be thrown.
+[footnote:end]
+
+[:en@~] in [`*this][=']s error state.
+
+[:en] If [`(exceptions()&badbit) != 0] then the exception is rethrown.
+
+[:en] Whether or not an exception is thrown, the [`sentry] object is destroyed
+before leaving the formatted output function.
+
+[:en] If no exception is thrown, the result of the formatted output function is
+[`*this].
+
+[para]
+[:en] The descriptions of the individual formatted output functions describe how
+they perform output and do not mention the [`sentry] object.
+
+[para]
+[:en] If a formatted output function of a stream [`os] determines padding, it
+does so as follows.
+
+[:en] Given a [`charT] character sequence [`seq] where [`charT] is the character
+type of the stream, if the length of [`seq] is less than [`os.width()], then
+enough copies of [`os.fill()] are added to this sequence as necessary to pad to
+a width of [`os.width()] characters.
+
+[:en] If [`(os.flags() & ios_base::adjustfield) == ios_base::left] is [`true],
+the fill characters are placed after the character sequence; otherwise, they are
+placed before the character sequence.

@@ -1,0 +1,17 @@
+﻿[section#iostream.dest
+    [:en] [`basic_iostream] destructor
+]
+
+[%@library basic_iostream[![:en]destructor]]
+[codeblock:declaration]
+virtual ~basic_iostream();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class
+[`basic_iostream].
+
+[para:notes]
+[:en] Does not perform any operations on [`rdbuf()].
+[exit:description]

@@ -1,0 +1,103 @@
+﻿[section#streambuf.virt.put
+    [:en] Put area
+]
+
+[%@library xsputn[!basic_streambuf]]
+[codeblock:declaration]
+streamsize xsputn(const char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Writes up to [`n] characters to the output sequence as if by repeated
+calls to [`sputc(c)].
+
+[:en] The characters written are obtained from successive elements of the array
+whose first element is designated by [`s].
+
+[:en] Writing stops when either [`n] characters have been written or a call to
+[`sputc(c)] would return [`traits::eof()].
+
+[:en] Is is unspecified whether the function calls [`overflow()] when [`pptr()
+== epptr()] becomes true or whether it achieves the same effects by other means.
+
+[para:returns]
+[:en] The number of characters written.
+[exit:description]
+
+[%@library overflow[!basic_streambuf]]
+[codeblock:declaration]
+int_type overflow(int_type c = traits::eof());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Consumes some initial subsequence of the characters of the [+pending
+sequence].
+
+[:en] The pending sequence is defined as the concatenation of
+
+[list:ol@arparen]
+[item]
+[:en] if [`pbase()] is null then the empty sequence otherwise,
+[`pptr() - pbase()] characters beginning at [`pbase()].
+
+[item]
+[:en] if [`traits::eq_int_type(c,traits::eof())] returns [`true], then the empty
+sequence otherwise, the sequence consisting of [`c].
+[list:end]
+
+[para:notes]
+[:en] The member functions [`sputc()] and [`sputn()] call this function in case
+that no room can be found in the put buffer enough to accommodate the argument
+character sequence.
+
+[para:requires]
+[:en] Every overriding definition of this virtual function shall obey the
+following constraints:
+
+[list:ol@nrparen]
+[item]
+[:en] The effect of consuming a character on the associated output sequence is
+specified
+
+[footnote]
+[:en] That is, for each class derived from an instance of [`basic_streambuf] in
+this Clause ([#stringbuf], [#filebuf]), a specification of how consuming a
+character effects the associated output sequence is given.
+
+[:en] There is no requirement on a program-defined class.
+[footnote:end]
+
+[item]
+[:en] Let [`r] be the number of characters in the pending sequence not consumed.
+
+[:en] If [`r] is non-zero then [`pbase()] and [`pptr()] shall be set so that:
+[`pptr() - pbase() == r] and the [`r] characters starting at [`pbase()] are the
+associated output stream.
+
+[:en] In case [`r] is zero (all characters of the pending sequence have been
+consumed) then either [`pbase()] is set to [`nullptr], or [`pbase()] and
+[`pptr()] are both set to the same non-null value.
+
+[item]
+[:en] The function may fail if either appending some character to the associated
+output stream fails or if it is unable to establish [`pbase()] and [`pptr()]
+according to the above rules.
+[list:end]
+
+[para:returns]
+[:en] [`traits::eof()] or throws an exception if the function fails.
+
+[:en] Otherwise, returns some value other than [`traits::eof()] to indicate
+success.
+
+[footnote]
+[:en] Typically, [`overflow] returns [`c] to indicate success, except when
+[`traits::eq_int_type(c,traits::eof())] returns [`true], in which case it
+returns [`traits::not_eof(c)].
+[footnote:end]
+
+[para:default]
+[:en] Returns [`traits::eof()].
+[exit:description]

@@ -1,0 +1,24 @@
+﻿[section#fpos.members
+    [:en] [`fpos] members
+]
+
+[%@library state[!fpos]]
+[codeblock:declaration]
+void state(stateT s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assign [`s] to [`st].
+[exit:description]
+
+[%@library state[!fpos]]
+[%@library fpos[!state]]
+[codeblock:declaration]
+stateT state() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] Current value of [`st].
+[exit:description]

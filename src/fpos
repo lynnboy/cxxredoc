@@ -1,0 +1,21 @@
+﻿[section#fpos
+    [:en] Class template [`fpos]
+]
+
+[%@library fpos]
+[codeblock:synopsis]
+namespace std {
+  template <class stateT> class fpos {
+  public:
+    // [:en] [#fpos.members] Members
+    stateT state() const;
+    void state(stateT);
+  private;
+    stateT st; // [=Expos]
+  };
+}
+[codeblock:end]
+
+[include fpos.members]
+
+[include fpos.operations]

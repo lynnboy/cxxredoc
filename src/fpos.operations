@@ -1,0 +1,119 @@
+﻿[section#fpos.operations
+    [:en] [`fpos] requirements
+]
+
+[para]
+[%@library fpos]
+[%@library streamoff]
+[:en] Operations specified in Table [#tab:iostreams.position.requirements] are
+permitted.
+
+[:en] In that table,
+[list]
+[item]
+[:en] [`P] refers to an instance of [`fpos],
+[item]
+[:en] [`p] and [`q] refer to values of type [`P],
+[item]
+[:en] [`O] refers to type [`streamoff],
+[item]
+[:en] [`o] refers to a value of type [`streamoff],
+[item]
+[:en] [`sz] refers to a value of type [`streamsize] and
+[item]
+[:en] [`i] refers to a value of type [`int].
+[list:end]
+
+[table:listing#tab:iostreams.position.requirements
+    [:en] Position type requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Operational semantics
+        ]
+        [column@headercenter
+            [:en] Assertion/note [br] pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] P(i)
+[|]
+[|]
+[|] [`p == P(i)] [br]
+    [:en] note: a destructor is assumed.
+
+[|] P p(i); [br] P p = i;
+[|]
+[|]
+[|] [:en] post: [`p == P(i)].
+
+[|] P(o)
+[|] [`fpos]
+[|] [:en] converts from [`offset]
+[|]
+
+[|] O(p)
+[|] [`streamoff]
+[|] [:en] converts to [`offset]
+[|] [`P(O(p)) == p]
+
+[|] p == q
+[|] [:en] convertible to [`bool]
+[|]
+[|] [:en] [`==] is an equivalence relation
+
+[|] p != q
+[|] [:en] convertible to [`bool]
+[|] [`!(p == q)]
+[|]
+
+[|] q = p + o [br] p += o
+[|] [`fpos]
+[|] [:en] [`+] offset
+[|] [`q - o == p]
+
+[|] q = p - o [br] p -= o
+[|] [`fpos]
+[|] [:en] [`-] offset
+[|] [`q + o == p]
+
+[|] o = p - q
+[|] [`streamoff]
+[|] [:en] distance
+[|] [`q + o == p]
+
+[|] streamsize(o)
+[|] [`streamsize]
+[|] [:en] converts
+[|] [`streamsize(O(sz)) == sz]
+
+[|] O(sz)
+[|] [`streamoff]
+[|] [:en] converts
+[|] [`streamsize(O(sz)) == sz]
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] Every implementation is required to supply overloaded operators on [`fpos]
+objects to satisfy the requirements of [#fpos.operations].
+
+[:en] It is unspecified whether these operators are members of [`fpos], global
+operators, or provided in some other way.
+[exit:note]
+
+[para]
+[:en] Stream operations that return a value of type [`traits::pos_type] return
+[`P(O(-1))] as an invalid value to signal an error.
+
+[:en] If this value is used as an argument to any [`istream], [`ostream], or
+[`streambuf] member that accepts a value of type [`traits::pos_type] then the
+behavior of that function is [%undefined] undefined.

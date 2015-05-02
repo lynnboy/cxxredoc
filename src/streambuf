@@ -1,0 +1,120 @@
+﻿[section#streambuf
+    [:en] Class template [`basic_streambuf<charT,traits>]
+]
+
+[%@library basic_streambuf]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class basic_streambuf {
+  public:
+
+    // [:en] types:
+    typedef charT                     char_type;
+    typedef typename traits::int_type int_type;
+    typedef typename traits::pos_type pos_type;
+    typedef typename traits::off_type off_type;
+    typedef traits                    traits_type;
+
+    virtual ~basic_streambuf();
+
+    // [:en] [#streambuf.locales] locales:
+    locale   pubimbue(const locale& loc);
+    locale   getloc() const;
+
+    // [:en] [#streambuf.buffer] buffer and positioning:
+    basic_streambuf<char_type,traits>*
+       pubsetbuf(char_type* s, streamsize n);
+    pos_type pubseekoff(off_type off, ios_base::seekdir way,
+      ios_base::openmode which =
+          ios_base::in | ios_base::out);
+    pos_type pubseekpos(pos_type sp,
+      ios_base::openmode which =
+          ios_base::in | ios_base::out);
+    int      pubsync();
+
+    // Get and put areas:
+    // [:en] [#streambuf.pub.get] Get area:
+    streamsize in_avail();
+    int_type snextc();
+    int_type sbumpc();
+    int_type sgetc();
+    streamsize sgetn(char_type* s, streamsize n);
+
+    // [:en] [#streambuf.pub.pback] Putback:
+    int_type sputbackc(char_type c);
+    int_type sungetc();
+
+    // [:en] [#streambuf.pub.put] Put area:
+    int_type   sputc(char_type c);
+    streamsize sputn(const char_type* s, streamsize n);
+
+  protected:
+    basic_streambuf();
+    basic_streambuf(const basic_streambuf& rhs);
+    basic_streambuf& operator=(const basic_streambuf& rhs);
+
+    void swap(basic_streambuf& rhs);
+
+    // [:en] [#streambuf.get.area] Get area:
+    char_type* eback() const;
+    char_type* gptr()  const;
+    char_type* egptr() const;
+    void       gbump(int n);
+    void       setg(char_type* gbeg, char_type* gnext, char_type* gend);
+
+    // [:en] [#streambuf.put.area] Put area:
+    char_type* pbase() const;
+    char_type* pptr() const;
+    char_type* epptr() const;
+    void       pbump(int n);
+    void       setp(char_type* pbeg, char_type* pend);
+
+    // [:en] [#streambuf.virtuals] virtual functions:
+    // [:en] [#streambuf.virt.locales] Locales:
+    virtual void imbue(const locale& loc);
+
+    // [:en] [#streambuf.virt.buffer] Buffer management and positioning:
+    virtual basic_streambuf<char_type,traits>*
+         setbuf(char_type* s, streamsize n);
+    virtual pos_type seekoff(off_type off, ios_base::seekdir way,
+        ios_base::openmode which = ios_base::in | ios_base::out);
+    virtual pos_type seekpos(pos_type sp,
+        ios_base::openmode which = ios_base::in | ios_base::out);
+    virtual int      sync();
+
+    // [:en] [#streambuf.virt.get] Get area:
+    virtual streamsize showmanyc();
+    virtual streamsize xsgetn(char_type* s, streamsize n);
+    virtual int_type   underflow();
+    virtual int_type   uflow();
+
+    // [:en] [#streambuf.virt.pback] Putback:
+    virtual int_type   pbackfail(int_type c = traits::eof());
+
+    // [:en] [#streambuf.virt.put] Put area:
+    virtual streamsize xsputn(const char_type* s, streamsize n);
+    virtual int_type   overflow (int_type c = traits::eof());
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class template [`basic_streambuf<charT,traits>] serves as an abstract
+base class for deriving various [+stream buffers] whose objects each control two
+[+character sequences]:
+
+[list]
+[item]
+[:en] a character [+input sequence];
+[item]
+[:en] a character [+output sequence].
+[list:end]
+
+[include streambuf.cons]
+
+[include streambuf.members]
+
+[include streambuf.protected]
+
+[include streambuf.virtuals]

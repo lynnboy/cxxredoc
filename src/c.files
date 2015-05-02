@@ -1,0 +1,191 @@
+﻿[section#c.files
+    [:en] C library files
+]
+
+[para]
+[:en] Table [#tab:iostreams.hdr.cstdio] describes header [`<cstdio>].
+
+[enter:note]
+[:en] [=Cpp] does not define the function [`gets].
+[exit:note]
+
+[table:listing#tab:iostreams.hdr.cstdio
+    [:en] Header [`<cstdio>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+[-]
+[|@colspan=all] [=Macros]
+
+[|] BUFSIZ
+[|] EOF
+[|] FILENAME_MAX
+[|] FOPEN_MAX
+[|] L_tmpnam
+[|] NULL <cstdio>
+[|] SEEK_CUR
+[|] SEEK_END
+[|] SEEK_SET
+[|] TMP_MAX
+[|] _IOFBF
+[|] _IOLBF
+[|] _IONBF
+[|] stderr
+[|] stdin
+[|] stdout
+
+[-]
+[|] [=Types]
+
+[|] FILE
+[|] fpos_t
+[|] size_t <cstdio>
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] clearerr
+[|] fclose
+[|] feof
+[|] ferror
+[|] fflush
+[|] fgetc
+[|] fgetpos
+[|] fgets
+
+[|] fopen
+[|] fprintf
+[|] fputc
+[|] fputs
+[|] fread
+[|] freopen
+[|] fscanf
+[|] fseek
+
+[|] fsetpos
+[|] ftell
+[|] fwrite
+[|] getc
+[|] getchar
+[|] perror
+[|] printf
+[|] putc
+
+[|] putchar
+[|] puts
+[|] remove
+[|] rename
+[|] rewind
+[|] scanf
+[|] setbuf
+[|] setvbuf
+
+[|] snprintf
+[|] sprintf
+[|] sscanf
+[|] tmpfile
+[|] tmpname
+[|] ungetc
+[|] vfprintf
+[|] vprintf
+
+[|] vscanf
+[|] vsnprintf
+[|] vsprintf
+[|] vsscanf
+
+[table:end]
+
+[para]
+[:en] Calls to the function [`tmpnam] with an argument of [`NULL] may introduce
+a data race ([#res.on.data.races]) with other calls to [`tmpnam] with an
+argument of [`NULL].
+
+[para:xref]
+[:en] ISO C 7.9, Amendment 1 4.6.2.
+
+[para]
+[:en] Table [#tab:iostreams.hdr.cinttypes] describes header [`<cinttypes>].
+
+[enter:note]
+[:en] The macros defined by [`<cinttypes>] are provided unconditionally.
+
+[:en] In particular, the symbol [`__STDC_FORMAT_MACROS], mentioned in footnote
+182 of the C standard, plays no role in [=Cpp].
+[exit:note]
+
+[table:listing#tab:iostreams.hdr.cinttypes
+    [:en] Header [`<cinttypes>] synopsis
+    [columns
+        [column@headercenter@code
+            [:en] Type
+        ]
+        [column@headercenter@code
+            [:en] Name(s)
+        ]
+        [column@header~@code]
+        [column@header~@code]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|@colspan=all] [=Macros]
+
+[|@colspan=all] PRI{d i o u x X}[=[]FAST LEAST[=]]{8 16 32 64}
+[|@colspan=all] PRI{d i o u x X}{MAX PTR}
+[|@colspan=all] SCN{d i o u x X}[=[]FAST LEAST[=]]{8 16 32 64}
+[|@colspan=all] SCN{d i o u x X}{MAX PTR}
+
+[-]
+[|] [=Types]
+
+[|] imaxdiv_t
+
+[-]
+[|@colspan=all] [=Functions]
+
+[|] abs
+[|] div
+[|] imaxabs
+[|] imaxdiv
+[|] strtoimax
+[|] strtoumax
+[|] wcstoimax
+[|] wcstoumax
+
+[table:end]
+
+[para]
+[:en] The contents of header [`<cinttypes>] are the same as the Standard C
+Library header [`<inttypes.h>], with the following changes:
+
+[list]
+[item]
+[:en] the header [`<cinttypes>] includes the header [`<cstdint>] instead of
+[`<stdint.h>], and
+
+[item]
+[:en@~] if and only if the type [`intmax_t] designates an extended integer
+type ([#basic.fundamental]), the following function signatures are added:
+
+[codeblock:synopsis]
+intmax_t abs(intmax_t);
+imaxdiv_t div(intmax_t, intmax_t);
+[codeblock:end]
+
+[:en@~] which shall have the same semantics as the function signatures
+[`intmax_t imaxabs(intmax_t)] and [`imaxdiv_t imaxdiv(intmax_t, intmax_t)],
+respectively.
+[list:end]

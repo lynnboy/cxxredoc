@@ -1,0 +1,277 @@
+﻿[section#basic.ios.members
+    [:en] Member functions
+]
+
+[%@library tie[!basic_ios]]
+[codeblock:declaration]
+basic_ostream<charT,traits>* tie() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An output sequence that is [+tied] to (synchronized with) the sequence
+controlled by the stream buffer.
+[exit:description]
+
+[%@library tie[!basic_ios]]
+[%@library basic_ios[!tie]]
+[codeblock:declaration]
+basic_ostream<charT,traits>* tie(basic_ostream<charT,traits>* tiestr);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] If [`tiestr] is not null, [`tiestr] must not be reachable by traversing
+the linked list of tied stream objects starting from [`tiestr->tie()].
+
+[para:postcondition]
+[:en] [`tiestr == tie()].
+
+[para:returns]
+[:en] The previous value of [`tie()].
+[exit:description]
+
+[%@library rdbuf[!basic_ios]]
+[codeblock:declaration]
+basic_streambuf<charT,traits>* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A pointer to the [`streambuf] associated with the stream.
+[exit:description]
+
+[%@library rdbuf[!basic_ios]]
+[%@library basic_ios[!rdbuf]]
+[codeblock:declaration]
+basic_streambuf<charT,traits>* rdbuf(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`sb == rdbuf()].
+
+[para:effects]
+[:en] Calls [`clear()].
+
+[para:returns]
+[:en] The previous value of [`rdbuf()].
+[exit:description]
+
+[%@library imbue[!basic_ios]]
+[codeblock:declaration]
+locale imbue(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`ios_base::imbue(loc)] ([#ios.base.locales]) and if [`rdbuf()!=0]
+then [`rdbuf()->pubimbue(loc)] ([#streambuf.locales]).
+
+[para:returns]
+[:en] The prior value of [`ios_base::imbue()].
+[exit:description]
+
+[%@library narrow[!basic_ios]]
+[codeblock:declaration]
+char narrow(char_type c, char dfault) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_facet< ctype<char_type> >(getloc()).narrow(c,dfault)]
+[exit:description]
+
+[%@library widen[!basic_ios]]
+[codeblock:declaration]
+char_type widen(char c) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_facet< ctype<char_type> >(getloc()).widen(c)]
+[exit:description]
+
+[%@library fill[!basic_ios]]
+[codeblock:declaration]
+char_type fill() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The character used to pad (fill) an output conversion to the specified
+field width.
+[exit:description]
+
+[%@library fill[!basic_ios]]
+[%@library basic_ios[!fill]]
+[codeblock:declaration]
+char_type fill(char_type fillch);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`traits::eq(fillch, fill())]
+
+[para:returns]
+[:en] The previous value of [`fill()].
+[exit:description]
+
+[%@library copyfmt[!basic_ios]]
+[codeblock:declaration]
+basic_ios& copyfmt(const basic_ios& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`(this == &rhs)] does nothing.
+
+[:en] Otherwise assigns to the member objects of [`*this] the corresponding
+member objects of [`rhs] as follows:
+
+[list:ol@ndot]
+[item]
+[:en] calls each registered callback pair [`(fn, index)] as
+[`(*fn)(erase_event, *this, index)];
+
+[item]
+[:en] assigns to the member objects of [`*this] the corresponding member objects
+of [`rhs], except that
+
+[list]
+[item]
+[:en] [`rdstate()], [`rdbuf()], and [`exceptions()] are left unchanged;
+
+[item]
+[:en] the contents of arrays pointed at by [`pword] and [`iword] are copied,
+not the pointers themselves;
+
+[footnote]
+[:en] This suggests an infinite amount of copying, but the implementation can
+keep track of the maximum element of the arrays that is non-zero.
+[footnote:end]
+
+[:en@~] and
+
+[item]
+[:en] if any newly stored pointer values in [`*this] point at objects stored
+outside the object [`rhs] and those objects are destroyed when [`rhs] is
+destroyed, the newly stored pointer values are altered to point at newly
+constructed copies of the objects;
+[list:end]
+
+[item]
+[:en] calls each callback pair that was copied from [`rhs] as
+[`(*fn)(copyfmt_event, *this, index)];
+
+[item]
+[:en] calls [`exceptions(rhs.except())].
+
+[list:end]
+
+[para:realnote]
+[:en] The second pass through the callback pairs permits a copied [`pword] value
+to be zeroed, or to have its referent deep copied or reference counted, or to
+have other special action taken.
+
+[para:postconditions]
+[:en] The postconditions of this function are indicated in Table
+[#tab:iostreams.copyfmt.effects].
+
+[table:listing#tab:iostreams.copyfmt.effects
+    [:en] [`basic_ios::copyfmt()] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] rdbuf()
+[|] [:en] [em unchanged]
+
+[|] tie()
+[|] [`rhs.tie()]
+
+[|] rdstate()
+[|] [:en] [em unchanged]
+
+[|] exceptions()
+[|] [`rhs.exceptions()]
+
+[|] flags()
+[|] [`rhs.flags()]
+
+[|] width()
+[|] [`rhs.width()]
+
+[|] precision()
+[|] [`rhs.precision()]
+
+[|] fill()
+[|] [`rhs.fill()]
+
+[|] getloc()]
+[|] [`rhs.getloc()]
+
+[table:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library move[!basic_ios]]
+[%@library basic_ios[!move]]
+[codeblock:declaration]
+void move(basic_ios& rhs);
+void move(basic_ios&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`*this] shall have the state that [`rhs] had before the function call,
+except that [`rdbuf()] shall return 0.
+
+[:en] [`rhs] shall be in a valid but unspecified state, except that
+[`rhs.rdbuf()] shall return the same value as it returned before the function
+call, and [`rhs.tie()] shall return 0.
+[exit:description]
+
+[%@library swap[!basic_ios]]
+[%@library basic_ios[!swap]]
+[codeblock:declaration]
+void swap(basic_ios& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The states of [`*this] and [`rhs] shall be exchanged, except that
+[`rdbuf()] shall return the same value as it returned before the function call,
+and [`rhs.rdbuf()] shall return the same value as it returned before the
+function call.
+[exit:description]
+
+[%@library set_rdbuf[!basic_ios]]
+[%@library basic_ios[!set_rdbuf]]
+[codeblock:declaration]
+void set_rdbuf(basic_streambuf<charT, traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`sb != nullptr].
+
+[para:effects]
+[:en] Associates the [`basic_streambuf] object pointed to by [`sb] with this
+stream without calling [`clear()].
+
+[para:postconditions]
+[:en] [`rdbuf() == sb].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]

@@ -1,0 +1,22 @@
+﻿[section#iostreams.limits.pos
+    [:en] Positioning type limitations
+]
+
+[para]
+[:en] The classes of Clause [#input.output] with template arguments [`charT] and
+[`traits] behave as described if [`traits::pos_type] and [`traits::off_type] are
+[`streampos] and [`streamoff] respectively.
+
+[:en] Except as noted explicitly below, their behavior when [`traits::pos_type]
+and [`traits::off_type] are other types is
+[%[`streambuf][!implementation-defined]]
+[%@impldef behavior of iostream classes when [`traits::pos_type] is not
+[`streampos] or when [`traits::off_type] is not [`streamoff]]
+implementation-defined.
+
+[para]
+[:en] In the classes of Clause [#input.output], a template parameter with name
+[`charT] represents a member of the set of types containing [`char], [`wchar_t],
+and any other implementation-defined character types that satisfy the
+requirements for a character on which any of the iostream components can be
+instantiated.

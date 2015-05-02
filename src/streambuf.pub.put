@@ -1,0 +1,27 @@
+﻿[section#streambuf.pub.put
+    [:en] Put area
+]
+
+[%@library sputc[!basic_streambuf]]
+[codeblock:declaration]
+int_type sputc(char_type c);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the output sequence write position is not available, returns
+[`overflow(traits::to_int_type(c))].
+
+[:en] Otherwise, stores [`c] at the next pointer for the output sequence,
+increments the pointer, and returns [`traits::to_int_type(c)].
+[exit:description]
+
+[%@library sputn[!basic_streambuf]]
+[codeblock:declaration]
+streamsize sputn(const char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`xsputn(s,n)].
+[exit:description]

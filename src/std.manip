@@ -1,0 +1,183 @@
+﻿[section#std.manip
+    [:en] Standard manipulators
+]
+
+[para]
+[:en] The header [`<iomanip>] defines several functions that support extractors
+and inserters that alter information maintained by class [`ios_base] and its
+derived classes.
+
+[%@library resetiosflags]
+[codeblock:declaration [special unspecified] ]
+unspecified resetiosflags(ios_base::fmtflags mask);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an object of type
+[`basic_ostream<charT, traits>] then the expression
+[`out << resetiosflags(mask)] behaves as if it called [`f(out, mask)], or if
+[`in] is an object of type [`basic_istream<charT, traits>] then the expression
+[`in >> resetiosflags(mask)] behaves as if it called [`f(in, mask)], where the
+function [`f] is defined as:
+
+[footnote]
+[:en] The expression [`cin >> resetiosflags(ios_base::skipws)] clears
+[`ios_base::skipws] in the format flags stored in the
+[`basic_istream<charT,traits>] object [`cin] (the same as [`cin >> noskipws]),
+and the expression [`cout << resetiosflags(ios_base::showbase)] clears
+[`ios_base::showbase] in the format flags stored in the
+[`basic_ostream<charT,traits>] object [`cout] (the same as
+[`cout << noshowbase]).
+[footnote:end]
+
+[codeblock:notation]
+void f(ios_base& str, ios_base::fmtflags mask) {
+  // [:en] reset specified flags
+  str.setf(ios_base::fmtflags(0), mask);
+}
+[codeblock:end]
+
+[:en] The expression [`out << resetiosflags(mask)] shall have type
+[`basic_ostream<charT,traits>&] and value [`out].
+
+[:en] The expression [`in >> resetiosflags(mask)] shall have type
+[`basic_istream<charT, traits>&] and value [`in].
+[exit:description]
+
+[%@library setiosflags]
+[codeblock:declaration [special unspecified] ]
+unspecified setiosflags(ios_base::fmtflags mask);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an object of type
+[`basic_ostream<charT, traits>] then the expression [`out << setiosflags(mask)]
+behaves as if it called [`f(out, mask)], or if [`in] is an object of type
+[`basic_istream<charT, traits>] then the expression [`in >> setiosflags(mask)]
+behaves as if it called [`f(in, mask)], where the function [`f] is defined as:
+
+[%@library fmtflags[!ios]]
+
+[codeblock:notation]
+void f(ios_base& str, ios_base::fmtflags mask) {
+  // [:en] set specified flags
+  str.setf(mask);
+}
+[codeblock:end]
+
+[:en] The expression [`out << setiosflags(mask)] shall have type
+[`basic_ostream<charT, traits>&] and value [`out].
+
+[:en] The expression [`in >> setiosflags(mask)] shall have type
+[`basic_istream<charT, traits>&] and value [`in].
+[exit:description]
+
+[%@library setbase]
+[codeblock:declaration [special unspecified] ]
+unspecified setbase(int base);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an object of type
+[`basic_ostream<charT, traits>] then the expression [`out << setbase(base)]
+behaves as if it called [`f(out, base)], or if [`in] is an object of type
+[`basic_istream<charT, traits>] then the expression [`in >> setbase(base)]
+behaves as if it called [`f(in, base)], where the function [`f] is defined as:
+
+[codeblock:notation]
+void f(ios_base& str, int base) {
+  // [:en] set [`basefield]
+  str.setf(base ==  8 ? ios_base::oct :
+      base == 10 ? ios_base::dec :
+      base == 16 ? ios_base::hex :
+      ios_base::fmtflags(0), ios_base::basefield);
+}
+[codeblock:end]
+
+[:en] The expression [`out << setbase(base)] shall have type
+[`basic_ostream<charT, traits>&] and value [`out].
+
+[:en] The expression [`in >> setbase(base)] shall have type
+[`basic_istream<charT, traits>&] and value [`in].
+[exit:description]
+
+[%@library setfill]
+[codeblock:declaration [special unspecified] ]
+unspecified setfill(char_type c);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an object of type
+[`basic_ostream<charT, traits>] and [`c] has type [`charT] then the expression
+[`out << setfill(c)] behaves as if it called [`f(out, c)], where the function
+[`f] is defined as:
+
+[codeblock:synopsis]
+template<class charT, class traits>
+void f(basic_ios<charT,traits>& str, charT c) {
+  // [:en] set fill character
+  str.fill(c);
+}
+[codeblock:end]
+
+[:en] The expression [`out << setfill(c)] shall have type
+[`basic_ostream<charT, traits>&] and value [`out].
+[exit:description]
+
+[%@library setprecision]
+[codeblock:declaration [special unspecified] ]
+unspecified setprecision(int n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an object of type
+[`basic_ostream<charT, traits>] then the expression [`out << setprecision(n)]
+behaves as if it called [`f(out, n)], or if [`in] is an object of type
+[`basic_istream<charT, traits>] then the expression [`in >> setprecision(n)]
+behaves as if it called [`f(in, n)], where the function [`f] is defined as:
+
+[codeblock:notation]
+void f(ios_base& str, int n) {
+  // [:en] set precision
+  str.precision(n);
+}
+[codeblock:end]
+
+[:en] The expression [`out << setprecision(n)] shall have type
+[`basic_ostream<charT, traits>&] and value [`out].
+
+[:en] The expression [`in >> setprecision(n)] shall have type
+[`basic_istream<charT, traits>&] and value [`in].
+[exit:description]
+
+[%@library setw]
+[codeblock:declaration [special unspecified] ]
+unspecified setw(int n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of unspecified type such that if [`out] is an instance of
+[`basic_ostream<charT, traits>] then the expression [`out << setw(n)] behaves as
+if it called [`f(out, n)], or if [`in] is an object of type
+[`basic_istream<charT, traits>] then the expression [`in >> setw(n)] behaves as
+if it called [`f(in, n)], where the function [`f] is defined as:
+
+[codeblock:notation]
+void f(ios_base& str, int n) {
+  // [:en] set width
+  str.width(n);
+}
+[codeblock:end]
+
+[:en] The expression [`out << setw(n)] shall have type
+[`basic_ostream<charT, traits>&] and value [`out].
+
+[:en] The expression [`in >> setw(n)] shall have type
+[`basic_istream<charT, traits>&] and value [`in].
+[exit:description]

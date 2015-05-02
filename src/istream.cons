@@ -1,0 +1,45 @@
+﻿[section#istream.cons
+    [:en] [`basic_istream] constructors
+]
+
+[%@library basic_istream[!basic_istream]]
+[codeblock:declaration]
+explicit basic_istream(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[%@library init[!basic_ios]]
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_istream], assigning initial values
+to the base class by calling [`basic_ios::init(sb)] ([#basic.ios.cons]).
+
+[para:postcondition]
+[:en] [`gcount() == 0]
+[exit:description]
+
+[%@library basic_istream[![:en]constructor]]
+[codeblock:declaration]
+basic_istream(basic_istream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs from the rvalue [`rhs].
+
+[:en] This is accomplished by default constructing the base class, copying the
+[`gcount()] from [`rhs], calling [`basic_ios<charT, traits>::move(rhs)] to
+initialize the base class, and setting the [`gcount()] for [`rhs] to 0.
+[exit:description]
+
+[%@library basic_istream[![:en]destructor]]
+[codeblock:declaration]
+virtual ~basic_istream();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`basic_istream].
+
+[para:notes]
+[:en] Does not perform any operations of [`rdbuf()].
+[exit:description]

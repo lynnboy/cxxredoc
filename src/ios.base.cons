@@ -1,0 +1,31 @@
+﻿[section#ios.base.cons
+    [:en] [`ios_base] constructors/destructor
+]
+
+[%@library ios_base[!ios_base]]
+[codeblock:declaration]
+ios_base();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Each [`ios_base] member has an indeterminate value after construction.
+
+[:en] The object[=']s members shall be initialized by calling [`basic_ios::init]
+before the object[=']s first use or before it is destroyed, whichever comes
+first; otherwise the behavior is undefined.
+[exit:description]
+
+[%@library ios_base[![:en]destructor]]
+[codeblock:declaration]
+~ios_base();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`ios_base].
+
+[:en] Calls each registered callback pair [`(fn, index)] ([#ios.base.callback])
+as [`(*fn)(erase_event, *this, index)] at such time that any [`ios_base] member
+function called from within [`fn] has well defined results.
+[exit:description]

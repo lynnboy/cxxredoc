@@ -1,0 +1,43 @@
+﻿[section#stream.types
+    [:en] Types
+]
+
+[%@library streamoff]
+[codeblock:declaration [special implementation-defined] ]
+typedef implementation-defined streamoff;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`streamoff] is a synonym for one of the signed basic integral
+types of sufficient size to represent the maximum possible file size for the
+operating system.
+
+[footnote]
+[:en] Typically [`long long].
+[footnote:end]
+[exit:description]
+
+[%@library streamsize]
+[codeblock:declaration [special implementation-defined] ]
+typedef implementation-defined streamsize;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`streamsize] is a synonym for one of the signed basic integral
+types.
+
+[:en] It is used to represent the number of characters transferred in an I/O
+operation, or the size of I/O buffers.
+
+[footnote]
+[:en] [`streamsize] is used in most places where ISO C would use [`size_t].
+
+[:en] Most of the uses of [`streamsize] could use [`size_t], except for the
+[`strstreambuf] constructors, which require negative values.
+
+[:en] It should probably be the signed type corresponding to [`size_t] (which is
+what Posix.2 calls [`ssize_t]).
+[footnote:end]
+[exit:description]

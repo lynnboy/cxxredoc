@@ -1,0 +1,51 @@
+﻿[section#basefield.manip
+    [:en] [`basefield] manipulators
+]
+
+[%@library dec]
+[codeblock:declaration]
+ios_base& dec(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::dec, ios_base::basefield)].
+
+[para:returns]
+[:en] [`str]
+
+[footnote]
+[:en] The function signature [`dec(ios_base&)] can be called by the function
+signature [`basic_ostream& stream::operator<<(ios_base& (*)(ios_base&))] to
+permit expressions of the form [`cout << dec] to change the format flags stored
+in [`cout].
+[footnote:end]
+
+[:en@~] .
+[exit:description]
+
+[%@library hex]
+[codeblock:declaration]
+ios_base& hex(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::hex, ios_base::basefield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library oct]
+[codeblock:declaration]
+ios_base& oct(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::oct, ios_base::basefield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]

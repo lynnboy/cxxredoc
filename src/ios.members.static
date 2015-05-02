@@ -1,0 +1,75 @@
+﻿[section#ios.members.static
+    [:en] [`ios_base] static members
+]
+
+[%@library sync_with_stdio[!ios_base]]
+[codeblock:declaration]
+bool sync_with_stdio(bool sync = true);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if the previous state of the standard iostream objects
+([#iostream.objects]) was synchronized and otherwise returns [`false].
+
+[:en] The first time it is called, the function returns [`true].
+
+[para:effects]
+[:en] If any input or output operation has occurred using the standard streams
+prior to the call, the effect is [%implementation-defined] [%@impldef effect of
+calling [`ios_base::sync_with_stdio] after any input or output operation on
+standard streams] implementation-defined.
+
+[:en] Otherwise, called with a false argument, it allows the standard streams to
+operate independently of the standard C streams.
+
+[para]
+[:en] When a standard iostream object [`str] is [+synchronized] with a standard
+stdio stream [`f], the effect of inserting a character [`c] by
+
+[codeblock:notation]
+fputc(f, c);
+[codeblock:end]
+
+[:en@~] is the same as the effect of
+
+[codeblock:notation]
+str.rdbuf()->sputc(c);
+[codeblock:end]
+
+[:en@~] for any sequences of characters; the effect of extracting a character
+[`c] by
+
+[codeblock:notation]
+c = fgetc(f);
+[codeblock:end]
+
+[:en@~] is the same as the effect of
+
+[codeblock:notation]
+c = str.rdbuf()->sbumpc();
+[codeblock:end]
+
+[:en@~] for any sequences of characters; and the effect of pushing back a
+character [`c] by
+
+[codeblock:notation]
+ungetc(c, f);
+[codeblock:end]
+
+[:en@~] is the same as the effect of
+
+[codeblock:notation]
+str.rdbuf()->sputbackc(c);
+[codeblock:end]
+
+[:en@~] for any sequence of characters.
+
+[footnote]
+[:en] This implies that operations on a standard iostream object can be mixed
+arbitrarily with operations on the corresponding stdio stream.
+
+[:en] In practical terms, synchronization usually means that a standard iostream
+object and a standard stdio object share a buffer.
+[footnote:end]
+[exit:description]

@@ -1,0 +1,59 @@
+﻿[section#ios::Init
+    [:en] Class [`ios_base::Init]
+]
+
+[%@library ios_base::Init]
+[codeblock:synopsis]
+namespace std {
+  class ios_base::Init {
+  public:
+    Init();
+   ~Init();
+  private:
+    static int init_cnt; // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`Init] describes an object whose construction ensures the
+construction of the eight objects declared in [`<iostream>]
+([#iostream.objects]) that associate file stream buffers with the standard C
+streams provided for by the functions declared in [`<cstdio>] ([#c.files]).
+
+[para]
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`static int init_cnt], counts the number of constructor and destructor
+calls for class [`Init], initialized to zero.
+[list:end]
+
+[%@library Init[!ios_base::Init]]
+[codeblock:declaration]
+Init();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`Init].
+
+[:en] Constructs and initializes the objects [`cin], [`cout], [`cerr], [`clog],
+[`wcin], [`wcout], [`wcerr], and [`wclog] if they have not already been
+constructed and initialized.
+[exit:description]
+
+[%@library ios_base::Init[![:en]destructor]]
+[codeblock:declaration]
+~Init();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`Init].
+
+[:en] If there are no other instances of the class still in existence, calls
+[%@library flush] [`cout.flush()], [`cerr.flush()], [`clog.flush()],
+[`wcout.flush()], [`wcerr.flush()], [`wclog.flush()].
+[exit:description]

@@ -1,0 +1,53 @@
+﻿[section#streambuf.put.area
+    [:en] Put area access
+]
+
+[%@library pbase[!basic_streambuf]]
+[codeblock:declaration]
+char_type* pbase() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The beginning pointer for the output sequence.
+[exit:description]
+
+[%@library pptr[!basic_streambuf]]
+[codeblock:declaration]
+char_type* pptr() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The next pointer for the output sequence.
+[exit:description]
+
+[%@library epptr[!basic_streambuf]]
+[codeblock:declaration]
+char_type* epptr() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The end pointer for the output sequence.
+[exit:description]
+
+[%@library pbump[!basic_streambuf]]
+[codeblock:declaration]
+void pbump(int n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Adds [`n] to the next pointer for the output sequence.
+[exit:description]
+
+[%@library setp[!basic_streambuf]]
+[codeblock:declaration]
+void setp(char_type* pbeg, char_type* pend);
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`pbeg == pbase()], [`pbeg == pptr()], and [`pend == epptr()].
+[exit:description]

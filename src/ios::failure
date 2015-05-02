@@ -1,0 +1,54 @@
+﻿[section#ios::failure
+    [:en] Class [`ios_base::failure]
+]
+
+[%@library ios_base::failure]
+[codeblock:synopsis]
+namespace std {
+  class ios_base::failure : public system_error {
+  public:
+    explicit failure(const string& msg, const error_code& ec = io_errc::stream);
+    explicit failure(const char* msg, const error_code& ec = io_errc::stream);
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`failure] defines the base class for the types of all objects
+thrown as exceptions, by functions in the iostreams library, to report errors
+detected during stream buffer operations.
+
+[para]
+[:en] When throwing [`ios_base::failure] exceptions, implementations should
+provide values of [`ec] that identify the specific reason for the failure.
+
+[enter:note]
+[:en] Errors arising from the operating system would typically be reported as
+[`system_category()] errors with an error value of the error number reported by
+the operating system.
+
+[:en] Errors arising from within the stream library would typically be reported
+as [`error_code(io_errc::stream, iostream_category())].
+[exit:note]
+
+[%@library failure[!ios_base::failure]]
+[codeblock:declaration]
+explicit failure(const string& msg, const error_code& ec = io_errc::stream);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`failure] by constructing the base class
+with [`msg] and [`ec].
+[exit:description]
+
+[%@library failure[!ios_base::failure]]
+[codeblock:declaration]
+explicit failure(const char* msg, const error_code& ec = io_errc::stream);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`failure] by constructing the base class
+with [`msg] and [`ec].
+[exit:description]

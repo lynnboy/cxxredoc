@@ -1,0 +1,26 @@
+﻿[section#output.streams
+    [:en] Output streams
+]
+
+[para]
+[:en] The header [`<ostream>] defines a type and several function signatures
+that control output to a stream buffer along with a function template that
+inserts into stream rvalues.
+
+[include ostream]
+
+[include ostream.cons]
+
+[include ostream.assign]
+
+[include ostream::sentry]
+
+[include ostream.seeks]
+
+[include ostream.formatted]
+
+[include ostream.unformatted]
+
+[include ostream.manip]
+
+[include ostream.rvalue]

@@ -1,0 +1,106 @@
+﻿[section#ostream.unformatted
+    [:en] Unformatted output functions
+]
+
+[para]
+[:en] Each unformatted output function begins execution by constructing an
+object of class [`sentry].
+
+[:en] If this object returns [`true], while converting to a value of type
+[`bool], the function endeavors to generate the requested output.
+
+[:en] If an exception is thrown during output, then [`ios::badbit] is turned on
+
+[footnote]
+[:en] without causing an [`ios::failure] to be thrown.
+[footnote:end]
+
+[:en@~] in [`*this][=']s error state.
+
+[:en] If [`(exceptions() & badbit) != 0] then the exception is rethrown.
+
+[:en] In any case, the unformatted output function ends by destroying the sentry
+object, then, if no exception was thrown, returning the value specified for the
+unformatted output function.
+
+[%@library put[!basic_ostream]]
+[codeblock:declaration]
+basic_ostream<charT,traits>& put(char_type c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted output function (as described in
+[#ostream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, inserts the character [`c], if
+possible.
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[para]
+[:en] Otherwise, calls [`setstate(badbit)] (which may throw [`ios_base::failure]
+([#iostate.flags])).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library write[!basic_ostream]]
+[codeblock:declaration]
+basic_ostream& write(const char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted output function (as described in
+[#ostream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, obtains characters to insert from
+successive locations of an array whose first element is designated by [`s].
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[:en] Characters are inserted until either of the following occurs:
+
+[list]
+[item]
+[:en] [`n] characters are inserted;
+[item]
+[:en] inserting in the output sequence fails (in which case the function calls
+[`setstate(badbit)], which may throw [`ios_base::failure] ([#iostate.flags])).
+[list:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library flush[!basic_ostream]]
+[codeblock:declaration]
+basic_ostream& flush();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted output function (as described in
+[#ostream.unformatted], paragraph 1).
+
+[:en] If [`rdbuf()] is not a null pointer, constructs a sentry object.
+
+[:en] If this object returns [`true] when converted to a value of type [`bool]
+the function calls [`rdbuf()->pubsync()].
+
+[:en] If that function returns -1 calls [`setstate(badbit)] (which may throw
+[`ios_base::failure] ([#iostate.flags])).
+
+[:en] Otherwise, if the sentry object returns [`false], does nothing.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

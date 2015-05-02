@@ -1,0 +1,585 @@
+﻿[section#istream.unformatted
+    [:en] Unformatted input functions
+]
+
+[para]
+[:en] Each unformatted input function begins execution by constructing an object
+of class [`sentry] with the default argument [`noskipws] (second) argument
+[`true].
+
+[:en] If the [`sentry] object returns [`true], when converted to a value of type
+[`bool], the function endeavors to obtain the requested input.
+
+[:en] Otherwise, if the sentry constructor exits by throwing an exception or if
+the sentry object returns false, when converted to a value of type [`bool], the
+function returns without attempting to obtain any input.
+
+[:en] In either case the number of extracted characters is set to 0; unformatted
+input functions taking a character array of non-zero size as an argument shall
+also store a null character (using [`charT()]) in the first location of the
+array.
+
+[:en] If an exception is thrown during input then [`ios::badbit] is turned on
+
+[footnote]
+[:en] This is done without causing an [`ios::failure] to be thrown.
+[footnote:end]
+
+[:en@~] in [`*this][=']s error state.
+
+[:en] (Exceptions thrown from [`basic_ios<>::clear()] are not caught or
+rethrown.)
+
+[:en] If [`(exceptions()&badbit) != 0] then the exception is rethrown.
+
+[:en] It also counts the number of characters extracted.
+
+[:en] If no exception has been thrown it ends by storing the count in a member
+object and returning the value specified.
+
+[:en] In any event the [`sentry] object is destroyed before leaving the
+unformatted input function.
+
+[%@library gcount[!basic_istream]]
+[codeblock:declaration]
+streamsize gcount() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] None.
+
+[:en] This member function does not behave as an unformatted input function (as
+described in [#istream.unformatted], paragraph 1).
+
+[para:returns]
+[:en] The number of characters extracted by the last unformatted input member
+function called for the object.
+[exit:description]
+
+[%@library get[!basic_istream]]
+[codeblock:declaration]
+int_type get();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts a character [`c], if one is
+available.
+
+[:en] Otherwise, the function calls [`setstate(failbit)], which may throw
+[`ios_base::failure] ([#iostate.flags]),
+
+[para:returns]
+[:en] [`c] if available, otherwise [`traits::eof()].
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& get(char_type& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts a character, if one is
+available, and assigns it to [`c].
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[:en] Otherwise, the function calls [`setstate(failbit)] (which may throw
+[`ios_base::failure] ([#iostate.flags])).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& get(char_type* s, streamsize n,
+                  char_type delim );
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts characters and stores them
+into successive locations of an array whose first element is designated by [`s].
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[:en] Characters are extracted and stored until any of the following occurs:
+
+[list]
+[item]
+[:en] [`n] is less than one or [`n - 1] characters are stored;
+[item]
+[:en] end-of-file occurs on the input sequence (in which case the function calls
+[`setstate(eofbit)]);
+[item]
+[:en] [`traits::eq(c, delim)] for the next available input character [`c] (in
+which case [`c] is not extracted).
+[list:end]
+
+[para]
+[:en] If the function stores no characters, it calls [`setstate(failbit)] (which
+may throw [`ios_base::failure] ([#iostate.flags])).
+
+[:en] In any case, if [`n] is greater than zero it then stores a null character
+into the next successive location of the array.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& get(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`get(s,n,widen('\n'))]
+
+[para:returns]
+[:en] Value returned by the call.
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& get(basic_streambuf<char_type,traits>& sb,
+                  char_type delim );
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts characters and inserts them
+in the output sequence controlled by [`sb].
+
+[:en] Characters are extracted and inserted until any of the following occurs:
+
+[list]
+[item]
+[:en] end-of-file occurs on the input sequence;
+[item]
+[:en] inserting in the output sequence fails (in which case the character to be
+inserted is not extracted);
+[item]
+[:en] [`traits::eq(c, delim)] for the next available input character [`c] (in
+which case [`c] is not extracted);
+[item]
+[:en] an exception occurs (in which case, the exception is caught but not
+rethrown).
+[list:end]
+
+[para]
+[:en] If the function inserts no characters, it calls [`setstate(failbit)],
+which may throw [`ios_base::failure] ([#iostate.flags]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& get(basic_streambuf<char_type,traits>& sb);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`get(sb, widen('\n'))]
+
+[para:returns]
+[:en] Value returned by the call.
+[exit:description]
+
+[%@library getline[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& getline(char_type* s, streamsize n,
+                      char_type delim);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts characters and stores them
+into successive locations of an array whose first element is designated by [`s].
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[:en] Characters are extracted and stored until one of the following occurs:
+
+[list:ol@ndot]
+[item]
+[:en] end-of-file occurs on the input sequence (in which case the function calls
+[`setstate(eofbit)]);
+[item]
+[:en] [`traits::eq(c, delim)] for the next available input character [`c] (in
+which case the input character is extracted but not stored);
+
+[footnote]
+[:en] Since the final input character is ["extracted,] it is counted in the
+[`gcount()], even though it is not stored.
+[footnote:end]
+
+[item]
+[:en] [`n] is less than one or [`n - 1] characters are stored (in which case the
+function calls [`setstate(failbit)]).
+[list:end]
+
+[para]
+[:en] These conditions are tested in the order shown.
+
+[footnote]
+[:en] This allows an input line which exactly fills the buffer, without setting
+[`failbit].
+
+[:en] This is different behavior than the historical AT&T implementation.
+[footnote:end]
+
+[para]
+[:en] If the function extracts no characters, it calls [`setstate(failbit)]
+(which may throw [`ios_base::failure] ([#iostate.flags])).
+
+[footnote]
+[:en] This implies an empty input line will not cause [`failbit] to be set.
+[footnote:end]
+
+[para]
+[:en] In any case, if [`n] is greater than zero, it then stores a null character
+(using [`charT()]) into the next successive location of the array.
+
+[para:returns]
+[:en] [`*this].
+
+[para]
+[enter:example]
+[codeblock]
+#include <iostream>
+
+int main() {
+  using namespace std;
+  const int line_buffer_size = 100;
+
+  char buffer[line_buffer_size];
+  int line_number = 0;
+  while (cin.getline(buffer, line_buffer_size, '\n') || cin.gcount()) {
+    int count = cin.gcount();
+    if (cin.eof())
+      cout << "Partial final line";   // [:en] [`cin.fail()] is false
+    else if (cin.fail()) {
+      cout << "Partial long line";
+      cin.clear(cin.rdstate() & ~ios_base::failbit);
+    } else {
+      count--;                        // [:en] Don[=']t include newline in [`count]
+      cout << "Line " << ++line_number;
+    }
+    cout << " (" << count << " chars): " << buffer << endl;
+  }
+}
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library getline[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& getline(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`getline(s,n,widen('\n'))]
+[exit:description]
+
+[%@library ignore[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>&
+    ignore(streamsize n = 1, int_type delim = traits::eof());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, extracts characters and discards them.
+
+[:en] Characters are extracted until any of the following occurs:
+
+[list]
+[item]
+[:en] [`n != numeric_limits<streamsize>::max()] ([#limits]) and [`n] characters
+have been extracted so far
+
+[item]
+[:en] end-of-file occurs on the input sequence (in which case the function calls
+[`setstate(eofbit)], which may throw [`ios_base::failure] ([#iostate.flags]));
+
+[item]
+[:en] [`traits::eq_int_type(traits::to_int_type(c), delim)] for the next
+available input character [`c] (in which case [`c] is extracted).
+[list:end]
+
+[para:notes]
+[:en] The last condition will never occur if
+[`traits::eq_int_type(delim, traits::eof())].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library peek[!basic_istream]]
+[codeblock:declaration]
+int_type peek();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, reads but does not extract the current
+input character.
+
+[para:returns]
+[:en] [`traits::eof()] if [`good()] is [`false].
+
+[:en] Otherwise, returns [`rdbuf()->sgetc()].
+[exit:description]
+
+[%@library read[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& read(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, if [`!good()] calls
+[`setstate(failbit)] which may throw an exception, and return.
+
+[:en] Otherwise extracts characters and stores them into successive locations of
+an array whose first element is designated by [`s].
+
+[footnote]
+[:en] Note that this function is not overloaded on types [`signed char] and
+[`unsigned char].
+[footnote:end]
+
+[:en] Characters are extracted and stored until either of the following occurs:
+
+[list]
+[item]
+[:en] [`n] characters are stored;
+[item]
+[:en] end-of-file occurs on the input sequence (in which case the function calls
+[`setstate(failbit | eofbit)], which may throw [`ios_base::failure]
+([#iostate.flags])).
+[list:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library readsome[!basic_istream]]
+[codeblock:declaration]
+streamsize readsome(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] After constructing a sentry object, if [`!good()] calls
+[`setstate(failbit)] which may throw an exception, and return.
+
+[:en] Otherwise extracts characters and stores them into successive locations of
+an array whose first element is designated by [`s].
+
+[:en] If [`rdbuf()->in_avail() == -1], calls [`setstate(eofbit)] (which may
+throw [`ios_base::failure] ([#iostate.flags])), and extracts no characters;
+
+[list]
+[item]
+[:en] If [`rdbuf()->in_avail() == 0], extracts no characters
+[item]
+[:en] If [`rdbuf()->in_avail() > 0], extracts [`min(rdbuf()->in_avail(),n))].
+[list:end]
+
+[para:returns]
+[:en] The number of characters extracted.
+[exit:description]
+
+[%@library putback[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& putback(char_type c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that the function first clears
+[`eofbit].
+
+[:en] After constructing a sentry object, if [`!good()] calls
+[`setstate(failbit)] which may throw an exception, and return.
+
+[:en] If [`rdbuf()] is not null, calls [`rdbuf->sputbackc()].
+
+[:en] If [`rdbuf()] is null, or if [`sputbackc()] returns [`traits::eof()],
+calls [`setstate(badbit)] (which may throw [`ios_base::failure]
+([#iostate.flags])).
+
+[enter:note]
+[:en] This function extracts no characters, so the value returned by the next
+call to [`gcount()] is 0.
+[exit:note]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library unget[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& unget();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that the function first clears
+[`eofbit].
+
+[:en] After constructing a sentry object, if [`!good()] calls
+[`setstate(failbit)] which may throw an exception, and return.
+
+[:en] If [`rdbuf()] is not null, calls [`rdbuf()->sungetc()].
+
+[:en] If [`rdbuf()] is null, or if [`sungetc()] returns [`traits::eof()], calls
+[`setstate(badbit)] (which may throw [`ios_base::failure] ([#iostate.flags])).
+
+[enter:note]
+[:en] This function extracts no characters, so the value returned by the next
+call to [`gcount()] is 0.
+[exit:note]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library sync[!basic_istream]]
+[codeblock:declaration]
+int sync();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that it does not count the number
+of characters extracted and does not affect the value returned by subsequent
+calls to [`gcount()].
+
+[:en] After constructing a sentry object, if [`rdbuf()] is a null pointer,
+returns -1.
+
+[:en] Otherwise, calls [`rdbuf()->pubsync()] and, if that function returns -1
+calls [`setstate(badbit)] (which may throw [`ios_base::failure]
+([#iostate.flags]), and returns [`-1].
+
+[:en] Otherwise, returns zero.
+[exit:description]
+
+[%@library tellg[!basic_istream]]
+[%@library basic_istream[!tellg]]
+[codeblock:declaration]
+pos_type tellg();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that it does not count the number
+of characters extracted and does not affect the value returned by subsequent
+calls to [`gcount()].
+
+[para:returns]
+[:en] After constructing a sentry object, if [`fail() != false], returns
+[`pos_type(-1)] to indicate failure.
+
+[:en] Otherwise, returns [`rdbuf()->pubseekoff(0, cur, in)].
+[exit:description]
+
+[%@library seekg[!basic_istream]]
+[%@library basic_istream[!seekg]]
+[codeblock:declaration]
+basic_istream<charT,traits>& seekg(pos_type pos);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that the function first clears
+[`eofbit], it does not count the number of characters extracted, and it does not
+affect the value returned by subsequent calls to [`gcount()].
+
+[:en] After constructing a sentry object, if [`fail() != true], executes
+[`rdbuf()->pubseekpos(pos, ios_base::in)].
+
+[:en] In case of failure, the function calls [`setstate(failbit)] (which may
+throw [`ios_base::failure]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library get[!basic_istream]]
+[%@library basic_istream[!get]]
+[codeblock:declaration]
+basic_istream<charT,traits>& seekg(off_type off, ios_base::seekdir dir);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1), except that it does not count the number
+of characters extracted and does not affect the value returned by subsequent
+calls to [`gcount()].
+
+[:en] After constructing a sentry object, if [`fail() != true], executes
+[`rdbuf()->pubseekoff(off, dir, ios_base::in)].
+
+[:en] In case of failure, the function calls [`setstate(failbit)] (which may
+throw [`ios_base::failure]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

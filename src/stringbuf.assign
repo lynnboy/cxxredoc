@@ -1,0 +1,42 @@
+﻿[section#stringbuf.assign
+    [:en] Assign and swap
+]
+
+[%@library operator=[!basic_stringbuf]]
+[%@library basic_stringbuf[!operator=]]
+[codeblock:declaration]
+basic_stringbuf& operator=(basic_stringbuf&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] After the move assignment [`*this] has the observable state it would
+have had if it had been move constructed from [`rhs] (see [#stringbuf.cons]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_stringbuf]]
+[%@library basic_stringbuf[!swap]]
+[codeblock:declaration]
+void swap(basic_stringbuf& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the state of [`*this] and [`rhs].
+[exit:description]
+
+[%@library swap[!basic_stringbuf]]
+[%@library basic_stringbuf[!swap]]
+[codeblock:declaration]
+template <class charT, class traits, class Allocator>
+void swap(basic_stringbuf<charT, traits, Allocator>& x,
+          basic_stringbuf<charT, traits, Allocator>& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

@@ -1,0 +1,39 @@
+﻿[section#ios::seekdir
+    [:en] Type [`ios_base::seekdir]
+]
+
+[%@library seekdir[!ios_base]]
+[codeblock:declaration [special T4] ]
+typedef T4 seekdir;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`seekdir] is an enumerated type ([#enumerated.types]) that
+contains the elements indicated in Table [#tab:iostreams.seekdir.effects].
+
+[table:listing#tab:iostreams.seekdir.effects
+    [:en] [`seekdir] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effects(s) if set
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] beg
+[|] [:en] request a seek (for subsequent input or output) relative to the
+    beginning of the stream
+
+[|] cur
+[|] [:en] request a seek relative to the current position within the sequence
+
+[|] end
+[|] [:en] request a seek relative to the current end of the sequence
+
+[table:end]
+[exit:description]

@@ -1,0 +1,111 @@
+﻿[section#ios::fmtflags
+    [:en] Type [`ios_base::fmtflags]
+]
+
+[%@library fmtflags[!ios_base]]
+[codeblock:declaration [special T1] ]
+typedef T1 fmtflags;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`fmtflags] is a bitmask type ([#bitmask.types]).
+
+[:en] Setting its elements has the effects indicated in Table
+[#tab:iostreams.fmtflags.effects].
+
+[table:listing#tab:iostreams.fmtflags.effects
+    [:en] [`fmtflags] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effects(s) if set
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] boolalpha
+[|] [:en] insert and extract [`bool] type in alphabetic format
+
+[|] dec
+[|] [:en] converts integer input or generates integer output in decimal base
+
+[|] fixed
+[|] [:en] generate floating-point output in fixed-point notation
+
+[|] hex
+[|] [:en] converts integer input or generates integer output in hexadecimal base
+
+[|] internal
+[|] [:en] adds fill characters at a designated internal point in certain
+    generated output, or identical to [`right] if no such point is designated
+
+[|] left
+[|] [:en] adds fill characters on the right (final positions) of certain
+    generated output
+
+[|] oct
+[|] [:en] converts integer input or generates integer output in octal base
+
+[|] right
+[|] [:en] adds fill characters on the left (initial positions) of certain
+    generated output
+
+[|] scientific
+[|] [:en] generates floating-point output in scientific notation
+
+[|] showbase
+[|] [:en] generates a prefix indicating the numeric base of generated integer
+    output
+
+[|] showpoint
+[|] [:en] generates a decimal-point character unconditionally in generated
+    floating-point output
+
+[|] showpos
+[|] [:en] generates a [`+] sign in non-negative generated numeric output
+
+[|] skipws
+[|] [:en] skips leading whitespace before certain input operations
+
+[|] unitbuf
+[|] [:en] flushes output after each output operation
+
+[|] uppercase
+[|] [:en] replaces certain lowercase letters with their uppercase equivalents in
+    generated output
+
+[table:end]
+
+[para]
+[:en] Type [`fmtflags] also defines the constants indicated in Table
+[#tab:iostreams.fmtflags.constants].
+
+[table:listing#tab:iostreams.fmtflags.constants
+    [:en] [`fmtflags] constants
+    [columns
+        [column@headercenter@code
+            [:en] Constant
+        ]
+        [column@headercenter@code
+            [:en] Allowable values
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] adjustfield
+[|] left | right | internal
+
+[|] basefield
+[|] dec | oct | hex
+
+[|] floatfield
+[|] scientific | fixed
+
+[table:end]
+
+[exit:description]

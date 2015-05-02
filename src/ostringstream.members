@@ -1,0 +1,34 @@
+﻿[section#ostringstream.members
+    [:en] Member functions
+]
+
+[%@library rdbuf[!basic_ostringstream]]
+[codeblock:declaration]
+basic_stringbuf<charT,traits,Allocator>* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`const_cast<basic_stringbuf<charT,traits,Allocator>*>(&sb)].
+[exit:description]
+
+[%@library str[!basic_ostringstream]]
+[codeblock:declaration]
+basic_string<charT,traits,Allocator> str() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->str()].
+[exit:description]
+
+[%@library str[!basic_ostringstream]]
+[%@library basic_ostringstream[!str]]
+[codeblock:declaration]
+void str(const basic_string<charT,traits,Allocator>& s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`rdbuf()->str(s)].
+[exit:description]

@@ -1,0 +1,66 @@
+﻿[section#ios.overview
+    [:en] Overview
+]
+
+[%@library basic_ios]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class basic_ios : public ios_base {
+  public:
+
+    // [:en] types:
+    typedef charT                     char_type;
+    typedef typename traits::int_type int_type;
+    typedef typename traits::pos_type pos_type;
+    typedef typename traits::off_type off_type;
+    typedef traits                    traits_type;
+
+    explicit operator bool() const;
+    bool operator!() const;
+    iostate rdstate() const;
+    void clear(iostate state = goodbit);
+    void setstate(iostate state);
+    bool good() const;
+    bool eof()  const;
+    bool fail() const;
+    bool bad()  const;
+
+    iostate exceptions() const;
+    void exceptions(iostate except);
+
+    // [:en] [#basic.ios.cons] Constructor/destructor:
+    explicit basic_ios(basic_streambuf<charT,traits>* sb);
+    virtual ~basic_ios();
+
+    // [:en] [#basic.ios.members] Members:
+    basic_ostream<charT,traits>* tie() const;
+    basic_ostream<charT,traits>* tie(basic_ostream<charT,traits>* tiestr);
+
+    basic_streambuf<charT,traits>* rdbuf() const;
+    basic_streambuf<charT,traits>* rdbuf(basic_streambuf<charT,traits>* sb);
+
+    basic_ios& copyfmt(const basic_ios& rhs);
+
+    char_type fill() const;
+    char_type fill(char_type ch);
+
+    locale imbue(const locale& loc);
+
+    char     narrow(char_type c, char dfault) const;
+    char_type widen(char c) const;
+
+    basic_ios(const basic_ios&) = delete;
+    basic_ios& operator=(const basic_ios&) = delete;
+
+  protected:
+    basic_ios();
+    void init(basic_streambuf<charT,traits>* sb);
+    void move(basic_ios& rhs);
+    void move(basic_ios&& rhs);
+    void swap(basic_ios& rhs) noexcept;
+    void set_rdbuf(basic_streambuf<charT, traits>* sb);
+
+  };
+}
+[codeblock:end]

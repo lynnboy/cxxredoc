@@ -1,0 +1,187 @@
+﻿[section#istream::extractors
+    [:en] [`basic_istream::operator>>]
+]
+
+[%@library operator>>[!basic_istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& operator>>
+    (basic_istream<charT,traits>& (*pf)(basic_istream<charT,traits>&));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] None.
+
+[:en] This extractor does not behave as a formatted input function (as described
+in [#istream.formatted.reqmts].)
+
+[para:returns]
+[`pf(*this)].
+
+[footnote]
+[:en] See, for example, the function signature [%@library ws]
+[`ws(basic_istream&)] ([#istream.manip]).
+[footnote:end]
+[exit:description]
+
+[%@library operator>>[!istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& operator>>
+    (basic_ios<charT,traits>& (*pf)(basic_ios<charT,traits>&));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`pf(*this)].
+
+[:en] This extractor does not behave as a formatted input function (as described
+in [#istream.formatted.reqmts]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator>>[!istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& operator>>
+    (ios_base& (*pf)(ios_base&));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`pf(*this)].
+
+[footnote]
+[:en] See, for example, the function signature [`dec(ios_base&)]
+([#basefield.manip]).
+[footnote:end]
+
+[:en] This extractor does not behave as a formatted input function (as described
+in [#istream.formatted.reqmts]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library operator>>[!istream]]
+[codeblock:declaration]
+template<class charT, class traits>
+  basic_istream<charT,traits>& operator>>(basic_istream<charT,traits>& in,
+                                          charT* s);
+template<class traits>
+  basic_istream<char,traits>& operator>>(basic_istream<char,traits>& in,
+                                         unsigned char* s);
+template<class traits>
+  basic_istream<char,traits>& operator>>(basic_istream<char,traits>& in,
+                                         signed char* s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves like a formatted input member (as described in
+[#istream.formatted.reqmts]) of [`in].
+
+[:en] After a [`sentry] object is constructed, [`operator>>] extracts characters
+and stores them into successive locations of an array whose first element is
+designated by [`s].
+
+[:en] If [`width()] is greater than zero, [`n] is [`width()].
+
+[:en] Otherwise [`n] is the number of elements of the largest array of
+[`char_type] that can store a terminating [`charT()].
+
+[:en] [`n] is the maximum number of characters stored.
+
+[para]
+[:en] Characters are extracted and stored until any of the following occurs:
+[list]
+[item]
+[:en] [`n-1] characters are stored;
+[item]
+[:en] end of file occurs on the input sequence;
+[item]
+[:en] [`ct.is(ct.space,c)] is [`true] for the next available input character
+[`c], where [`ct] is [`use_facet<ctype<charT> >(in.getloc())].
+[list:end]
+
+[para]
+[:en] [`operator>>] then stores a null byte ([`charT()]) in the next position,
+which may be the first position if no characters were extracted.
+
+[:en] [`operator>>] then calls [`width(0)].
+
+[para]
+[:en] If the function extracted no characters, it calls [`setstate(failbit)],
+which may throw [`ios_base::failure] ([#iostate.flags]).
+
+[para:returns]
+[:en] [`in].
+[exit:description]
+
+[%@library operator>>[!istream]]
+[codeblock:declaration]
+template<class charT, class traits>
+  basic_istream<charT,traits>& operator>>(basic_istream<charT,traits>& in,
+                                          charT& c);
+template<class traits>
+  basic_istream<char,traits>& operator>>(basic_istream<char,traits>& in,
+                                         unsigned char& c);
+template<class traits>
+  basic_istream<char,traits>& operator>>(basic_istream<char,traits>& in,
+                                         signed char& c);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves like a formatted input member (as described in
+[#istream.formatted.reqmts]) of [`in].
+
+[:en] After a [`sentry] object is constructed a character is extracted from
+[`in], if one is available, and stored in [`c].
+
+[:en] Otherwise, the function calls [`in.setstate(failbit)].
+
+[para:returns]
+[:en] [`in].
+[exit:description]
+
+[%@library operator>>[!istream]]
+[codeblock:declaration]
+basic_istream<charT,traits>& operator>>
+  (basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves as an unformatted input function (as described in
+[#istream.unformatted], paragraph 1).
+
+[:en] If [`sb] is null, calls [`setstate(failbit)], which may throw
+[`ios_base::failure] ([#iostate.flags]).
+
+[:en] After a sentry object is constructed, extracts characters from [`*this]
+and inserts them in the output sequence controlled by [`sb].
+
+[:en] Characters are extracted and inserted until any of the following occurs:
+
+[list]
+[item]
+[:en] end-of-file occurs on the input sequence;
+[item]
+[:en] inserting in the output sequence fails (in which case the character to be
+inserted is not extracted);
+[item]
+[:en] an exception occurs (in which case the exception is caught).
+[list:end]
+
+[para]
+[:en] If the function inserts no characters, it calls [`setstate(failbit)],
+which may throw [`ios_base::failure] ([#iostate.flags]).
+
+[:en] If it inserted no characters because it caught an exception thrown while
+extracting characters from [`*this] and [`failbit] is on in [`exceptions()]
+([#iostate.flags]), then the caught exception is rethrown.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

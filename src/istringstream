@@ -1,0 +1,65 @@
+﻿[section#istringstream
+    [:en] Class template [`basic_istringstream]
+]
+
+[%@library basic_istringstream]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT>,
+        class Allocator = allocator<charT> >
+  class basic_istringstream : public basic_istream<charT,traits> {
+  public:
+    typedef charT                     char_type;
+    typedef typename traits::int_type int_type;
+    typedef typename traits::pos_type pos_type;
+    typedef typename traits::off_type off_type;
+    typedef traits                    traits_type;
+    typedef Allocator                 allocator_type;
+
+    // [:en] [#istringstream.cons] Constructors:
+    explicit basic_istringstream(ios_base::openmode which = ios_base::in);
+    explicit basic_istringstream(
+               const basic_string<charT,traits,Allocator>& str,
+               ios_base::openmode which = ios_base::in);
+    basic_istringstream(const basic_istringstream& rhs) = delete;
+    basic_istringstream(basic_istringstream&& rhs);
+
+    // [:en] [#istringstream.assign] Assign and swap:
+    basic_istringstream& operator=(const basic_istringstream& rhs) = delete;
+    basic_istringstream& operator=(basic_istringstream&& rhs);
+    void swap(basic_istringstream& rhs);
+
+    // [:en] [#istringstream.members] Members:
+    basic_stringbuf<charT,traits,Allocator>* rdbuf() const;
+
+    basic_string<charT,traits,Allocator> str() const;
+    void str(const basic_string<charT,traits,Allocator>& s);
+  private:
+    basic_stringbuf<charT,traits,Allocator> sb; // [=Expos]
+  };
+
+  template <class charT, class traits, class Allocator>
+  void swap(basic_istringstream<charT, traits, Allocator>& x,
+            basic_istringstream<charT, traits, Allocator>& y);
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`basic_istringstream<charT, traits, Allocator>] supports
+reading objects of class [`basic_string<charT, traits, Allocator>].
+
+[:en] It uses a [`basic_stringbuf<charT, traits, Allocator>] object to control
+the associated storage.
+
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`sb], the [`stringbuf] object.
+[list:end]
+
+[include istringstream.cons]
+
+[include istringstream.assign]
+
+[include istringstream.members]

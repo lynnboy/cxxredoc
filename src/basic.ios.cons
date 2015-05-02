@@ -1,0 +1,99 @@
+﻿[section#basic.ios.cons
+    [:en] [`basic_ios] constructors
+]
+
+[%@library basic_ios[!basic_ios]]
+[codeblock:declaration]
+explicit basic_ios(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_ios], assigning initial values to
+its member objects by calling [`init(sb)].
+[exit:description]
+
+[%@library basic_ios[![:en]constructor]]
+[codeblock:declaration]
+basic_ios();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_ios] ([#ios.base.cons]) leaving its
+member objects uninitialized.
+
+[:en] The object shall be initialized by calling [`basic_ios::init] before its
+first use or before it is destroyed, whichever comes first; otherwise the
+behavior is undefined.
+[exit:description]
+
+[%@library basic_ios[![:en]destructor]]
+[codeblock:declaration]
+~basic_ios();
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] The destructor does not destroy [`rdbuf()].
+[exit:description]
+
+[%@library init[!basic_ios]]
+[%@library basic_ios[!init]]
+[codeblock:declaration]
+void init(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] The postconditions of this function are indicated in Table
+[#tab:iostreams.basicios.init.effects].
+
+[table:listing#tab:iostreams.basicios.init.effects
+    [:en] [`basic_ios::init()] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effects(s) if set
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] rdbuf()
+[|] [`sb]
+
+[|] tie()
+[|] [`0]
+
+[|] rdstate()
+[|] [:en] [`goodbit] if [`sb] is not a null pointer, otherwise [`badbit].
+
+[|] exceptions()
+[|] [`goodbit]
+
+[|] flags()
+[|] [`skipws | dec]
+
+[|] width()
+[|] [`0]
+
+[|] precision()
+[|] [`6]
+
+[|] fill()
+[|] [`widen(' ');]
+
+[|] getloc()
+[|] [:en] a copy of the value returned by [`locale()]
+
+[|] [$iarray]
+[|] [:en] a null pointer
+
+[|] [$parray]
+[|] [:en] a null pointer
+
+[table:end]
+[exit:description]

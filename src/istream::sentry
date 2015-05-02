@@ -1,0 +1,113 @@
+﻿[section#istream::sentry
+    [:en] Class [`basic_istream::sentry]
+]
+
+[%@library sentry[!basic_istream]]
+[codeblock:synopsis]
+namespace std {
+  template <class charT,class traits = char_traits<charT> >
+  class basic_istream<charT,traits>::sentry {
+    typedef traits traits_type;
+    bool ok_; // [=Expos]
+  public:
+    explicit sentry(basic_istream<charT,traits>& is, bool noskipws = false);
+    ~sentry();
+    explicit operator bool() const { return ok_; }
+    sentry(const sentry&) = delete;
+    sentry& operator=(const sentry&) = delete;
+  };
+}
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The class [`sentry] defines a class that is responsible for doing
+exception safe prefix and suffix operations.
+[exit:description]
+
+[%@library sentry[![:en]constructor]]
+[codeblock:declaration]
+explicit sentry(basic_istream<charT,traits>& is, bool noskipws = false);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`is.good()] is [`false], calls [`is.setstate(failbit)].
+
+[:en] Otherwise, prepares for formatted or unformatted input.
+
+[:en] First, if [`is.tie()] is not a null pointer, the function calls
+[%@library flush] [`is.tie()->flush()] to synchronize the output sequence with
+any associated external C stream.
+
+[:en] Except that this call can be suppressed if the put area of [`is.tie()]
+is empty.
+
+[:en] Further an implementation is allowed to defer the call to [`flush] until a
+call of [`is.rdbuf()->underflow()] occurs.
+
+[:en] If no such call occurs before the [`sentry] object is destroyed, the call
+to [`flush] may be eliminated entirely.
+
+[footnote]
+[:en] This will be possible only in functions that are part of the library.
+
+[:en] The semantics of the constructor used in user code is as specified.
+[footnote:end]
+
+[:en] If [`noskipws] is zero and [`is.flags() & ios_base::skipws] is nonzero,
+the function extracts and discards each character as long as the next available
+input character [`c] is a whitespace character.
+
+[:en] If [`is.rdbuf()->sbumpc()] or [`is.rdbuf()->sgetc()] returns
+[`traits::eof()], the function calls [`setstate(failbit | eofbit)] (which may
+throw [`ios_base::failure]).
+
+[para:notes]
+[:en] The constructor
+[`explicit sentry(basic_istream<charT,traits>& is, bool noskipws = false)]
+uses the currently imbued locale in [`is], to determine whether the next input
+character is whitespace or not.
+
+[para]
+[:en] To decide if the character [`c] is a whitespace character, the constructor
+performs as if it executes the following code fragment:
+
+[codeblock:notation]
+const ctype<charT>& ctype = use_facet<ctype<charT> >(is.getloc());
+if (ctype.is(ctype.space,c)!=0)
+  // [:en] [`c] is a whitespace character.
+[codeblock:end]
+
+[para]
+[:en] If, after any preparation is completed, [`is.good()] is [`true],
+[`ok_ != false] otherwise, [`ok_ == false].
+
+[:en] During preparation, the constructor may call [`setstate(failbit)] (which
+may throw [`ios_base::failure] ([#iostate.flags]))
+
+[footnote]
+[:en] The sentry constructor and destructor can also perform additional
+[%implementation-dependent] implementation-dependent operations.
+[footnote:end]
+[exit:description]
+
+[%@library basic_istream[![:en]destructor]]
+[codeblock:declaration]
+~sentry();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] None.
+[exit:description]
+
+[%@library operator bool[!basic_istream]]
+[codeblock:declaration]
+explicit operator bool() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns [`ok_].
+[exit:description]

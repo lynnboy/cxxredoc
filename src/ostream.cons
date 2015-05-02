@@ -1,0 +1,43 @@
+﻿[section#ostream.cons
+    [:en] [`basic_ostream] constructors
+]
+
+[%@library basic_ostream[!basic_ostream]]
+[codeblock:declaration]
+explicit basic_ostream(basic_streambuf<charT,traits>* sb);
+[codeblock:end]
+
+[%@library init[!basic_ios]]
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_ostream], assigning initial values
+to the base class by calling [`basic_ios<charT,traits>::init(sb)]
+([#basic.ios.cons]).
+
+[para:postcondition]
+[:en] [`rdbuf() == sb].
+
+[%@library basic_ostream[![:en]destructor]]
+[codeblock:declaration]
+virtual ~basic_ostream();
+[codeblock:end]
+
+[para:effects]
+[:en] Destroys an object of class [`basic_ostream].
+
+[para:notes]
+[:en] Does not perform any operations on [`rdbuf()].
+[exit:description]
+
+[%@library basic_ostream[![:en]constructor]]
+[codeblock:declaration]
+basic_ostream(basic_ostream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs from the rvalue [`rhs].
+
+[:en] This is accomplished by default constructing the base class and calling
+[`basic_ios<charT, traits>::move(rhs)] to initialize the base class.
+[exit:description]

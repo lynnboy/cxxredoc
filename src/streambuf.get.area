@@ -1,0 +1,53 @@
+﻿[section#streambuf.get.area
+    [:en] Get area access
+]
+
+[%@library eback[!basic_streambuf]]
+[codeblock:declaration]
+char_type* eback() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The beginning pointer for the input sequence.
+[exit:description]
+
+[%@library gptr[!basic_streambuf]]
+[codeblock:declaration]
+char_type* gptr() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The next pointer for the input sequence.
+[exit:description]
+
+[%@library egptr[!basic_streambuf]]
+[codeblock:declaration]
+char_type* egptr() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The end pointer for the input sequence.
+[exit:description]
+
+[%@library gbump[!basic_streambuf]]
+[codeblock:declaration]
+void gbump(int n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Adds [`n] to the next pointer for the input sequence.
+[exit:description]
+
+[%@library setg[!basic_streambuf]]
+[codeblock:declaration]
+void setg(char_type* gbeg, char_type* gnext, char_type* gend);
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`gbeg == eback()], [`gnext == gptr()], and [`gend == egptr()].
+[exit:description]

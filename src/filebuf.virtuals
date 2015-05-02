@@ -1,0 +1,327 @@
+﻿[section#filebuf.virtuals
+    [:en] Overridden virtual functions
+]
+
+[%@library showmanyc[!basic_filebuf]]
+[codeblock:declaration]
+streamsize showmanyc();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves the same as [%@library showmanyc[!basic_streambuf]]
+[`basic_streambuf::showmanyc()] ([#streambuf.virtuals]).
+
+[para:notes]
+[:en] An implementation might well provide an overriding definition for this
+function signature if it can determine that more characters can be read from the
+input sequence.
+[exit:description]
+
+[%@library underflow[!basic_filebuf]]
+[codeblock:declaration]
+int_type underflow();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves according to the description of
+[`basic_streambuf<charT,traits>::underflow()],
+with the specialization that a sequence of characters is read from the input
+sequence as if by reading from the associated file into an internal buffer
+([`extern_buf]) and then as if by doing
+
+[codeblock:notation]
+char   extern_buf[XSIZE];
+char*  extern_end;
+charT  intern_buf[ISIZE];
+charT* intern_end;
+codecvt_base::result r =
+  a_codecvt.in(state, extern_buf, extern_buf+XSIZE, extern_end,
+               intern_buf, intern_buf+ISIZE, intern_end);
+[codeblock:end]
+
+[:en] This shall be done in such a way that the class can recover the position
+([`fpos_t]) corresponding to each character between [`intern_buf] and
+[`intern_end].
+
+[:en] If the value of [`r] indicates that [`a_codecvt.in()] ran out of space in
+[`intern_buf], retry with a larger [`intern_buf].
+[exit:description]
+
+[%@library uflow[!basic_filebuf]]
+[codeblock:declaration]
+int_type uflow();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves according to the description of
+[`basic_streambuf<charT,traits>::uflow()], with the specialization that a
+sequence of characters is read from the input with the same method as used by
+[`underflow].
+[exit:description]
+
+[%@library pbackfail[!basic_filebuf]]
+[codeblock:declaration]
+int_type pbackfail(int_type c = traits::eof());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Puts back the character designated by [`c] to the input sequence, if
+possible, in one of three ways:
+
+[list]
+[item]
+[:en] If [`traits::eq_int_type(c,traits::eof())] returns [`false] and if the
+function makes a putback position available and if
+[`traits::eq(to_char_type(c),gptr()[-1`])] returns [`true], decrements the next
+pointer for the input sequence, [`gptr()].
+
+[:en] Returns: [`c].
+
+[item]
+[:en] If [`traits::eq_int_type(c,traits::eof())] returns [`false] and if the
+function makes a putback position available and if the function is permitted to
+assign to the putback position, decrements the next pointer for the input
+sequence, and stores [`c] there.
+
+[:en] Returns: [`c].
+
+[item]
+[:en] If [`traits::eq_int_type(c,traits::eof())] returns [`true], and if either
+the input sequence has a putback position available or the function makes a
+putback position available, decrements the next pointer for the input sequence,
+[`gptr()].
+
+[:en] Returns: [`traits::not_eof(c)].
+[list:end]
+
+[para:returns]
+[:en] [`traits::eof()] to indicate failure.
+
+[para:notes]
+[:en] If [`is_open() == false], the function always fails.
+
+[para]
+[:en] The function does not put back a character directly to the input sequence.
+
+[para]
+[:en] If the function can succeed in more than one of these ways, it is
+unspecified which way is chosen.
+
+[:en] The function can alter the number of putback positions available as a
+result of any call.
+[exit:description]
+
+[%@library overflow[!basic_filebuf]]
+[codeblock:declaration]
+int_type overflow(int_type c = traits::eof());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves according to the description of
+[`basic_streambuf<charT,traits>::overflow(c)], except that the behavior of
+["consuming characters] is performed by first converting as if by:
+
+[codeblock:notation]
+charT* b = pbase();
+charT* p = pptr();
+charT* end;
+char   xbuf[XSIZE];
+char*  xbuf_end;
+codecvt_base::result r =
+  a_codecvt.out(state, b, p, end, xbuf, xbuf+XSIZE, xbuf_end);
+[codeblock:end]
+
+[:en@~] and then
+
+[list]
+[item]
+[:en] If [`r == codecvt_base::error] then fail.
+
+[item]
+[:en] If [`r == codecvt_base::noconv] then output characters from [`b] up to
+(and not including) [`p].
+
+[item]
+[:en] If [`r == codecvt_base::partial] then output to the file characters from
+[`xbuf] up to [`xbuf_end], and repeat using characters from [`end] to [`p].
+
+[:en] If output fails, fail (without repeating).
+
+[item]
+[:en] Otherwise output from [`xbuf] to [`xbuf_end], and fail if output fails.
+
+[:en] At this point if [`b != p] and [`b == end] ([`xbuf] isn[=']t large enough)
+then increase [`XSIZE] and repeat from the beginning.
+[list:end]
+
+[para:returns]
+[:en] [`traits::not_eof(c)] to indicate success, and [`traits::eof()] to
+indicate failure.
+
+[:en] If [`is_open() == false], the function always fails.
+[exit:description]
+
+[%@library setbuf[!basic_filebuf]]
+[codeblock:declaration]
+basic_streambuf* setbuf(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`setbuf(0,0)] is called on a stream before any I/O has occurred on
+that stream, the stream becomes unbuffered.
+
+[:en] Otherwise the results are [%@impldef effect of calling
+[`basic_filebuf::setbuf] with non-zero arguments] implementation-defined.
+
+["Unbuffered] means that [`pbase()] and [`pptr()] always return null and output
+to the file should appear as soon as possible.
+[exit:description]
+
+[%@library seekoff[!basic_filebuf]]
+[codeblock:declaration]
+pos_type seekoff(off_type off, ios_base::seekdir way,
+    ios_base::openmode which = ios_base::in | ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Let [`width] denote [`a_codecvt.encoding()].
+
+[:en] If [`is_open() == false], or [`off != 0 && width <= 0], then the
+positioning operation fails.
+
+[:en] Otherwise, if [`way != basic_ios::cur] or [`off != 0], and if the last
+operation was output, then update the output sequence and write any unshift
+sequence.
+
+[:en] Next, seek to the new position: if [`width > 0], call [`std::fseek(file,
+width * off, whence)], otherwise call [`std::fseek(file, 0, whence)].
+
+[para:notes]
+[:en] ["The last operation was output] means either the last virtual operation
+was overflow or the put buffer is non-empty.
+
+[:en] ["Write any unshift sequence] means, if [`width] if less than zero then
+call [`a_codecvt.unshift(state, xbuf, xbuf+XSIZE, xbuf_end)] and output the
+resulting unshift sequence.
+
+[:en] The function determines one of three values for the argument [`whence], of
+type [`int], as indicated in Table [#tab:iostreams.seekoff.effects].
+
+[table:listing#tab:iostreams.seekoff.effects
+    [:en] [`seekoff] effects
+    [columns
+        [column@headercenter@code
+            [:en] [`way] Value
+        ]
+        [column@code
+            [`stdio] Equivalent
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] basic_ios::beg
+[|] SEEK_SET
+
+[|] basic_ios::cur
+[|] SEEK_CUR
+
+[|] basic_ios::end
+[|] SEEK_END
+
+[table:end]
+
+[para:returns]
+[:en] A newly constructed [`pos_type] object that stores the resultant stream
+position, if possible.
+
+[:en] If the positioning operation fails, or if the object cannot represent the
+resultant stream position, returns [`pos_type(off_type(-1))].
+[exit:description]
+
+[%@library seekpos[!basic_filebuf]]
+[codeblock:declaration]
+pos_type seekpos(pos_type sp,
+    ios_base::openmode which = ios_base::in | ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Alters the file position, if possible, to correspond to the position
+stored in [`sp] (as described below).
+
+[:en] Altering the file position performs as follows:
+
+[list:ol@ndot]
+[item]
+[:en] if [`(om & ios_base::out) != 0], then update the output sequence and write
+any unshift sequence;
+
+[item]
+[:en] set the file position to [`sp];
+
+[item]
+[:en] if [`(om & ios_base::in) != 0], then update the input sequence;
+[list:end]
+
+[:en@~] where [`om] is the open mode passed to the last call to [`open()].
+
+[:en] The operation fails if [`is_open()] returns false.
+
+[para]
+[:en] If [`sp] is an invalid stream position, or if the function positions
+neither sequence, the positioning operation fails.
+
+[:en] If [`sp] has not been obtained by a previous successful call to one of the
+positioning functions ([`seekoff] or [`seekpos]) on the same file the effects
+are undefined.
+
+[para:returns]
+[:en] [`sp] on success.
+
+[:en] Otherwise returns [`pos_type(off_type(-1))].
+[exit:description]
+
+[%@library sync[!basic_filebuf]]
+[codeblock:declaration]
+int sync();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If a put area exists, calls [`filebuf::overflow] to write the characters
+to the file.
+
+[:en] If a get area exists, the effect is [%@impldef effect of calling
+[`basic_filebuf::sync] when a get area exists] implementation-defined.
+[exit:description]
+
+[%@library imbue[!basic_filebuf]]
+[codeblock:declaration]
+void imbue(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] If the file is not positioned at its beginning and the encoding of the
+current locale as determined by [`a_codecvt.encoding()] is state-dependent
+([#locale.codecvt.virtuals]) then that facet is the same as the corresponding
+facet of [`loc].
+
+[para:effects]
+[:en] Causes characters inserted or extracted after this call to be converted
+according to [`loc] until another call of [`imbue].
+
+[para:note]
+[:en] This may require reconversion of previously converted characters.
+
+[:en] This in turn may require the implementation to be able to reconstruct the
+original contents of the file.
+[exit:description]

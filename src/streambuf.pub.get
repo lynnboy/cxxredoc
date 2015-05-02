@@ -1,0 +1,66 @@
+﻿[section#streambuf.pub.get
+    [:en] Get area
+]
+
+[%@library in_avail[!basic_streambuf]]
+[codeblock:declaration]
+streamsize in_avail();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If a read position is available, returns [`egptr() - gptr()].
+
+[:en] Otherwise returns [`showmanyc()] ([#streambuf.virt.get]).
+[exit:description]
+
+[%@library snextc[!basic_streambuf]]
+[codeblock:declaration]
+int_type snextc();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`sbumpc()].
+
+[para:returns]
+[:en] If that function returns [`traits::eof()], returns [`traits::eof()].
+
+[:en] Otherwise, returns [`sgetc()].
+[exit:description]
+
+[%@library sbumpc[!basic_streambuf]]
+[codeblock:declaration]
+int_type sbumpc();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the input sequence read position is not available, returns [`uflow()].
+
+[:en] Otherwise, returns [`traits::to_int_type(*gptr())] and increments the next
+pointer for the input sequence.
+[exit:description]
+
+[%@library sgetc[!basic_streambuf]]
+[codeblock:declaration]
+int_type sgetc();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the input sequence read position is not available, returns
+[`underflow()].
+
+[:en] Otherwise, returns [`traits::to_int_type(*gptr())].
+[exit:description]
+
+[%@library sgetn[!basic_streambuf]]
+[codeblock:declaration]
+streamsize sgetn(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`xsgetn(s, n)].
+[exit:description]

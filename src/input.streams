@@ -1,0 +1,20 @@
+﻿[section#input.streams
+    [:en] Input streams
+]
+
+[para]
+[:en] The header [`<istream>] defines two types and a function signature that
+control input from a stream buffer along with a function template that extracts
+from stream rvalues.
+
+[include istream]
+
+[include istream.formatted]
+
+[include istream.unformatted]
+
+[include istream.manip]
+
+[include iostreamclass]
+
+[include istream.rvalue]

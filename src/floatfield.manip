@@ -1,0 +1,65 @@
+﻿[section#floatfield.manip
+    [:en] [`floatfield] manipulators
+]
+
+[%@library fixed]
+[codeblock:declaration]
+ios_base& fixed(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::fixed, ios_base::floatfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library scientific]
+[codeblock:declaration]
+ios_base& scientific(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::scientific, ios_base::floatfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library hexfloat]
+[codeblock:declaration]
+ios_base& hexfloat(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls
+[`str.setf(ios_base::fixed | ios_base::scientific, ios_base::floatfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[para]
+[enter:note]
+[:en] The more obvious use of [`ios_base::hex] to specify hexadecimal
+floating-point format would change the meaning of existing well defined
+programs.
+
+[:en] C++2003 gives no meaning to the combination of [`fixed] and [`scientific].
+[exit:note]
+
+[%@library defaultfloat]
+[codeblock:declaration]
+ios_base& defaultfloat(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::floatfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]

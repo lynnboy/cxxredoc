@@ -1,0 +1,53 @@
+﻿[section#ostream.seeks
+    [:en] [`basic_ostream] seek members
+]
+
+[para]
+[:en] Each seek member function begins execution by constructing an object of
+class [`sentry].
+
+[:en] It returns by destroying the [`sentry] object.
+
+[%@library tellp[!basic_ostream]]
+[%@library seekp[!basic_ostream]]
+[codeblock:declaration]
+pos_type tellp();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`fail() != false], returns [`pos_type(-1)] to indicate failure.
+
+[:en] Otherwise, returns [`rdbuf()->pubseekoff(0, cur, out)].
+
+[codeblock:declaration]
+basic_ostream<charT,traits>& seekp(pos_type pos);
+[codeblock:end]
+
+[para:effects]
+[:en] If [`fail() != true], executes [`rdbuf()->pubseekpos(pos, ios_base::out)].
+
+[:en] In case of failure, the function calls [`setstate(failbit)] (which may
+throw [`ios_base::failure]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library seekp[!basic_ostream]]
+[%@library basic_ostream[!seekp]]
+[codeblock:declaration]
+basic_ostream<charT,traits>& seekp(off_type off, ios_base::seekdir dir);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`fail() != true], executes
+[`rdbuf()->pubseekoff(off, dir, ios_base::out)].
+
+[:en] In case of failure, the function calls [`setstate(failbit)] (which may
+throw [`ios_base::failure]).
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

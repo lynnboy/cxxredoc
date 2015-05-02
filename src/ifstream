@@ -1,0 +1,60 @@
+﻿[section#ifstream
+    [:en] Class template [`basic_ifstream]
+]
+
+[%@library basic_ifstream]
+[codeblock:synopsis]
+namespace std {
+  template <class charT, class traits = char_traits<charT> >
+  class basic_ifstream : public basic_istream<charT,traits> {
+  public:
+    typedef charT                     char_type;
+    typedef typename traits::int_type int_type;
+    typedef typename traits::pos_type pos_type;
+    typedef typename traits::off_type off_type;
+    typedef traits                    traits_type;
+
+    // [:en] [#ifstream.cons] Constructors:
+    basic_ifstream();
+    explicit basic_ifstream(const char* s,
+        ios_base::openmode mode = ios_base::in);
+    explicit basic_ifstream(const string& s,
+        ios_base::openmode mode = ios_base::in);
+    basic_ifstream(const basic_ifstream& rhs) = delete;
+    basic_ifstream(basic_ifstream&& rhs);
+
+    // [:en] [#ifstream.assign] Assign/swap:
+    basic_ifstream& operator=(const basic_ifstream& rhs) = delete;
+    basic_ifstream& operator=(basic_ifstream&& rhs);
+    void swap(basic_ifstream& rhs);
+
+    // [:en] [#ifstream.members] Members:
+    basic_filebuf<charT,traits>* rdbuf() const;
+
+    bool is_open() const;
+    void open(const char* s, ios_base::openmode mode = ios_base::in);
+    void open(const string& s, ios_base::openmode mode = ios_base::in);
+    void close();
+  private:
+    basic_filebuf<charT,traits> sb; // [=Expos]
+  };
+
+  template <class charT, class traits>
+  void swap(basic_ifstream<charT, traits>& x,
+            basic_ifstream<charT, traits>& y);
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`basic_ifstream<charT, traits>] supports reading from named
+files.
+
+[:en] It uses a [`basic_filebuf<charT, traits>] object to control the associated
+sequence.
+
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`sb], the [`filebuf] object.
+[list:end]

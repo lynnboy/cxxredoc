@@ -1,0 +1,35 @@
+﻿[section#streambuf.locales
+    [:en] Locales
+]
+
+[%@library pubimbue[!basic_streambuf]]
+[codeblock:declaration]
+locale pubimbue(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:postcondition]
+[:en] [`loc == getloc()].
+
+[para:effects]
+[:en] Calls [`imbue(loc)].
+
+[para:returns]
+[:en] Previous value of [`getloc()].
+[exit:description]
+
+[%@library getloc[!basic_streambuf]]
+[codeblock:declaration]
+locale getloc() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If [`pubimbue()] has ever been called, then the last value of [`loc]
+supplied, otherwise the current global locale, [`locale()], in effect at the
+time of construction.
+
+[:en] If called after [`pubimbue()] has been called but before [`pubimbue] has
+returned (i.e., from within the call of [`imbue()]) then it returns the previous
+value.
+[exit:description]

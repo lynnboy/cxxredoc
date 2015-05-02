@@ -1,0 +1,107 @@
+﻿[section#ostream.inserters.arithmetic
+    [:en] Arithmetic inserters
+]
+
+[%@library operator<<[!basic_ostream]]
+[codeblock:declaration]
+operator<<(bool val);
+operator<<(short val);
+operator<<(unsigned short val);
+operator<<(int val);
+operator<<(unsigned int val);
+operator<<(long val);
+operator<<(unsigned long val);
+operator<<(long long val);
+operator<<(unsigned long long val);
+operator<<(float val);
+operator<<(double val);
+operator<<(long double val);
+operator<<(const void* val);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] The classes [`num_get<>] and [`num_put<>] handle locale-dependent numeric
+formatting and parsing.
+
+[:en] These inserter functions use the imbued [`locale] value to perform numeric
+formatting.
+
+[:en] When [`val] is of type [`bool], [`long], [`unsigned long], [`long long],
+[`unsigned long long], [`double], [`long double], or [`const void*], the
+formatting conversion occurs as if it performed the following code fragment:
+
+[codeblock:notation]
+bool failed = use_facet<
+  num_put<charT,ostreambuf_iterator<charT,traits> >
+    >(getloc()).put(*this, *this, fill(), val).failed();
+[codeblock:end]
+
+[:en] When [`val] is of type [`short] the formatting conversion occurs as if it
+performed the following code fragment:
+
+[codeblock:notation]
+ios_base::fmtflags baseflags = ios_base::flags() & ios_base::basefield;
+bool failed = use_facet<
+  num_put<charT,ostreambuf_iterator<charT,traits> >
+    >(getloc()).put(*this, *this, fill(),
+    baseflags == ios_base::oct || baseflags == ios_base::hex
+      ? static_cast<long>(static_cast<unsigned short>(val))
+      : static_cast<long>(val)).failed();
+[codeblock:end]
+
+[:en] When [`val] is of type [`int] the formatting conversion occurs as if it
+performed the following code fragment:
+
+[codeblock:notation]
+ios_base::fmtflags baseflags = ios_base::flags() & ios_base::basefield;
+bool failed = use_facet<
+  num_put<charT,ostreambuf_iterator<charT,traits> >
+    >(getloc()).put(*this, *this, fill(),
+    baseflags == ios_base::oct || baseflags == ios_base::hex
+      ? static_cast<long>(static_cast<unsigned int>(val))
+      : static_cast<long>(val)).failed();
+[codeblock:end]
+
+[:en] When [`val] is of type [`unsigned short] or [`unsigned int] the formatting
+conversion occurs as if it performed the following code fragment:
+
+[codeblock:notation]
+bool failed = use_facet<
+  num_put<charT,ostreambuf_iterator<charT,traits> >
+    >(getloc()).put(*this, *this, fill(),
+      static_cast<unsigned long>(val)).failed();
+[codeblock:end]
+
+[:en] When [`val] is of type [`float] the formatting conversion occurs as if it
+performed the following code fragment:
+
+[codeblock:synopsis]
+bool failed = use_facet<
+  num_put<charT,ostreambuf_iterator<charT,traits> >
+    >(getloc()).put(*this, *this, fill(),
+      static_cast<double>(val)).failed();
+[codeblock:end]
+
+[para]
+[:en] The first argument provides an object of the [`ostreambuf_iterator<>]
+class which is an iterator for class [`basic_ostream<>].
+
+[:en] It bypasses [`ostream]s and uses [`streambuf]s directly.
+
+[:en] Class [`locale] relies on these types as its interface to iostreams, since
+for flexibility it has been abstracted away from direct dependence on
+[`ostream].
+
+[:en] The second parameter is a reference to the base subobject of type
+[`ios_base].
+
+[:en] It provides formatting specifications such as field width, and a locale
+from which to obtain other facets.
+
+[:en] If [`failed] is [`true] then does [`setstate(badbit)], which may throw an
+exception, and returns.
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

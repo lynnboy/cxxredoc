@@ -1,0 +1,63 @@
+﻿[section#wide.stream.objects
+    [:en] Wide stream objects
+]
+
+[%@library wcin]
+[codeblock:declaration]
+wistream wcin;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`wcin] controls input from a stream buffer associated with the
+object [`stdin], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>].
+
+[para]
+[:en] After the object [`wcin] is initialized, [`wcin.tie()] returns [`&wcout].
+
+[:en] Its state is otherwise the same as required for
+[`basic_ios<wchar_t>::init] ([#basic.ios.cons]).
+[exit:description]
+
+[%@library wcout]
+[codeblock:declaration]
+wostream wcout;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`wcout] controls output to a stream buffer associated with the
+object [`stdout], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+[exit:description]
+
+[%@library wcerr]
+[codeblock:declaration]
+wostream wcerr;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`wcerr] controls output to a stream buffer associated with the
+object [`stderr], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+
+[para]
+[:en] After the object [`wcerr] is initialized, [`wcerr.flags() & unitbuf] is
+nonzero and [`wcerr.tie()] returns [`&wcout].
+
+[:en] Its state is otherwise the same as required for
+[`basic_ios<wchar_t>::init] ([#basic.ios.cons]).
+[exit:description]
+
+[%@library wclog]
+[codeblock:declaration]
+wostream wclog;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`wclog] controls output to a stream buffer associated with the
+object [`stderr], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+[exit:description]

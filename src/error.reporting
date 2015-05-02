@@ -1,0 +1,40 @@
+﻿[section#error.reporting
+    [:en] Error reporting
+]
+
+[%@library make_error_code]
+[codeblock:declaration]
+error_code make_error_code(io_errc e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`error_code(static_cast<int>(e), iostream_category())].
+[exit:description]
+
+[%@library make_error_condition]
+[codeblock:declaration]
+error_condition make_error_condition(io_errc e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`error_condition(static_cast<int>(e), iostream_category())].
+[exit:description]
+
+[%@library iostream_category]
+[codeblock:declaration]
+const error_category& iostream_category() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A reference to an object of a type derived from class [`error_category].
+
+[para]
+[:en] The object[=']s [`default_error_condition] and [`equivalent] virtual
+functions shall behave as specified for the class [`error_category].
+
+[:en] The object[=']s [`name] virtual function shall return a pointer to the
+string [`"iostream"].
+[exit:description]

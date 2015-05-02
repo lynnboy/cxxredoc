@@ -1,0 +1,63 @@
+﻿[section#narrow.stream.objects
+    [:en] Narrow stream objects
+]
+
+[%@library cin]
+[codeblock:declaration]
+istream cin;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`cin] controls input from a stream buffer associated with the
+object [`stdin], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>].
+
+[para]
+[:en] After the object [`cin] is initialized, [`cin.tie()] returns [`&cout].
+
+[:en] Its state is otherwise the same as required for [`basic_ios<char>::init]
+([#basic.ios.cons]).
+[exit:description]
+
+[%@library cout]
+[codeblock:declaration]
+ostream cout;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`cout] controls output to a stream buffer associated with the
+object [`stdout], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+[exit:description]
+
+[%@library cerr]
+[codeblock:declaration]
+ostream cerr;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`cerr] controls output to a stream buffer associated with the
+object [`stderr], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+
+[para]
+[:en] After the object [`cerr] is initialized, [`cerr.flags() & unitbuf] is
+nonzero and [`cerr.tie()] returns [`&cout].
+
+[:en] Its state is otherwise the same as required for [`basic_ios<char>::init]
+([#basic.ios.cons]).
+[exit:description]
+
+[%@library clog]
+[codeblock:declaration]
+ostream clog;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The object [`clog] controls output to a stream buffer associated with the
+object [`stderr], declared in [%@library <cstdio> [sortas cstdio]] [`<cstdio>]
+([#c.files]).
+[exit:description]

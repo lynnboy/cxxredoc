@@ -1,0 +1,80 @@
+﻿[section#ostream::sentry
+    [:en] Class [`basic_ostream::sentry]
+]
+
+[%@library sentry[!basic_ostream]]
+[codeblock:synopsis]
+namespace std {
+  template <class charT,class traits = char_traits<charT> >
+  class basic_ostream<charT,traits>::sentry {
+    bool ok_; // [=Expos]
+  public:
+    explicit sentry(basic_ostream<charT,traits>& os);
+    ~sentry();
+    explicit operator bool() const { return ok_; }
+
+    sentry(const sentry&) = delete;
+    sentry& operator=(const sentry&) = delete;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`sentry] defines a class that is responsible for doing
+exception safe prefix and suffix operations.
+
+[%@library sentry[![:en]constructor]]
+[codeblock:declaration]
+explicit sentry(basic_ostream<charT,traits>& os);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] If [`os.good()] is nonzero, prepares for formatted or unformatted output.
+
+[:en] If [`os.tie()] is not a null pointer, calls [%@library flush]
+[`os.tie()->flush()].
+
+[footnote]
+[:en] The call [`os.tie()->flush()] does not necessarily occur if the function
+can determine that no synchronization is necessary.
+[footnote:end]
+
+[para]
+[:en] If, after any preparation is completed, [`os.good()] is [`true],
+[`ok_ == true] otherwise, [`ok_ == false].
+
+[:en] During preparation, the constructor may call [`setstate(failbit)] (which
+may throw [`ios_base::failure] ([#iostate.flags]))
+
+[footnote]
+[:en] The [`sentry] constructor and destructor can also perform additional
+implementation-dependent operations.
+[footnote:end]
+[exit:description]
+
+[%@library basic_ostream[![:en]destructor]]
+[codeblock:declaration]
+~sentry();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] If
+[`((os.flags() & ios_base::unitbuf) && !uncaught_exception() && os.good())]
+is [`true], calls [`os.rdbuf()->pubsync()].
+
+[:en] If that function returns -1, sets [`badbit] in [`os.rdstate()] without
+propagating an exception.
+[exit:description]
+
+[%@library flush]
+[%@library operator bool[!basic_ostream]]
+[codeblock:declaration]
+explicit operator bool() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns [`ok_].
+[exit:description]

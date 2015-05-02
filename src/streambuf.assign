@@ -1,0 +1,40 @@
+﻿[section#streambuf.assign
+    [:en] Assignment
+]
+
+[%@library operator=[!basic_streambuf]]
+[%@library basic_streambuf[!operator=]]
+[codeblock:declaration]
+basic_streambuf& operator=(const basic_streambuf& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns the data members of [`rhs] to [`*this].
+
+[para:postconditions]
+
+[list]
+[item] [`eback() == rhs.eback()]
+[item] [`gptr() == rhs.gptr()]
+[item] [`egptr() == rhs.egptr()]
+[item] [`pbase() == rhs.pbase()]
+[item] [`pptr() == rhs.pptr()]
+[item] [`epptr() == rhs.epptr()]
+[item] [`getloc() == rhs.getloc()]
+[list:end]
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_streambuf]]
+[%@library basic_streambuf[!swap]]
+[codeblock:declaration]
+void swap(basic_streambuf& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Swaps the data members of [`rhs] and [`*this].
+[exit:description]

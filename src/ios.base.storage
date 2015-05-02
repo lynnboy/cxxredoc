@@ -1,0 +1,104 @@
+﻿[section#ios.base.storage
+    [:en] [`ios_base] storage functions
+]
+
+[%@library xalloc[!ios_base]]
+[codeblock:declaration]
+static int xalloc();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`index++].
+
+[para:remarks]
+[:en] Concurrent access to this function by multiple threads shall not result in
+a data race ([#intro.multithread]).
+[exit:description]
+
+[%@library iword[!ios_base]]
+[codeblock:declaration]
+long& iword(int idx);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`iarray] is a null pointer, allocates an array of [`long] of
+unspecified size and stores a pointer to its first element in [`iarray].
+
+[:en] The function then extends the array pointed at by [`iarray] as necessary
+to include the element [`iarray[idx`]].
+
+[:en] Each newly allocated element of the array is initialized to zero.
+
+[:en] The reference returned is invalid after any other operations on the
+object.
+
+[footnote]
+[:en] An implementation is free to implement both the integer array pointed at
+by [`iarray] and the pointer array pointed at by [`parray] as sparse data
+structures, possibly with a one-element cache for each.
+[footnote:end]
+
+[:en] However, the value of the storage referred to is retained, so that until
+the next call to [`copyfmt], calling [`iword] with the same index yields another
+reference to the same value.
+
+[:en] If the function fails
+
+[footnote]
+[:en] for example, because it cannot allocate space.
+[footnote:end]
+
+[:en@~] and [`*this] is a base subobject of a [`basic_ios<>] object or
+subobject, the effect is equivalent to calling [`basic_ios<>::setstate(badbit)]
+on the derived object (which may throw [`failure]).
+
+[para:returns]
+[:en] On success [`iarray[idx`]].
+
+[:en] On failure, a valid [`long&] initialized to 0.
+[exit:description]
+
+[%@library pword[!ios_base]]
+[codeblock:declaration]
+void*& pword(int idx);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`parray] is a null pointer, allocates an array of pointers to [`void]
+of unspecified size and stores a pointer to its first element in [`parray].
+
+[:en] The function then extends the array pointed at by [`parray] as necessary
+to include the element [`parray[idx`]].
+
+[:en] Each newly allocated element of the array is initialized to a null
+pointer.
+
+[:en] The reference returned is invalid after any other operations on the
+object.
+
+[:en] However, the value of the storage referred to is retained, so that until
+the next call to [`copyfmt], calling [`pword] with the same index yields another
+reference to the same value.
+
+[:en] If the function fails
+
+[footnote]
+[:en] for example, because it cannot allocate space.
+[footnote:end]
+
+[:en@~] and [`*this] is a base subobject of a [`basic_ios<>] object or
+subobject, the effect is equivalent to calling [`basic_ios<>::setstate(badbit)]
+on the derived object (which may throw [`failure]).
+
+[para:returns]
+[:en] On success [`parray[idx`]].
+
+[:en] On failure a valid [`void*&] initialized to 0.
+
+[para:notes]
+[:en] After a subsequent call to [`pword(int)] for the same object, the earlier
+return value may no longer be valid.
+[exit:description]

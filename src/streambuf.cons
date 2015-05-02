@@ -1,0 +1,64 @@
+﻿[section#streambuf.cons
+    [:en] [`basic_streambuf] constructors
+]
+
+[%@library basic_streambuf[!basic_streambuf]]
+[codeblock:declaration]
+basic_streambuf();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_streambuf<charT,traits>] and
+initializes:
+
+[footnote]
+[:en] The default constructor is protected for class [`basic_streambuf] to
+assure that only objects for classes derived from this class may be constructed.
+[footnote:end]
+
+[list]
+[item]
+[:en] all its pointer member objects to null pointers,
+[item]
+[:en] the [`getloc()] member to a copy the global locale, [`locale()], at the
+time of construction.
+[list:end]
+
+[para:notes]
+[:en] Once the [`getloc()] member is initialized, results of calling locale
+member functions, and of members of facets so obtained, can safely be cached
+until the next time the member [`imbue] is called.
+[exit:description]
+
+[%@library basic_streambuf[![:en]constructor]]
+[codeblock:declaration]
+basic_streambuf(const basic_streambuf& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a copy of [`rhs].
+
+[para:postconditions]
+
+[list]
+[item] [`eback() == rhs.eback()]
+[item] [`gptr() == rhs.gptr()]
+[item] [`egptr() == rhs.egptr()]
+[item] [`pbase() == rhs.pbase()]
+[item] [`pptr() == rhs.pptr()]
+[item] [`epptr() == rhs.epptr()]
+[item] [`getloc() == rhs.getloc()]
+[list:end]
+[exit:description]
+
+[%@library basic_streambuf[![:en]destructor]]
+[codeblock:declaration]
+~basic_streambuf();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] None.
+[exit:description]

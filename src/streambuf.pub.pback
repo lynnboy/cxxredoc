@@ -1,0 +1,32 @@
+﻿[section#streambuf.pub.pback
+    [:en] Putback
+]
+
+[%@library sputbackc[!basic_streambuf]]
+[codeblock:declaration]
+int_type sputbackc(char_type c);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the input sequence putback position is not available, or if
+[`traits::eq(c,gptr()[-1`])] is false, returns
+[`pbackfail(traits::to_int_type(c))].
+
+[:en] Otherwise, decrements the next pointer for the input sequence and returns
+[`traits::to_int_type(*gptr())].
+[exit:description]
+
+[%@library sungetc[!basic_streambuf]]
+[codeblock:declaration]
+int_type sungetc();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If the input sequence putback position is not available, returns
+[`pbackfail()].
+
+[:en] Otherwise, decrements the next pointer for the input sequence and returns
+[`traits::to_int_type(*gptr())].
+[exit:description]

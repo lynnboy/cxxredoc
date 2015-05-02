@@ -1,0 +1,19 @@
+﻿[section#istream.rvalue
+    [:en] Rvalue stream extraction
+]
+
+[%@library operator<<[!basic_istream]]
+[%@library basic_istream[!operator<<]]
+[codeblock:declaration]
+template <class charT, class traits, class T>
+  basic_istream<charT, traits>&
+  operator>>(basic_istream<charT, traits>&& is, T& x);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`is >> x]
+
+[para:returns]
+[:en] [`is]
+[exit:description]

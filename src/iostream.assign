@@ -1,0 +1,25 @@
+﻿[section#iostream.assign
+    [:en] [`basic_iostream] assign and swap
+]
+
+[%@library operator=[!basic_iostream]]
+[%@library basic_iostream[!operator=]]
+[codeblock:declaration]
+basic_iostream& operator=(basic_iostream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`swap(rhs)].
+[exit:description]
+
+[%@library swap[!basic_iostream]]
+[%@library basic_iostream[!swap]]
+[codeblock:declaration]
+void swap(basic_iostream& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`basic_istream<charT, traits>::swap(rhs)].
+[exit:description]

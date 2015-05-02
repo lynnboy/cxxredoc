@@ -1,0 +1,24 @@
+﻿[section#streambuf.virt.locales
+    [:en] Locales
+]
+
+[%@library imbue[!basic_streambuf]]
+[codeblock:declaration]
+void imbue(const locale&);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Change any translations based on locale.
+
+[para:notes]
+[:en] Allows the derived class to be informed of changes in locale at the time
+they occur.
+
+[:en] Between invocations of this function a class derived from streambuf can
+safely cache results of calls to locale functions and to members of facets so
+obtained.
+
+[para:default]
+[:en] Does nothing.
+[exit:description]

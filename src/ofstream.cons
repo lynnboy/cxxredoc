@@ -1,0 +1,58 @@
+﻿[section#ofstream.cons
+    [:en] [`basic_ofstream] constructors
+]
+
+[%@library basic_ofstream[!basic_ofstream]]
+[codeblock:declaration]
+basic_ofstream();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_ofstream<charT,traits>],
+initializing the base class with [`basic_ostream(&sb)] and initializing [`sb]
+with [`basic_filebuf<charT,traits>())] ([#ostream.cons], [#filebuf.cons]).
+[exit:description]
+
+[%@library basic_ofstream[![:en]constructor]]
+[codeblock:declaration]
+explicit basic_ofstream(const char* s,
+    ios_base::openmode mode = ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_ofstream<charT,traits>],
+initializing the base class with [`basic_ostream(&sb)] and initializing [`sb]
+with [`basic_filebuf<charT,traits>())] ([#ostream.cons], [#filebuf.cons]), then
+calls [`rdbuf()->open(s, mode|ios_base::out)].
+
+[:en] If that function returns a null pointer, calls [`setstate(failbit)].
+[exit:description]
+
+[%@library basic_ofstream[![:en]constructor]]
+[codeblock:declaration]
+explicit basic_ofstream(const string& s,
+    ios_base::openmode mode = ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] the same as [`basic_ofstream(s.c_str(), mode);]
+[exit:description]
+
+[%@library basic_ofstream[![:en]constructor]]
+[codeblock:declaration]
+basic_ofstream(basic_ofstream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs from the rvalue [`rhs].
+
+[:en] This is accomplished by move constructing the base class, and the
+contained [`basic_filebuf].
+
+[:en] Next [`basic_ostream<charT,traits>::set_rdbuf(&sb)] is called to install
+the contained [`basic_filebuf].
+[exit:description]

@@ -1,0 +1,59 @@
+﻿[section#ifstream.members
+    [:en] Member functions
+]
+
+[%@library rdbuf[!basic_ifstream]]
+[codeblock:declaration]
+basic_filebuf<charT,traits>* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`const_cast<basic_filebuf<charT,traits>*>(&sb)].
+[exit:description]
+
+[%@library is_open[!basic_ifstream]]
+[codeblock:declaration]
+bool is_open() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->is_open()].
+[exit:description]
+
+[%@library open[!basic_ifstream]]
+[codeblock:declaration]
+void open(const char* s, ios_base::openmode mode = ios_base::in);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`rdbuf()->open(s, mode | ios_base::in)].
+
+[:en] If that function does not return a null pointer calls [`clear()],
+otherwise calls [`setstate(failbit)] (which may throw [`ios_base::failure]
+([#iostate.flags])).
+[exit:description]
+
+[%@library open[!basic_ifstream]]
+[codeblock:declaration]
+void open(const string& s, ios_base::openmode mode = ios_base::in);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] calls [`open(s.c_str(), mode)].
+[exit:description]
+
+[%@library close[!basic_ifstream]]
+[codeblock:declaration]
+void close();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`rdbuf()->close()] and, if that function returns a null pointer,
+calls [`setstate(failbit)] (which may throw [`ios_base::failure]
+([#iostate.flags])).
+[exit:description]

@@ -1,0 +1,42 @@
+﻿[section#adjustfield.manip
+    [:en] [`adjustfield] manipulators
+]
+
+[%@library internal]
+[codeblock:declaration]
+ios_base& internal(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::internal, ios_base::adjustfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library left]
+[codeblock:declaration]
+ios_base& left(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::left, ios_base::adjustfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library right]
+[codeblock:declaration]
+ios_base& right(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::right, ios_base::adjustfield)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]

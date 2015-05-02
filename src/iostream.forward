@@ -1,0 +1,203 @@
+﻿[section#iostream.forward
+    [:en] Forward declarations
+]
+
+[para:synopsis]
+[:en] Header [`<iosfwd>] synopsis
+
+[%@library <iosfwd> [sortas iosfwd]]
+
+[%@library basic_ios]
+[%@library basic_streambuf]
+[%@library basic_istream]
+[%@library basic_ostream]
+[%@library basic_stringbuf]
+[%@library basic_istringstream]
+[%@library basic_ostringstream]
+[%@library basic_stringstream]
+[%@library basic_filebuf]
+[%@library basic_ifstream]
+[%@library basic_ofstream]
+[%@library basic_fstream]
+[%@library basic_istreambuf_iterator]
+[%@library basic_ostreambuf_iterator]
+[%@library ios]
+[%@library streambuf]
+[%@library istream]
+[%@library ostream]
+[%@library stringbuf]
+[%@library istringstream]
+[%@library ostringstream]
+[%@library stringstream]
+[%@library filebuf]
+[%@library ifstream]
+[%@library ofstream]
+[%@library fstream]
+[%@library wstreambuf]
+[%@library wistream]
+[%@library wostream]
+[%@library wstringbuf]
+[%@library wistringstream]
+[%@library wostringstream]
+[%@library wstringstream]
+[%@library wfilebuf]
+[%@library wifstream]
+[%@library wofstream]
+[%@library wfstream]
+[codeblock:synopsis]
+namespace std {
+  template<class charT> class char_traits;
+  template<> class char_traits<char>;
+  template<> class char_traits<char16_t>;
+  template<> class char_traits<char32_t>;
+  template<> class char_traits<wchar_t>;
+
+  template<class T> class allocator;
+
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ios;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_streambuf;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_istream;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ostream;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_iostream;
+
+  template <class charT, class traits = char_traits<charT>,
+      class Allocator = allocator<charT> >
+    class basic_stringbuf;
+  template <class charT, class traits = char_traits<charT>,
+      class Allocator = allocator<charT> >
+    class basic_istringstream;
+  template <class charT, class traits = char_traits<charT>,
+      class Allocator = allocator<charT> >
+    class basic_ostringstream;
+  template <class charT, class traits = char_traits<charT>,
+      class Allocator = allocator<charT> >
+    class basic_stringstream;
+
+  template <class charT, class traits = char_traits<charT> >
+    class basic_filebuf;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ifstream;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_ofstream;
+  template <class charT, class traits = char_traits<charT> >
+    class basic_fstream;
+
+  template <class charT, class traits = char_traits<charT> >
+    class istreambuf_iterator;
+  template <class charT, class traits = char_traits<charT> >
+    class ostreambuf_iterator;
+
+  typedef basic_ios<char>       ios;
+  typedef basic_ios<wchar_t>    wios;
+
+  typedef basic_streambuf<char> streambuf;
+  typedef basic_istream<char>   istream;
+  typedef basic_ostream<char>   ostream;
+  typedef basic_iostream<char>  iostream;
+
+  typedef basic_stringbuf<char>     stringbuf;
+  typedef basic_istringstream<char> istringstream;
+  typedef basic_ostringstream<char> ostringstream;
+  typedef basic_stringstream<char>  stringstream;
+
+  typedef basic_filebuf<char>  filebuf;
+  typedef basic_ifstream<char> ifstream;
+  typedef basic_ofstream<char> ofstream;
+  typedef basic_fstream<char>  fstream;
+
+  typedef basic_streambuf<wchar_t> wstreambuf;
+  typedef basic_istream<wchar_t>   wistream;
+  typedef basic_ostream<wchar_t>   wostream;
+  typedef basic_iostream<wchar_t>  wiostream;
+
+  typedef basic_stringbuf<wchar_t>     wstringbuf;
+  typedef basic_istringstream<wchar_t> wistringstream;
+  typedef basic_ostringstream<wchar_t> wostringstream;
+  typedef basic_stringstream<wchar_t>  wstringstream;
+
+  typedef basic_filebuf<wchar_t>  wfilebuf;
+  typedef basic_ifstream<wchar_t> wifstream;
+  typedef basic_ofstream<wchar_t> wofstream;
+  typedef basic_fstream<wchar_t>  wfstream;
+
+  template <class state> class fpos;
+  typedef fpos<char_traits<char>::state_type>    streampos;
+  typedef fpos<char_traits<wchar_t>::state_type> wstreampos;
+}
+[codeblock:end]
+
+[para]
+[:en] Default template arguments are described as appearing both in [`<iosfwd>]
+and in the synopsis of other headers but it is well-formed to include both
+[`<iosfwd>] and one or more of the other headers.
+
+[footnote]
+[:en] It is the implementation[=']s responsibility to implement headers so that
+including [`<iosfwd>] and other headers does not violate the rules about
+multiple occurrences of default arguments.
+[footnote:end]
+
+[para]
+[enter:note]
+[:en] The class template specialization [`basic_ios<charT,traits>] serves as a
+virtual base class for the class templates [`basic_istream], [`basic_ostream],
+and class templates derived from them.
+
+[:en] [`basic_iostream] is a class template derived from both
+[`basic_istream<charT,traits>] and [`basic_ostream<charT,traits>].
+
+[para]
+[:en] The class template specialization [`basic_streambuf<charT,traits>]
+serves as a base class for class templates [`basic_stringbuf] and
+[`basic_filebuf].
+
+[para]
+[:en] The class template specialization [`basic_istream<charT,traits>] serves as
+a base class for class templates [`basic_istringstream] and [`basic_ifstream].
+
+[para]
+[:en] The class template specialization [`basic_ostream<charT,traits>] serves as
+a base class for class templates [`basic_ostringstream] and [`basic_ofstream].
+
+[para]
+[:en] The class template specialization [`basic_iostream<charT,traits>] serves
+as a base class for class templates [`basic_stringstream] and [`basic_fstream].
+
+[para]
+[:en] Other typedefs define instances of class templates specialized for [`char]
+or [`wchar_t] types.
+
+[para]
+[:en] Specializations of the class template [`fpos] are used for specifying file
+position information.
+
+[para]
+[:en] The types [`streampos] and [`wstreampos] are used for positioning streams
+specialized on [`char] and [`wchar_t] respectively.
+
+[para]
+[:en] This synopsis suggests a circularity between [`streampos] and
+[`char_traits<char>].
+
+[:en] An implementation can avoid this circularity by substituting equivalent
+types.
+
+[:en] One way to do this might be
+
+[codeblock]
+template<class stateT> class fpos { ... };      // [:en] depends on nothing
+typedef ... _STATE;             // [:en] implementation private declaration of [`stateT]
+
+typedef fpos<_STATE> streampos;
+
+template<> struct char_traits<char> {
+  typedef streampos
+  pos_type;
+}
+[codeblock:end]
+[exit:note]

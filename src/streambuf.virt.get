@@ -1,0 +1,170 @@
+﻿[section#streambuf.virt.get
+    [:en] Get area
+]
+
+[%@library showmanyc[!basic_streambuf]]
+[codeblock:declaration]
+streamsize showmanyc();
+[codeblock:end]
+
+[footnote]
+[:en] The morphemes of [`showmanyc] are ["es-how-many-see], not ["show-manic].
+[footnote:end]
+
+[enter:description]
+[para:returns]
+[:en] An estimate of the number of characters available in the sequence, or -1.
+
+[:en] If it returns a positive value, then successive calls to [`underflow()]
+will not return [`traits::eof()] until at least that number of characters have
+been extracted from the stream.
+
+[:en] If [`showmanyc()] returns -1, then calls to [`underflow()] or [`uflow()]
+will fail.
+
+[footnote]
+[:en] [`underflow] or [`uflow] might fail by throwing an exception prematurely.
+
+[:en] The intention is not only that the calls will not return [`eof()] but that
+they will return ["immediately.]
+[footnote:end]
+
+[para:default]
+[:en] Returns zero.
+
+[para:notes]
+[:en] Uses [`traits::eof()].
+[exit:description]
+
+[%@library xsgetn[!basic_streambuf]]
+[codeblock:declaration]
+streamsize xsgetn(char_type* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns up to [`n] characters to successive elements of the array whose
+first element is designated by [`s].
+
+[:en] The characters assigned are read from the input sequence as if by repeated
+calls to [`sbumpc()].
+
+[:en] Assigning stops when either [`n] characters have been assigned or a call
+to [`sbumpc()] would return [`traits::eof()].
+
+[para:returns]
+[:en] The number of characters assigned.
+
+[footnote]
+[:en] Classes derived from [`basic_streambuf] can provide more efficient ways to
+implement [`xsgetn()] and [`xsputn()] by overriding these definitions from the
+base class.
+[footnote:end]
+
+[para:notes]
+[:en] Uses [`traits::eof()].
+[exit:description]
+
+[%@library underflow[!basic_streambuf]]
+[codeblock:declaration]
+int_type underflow();
+[codeblock:end]
+
+[enter:description]
+[para:notes]
+[:en] The public members of [`basic_streambuf] call this virtual function only
+if [`gptr()] is null or [`gptr() >= egptr()]
+
+[para:returns]
+[:en] [`traits::to_int_type(c)], where [`c] is the first [+character] of the
+[+pending sequence], without moving the input sequence position past it.
+
+[:en] If the pending sequence is null then the function returns [`traits::eof()]
+to indicate failure.
+
+[para]
+[:en] The [+pending sequence] of characters is defined as the concatenation of:
+
+[list:ol@arparen]
+[item]
+[:en] If [`gptr()] is non-null, then the [`egptr() - gptr()] characters starting
+at [`gptr()], otherwise the empty sequence.
+[item]
+[:en] Some sequence (possibly empty) of characters read from the input sequence.
+[list:end]
+
+[para]
+[:en] The [+result character] is
+
+[list:ol@arparen]
+[item]
+[:en] If the pending sequence is non-empty, the first character of the sequence.
+[item]
+[:en] If the pending sequence is empty then the next character that would be
+read from the input sequence.
+[list:end]
+
+[para]
+[:en] The [+backup sequence] is defined as the concatenation of:
+
+[list:ol@arparen]
+[item]
+[:en] If [`eback()] is null then empty,
+[item]
+[:en] Otherwise the [`gptr() - eback()] characters beginning at [`eback()].
+[list:end]
+
+[para:effects]
+[:en] The function sets up the [`gptr()] and [`egptr()] satisfying one of:
+
+[list:ol@arparen]
+[item]
+[:en] If the pending sequence is non-empty, [`egptr()] is non-null and
+[`egptr() - gptr()] characters starting at [`gptr()] are the characters in the
+pending sequence
+[item]
+[:en] If the pending sequence is empty, either [`gptr()] is null or [`gptr()]
+and [`egptr()] are set to the same non-null pointer value.
+[list:end]
+
+[para]
+[:en] If [`eback()] and [`gptr()] are non-null then the function is not
+constrained as to their contents, but the ["usual backup condition] is that
+either:
+
+[list:ol@arparen]
+[item]
+[:en] If the backup sequence contains at least [`gptr() - eback()] characters,
+then the [`gptr() - eback()] characters starting at [`eback()] agree with the
+last [`gptr() - eback()] characters of the backup sequence.
+[item]
+[:en] Or the [`n] characters starting at [`gptr() - n] agree with the backup
+sequence (where [`n] is the length of the backup sequence)
+[list:end]
+
+[para:default]
+[:en] Returns [`traits::eof()].
+[exit:description]
+
+[%@library uflow[!basic_streambuf]]
+[codeblock:declaration]
+int_type uflow();
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The constraints are the same as for [`underflow()], except that the result
+character shall be transferred from the pending sequence to the backup sequence,
+and the pending sequence shall not be empty before the transfer.
+
+[para:default]
+[:en] Calls [`underflow()].
+
+[:en] If [`underflow()] returns [`traits::eof()], returns [`traits::eof()].
+
+[:en] Otherwise, returns the value of [`traits::to_int_type(*gptr())] and
+increment the value of the next pointer for the input sequence.
+
+[para:returns]
+[:en] [`traits::eof()] to indicate failure.
+[exit:description]

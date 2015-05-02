@@ -1,0 +1,12 @@
+﻿[section#iostream.limits.imbue
+    [:en] Imbue limitations
+]
+
+[para]
+[:en] No function described in Clause [#input.output] except for
+[`ios_base::imbue] and [`basic_filebuf::pubimbue] causes any instance of
+[`basic_ios::imbue] or [`basic_streambuf::imbue] to be called.
+
+[:en] If any user function called from a function declared in Clause
+[#input.output] or as an overriding virtual function of any class declared in
+Clause [#input.output] calls [`imbue], the behavior is undefined.

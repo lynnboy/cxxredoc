@@ -1,0 +1,185 @@
+﻿[section#fmtflags.manip
+    [:en] [`fmtflags] manipulators
+]
+
+[%@library boolalpha]
+[codeblock:declaration]
+ios_base& boolalpha(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::boolalpha)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library noboolalpha]
+[codeblock:declaration]
+ios_base& noboolalpha(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::boolalpha)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library showbase]
+[codeblock:declaration]
+ios_base& showbase(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::showbase)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library noshowbase]
+[codeblock:declaration]
+ios_base& noshowbase(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::showbase)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library showpoint]
+[codeblock:declaration]
+ios_base& showpoint(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::showpoint)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library noshowpoint]
+[codeblock:declaration]
+ios_base& noshowpoint(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::showpoint)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library showpos]
+[codeblock:declaration]
+ios_base& showpos(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::showpos)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library noshowpos]
+[codeblock:declaration]
+ios_base& noshowpos(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::showpos)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library skipws]
+[codeblock:declaration]
+ios_base& skipws(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::skipws)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library noskipws]
+[codeblock:declaration]
+ios_base& noskipws(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::skipws)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library uppercase]
+[codeblock:declaration]
+ios_base& uppercase(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::uppercase)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library nouppercase]
+[codeblock:declaration]
+ios_base& nouppercase(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::uppercase)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library unitbuf]
+[codeblock:declaration]
+ios_base& unitbuf(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.setf(ios_base::unitbuf)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]
+
+[%@library nounitbuf]
+[codeblock:declaration]
+ios_base& nounitbuf(ios_base& str);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`str.unsetf(ios_base::unitbuf)].
+
+[para:returns]
+[:en] [`str].
+[exit:description]

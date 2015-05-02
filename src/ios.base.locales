@@ -1,0 +1,35 @@
+﻿[section#ios.base.locales
+    [:en] [`ios_base] functions
+]
+
+[%@library imbue[!ios_base]]
+[codeblock:declaration]
+locale imbue(const locale& loc);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls each registered callback pair [`(fn,index)] ([#ios.base.callback])
+as [`(*fn)(imbue_event,*this,index)] at such a time that a call to
+[`ios_base::getloc()] from within [`fn] returns the new locale value [`loc].
+
+[para:returns]
+[:en] The previous value of [`getloc()].
+
+[para:postcondition]
+[:en] [`loc == getloc()].
+[exit:description]
+
+[%@library getloc[!ios_base]]
+[codeblock:declaration]
+locale getloc() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] If no locale has been imbued, a copy of the global [=Cpp] locale,
+[`locale()], in effect at the time of construction.
+
+[:en] Otherwise, returns the imbued locale, to be used to perform
+locale-dependent input and output operations.
+[exit:description]

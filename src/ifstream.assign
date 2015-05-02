@@ -1,0 +1,43 @@
+﻿[section#ifstream.assign
+    [:en] Assign and swap
+]
+
+[%@library operator=[!basic_ifstream]]
+[%@library basic_ifstream[!operator=]]
+[codeblock:declaration]
+basic_ifstream& operator=(basic_ifstream&& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move assigns the base and members of [`*this] from the base and
+corresponding members of [`rhs].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library swap[!basic_ifstream]]
+[%@library basic_ifstream[!swap]]
+[codeblock:declaration]
+void swap(basic_ifstream& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the state of [`*this] and [`rhs] by calling
+[`basic_istream<charT,traits>::swap(rhs)] and [`sb.swap(rhs.sb)].
+[exit:description]
+
+[%@library swap[!basic_ifstream]]
+[%@library basic_ifstream[!swap]]
+[codeblock:declaration]
+template <class charT, class traits>
+void swap(basic_ifstream<charT, traits>& x,
+          basic_ifstream<charT, traits>& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

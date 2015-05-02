@@ -1,0 +1,50 @@
+﻿[section#ios::openmode
+    [:en] Type [`ios_base::openmode]
+]
+
+[%@library openmode[!ios_base]]
+[codeblock:declaration [special T3] ]
+typedef T3 openmode;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`openmode] is a bitmask type ([#bitmask.types]).
+
+[:en] It contains the elements indicated in Table
+[#tab:iostreams.openmode.effects].
+
+[table:listing#tab:iostreams.openmode.effects
+    [:en] [`openmode] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effects(s) if set
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] app
+[|] [:en] seek to end before each write
+
+[|] ate
+[|] [:en] open and seek to end immediately after opening
+
+[|] binary
+[|] [:en] perform input and output in binary mode (as opposed to text mode)
+
+[|] in
+[|] [:en] open for input
+
+[|] out
+[|] [:en] open for output
+
+[|] trunc
+[|] [:en] truncate an existing stream when opening
+
+[table:end]
+
+[exit:description]
