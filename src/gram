@@ -1,0 +1,101 @@
+﻿[section:annex@informative#gram
+    [:en] Grammar summary
+]
+
+[para]
+[:en]
+[%grammar]
+[%summary[!syntax]]
+This summary of [=Cpp] syntax is intended to be an aid to comprehension.
+
+[:en] It is not an exact statement of the language.
+
+[:en] In particular, the grammar described here accepts a superset of valid
+[=Cpp] constructs.
+
+[:en] Disambiguation rules ([#stmt.ambig], [#dcl.spec], [#class.member.lookup])
+must be applied to distinguish expressions from declarations.
+
+[:en] Further, access control, ambiguity, and type rules must be used to weed
+out syntactically valid but meaningless constructs.
+
+[include gram.key]
+
+[section#gram.lex
+    [:en] Lexical conventions
+]
+
+[include:syntax@recursive lex]
+
+[section#gram.basic
+    [:en] Basic concepts
+]
+
+[include:syntax@recursive basic]
+
+[section#gram.expr
+    [:en] Expressions
+]
+
+[include:syntax@recursive expr]
+
+[section#gram.stmt
+    [:en] Statements
+]
+
+[include:syntax@recursive stmt.stmt]
+
+[section#gram.dcl
+    [:en] Declarations
+]
+
+[include:syntax@recursive dcl.dcl]
+
+[section#gram.decl
+    [:en] Declarators
+]
+
+[include:syntax@recursive dcl.decl]
+
+[section#gram.class
+    [:en] Classes
+]
+
+[include:syntax@recursive class]
+
+[section#gram.derived
+    [:en] Derived classes
+]
+
+[include:syntax@recursive class.derived]
+
+[section#gram.special
+    [:en] Special member functions
+]
+
+[include:syntax@recursive special]
+
+[section#gram.over
+    [:en] Overloading
+]
+
+[include:syntax@recursive over]
+
+[section#gram.temp
+    [:en] Templates
+]
+
+[include:syntax@recursive temp]
+
+[section#gram.except
+    [:en] Exception handling
+]
+
+[include:syntax@recursive except]
+
+[section#gram.cpp
+    [:en] Preprocessing directives
+]
+
+[include:syntax@recursive cpp]
+
