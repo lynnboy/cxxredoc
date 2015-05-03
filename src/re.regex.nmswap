@@ -1,0 +1,14 @@
+﻿[section#re.regex.nmswap
+    [:en] [`basic_regex] non-member swap
+]
+[%@library basic_regex[!swap]]
+[%@library swap[!basic_regex]]
+[codeblock:declaration]
+template <class charT, class traits>
+  void swap(basic_regex<charT, traits>& lhs, basic_regex<charT, traits>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`lhs.swap(rhs)].
+[exit:description]

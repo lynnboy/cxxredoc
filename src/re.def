@@ -1,0 +1,58 @@
+﻿[section#re.def
+    [:en] Definitions
+]
+
+[para]
+[:en] The following definitions shall apply to this Clause:
+
+[section:def#defns.regex.collating.element
+    [:en] collating element
+    [%collating element]
+    [%locale]
+]
+[:en] a sequence of one or more characters within the current locale that
+collate as if they were a single character.
+
+[section:def#defns.regex.finite.state.machine
+    [:en] finite state machine
+    [%finite state machine]
+]
+[:en] an unspecified data structure that is used to represent a regular
+expression, and which permits efficient matches against the regular expression
+to be obtained.
+
+[section:def#defns.regex.format.specifier
+    [:en] format specifier
+    [%format specifier]
+]
+[:en] a sequence of one or more characters that is to be replaced with some part
+of a regular expression match.
+
+[section:def#defns.regex.matched
+    [:en] matched
+    [%matched]
+    [%regular expression!matched]
+]
+[:en] a sequence of zero or more characters is matched by a regular expression
+when the characters in the sequence correspond to a sequence of characters
+defined by the pattern.
+
+[section:def#defns.regex.primary.equivalence.class
+    [:en] primary equivalence class
+    [%primary equivalence class]
+    [%locale]
+]
+[:en] a set of one or more characters which share the same primary sort key:
+that is the sort key weighting that depends only upon character shape, and not
+accents, case, or locale specific tailorings.
+
+[section:def#defns.regex.regular.expression
+    [:en] regular expression
+]
+[:en] a pattern that selects specific strings from a set of character strings.
+
+[section:def#defns.regex.subexpression
+    [:en] sub-expression
+    [%sub-expression]
+]
+[:en] a subset of a regular expression that has been marked by parenthesis.

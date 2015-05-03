@@ -1,0 +1,93 @@
+﻿[section#re.results.form
+    [:en] [`match_results] formatting
+]
+
+[%@library match_results[!format]]
+[%@library format[!match_results]]
+[codeblock:declaration]
+template <class OutputIter>
+  OutputIter format(OutputIter out,
+                    const char_type* fmt_first, const char_type* fmt_last,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::format_default) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] ready() == true and [`OutputIter] shall satisfy the requirements for an
+Output Iterator ([#output.iterators]).
+
+[para:effects]
+[:en] Copies the character sequence [=range[fmt_first,fmt_last)] to OutputIter
+[`out].
+
+[:en] Replaces each format specifier or escape sequence in the copied range with
+either the character(s) it represents or the sequence of characters within
+[`*this] to which it refers.
+
+[:en] The bitmasks specified in [`flags] determine which format specifiers and
+escape sequences are recognized.
+
+[para:returns]
+[:en] [`out].
+[exit:description]
+
+[%@library match_results[!format]]
+[%@library format[!match_results]]
+[codeblock:declaration]
+template <class OutputIter, class ST, class SA>
+  OutputIter format(OutputIter out,
+                    const basic_string<char_type, ST, SA>& fmt,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::format_default) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to
+[`return format(out, fmt.data(), fmt.data() + fmt.size(), flags)].
+[exit:description]
+
+[%@library match_results[!format]]
+[%@library format[!match_results]]
+[codeblock:declaration]
+template <class ST, class SA>
+  basic_string<char_type, ST, SA>
+  format(const basic_string<char_type, ST, SA>& fmt,
+         regex_constants::match_flag_type flags =
+           regex_constants::format_default) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:effects]
+[:en] Constructs an empty string [`result] of type [`basic_string<char_type, ST,
+SA>] and calls [`format(back_inserter(result), fmt, flags)].
+
+[para:returns]
+[:en] [`result].
+[exit:description]
+
+[%@library match_results[!format]]
+[%@library format[!match_results]]
+[codeblock:declaration]
+string_type
+  format(const char_type* fmt,
+         regex_constants::match_flag_type flags =
+           regex_constants::format_default) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:effects]
+[:en] Constructs an empty string [`result] of type [`string_type] and calls
+[`format(back_inserter(result), fmt, fmt + char_traits<char_type>::length(fmt),
+flags)].
+
+[para:returns]
+[:en] [`result].
+[exit:description]

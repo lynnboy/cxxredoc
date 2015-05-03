@@ -1,0 +1,34 @@
+﻿[section#re.regex.locale
+    [:en] [`basic_regex] locale
+]
+
+[%@library locale]
+
+[%@library imbue[!basic_regex]]
+[%@library basic_regex[!imbue]]
+[codeblock:declaration]
+locale_type imbue(locale_type loc);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns the result of [`traits_inst.imbue(loc)] where [`traits_inst] is a
+(default initialized) instance of the template type argument [`traits] stored
+within the object.
+
+[:en] After a call to [`imbue] the [`basic_regex] object does not match any
+character sequence.
+[exit:description]
+
+[%@library getloc[!basic_regex]]
+[%@library basic_regex[!getloc]]
+[codeblock:declaration]
+locale_type getloc() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns the result of [`traits_inst.getloc()] where [`traits_inst] is a
+(default initialized) instance of the template parameter [`traits] stored within
+the object.
+[exit:description]

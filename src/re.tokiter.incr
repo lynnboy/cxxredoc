@@ -1,0 +1,54 @@
+﻿[section#re.tokiter.incr
+    [:en] [`regex_token_iterator] increment
+]
+
+[%@library regex_token_iterator[!operator++]]
+[%@library operator++[!regex_token_iterator]]
+[codeblock:declaration]
+regex_token_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a local variable [`prev] of type [`position_iterator],
+initialized with the value of [`position].
+
+[para]
+[:en] If [`*this] is a suffix iterator, sets [`*this] to an end-of-sequence
+iterator.
+
+[para]
+[:en] Otherwise, if [`N + 1 < subs.size()], increments [`N] and sets [`result]
+to the address of the current match.
+
+[para]
+[:en] Otherwise, sets [`N] to 0 and increments [`position]. If [`position] is
+not an end-of-sequence iterator the operator sets [`result] to the address of
+the current match.
+
+[para]
+[:en] Otherwise, if any of the values stored in [`subs] is equal to -1 and
+[`prev->suffix().length()] is not 0 the operator sets [`*this] to a suffix
+iterator that points to the range
+[=range[prev->suffix().first,prev->suffix().second)].
+
+[para]
+[:en] Otherwise, sets [`*this] to an end-of-sequence iterator.
+
+[para:returns]
+[:en] [`*this]
+[exit:description]
+
+[%@library regex_token_iterator[!operator++]]
+[%@library operator++[!regex_token_iterator]]
+[codeblock:declaration]
+regex_token_iterator& operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a copy [`tmp] of [`*this], then calls [`++(*this)].
+
+[para:returns]
+[:en] [`tmp].
+[exit:description]

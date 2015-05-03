@@ -1,0 +1,80 @@
+﻿[section#re.submatch.members
+    [:en] [`sub_match] members
+]
+
+[%@library sub_match[![:en]constructor]]
+[codeblock:declaration]
+constexpr sub_match();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Value-initializes the [`pair] base class subobject and the member
+[`matched].
+[exit:description]
+
+[%@library sub_match[!length]]
+[%@library length[!sub_match]]
+[codeblock:declaration]
+difference_type length() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(matched ? distance(first, second) : 0)].
+[exit:description]
+
+[%@library operator basic_string[!sub_match]]
+[%@library sub_match[!operator basic_string]]
+[codeblock:declaration]
+operator string_type() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`matched ? string_type(first, second) : string_type()].
+[exit:description]
+
+[%@library sub_match[!str]]
+[%@library str[!sub_match]]
+[codeblock:declaration]
+string_type str() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`matched ? string_type(first, second) : string_type()].
+[exit:description]
+
+[%@library sub_match[!compare]]
+[%@library compare[!sub_match]]
+[codeblock:declaration]
+int compare(const sub_match& s) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`str().compare(s.str())].
+[exit:description]
+
+[%@library sub_match[!compare]]
+[%@library compare[!sub_match]]
+[codeblock:declaration]
+int compare(const string_type& s) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`str().compare(s)].
+[exit:description]
+
+[%@library sub_match[!compare]]
+[%@library compare[!sub_match]]
+[codeblock:declaration]
+int compare(const value_type* s) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`str().compare(s)].
+[exit:description]

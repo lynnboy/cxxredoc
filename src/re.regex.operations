@@ -1,0 +1,27 @@
+﻿[section#re.regex.operations
+    [:en] [`basic_regex] constant operations
+]
+
+[%@library mark_count[!basic_regex]]
+[%@library basic_regex[!mark_count]]
+[codeblock:declaration]
+unsigned mark_count() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns the number of marked sub-expressions within the regular
+expression.
+[exit:description]
+
+[%@library flag_type[!basic_regex]]
+[%@library basic_regex[!flag_type]]
+[codeblock:declaration]
+flag_type flags() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Returns a copy of the regular expression syntax flags that were passed to
+the object[=']s constructor or to the last call to [`assign].
+[exit:description]

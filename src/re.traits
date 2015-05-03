@@ -1,0 +1,328 @@
+﻿[section#re.traits
+    [:en] Class template [`regex_traits]
+]
+
+[%@library regex_traits]
+[codeblock:synopsis [special bitmask_type] ]
+namespace std {
+  template <class charT>
+  struct regex_traits {
+  public:
+     typedef charT                        char_type;
+     typedef std::basic_string<char_type> string_type;
+     typedef std::locale                  locale_type;
+     typedef bitmask_type                 char_class_type;
+
+     regex_traits();
+     static std::size_t length(const char_type* p);
+     charT translate(charT c) const;
+     charT translate_nocase(charT c) const;
+     template <class ForwardIterator>
+       string_type transform(ForwardIterator first, ForwardIterator last) const;
+     template <class ForwardIterator>
+       string_type transform_primary(
+         ForwardIterator first, ForwardIterator last) const;
+     template <class ForwardIterator>
+       string_type lookup_collatename(
+         ForwardIterator first, ForwardIterator last) const;
+     template <class ForwardIterator>
+       char_class_type lookup_classname(
+         ForwardIterator first, ForwardIterator last, bool icase = false) const;
+     bool isctype(charT c, char_class_type f) const;
+     int value(charT ch, int radix) const;
+     locale_type imbue(locale_type l);
+     locale_type getloc() const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+[%regular expression traits[!requirements]]
+[%requirements[!regular expression traits]]
+[%[`regex_traits][!specializations]]
+The specializations [`regex_traits<char>] and [`regex_traits<wchar_t>] shall be
+valid and shall satisfy the requirements for a regular expression traits class
+([#re.req]).
+
+[%@library regex_traits[!char_class_type]]
+[%@library char_class_type[!regex_traits]]
+[codeblock:declaration [special bitmask_type] ]
+typedef bitmask_type                 char_class_type;
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type [`char_class_type] is used to represent a character
+classification and is capable of holding an implementation specific set returned
+by [`lookup_classname].
+[exit:description]
+
+[%@library length[!regex_traits]]
+[%@library regex_traits[!length]]
+[codeblock:declaration]
+static std::size_t length(const char_type* p);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`char_traits<charT>::length(p);]
+[exit:description]
+
+[%@library regex_traits[!translate]]
+[%@library translate[!regex_traits]]
+[codeblock:declaration]
+charT translate(charT c) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(c)].
+[exit:description]
+
+[%@library regex_traits[!translate_nocase]]
+[%@library translate_nocase[!regex_traits]]
+[codeblock:declaration]
+charT translate_nocase(charT c) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`use_facet<ctype<charT> >(getloc()).tolower(c)].
+[exit:description]
+
+[%@library regex_traits[!transform]]
+[%@library transform[!regex_traits]]
+[codeblock:declaration]
+template <class ForwardIterator>
+  string_type transform(ForwardIterator first, ForwardIterator last) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+string_type str(first, last);
+return use_facet<collate<charT> >(
+  getloc()).transform(&*str.begin(), &*str.begin() + str.length());
+[codeblock:end]
+[exit:description]
+
+[%@library regex_traits[!transform_primary]]
+[%@library transform_primary[!regex_traits]]
+[codeblock:declaration]
+template <class ForwardIterator>
+  string_type transform_primary(ForwardIterator first, ForwardIterator last) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] if [`typeid(use_facet<collate<charT> >) == typeid(collate_byname<charT>)]
+and the form of the sort key returned by [`collate_byname<charT>
+::transform(first, last)] is known and can be converted into a primary sort key
+then returns that key, otherwise returns an empty string.
+[exit:description]
+
+[%@library regex_traits[!lookup_collatename]]
+[%@library lookup_collatename[!regex_traits]]
+[codeblock:declaration]
+template <class ForwardIterator>
+  string_type lookup_collatename(ForwardIterator first, ForwardIterator last) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] a sequence of one or more characters that represents the collating element
+consisting of the character sequence designated by the iterator range
+[=range[first,last)].
+
+[:en] Returns an empty string if the character sequence is not a valid collating
+element.
+[exit:description]
+
+[%@library regex_traits[!lookup_classname]]
+[%@library lookup_classname[!regex_traits]]
+[codeblock:declaration]
+template <class ForwardIterator>
+  char_class_type lookup_classname(
+    ForwardIterator first, ForwardIterator last, bool icase = false) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] an unspecified value that represents the character classification named by
+the character sequence designated by the iterator range [=range[first,last)].
+
+[:en] If the parameter [`icase] is true then the returned mask identifies the
+character classification without regard to the case of the characters being
+matched, otherwise it does honor the case of the characters being matched.
+
+[footnote]
+[:en] For example, if the parameter [`icase] is true then [`[[:lower:`]`]] is
+the same as [`[[:alpha:`]`]].
+[footnote:end]
+
+[:en] The value returned shall be independent of the case of the characters in
+the character sequence.
+
+[:en] If the name is not recognized then returns [`char_class_type()].
+
+[para:notes]
+[:en] For [`regex_traits<char>], at least the narrow character names in Table
+[#tab:re.traits.classnames] shall be recognized.
+
+[:en] For [`regex_traits<wchar_t>], at least the wide character names in Table
+[#tab:re.traits.classnames] shall be recognized.
+[exit:description]
+
+[%@library regex_traits[!isctype]]
+[%@library isctype[!regex_traits]]
+[codeblock:declaration]
+bool isctype(charT c, char_class_type f) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Determines if the character [`c] is a member of the character
+classification represented by [`f].
+
+[para:returns]
+[:en] Given the following function declaration:
+
+[codeblock:notation]
+// [:en] for exposition only
+template<class C>
+  ctype_base::mask convert(typename regex_traits<C>::char_class_type f);
+[codeblock:end]
+
+[:en@~] that returns a value in which each [`ctype_base::mask] value
+corresponding to a value in [`f] named in Table [#tab:re.traits.classnames] is
+set, then the result is determined as if by:
+
+[codeblock:notation]
+ctype_base::mask m = convert<charT>(f);
+const ctype<charT>& ct = use_facet<ctype<charT>>(getloc());
+if (ct.is(m, c)) {
+  return true;
+} else if (c == ct.widen('_')) {
+  charT w[1] = { ct.widen('w') };
+  char_class_type x = lookup_classname(w, w+1);
+
+  return (f&x) == x;
+} else {
+  return false;
+}
+[codeblock:end]
+
+[enter:example]
+[codeblock]
+
+regex_traits<char> t;
+string d("d");
+string u("upper");
+regex_traits<char>::char_class_type f;
+f = t.lookup_classname(d.begin(), d.end());
+f |= t.lookup_classname(u.begin(), u.end());
+ctype_base::mask m = convert<char>(f); // [`m == ctype_base::digit|ctype_base::upper]
+[codeblock:end]
+[exit:example]
+
+[enter:example]
+[codeblock]
+
+regex_traits<char> t;
+string w("w");
+regex_traits<char>::char_class_type f;
+f = t.lookup_classname(w.begin(), w.end());
+t.isctype('A', f); // [:en] returns [`true]
+t.isctype('_', f); // [:en] returns [`true]
+t.isctype(' ', f); // [:en] returns [`false]
+[codeblock:end]
+[exit:example]
+
+[exit:description]
+
+[%@library value[!regex_traits]]
+[%@library regex_traits[!value]]
+[codeblock:declaration]
+int value(charT ch, int radix) const;
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] The value of [$radix] shall be 8, 10, or 16.
+
+[para:returns]
+[:en] the value represented by the digit [$ch] in base [$radix] if the character
+[$ch] is a valid digit in base [$radix]; otherwise returns -1.
+[exit:description]
+
+[%@library locale]
+[%@library imbue]
+[codeblock:declaration]
+locale_type imbue(locale_type loc);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Imbues [`this] with a copy of the locale [`loc].
+
+[enter:note]
+[:en] Calling [`imbue] with a different locale than the one currently in use
+invalidates all cached data held by [`*this].
+[exit:note]
+
+[para:returns]
+[:en] if no locale has been previously imbued then a copy of the global locale
+in effect at the time of construction of [`*this], otherwise a copy of the last
+argument passed to [`imbue].
+
+[para:postcondition]
+[:en] [`getloc() == loc].
+[exit:description]
+
+[%@library locale]
+[%@library getloc]
+[codeblock:declaration]
+locale_type getloc() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] if no locale has been imbued then a copy of the global locale in effect at
+the time of construction of [`*this], otherwise a copy of the last argument
+passed to [`imbue].
+[exit:description]
+
+[table:listing#tab:re.traits.classnames
+    [:en] Character class names and corresponding [`ctype] masks
+    [columns
+        [column@code
+            [:en] Narrow character name
+        ]
+        [column@code
+            [:en] Wide character name
+        ]
+        [column@code
+            [:en] Corresponding [`ctype_base::mask] value
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] "alnum"     [|] L"alnum"    [|] ctype_base::alnum
+[|] "alpha"     [|] L"alpha"    [|] ctype_base::alpha
+[|] "blank"     [|] L"blank"    [|] ctype_base::blank
+[|] "cntrl"     [|] L"cntrl"    [|] ctype_base::cntrl
+[|] "digit"     [|] L"digit"    [|] ctype_base::digit
+[|] "d"         [|] L"d"        [|] ctype_base::digit
+[|] "graph"     [|] L"graph"    [|] ctype_base::graph
+[|] "lower"     [|] L"lower"    [|] ctype_base::lower
+[|] "print"     [|] L"print"    [|] ctype_base::print
+[|] "punct"     [|] L"punct"    [|] ctype_base::punct
+[|] "space"     [|] L"space"    [|] ctype_base::space
+[|] "s"         [|] L"s"        [|] ctype_base::space
+[|] "upper"     [|] L"upper"    [|] ctype_base::upper
+[|] "w"         [|] L"w"        [|] ctype_base::alnum
+[|] "xdigit"    [|] L"xdigit"   [|] ctype_base::xdigit
+
+[table:end]

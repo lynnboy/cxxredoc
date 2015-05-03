@@ -1,0 +1,32 @@
+﻿[section#re.regex.const
+    [:en] [`basic_regex] constants
+]
+[%@library basic_regex[![:en]constants]]
+
+[codeblock:synopsis]
+static constexpr regex_constants::syntax_option_type
+  icase = regex_constants::icase;
+static constexpr regex_constants::syntax_option_type
+  nosubs = regex_constants::nosubs;
+static constexpr regex_constants::syntax_option_type
+  optimize = regex_constants::optimize;
+static constexpr regex_constants::syntax_option_type
+  collate = regex_constants::collate;
+static constexpr regex_constants::syntax_option_type
+  ECMAScript = regex_constants::ECMAScript;
+static constexpr regex_constants::syntax_option_type
+  basic = regex_constants::basic;
+static constexpr regex_constants::syntax_option_type
+  extended = regex_constants::extended;
+static constexpr regex_constants::syntax_option_type
+  awk = regex_constants::awk;
+static constexpr regex_constants::syntax_option_type
+  grep = regex_constants::grep;
+static constexpr regex_constants::syntax_option_type
+  egrep = regex_constants::egrep;
+[codeblock:end]
+
+[para]
+[%@library basic_regex[![:en]constants]]
+[:en] The static constant members are provided as synonyms for the constants
+declared in namespace [`regex_constants].

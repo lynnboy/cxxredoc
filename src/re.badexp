@@ -1,0 +1,39 @@
+﻿[section#re.badexp
+    [:en] Class [`regex_error]
+]
+[%@library regex_error]
+[codeblock:synopsis]
+class regex_error : public std::runtime_error {
+  public:
+    explicit regex_error(regex_constants::error_type ecode);
+    regex_constants::error_type code() const;
+};
+[codeblock:end]
+
+[para]
+[:en] The class [`regex_error] defines the type of objects thrown as exceptions
+to report errors from the regular expression library.
+
+[%@library regex_error[![:en]constructor]]
+[codeblock:declaration]
+regex_error(regex_constants::error_type ecode);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`regex_error].
+
+[para:postcondition]
+[:en] [`ecode == code()]
+[exit:description]
+
+[%@library error_type]
+[%@library regex_constants[!error_type]]
+[codeblock:declaration]
+regex_constants::error_type code() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The error code that was passed to the constructor.
+[exit:description]

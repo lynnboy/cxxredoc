@@ -1,0 +1,66 @@
+﻿[section#re.general
+    [:en] General
+]
+
+
+[para]
+[:en] This Clause describes components that [=Cpp] programs may use to perform
+operations involving regular expression matching and searching.
+
+[para]
+[:en] The following subclauses describe a basic regular expression class
+template and its traits that can handle char-like template arguments, two
+specializations of this class template that handle sequences of [`char] and
+[`wchar_t], a class template that holds the result of a regular expression
+match, a series of algorithms that allow a character sequence to be operated
+upon by a regular expression, and two iterator types for enumerating regular
+expression matches, as described in Table [#tab:re.lib.summary].
+
+[table:listing#tab:re.lib.summary
+    [:en] Regular expressions library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[-]
+[|] [#re.def]
+[|] [:en] Definitions
+[|]
+
+[|] [#re.req]
+[|] [:en] Requirements
+[|]
+
+[-]
+[|] [#re.const]
+[|] [:en] Constants
+[|@rowspan=group] <regex>
+
+[|] [#re.badexp]
+[|] [:en] Exception type
+[|] [#re.traits]
+[|] [:en] Traits
+[|] [#re.regex]
+[|] [:en] Regular expression template
+[|] [#re.submatch]
+[|] [:en] Submatches
+[|] [#re.results]
+[|] [:en] Match results
+[|] [#re.alg]
+[|] [:en] Algorithms
+[|] [#re.iter]
+[|] [:en] Iterators
+
+[-]
+[|] [#re.grammar]
+[|] [:en] Grammar
+
+[table:end]

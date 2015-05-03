@@ -1,0 +1,17 @@
+﻿[section#re.results.all
+    [:en] [`match_results] allocator
+]
+
+[%@library [:en]allocator]
+
+[%@library get_allocator[!match_results]]
+[%@library match_results[!get_allocator]]
+[codeblock:declaration]
+allocator_type get_allocator() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A copy of the Allocator that was passed to the object[=']s constructor or,
+if that allocator has been replaced, a copy of the most recent replacement.
+[exit:description]

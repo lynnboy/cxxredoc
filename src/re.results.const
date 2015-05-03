@@ -1,0 +1,115 @@
+﻿[section#re.results.const
+    [:en] [`match_results] constructors
+]
+
+[para]
+[:en] In all [`match_results] constructors, a copy of the [`Allocator] argument
+shall be used for any memory allocation performed by the constructor or member
+functions during the lifetime of the object.
+
+[%@library match_results[!match_results]]
+[codeblock:declaration]
+match_results(const Allocator& a = Allocator());
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`match_results].
+
+[para:postconditions]
+[:en] [`ready()] returns [`false].
+
+[:en] [`size()] returns [`0].
+[exit:description]
+
+[%@library match_results[!match_results]]
+[codeblock:declaration]
+match_results(const match_results& m);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`match_results], as a copy of [`m].
+[exit:description]
+
+[%@library match_results[!match_results]]
+[codeblock:declaration]
+match_results(match_results&& m) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move-constructs an object of class [`match_results] from [`m] satisfying
+the same postconditions as Table [#tab:re:results:assign].
+
+[:en] Additionally, the stored [`Allocator] value is move constructed from
+[`m.get_allocator()].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library match_results[!operator=]]
+[%@library operator=[!match_results]]
+[codeblock:declaration]
+match_results& operator=(const match_results& m);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Assigns [`m] to [`*this]. The postconditions of this function are
+indicated in Table [#tab:re:results:assign].
+[exit:description]
+
+[%@library match_results[!operator=]]
+[%@library operator=[!match_results]]
+[codeblock:declaration]
+match_results& operator=(match_results&& m);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move-assigns [`m] to [`*this].
+
+[:en] The postconditions of this function are indicated in Table
+[#tab:re:results:assign].
+[exit:description]
+
+[table:listing#tab:re:results:assign
+    [:en] [`match_results] assignment operator effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] ready()
+[|] [`m.ready()]
+
+[|] size()
+[|] [`m.size()]
+
+[|] str(n)
+[|] [:en] [`m.str(n)] for all integers [`n < m.size()]
+
+[|] prefix()
+[|] [`m.prefix()]
+
+[|] suffix()
+[|] [`m.suffix()]
+
+[|] (*this)[=[]n[=]]
+[|] [:en] [`m[n`]] for all integers [`n < m.size()]
+
+[|] length(n)
+[|] [:en] [`m.length(n)] for all integers [`n < m.size()]
+
+[|] position(n)
+[|] [:en] [`m.position(n)] for all integers [`n < m.size()]
+
+[table:end]

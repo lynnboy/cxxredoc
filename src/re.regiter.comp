@@ -1,0 +1,41 @@
+﻿[section#re.regiter.comp
+    [:en] [`regex_iterator] copmarisons
+]
+
+[%@library regex_iterator[!operator==]]
+[%@library operator==[!regex_iterator]]
+[codeblock:declaration]
+bool operator==(const regex_iterator& right) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`*this] and [`right] are both end-of-sequence iterators or if
+the following conditions all hold:
+
+[list]
+[item]
+[:en@~] [`begin == right.begin],
+[item]
+[:en@~] [`end == right.end],
+[item]
+[:en@~] [`pregex == right.pregex],
+[item]
+[:en@~] [`flags == right.flags], and
+[item]
+[:en@~] [`match[0`] == right.match[0`]];
+[list:end]
+
+[:en@~] otherwise [`false].
+[exit:description]
+
+[%@library regex_iterator[!operator!=]]
+[%@library operator!=[!regex_iterator]]
+[codeblock:declaration]
+bool operator!=(const regex_iterator& right) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(*this == right)].
+[exit:description]

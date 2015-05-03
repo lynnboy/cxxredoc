@@ -1,0 +1,48 @@
+﻿[section#re.results.size
+    [:en] [`match_results] size
+]
+
+[%@library match_results[!size]]
+[%@library size[!match_results]]
+[codeblock:declaration]
+size_type size() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] One plus the number of marked sub-expressions in the regular expression
+that was matched if [`*this] represents the result of a successful match.
+
+[:en] Otherwise returns [`0].
+
+[enter:note]
+[:en] The state of a [`match_results] object can be modified only by passing
+that object to [`regex_match] or [`regex_search].
+
+[:en] Sections [#re.alg.match] and [#re.alg.search] specify the effects of those
+algorithms on their [`match_results] arguments.
+[exit:note]
+[exit:description]
+
+[%@library match_results[!max_size]]
+[%@library max_size[!match_results]]
+[codeblock:declaration]
+size_type max_size() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The maximum number of [`sub_match] elements that can be stored in
+[`*this].
+[exit:description]
+
+[%@library match_results[!empty]]
+[%@library empty[!match_results]]
+[codeblock:declaration]
+bool empty() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`size() == 0].
+[exit:description]

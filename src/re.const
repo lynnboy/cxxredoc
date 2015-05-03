@@ -1,0 +1,18 @@
+﻿[section#re.const
+    [:en] Namespace [`std::regex_constants]
+]
+
+[para]
+[%@library regex_constants]
+[:en] The namespace [`std::regex_constants] holds symbolic constants used by the
+regular expression library.
+
+[:en] This namespace provides three types, [`syntax_option_type],
+[`match_flag_type], and [`error_type], along with several constants of these
+types.
+
+[include re.synopt]
+
+[include re.matchflag]
+
+[include re.err]

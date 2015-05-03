@@ -1,0 +1,15 @@
+﻿[section#re.results.state
+    [:en] [`match_results] state
+]
+
+[%@library match_results[!state]]
+[%@library state[!match_results]]
+[codeblock:declaration]
+bool ready() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`*this] has a fully established result state, otherwise
+[`false].
+[exit:description]

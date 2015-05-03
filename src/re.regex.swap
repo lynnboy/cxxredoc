@@ -1,0 +1,24 @@
+﻿[section#re.regex.swap
+    [:en] [`basic_regex] swap
+]
+
+[%@library basic_regex[!swap]]
+[%@library swap[!basic_regex]]
+
+[%@library swap[!basic_regex]]
+[%@library basic_regex[!swap]]
+[codeblock:declaration]
+void swap(basic_regex& e);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Swaps the contents of the two regular expressions.
+
+[para:postcondition]
+[:en] [`*this] contains the regular expression that was in [`e], [`e] contains
+the regular expression that was in [`*this].
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]

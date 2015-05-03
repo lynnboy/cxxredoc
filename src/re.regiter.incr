@@ -1,0 +1,82 @@
+﻿[section#re.regiter.incr
+    [:en] [`regex_iterator] increment
+]
+
+[%@library regex_iterator[!operator++]]
+[%@library operator++[!regex_iterator]]
+[%@library regex_iterator[![:en]increment]]
+[codeblock:declaration]
+regex_iterator& operator++();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a local variable [`start] of type [`BidirectionalIterator] and
+initializes it with the value of [`match[0`].second].
+
+[para]
+[:en] If the iterator holds a zero-length match and [`start == end] the operator
+sets [`*this] to the end-of-sequence iterator and returns [`*this].
+
+[para]
+[%@library match_not_null]
+[%@library match_continuous]
+[:en] Otherwise, if the iterator holds a zero-length match the operator calls
+[`regex_search(start, end, match, *pregex,
+flags | regex_constants::match_not_null | regex_constants::match_continuous)].
+
+[:en] If the call returns [`true] the operator returns [`*this].
+
+[:en] Otherwise the operator increments [`start] and continues as if the most
+recent match was not a zero-length match.
+
+[para]
+[%@library match_prev_avail]
+[:en] If the most recent match was not a zero-length match, the operator sets
+[`flags] to [`flags | regex_constants :: match_prev_avail] and calls
+[`regex_search(start, end, match, *pregex, flags)].
+
+[:en] If the call returns [`false] the iterator sets [`*this] to the
+end-of-sequence iterator.
+
+[:en] The iterator then returns [`*this].
+
+[para]
+[:en] In all cases in which the call to [`regex_search] returns [`true],
+[`match.prefix().first] shall be equal to the previous value of
+[`match[0`].second], and for each index [`i] in the half-open range
+[`[0, match.size())] for which [`match[i`].matched] is true,
+[`match.position(i)] shall return [`distance(begin, match[i`].first)].
+
+[para]
+[enter:note]
+[:en] This means that [`match.position(i)] gives the offset from the beginning
+of the target sequence, which is often not the same as the offset from the
+sequence passed in the call to [`regex_search].
+[exit:note]
+
+[para]
+[:en] It is unspecified how the implementation makes these adjustments.
+
+[para]
+[enter:note]
+[:en] This means that a compiler may call an implementation-specific search
+function, in which case a user-defined specialization of [`regex_search] will
+not be called.
+[exit:note]
+[exit:description]
+
+[%@library regex_iterator[!operator++]]
+[%@library operator++[!regex_iterator]]
+[codeblock:declaration]
+regex_iterator operator++(int);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[codeblock:notation]
+regex_iterator tmp = *this;
+++(*this);
+return tmp;
+[codeblock:end]
+[exit:description]

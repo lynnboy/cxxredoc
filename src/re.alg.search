@@ -1,0 +1,180 @@
+﻿[section#re.alg.search
+    [:en] [`regex_search]
+]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class BidirectionalIterator, class Allocator, class charT, class traits>
+  bool regex_search(BidirectionalIterator first, BidirectionalIterator last,
+                    match_results<BidirectionalIterator, Allocator>& m,
+                    const basic_regex<charT, traits>& e,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Type [`BidirectionalIterator] shall satisfy the requirements of a
+Bidirectional Iterator ([#bidirectional.iterators]).
+
+[para:effects]
+[:en] Determines whether there is some sub-sequence within [=range[first,last)]
+that matches the regular expression [`e].
+
+[:en] The parameter [`flags] is used to control how the expression is matched
+against the character sequence.
+
+[:en] Returns [`true] if such a sequence exists, [`false] otherwise.
+
+[para:postconditions]
+[:en] [`m.ready() == true] in all cases.
+
+[:en] If the function returns [`false], then the effect on parameter [`m] is
+unspecified except that [`m.size()] returns [`0] and [`m.empty()] returns
+[`true].
+
+[:en] Otherwise the effects on parameter [`m] are given in Table
+[#tab:re:alg:search].
+[exit:description]
+
+[table:listing#tab:re:alg:search
+    [:en] Effects of [`regex_search] algorithm
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] m.size()
+[|] [`1 + e.mark_count()]
+
+[|] m.empty()
+[|] [`false]
+
+[|] m.prefix().first
+[|] [`first]
+
+[|] m.prefix().second
+[|] [`m[0`].first]
+
+[|] m.prefix().matched
+[|] [`m.prefix().first != m.prefix().second]
+
+[|] m.suffix().first
+[|] [`m[0`].second]
+
+[|] m.suffix().second
+[|] [`last]
+
+[|] m.suffix().matched
+[|] [`m.suffix().first != m.suffix().second]
+
+[|] m[=[]0[=]].first
+[|] [:en] The start of the sequence of characters that matched the regular
+    expression
+
+[|] m[=[]0[=]].second
+[|] [:en] The end of the sequence of characters that matched the regular
+    expression
+
+[|] m[=[]0[=]].matched
+[|] [`true]
+
+[|] m[=[]n[=]].first
+[|] [:en] For all integers [`0 < n < m.size()], the start of the sequence that
+    matched sub-expression [`n].
+    [:en] Alternatively, if sub-expression [`n] did not participate in the
+    match, then [`last].
+
+[|] m[=[]n[=]].second
+[|] [:en] For all integers [`0 < n < m.size()], the end of the sequence that
+    matched sub-expression [`n].
+    [:en] Alternatively, if sub-expression [`n] did not participate in the
+    match, then [`last].
+
+[|] m[=[]n[=]].matched
+[|] [:en] For all integers [`0 < n < m.size()], [`true] if sub-expression [`n]
+    participated in the match, [`false] otherwise.
+
+[table:end]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class charT, class Allocator, class traits>
+bool regex_search(const charT* str, match_results<const charT*, Allocator>& m,
+                  const basic_regex<charT, traits>& e,
+                  regex_constants::match_flag_type flags =
+                    regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The result of
+[`regex_search(str, str + char_traits<charT>::length(str), m, e, flags)].
+[exit:description]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class ST, class SA, class Allocator, class charT, class traits>
+  bool regex_search(const basic_string<charT, ST, SA>& s,
+                    match_results<
+                      typename basic_string<charT, ST, SA>::const_iterator,
+                      Allocator>& m,
+                    const basic_regex<charT, traits>& e,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The result of [`regex_search(s.begin(), s.end(), m, e, flags)].
+[exit:description]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class BidirectionalIterator, class charT, class traits>
+  bool regex_search(BidirectionalIterator first, BidirectionalIterator last,
+                    const basic_regex<charT, traits>& e,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves ["as if] by constructing an object [`what] of type
+[`match_results<BidirectionalIterator>] and then returning the result of
+[`regex_search(first, last, what, e, flags)].
+[exit:description]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class charT, class traits>
+  bool regex_search(const charT* str,
+                    const basic_regex<charT, traits>& e,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`regex_search(str, str + char_traits<charT>::length(str), e, flags)]
+[exit:description]
+
+[%@library regex_search]
+[codeblock:declaration]
+template <class ST, class SA, class charT, class traits>
+  bool regex_search(const basic_string<charT, ST, SA>& s,
+                    const basic_regex<charT, traits>& e,
+                    regex_constants::match_flag_type flags =
+                      regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`regex_search(s.begin(), s.end(), e, flags)].
+[exit:description]

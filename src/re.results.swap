@@ -1,0 +1,33 @@
+﻿[section#re.results.swap
+    [:en] [`match_results] swap
+]
+
+[%@library match_results[!swap]]
+[%@library swap[!match_results]]
+[codeblock:declaration]
+void swap(match_results& that);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Swaps the contents of the two sequences.
+
+[para:postcondition]
+[:en] [`*this] contains the sequence of matched sub-expressions that were in
+[`that], [`that] contains the sequence of matched sub-expressions that were in
+[`*this].
+
+[para:complexity]
+[:en] Constant time.
+[exit:description]
+
+[%@library match_results[!swap]]
+[%@library swap[!match_results]]
+[codeblock:declaration]
+template <class BidirectionalIterator, class Allocator>
+  void swap(match_results<BidirectionalIterator, Allocator>& m1,
+            match_results<BidirectionalIterator, Allocator>& m2);
+[codeblock:end]
+
+[para:effects]
+[:en] [`m1.swap(m2)].

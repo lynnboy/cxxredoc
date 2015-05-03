@@ -1,0 +1,155 @@
+﻿[section#re.regex.construct
+    [:en] [`basic_regex] constructors
+]
+
+[%@library basic_regex[!basic_regex]]
+
+[%@library basic_regex[![:en]constructor]]
+[codeblock:declaration]
+basic_regex();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_regex] that does not match any
+character sequence.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+explicit basic_regex(const charT* p, flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [$p] shall not be a null pointer.
+
+[para:throws]
+[:en] [`regex_error] if [$p] is not a valid regular expression.
+
+[para:effects]
+[:en] Constructs an object of class [`basic_regex]; the object[=']s internal
+finite state machine is constructed from the regular expression contained in the
+array of [`charT] of length [`char_traits<charT>::length(p)] whose first element
+is designated by [$p], and interpreted according to the flags [$f].
+
+[para:postconditions]
+[:en] [`flags()] returns [`f].
+
+[:en] [`mark_count()] returns the number of marked sub-expressions within the
+expression.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+basic_regex(const charT* p, size_t len, flag_type f);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [$p] shall not be a null pointer.
+
+[para:throws]
+[:en] [`regex_error] if [$p] is not a valid regular expression.
+
+[para:effects]
+[:en] Constructs an object of class [`basic_regex]; the object[=']s internal
+finite state machine is constructed from the regular expression contained in the
+sequence of characters [=range[p,p+len)], and interpreted according the flags
+specified in [$f].
+
+[para:postconditions]
+[:en] [`flags()] returns [`f].
+
+[:en] [`mark_count()] returns the number of marked sub-expressions within the
+expression.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+basic_regex(const basic_regex& e);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`basic_regex] as a copy of the object [`e].
+
+[para:postconditions]
+[:en] [`flags()] and [`mark_count()] return [`e.flags()] and [`e.mark_count()],
+respectively.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+basic_regex(basic_regex&& e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Move constructs an object of class [`basic_regex] from [`e].
+
+[para:postconditions]
+[:en] [`flags()] and [`mark_count()] return the values that [`e.flags()] and
+[`e.mark_count()], respectively, had before construction.
+
+[:en] [`e] is in a valid state with unspecified value.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+template <class ST, class SA>
+  explicit basic_regex(const basic_string<charT, ST, SA>& s,
+                       flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [`regex_error] if [`s] is not a valid regular expression.
+
+[para:effects]
+[:en] Constructs an object of class [`basic_regex]; the object[=']s internal
+finite state machine is constructed from the regular expression contained in the
+string [`s], and interpreted according to the flags specified in [`f].
+
+[para:postconditions]
+[:en] [`flags()] returns [`f].
+
+[:en] [`mark_count()] returns the number of marked sub-expressions within the
+expression.
+[exit:description]
+
+[%@library basic_regex[!basic_regex]]
+[codeblock:declaration]
+template <class ForwardIterator>
+  basic_regex(ForwardIterator first, ForwardIterator last,
+              flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [`regex_error] if the sequence [=range[first,last)] is not a valid regular
+expression.
+
+[para:effects]
+[:en] Constructs an object of class [`basic_regex]; the object[=']s internal
+finite state machine is constructed from the regular expression contained in the
+sequence of characters [=range[first,last)], and interpreted according to the
+flags specified in [`f].
+
+[para:postconditions]
+[:en] [`flags()] returns [`f].
+
+[:en] [`mark_count()] returns the number of marked sub-expressions within the
+expression.
+[exit:description]
+
+[%@library basic_regex[![:en]constructor]]
+[codeblock:declaration]
+basic_regex(initializer_list<charT> il,
+            flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Same as [`basic_regex(il.begin(), il.end(), f)].
+[exit:description]

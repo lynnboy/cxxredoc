@@ -1,0 +1,179 @@
+﻿[section#re.req
+    [:en] Requirements
+]
+
+[para]
+[:en] This subclause defines requirements on classes representing regular
+expression traits.
+
+[enter:note]
+[:en] The class template [`regex_traits], defined in Clause [#re.traits],
+satisfies these requirements.
+[exit:note]
+
+[para]
+[:en] The class template [`basic_regex], defined in Clause [#re.regex], needs a
+set of related types and functions to complete the definition of its semantics.
+
+[:en] These types and functions are provided as a set of member typedefs and
+functions in the template parameter [`traits] used by the [`basic_regex] class
+template.
+
+[:en] This subclause defines the semantics of these members.
+
+[para]
+[:en] To specialize class template [`basic_regex] for a character container
+[`CharT] and its related regular expression traits class [`Traits], use
+[`basic_regex<CharT, Traits>].
+
+[para]
+[:en]
+[%regular expression traits[!requirements]]
+[%requirements[!regular expression traits]]
+[%regular expression[!requirements]]
+[%locale]
+In Table [#tab:re:RegexpTraits] [`X] denotes a traits class defining types and
+functions for the character container type [`charT]; [`u] is an object of type
+[`X]; [`v] is an object of type [`const X]; [`p] is a value of type
+[`const charT*]; [`I1] and [`I2] are input iterators ([#input.iterators]); [`F1]
+and [`F2] are forward iterators ([#forward.iterators]); [`c] is a value of type
+[`const charT]; [`s] is an object of type [`X::string_type]; [`cs] is an object
+of type [`const X::string_type]; [`b] is a value of type [`bool]; [`I] is a
+value of type [`int]; [`cl] is an object of type [`X::char_class_type], and
+[`loc] is an object of type [`X::locale_type].
+
+[table:listing#tab:re:RegexpTraits
+    [:en] Regular expression traits class requirements
+    [columns
+        [column@headercenter@code
+            [:en] Expression
+        ]
+        [column@headercenter
+            [:en] Return type
+        ]
+        [column@headercenter
+            [:en] Assertion/note pre-/post-condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] X::char_type
+[|] [`charT]
+[|] [:en] The character container type used in the implementation of class
+    template [`basic_regex].
+
+[|] X::string_type
+[|] [`std::basic_string<charT>]
+[|]
+
+[|] X::locale_type
+[|] [:en] A copy constructible type
+[|] [:en] A type that represents the [%locale] locale used by the traits class.
+
+[|] X::char_class_type
+    [%regular expression traits[![`char_class_type]]]
+    [%[`char_class_type][!regular expression traits]]
+[|] [:en] A bitmask type ([#bitmask.types]).
+[|] [:en] A bitmask type representing a particular character classification.
+
+[|] X::length(p)
+[|] [`std::size_t]
+[|] [:en] Yields the smallest [`i] such that [`p[i`] == 0].
+    [:en] Complexity is linear in [`i].
+
+[|] v.translate(c)
+    [%regular expression traits[![`translate]]]
+    [%[`translate][!regular expression traits]]
+[|] [`X::char_type]
+[|] [:en] Returns a character such that for any character [`d] that is to
+    be considered equivalent to [`c] then [`v.translate(c) == v.translate(d)].
+
+[|] v.translate_nocase(c)
+    [%regular expression traits[![`translate_nocase]]]
+    [%[`translate_nocase][!regular expression traits]]
+[|] [`X::char_type]
+[|] [:en] For all characters [`C] that are to be considered equivalent to [`c]
+    when comparisons are to be performed without regard to case, then
+    [`v.translate_nocase(c) == v.translate_nocase(C)].
+
+[|] v.transform(F1, F2)
+    [%regular expression traits[![`transform]]]
+    [%[`transform][!regular expression traits]]
+[|] [`X::string_type]
+[|] [:en] Returns a sort key for the character sequence designated by the
+    iterator range [=range[F1,F2)] such that if the character sequence
+    [=range[G1,G2)] sorts before the character sequence [=range[H1,H2)] then
+    [`v.transform(G1, G2) < v.transform(H1, H2)].
+
+[|] v.transform_primary(F1, F2)
+    [%regular expression traits[![`transform_primary]]]
+    [%[`transform_primaryl][!regular expression traits]]
+[|] [`X::string_type]
+[|] [:en] Returns a sort key for the character sequence designated by the
+    iterator range [=range[F1,F2)] such that if the character sequence
+    [=range[G1,G2)] sorts before the character sequence [=range[H1,H2)] when
+    character case is not considered then
+    [`v.transform_primary(G1, G2) < v.transform_primary(H1, H2)].
+
+[|] v.lookup_collatename(F1, F2)
+    [%regular expression traits[![`lookup_collatename]]]
+    [%[`lookup_collatename][!regular expression traits]]
+[|] [`X::string_type]
+[|] [:en] Returns a sequence of characters that represents the collating element
+    consisting of the character sequence designated by the iterator range
+    [=range[F1,F2)].
+    [:en] Returns an empty string if the character sequence is not a valid
+    collating element.
+
+[|] v.lookup_classname(F1, F2, b)
+    [%regular expression traits[![`lookup_classname]]]
+    [%[`lookup_classname][!regular expression traits]]
+[|] [`X::char_class_type]
+[|] [:en] Converts the character sequence designated by the iterator range
+    [=range[F1,F2)] into a value of a bitmask type that can
+    subsequently be passed to [`isctype].
+    [:en] Values returned from [`lookup_classname] can be bitwise or[=']ed
+    together; the resulting value represents membership in either of the
+    corresponding character classes.
+    [:en] If [`b] is true, the returned bitmask is suitable for matching
+    characters without regard to their case.
+    [:en] Returns 0 if the character sequence is not the name of a character
+    class recognized by [`X].
+    [:en] The value returned shall be independent of the case of the characters
+    in the sequence.
+
+[|] v.isctype(c, cl)
+    [%regular expression traits[![`isctype]]]
+    [%[`isctype][!regular expression traits]]
+[|] [`bool]
+[|] [:en] Returns [`true] if character [`c] is a member of one of the character
+    classes designated by [`cl], [`false] otherwise.
+
+[|] v.value(c, I)
+[|] [`int]
+[|] [:en] Returns the value represented by the digit [$c] in base [$I] if the
+    character [$c] is a valid digit in base [$I]; otherwise returns [`-1].
+    [enter:note]
+    [:en] The value of [$I] will only be 8, 10, or 16.
+    [exit:note]
+
+[|] u.imbue(loc)
+[|] [`X::locale_type]
+[|] [:en] Imbues [`u] with the [%locale] locale [`loc] and returns the previous
+    locale used by [`u] if any.
+
+[|] v.getloc()
+[|] [`X::locale_type]
+[|] [:en] Returns the current [%locale] locale used by [`v], if any.
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] Class template [`regex_traits] satisfies the requirements for a regular
+expression traits class when it is specialized for [`char] or [`wchar_t].
+
+[:en] This class template is described in the header [`<regex>], and is
+described in Clause [#re.traits].
+[exit:note]

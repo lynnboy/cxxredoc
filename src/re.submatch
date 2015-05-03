@@ -1,0 +1,39 @@
+﻿[section#re.submatch
+    [:en] Class template [`sub_match]
+]
+
+[para]
+[%@library sub_match]
+[:en] Class template [`sub_match] denotes the sequence of characters matched by
+a particular marked sub-expression.
+
+[codeblock:synopsis]
+namespace std {
+  template <class BidirectionalIterator>
+  class sub_match : public std::pair<BidirectionalIterator, BidirectionalIterator> {
+  public:
+     typedef typename iterator_traits<BidirectionalIterator>::
+       value_type                                               value_type;
+     typedef typename iterator_traits<BidirectionalIterator>::
+       difference_type                                          difference_type;
+     typedef BidirectionalIterator                              iterator;
+     typedef basic_string<value_type>                           string_type;
+
+     bool matched;
+
+     constexpr sub_match();
+
+     difference_type length() const;
+     operator string_type() const;
+     string_type str() const;
+
+     int compare(const sub_match& s) const;
+     int compare(const string_type& s) const;
+     int compare(const value_type* s) const;
+  };
+}
+[codeblock:end]
+
+[include re.submatch.members]
+
+[include re.submatch.op]

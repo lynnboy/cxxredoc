@@ -1,0 +1,150 @@
+﻿[section#re.results
+    [:en] Class template [`match_results]
+]
+
+[para]
+[%@library match_results]
+[:en] Class template [`match_results] denotes a collection of character
+sequences representing the result of a regular expression match.
+
+[:en] Storage for the collection is allocated and freed as necessary by the
+member functions of class template [`match_results].
+
+[para]
+[%requirements[!container]]
+[%requirements[!sequence]]
+[%[`match_results][!as sequence]]
+[:en] The class template [`match_results] shall satisfy the requirements of an
+allocator-aware container and of a sequence container, as specified
+in [#sequence.reqmts], except that only operations defined for const-qualified
+sequence containers are supported.
+
+[para]
+[:en] A default-constructed [`match_results] object has no fully established
+result state.
+
+[:en] A match result is [def ready] when, as a consequence of a completed
+regular expression match modifying such an object, its result state becomes
+fully established.
+
+[:en] The effects of calling most member functions from a [`match_results]
+object that is not ready are undefined.
+
+[para]
+[%@library match_results[!matched]]
+[:en] The [`sub_match] object stored at index 0 represents sub-expression 0,
+i.e., the whole match.
+
+[:en] In this case the [`sub_match] member [`matched] is always true.
+
+[:en] The [`sub_match] object stored at index [`n] denotes what matched the
+marked sub-expression [`n] within the matched expression.
+
+[:en] If the sub-expression [`n] participated in a regular expression match then
+the [`sub_match] member [`matched] evaluates to true, and members [`first] and
+[`second] denote the range of characters [=range[first,second)] which formed
+that match.
+
+[:en] Otherwise [`matched] is false, and members [`first] and [`second] point to
+the end of the sequence that was searched.
+
+[enter:note]
+[:en] The [`sub_match] objects representing different sub-expressions that did
+not participate in a regular expression match need not be distinct.
+[exit:note]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  template <class BidirectionalIterator,
+            class Allocator = allocator<sub_match<BidirectionalIterator>>>
+  class match_results {
+  public:
+     typedef sub_match<BidirectionalIterator>                       value_type;
+     typedef const value_type&                                      const_reference;
+     typedef value_type&                                            reference;
+     typedef implementation-defined                                 const_iterator;
+     typedef const_iterator                                         iterator;
+     typedef typename
+      iterator_traits<BidirectionalIterator>::difference_type       difference_type;
+     typedef typename allocator_traits<Allocator>::size_type        size_type;
+     typedef Allocator                                              allocator_type;
+     typedef typename iterator_traits<BidirectionalIterator>::
+       value_type                                                   char_type;
+     typedef basic_string<char_type>                                string_type;
+
+     // [:en] [#re.results.const], construct/copy/destroy:
+     explicit match_results(const Allocator& a = Allocator());
+     match_results(const match_results& m);
+     match_results(match_results&& m) noexcept;
+     match_results& operator=(const match_results& m);
+     match_results& operator=(match_results&& m);
+     ~match_results();
+
+     // [:en] [#re.results.state], state:
+     bool ready() const;
+
+     // [:en] [#re.results.size], size:
+     size_type size() const;
+     size_type max_size() const;
+     bool empty() const;
+
+     // [:en] [#re.results.acc], element access:
+     difference_type length(size_type sub = 0) const;
+     difference_type position(size_type sub = 0) const;
+     string_type str(size_type sub = 0) const;
+     const_reference operator[](size_type n) const;
+
+     const_reference prefix() const;
+     const_reference suffix() const;
+     const_iterator begin() const;
+     const_iterator end() const;
+     const_iterator cbegin() const;
+     const_iterator cend() const;
+
+     // [:en] [#re.results.form], format:
+     template <class OutputIter>
+      OutputIter
+      format(OutputIter out,
+             const char_type* fmt_first, const char_type* fmt_last,
+             regex_constants::match_flag_type flags =
+              regex_constants::format_default) const;
+     template <class OutputIter, class ST, class SA>
+       OutputIter
+       format(OutputIter out,
+              const basic_string<char_type, ST, SA>& fmt,
+              regex_constants::match_flag_type flags =
+                regex_constants::format_default) const;
+     template <class ST, class SA>
+      basic_string<char_type, ST, SA>
+      format(const basic_string<char_type, ST, SA>& fmt,
+             regex_constants::match_flag_type flags =
+               regex_constants::format_default) const;
+     string_type
+     format(const char_type* fmt,
+            regex_constants::match_flag_type flags =
+              regex_constants::format_default) const;
+
+     // [:en] [#re.results.all], allocator:
+     allocator_type get_allocator() const;
+
+     // [:en] [#re.results.swap], swap:
+     void swap(match_results& that);
+  };
+}
+[codeblock:end]
+
+[include re.results.const]
+
+[include re.results.state]
+
+[include re.results.size]
+
+[include re.results.acc]
+
+[include re.results.form]
+
+[include re.results.all]
+
+[include re.results.swap]
+
+[include re.results.nonmember]

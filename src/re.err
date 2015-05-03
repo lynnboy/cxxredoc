@@ -1,0 +1,93 @@
+﻿[section#re.err
+    [:en] Implementation-defined [`error_type]
+]
+
+[%@library error_type]
+[%@library regex_constants[!error_type]]
+[codeblock:synopsis [special T3 unspecified] ]
+namespace std::regex_constants {
+  typedef T3 error_type;
+  constexpr error_type error_collate = unspecified;
+  constexpr error_type error_ctype = unspecified;
+  constexpr error_type error_escape = unspecified;
+  constexpr error_type error_backref = unspecified;
+  constexpr error_type error_brack = unspecified;
+  constexpr error_type error_paren = unspecified;
+  constexpr error_type error_brace = unspecified;
+  constexpr error_type error_badbrace = unspecified;
+  constexpr error_type error_range = unspecified;
+  constexpr error_type error_space = unspecified;
+  constexpr error_type error_badrepeat = unspecified;
+  constexpr error_type error_complexity = unspecified;
+  constexpr error_type error_stack = unspecified;
+}
+[codeblock:end]
+
+[para]
+[%@library error_type]
+[%@library regex_constants[!error_type]]
+[:en] The type [`error_type] is an [%@impldef type of
+[`regex_constants::error_type]] implementation-defined enumerated type
+([#enumerated.types]).
+
+[:en] Values of type [`error_type] represent the error conditions described in
+Table [#tab:re:errortype]:
+
+[table:listing#tab:re.errortype
+    [:en] [`error_type] values in the C locale
+    [columns
+        [column@headercenter@code
+            [:en] Value
+        ]
+        [column@headercenter
+            [:en] Error condition
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] error_collate
+[|] [:en] The expression contained an invalid collating element name.
+
+[|] error_ctype
+[|] [:en] The expression contained an invalid character class name.
+
+[|] error_escape
+[|] [:en] The expression contained an invalid escaped character, or a trailing
+    escape.
+
+[|] error_backref
+[|] [:en] The expression contained an invalid back reference.
+
+[|] error_brack
+[|] [:en] The expression contained mismatched [`[] and [``]].
+
+[|] error_paren
+[|] [:en] The expression contained mismatched [`(] and [`)].
+
+[|] error_brace
+[|] [:en] The expression contained mismatched [`{] and [`}].
+
+[|] error_badbrace
+[|] [:en] The expression contained an invalid range in a [`{}] expression.
+
+[|] error_range
+[|] [:en] The expression contained an invalid character range, such as
+    [`[b-a`]] in most encodings.
+
+[|] error_space
+[|] [:en] There was insufficient memory to convert the expression into a finite
+    state machine.
+
+[|] error_badrepeat
+[|] [:en] One of [`*?+{] was not preceded by a valid regular expression.
+
+[|] error_complexity
+[|] [:en] The complexity of an attempted match against a regular expression
+    exceeded a pre-set level.
+
+[|] error_stack
+[|] [:en] There was insufficient memory to determine whether the regular
+    expression could match the specified character sequence.
+
+[table:end]

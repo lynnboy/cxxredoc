@@ -1,0 +1,120 @@
+﻿[section#re.synopt
+    [:en] Bitmask type [`syntax_option_type]
+]
+
+[%@library syntax_option_type]
+[%@library regex_constants[!syntax_option_type]]
+[codeblock:synopsis [special T1 unspecified] ]
+namespace std::regex_constants {
+  typedef T1 syntax_option_type;
+  constexpr syntax_option_type icase = unspecified;
+  constexpr syntax_option_type nosubs = unspecified;
+  constexpr syntax_option_type optimize = unspecified;
+  constexpr syntax_option_type collate = unspecified;
+  constexpr syntax_option_type ECMAScript = unspecified;
+  constexpr syntax_option_type basic = unspecified;
+  constexpr syntax_option_type extended = unspecified;
+  constexpr syntax_option_type awk = unspecified;
+  constexpr syntax_option_type grep = unspecified;
+  constexpr syntax_option_type egrep = unspecified;
+}
+[codeblock:end]
+
+[para]
+[%@library syntax_option_type]
+[%@library syntax_option_type[!icase]]
+[%@library syntax_option_type[!nosubs]]
+[%@library syntax_option_type[!optimize]]
+[%@library syntax_option_type[!collate]]
+[%@library syntax_option_type[!ECMAScript]]
+[%@library syntax_option_type[!basic]]
+[%@library syntax_option_type[!extended]]
+[%@library syntax_option_type[!awk]]
+[%@library syntax_option_type[!grep]]
+[%@library syntax_option_type[!egrep]]
+[:en] The type [`syntax_option_type] is an implementation-defined bitmask type
+([#bitmask.types]).
+
+[:en] Setting its elements has the effects listed in table
+[#tab:re:syntaxoption].
+
+[:en] A valid value of type [`syntax_option_type] shall have at most one of the
+grammar elements [`ECMAScript], [`basic], [`extended], [`awk], [`grep],
+[`egrep], set.
+
+[:en] If no grammar element is set, the default grammar is [`ECMAScript].
+
+[table:listing#tab:re.syntaxoption
+    [:en] [`syntax_option_type] effects
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effect(s) if set
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] icase
+    [%@library syntax_option_type[!icase]]
+[|] [:en] Specifies that matching of regular expressions against a character
+    container sequence shall be performed without regard to case.
+
+[|] nosubs
+    [%@library syntax_option_type[!nosubs]]
+[|] [:en] Specifies that no sub-expressions shall be considered to be marked, so
+    that when a regular expression is matched against a character container
+    sequence, no sub-expression matches shall be stored in the supplied
+    [`match_results] structure.
+
+[|] optimize
+    [%@library syntax_option_type[!optimize]]
+[|] [:en] Specifies that the regular expression engine should pay more attention
+    to the speed with which regular expressions are matched, and less to the
+    speed with which regular expression objects are constructed.
+    [:en] Otherwise it has no detectable effect on the program output.
+
+[|] collate
+    [%@library syntax_option_type[!collate]]
+[|] [:en] Specifies that character ranges of the form [`"[a-b`]"] shall be
+    [%locale] locale sensitive.
+
+[|] ECMAScript
+    [%@library syntax_option_type[!ECMAScript]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by [%ECMAScript] ECMAScript in ECMA-262, as modified in
+    [#re.grammar].
+
+[|] basic
+    [%@library syntax_option_type[!basic]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by [%POSIX[!regular expressions]] basic regular
+    expressions in POSIX, Base Definitions and Headers, Section 9, Regular
+    Expressions.
+
+[|] extended
+    [%@library syntax_option_type[!extended]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by [%POSIX[!extended regular expressions]] extended
+    regular expressions in POSIX, Base Definitions and Headers, Section 9,
+    Regular Expressions.
+
+[|] awk
+    [%@library syntax_option_type[!awk]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by the utility [%[`awk]] awk in POSIX.
+
+[|] grep
+    [%@library syntax_option_type[!grep]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by the utility [%[`grep]] grep in POSIX.
+
+[|] egrep
+    [%@library syntax_option_type[!egrep]]
+[|] [:en] Specifies that the grammar recognized by the regular expression engine
+    shall be that used by the utility [%[`egrep]] grep when given the -E option
+    in POSIX.
+
+[table:end]

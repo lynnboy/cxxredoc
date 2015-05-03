@@ -1,0 +1,31 @@
+﻿[section#re.tokiter.comp
+    [:en] [`regex_token_iterator] comparisons
+]
+
+[%@library regex_token_iterator[!operator==]]
+[%@library operator==[!regex_token_iterator]]
+[codeblock:declaration]
+bool operator==(const regex_token_iterator& right) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if [`*this] and [`right] are both end-of-sequence iterators, or if
+[`*this] and [`right] are both suffix iterators and [`suffix == right.suffix];
+otherwise returns [`false] if [`*this] or [`right] is an end-of-sequence
+iterator or a suffix iterator.
+
+[:en] Otherwise returns [`true] if [`position == right.position],
+[`N == right.N], and [`subs == right.subs]. Otherwise returns [`false].
+[exit:description]
+
+[%@library regex_token_iterator[!operator!=]]
+[%@library operator!=[!regex_token_iterator]]
+[codeblock:declaration]
+bool operator!=(const regex_token_iterator& right) const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(*this == right)].
+[exit:description]

@@ -1,0 +1,175 @@
+﻿[section#re.regex.assign
+    [:en] [`basic_regex] assign
+]
+
+[%@library basic_regex[!operator=]]
+[%@library operator=[!basic_regex]]
+[codeblock:declaration]
+basic_regex& operator=(const basic_regex& e);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] returns [`assign(e)].
+[exit:description]
+
+[%@library basic_regex[!operator=]]
+[%@library operator=[!basic_regex]]
+[codeblock:declaration]
+basic_regex& operator=(basic_regex&& e) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] returns [`assign(std::move(e))].
+[exit:description]
+
+[%@library basic_regex[!operator=]]
+[%@library operator=[!basic_regex]]
+[codeblock:declaration]
+basic_regex& operator=(const charT* ptr);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ptr] shall not be a null pointer.
+
+[para:effects]
+[:en] returns [`assign(ptr)].
+[exit:description]
+
+[%@library basic_regex[!operator=]]
+[%@library operator=[!basic_regex]]
+[codeblock:declaration]
+basic_regex& operator=(initializer_list<charT> il);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] returns [`assign(il.begin(), il.end())].
+[exit:description]
+
+[%@library basic_regex[!operator=]]
+[%@library operator=[!basic_regex]]
+[codeblock:declaration]
+template <class ST, class SA>
+  basic_regex& operator=(const basic_string<charT, ST, SA>& p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] returns [`assign(p)].
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+basic_regex& assign(const basic_regex& that);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] copies [`that] into [`*this] and returns [`*this].
+
+[para:postconditions]
+[:en] [`flags()] and [`mark_count()] return [`that.flags()] and
+[`that.mark_count()], respectively.
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+basic_regex& assign(basic_regex&& that) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] move assigns from [`that] into [`*this] and returns [`*this].
+
+[para:postconditions]
+[:en] [`flags()] and [`mark_count()] return the values that [`that.flags()] and
+[`that.mark_count()], respectively, had before assignment.
+
+[:en] [`that] is in a valid state with unspecified value.
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+basic_regex& assign(const charT* ptr, flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`assign(string_type(ptr), f)].
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+basic_regex& assign(const charT* ptr, size_t len,
+  flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`assign(string_type(ptr, len), f)].
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+template <class string_traits, class A>
+  basic_regex& assign(const basic_string<charT, string_traits, A>& s,
+                      flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:throws]
+[:en] [`regex_error] if [`s] is not a valid regular expression.
+
+[para:returns]
+[:en] [`*this].
+
+[para:effects]
+[:en] Assigns the regular expression contained in the string [`s], interpreted
+according the flags specified in [`f].
+
+[:en] If an exception is thrown, [`*this] is unchanged.
+
+[para:postconditions]
+[:en] If no exception is thrown, [`flags()] returns [`f] and [`mark_count()]
+returns the number of marked sub-expressions within the expression.
+[exit:description]
+
+[%@library basic_regex[!assign]]
+[%@library assign[!basic_regex]]
+[codeblock:declaration]
+template <class InputIterator>
+  basic_regex& assign(InputIterator first, InputIterator last,
+                      flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The type [`InputIterator] shall satisfy the requirements for an Input
+Iterator ([#input.iterators]).
+
+[para:returns]
+[:en] [`assign(string_type(first, last), f)].
+[exit:description]
+
+[%@library assign[!basic_regex]]
+[%@library basic_regex[!assign]]
+[codeblock:declaration]
+basic_regex& assign(initializer_list<charT> il,
+                    flag_type f = regex_constants::ECMAScript);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Same as [`assign(il.begin(), il.end(), f)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]

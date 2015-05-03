@@ -1,0 +1,10 @@
+﻿[section#re.except
+    [:en] exceptions
+]
+
+[para]
+[:en] The algorithms described in this subclause may throw an exception of type
+[`regex_error].
+
+[:en] If such an exception [`e] is thrown, [`e.code()] shall return either
+[`regex_constants::error_complexity] or [`regex_constants::error_stack].

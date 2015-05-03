@@ -1,0 +1,579 @@
+﻿[section#re.submatch.op
+    [:en] [`sub_match] non-member operators
+]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator==(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator!=(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) != 0].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) < 0].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<=(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) <= 0].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>=(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) >= 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>(const sub_match<BiIter>& lhs, const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) > 0].
+[exit:description]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator==(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(typename sub_match<BiIter>::string_type(lhs.data(),
+lhs.size())) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator!=(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator<(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(typename sub_match<BiIter>::string_type(lhs.data(),
+lhs.size())) > 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator>(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator>=(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator<=(
+    const basic_string<
+      typename iterator_traits<BiIter>::value_type, ST, SA>& lhs,
+    const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library operator==[!sub_match]]
+[%@library sub_match[!operator==]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator==(const sub_match<BiIter>& lhs,
+                  const basic_string<
+                    typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(typename sub_match<BiIter>::string_type(rhs.data(),
+rhs.size())) == 0].
+[exit:description]
+
+[%@library operator!=[!sub_match]]
+[%@library sub_match[!operator!=]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator!=(const sub_match<BiIter>& lhs,
+                  const basic_string<
+                    typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library operator>[!sub_match]]
+[%@library sub_match[!operator<]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator<(const sub_match<BiIter>& lhs,
+                 const basic_string<
+                   typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(typename sub_match<BiIter>::string_type(rhs.data(),
+rhs.size())) < 0].
+[exit:description]
+
+[%@library operator>[!sub_match]]
+[%@library sub_match[!operator>]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator>(const sub_match<BiIter>& lhs,
+                 const basic_string<
+                   typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library operator>=[!sub_match]]
+[%@library sub_match[!operator>=]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator>=(const sub_match<BiIter>& lhs,
+                  const basic_string<
+                    typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library operator<=[!sub_match]]
+[%@library sub_match[!operator<=]]
+[codeblock:declaration]
+template <class BiIter, class ST, class SA>
+  bool operator<=(const sub_match<BiIter>& lhs,
+                  const basic_string<
+                    typename iterator_traits<BiIter>::value_type, ST, SA>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator==(typename iterator_traits<BiIter>::value_type const* lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(lhs) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator!=(typename iterator_traits<BiIter>::value_type const* lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<(typename iterator_traits<BiIter>::value_type const* lhs,
+                 const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(lhs) > 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>(typename iterator_traits<BiIter>::value_type const* lhs,
+                 const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>=(typename iterator_traits<BiIter>::value_type const* lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<=(typename iterator_traits<BiIter>::value_type const* lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator==(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator!=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<(const sub_match<BiIter>& lhs,
+                 typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(rhs) < 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>(const sub_match<BiIter>& lhs,
+                 typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const* rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator==(typename iterator_traits<BiIter>::value_type const& lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(typename sub_match<BiIter>::string_type(1, lhs)) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator!=(typename iterator_traits<BiIter>::value_type const& lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<(typename iterator_traits<BiIter>::value_type const& lhs,
+                 const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs.compare(typename sub_match<BiIter>::string_type(1, lhs)) > 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>(typename iterator_traits<BiIter>::value_type const& lhs,
+                 const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>=(typename iterator_traits<BiIter>::value_type const& lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<=(typename iterator_traits<BiIter>::value_type const& lhs,
+                  const sub_match<BiIter>& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library sub_match[!operator==]]
+[%@library operator==[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator==(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(typename sub_match<BiIter>::string_type(1, rhs)) == 0].
+[exit:description]
+
+[%@library sub_match[!operator!=]]
+[%@library operator!=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator!=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs == rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<]]
+[%@library operator<[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<(const sub_match<BiIter>& lhs,
+                 typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`lhs.compare(typename sub_match<BiIter>::string_type(1, rhs)) < 0].
+[exit:description]
+
+[%@library sub_match[!operator>]]
+[%@library operator>[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>(const sub_match<BiIter>& lhs,
+                 typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rhs < lhs].
+[exit:description]
+
+[%@library sub_match[!operator>=]]
+[%@library operator>=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator>=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(lhs < rhs)].
+[exit:description]
+
+[%@library sub_match[!operator<=]]
+[%@library operator<=[!sub_match]]
+[codeblock:declaration]
+template <class BiIter>
+  bool operator<=(const sub_match<BiIter>& lhs,
+                  typename iterator_traits<BiIter>::value_type const& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(rhs < lhs)].
+[exit:description]
+
+[%@library basic_ostream]
+[%@library sub_match[!operator<<]]
+[%@library operator<<[!sub_match]]
+[codeblock:declaration]
+template <class charT, class ST, class BiIter>
+  basic_ostream<charT, ST>&
+  operator<<(basic_ostream<charT, ST>& os, const sub_match<BiIter>& m);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(os << m.str())].
+[exit:description]

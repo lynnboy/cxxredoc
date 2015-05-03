@@ -1,0 +1,138 @@
+﻿[section#re.matchflag
+    [:en] Bitmask type [`regex_constants::match_flag_type]
+]
+
+[%@library match_flag_type]
+[%@library regex_constants[!match_flag_type]]
+[%@library match_default]
+[%@library match_not_bol]
+[%@library match_not_eol]
+[%@library match_not_bow]
+[%@library match_not_eow]
+[%@library match_any]
+[%@library match_not_null]
+[%@library match_continuous]
+[%@library match_prev_avail]
+[%@library format_default]
+[%@library format_sed]
+[%@library format_no_copy]
+[%@library format_first_only]
+[codeblock:synopsis [special T2 unspecified] ]
+namespace std::regex_constants {
+  typedef T2 match_flag_type;
+  constexpr match_flag_type match_default = {};
+  constexpr match_flag_type match_not_bol = unspecified;
+  constexpr match_flag_type match_not_eol = unspecified;
+  constexpr match_flag_type match_not_bow = unspecified;
+  constexpr match_flag_type match_not_eow = unspecified;
+  constexpr match_flag_type match_any = unspecified;
+  constexpr match_flag_type match_not_null = unspecified;
+  constexpr match_flag_type match_continuous = unspecified;
+  constexpr match_flag_type match_prev_avail = unspecified;
+  constexpr match_flag_type format_default = {};
+  constexpr match_flag_type format_sed = unspecified;
+  constexpr match_flag_type format_no_copy = unspecified;
+  constexpr match_flag_type format_first_only = unspecified;
+}
+[codeblock:end]
+
+[para]
+[%@library match_flag_type]
+[:en] The type [`regex_constants::match_flag_type] is an implementation-defined
+bitmask type ([#bitmask.types]).
+
+[:en] The constants of that type, except for [`match_default] and
+[`format_default], are bitmask elements.
+
+[:en] The [`match_default] and [`format_default] constants are empty bitmasks.
+
+[:en] Matching a regular expression against a sequence of characters
+[=range[first,last)] proceeds according to the rules of the grammar specified
+for the regular expression object, modified according to the effects listed in
+Table [#tab:re:matchflag] for any bitmask elements set.
+
+[table:listing#tab:re:matchflag
+    [:en] [`regex_constants::match_flag_type] effects when obtaining a match
+        against a character container sequence [=range[first,last)].
+    [columns
+        [column@headercenter@code
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Effect(s) if set
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] match_not_bol
+    [%@library match_not_bol]
+[|] [:en] The first character in the sequence [=range[first,last)] shall be
+    treated as though it is not at the beginning of a line, so the character
+    [`^] in the regular expression shall not match [=range[first,first)].
+
+[|] match_not_eol
+    [%@library match_not_eol]
+[|] [:en] The last character in the sequence [=range[first,last)] shall be
+    treated as though it is not at the end of a line, so the character
+    [`"$"] in the regular expression shall not match [=range[last,last)].
+
+[|] match_not_bow
+    [%@library match_not_bow]
+[|] [:en] The expression [`"\\b"] shall not match the sub-sequence
+    [=range[first,first)].
+
+[|] match_not_eow
+    [%@library match_not_eow]
+[|] [:en] The expression [`"\\b"] shall not match the sub-sequence
+    [=range[last,last)].
+
+[|] match_any
+    [%@library match_any]
+[|] [:en] If more than one match is possible then any match is an acceptable
+    result.
+
+[|] match_not_null
+    [%@library match_not_null]
+[|] [:en] The expression shall not match an empty sequence.
+
+[|] match_continuous
+    [%@library match_continuous]
+[|] [:en] The expression shall only match a sub-sequence that begins at
+    [`first].
+
+[|] match_prev_avail
+    [%@library match_prev_avail]
+[|] [:en] [`--first] is a valid iterator position.
+    [:en] When this flag is set the flags match_not_bol and match_not_bow shall
+    be ignored by the regular expression algorithms [#re.alg] and iterators
+    [#re.iter].
+
+[|] format_default
+    [%@library format_default]
+[|] [:en] When a regular expression match is to be replaced by a new string, the
+    new string shall be constructed using the rules used by the ECMAScript
+    replace function in ECMA-262, part 15.5.4.11 String.prototype.replace.
+    [:en] In addition, during search and replace operations all non-overlapping
+    occurrences of the regular expression shall be located and replaced, and
+    sections of the input that did not match the expression shall be copied
+    unchanged to the output string.
+
+[|] format_sed
+    [%@library format_sed]
+[|] [:en] When a regular expression match is to be replaced by a new string, the
+    new string shall be constructed using the rules used by the sed utility in
+    POSIX.
+
+[|] format_no_copy
+    [%@library format_no_copy]
+[|] [:en] During a search and replace operation, sections of the character
+    container sequence being searched that do not match the regular expression
+    shall not be copied to the output string.
+
+[|] format_first_only
+    [%@library format_first_only]
+[|] [:en] When specified during a search and replace operation, only the first
+    occurrence of the regular expression shall be replaced.
+
+[table:end]

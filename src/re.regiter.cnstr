@@ -1,0 +1,30 @@
+﻿[section#re.regiter.cnstr
+    [:en] [`regex_iterator] constructors
+]
+
+[%@library regex_iterator[!regex_iterator]]
+[codeblock:declaration]
+regex_iterator();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an end-of-sequence iterator.
+[exit:description]
+
+[%@library regex_iterator[!regex_iterator]]
+[codeblock:declaration]
+regex_iterator(BidirectionalIterator a, BidirectionalIterator b,
+               const regex_type& re,
+               regex_constants::match_flag_type m = regex_constants::match_default);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`begin] and [`end] to [`a] and [`b], respectively, sets
+[`pregex] to [`&re], sets [`flags] to [`m], then calls
+[`regex_search(begin, end, match, *pregex, flags)].
+
+[:en] If this call returns [`false] the constructor sets [`*this] to the
+end-of-sequence iterator.
+[exit:description]

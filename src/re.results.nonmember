@@ -1,0 +1,53 @@
+﻿[section#re.results.nonmember
+    [:en] [`match_results] non-member functions
+]
+
+[%@library operator==[!match_results]]
+[%@library match_results[!operator==]]
+[codeblock:declaration]
+template <class BidirectionalIterator, class Allocator>
+bool operator==(const match_results<BidirectionalIterator, Allocator>& m1,
+                const match_results<BidirectionalIterator, Allocator>& m2);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] if neither match result is ready, [`false] if one match result is
+ready and the other is not.
+
+[:en] If both match results are ready, returns [`true] only if:
+
+[list]
+[item]
+[:en] [`m1.empty() && m2.empty()], or
+
+[item]
+[:en] [`!m1.empty() && !m2.empty()], and the following conditions are satisfied:
+
+[list]
+[item]
+[:en] [`m1.prefix() == m2.prefix()],
+[item]
+[:en] [`m1.size() == m2.size() && equal(m1.begin(), m1.end(), m2.begin())], and
+[item]
+[:en] [`m1.suffix() == m2.suffix()].
+[list:end]
+[list:end]
+
+[enter:note]
+[:en] The algorithm [`equal] is defined in Clause [#algorithms].
+[exit:note]
+[exit:description]
+
+[%@library operator!=[!match_results]]
+[%@library match_results[!operator!=]]
+[codeblock:declaration]
+template <class BidirectionalIterator, class Allocator>
+bool operator!=(const match_results<BidirectionalIterator, Allocator>& m1,
+                const match_results<BidirectionalIterator, Allocator>& m2);
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`!(m1 == m2)].
+[exit:description]

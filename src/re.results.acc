@@ -1,0 +1,124 @@
+﻿[section#re.results.acc
+    [:en] [`match_results] element access
+]
+
+[%@library length[!match_results]]
+[%@library match_results[!length]]
+[codeblock:declaration]
+difference_type length(size_type sub = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] [`(*this)[sub`].length()].
+[exit:description]
+
+[%@library position[!match_results]]
+[%@library match_results[!position]]
+[codeblock:declaration]
+difference_type position(size_type sub = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] The distance from the start of the target sequence to
+[`(*this)[sub`].first].
+[exit:description]
+
+[%@library match_results[!str]]
+[%@library str[!match_results]]
+[codeblock:declaration]
+string_type str(size_type sub = 0) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] [`string_type((*this)[sub`])].
+[exit:description]
+
+[%@library match_results[!operator[']]]
+[%@library operator['][!match_results]]
+[codeblock:declaration]
+const_reference operator[](size_type n) const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] A reference to the [`sub_match] object representing the character sequence
+that matched marked sub-expression [`n].
+
+[:en] If [`n == 0] then returns a reference to a [`sub_match] object
+representing the character sequence that matched the whole regular expression.
+
+[:en] If [`n >= size()] then returns a [`sub_match] object representing an
+unmatched sub-expression.
+[exit:description]
+
+[%@library match_results[!prefix]]
+[%@library prefix[!match_results]]
+[codeblock:declaration]
+const_reference prefix() const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] A reference to the [`sub_match] object representing the character sequence
+from the start of the string being matched/searched to the start of the match
+found.
+[exit:description]
+
+[%@library match_results[!suffix]]
+[%@library suffix[!match_results]]
+[codeblock:declaration]
+const_reference suffix() const;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`ready() == true].
+
+[para:returns]
+[:en] A reference to the [`sub_match] object representing the character sequence
+from the end of the match found to the end of the string being matched/searched.
+[exit:description]
+
+[%@library match_results[!begin]]
+[%@library begin[!match_results]]
+[codeblock:declaration]
+const_iterator begin() const;
+const_iterator cbegin() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A starting iterator that enumerates over all the sub-expressions stored in
+[`*this].
+[exit:description]
+
+[%@library match_results[!end]]
+[%@library end[!match_results]]
+[codeblock:declaration]
+const_iterator end() const;
+const_iterator cend() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A terminating iterator that enumerates over all the sub-expressions stored
+in [`*this].
+[exit:description]

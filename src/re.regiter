@@ -1,0 +1,107 @@
+﻿[section#re.regiter
+    [:en] Class template [`regex_iterator]
+]
+
+[para]
+[%@library regex_iterator]
+[%@library match_results]
+[:en] The class template [`regex_iterator] is an iterator adaptor.
+
+[:en] It represents a new view of an existing iterator sequence, by enumerating
+all the occurrences of a regular expression within that sequence.
+
+[:en] A [`regex_iterator] uses  [`regex_search] to find successive regular
+expression matches within the sequence from which it was constructed.
+
+[:en] After the iterator is constructed, and every time [`operator++] is used,
+the iterator finds and stores a value of
+[`match_results<BidirectionalIterator>].
+
+[:en] If the end of the sequence is reached ([`regex_search] returns [`false]),
+the iterator becomes equal to the end-of-sequence iterator value.
+
+[:en] The default constructor constructs an end-of-sequence iterator object,
+which is the only legitimate iterator to be used for the end condition.
+
+[:en] The result of [`operator*] on an end-of-sequence iterator is not defined.
+
+[:en] For any other iterator value a const
+[`match_results<BidirectionalIterator>&] is returned.
+
+[:en] The result of [`operator->] on an end-of-sequence iterator is not defined.
+
+[:en] For any other iterator value a
+[`const match_results<BidirectionalIterator>*] is returned.
+
+[:en] It is impossible to store things into [`regex_iterator]s.
+
+[:en] Two end-of-sequence iterators are always equal.
+
+[:en] An end-of-sequence iterator is not equal to a non-end-of-sequence
+iterator.
+
+[:en] Two non-end-of-sequence iterators are equal when they are constructed from
+the same arguments.
+
+[codeblock:synopsis]
+namespace std {
+  template <class BidirectionalIterator,
+            class charT = typename iterator_traits<
+              BidirectionalIterator>::value_type,
+              class traits = regex_traits<charT> >
+  class regex_iterator {
+  public:
+     typedef basic_regex<charT, traits>           regex_type;
+     typedef match_results<BidirectionalIterator> value_type;
+     typedef std::ptrdiff_t                       difference_type;
+     typedef const value_type*                    pointer;
+     typedef const value_type&                    reference;
+     typedef std::forward_iterator_tag            iterator_category;
+
+     regex_iterator();
+     regex_iterator(BidirectionalIterator a, BidirectionalIterator b,
+                    const regex_type& re,
+                    regex_constants::match_flag_type m =
+                      regex_constants::match_default);
+     regex_iterator(BidirectionalIterator a, BidirectionalIterator b,
+                    const regex_type&& re,
+                    regex_constants::match_flag_type m =
+                      regex_constants::match_default) = delete;
+     regex_iterator(const regex_iterator&);
+     regex_iterator& operator=(const regex_iterator&);
+     bool operator==(const regex_iterator&) const;
+     bool operator!=(const regex_iterator&) const;
+     const value_type& operator*() const;
+     const value_type* operator->() const;
+     regex_iterator& operator++();
+     regex_iterator operator++(int);
+  private:
+     BidirectionalIterator                begin;  // [=Expos]
+     BidirectionalIterator                end;    // [=Expos]
+     const regex_type*                    pregex; // [=Expos]
+     regex_constants::match_flag_type     flags;  // [=Expos]
+     match_results<BidirectionalIterator> match;  // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en]
+[%[`regex_iterator][!end-of-sequence]]
+An object of type [`regex_iterator] that is not an end-of-sequence iterator
+holds a [+zero-length match] if [`match[0`].matched == true] and
+[`match[0`].first == match[0`].second].
+
+[enter:note]
+[:en] For example, this can occur when the part of the regular expression that
+matched consists only of an assertion (such as [`'^'], [`'$'], [`'\b'],
+[`'\B']).
+[exit:note]
+
+[include re.regiter.cnstr]
+
+[include re.regiter.comp]
+
+[include re.regiter.deref]
+
+[include re.regiter.incr]
