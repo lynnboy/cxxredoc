@@ -1,0 +1,69 @@
+﻿[section#thread.thread.class
+    [:en] Class [`thread]
+]
+
+[para]
+[:en] The class [`thread] provides a mechanism to create a new thread of
+execution, to join with a thread (i.e., wait for a thread to complete), and to
+perform other operations that manage and query the state of a thread.
+
+[:en] A [`thread] object uniquely represents a particular thread of execution.
+
+[:en] That representation may be transferred to other [`thread] objects in such
+a way that no two [`thread] objects simultaneously represent the same thread of
+execution.
+
+[:en] A thread of execution is [+detached] when no [`thread] object represents
+that thread.
+
+[:en] Objects of class [`thread] can be in a state that does not represent a
+thread of execution.
+
+[enter:note]
+[:en] A [`thread] object does not represent a thread of execution after default
+construction, after being moved from, or after a successful call to [`detach] or
+[`join].
+[exit:note]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class thread {
+  public:
+    // [:en] types:
+    class id;
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+
+    // [:en] construct/copy/destroy:
+    thread() noexcept;
+    template <class F, class ...Args> explicit thread(F&& f, Args&&... args);
+    ~thread();
+    thread(const thread&) = delete;
+    thread(thread&&) noexcept;
+    thread& operator=(const thread&) = delete;
+    thread& operator=(thread&&) noexcept;
+
+    // [:en] members:
+    void swap(thread&) noexcept;
+    bool joinable() const noexcept;
+    void join();
+    void detach();
+    id get_id() const noexcept;
+    native_handle_type native_handle(); // [:en] See [#thread.req.native]
+
+    // [:en] static members:
+    static unsigned hardware_concurrency() noexcept;
+  };
+}
+[codeblock:end]
+
+[include thread.thread.id]
+
+[include thread.thread.constr]
+
+[include thread.thread.destr]
+
+[include thread.thread.assign]
+
+[include thread.thread.member]
+
+[include thread.thread.static]

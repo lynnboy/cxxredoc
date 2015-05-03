@@ -1,0 +1,36 @@
+﻿[section#thread.lock.shared.obs
+    [:en] [`shared_lock] observers
+]
+
+[%@library shared_lock[!owns_lock]]
+[%@library owns_lock[!shared_lock]]
+[codeblock:declaration]
+bool owns_lock() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`owns].
+[exit:description]
+
+[%@library shared_lock[!operator bool]]
+[%@library operator bool[!shared_lock]]
+[codeblock:declaration]
+explicit operator bool () const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`owns].
+[exit:description]
+
+[%@library shared_lock[!mutex]]
+[%@library mutex[!shared_lock]]
+[codeblock:declaration]
+mutex_type* mutex() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`pm].
+[exit:description]

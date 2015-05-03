@@ -1,0 +1,180 @@
+﻿[section#thread.mutex.requirements.mutex
+    [:en] Mutex types
+]
+
+[para]
+[:en] The [def mutex types] are the standard library types [`std::mutex],
+[`std::recursive_mutex], [`std::timed_mutex], [`std::recursive_timed_mutex],
+and [`std::shared_timed_mutex].
+
+[:en] They shall meet the requirements set out in this section.
+
+[:en] In this description, [`m] denotes an object of a mutex type.
+
+[para]
+[:en] The mutex types shall meet the [`Lockable] requirements
+([#thread.req.lockable.req]).
+
+[para]
+[:en] The mutex types shall be [`DefaultConstructible] and [`Destructible].
+
+[:en] If initialization of an object of a mutex type fails, an exception of type
+[`system_error] shall be thrown.
+
+[:en] The mutex types shall not be copyable or movable.
+
+[para]
+[:en] The error conditions for error codes, if any, reported by member functions
+of the mutex types shall be:
+
+[list]
+[item]
+[:en] [`resource_unavailable_try_again] [=--] if any native handle type
+manipulated is not available.
+[item]
+[:en] [`operation_not_permitted] [=--] if the thread does not have the privilege
+to perform the operation.
+[item]
+[:en] [`device_or_resource_busy] [=--] if any native handle type manipulated is
+already locked.
+[item]
+[:en] [`invalid_argument] [=--] if any native handle type manipulated as part of
+mutex construction is incorrect.
+[list:end]
+
+[para]
+[:en] The implementation shall provide lock and unlock operations, as described
+below.
+
+[:en] For purposes of determining the existence of a data race, these behave as
+atomic operations ([#intro.multithread]).
+
+[:en] The lock and unlock operations on a single mutex shall appear to occur in
+a single total order.
+
+[enter:note]
+[:en] this can be viewed as the modification order ([#intro.multithread]) of the
+mutex.
+[exit:note]
+
+[enter:note]
+[:en] Construction and destruction of an object of a mutex type need not be
+thread-safe; other synchronization should be used to ensure that mutex objects
+are initialized and visible to other threads.
+[exit:note]
+
+[para]
+[:en] The expression [`m.lock()] shall be well-formed and have the following
+semantics:
+
+[enter:description]
+[para:requires]
+[:en] If [`m] is of type [`std::mutex], [`std::timed_mutex], or
+[`std::shared_timed_mutex], the calling thread does not own the mutex.
+
+[para:effects]
+[:en] Blocks the calling thread until ownership of the mutex can be obtained for
+the calling thread.
+
+[para:postcondition]
+[:en] The calling thread owns the mutex.
+
+[para:returntype]
+[:en] [`void]
+
+[para:sync]
+[:en] Prior [`unlock()] operations on the same object shall [+synchronize with]
+([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`operation_not_permitted] [=--] if the thread does not have the privilege
+to perform the operation.
+
+[item]
+[:en] [`resource_deadlock_would_occur] [=--] if the implementation detects that
+a deadlock would occur.
+
+[item]
+[:en] [`device_or_resource_busy] [=--] if the mutex is already locked and
+blocking is not possible.
+[list:end]
+[exit:description]
+
+[para]
+[:en] The expression [`m.try_lock()] shall be well-formed and have the following
+semantics:
+
+[enter:description]
+[para:requires]
+[:en] If [`m] is of type [`std::mutex], [`std::timed_mutex], or
+[`std::shared_timed_mutex], the calling thread does not own the mutex.
+
+[para:effects]
+[:en] Attempts to obtain ownership of the mutex for the calling thread without
+blocking.
+
+[:en] If ownership is not obtained, there is no effect and [`try_lock()]
+immediately returns.
+
+[:en] An implementation may fail to obtain the lock even if it is not held by
+any other thread.
+
+[enter:note]
+[:en] This spurious failure is normally uncommon, but allows interesting
+implementations based on a simple compare and exchange (Clause [#atomics]).
+[exit:note]
+
+[:en] An implementation should ensure that [`try_lock()] does not consistently
+return [`false] in the absence of contending mutex acquisitions.
+
+[para:returntype]
+[:en] [`bool]
+
+[para:returns]
+[:en] [`true] if ownership of the mutex was obtained for the calling thread,
+otherwise [`false].
+
+[para:sync]
+[:en] If [`try_lock()] returns [`true], prior [`unlock()] operations on the same
+object [+synchronize with] ([#intro.multithread]) this operation.
+
+[enter:note]
+[:en] Since [`lock()] does not synchronize with a failed subsequent
+[`try_lock()], the visibility rules are weak enough that little would be known
+about the state after a failure, even in the absence of spurious failures.
+[exit:note]
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[para]
+[:en] The expression [`m.unlock()] shall be well-formed and have the following
+semantics:
+
+[enter:description]
+[para:precondition]
+[:en] The calling thread shall own the mutex.
+
+[para:effects]
+[:en] Releases the calling thread[=']s ownership of the mutex.
+
+[para:returntype]
+[:en] [`void]
+
+[para:sync]
+[:en] This operation synchronizes with ([#intro.multithread]) subsequent lock
+operations that obtain ownership on the same object.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[include thread.mutex.class]
+
+[include thread.mutex.recursive]

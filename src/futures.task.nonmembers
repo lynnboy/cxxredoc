@@ -1,0 +1,27 @@
+﻿[section#futures.task.nonmembers
+    [:en] [`packaged_task] globals
+]
+
+[%@library packaged_task[!swap]]
+[%@library swap[!packaged_task]]
+[codeblock:declaration]
+template <class R, class... ArgTypes>
+  void swap(packaged_task<R(ArgTypes...)>& x, packaged_task<R(ArgTypes...)>& y) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)]
+[exit:description]
+
+[%@library uses_allocator]
+[codeblock:declaration]
+template <class R, class Alloc>
+  struct uses_allocator<packaged_task<R>, Alloc>
+    : true_type { };
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Alloc] shall be an Allocator ([#allocator.requirements]).
+[exit:description]

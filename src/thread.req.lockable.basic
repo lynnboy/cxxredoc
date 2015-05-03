@@ -1,0 +1,35 @@
+﻿[section#thread.req.lockable.basic
+    [:en] [`BasicLockable] requirements
+]
+
+[para]
+[:en] A type [`L] meets the [`BasicLockable] requirements if the following
+expressions are well-formed and have the specified semantics ([`m] denotes a
+value of type [`L]).
+
+[codeblock:declaration]
+m.lock()
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Blocks until a lock can be acquired for the current execution agent.
+
+[:en] If an exception is thrown then a lock shall not have been acquired for the
+current execution agent.
+[exit:description]
+
+[codeblock:declaration]
+m.unlock()
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The current execution agent shall hold a lock on [`m].
+
+[para:effects]
+[:en] Releases a lock on [`m] held by the current execution agent.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]

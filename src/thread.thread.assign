@@ -1,0 +1,24 @@
+﻿[section#thread.thread.assign
+    [:en] [`thread] assignment
+]
+
+[%@library thread[!operator=]]
+[%@library operator=[!thread]]
+[codeblock:declaration]
+thread& operator=(thread&& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`joinable()], calls [`std::terminate()].
+
+[:en] Otherwise, assigns the state of [`x] to [`*this] and sets [`x] to a
+default constructed state.
+
+[para:postconditions]
+[:en] [`x.get_id() == id()] and [`get_id()] returns the value of [`x.get_id()]
+prior to the assignment.
+
+[para:returns]
+[:en] [`*this]
+[exit:description]

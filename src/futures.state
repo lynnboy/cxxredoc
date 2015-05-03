@@ -1,0 +1,141 @@
+﻿[section#futures.state
+    [:en] Shared state
+]
+
+[para]
+[:en] Many of the classes introduced in this sub-clause use some state to
+communicate results.
+
+[:en] This [%shared state[see future, shared state]] [def shared state
+[%future[!shared state]]] consists of some state information and some (possibly
+not yet evaluated) [+result], which can be a (possibly void) value or an
+exception.
+
+[enter:note]
+[:en] Futures, promises, and tasks defined in this clause reference such shared
+state.
+[exit:note]
+
+[para]
+[enter:note]
+[:en] The result can be any kind of object including a function to compute that
+result, as used by [`async] when [`policy] is [`launch::deferred].
+[exit:note]
+
+[para]
+[:en] An [def asynchronous return object] is an object that reads results from a
+shared state.
+
+[:en] A [def waiting function] of an asynchronous return object is one that
+potentially blocks to wait for the shared state to be made ready.
+
+[:en] If a waiting function can return before the state is made ready because of
+a timeout ([#thread.req.lockable]), then it is a [+timed waiting function],
+otherwise it is a [+non-timed waiting function].
+
+[para]
+[:en] An [def asynchronous provider] is an object that provides a result to a
+shared state.
+
+[:en] The result of a shared state is set by respective functions on the
+asynchronous provider.
+
+[enter:note]
+[:en] Such as promises or tasks.
+[exit:note]
+
+[:en] The means of setting the result of a shared state is specified in the
+description of those classes and functions that create such a state object.
+
+[para]
+[:en] When an asynchronous return object or an asynchronous provider is said to
+release its shared state, it means:
+
+[list]
+[item]
+[:en] if the return object or provider holds the last reference to its shared
+state, the shared state is destroyed; and
+
+[item]
+[:en] the return object or provider gives up its reference to its shared state;
+and
+
+[item]
+[:en] these actions will not block for the shared state to become ready, except
+that it may block if all of the following are true: the shared state was created
+by a call to [`std::async], the shared state is not yet ready, and this was the
+last reference to the shared state.
+[list:end]
+
+[para]
+[:en] When an asynchronous provider is said to make its shared state ready, it
+means:
+
+[list]
+[item]
+[:en] first, the provider marks its shared state as ready; and
+
+[item]
+[:en] second, the provider unblocks any execution agents waiting for its shared
+state to become ready.
+[list:end]
+
+[para]
+[:en] When an asynchronous provider is said to abandon its shared state, it
+means:
+
+[list]
+[item]
+[:en] first, if that state is not ready, the provider
+
+[list]
+[item]
+[:en] stores an exception object of type [`future_error] with an error condition
+of [`broken_promise] within its shared state; and then
+
+[item]
+[:en] makes its shared state ready;
+[list:end]
+
+[item]
+[:en] second, the provider releases its shared state.
+[list:end]
+
+[para]
+[:en] A shared state is [def ready] only if it holds a value or an exception
+ready for retrieval.
+
+[:en] Waiting for a shared state to become ready may invoke code to compute the
+result on the waiting thread if so specified in the description of the class or
+function that creates the state object.
+
+[para]
+[:en] Calls to functions that successfully set the stored result of a shared
+state synchronize with ([#intro.multithread]) calls to functions successfully
+detecting the ready state resulting from that setting.
+
+[:en] The storage of the result (whether normal or exceptional) into the shared
+state synchronizes with ([#intro.multithread]) the successful return from a call
+to a waiting function on the shared state.
+
+[para]
+[:en] Some functions (e.g., [`promise::set_value_at_thread_exit]) delay making
+the shared state ready until the calling thread exits.
+
+[:en] The destruction of each of that thread[=']s objects with thread storage
+duration ([#basic.stc.thread]) is sequenced before making that shared state
+ready.
+
+[para]
+[:en] Access to the result of the same shared state may conflict
+([#intro.multithread]).
+
+[enter:note]
+[:en] this explicitly specifies that the result of the shared state is visible
+in the objects that reference this state in the sense of data race avoidance
+([#res.on.data.races]).
+
+[:en] For example, concurrent accesses through references returned by
+[`shared_future::get()] ([#futures.shared_future]) must either use read-only
+operations or provide additional synchronization.
+[exit:note]

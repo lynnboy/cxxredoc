@@ -1,0 +1,152 @@
+﻿[section#thread.lock.unique.locking
+    [:en] [`unique_lock] locking
+]
+
+[%@library unique_lock[!lock]]
+[%@library lock[!unique_lock]]
+[codeblock:declaration]
+void lock();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`pm->lock()]
+
+[para:postcondition]
+[:en] [`owns == true]
+
+[para:throws]
+[:en] Any exception thrown by [`pm->lock()].
+
+[:en] [`system_error] if an exception is required ([#thread.req.exception]).
+
+[:en] [`system_error] with an error condition of [`operation_not_permitted] if
+[`pm] is 0.
+
+[:en] [`system_error] with an error condition of
+[`resource_deadlock_would_occur] if on entry [`owns] is [`true].
+[exit:description]
+
+[%@library unique_lock[!try_lock]]
+[%@library try_lock[!unique_lock]]
+[codeblock:declaration]
+bool try_lock();
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] The supplied [`Mutex] shall meet the [`Lockable] requirements
+([#thread.req.lockable.req]).
+
+[para:effects]
+[:en] [`pm->try_lock()]
+
+[para:returns]
+[:en] The value returned by the call to [`try_lock()].
+
+[para:postcondition]
+[:en] [`owns == res], where [`res] is the value returned by the call to
+[`try_lock()].
+
+[para:throws]
+[:en] Any exception thrown by [`pm->try_lock()].
+
+[:en] [`system_error] if an exception is required ([#thread.req.exception]).
+
+[:en] [`system_error] with an error condition of [`operation_not_permitted] if
+[`pm] is 0.
+
+[:en] [`system_error] with an error condition of
+[`resource_deadlock_would_occur] if on entry [`owns] is [`true].
+[exit:description]
+
+[%@library unique_lock[!try_lock_until]]
+[%@library try_lock_until[!unique_lock]]
+[codeblock:declaration]
+template <class Clock, class Duration>
+  bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The supplied [`Mutex] type shall meet the [`TimedLockable] requirements
+([#thread.req.lockable.timed]).
+
+[para:effects]
+[:en] [`pm->try_lock_until(abs_time)]
+
+[para:returns]
+[:en] The value returned by the call to [`try_lock_until(abs_time)].
+
+[para:postcondition]
+[:en] [`owns == res], where [`res] is the value returned by the call to
+[`try_lock_until(abs_time)].
+
+[para:throws]
+[:en] Any exception thrown by [`pm->try_lock_until()].
+
+[:en] [`system_error] if an exception is required ([#thread.req.exception]).
+
+[:en] [`system_error] with an error condition of [`operation_not_permitted] if
+[`pm] is 0.
+
+[:en] [`system_error] with an error condition of
+[`resource_deadlock_would_occur] if on entry [`owns] is [`true].
+[exit:description]
+
+[%@library unique_lock[!try_lock_for]]
+[%@library try_lock_for[!unique_lock]]
+[codeblock:declaration]
+template <class Rep, class Period>
+  bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The supplied [`Mutex] type shall meet the [`TimedLockable] requirements
+([#thread.req.lockable.timed]).
+
+[para:effects]
+[:en] [`pm->try_lock_for(rel_time)].
+
+[para:returns]
+[:en] The value returned by the call to [`try_lock_until(rel_time)].
+
+[para:postcondition]
+[:en] [`owns == res], where [`res] is the value returned by the call to
+[`try_lock_for(rel_time)].
+
+[para:throws]
+[:en] Any exception thrown by [`pm->try_lock_for()].
+
+[:en] [`system_error] if an exception is required ([#thread.req.exception]).
+
+[:en] [`system_error] with an error condition of [`operation_not_permitted] if
+[`pm] is 0.
+
+[:en] [`system_error] with an error condition of
+[`resource_deadlock_would_occur] if on entry [`owns] is [`true].
+[exit:description]
+
+[%@library unique_lock[!unlock]]
+[%@library unlock[!unique_lock]]
+[codeblock:declaration]
+void unlock();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`pm->unlock()]
+
+[para:postcondition]
+[:en] [`owns == false]
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`operation_not_permitted] [=--] if on entry [`owns] is false.
+[list:end]
+[exit:description]

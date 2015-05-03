@@ -1,0 +1,11 @@
+﻿[section#thread.once
+    [:en] Call once
+]
+
+[para]
+[:en] The class [`once_flag] is an opaque data structure that [`call_once] uses
+to initialize data without causing a data race or deadlock.
+
+[include thread.once.onceflag]
+
+[include thread.once.callonce]

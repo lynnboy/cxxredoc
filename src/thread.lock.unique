@@ -1,0 +1,94 @@
+﻿[section#thread.lock.unique
+    [:en] Class template [`unique_lock]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class Mutex>
+  class unique_lock {
+  public:
+    typedef Mutex mutex_type;
+
+    // [:en] [#thread.lock.unique.cons], construct/copy/destroy:
+    unique_lock() noexcept;
+    explicit unique_lock(mutex_type& m);
+    unique_lock(mutex_type& m, defer_lock_t) noexcept;
+    unique_lock(mutex_type& m, try_to_lock_t);
+    unique_lock(mutex_type& m, adopt_lock_t);
+    template <class Clock, class Duration>
+      unique_lock(mutex_type& m, const chrono::time_point<Clock, Duration>& abs_time);
+    template <class Rep, class Period>
+      unique_lock(mutex_type& m, const chrono::duration<Rep, Period>& rel_time);
+    ~unique_lock();
+
+    unique_lock(unique_lock const&) = delete;
+    unique_lock& operator=(unique_lock const&) = delete;
+
+    unique_lock(unique_lock&& u) noexcept;
+    unique_lock& operator=(unique_lock&& u);
+
+    // [:en] [#thread.lock.unique.locking], locking:
+    void lock();
+    bool try_lock();
+
+    template <class Rep, class Period>
+      bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+    template <class Clock, class Duration>
+      bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+
+    void unlock();
+
+    // [:en] [#thread.lock.unique.mod], modifiers:
+    void swap(unique_lock& u) noexcept;
+    mutex_type* release() noexcept;
+
+    // [:en] [#thread.lock.unique.obs], observers:
+    bool owns_lock() const noexcept;
+    explicit operator bool () const noexcept;
+    mutex_type* mutex() const noexcept;
+
+  private:
+    mutex_type* pm; // [=Expos]
+    bool owns;      // [=Expos]
+  };
+
+  template <class Mutex>
+    void swap(unique_lock<Mutex>& x, unique_lock<Mutex>& y) noexcept;
+}
+[codeblock:end]
+
+[para]
+[:en] An object of type [`unique_lock] controls the ownership of a lockable
+object within a scope.
+
+[:en] Ownership of the lockable object may be acquired at construction or after
+construction, and may be transferred, after acquisition, to another
+[`unique_lock] object.
+
+[:en] Objects of type [`unique_lock] are not copyable but are movable.
+
+[:en] The behavior of a program is undefined if the contained pointer [`pm] is
+not null and the lockable object pointed to by [`pm] does not exist for the
+entire remaining lifetime ([#basic.life]) of the [`unique_lock] object.
+
+[:en] The supplied [`Mutex] type shall meet the [`BasicLockable] requirements
+([#thread.req.lockable.basic]).
+
+[para]
+[enter:note]
+[:en] [`unique_lock<Mutex>] meets the [`BasicLockable] requirements.
+
+[:en] If [`Mutex] meets the [`Lockable] requirements
+([#thread.req.lockable.req]), [`unique_lock<Mutex>] also meets the [`Lockable]
+requirements; if [`Mutex] meets the [`TimedLockable] requirements
+([#thread.req.lockable.timed]), [`unique_lock<Mutex>] also meets the
+[`TimedLockable] requirements.
+[exit:note]
+
+[include thread.lock.unique.cons]
+
+[include thread.lock.unique.locking]
+
+[include thread.lock.unique.mod]
+
+[include thread.lock.unique.obs]

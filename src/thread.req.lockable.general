@@ -1,0 +1,38 @@
+﻿[section#thread.req.lockable.general
+    [:en] In general
+]
+
+[para]
+[:en] An [def execution agent] is an entity such as a thread that may perform
+work in parallel with other execution agents.
+
+[enter:note]
+[:en] Implementations or users may introduce other kinds of agents such as
+processes or thread-pool tasks.
+[exit:note]
+
+[:en] The calling agent is determined by context, e.g. the calling thread that
+contains the call, and so on.
+
+[para]
+[enter:note]
+[:en] Some lockable objects are ["agent oblivious] in that they work for any
+execution agent model because they do not determine or store the agent[=']s ID
+(e.g., an ordinary spin lock).
+[exit:note]
+
+[para]
+[:en] The standard library templates [`unique_lock] ([#thread.lock.unique]),
+[`lock_guard] ([#thread.lock.guard]), [`lock], [`try_lock]
+([#thread.lock.algorithm]), and [`condition_variable_any]
+([#thread.condition.condvarany]) all operate on user-supplied lockable objects.
+
+[:en] The [`BasicLockable] requirements, the [`Lockable] requirements, and the
+[`TimedLockable] requirements list the requirements imposed by these library
+types in order to acquire or release ownership of a [`lock] by a given execution
+agent.
+
+[enter:note]
+[:en] The nature of any lock ownership and any synchronization it may entail are
+not part of these requirements.
+[exit:note]

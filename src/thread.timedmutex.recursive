@@ -1,0 +1,73 @@
+﻿[section#thread.timedmutex.recursive
+    [:en] Class [`recursive_timed_mutex]
+]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class recursive_timed_mutex {
+  public:
+    recursive_timed_mutex();
+    ~recursive_timed_mutex();
+
+    recursive_timed_mutex(const recursive_timed_mutex&) = delete;
+    recursive_timed_mutex& operator=(const recursive_timed_mutex&) = delete;
+
+    void lock();  // [:en] blocking
+    bool try_lock() noexcept;
+    template <class Rep, class Period>
+      bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+    template <class Clock, class Duration>
+      bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+    void unlock();
+
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+    native_handle_type native_handle();                // [:en] See [#thread.req.native]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`recursive_timed_mutex] provides a recursive mutex with
+exclusive ownership semantics.
+
+[:en] If one thread owns a [`recursive_timed_mutex] object, attempts by another
+thread to acquire ownership of that object will fail (for [`try_lock()]) or
+block (for [`lock()], [`try_lock_for()], and [`try_lock_until()]) until the
+owning thread has completely released ownership or the call to [`try_lock_for()]
+or [`try_lock_until()] times out (having failed to obtain ownership).
+
+[para]
+[:en] The class [`recursive_timed_mutex] shall satisfy all of the [`TimedMutex]
+requirements ([#thread.timedmutex.requirements]).
+
+[:en] It shall be a standard-layout class (Clause [#class]).
+
+[para]
+[:en] A thread that owns a [`recursive_timed_mutex] object may acquire
+additional levels of ownership by calling [`lock()], [`try_lock()],
+[`try_lock_for()], or [`try_lock_until()] on that object.
+
+[:en] It is unspecified how many levels of ownership may be acquired by a single
+thread.
+
+[:en] If a thread has already acquired the maximum level of ownership for a
+[`recursive_timed_mutex] object, additional calls to [`try_lock()],
+[`try_lock_for()], or [`try_lock_until()] shall fail, and additional calls to
+[`lock()] shall throw an exception of type [`system_error].
+
+[:en] A thread shall call [`unlock()] once for each level of ownership acquired
+by calls to [`lock()], [`try_lock()], [`try_lock_for()], and
+[`try_lock_until()].
+
+[:en] Only when all levels of ownership have been released may ownership of the
+object be acquired by another thread.
+
+[para]
+[:en] The behavior of a program is undefined if:
+
+[list]
+[item]
+[:en] it destroys a [`recursive_timed_mutex] object owned by any thread, or
+[item]
+[:en] a thread terminates while owning a [`recursive_timed_mutex] object.
+[list:end]

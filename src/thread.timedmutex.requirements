@@ -1,0 +1,102 @@
+﻿[section#thread.timedmutex.requirements
+    [:en] Timed mutex types
+]
+
+[para]
+[:en] The [def timed mutex types] are the standard library types
+[`std::timed_mutex], [`std::recursive_timed_mutex], and
+[`std::shared_timed_mutex].
+
+[:en] They shall meet the requirements set out below.
+
+[:en] In this description, [`m] denotes an object of a mutex type, [`rel_time]
+denotes an object of an instantiation of [`duration] ([#time.duration]), and
+[`abs_time] denotes an object of an instantiation of [`time_point]
+([#time.point]).
+
+[para]
+[:en] The timed mutex types shall meet the [`TimedLockable] requirements
+([#thread.req.lockable.timed]).
+
+[para]
+[:en] The expression [`m.try_lock_for(rel_time)] shall be well-formed and have
+the following semantics:
+
+[enter:description]
+[para:precondition]
+[:en] If [`m] is of type [`std::timed_mutex] or [`std::shared_timed_mutex], the
+calling thread does not own the mutex.
+
+[para:effects]
+[:en] The function attempts to obtain ownership of the mutex within the relative
+timeout ([#thread.req.timing]) specified by [`rel_time].
+
+[:en] If the time specified by [`rel_time] is less than or equal to
+[`rel_time.zero()], the function attempts to obtain ownership without blocking
+(as if by calling [`try_lock()]).
+
+[:en] The function shall return within the timeout specified by [`rel_time] only
+if it has obtained ownership of the mutex object.
+
+[enter:note]
+[:en] As with [`try_lock()], there is no guarantee that ownership will be
+obtained if the lock is available, but implementations are expected to make a
+strong effort to do so.
+[exit:note]
+
+[para:returntype]
+[:en] [`bool]
+
+[para:returns]
+[:en] [`true] if ownership was obtained, otherwise [`false].
+
+[para:sync]
+[:en] If [`try_lock_for()] returns [`true], prior [`unlock()] operations on the
+same object [+synchronize with] ([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[para]
+[:en] The expression [`m.try_lock_until(abs_time)] shall be well-formed and have
+the following semantics:
+
+[enter:description]
+[para:requires]
+[:en] If [`m] is of type [`std::timed_mutex] or [`std::shared_timed_mutex], the
+calling thread does not own the mutex.
+
+[para:effects]
+[:en] The function attempts to obtain ownership of the mutex.
+
+[:en] If [`abs_time] has already passed, the function attempts to obtain
+ownership without blocking (as if by calling [`try_lock()]).
+
+[:en] The function shall return before the absolute timeout
+([#thread.req.timing]) specified by [`abs_time] only if it has obtained
+ownership of the mutex object.
+
+[enter:note]
+[:en] As with [`try_lock()], there is no guarantee that ownership will be
+obtained if the lock is available, but implementations are expected to make a
+strong effort to do so.
+[exit:note]
+
+[para:returntype]
+[:en] [`bool]
+
+[para:returns]
+[:en] [`true] if ownership was obtained, otherwise [`false].
+
+[para:sync]
+[:en] If [`try_lock_until()] returns [`true], prior [`unlock()] operations on
+the same object [+synchronize with] ([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[include thread.timedmutex.class]
+
+[include thread.timedmutex.recursive]

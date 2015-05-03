@@ -1,0 +1,37 @@
+﻿[section#futures.future_error
+    [:en] Class [`future_error]
+]
+
+[codeblock:synopsis]
+namespace std {
+  class future_error : public logic_error {
+  public:
+    future_error(error_code ec);  // [=Expos]
+
+    const error_code& code() const noexcept;
+    const char*       what() const noexcept;
+  };
+}
+[codeblock:end]
+
+[%@library future_error[!code]]
+[%@library code[!future_error]]
+[codeblock:declaration]
+const error_code& code() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] The value of [`ec] that was passed to the object[=']s constructor.
+[exit:description]
+
+[%@library future_error[!what]]
+[%@library what[!future_error]]
+[codeblock:declaration]
+const char* what() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An [em@sc ntbs] incorporating [`code().message()].
+[exit:description]

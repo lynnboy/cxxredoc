@@ -1,0 +1,79 @@
+﻿[section#thread.lock.guard
+    [:en] Class template [`lock_guard]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class Mutex>
+  class lock_guard {
+  public:
+    typedef Mutex mutex_type;
+
+    explicit lock_guard(mutex_type& m);
+    lock_guard(mutex_type& m, adopt_lock_t);
+    ~lock_guard();
+
+    lock_guard(lock_guard const&) = delete;
+    lock_guard& operator=(lock_guard const&) = delete;
+
+  private:
+    mutex_type& pm; // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] An object of type [`lock_guard] controls the ownership of a lockable
+object within a scope.
+
+[:en] A [`lock_guard] object maintains ownership of a lockable object throughout
+the [`lock_guard] object[=']s lifetime ([#basic.life]).
+
+[:en] The behavior of a program is undefined if the lockable object referenced
+by [`pm] does not exist for the entire lifetime of the [`lock_guard] object.
+
+[:en] The supplied [`Mutex] type shall meet the [`BasicLockable] requirements
+([#thread.req.lockable.basic]).
+
+[%@library lock_guard[![:en]constructor]]
+[codeblock:declaration]
+explicit lock_guard(mutex_type& m);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] If [`mutex_type] is not a recursive mutex, the calling thread does not own
+the mutex [`m].
+
+[para:effects]
+[:en] [`m.lock()]
+
+[para:postcondition]
+[:en] [`&pm == &m]
+[exit:description]
+
+[%@library lock_guard[![:en]constructor]]
+[codeblock:declaration]
+lock_guard(mutex_type& m, adopt_lock_t);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] The calling thread owns the mutex [`m].
+
+[para:postcondition]
+[:en] [`&pm == &m]
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library lock_guard[![:en]destructor]]
+[codeblock:declaration]
+~lock_guard();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`pm.unlock()]
+[exit:description]

@@ -1,0 +1,19 @@
+﻿[section#thread.req.native
+    [:en] Native handles
+]
+
+[para]
+[:en] Several classes described in this Clause have members
+[`native_handle_type] and [`native_handle].
+
+[:en] The presence of these members and their semantics is [%@impldef presence
+and meaning of [`native_handle_type] and [`native_handle]]
+implementation-defined.
+
+[enter:note]
+[:en] These members allow implementations to provide access to implementation
+details.
+
+[:en] Their names are specified to facilitate portable compile-time detection.
+
+[:en] Actual use of these members is inherently non-portable. [exit:note]

@@ -1,0 +1,85 @@
+﻿[section#thread.thread.this
+    [:en] Namespace [`this_thread]
+]
+
+[codeblock:synopsis]
+namespace std::this_thread {
+  thread::id get_id() noexcept;
+
+  void yield() noexcept;
+  template <class Clock, class Duration>
+    void sleep_until(const chrono::time_point<Clock, Duration>& abs_time);
+  template <class Rep, class Period>
+    void sleep_for(const chrono::duration<Rep, Period>& rel_time);
+}
+[codeblock:end]
+
+[%@library this_thread[!get_id]]
+[%@library get_id[!this_thread]]
+[codeblock:declaration]
+thread::id this_thread::get_id() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] An object of type [`thread::id] that uniquely identifies the current
+thread of execution.
+
+[:en] No other thread of execution shall have this id and this thread of
+execution shall always have this id.
+
+[:en] The object returned shall not compare equal to a default constructed
+[`thread::id].
+[exit:description]
+
+[%@library this_thread[!yield]]
+[%@library yield[!this_thread]]
+[codeblock:declaration]
+void this_thread::yield() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Offers the implementation the opportunity to reschedule.
+
+[para:sync]
+[:en] None.
+[exit:description]
+
+[%@library this_thread[!sleep_until]]
+[%@library sleep_until[!this_thread]]
+[codeblock:declaration]
+template <class Clock, class Duration>
+  void sleep_until(const chrono::time_point<Clock, Duration>& abs_time);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Blocks the calling thread for the absolute timeout ([#thread.req.timing])
+specified by [`abs_time].
+
+[para:sync]
+[:en] None.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[%@library this_thread[!sleep_for]]
+[%@library sleep_for[!this_thread]]
+[codeblock:declaration]
+template <class Rep, class Period>
+  void sleep_for(const chrono::duration<Rep, Period>& rel_time);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Blocks the calling thread for the relative timeout ([#thread.req.timing])
+specified by [`rel_time].
+
+[para:sync]
+[:en] None.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]

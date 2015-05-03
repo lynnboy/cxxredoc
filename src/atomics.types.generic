@@ -1,0 +1,284 @@
+﻿[section#atomics.types.generic
+    [:en] Atomic types
+]
+
+[codeblock:synopsis [special integral] ]
+namespace std {
+  template <class T> struct atomic {
+    bool is_lock_free() const volatile noexcept;
+    bool is_lock_free() const noexcept;
+    void store(T, memory_order = memory_order_seq_cst) volatile noexcept;
+    void store(T, memory_order = memory_order_seq_cst) noexcept;
+    T load(memory_order = memory_order_seq_cst) const volatile noexcept;
+    T load(memory_order = memory_order_seq_cst) const noexcept;
+    operator T() const volatile noexcept;
+    operator T() const noexcept;
+    T exchange(T, memory_order = memory_order_seq_cst) volatile noexcept;
+    T exchange(T, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_weak(T&, T, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_weak(T&, T, memory_order, memory_order) noexcept;
+    bool compare_exchange_strong(T&, T, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_strong(T&, T, memory_order, memory_order) noexcept;
+    bool compare_exchange_weak(T&, T, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_weak(T&, T, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_strong(T&, T, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_strong(T&, T, memory_order = memory_order_seq_cst) noexcept;
+
+    atomic() noexcept = default;
+    constexpr atomic(T) noexcept;
+    atomic(const atomic&) = delete;
+    atomic& operator=(const atomic&) = delete;
+    atomic& operator=(const atomic&) volatile = delete;
+    T operator=(T) volatile noexcept;
+    T operator=(T) noexcept;
+  };
+
+  template <> struct atomic<integral> {
+    bool is_lock_free() const volatile noexcept;
+    bool is_lock_free() const noexcept;
+    void store(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    void store(integral, memory_order = memory_order_seq_cst) noexcept;
+    integral load(memory_order = memory_order_seq_cst) const volatile noexcept;
+    integral load(memory_order = memory_order_seq_cst) const noexcept;
+    operator integral() const volatile noexcept;
+    operator integral() const noexcept;
+    integral exchange(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral exchange(integral, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_weak(integral&, integral, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_weak(integral&, integral, memory_order, memory_order) noexcept;
+    bool compare_exchange_strong(integral&, integral, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_strong(integral&, integral, memory_order, memory_order) noexcept;
+    bool compare_exchange_weak(integral&, integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_weak(integral&, integral, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_strong(integral&, integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_strong(integral&, integral, memory_order = memory_order_seq_cst) noexcept;
+    integral fetch_add(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral fetch_add(integral, memory_order = memory_order_seq_cst) noexcept;
+    integral fetch_sub(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral fetch_sub(integral, memory_order = memory_order_seq_cst) noexcept;
+    integral fetch_and(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral fetch_and(integral, memory_order = memory_order_seq_cst) noexcept;
+    integral fetch_or(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral fetch_or(integral, memory_order = memory_order_seq_cst) noexcept;
+    integral fetch_xor(integral, memory_order = memory_order_seq_cst) volatile noexcept;
+    integral fetch_xor(integral, memory_order = memory_order_seq_cst) noexcept;
+
+    atomic() noexcept = default;
+    constexpr atomic(integral) noexcept;
+    atomic(const atomic&) = delete;
+    atomic& operator=(const atomic&) = delete;
+    atomic& operator=(const atomic&) volatile = delete;
+    integral operator=(integral) volatile noexcept;
+    integral operator=(integral) noexcept;
+
+    integral operator++(int) volatile noexcept;
+    integral operator++(int) noexcept;
+    integral operator--(int) volatile noexcept;
+    integral operator--(int) noexcept;
+    integral operator++() volatile noexcept;
+    integral operator++() noexcept;
+    integral operator--() volatile noexcept;
+    integral operator--() noexcept;
+    integral operator+=(integral) volatile noexcept;
+    integral operator+=(integral) noexcept;
+    integral operator-=(integral) volatile noexcept;
+    integral operator-=(integral) noexcept;
+    integral operator&=(integral) volatile noexcept;
+    integral operator&=(integral) noexcept;
+    integral operator|=(integral) volatile noexcept;
+    integral operator|=(integral) noexcept;
+    integral operator^=(integral) volatile noexcept;
+    integral operator^=(integral) noexcept;
+  };
+
+  template <class T> struct atomic<T*> {
+    bool is_lock_free() const volatile noexcept;
+    bool is_lock_free() const noexcept;
+    void store(T*, memory_order = memory_order_seq_cst) volatile noexcept;
+    void store(T*, memory_order = memory_order_seq_cst) noexcept;
+    T* load(memory_order = memory_order_seq_cst) const volatile noexcept;
+    T* load(memory_order = memory_order_seq_cst) const noexcept;
+    operator T*() const volatile noexcept;
+    operator T*() const noexcept;
+    T* exchange(T*, memory_order = memory_order_seq_cst) volatile noexcept;
+    T* exchange(T*, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_weak(T*&, T*, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_weak(T*&, T*, memory_order, memory_order) noexcept;
+    bool compare_exchange_strong(T*&, T*, memory_order, memory_order) volatile noexcept;
+    bool compare_exchange_strong(T*&, T*, memory_order, memory_order) noexcept;
+    bool compare_exchange_weak(T*&, T*, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_weak(T*&, T*, memory_order = memory_order_seq_cst) noexcept;
+    bool compare_exchange_strong(T*&, T*, memory_order = memory_order_seq_cst) volatile noexcept;
+    bool compare_exchange_strong(T*&, T*, memory_order = memory_order_seq_cst) noexcept;
+    T* fetch_add(ptrdiff_t, memory_order = memory_order_seq_cst) volatile noexcept;
+    T* fetch_add(ptrdiff_t, memory_order = memory_order_seq_cst) noexcept;
+    T* fetch_sub(ptrdiff_t, memory_order = memory_order_seq_cst) volatile noexcept;
+    T* fetch_sub(ptrdiff_t, memory_order = memory_order_seq_cst) noexcept;
+
+    atomic() noexcept = default;
+    constexpr atomic(T*) noexcept;
+    atomic(const atomic&) = delete;
+    atomic& operator=(const atomic&) = delete;
+    atomic& operator=(const atomic&) volatile = delete;
+    T* operator=(T*) volatile noexcept;
+    T* operator=(T*) noexcept;
+
+    T* operator++(int) volatile noexcept;
+    T* operator++(int) noexcept;
+    T* operator--(int) volatile noexcept;
+    T* operator--(int) noexcept;
+    T* operator++() volatile noexcept;
+    T* operator++() noexcept;
+    T* operator--() volatile noexcept;
+    T* operator--() noexcept;
+    T* operator+=(ptrdiff_t) volatile noexcept;
+    T* operator+=(ptrdiff_t) noexcept;
+    T* operator-=(ptrdiff_t) volatile noexcept;
+    T* operator-=(ptrdiff_t) noexcept;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] There is a generic class template [`atomic<T>].
+
+[:en] The type of the template argument [`T] shall be trivially copyable
+([#basic.types]).
+
+[enter:note]
+[:en] Type arguments that are not also statically initializable may be difficult
+to use.
+[exit:note]
+
+[para]
+[:en] The semantics of the operations on specializations of [`atomic] are
+defined in [#atomics.types.operations].
+
+[para]
+[:en] Specializations and instantiations of the [`atomic] template shall have a
+deleted copy constructor, a deleted copy assignment operator, and a constexpr
+value constructor.
+
+[para]
+[:en] There shall be explicit specializations of the [`atomic] template for the
+integral types [`char], [`signed char], [`unsigned char], [`short], [`unsigned
+short], [`int], [`unsigned int], [`long], [`unsigned long], [`long long],
+[`unsigned long long], [`char16_t], [`char32_t], [`wchar_t], and any other types
+needed by the typedefs in the header [`<cstdint>].
+
+[:en] For each integral type [`[$integral]], the specialization
+[`atomic<integral>] provides additional atomic operations appropriate to
+integral types.
+
+[:en] There shall be a specialization [`atomic<bool>] which provides the general
+atomic operations as specified in [#atomics.types.operations.general].
+
+[para]
+[:en] The atomic integral specializations and the specialization [`atomic<bool>]
+shall have standard layout.
+
+[:en] They shall each have a trivial default constructor and a trivial
+destructor.
+
+[:en] They shall each support aggregate initialization syntax.
+
+[para]
+[:en] There shall be pointer partial specializations of the [`atomic] class
+template.
+
+[:en] These specializations shall have standard layout, trivial default
+constructors, and trivial destructors.
+
+[:en] They shall each support aggregate initialization syntax.
+
+[para]
+[:en] There shall be named types corresponding to the integral specializations
+of [`atomic], as specified in Table [#tab:atomics.integral], and a named type
+[`atomic_bool] corresponding to the specified [`atomic<bool>].
+
+[:en] Each named type is either a typedef to the corresponding specialization or
+a base class of the corresponding specialization.
+
+[:en] If it is a base class, it shall support the same member functions as the
+corresponding specialization.
+
+[table:listing#tab:atomics.integral
+    [:en] [`atomic] integral typedefs
+    [columns
+        [column@code
+            [:en] Named type
+        ]
+        [column@code
+            [:en] Integral argument type
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] atomic_char         [|] char
+[|] atomic_schar        [|] signed char
+[|] atomic_uchar        [|] unsigned char
+[|] atomic_short        [|] short
+[|] atomic_ushort       [|] unsigned short
+[|] atomic_int          [|] int
+[|] atomic_uint         [|] unsigned int
+[|] atomic_long         [|] long
+[|] atomic_ulong        [|] unsigned long
+[|] atomic_llong        [|] long long
+[|] atomic_ullong       [|] unsigned long long
+[|] atomic_char16_t     [|] char16_t
+[|] atomic_char32_t     [|] char32_t
+[|] atomic_wchar_t      [|] wchar_t
+
+[table:end]
+
+[para]
+[:en] There shall be atomic typedefs corresponding to the typedefs in the header
+[`<inttypes.h>] as specified in Table [#tab:atomics.typedefs].
+
+[table:listing#tab:atomics.typedefs
+    [:en] [`atomic] [`<inttypes.h>] typedefs
+    [columns
+        [column@code
+            [:en] Atomic typedef
+        ]
+        [column@code
+            [:en] [`<inttypes.h>] type
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] atomic_int_least8_t     [|] int_least8_t
+[|] atomic_uint_least8_t    [|] uint_least8_t
+[|] atomic_int_least16_t    [|] int_least16_t
+[|] atomic_uint_least16_t   [|] uint_least16_t
+[|] atomic_int_least32_t    [|] int_least32_t
+[|] atomic_uint_least32_t   [|] uint_least32_t
+[|] atomic_int_least64_t    [|] int_least64_t
+[|] atomic_uint_least64_t   [|] uint_least64_t
+[|] atomic_int_fast8_t      [|] int_fast8_t
+[|] atomic_uint_fast8_t     [|] uint_fast8_t
+[|] atomic_int_fast16_t     [|] int_fast16_t
+[|] atomic_uint_fast16_t    [|] uint_fast16_t
+[|] atomic_int_fast32_t     [|] int_fast32_t
+[|] atomic_uint_fast32_t    [|] uint_fast32_t
+[|] atomic_int_fast64_t     [|] int_fast64_t
+[|] atomic_uint_fast64_t    [|] uint_fast64_t
+[|] atomic_intptr_t         [|] intptr_t
+[|] atomic_uintptr_t        [|] uintptr_t
+[|] atomic_size_t           [|] size_t
+[|] atomic_ptrdiff_t        [|] ptrdiff_t
+[|] atomic_intmax_t         [|] intmax_t
+[|] atomic_uintmax_t        [|] uintmax_t
+
+[table:end]
+
+[para]
+[enter:note]
+[:en] The representation of an atomic specialization need not have the same size
+as its corresponding argument type.
+
+[:en] Specializations should have the same size whenever possible, as this
+reduces the effort required to port existing code.
+[exit:note]

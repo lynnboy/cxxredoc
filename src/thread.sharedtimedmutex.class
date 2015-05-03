@@ -1,0 +1,60 @@
+﻿[section#thread.sharedtimedmutex.class
+    [:en] Class [`shared_timed_mutex]
+]
+
+[codeblock:synopsis]
+namespace std {
+  class shared_timed_mutex {
+  public:
+    shared_timed_mutex();
+    ~shared_timed_mutex();
+  
+    shared_timed_mutex(const shared_timed_mutex&) = delete;
+    shared_timed_mutex& operator=(const shared_timed_mutex&) = delete;
+  
+    // [:en] Exclusive ownership
+    void lock();  // [:en] blocking
+    bool try_lock();
+    template <class Rep, class Period>
+      bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+    template <class Clock, class Duration>
+      bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+    void unlock();
+  
+    // [:en] Shared ownership
+    void lock_shared();  // [:en] blocking
+    bool try_lock_shared();
+    template <class Rep, class Period>
+      bool
+      try_lock_shared_for(const chrono::duration<Rep, Period>& rel_time);
+    template <class Clock, class Duration>
+      bool
+      try_lock_shared_until(const chrono::time_point<Clock, Duration>& abs_time);
+    void unlock_shared();
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`shared_timed_mutex] provides a non-recursive mutex with shared
+ownership semantics.
+
+[para]
+[:en] The class [`shared_timed_mutex] shall satisfy all of the
+[`SharedTimedMutex] requirements ([#thread.sharedtimedmutex.requirements]).
+
+[:en] It shall be a standard-layout class (Clause [#class]).
+
+[para]
+[:en] The behavior of a program is undefined if:
+
+[list]
+[item]
+[:en] it destroys a [`shared_timed_mutex] object owned by any thread,
+[item]
+[:en] a thread attempts to recursively gain any ownership of a
+[`shared_timed_mutex], or
+[item]
+[:en] a thread terminates while possessing any ownership of a
+[`shared_timed_mutex].
+[list:end]

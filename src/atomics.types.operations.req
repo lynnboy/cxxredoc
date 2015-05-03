@@ -1,0 +1,545 @@
+﻿[section#atomics.types.operations.req
+    [:en] Requirements for operations on atomic types
+]
+
+[para]
+[:en] There are only a few kinds of operations on atomic types, though there are
+many instances on those kinds.
+
+[:en] This section specifies each general kind.
+
+[:en] The specific instances are defined in  [#atomics.types.generic],
+[#atomics.types.operations.general], [#atomics.types.operations.arith], and
+[#atomics.types.operations.pointer].
+
+[para]
+[:en] In the following operation definitions:
+
+[list]
+[item]
+[:en] an [$A] refers to one of the atomic types.
+
+[item]
+[:en] a [$C] refers to its corresponding non-atomic type.
+
+[item]
+[:en] an [$M] refers to type of the other argument for arithmetic operations.
+
+[:en] For integral atomic types, [$M] is [$C].
+
+[:en] For atomic address types, [$M] is [`std::ptrdiff_t].
+
+[item]
+[:en] the non-member functions not ending in [`_explicit] have the semantics of
+their corresponding [`_explicit] functions with [`memory_order] arguments of
+[`memory_order_seq_cst].
+[list:end]
+
+[para]
+[enter:note]
+[:en] Many operations are volatile-qualified.
+
+[:en] The ["volatile as device register] semantics have not changed in the
+standard.
+
+[:en] This qualification means that volatility is preserved when applying these
+operations to volatile objects.
+
+[:en] It does not mean that operations on non-volatile objects become volatile.
+
+[:en] Thus, volatile qualified operations on non-volatile objects may be merged
+under some conditions.
+[exit:note]
+
+[%@library atomic type[![:en]constructor]]
+[codeblock:declaration [special A] ]
+A::A() noexcept = default;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] leaves the atomic object in an uninitialized state.
+
+[enter:note]
+[:en] These semantics ensure compatibility with C.
+[exit:note]
+[exit:description]
+
+[%@library atomic type}!constructor]
+[codeblock:declaration [special A C] ]
+constexpr A::A(C desired) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes the object with the value [`desired].
+
+[:en] Initialization is not an atomic operation ([#intro.multithread]).
+
+[enter:note]
+[:en] it is possible to have an access to an atomic object [`A] race with its
+construction, for example by communicating the address of the just-constructed
+object [`A] to another thread via [`memory_order_relaxed] operations on a
+suitable atomic pointer variable, and then immediately accessing [`A] in the
+receiving thread.
+
+[:en] This results in undefined behavior.
+[exit:note]
+[exit:description]
+
+[codeblock:declaration]
+#define ATOMIC_VAR_INIT(value) [=Seebelow]
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The macro expands to a token sequence suitable for constant initialization
+of an atomic variable of static storage duration of a type that is
+initialization-compatible with [`[$value]].
+
+[enter:note]
+[:en] This operation may need to initialize locks.
+[exit:note]
+
+[:en] Concurrent access to the variable being initialized, even via an atomic
+operation, constitutes a data race.
+
+[enter:example]
+[codeblock:synopsis]
+atomic<int> v = ATOMIC_VAR_INIT(5);
+[codeblock:end]
+[exit:example]
+[exit:description]
+
+[%@library atomic type[!atomic_is_lock_free]]
+[%@library atomic_is_lock_free[!atomic type]]
+[codeblock:declaration [special A] ]
+bool atomic_is_lock_free(const volatile A* object) noexcept;
+bool atomic_is_lock_free(const A* object) noexcept;
+bool A::is_lock_free() const volatile noexcept;
+bool A::is_lock_free() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] True if the object[=']s operations are lock-free, false otherwise.
+[exit:description]
+
+[codeblock:declaration [special A C] ]
+void atomic_init(volatile A* object, C desired) noexcept;
+void atomic_init(A* object, C desired) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Non-atomically initializes [`*object] with value [`desired].
+
+[:en] This function shall only be applied to objects that have been default
+constructed, and then only once.
+
+[enter:note]
+[:en] These semantics ensure compatibility with C.
+[exit:note]
+
+[enter:note] 
+[:en] Concurrent access from another thread, even via an atomic operation,
+constitutes a data race.
+[exit:note]
+
+[exit:description]
+
+[%@library atomic type[!atomic_store]]
+[%@library atomic_store[!atomic type]]
+[%@library atomic type[!atomic_store_explicit]]
+[%@library atomic_store_explicit[!atomic type]]
+[%@library atomic type[!store]]
+[%@library store[!atomic type]]
+[codeblock:declaration [special A C] ]
+void atomic_store(volatile A* object, C desired) noexcept;
+void atomic_store(A* object, C desired) noexcept;
+void atomic_store_explicit(volatile A* object, C desired, memory_order order) noexcept;
+void atomic_store_explicit(A* object, C desired, memory_order order) noexcept;
+void A::store(C desired, memory_order order = memory_order_seq_cst) volatile noexcept;
+void A::store(C desired, memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The [`order] argument shall not be [`memory_order_consume],
+[`memory_order_acquire], nor [`memory_order_acq_rel].
+
+[para:effects]
+[:en] Atomically replaces the value pointed to by [`object] or by [`this] with
+the value of [`desired].
+
+[:en] Memory is affected according to the value of [`order].
+[exit:description]
+
+[%@library atomic type[!operator=]]
+[%@library operator=[!atomic type]]
+[codeblock:declaration [special A C] ]
+C A::operator=(C desired) volatile noexcept;
+C A::operator=(C desired) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`store(desired)]
+
+[para:returns]
+[:en] [`desired]
+[exit:description]
+
+[%@library atomic type[!atomic_load]]
+[%@library atomic_load[!atomic type]]
+[%@library atomic type[!atomic_load_explicit]]
+[%@library atomic_load_explicit[!atomic type]]
+[%@library atomic type[!load]]
+[%@library load[!atomic type]]
+[codeblock:declaration [special A C] ]
+C atomic_load(const volatile A* object) noexcept;
+C atomic_load(const A* object) noexcept;
+C atomic_load_explicit(const volatile A* object, memory_order) noexcept;
+C atomic_load_explicit(const A* object, memory_order) noexcept;
+C A::load(memory_order order = memory_order_seq_cst) const volatile noexcept;
+C A::load(memory_order order = memory_order_seq_cst) const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The [`order] argument shall not be [`memory_order_release] nor
+[`memory_order_acq_rel].
+
+[para:effects]
+[:en] Memory is affected according to the value of [`order].
+
+[para:returns]
+[:en] Atomically returns the value pointed to by [`object] or by [`this].
+[exit:description]
+
+[%@library atomic type[!operator [$C]]]
+[%@library operator [$C][!atomic type]]
+[codeblock:declaration [special A C] ]
+A::operator C() const volatile noexcept;
+A::operator C() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`load()]
+
+[para:returns]
+[:en] The result of [`load()].
+[exit:description]
+
+[%@library atomic type[!atomic_exchange]]
+[%@library atomic_exchange[!atomic type]]
+[%@library atomic type[!atomic_exchange_explicit]]
+[%@library atomic_exchange_explicit[!atomic type]]
+[%@library atomic type[!exchange]]
+[%@library exchange[!atomic type]]
+[codeblock:declaration [special A C] ]
+C atomic_exchange(volatile A* object, C desired) noexcept;
+C atomic_exchange(A* object, C desired) noexcept;
+C atomic_exchange_explicit(volatile A* object, C desired, memory_order) noexcept;
+C atomic_exchange_explicit(A* object, C desired, memory_order) noexcept;
+C A::exchange(C desired, memory_order order = memory_order_seq_cst) volatile noexcept;
+C A::exchange(C desired, memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Atomically replaces the value pointed to by [`object] or by [`this] with
+[`desired].
+
+[:en] Memory is affected according to the value of [`order].
+
+[:en] These operations are atomic read-modify-write operations
+([#intro.multithread]).
+
+[para:returns]
+[:en] Atomically returns the value pointed to by [`object] or by [`this]
+immediately before the effects.
+[exit:description]
+
+[%@library atomic type[!atomic_compare_exchange_weak]]
+[%@library atomic_compare_exchange_weak[!atomic type]]
+[%@library atomic type[!atomic_compare_exchange_strong]]
+[%@library atomic_compare_exchange_strong[!atomic type]]
+[%@library atomic type[!atomic_compare_exchange_weak_explicit]]
+[%@library atomic_compare_exchange_weak_explicit[!atomic type]]
+[%@library atomic type[!atomic_compare_exchange_strong_explicit]]
+[%@library atomic_compare_exchange_strong_explicit[!atomic type]]
+[%@library atomic type[!compare_exchange_weak]]
+[%@library compare_exchange_weak[!atomic type]]
+[%@library atomic type[!compare_exchange_strong]]
+[%@library compare_exchange_strong[!atomic type]]
+[%@library atomic type[!compare_exchange_weak_explicit]]
+[%@library compare_exchange_weak_explicit[!atomic type]]
+[%@library atomic type[!compare_exchange_strong_explicit]]
+[%@library compare_exchange_strong_explicit[!atomic type]]
+[codeblock:declaration [special A C] ]
+bool atomic_compare_exchange_weak(volatile A* object, C* expected, C desired) noexcept;
+bool atomic_compare_exchange_weak(A* object, C* expected, C desired) noexcept;
+bool atomic_compare_exchange_strong(volatile A* object, C* expected, C desired) noexcept;
+bool atomic_compare_exchange_strong(A* object, C* expected, C desired) noexcept;
+bool atomic_compare_exchange_weak_explicit(volatile A* object, C* expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool atomic_compare_exchange_weak_explicit(A* object, C* expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool atomic_compare_exchange_strong_explicit(volatile A* object, C* expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool atomic_compare_exchange_strong_explicit(A* object, C* expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool A::compare_exchange_weak(C& expected, C desired,
+    memory_order success, memory_order failure) volatile noexcept;
+bool A::compare_exchange_weak(C& expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool A::compare_exchange_strong(C& expected, C desired,
+    memory_order success, memory_order failure) volatile noexcept;
+bool A::compare_exchange_strong(C& expected, C desired,
+    memory_order success, memory_order failure) noexcept;
+bool A::compare_exchange_weak(C& expected, C desired,
+    memory_order order = memory_order_seq_cst) volatile noexcept;
+bool A::compare_exchange_weak(C& expected, C desired,
+    memory_order order = memory_order_seq_cst) noexcept;
+bool A::compare_exchange_strong(C& expected, C desired,
+    memory_order order = memory_order_seq_cst) volatile noexcept;
+bool A::compare_exchange_strong(C& expected, C desired,
+    memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The [`failure] argument shall not be [`memory_order_release] nor
+[`memory_order_acq_rel].
+
+[:en] The [`failure] argument shall be no stronger than the [`success] argument.
+
+[para:effects]
+[:en] Atomically, compares the contents of the memory pointed to by [`object] or
+by [`this] for equality with that in [`expected], and if true, replaces the
+contents of the memory pointed to by [`object] or by [`this] with that in
+[`desired], and if false, updates the contents of the memory in [`expected] with
+the contents of the memory pointed to by [`object] or by [`this].
+
+[:en] Further, if the comparison is true, memory is affected according to the
+value of [`success], and if the comparison is false, memory is affected
+according to the value of [`failure].
+
+[:en] When only one [`memory_order] argument is supplied, the value of
+[`success] is [`order], and the value of [`failure] is [`order] except that a
+value of [`memory_order_acq_rel] shall be replaced by the value
+[`memory_order_acquire] and a value of [`memory_order_release] shall be replaced
+by the value [`memory_order_relaxed].
+
+[:en] If the operation returns [`true], these operations are atomic
+read-modify-write operations ([#intro.multithread]).
+
+[:en] Otherwise, these operations are atomic load operations.
+
+[para:returns]
+[:en] The result of the comparison.
+
+[para]
+[enter:note]
+[:en] For example, the effect of [`atomic_compare_exchange_strong] is
+
+[codeblock]
+if (memcmp(object, expected, sizeof(*object)) == 0)
+  memcpy(object, &desired, sizeof(*object));
+else
+  memcpy(expected, object, sizeof(*object));
+[codeblock:end]
+[exit:note]
+
+[enter:example]
+[:en] the expected use of the compare-and-exchange operations is as follows.
+
+[:en] The compare-and-exchange operations will update [`expected] when another
+iteration of the loop is needed.
+
+[codeblock]
+expected = current.load();
+do {
+  desired = function(expected);
+} while (!current.compare_exchange_weak(expected, desired));
+[codeblock:end]
+[exit:example]
+
+[para]
+[:en] Implementations should ensure that weak compare-and-exchange operations do
+not consistently return [`false] unless either the atomic object has value
+different from [`expected] or there are concurrent modifications to the atomic
+object.
+
+[para:note]
+[:en] A weak compare-and-exchange operation may fail spuriously.
+
+[:en] That is, even when the contents of memory referred to by [`expected] and
+[`object] are equal, it may return false and store back to [`expected] the same
+memory contents that were originally there.
+
+[enter:note]
+[:en] This spurious failure enables implementation of compare-and-exchange on a
+broader class of machines, e.g., load-locked store-conditional machines.
+
+[:en] A consequence of spurious failure is that nearly all uses of weak
+compare-and-exchange will be in a loop.
+
+[para:~]
+[:en] When a compare-and-exchange is in a loop, the weak version will yield
+better performance on some platforms.
+
+[:en] When a weak compare-and-exchange would require a loop and a strong one
+would not, the strong one is preferable.
+[exit:note]
+
+[para]
+[enter:note]
+[:en] The [`memcpy] and [`memcmp] semantics of the compare-and-exchange
+operations may result in failed comparisons for values that compare equal with
+[`operator==] if the underlying type has padding bits, trap bits, or alternate
+representations of the same value.
+
+[:en] Thus, [`compare_exchange_strong] should be used with extreme care.
+
+[:en] On the other hand, [`compare_exchange_weak] should converge rapidly.
+[exit:note]
+[exit:description]
+
+[para]
+[:en] The following operations perform arithmetic computations.
+
+[:en] The key, operator, and computation correspondence is:
+
+[table:listing@horizontal#tab:atomic.arithmetic.computations
+    [:en] Atomic arithmetic computations
+    [columns@repeated=2
+        [column@code
+            [`Key]
+        ]
+        [column@code
+            Op
+        ]
+        [column
+            [:en] Computation
+        ]
+    ]
+    [border:colgroup@both]
+]
+
+[|] add [|] +   [|] [:en] addition
+[|] sub [|] -   [|] [:en] subtraction
+[|] or  [|] |   [|] [:en] bitwise inclusive or
+[|] xor [|] ^   [|] [:en] bitwise exclusive or
+[|] and [|] &   [|] [:en] bitwise and
+
+[table:end]
+
+[%@library atomic type[!atomic_fetch_]]
+[%@library atomic_fetch_[!atomic type]]
+[%@library atomic type[!fetch_]]
+[%@library fetch_[!atomic type]]
+[codeblock:declaration [special A C M] ]
+C atomic_fetch_[$key](volatile A* object, M operand) noexcept;
+C atomic_fetch_[$key](A* object, M operand) noexcept;
+C atomic_fetch_[$key]_explicit(volatile A* object, M operand, memory_order order) noexcept;
+C atomic_fetch_[$key]_explicit(A* object, M operand, memory_order order) noexcept;
+C A::fetch_[$key](M operand, memory_order order = memory_order_seq_cst) volatile noexcept;
+C A::fetch_[$key](M operand, memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Atomically replaces the value pointed to by [`object] or by [`this] with
+the result of the [+computation] applied to the value pointed to by [`object] or
+by [`this] and the given [`operand].
+
+[:en] Memory is affected according to the value of [`order].
+
+[:en] These operations are atomic read-modify-write operations
+([#intro.multithread]).
+
+[para:returns]
+[:en] Atomically, the value pointed to by [`object] or by [`this] immediately
+before the effects.
+
+[para:note]
+[:en] For signed integer types, arithmetic is defined to use two[=']s complement
+representation.
+
+[:en] There are no undefined results.
+
+[:en] For address types, the result may be an undefined address, but the
+operations otherwise have no undefined behavior.
+[exit:description]
+
+[%@library atomic type[!operator @=]]
+[%@library operator @=[!atomic type]]
+[codeblock:declaration [special A C op M] ]
+C A::operator op=(M operand) volatile noexcept;
+C A::operator op=(M operand) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`fetch_[$key](operand)]
+
+[para:returns]
+[:en] [`fetch_[$key](operand) op operand]
+[exit:description]
+
+[%@library atomic type[!operator++]]
+[%@library operator++[!atomic type]]
+[codeblock:declaration [special A C] ]
+C A::operator++(int) volatile noexcept;
+C A::operator++(int) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`fetch_add(1)]
+[exit:description]
+
+[%@library atomic type[!operator--]]
+[%@library operator--[!atomic type]]
+[codeblock:declaration [special A C] ]
+C A::operator--(int) volatile noexcept;
+C A::operator--(int) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`fetch_sub(1)]
+[exit:description]
+
+[%@library atomic type[!operator++]]
+[%@library operator++[!atomic type]]
+[codeblock:declaration [special A C]]
+C A::operator++() volatile noexcept;
+C A::operator++() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`fetch_add(1)]
+
+[para:returns]
+[:en] [`fetch_add(1) + 1]
+[exit:description]
+
+[%@library atomic type[!operator--]]
+[%@library operator--[!atomic type]]
+[codeblock:declaration [special A C]]
+C A::operator--() volatile noexcept;
+C A::operator--() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`fetch_sub(1)]
+
+[para:returns]
+[:en] [`fetch_sub(1) - 1]
+[exit:description]

@@ -1,0 +1,119 @@
+﻿[section#thread.req.timing
+    [:en] Timing specifications
+]
+
+[para]
+[:en] Several functions described in this Clause take an argument to specify a
+timeout.
+
+[:en] These timeouts are specified as either a [`duration] or a [`time_point]
+type as specified in [#time].
+
+[para]
+[:en] Implementations necessarily have some delay in returning from a timeout.
+
+[:en] Any overhead in interrupt response, function return, and scheduling
+induces a ["quality of implementation] delay, expressed as duration [$D[_i]].
+
+[:en] Ideally, this delay would be zero.
+
+[:en] Further, any contention for processor and memory resources induces a
+["quality of management] delay, expressed as duration [$D[_m]].
+
+[:en] The delay durations may vary from timeout to timeout, but in all cases
+shorter is better.
+
+[para]
+[:en] The member functions whose names end in [`_for] take an argument that
+specifies a duration.
+
+[:en] These functions produce relative timeouts.
+
+[:en] Implementations should use a steady clock to measure time for these
+functions.
+
+[footnote]
+[:en] All implementations for which standard time units are meaningful must
+necessarily have a steady clock within their hardware implementation.
+[footnote:end]
+
+[:en] Given a duration argument [$D[_t]], the real-time duration of the timeout
+is [$D[_t] + D[_i] + D[_m]].
+
+[para]
+[:en] The member functions whose names end in [`_until] take an argument that
+specifies a time point.
+
+[:en] These functions produce absolute timeouts.
+
+[:en] Implementations should use the clock specified in the time point to
+measure time for these functions.
+
+[:en] Given a clock time point argument [$C[_t]], the clock time point of the
+return from timeout should be [$C[_t] + D[_i] + D[_m]] when the clock is not
+adjusted during the timeout.
+
+[:en] If the clock is adjusted to the time [$C[_a]] during the timeout, the
+behavior should be as follows:
+
+[list]
+[item]
+[:en] if [$C[_a] > C[_t]], the waiting function should wake as soon as possible,
+i.e. [$C[_a] + D[_i] + D[_m]], since the timeout is already satisfied.
+
+[enter:note]
+[:en] This specification may result in the total duration of the wait decreasing
+when measured against a steady clock.
+[exit:note]
+
+[item]
+[:en] if [$C[_a] <= C[_t]], the waiting function should not time out until
+[`Clock::now()] returns a time [$C[_n] >= C[_t]], i.e. waking at
+[$C[_t] + D[_i] + D[_m]].
+
+[enter:note]
+[:en] When the clock is adjusted backwards, this specification may result in the
+total duration of the wait increasing when measured against a steady clock.
+
+[:en] When the clock is adjusted forwards, this specification may result in the
+total duration of the wait decreasing when measured against a steady clock.
+[exit:note]
+[list:end]
+
+[:en] An implementation shall return from such a timeout at any point from the
+time specified above to the time it would return from a steady-clock relative
+timeout on the difference between [$C[_t]] and the time point of the call to the
+[`_until] function.
+
+[enter:note]
+[:en] Implementations should decrease the duration of the wait when the clock is
+adjusted forwards.
+[exit:note]
+
+[para]
+[enter:note]
+[:en] If the clock is not synchronized with a steady clock, e.g., a CPU time
+clock, these timeouts might not provide useful functionality.
+[exit:note]
+
+[para]
+[:en] The resolution of timing provided by an implementation depends on both
+operating system and hardware.
+
+[:en] The finest resolution provided by an implementation is called the [+native
+resolution].
+
+[para]
+[:en] Implementation-provided clocks that are used for these functions shall
+meet the [`TrivialClock] requirements ([#time.clock.req]).
+
+[para]
+[:en] A function that takes an argument which specifies a timeout will throw if,
+during its execution, a clock, time point, or time duration throws an exception.
+
+[:en] Such exceptions are referred to as [+timeout-related exceptions].
+
+[enter:note]
+[:en] instantiations of clock, time point and duration types supplied by the
+implementation as specified in [#time.clock] do not throw exceptions.
+[exit:note]

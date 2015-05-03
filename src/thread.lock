@@ -1,0 +1,51 @@
+﻿[section#thread.lock
+    [:en] Locks
+]
+
+[para]
+[:en] A [+lock] is an object that holds a reference to a lockable object and may
+unlock the lockable object during the lock[=']s destruction (such as when
+leaving block scope).
+
+[:en] An execution agent may use a lock to aid in managing ownership of a
+lockable object in an exception safe manner.
+
+[:en] A lock is said to [+own] a lockable object if it is currently managing the
+ownership of that lockable object for an execution agent.
+
+[:en] A lock does not manage the lifetime of the lockable object it references.
+
+[enter:note]
+[:en] Locks are intended to ease the burden of unlocking the lockable object
+under both normal and exceptional circumstances.
+[exit:note]
+
+[para]
+[:en] Some lock constructors take tag types which describe what should be done
+with the lockable object during the lock[=']s construction.
+
+[%@library defer_lock_t]
+[%@library try_to_lock_t]
+[%@library adopt_lock_t]
+[%@library defer_lock]
+[%@library try_to_lock]
+[%@library adopt_lock]
+[codeblock:synopsis]
+namespace std {
+  struct defer_lock_t  { };     // [:en] do not acquire ownership of the mutex
+  struct try_to_lock_t { };     // [:en] try to acquire ownership of the mutex
+                                // [:en@~] without blocking
+  struct adopt_lock_t  { };     // [:en] assume the calling thread has already
+                                // [:en@~] obtained mutex ownership and manage it
+
+  constexpr defer_lock_t   defer_lock { };
+  constexpr try_to_lock_t  try_to_lock { };
+  constexpr adopt_lock_t   adopt_lock { };
+}
+[codeblock:end]
+
+[include thread.lock.guard]
+
+[include thread.lock.unique]
+
+[include thread.lock.shared]

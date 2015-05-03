@@ -1,0 +1,64 @@
+﻿[section#thread.mutex.class
+    [:en] Class [`mutex]
+]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class mutex {
+  public:
+    constexpr mutex() noexcept;
+    ~mutex();
+
+    mutex(const mutex&) = delete;
+    mutex& operator=(const mutex&) = delete;
+
+    void lock();
+    bool try_lock();
+    void unlock();
+
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+    native_handle_type native_handle();                // [:en] See [#thread.req.native]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`mutex] provides a non-recursive mutex with exclusive ownership
+semantics.
+
+[:en] If one thread owns a mutex object, attempts by another thread to acquire
+ownership of that object will fail (for [`try_lock()]) or block (for [`lock()])
+until the owning thread has released ownership with a call to [`unlock()].
+
+[para]
+[enter:note]
+[:en] After a thread [`A] has called [`unlock()], releasing a mutex, it is
+possible for another thread [`B] to lock the same mutex, observe that it is no
+longer in use, unlock it, and destroy it, before thread [`A] appears to have
+returned from its unlock call.
+
+[:en] Implementations are required to handle such scenarios correctly, as long
+as thread [`A] doesn[=']t access the mutex after the unlock call returns.
+
+[:en] These cases typically occur when a reference-counted object contains a
+mutex that is used to protect the reference count.
+[exit:note]
+
+[para]
+[:en] The class [`mutex] shall satisfy all the [`Mutex] requirements
+([#thread.mutex.requirements]).
+
+[:en] It shall be a standard-layout class (Clause [#class]).
+
+[para]
+[enter:note]
+[:en] A program may deadlock if the thread that owns a [`mutex] object calls
+[`lock()] on that object.
+
+[:en] If the implementation can detect the deadlock, a
+[`resource_deadlock_would_occur] error condition may be observed.
+[exit:note]
+
+[para]
+[:en] The behavior of a program is undefined if it destroys a [`mutex] object
+owned by any thread or a thread terminates while owning a [`mutex] object.

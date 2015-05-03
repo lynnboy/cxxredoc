@@ -1,0 +1,47 @@
+﻿[section#atomics.general
+    [:en] General
+]
+
+[para]
+[:en] This Clause describes components for fine-grained atomic access.
+
+[:en] This access is provided via operations on atomic objects.
+
+[para]
+[:en] The following subclauses describe atomics requirements and components for
+types and operations, as summarized below.
+
+[table:listing#tab:atomics.lib.summary
+    [:en] Atomics library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@vcenter@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:group@both]
+]
+
+[|] [#atomics.order]
+[|] [:en] Order and Consistency
+[|@rowspan=all] <atomic>
+
+[|] [#atomics.lockfree]
+[|] [:en] Lock-free Property
+
+[|] [#atomics.types.generic]
+[|] [:en] Atomic Types
+
+[|] [#atomics.types.operations]
+[|] [:en] Operations on Atomic Types
+
+[|] [#atomics.flag]
+[|] [:en] Flag Type and Operations
+
+[|] [#atomics.fences]
+[|] [:en] Fences
+
+[table:end]

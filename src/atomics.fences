@@ -1,0 +1,86 @@
+﻿[section#atomics.fences
+    [:en] Fences
+]
+
+[para]
+[:en] This section introduces synchronization primitives called [+fences].
+
+[:en] Fences can have acquire semantics, release semantics, or both.
+
+[:en] A fence with acquire semantics is called an [+acquire fence].
+
+[:en] A fence with release semantics is called a [+release fence].
+
+[para]
+[:en] A release fence [$A] synchronizes with an acquire fence [$B] if there
+exist atomic operations [$X] and [$Y], both operating on some atomic object
+[$M], such that [$A] is sequenced before [$X], [$X] modifies [$M], [$Y] is
+sequenced before [$B], and [$Y] reads the value written by [$X] or a value
+written by any side effect in the hypothetical release sequence [$X] would head
+if it were a release operation.
+
+[para]
+[:en] A release fence [$A] synchronizes with an atomic operation [$B] that
+performs an acquire operation on an atomic object [$M] if there exists an atomic
+operation [$X] such that [$A] is sequenced before [$X], [$X] modifies [$M], and
+[$B] reads the value written by [$X] or a value written by any side effect in
+the hypothetical release sequence [$X] would head if it were a release
+operation.
+
+[para]
+[:en] An atomic operation [$A] that is a release operation on an atomic object
+[$M] synchronizes with an acquire fence [$B] if there exists some atomic
+operation [$X] on [$M] such that [$X] is sequenced before [$B] and reads the
+value written by [$A] or a value written by any side effect in the release
+sequence headed by [$A].
+
+[%@library atomic_thread_fence]
+[codeblock:declaration]
+extern "C" void atomic_thread_fence(memory_order order) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] depending on the value of [`order], this operation:
+
+[list]
+[item]
+[:en] has no effects, if [`order == memory_order_relaxed];
+
+[item]
+[:en] is an acquire fence, if [`order == memory_order_acquire || order ==
+memory_order_consume];
+
+[item]
+[:en] is a release fence, if [`order == memory_order_release];
+
+[item]
+[:en] is both an acquire fence and a release fence, if
+[`order == memory_order_acq_rel];
+
+[item]
+[:en] is a sequentially consistent acquire and release fence, if
+[`order == memory_order_seq_cst].
+[list:end]
+[exit:description]
+
+[%@library atomic_signal_fence]
+[codeblock:declaration]
+extern "C" void atomic_signal_fence(memory_order order) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Equivalent to [`atomic_thread_fence(order)], except that the resulting
+ordering constraints are established only between a thread and a signal handler
+executed in the same thread.
+
+[para:realnote]
+[:en] [`atomic_signal_fence] can be used to specify the order in which actions
+performed by the thread become visible to the signal handler.
+
+[para:realnote]
+[:en] compiler optimizations and reorderings of loads and stores are inhibited
+in the same way as with [`atomic_thread_fence], but the hardware fence
+instructions that [`atomic_thread_fence] would have inserted are not emitted.
+[exit:description]

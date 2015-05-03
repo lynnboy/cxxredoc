@@ -1,0 +1,116 @@
+﻿[section#thread.thread.member
+    [:en] [`thread] members
+]
+
+[%@library thread[!swap]]
+[%@library swap[!thread]]
+[codeblock:declaration]
+void swap(thread& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Swaps the state of [`*this] and [`x].
+[exit:description]
+
+[%@library thread[!joinable]]
+[%@library joinable[!thread]]
+[codeblock:declaration]
+bool joinable() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`get_id() != id()]
+[exit:description]
+
+[%@library thread[!join]]
+[%@library join[!thread]]
+[codeblock:declaration]
+void join();
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`joinable()] is [`true].
+
+[para:effects]
+[:en] Blocks until the thread represented by [`*this] has completed.
+
+[para:sync]
+[:en] The completion of the thread represented by [`*this] synchronizes with
+([#intro.multithread]) the corresponding successful [`join()] return.
+
+[enter:note]
+[:en] Operations on [`*this] are not synchronized.
+[exit:note]
+
+[para:postconditions]
+[:en] The thread represented by [`*this] has completed.
+
+[:en] [`get_id() == id()].
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`resource_deadlock_would_occur] [=--] if deadlock is detected or
+[`this->get_id() == std::this_thread::get_id()].
+
+[item]
+[:en] [`no_such_process] [=--] if the thread is not valid.
+
+[item]
+[:en] [`invalid_argument] [=--] if the thread is not joinable.
+[list:end]
+[exit:description]
+
+[%@library thread[!detach]]
+[%@library detach[!thread]]
+[codeblock:declaration]
+void detach();
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`joinable()] is [`true].
+
+[para:effects]
+[:en] The thread represented by [`*this] continues execution without the calling
+thread blocking.
+
+[:en] When [`detach()] returns, [`*this] no longer represents the possibly
+continuing thread of execution.
+
+[:en] When the thread previously represented by [`*this] ends execution, the
+implementation shall release any owned resources.
+
+[para:postcondition]
+[:en] [`get_id() == id()].
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`no_such_process] [=--] if the thread is not valid.
+[item]
+[:en] [`invalid_argument] [=--] if the thread is not joinable.
+[list:end]
+[exit:description]
+
+[%@library thread[!get_id]]
+[%@library get_id[!thread]]
+[codeblock:declaration]
+id get_id() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A default constructed [`id] object if [`*this] does not represent a
+thread, otherwise [`this_thread::get_id()] for the thread of execution
+represented by [`*this].
+[exit:description]

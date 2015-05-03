@@ -1,0 +1,36 @@
+﻿[section#thread.lock.unique.obs
+    [:en] [`unique_lock] observers
+]
+
+[%@library unique_lock[!owns_lock]]
+[%@library owns_lock[!unique_lock]]
+[codeblock:declaration]
+bool owns_lock() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`owns]
+[exit:description]
+
+[%@library unique_lock[!operator bool]]
+[%@library operator bool[!unique_lock]]
+[codeblock:declaration]
+explicit operator bool() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`owns]
+[exit:description]
+
+[%@library unique_lock[!mutex]]
+[%@library mutex[!unique_lock]]
+[codeblock:declaration]
+mutex_type *mutex() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`pm]
+[exit:description]

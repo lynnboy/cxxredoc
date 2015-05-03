@@ -1,0 +1,308 @@
+﻿[section#futures.promise
+    [:en] Class template [`promise]
+]
+
+[codeblock:synopsis]
+namespace std {
+  template <class R>
+  class promise {
+  public:
+    promise();
+    template <class Allocator>
+      promise(allocator_arg_t, const Allocator& a);
+    promise(promise&& rhs) noexcept;
+    promise(const promise& rhs) = delete;
+    ~promise();
+
+    // [:en] assignment
+    promise& operator=(promise&& rhs) noexcept;
+    promise& operator=(const promise& rhs) = delete;
+    void swap(promise& other) noexcept;
+
+    // [:en] retrieving the result
+    future<R> get_future();
+
+    // [:en] setting the result
+    void set_value([=Seebelow]);
+    void set_exception(exception_ptr p);
+
+    // [:en] setting the result with deferred notification
+    void set_value_at_thread_exit(const R& r);
+    void set_value_at_thread_exit([=Seebelow]);
+    void set_exception_at_thread_exit(exception_ptr p);
+  };
+  template <class R>
+    void swap(promise<R>& x, promise<R>& y) noexcept;
+  template <class R, class Alloc>
+    struct uses_allocator<promise<R>, Alloc>;
+}
+[codeblock:end]
+
+[para]
+[:en] The implementation shall provide the template [`promise] and two
+specializations, [`promise<R&>] and [`promise<void>].
+
+[:en] These differ only in the argument type of the member function
+[`set_value], as set out in its description, below.
+
+[para]
+[:en] The [`set_value], [`set_exception], [`set_value_at_thread_exit], and
+[`set_exception_at_thread_exit] member functions behave as though they acquire
+a single mutex associated with the promise object while updating the promise
+object.
+
+[%@library uses_allocator]
+[codeblock:declaration]
+template <class R, class Alloc>
+  struct uses_allocator<promise<R>, Alloc>
+    : true_type { };
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`Alloc] shall be an Allocator ([#allocator.requirements]).
+[exit:description]
+
+[%@library promise[![:en]constructor]]
+[codeblock:declaration]
+promise();
+template <class Allocator>
+  promise(allocator_arg_t, const Allocator& a);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs a [`promise] object and a shared state.
+
+[:en] The second constructor uses the allocator [`a] to allocate memory for the
+shared state.
+[exit:description]
+
+[%@library promise[![:en]constructor]]
+[codeblock:declaration]
+promise(promise&& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs a new [`promise] object and transfers ownership of the shared
+state of [`rhs] (if any) to the newly-constructed object.
+
+[para:postcondition]
+[:en] [`rhs] has no shared state.
+[exit:description]
+
+[%@library promise[![:en]destructor]]
+[codeblock:declaration]
+~promise();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Abandons any shared state ([#futures.state]).
+[exit:description]
+
+[%@library promise[!operator=]]
+[%@library operator=[!promise]]
+[codeblock:declaration]
+promise& operator=(promise&& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Abandons any shared state ([#futures.state]) and then as if
+[`promise(std::move(rhs)).swap(*this)].
+
+[para:returns]
+[:en] [`*this].
+[exit:description]
+
+[%@library promise[!swap]]
+[%@library swap[!promise]]
+[codeblock:declaration]
+void swap(promise& other) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Exchanges the shared state of [`*this] and [`other].
+
+[para:postcondition]
+[:en] [`*this] has the shared state (if any) that [`other] had prior to the call
+to [`swap].
+
+[:en] [`other] has the shared state (if any) that [`*this] had prior to the call
+to [`swap].
+[exit:description]
+
+[%@library promise[!get_future]]
+[%@library get_future[!promise]]
+[codeblock:declaration]
+future<R> get_future();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] A [`future<R>] object with the same shared state as [`*this].
+
+[para:throws]
+[:en] [`future_error] if [`*this] has no shared state or if [`get_future] has
+already been called on a [`promise] with the same shared state as [`*this].
+
+[para:errors]
+
+[list]
+[item]
+[:en] [`future_already_retrieved] if [`get_future] has already been called on a
+[`promise] with the same shared state as [`*this].
+
+[item]
+[:en] [`no_state] if [`*this] has no shared state.
+[list:end]
+[exit:description]
+
+[%@library promise[!set_value]]
+[%@library set_value[!promise]]
+[codeblock:declaration]
+void promise::set_value(const R& r);
+void promise::set_value(R&& r);
+void promise<R&>::set_value(R& r);
+void promise<void>::set_value();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] atomically stores the value [`r] in the shared state and makes that state
+ready ([#futures.state]).
+
+[para:throws]
+
+[list]
+[item]
+[:en] [`future_error] if its shared state already has a stored value or
+exception, or
+[item]
+[:en] for the first version, any exception thrown by the constructor selected to
+copy an object of [`R], or
+[item]
+[:en] for the second version, any exception thrown by the constructor selected
+to move an object of [`R].
+[list:end]
+
+[para:errors]
+[list]
+[item]
+[:en] [`promise_already_satisfied] if its shared state already has a stored
+value or exception.
+[item]
+[:en] [`no_state] if [`*this] has no shared state.
+[list:end]
+[exit:description]
+
+[%@library promise[!set_exception]]
+[%@library set_exception[!promise]]
+[codeblock:declaration]
+void set_exception(exception_ptr p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] atomically stores the exception pointer [`p] in the shared state and makes
+that state ready ([#futures.state]).
+
+[para:throws]
+[:en] [`future_error] if its shared state already has a stored value or
+exception.
+
+[para:errors]
+
+[list]
+[item]
+[:en] [`promise_already_satisfied] if its shared state already has a stored
+value or exception.
+[item]
+[:en] [`no_state] if [`*this] has no shared state.
+[list:end]
+[exit:description]
+
+[%@library promise[!set_value_at_thread_exit]]
+[%@library set_value_at_thread_exit[!promise]]
+[codeblock:declaration]
+void promise::set_value_at_thread_exit(const R& r);
+void promise::set_value_at_thread_exit(R&& r);
+void promise<R&>::set_value_at_thread_exit(R& r);
+void promise<void>::set_value_at_thread_exit();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Stores the value [`r] in the shared state without making that state ready
+immediately.
+
+[:en] Schedules that state to be made ready when the current thread exits, after
+all objects of thread storage duration associated with the current thread have
+been destroyed.
+
+[para:throws]
+
+[list]
+[item]
+[:en] [`future_error] if its shared state already has a stored value or
+exception, or
+[item]
+[:en] for the first version, any exception thrown by the constructor selected to
+copy an object of [`R], or
+[item]
+[:en] for the second version, any exception thrown by the constructor selected
+to move an object of [`R].
+[list:end]
+
+[para:errors]
+[list] 
+[item]
+[:en] [`promise_already_satisfied] if its shared state already has a stored
+value or exception.
+[item]
+[:en] [`no_state] if [`*this] has no shared state.
+[list:end]
+[exit:description]
+
+[%@library promise[!set_exception_at_thread_exit]]
+[%@library set_exception_at_thread_exit[!promise]]
+[codeblock:declaration]
+void set_exception_at_thread_exit(exception_ptr p);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Stores the exception pointer [`p] in the shared state without making that
+state ready immediately.
+
+[:en] Schedules that state to be made ready when the current thread exits, after
+all objects of thread storage duration associated with the current thread have
+been destroyed.
+
+[para:throws]
+[:en] [`future_error] if an error condition occurs.
+
+[para:errors]
+[list] 
+[item]
+[:en] [`promise_already_satisfied] if its shared state already has a stored
+value or exception.
+[item]
+[:en] [`no_state] if [`*this] has no shared state.
+[list:end]
+[exit:description]
+
+[%@library swap[!promise]]
+[%@library promise[!swap]]
+[codeblock:declaration]
+template <class R>
+  void swap(promise<R>& x, promise<R>& y);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] [`x.swap(y)].
+[exit:description]

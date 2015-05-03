@@ -1,0 +1,39 @@
+﻿[section#thread.threads
+    [:en] Threads
+]
+
+[para]
+[:en] [#thread.threads] describes components that can be used to create and
+manage threads.
+
+[enter:note]
+[:en] These threads are intended to map one-to-one with operating system
+threads.
+[exit:note]
+
+[para:synopsis]
+[:en] Header [`<thread>] synopsis
+
+[%@library <thread> [sortas thread]]
+
+[codeblock:synopsis]
+namespace std {
+  class thread;
+
+  void swap(thread& x, thread& y) noexcept;
+
+  namespace this_thread {
+    thread::id get_id() noexcept;
+
+    void yield() noexcept;
+    template <class Clock, class Duration>
+      void sleep_until(const chrono::time_point<Clock, Duration>& abs_time);
+    template <class Rep, class Period>
+      void sleep_for(const chrono::duration<Rep, Period>& rel_time);
+  }
+}
+[codeblock:end]
+
+[include thread.thread.class]
+
+[include thread.thread.this]

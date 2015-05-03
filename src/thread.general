@@ -1,0 +1,44 @@
+﻿[section#thread.general
+    [:en] General
+]
+
+[para]
+[:en] The following subclauses describe components to create and manage threads
+([#intro.multithread]), perform mutual exclusion, and communicate conditions and
+values between threads, as summarized in Table [#tab:thread.lib.summary].
+
+[table:listing#tab:thread.lib.summary
+    [:en] Thread support library summary
+    [columns
+        [column@headercenter@vcenter
+            [:en] Subclause
+        ]
+        [column@vcenter@header~]
+        [column@code
+            [:en] Header(s)
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [#thread.req]
+[|] [:en] Requirements
+[|]
+
+[|] [#thread.threads]
+[|] [:en] Threads
+[|] <thread>
+
+[|] [#thread.mutex]
+[|] [:en] Mutual exclusion
+[|] <mutex> [br] <shared_mutex>
+
+[|] [#thread.condition]
+[|] [:en] Condition variables
+[|] <condition_variable>
+
+[|] [#futures]
+[|] [:en] Futures
+[|] <future>
+
+[table:end]

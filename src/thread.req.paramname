@@ -1,0 +1,10 @@
+﻿[section#thread.req.paramname
+    [:en] Template parameter names
+]
+
+[para]
+[:en] Throughout this Clause, the names of template parameters are used to
+express type requirements.
+
+[:en] If a template parameter is named [`Predicate], [`operator()] applied to
+the template argument shall return a value that is convertible to [`bool].

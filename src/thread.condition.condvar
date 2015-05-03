@@ -1,0 +1,435 @@
+﻿[section#thread.condition.condvar
+    [:en] Class [`condition_variable]
+]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class condition_variable {
+  public:
+
+    condition_variable();
+    ~condition_variable();
+
+    condition_variable(const condition_variable&) = delete;
+    condition_variable& operator=(const condition_variable&) = delete;
+
+    void notify_one() noexcept;
+    void notify_all() noexcept;
+    void wait(unique_lock<mutex>& lock);
+    template <class Predicate>
+      void wait(unique_lock<mutex>& lock, Predicate pred);
+    template <class Clock, class Duration>
+      cv_status wait_until(unique_lock<mutex>& lock,
+                           const chrono::time_point<Clock, Duration>& abs_time);
+    template <class Clock, class Duration, class Predicate>
+      bool wait_until(unique_lock<mutex>& lock,
+                      const chrono::time_point<Clock, Duration>& abs_time,
+                      Predicate pred);
+
+    template <class Rep, class Period>
+      cv_status wait_for(unique_lock<mutex>& lock,
+                         const chrono::duration<Rep, Period>& rel_time);
+    template <class Rep, class Period, class Predicate>
+      bool wait_for(unique_lock<mutex>& lock,
+                    const chrono::duration<Rep, Period>& rel_time,
+                    Predicate pred);
+
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+    native_handle_type native_handle();                // [:en] See [#thread.req.native]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`condition_variable] shall be a standard-layout class (Clause
+[#class]).
+
+[%@library condition_variable[![:en]constructor]]
+[codeblock:declaration]
+condition_variable();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`condition_variable].
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`resource_unavailable_try_again] [=--] if some non-memory resource
+limitation prevents initialization.
+[list:end]
+[exit:description]
+
+[%@library condition_variable[![:en]destructor]]
+[codeblock:declaration]
+~condition_variable();
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] There shall be no thread blocked on [`*this]. [enter:note] That is, all
+threads shall have been notified; they may subsequently block on the lock
+specified in the wait.
+
+[:en] This relaxes the usual rules, which would have required all wait calls to
+happen before destruction.
+
+[:en] Only the notification to unblock the wait must happen before destruction.
+
+[:en] The user must take care to ensure that no threads wait on [`*this] once
+the destructor has been started, especially when the waiting threads are calling
+the wait functions in a loop or using the overloads of [`wait], [`wait_for], or
+[`wait_until] that take a predicate.
+[exit:note]
+
+[para:effects]
+[:en] Destroys the object.
+[exit:description]
+
+[%@library condition_variable[!notify_one]]
+[%@library notify_one[!condition_variable]]
+[codeblock:declaration]
+void notify_one() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If any threads are blocked waiting for [`*this], unblocks one of those
+threads.
+[exit:description]
+
+[%@library condition_variable[!notify_all]]
+[%@library notify_all[!condition_variable]]
+[codeblock:declaration]
+void notify_all() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Unblocks all threads that are blocked waiting for [`*this].
+[exit:description]
+
+[%@library condition_variable[!wait]]
+[%@library wait[!condition_variable]]
+[codeblock:declaration]
+void wait(unique_lock<mutex>& lock);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[list]
+[item]
+[:en] Atomically calls [`lock.unlock()] and blocks on [`*this].
+[item]
+[:en] When unblocked, calls [`lock.lock()] (possibly blocking on the lock), then
+returns.
+[item]
+[:en] The function will unblock when signaled by a call to [`notify_one()] or a
+call to [`notify_all()], or spuriously.
+[list:end]
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para:throws]
+[:en] Nothing.
+
+[exit:description]
+
+[%@library condition_variable[!wait]]
+[%@library wait[!condition_variable]]
+[codeblock:declaration]
+template <class Predicate>
+  void wait(unique_lock<mutex>& lock, Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[:en] Equivalent to:
+
+[codeblock:notation]
+while (!pred())
+  wait(lock);
+[codeblock:end]
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]) or any exception thrown
+by [`pred].
+[exit:description]
+
+[%@library condition_variable[!wait_until]]
+[%@library wait_until[!condition_variable]]
+[codeblock:declaration]
+template <class Clock, class Duration>
+  cv_status wait_until(unique_lock<mutex>& lock,
+                       const chrono::time_point<Clock, Duration>& abs_time);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[list]
+[item]
+[:en] Atomically calls [`lock.unlock()] and blocks on [`*this].
+
+[item]
+[:en] When unblocked, calls [`lock.lock()] (possibly blocking on the lock), then
+returns.
+
+[item]
+[:en] The function will unblock when signaled by a call to [`notify_one()], a
+call to [`notify_all()], expiration of the absolute timeout
+([#thread.req.timing]) specified by [`abs_time], or spuriously.
+
+[item]
+[:en] If the function exits via an exception, [`lock.lock()] shall be called
+prior to exiting the function.
+[list:end]
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para:returns]
+[:en] [`cv_status::timeout] if the absolute timeout ([#thread.req.timing])
+specified by [`abs_time] expired, otherwise [`cv_status::no_timeout].
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[%@library condition_variable[!wait_for]]
+[%@library wait_for[!condition_variable]]
+[codeblock:declaration]
+template <class Rep, class Period>
+  cv_status wait_for(unique_lock<mutex>& lock,
+                     const chrono::duration<Rep, Period>& rel_time);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[:en] Equivalent to:
+
+[codeblock:notation]
+return wait_until(lock, chrono::steady_clock::now() + rel_time);
+[codeblock:end]
+
+[para:returns]
+[:en] [`cv_status::timeout] if the relative timeout ([#thread.req.timing])
+specified by [`rel_time] expired, otherwise [`cv_status::no_timeout].
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[%@library condition_variable[!wait_until]]
+[%@library wait_until[!condition_variable]]
+[codeblock:declaration]
+template <class Clock, class Duration, class Predicate>
+  bool wait_until(unique_lock<mutex>& lock,
+                  const chrono::time_point<Clock, Duration>& abs_time,
+                  Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[:en] Equivalent to:
+
+[codeblock:notation]
+while (!pred())
+  if (wait_until(lock, abs_time) == cv_status::timeout)
+    return pred();
+return true;
+[codeblock:end]
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para]
+[enter:note]
+[:en] The returned value indicates whether the predicate evaluated to [`true]
+regardless of whether the timeout was triggered.
+[exit:note]
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]) or any exception thrown
+by [`pred].
+[exit:description]
+
+[%@library condition_variable[!wait_for]]
+[%@library wait_for[!condition_variable]]
+[codeblock:declaration]
+template <class Rep, class Period, class Predicate>
+  bool wait_for(unique_lock<mutex>& lock,
+                const chrono::duration<Rep, Period>& rel_time,
+                Predicate pred);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread, and either
+
+[list]
+[item]
+[:en] no other thread is waiting on this [`condition_variable] object or
+
+[item]
+[:en] [`lock.mutex()] returns the same value for each of the [`lock] arguments
+supplied by all concurrently waiting (via [`wait], [`wait_for], or
+[`wait_until]) threads.
+[list:end]
+
+[para:effects]
+[:en] Equivalent to:
+
+[codeblock:notation]
+return wait_until(lock, chrono::steady_clock::now() + rel_time, std::move(pred));
+[codeblock:end]
+
+[para]
+[enter:note]
+[:en] There is no blocking if [`pred()] is initially [`true], even if the
+timeout has already expired.
+[exit:note]
+
+[para:notes]
+[:en] If the function fails to meet the postcondition, [`std::terminate()] shall
+be called ([#except.terminate]).
+
+[enter:note]
+[:en] This can happen if the re-locking of the mutex throws an exception.
+[exit:note]
+
+[para:postcondition]
+[:en] [`lock.owns_lock()] is [`true] and [`lock.mutex()] is locked by the
+calling thread.
+
+[para]
+[enter:note]
+[:en] The returned value indicates whether the predicate evaluates to [`true]
+regardless of whether the timeout was triggered.
+[exit:note]
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]) or any exception thrown
+by [`pred].
+[exit:description]

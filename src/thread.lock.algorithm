@@ -1,0 +1,63 @@
+﻿[section#thread.lock.algorithm
+    [:en] Generic locking algorithms
+]
+
+[%@library try_lock]
+[codeblock:declaration]
+template <class L1, class L2, class... L3> int try_lock(L1&, L2&, L3&...);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Each template parameter type shall meet the [`Lockable] requirements.
+
+[enter:note]
+[:en] The [`unique_lock] class template meets these requirements when suitably
+instantiated.
+[exit:note]
+
+[para:effects]
+[:en] Calls [`try_lock()] for each argument in order beginning with the first
+until all arguments have been processed or a call to [`try_lock()] fails, either
+by returning [`false] or by throwing an exception.
+
+[:en] If a call to [`try_lock()] fails, [`unlock()] shall be called for all
+prior arguments and there shall be no further calls to [`try_lock()].
+
+[para:returns]
+[:en] [`-1] if all calls to [`try_lock()] returned [`true], otherwise a 0-based
+index value that indicates the argument for which [`try_lock()] returned
+[`false].
+[exit:description]
+
+[%@library lock]
+[codeblock:declaration]
+template <class L1, class L2, class... L3> void lock(L1&, L2&, L3&...);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] Each template parameter type shall meet the [`Lockable] requirements,
+
+[enter:note]
+[:en] The [`unique_lock] class template meets these requirements when suitably
+instantiated.
+[exit:note]
+
+[para:effects]
+[:en] All arguments are locked via a sequence of calls to [`lock()],
+[`try_lock()], or [`unlock()] on each argument.
+
+[:en] The sequence of calls shall not result in deadlock, but is otherwise
+unspecified.
+
+[enter:note]
+[:en] A deadlock avoidance algorithm such as try-and-back-off must be used, but
+the specific algorithm is not specified to avoid over-constraining
+implementations.
+[exit:note]
+
+[:en] If a call to [`lock()] or [`try_lock()] throws an exception, [`unlock()]
+shall be called for any argument that had been locked by a call to [`lock()] or
+[`try_lock()].
+[exit:description]

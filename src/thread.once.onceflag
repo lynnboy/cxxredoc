@@ -1,0 +1,21 @@
+﻿[section#thread.once.onceflag
+    [:en] Struct [`once_flag]
+]
+
+[%@library once_flag]
+[codeblock:declaration]
+constexpr once_flag() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`once_flag].
+
+[para:sync]
+[:en] The construction of a [`once_flag] object is not synchronized.
+
+[para:postcondition]
+[:en] The object[=']s internal state is set to indicate to an invocation of
+[`call_once] with the object as its initial argument that no function has been
+called.
+[exit:description]

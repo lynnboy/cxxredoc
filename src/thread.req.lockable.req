@@ -1,0 +1,27 @@
+﻿[section#thread.req.lockable.req
+    [:en] [`Lockable] requirements
+]
+
+[para]
+[:en] A type [`L] meets the [`Lockable] requirements if it meets the
+[`BasicLockable] requirements and the following expressions are well-formed and
+have the specified semantics ([`m] denotes a value of type [`L]).
+
+[codeblock:declaration]
+m.try_lock()
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] attempts to acquire a lock for the current execution agent without
+blocking.
+
+[:en] If an exception is thrown then a lock shall not have been acquired for the
+current execution agent.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the lock was acquired, [`false] otherwise.
+[exit:description]

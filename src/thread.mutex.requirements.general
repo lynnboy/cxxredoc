@@ -1,0 +1,15 @@
+﻿[section#thread.mutex.requirements.general
+    [:en] In general
+]
+
+[para]
+[:en] A mutex object facilitates protection against data races and allows safe
+synchronization of data between execution agents ([#thread.req.lockable]).
+
+[:en] An execution agent [+owns] a mutex from the time it successfully calls one
+of the lock functions until it calls unlock.
+
+[:en] Mutexes can be either recursive or non-recursive, and can grant
+simultaneous ownership to one or many execution agents.
+
+[:en] Both recursive and non-recursive mutexes are supplied.

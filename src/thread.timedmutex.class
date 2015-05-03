@@ -1,0 +1,57 @@
+﻿[section#thread.timedmutex.class
+    [:en] Class [`timed_mutex]
+]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class timed_mutex {
+  public:
+    timed_mutex();
+    ~timed_mutex();
+
+    timed_mutex(const timed_mutex&) = delete;
+    timed_mutex& operator=(const timed_mutex&) = delete;
+
+    void lock();  // [:en] blocking
+    bool try_lock();
+    template <class Rep, class Period>
+      bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+    template <class Clock, class Duration>
+      bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+    void unlock();
+
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+    native_handle_type native_handle();                // [:en] See [#thread.req.native]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`timed_mutex] provides a non-recursive mutex with exclusive
+ownership semantics.
+
+[:en] If one thread owns a [`timed_mutex] object, attempts by another thread to
+acquire ownership of that object will fail (for [`try_lock()]) or block (for
+[`lock()], [`try_lock_for()], and [`try_lock_until()]) until the owning thread
+has released ownership with a call to [`unlock()] or the call to
+[`try_lock_for()] or [`try_lock_until()] times out (having failed to obtain
+ownership).
+
+[para]
+[:en] The class [`timed_mutex] shall satisfy all of the [`TimedMutex]
+requirements ([#thread.timedmutex.requirements]).
+
+[:en] It shall be a standard-layout class (Clause [#class]).
+
+[para]
+[:en] The behavior of a program is undefined if:
+
+[list]
+[item]
+[:en] it destroys a [`timed_mutex] object owned by any thread,
+[item]
+[:en] a thread that owns a [`timed_mutex] object calls [`lock()], [`try_lock()],
+[`try_lock_for()], or [`try_lock_until()] on that object, or
+[item]
+[:en] a thread terminates while owning a [`timed_mutex] object.
+[list:end]

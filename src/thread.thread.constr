@@ -1,0 +1,91 @@
+﻿[section#thread.thread.constr
+    [:en] [`thread] constructors
+]
+
+[%@library thread[![:en]constructor]]
+[codeblock:declaration]
+thread() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs a [`thread] object that does not represent a thread of
+execution.
+
+[para:postcondition]
+[:en] [`get_id() == id()]
+[exit:description]
+
+[%@library thread[![:en]constructor]]
+[codeblock:declaration]
+template <class F, class ...Args> explicit thread(F&& f, Args&&... args);
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] [`F] and each [`Ti] in [`Args] shall satisfy the [`MoveConstructible]
+requirements.
+
+[:en] [`[$INVOKE]([$DECAY_COPY](std::forward<F>(f)),
+[$DECAY_COPY](std::forward<Args>(args))...)] ([#func.require]) shall be a valid
+expression.
+
+[para:remarks]
+[:en] This constructor shall not participate in overload resolution if
+[`decay_t<F>] is the same type as [`std::thread].
+
+[para:effects]
+[:en] Constructs an object of type [`thread].
+
+[:en] The new thread of execution executes
+[`[$INVOKE]([$DECAY_COPY](std::forward<F>(f)),
+[$DECAY_COPY](std::forward<Args>(args))...)] with the calls to [`[$DECAY_COPY]]
+being evaluated in the constructing thread.
+
+[:en] Any return value from this invocation is ignored.
+
+[enter:note]
+[:en] This implies that any exceptions not thrown from the invocation of the
+copy of [`f] will be thrown in the constructing thread, not the new thread.
+[exit:note]
+
+[:en] If the invocation of [`[$INVOKE]([$DECAY_COPY](std::forward<F>(f)),
+[$DECAY_COPY](std::forward<Args>(args))...)] terminates with an uncaught
+exception, [`std::terminate] shall be called.
+
+
+[para:sync]
+[:en] The completion of the invocation of the constructor synchronizes with the
+beginning of the invocation of the copy of [`f].
+
+[para:postconditions]
+[:en] [`get_id() != id()].
+
+[:en] [`*this] represents the newly started thread.
+
+[para:throws]
+[:en] [`system_error] if unable to start the new thread.
+
+[para:errors]
+[list]
+[item]
+[:en] [`resource_unavailable_try_again] [=--] the system lacked the necessary
+resources to create another thread, or the system-imposed limit on the number of
+threads in a process would be exceeded.
+[list:end]
+[exit:description]
+
+[%@library thread[![:en]constructor]]
+[codeblock:declaration]
+thread(thread&& x) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`thread] from [`x], and sets [`x] to a
+default constructed state.
+
+[para:postconditions]
+[:en] [`x.get_id() == id()] and [`get_id()] returns the value of [`x.get_id()]
+prior to the start of construction.
+[exit:description]

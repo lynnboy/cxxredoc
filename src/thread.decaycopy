@@ -1,0 +1,15 @@
+﻿[section#thread.decaycopy
+    [:en] [`decay_copy]
+]
+
+[para]
+[:en] In several places in this Clause the operation [%@defn DECAY_COPY]
+[`[$DECAY_COPY](x)] is used.
+
+[:en] All such uses mean call the function [`decay_copy(x)] and use the result,
+where [`decay_copy] is defined as follows:
+
+[codeblock:notation]
+template <class T> decay_t<T> decay_copy(T&& v)
+  { return std::forward<T>(v); }
+[codeblock:end]

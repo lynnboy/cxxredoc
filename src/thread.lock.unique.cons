@@ -1,0 +1,180 @@
+﻿[section#thread.lock.unique.cons
+    [:en] [`unique_lock] constructors, destructor, and assignment
+]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+unique_lock() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`unique_lock].
+
+[para:postconditions]
+[:en] [`pm == 0] and [`owns == false].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+explicit unique_lock(mutex_type& m);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] If [`mutex_type] is not a recursive mutex the calling thread does not own
+the mutex.
+
+[para:effects]
+[:en] Constructs an object of type [`unique_lock] and calls [`m.lock()].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == true].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+unique_lock(mutex_type& m, defer_lock_t) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of type [`unique_lock].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == false].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+unique_lock(mutex_type& m, try_to_lock_t);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] The supplied [`Mutex] type shall meet the [`Lockable] requirements
+([#thread.req.lockable.req]).
+
+[:en] If [`mutex_type] is not a recursive mutex the calling thread does not own
+the mutex.
+
+[para:effects]
+[:en] Constructs an object of type [`unique_lock] and calls [`m.try_lock()].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == res], where [`res] is the value returned by the
+call to [`m.try_lock()].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+unique_lock(mutex_type& m, adopt_lock_t);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] The calling thread own the mutex.
+
+[para:effects]
+[:en] Constructs an object of type [`unique_lock].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == true].
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+template <class Clock, class Duration>
+  unique_lock(mutex_type& m, const chrono::time_point<Clock, Duration>& abs_time);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] If [`mutex_type] is not a recursive mutex the calling thread does not own
+the mutex.
+
+[:en] The supplied [`Mutex] type shall meet the [`TimedLockable] requirements
+([#thread.req.lockable.timed]).
+
+[para:effects]
+[:en] Constructs an object of type [`unique_lock] and calls
+[`m.try_lock_until(abs_time)].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == res], where [`res] is the value returned by the
+call to [`m.try_lock_until(abs_time)].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+template <class Rep, class Period>
+  unique_lock(mutex_type& m, const chrono::duration<Rep, Period>& rel_time);
+[codeblock:end]
+
+[enter:description]
+[para:precondition]
+[:en] If [`mutex_type] is not a recursive mutex the calling thread does not own
+the mutex.
+
+[:en] The supplied [`Mutex] type shall meet the [`TimedLockable] requirements
+([#thread.req.lockable.timed]).
+
+[para:effects]
+[:en] Constructs an object of type [`unique_lock] and calls
+[`m.try_lock_for(rel_time)].
+
+[para:postconditions]
+[:en] [`pm == &m] and [`owns == res], where [`res] is the value returned by the
+call to [`m.try_lock_for(rel_time)].
+[exit:description]
+
+[%@library unique_lock[![:en]constructor]]
+[codeblock:declaration]
+unique_lock(unique_lock&& u) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:postconditions]
+[:en] [`pm == u_p.pm] and [`owns == u_p.owns] (where [`u_p] is the state of [`u]
+just prior to this construction), [`u.pm == 0] and [`u.owns == false].
+[exit:description]
+
+[%@library unique_lock[!operator=]]
+[%@library operator=[!unique_lock]]
+[codeblock:declaration]
+unique_lock& operator=(unique_lock&& u);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`owns] calls [`pm->unlock()].
+
+[para:postconditions]
+[:en] [`pm == u_p.pm] and [`owns == u_p.owns] (where [`u_p] is the state of [`u]
+just prior to this construction), [`u.pm == 0] and [`u.owns == false].
+
+[para]
+[enter:note]
+[:en] With a recursive mutex it is possible for both [`*this] and [`u] to own
+the same mutex before the assignment.
+
+[:en] In this case, [`*this] will own the mutex after the assignment and [`u]
+will not.
+[exit:note]
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[%@library unique_lock[![:en]destructor]]
+[codeblock:declaration]
+~unique_lock();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] If [`owns] calls [`pm->unlock()].
+[exit:description]

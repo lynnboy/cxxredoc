@@ -1,0 +1,13 @@
+﻿[section#atomics.types.operations.general
+    [:en] General operations on atomic types
+]
+
+[para]
+[:en] The implementation shall provide the functions and function templates
+identified as ["general operations on atomic types] in [#atomics.syn].
+
+[para]
+[:en] In the declarations of these functions and function templates, the name
+[`[$atomic-type]] refers to either [`atomic<T>] or to a named base class for
+[`T] from Table [#tab:atomics.integral] or inferred from Table
+[#tab:atomics.typedefs].

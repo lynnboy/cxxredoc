@@ -1,0 +1,122 @@
+﻿[section#atomics.flag
+    [:en] Flag type and operations
+]
+
+[codeblock:synopsis]
+namespace std {
+  typedef struct atomic_flag {
+    bool test_and_set(memory_order = memory_order_seq_cst) volatile noexcept;
+    bool test_and_set(memory_order = memory_order_seq_cst) noexcept;
+    void clear(memory_order = memory_order_seq_cst) volatile noexcept;
+    void clear(memory_order = memory_order_seq_cst) noexcept;
+
+    atomic_flag() noexcept = default;
+    atomic_flag(const atomic_flag&) = delete;
+    atomic_flag& operator=(const atomic_flag&) = delete;
+    atomic_flag& operator=(const atomic_flag&) volatile = delete;
+  } atomic_flag;
+
+  bool atomic_flag_test_and_set(volatile atomic_flag*) noexcept;
+  bool atomic_flag_test_and_set(atomic_flag*) noexcept;
+  bool atomic_flag_test_and_set_explicit(volatile atomic_flag*, memory_order) noexcept;
+  bool atomic_flag_test_and_set_explicit(atomic_flag*, memory_order) noexcept;
+  void atomic_flag_clear(volatile atomic_flag*) noexcept;
+  void atomic_flag_clear(atomic_flag*) noexcept;
+  void atomic_flag_clear_explicit(volatile atomic_flag*, memory_order) noexcept;
+  void atomic_flag_clear_explicit(atomic_flag*, memory_order) noexcept;
+
+  #define ATOMIC_FLAG_INIT [=Seebelow]
+}
+[codeblock:end]
+
+[para]
+[:en] The [`atomic_flag] type provides the classic test-and-set functionality.
+
+[:en] It has two states, set and clear.
+
+[para]
+[:en] Operations on an object of type [`atomic_flag] shall be lock-free.
+
+[enter:note]
+[:en] Hence the operations should also be address-free.
+
+[:en] No other type requires lock-free operations, so the [`atomic_flag] type is
+the minimum hardware-implemented type needed to conform to this International
+standard.
+
+[:en] The remaining types can be emulated with [`atomic_flag], though with less
+than ideal properties.
+[exit:note]
+
+[para]
+[:en] The [`atomic_flag] type shall have standard layout.
+
+[:en] It shall have a trivial default constructor, a deleted copy constructor, a
+deleted copy assignment operator, and a trivial destructor.
+
+[para]
+[:en] The macro [`ATOMIC_FLAG_INIT] shall be defined in such a way that it can
+be used to initialize an object of type [`atomic_flag] to the clear state.
+
+[:en] The macro can be used in the form:
+
+[codeblock:notation]
+atomic_flag guard = ATOMIC_FLAG_INIT;
+[codeblock:end]
+
+[:en] It is unspecified whether the macro can be used in other initialization
+contexts.
+
+[:en] For a complete static-duration object, that initialization shall be
+static.
+
+[:en] Unless initialized with [`ATOMIC_FLAG_INIT], it is unspecified whether an
+[`atomic_flag] object has an initial state of set or clear.
+
+[%@library atomic_flag_test_and_set]
+[%@library atomic_flag_test_and_set_explicit]
+[codeblock:declaration]
+bool atomic_flag_test_and_set(volatile atomic_flag* object) noexcept;
+bool atomic_flag_test_and_set(atomic_flag* object) noexcept;
+bool atomic_flag_test_and_set_explicit(volatile atomic_flag* object, memory_order order) noexcept;
+bool atomic_flag_test_and_set_explicit(atomic_flag* object, memory_order order) noexcept;
+bool atomic_flag::test_and_set(memory_order order = memory_order_seq_cst) volatile noexcept;
+bool atomic_flag::test_and_set(memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Atomically sets the value pointed to by [`object] or by [`this] to true.
+
+[:en] Memory is affected according to the value of [`order].
+
+[:en] These operations are atomic read-modify-write operations
+([#intro.multithread]).
+
+[para:returns]
+[:en] Atomically, the value of the object immediately before the effects.
+[exit:description]
+
+[%@library atomic_flag_clear]
+[%@library atomic_flag_clear_explicit]
+[%@library atomic_flag[!clear]]
+[%@library clear[!atomic_flag]]
+[codeblock:declaration]
+void atomic_flag_clear(volatile atomic_flag* object) noexcept;
+void atomic_flag_clear(atomic_flag* object) noexcept;
+void atomic_flag_clear_explicit(volatile atomic_flag* object, memory_order order) noexcept;
+void atomic_flag_clear_explicit(atomic_flag* object, memory_order order) noexcept;
+void atomic_flag::clear(memory_order order = memory_order_seq_cst) volatile noexcept;
+void atomic_flag::clear(memory_order order = memory_order_seq_cst) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:requires]
+[:en] The [`order] argument shall not be [`memory_order_consume],
+[`memory_order_acquire], nor [`memory_order_acq_rel].
+
+[para:effects]
+[:en] Atomically sets the value pointed to by [`object] or by [`this] to false.
+
+[:en] Memory is affected according to the value of [`order].
+[exit:description]

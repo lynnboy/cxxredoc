@@ -1,0 +1,217 @@
+﻿[section#thread.sharedtimedmutex.requirements
+    [:en] Shared timed mutex types
+]
+
+[para]
+[:en] The standard library type [`std::shared_timed_mutex] is a [+shared timed
+mutex type].
+
+[:en] Shared timed mutex types shall meet the requirements of timed mutex types
+([#thread.timedmutex.requirements]), and additionally shall meet the
+requirements set out below.
+
+[:en] In this description, [`m] denotes an object of a mutex type, [`rel_type]
+denotes an object of an instantiation of [`duration] ([#time.duration]), and
+[`abs_time] denotes an object of an instantiation of [`time_point]
+([#time.point]).
+
+[para]
+[:en] In addition to the exclusive lock ownership mode specified in
+[#thread.mutex.requirements.mutex], shared mutex types provide a [+shared lock]
+ownership mode.
+
+[:en] Multiple execution agents can simultaneously hold a shared lock ownership
+of a shared mutex type.
+
+[:en] But no execution agent shall hold a shared lock while another execution
+agent holds an exclusive lock on the same shared mutex type, and vice-versa.
+
+[:en] The maximum number of execution agents which can share a shared lock on a
+single shared mutex type is unspecified, but shall be at least 10000.
+
+[:en] If more than the maximum number of execution agents attempt to obtain a
+shared lock, the excess execution agents shall block until the number of shared
+locks are reduced below the maximum amount by other execution agents releasing
+their shared lock.
+
+[para]
+[:en] The expression [`m.lock_shared()] shall be well-formed and have the
+following semantics:
+
+[enter:description]
+[para:requires]
+[:en] The calling thread has no ownership of the mutex.
+
+[para:effects]
+[:en] Blocks the calling thread until shared ownership of the mutex can be
+obtained for the calling thread.
+
+[:en] If an exception is thrown then a shared lock shall not have been acquired
+for the current thread.
+
+[para:postcondition]
+[:en] The calling thread has a shared lock on the mutex.
+
+[para:returntype]
+[:en] [`void].
+
+[para:sync]
+[:en] Prior [`unlock()] operations on the same object shall synchronize with
+([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] [`system_error] when an exception is required ([#thread.req.exception]).
+
+[para:errors]
+[list]
+[item]
+[:en] [`operation_not_permitted] [=--] if the thread does not have the privilege
+to perform the operation.
+[item]
+[:en] [`resource_deadlock_would_occur] [=--] if the implementation detects that
+a deadlock would occur.
+[item]
+[:en] [`device_or_resource_busy] [=--] if the mutex is already locked and
+blocking is not possible.
+[list:end]
+[exit:description]
+
+[para]
+[:en] The expression [`m.unlock_shared()] shall be well-formed and have the
+following semantics:
+
+[enter:description]
+[para:requires]
+[:en] The calling thread shall hold a shared lock on the mutex.
+
+[para:effects]
+[:en] Releases a shared lock on the mutex held by the calling thread.
+
+[para:returntype]
+[:en] [`void].
+
+[para:sync]
+[:en] This operation synchronizes with ([#intro.multithread]) subsequent
+[`lock()] operations that obtain ownership on the same object.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[para]
+[:en] The expression [`m.try_lock_shared()] shall be well-formed and have the
+following semantics:
+
+[enter:description]
+[para:requires]
+[:en] The calling thread has no ownership of the mutex.
+
+[para:effects]
+[:en] Attempts to obtain shared ownership of the mutex for the calling thread
+without blocking.
+
+[:en] If shared ownership is not obtained, there is no effect and
+[`try_lock_shared()] immediately returns.
+
+[:en] An implementation may fail to obtain the lock even if it is not held by
+any other thread.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the shared ownership lock was acquired, [`false] otherwise.
+
+[para:sync]
+[:en] If [`try_lock_shared()] returns [`true], prior [`unlock()] operations on
+the same object synchronize with  ([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] Nothing.
+[exit:description]
+
+[para]
+[:en] The expression [`m.try_lock_shared_for(rel_time)] shall be well-formed and
+have the following semantics:
+
+[enter:description]
+[para:requires]
+[:en] The calling thread has no ownership of the mutex.
+
+[para:effects]
+[:en] Attempts to obtain shared lock ownership for the calling thread within the
+relative timeout ([#thread.req.timing]) specified by [`rel_time].
+
+[:en] If the time specified by [`rel_time] is less than or equal to
+[`rel_time.zero()], the function attempts to obtain ownership without blocking
+(as if by calling [`try_lock_shared()]).
+
+[:en] The function shall return within the timeout specified by [`rel_time] only
+if it has obtained shared ownership of the mutex object.
+
+[enter:note]
+[:en] As with [`try_lock()], there is no guarantee that ownership will be
+obtained if the lock is available, but implementations are expected to make a
+strong effort to do so.
+[exit:note]
+
+[:en] If an exception is thrown then a shared lock shall not have been acquired
+for the current thread.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the shared lock was acquired, [`false] otherwise.
+
+[para:sync]
+[:en] If [`try_lock_shared_for()] returns [`true], prior [`unlock()] operations
+on the same object synchronize with ([#intro.multithread]) this operation.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[para]
+[:en] The expression [`m.try_lock_shared_until(abs_time)] shall be well-formed
+and have the following semantics:
+
+[enter:description]
+[para:requires]
+[:en] The calling thread has no ownership of the mutex.
+
+[para:effects]
+[:en] The function attempts to obtain shared ownership of the mutex.
+
+[:en] If [`abs_time] has already passed, the function attempts to obtain shared
+ownership without blocking (as if by calling [`try_lock_shared()]).
+
+[:en] The function shall return before the absolute timeout
+([#thread.req.timing]) specified by [`abs_time] only if it has obtained shared
+ownership of the mutex object.
+
+[enter:note]
+[:en] As with [`try_lock()], there is no guarantee that ownership will be
+obtained if the lock is available, but implementations are expected to make a
+strong effort to do so.
+[exit:note]
+
+[:en] If an exception is thrown then a shared lock shall not have been acquired
+for the current thread.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the shared lock was acquired, [`false] otherwise.
+
+[para:sync]
+[:en] If [`try_lock_shared_until()] returns [`true], prior [`unlock()]
+operations on the same object synchronize with ([#intro.multithread]) this
+operation.
+
+[para:throws]
+[:en] Timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[include thread.sharedtimedmutex.class]

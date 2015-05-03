@@ -1,0 +1,313 @@
+﻿[section#futures.shared_future
+    [:en] Class template [`shared_future]
+]
+
+[para]
+[:en] The class template [`shared_future] defines a type for asynchronous return
+objects which may share their shared state with other asynchronous return
+objects.
+
+[:en] A default-constructed [`shared_future] object has no shared state.
+
+[:en] A [`shared_future] object with shared state can be created by conversion
+from a [`future] object and shares its shared state with the original
+asynchronous provider ([#futures.state]) of the shared state.
+
+[:en] The result (value or exception) of a [`shared_future] object can be set by
+calling a respective function on an object that shares the same shared state.
+
+[para]
+[enter:note]
+[:en] Member functions of [`shared_future] do not synchronize with themselves,
+but they synchronize with the shared shared state. [exit:note]
+
+[para]
+[:en] The effect of calling any member function other than the destructor, the
+move-assignment operator, or [`valid()] on a [`shared_future] object for which
+[`valid() == false] is undefined.
+
+[enter:note]
+[:en] Implementations are encouraged to detect this case and throw an object of
+type [`future_error] with an error condition of [`future_errc::no_state].
+[exit:note]
+
+[codeblock:synopsis]
+namespace std {
+  template <class R>
+  class shared_future {
+  public:
+    shared_future() noexcept;
+    shared_future(const shared_future& rhs);
+    shared_future(future<R>&&) noexcept;
+    shared_future(shared_future&& rhs) noexcept;
+    ~shared_future();
+    shared_future& operator=(const shared_future& rhs);
+    shared_future& operator=(shared_future&& rhs) noexcept;
+
+    // [:en] retrieving the value
+    [=Seebelow] get() const;
+
+    // [:en] functions to check state
+    bool valid() const noexcept;
+
+    void wait() const;
+    template <class Rep, class Period>
+      future_status wait_for(const chrono::duration<Rep, Period>& rel_time) const;
+    template <class Clock, class Duration>
+      future_status wait_until(const chrono::time_point<Clock, Duration>& abs_time) const;
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The implementation shall provide the template [`shared_future] and two
+specializations, [`shared_future<R&>] and [`shared_future<void>].
+
+[:en] These differ only in the return type and return value of the member
+function [`get], as set out in its description, below.
+
+[%@library shared_future[![:en]constructor]]
+[codeblock:declaration]
+shared_future() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs an [%@defn empty [`shared_future] object][+empty]
+[`shared_future] object that does not refer to a shared state.
+
+[para:postcondition]
+[:en] [`valid() == false].
+[exit:description]
+
+[%@library shared_future[![:en]constructor]]
+[codeblock:declaration]
+shared_future(const shared_future& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] constructs a [`shared_future] object that refers to the same shared state
+as [`rhs] (if any).
+
+[para:postcondition]
+[:en] [`valid()] returns the same value as [`rhs.valid()].
+[exit:description]
+
+[%@library shared_future[![:en]constructor]]
+[codeblock:declaration]
+shared_future(future<R>&& rhs) noexcept;
+shared_future(shared_future&& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] move constructs a [`shared_future] object that refers to the shared state
+that was originally referred to by [`rhs] (if any).
+
+[para:postconditions]
+[list]
+[item]
+[:en] [`valid()] returns the same value as [`rhs.valid()] returned prior to the
+constructor invocation.
+[item]
+[:en] [`rhs.valid() == false].
+[list:end]
+[exit:description]
+
+[%@library shared_future[![:en]destructor]]
+[codeblock:declaration]
+~shared_future();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[list]
+[item]
+[:en] releases any shared state ([#futures.state]);
+[item]
+[:en] destroys [`*this].
+[list:end]
+[exit:description]
+
+[%@library shared_future[!operator=]]
+[%@library operator=[!shared_future]]
+[codeblock:declaration]
+shared_future& operator=(shared_future&& rhs) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[list]
+[item]
+[:en] releases any shared state ([#futures.state]);
+[item]
+[:en] move assigns the contents of [`rhs] to [`*this].
+[list:end]
+
+[para:postconditions]
+[list]
+[item]
+[:en] [`valid()] returns the same value as [`rhs.valid()] returned prior to the
+assignment.
+[item]
+[:en] [`rhs.valid() == false].
+[list:end]
+[exit:description]
+
+[%@library shared_future[!operator=]]
+[%@library operator=[!shared_future]]
+[codeblock:declaration]
+shared_future& operator=(const shared_future& rhs);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[list]
+[item]
+[:en] releases any shared state ([#futures.state]);
+
+[item]
+[:en] assigns the contents of [`rhs] to [`*this].
+
+[enter:note]
+[:en] As a result, [`*this] refers to the same shared state as [`rhs] (if any).
+[exit:note]
+[list:end]
+
+[para:postconditions]
+[:en] [`valid() == rhs.valid()].
+[exit:description]
+
+[%@library shared_future[!get]]
+[%@library get[!shared_future]]
+[codeblock:declaration]
+const R& shared_future::get() const;
+R& shared_future<R&>::get() const;
+void shared_future<void>::get() const;
+[codeblock:end]
+
+[enter:description]
+[para:realnote]
+[:en] as described above, the template and its two required specializations
+differ only in the return type and return value of the member function [`get].
+
+[para:realnote]
+[:en] access to a value object stored in the shared state is unsynchronized, so
+programmers should apply only those operations on [`R] that do not introduce a
+data race ([#intro.multithread]).
+
+[para:effects]
+[:en] [`wait()]s until the shared state is ready, then retrieves the value
+stored in the shared state.
+
+[para:returns]
+[list]
+[item]
+[:en] [`shared_future::get()] returns a const reference to the value stored in
+the object[=']s shared state.
+
+[enter:note]
+[:en] Access through that reference after the shared state has been destroyed
+produces undefined behavior; this can be avoided by not storing the reference in
+any storage with a greater lifetime than the [`shared_future] object that
+returned the reference.
+[exit:note]
+
+[item]
+[:en] [`shared_future<R&>::get()] returns the reference stored as value in the
+object[=']s shared state.
+
+[item]
+[:en] [`shared_future<void>::get()] returns nothing.
+[list:end]
+
+[para:throws]
+[:en] the stored exception, if an exception was stored in the shared state.
+[exit:description]
+
+[%@library shared_future[!valid]]
+[%@library valid[!shared_future]]
+[codeblock:declaration]
+bool valid() const noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`true] only if [`*this] refers to a shared state.
+[exit:description]
+
+[%@library shared_future[!wait]]
+[%@library wait[!shared_future]]
+[codeblock:declaration]
+void wait() const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] blocks until the shared state is ready.
+[exit:description]
+
+[%@library shared_future[!wait_for]]
+[%@library wait_for[!shared_future]]
+[codeblock:declaration]
+template <class Rep, class Period>
+  future_status wait_for(const chrono::duration<Rep, Period>& rel_time) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] none if the shared state contains a deferred function ([#futures.async]),
+otherwise blocks until the shared state is ready or until the relative timeout
+([#thread.req.timing]) specified by [`rel_time] has expired.
+
+[para:returns]
+
+[list]
+[item]
+[:en] [`future_status::deferred] if the shared state contains a deferred
+function.
+
+[item]
+[:en] [`future_status::ready] if the shared state is ready.
+
+[item]
+[:en] [`future_status::timeout] if the function is returning because the
+relative timeout ([#thread.req.timing]) specified by [`rel_time] has expired.
+[list:end]
+
+[para:throws]
+[:en] timeout-related exceptions ([#thread.req.timing]).
+[exit:description]
+
+[%@library shared_future[!wait_until]]
+[%@library wait_until[!shared_future]]
+[codeblock:declaration]
+template <class Clock, class Duration>
+  future_status wait_until(const chrono::time_point<Clock, Duration>& abs_time) const;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] none if the shared state contains a deferred function ([#futures.async]),
+otherwise blocks until the shared state is ready or until the absolute timeout
+([#thread.req.timing]) specified by [`abs_time] has expired.
+
+[para:returns]
+
+[list]
+[item]
+[:en] [`future_status::deferred] if the shared state contains a deferred
+function.
+
+[item]
+[:en] [`future_status::ready] if the shared state is ready.
+
+[item]
+[:en] [`future_status::timeout] if the function is returning because the
+absolute timeout ([#thread.req.timing]) specified by [`abs_time] has expired.
+[list:end]
+
+[para:throws]
+[:en] timeout-related exceptions ([#thread.req.timing]).
+[exit:description]

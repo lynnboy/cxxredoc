@@ -1,0 +1,62 @@
+﻿[section#thread.mutex.recursive
+    [:en] Class [`recursive_mutex]
+]
+
+[codeblock:synopsis [special implementation-defined] ]
+namespace std {
+  class recursive_mutex {
+  public:
+    recursive_mutex();
+    ~recursive_mutex();
+
+    recursive_mutex(const recursive_mutex&) = delete;
+    recursive_mutex& operator=(const recursive_mutex&) = delete;
+
+    void lock();
+    bool try_lock() noexcept;
+    void unlock();
+
+    typedef implementation-defined native_handle_type; // [:en] See [#thread.req.native]
+    native_handle_type native_handle();                // [:en] See [#thread.req.native]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`recursive_mutex] provides a recursive mutex with exclusive
+ownership semantics.
+
+[:en] If one thread owns a [`recursive_mutex] object, attempts by another thread
+to acquire ownership of that object will fail (for [`try_lock()]) or block (for
+[`lock()]) until the first thread has completely released ownership.
+
+[para]
+[:en] The class [`recursive_mutex] shall satisfy all the Mutex requirements
+([#thread.mutex.requirements]).
+
+[:en] It shall be a standard-layout class (Clause [#class]).
+
+[para]
+[:en] A thread that owns a [`recursive_mutex] object may acquire additional
+levels of ownership by calling [`lock()] or [`try_lock()] on that object.
+
+[:en] It is unspecified how many levels of ownership may be acquired by a single
+thread.
+
+[:en] If a thread has already acquired the maximum level of ownership for a
+[`recursive_mutex] object, additional calls to [`try_lock()] shall fail, and
+additional calls to [`lock()] shall throw an exception of type [`system_error].
+
+[:en] A thread shall call [`unlock()] once for each level of ownership acquired
+by calls to [`lock()] and [`try_lock()]. Only when all levels of ownership have
+been released may ownership be acquired by another thread.
+
+[para]
+[:en] The behavior of a program is undefined if:
+
+[list]
+[item]
+[:en] it destroys a [`recursive_mutex] object owned by any thread or
+[item]
+[:en] a thread terminates while owning a [`recursive_mutex] object.
+[list:end]

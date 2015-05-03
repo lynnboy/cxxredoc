@@ -1,0 +1,15 @@
+﻿[section#atomics.types.operations.arith
+    [:en] Arithmetic operations on atomic types
+]
+
+[para]
+[:en] The implementation shall provide the functions and function template
+specializations identified as ["arithmetic operations on atomic types] in
+[#atomics.syn].
+
+[para]
+[:en] In the declarations of these functions and function template
+specializations, the name [`[$integral]] refers to an integral type and the name
+[`[$atomic-integral]] refers to either [`atomic<[$integral]>] or to a named base
+class for [`[$integral]] from Table [#tab:atomics.integral] or inferred from
+Table [#tab:atomics.typedefs].

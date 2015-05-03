@@ -1,0 +1,54 @@
+﻿[section#thread.req.lockable.timed
+    [:en] [`TimedLockable] requirements
+]
+
+[para]
+[:en] A type [`L] meets the [`TimedLockable] requirements if it meets the
+[`Lockable] requirements and the following expressions are well-formed and have
+the specified semantics ([`m] denotes a value of type [`L], [`rel_time] denotes
+a value of an instantiation of [`duration] ([#time.duration]), and [`abs_time]
+denotes a value of an instantiation of [`time_point] ([#time.point])).
+
+[codeblock:declaration]
+m.try_lock_for(rel_time)
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] attempts to acquire a lock for the current execution agent within the
+relative timeout ([#thread.req.timing]) specified by [`rel_time].
+
+[:en] The function shall not return within the timeout specified by [`rel_time]
+unless it has obtained a lock on [`m] for the current execution agent.
+
+[:en] If an exception is thrown then a lock shall not have been acquired for the
+current execution agent.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the lock was acquired, [`false] otherwise.
+[exit:description]
+
+[codeblock:declaration]
+m.try_lock_until(abs_time)
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] attempts to acquire a lock for the current execution agent before the
+absolute timeout ([#thread.req.timing]) specified by [`abs_time].
+
+[:en] The function shall not return before the timeout specified by [`abs_time]
+unless it has obtained a lock on [`m] for the current execution agent.
+
+[:en] If an exception is thrown then a lock shall not have been acquired for the
+current execution agent.
+
+[para:returntype]
+[:en] [`bool].
+
+[para:returns]
+[:en] [`true] if the lock was acquired, [`false] otherwise.
+[exit:description]
