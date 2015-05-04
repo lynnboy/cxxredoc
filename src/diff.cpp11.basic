@@ -1,0 +1,23 @@
+﻿[section#diff.cpp11.basic
+    [:en] Clause [#basic]: basic concepts
+]
+
+[#basic.stc.dynamic.deallocation]
+[para:change]
+[:en] New usual (non-placement) deallocator 
+[para:rationale]
+[:en] Required for sized deallocation.
+[para:effect]
+[:en] Valid [=Cpp] 2011 code could declare a global placement allocation
+function and deallocation function as follows:
+
+[codeblock]
+void operator new(std::size_t, std::size_t);
+void operator delete(void*, std::size_t) noexcept;
+[codeblock:end]
+
+[:en] In this International Standard, however, the declaration of [`operator
+delete] might match a predefined usual (non-placement) [`operator delete]
+([#basic.stc.dynamic]).
+[:en] If so, the program is ill-formed, as it was for class member allocation
+functions and deallocation functions ([#expr.new]).

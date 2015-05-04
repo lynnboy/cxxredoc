@@ -1,0 +1,25 @@
+﻿[section#diff.cpp03.strings
+    [:en] Clause [#strings]: strings library
+]
+
+[#string.classes]
+[para:change]
+[:en] [`basic_string] requirements no longer allow reference-counted strings
+[para:rationale]
+[:en] Invalidation is subtly different with reference-counted strings.
+[:en] This change regularizes behavior for this International Standard.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code may execute differently in this International
+Standard.
+
+[para:~]
+[#string.require]
+[para:change]
+[:en] Loosen [`basic_string] invalidation rules
+[para:rationale]
+[:en] Allow small-string optimization.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code may execute differently in this International
+Standard.
+[:en] Some [`const] member functions, such as [`data] and [`c_str], no longer
+invalidate iterators.

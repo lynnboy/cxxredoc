@@ -1,0 +1,114 @@
+﻿[section#diff.cpp03.containers
+    [:en] Clause [#containers]: containers library
+]
+
+[#container.requirements]
+[para:change]
+[:en] Complexity of [`size()] member functions now constant
+[para:rationale]
+[:en] Lack of specification of complexity of [`size()] resulted in divergent
+implementations with inconsistent performance characteristics.
+[para:effect]
+[:en] Some container implementations that conform to [=Cpp] 2003 may not conform
+to the specified [`size()] requirements in this International Standard.
+[:en] Adjusting containers such as [`std::list] to the stricter requirements may
+require incompatible changes.
+
+[para:~]
+[#container.requirements]
+[para:change]
+[:en] Requirements change: relaxation
+[para:rationale]
+[:en] Clarification.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that attempts to meet the specified container
+requirements may now be over-specified.
+[:en] Code that attempted to be portable across containers may need to be
+adjusted as follows:
+
+[list]
+[item]
+[:en] not all containers provide [`size()]; use [`empty()] instead of
+[`size() == 0];
+[item]
+[:en] not all containers are empty after construction ([`array]);
+[item]
+[:en] not all containers have constant complexity for [`swap()] ([`array]).
+[list:end]
+
+[para:~]
+[#container.requirements]
+[para:change]
+[:en] Requirements change: default constructible
+[para:rationale]
+[:en] Clarification of container requirements.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that attempts to explicitly instantiate a container
+using a user-defined type with no default constructor may fail to compile.
+
+[para:~]
+[#sequence.reqmts], [#associative.reqmts]
+[para:change]
+[:en] Signature changes: from [`void] return types
+[para:rationale]
+[:en] Old signature threw away useful information that may be expensive
+to recalculate.
+[para:effect]
+[:en] The following member functions have changed:
+
+[list]
+[item]
+[:en] [`erase(iter)] for [`set], [`multiset], [`map], [`multimap]
+[item]
+[:en] [`erase(begin, end)] for [`set], [`multiset], [`map], [`multimap]
+[item]
+[:en] [`insert(pos, num, val)] for [`vector], [`deque], [`list], [`forward_list]
+[item]
+[:en] [`insert(pos, beg, end)] for [`vector], [`deque], [`list], [`forward_list]
+[list:end]
+
+[:en] Valid [=Cpp] 2003 code that relies on these functions returning [`void]
+(e.g., code that creates a pointer to member function that points to one
+of these functions) will fail to compile with this International Standard.
+
+[para:~]
+[#sequence.reqmts], [#associative.reqmts]
+[para:change]
+[:en] Signature changes: from [`iterator] to [`const_iterator] parameters
+[para:rationale]
+[:en] Overspecification.
+[para:effect]
+[:en] The signatures of the following member functions changed from taking an
+[`iterator] to taking a [`const_iterator]:
+
+[list]
+[item]
+[:en] [`insert(iter, val)] for [`vector], [`deque], [`list], [`set],
+[`multiset], [`map], [`multimap]
+[item]
+[:en] [`insert(pos, beg, end)] for [`vector], [`deque], [`list], [`forward_list]
+[item]
+[:en] [`erase(iter)] for [`set], [`multiset], [`map], [`multimap]
+[item]
+[:en] [`erase(begin, end)] for [`set], [`multiset], [`map], [`multimap]
+[item]
+[:en] all forms of [`list::splice]
+[item]
+[:en] all forms of [`list::merge]
+[list:end]
+
+[:en]Valid [=Cpp] 2003 code that uses these functions may fail to compile with
+this International Standard.
+
+[para:~]
+[#sequence.reqmts], [#associative.reqmts]
+[para:change]
+[:en] Signature changes: [`resize]
+[para:rationale]
+[:en] Performance, compatibility with move semantics.
+[para:effect]
+[:en] For [`vector], [`deque], and [`list] the fill value passed to [`resize] is
+now passed by reference instead of by value, and an additional overload of
+[`resize] has been added.
+[:en] Valid [=Cpp] 2003 code that uses this function may fail to compile with
+this International Standard.

@@ -1,0 +1,141 @@
+﻿[section#diff.class
+    [:en] Clause [#class]: classes
+]
+
+[#class.name] [=[]see also [#dcl.typedef][=]]
+[para:change]
+[:en] In [=Cpp], a class declaration introduces the class name into the scope
+where it is declared and hides any object, function or other declaration of that
+name in an enclosing scope.
+[:en] In C, an inner scope declaration of a struct tag name never hides the name
+of an object or function in an outer scope
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+int x[99];
+void f() {
+  struct x { int a; };
+  sizeof(x);  /* [:en] size of the array in C */
+  /* [:en] size of the struct in [=Cpp] */
+}
+[codeblock:end]
+
+[para:rationale]
+[:en] This is one of the few incompatibilities between C and [=Cpp] that can be
+attributed to the new [=Cpp] name space definition where a name can be declared
+as a type and as a non-type in a single scope causing the non-type name to hide
+the type name and requiring that the keywords [`class], [`struct], [`union] or
+[`enum] be used to refer to the type name.
+[:en] This new name space definition provides important notational conveniences
+to [=Cpp] programmers and helps making the use of the user-defined types as
+similar as possible to the use of fundamental types.
+[:en] The advantages of the new name space definition were judged to outweigh by
+far the incompatibility with C described above.
+[para:effect]
+[:en] Change to semantics of well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] If the hidden name that needs to be accessed is at global scope, the [`::]
+[=Cpp] operator can be used.
+[:en] If the hidden name is at block scope, either the type or the struct tag
+has to be renamed.
+[para:howwide]
+[:en] Seldom.
+
+[para:~]
+[#class.bit]
+[para:change]
+[:en]
+[%bit-field[!implementation-defined sign of]]
+Bit-fields of type plain [`int] are signed.
+[para:rationale]
+[:en] Leaving the choice of signedness to implementations could lead to
+inconsistent definitions of template specializations.
+[:en] For consistency, the implementation freedom was eliminated for
+non-dependent types, too.
+[para:effect]
+[:en] The choise is implementation-defined in C, but not so in [=Cpp].
+[para:difficulty]
+[:en] Syntactic transformation.
+[para:howwide]
+[:en] Seldom.
+
+[para:~]
+[#class.nest]
+[para:change]
+[:en] In [=Cpp], the name of a nested class is local to its enclosing class.
+[:en] In C the name of the nested class belongs to the same scope as the name of
+the outermost enclosing class.
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+struct X {
+  struct Y { /* ... */ } y;
+};
+struct Y yy;                    // [:en] valid C, invalid [=Cpp]
+[codeblock:end]
+
+[para:rationale]
+[:en] [=Cpp] classes have member functions which require that classes establish
+scopes.
+[:en] The C rule would leave classes as an incomplete scope mechanism which
+would prevent [=Cpp] programmers from maintaining locality within a class.
+[:en] A coherent set of scope rules for [=Cpp] based on the C rule would be very
+complicated and [=Cpp] programmers would be unable to predict reliably the
+meanings of nontrivial examples involving nested or local functions.
+[para:effect]
+[:en] Change of semantics of well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] To make the struct type name visible in the scope of the enclosing struct,
+the struct tag could be declared in the scope of the enclosing struct, before
+the enclosing struct is defined.
+[:en] Example:
+
+[codeblock]
+struct Y;                       // [:en] [`struct Y] and [`struct X] are at the same scope
+struct X {
+  struct Y { /* ... */ } y;
+};
+[codeblock:end]
+
+[:en] All the definitions of C struct types enclosed in other struct definitions
+and accessed outside the scope of the enclosing struct could be exported to the
+scope of the enclosing struct.
+[:en] Note: this is a consequence of the difference in scope rules, which is
+documented in [#basic.scope].
+[para:howwide]
+[:en] Seldom.
+
+[para:~]
+[#class.nested.type]
+[para:change]
+[:en] In [=Cpp], a typedef name may not be redeclared in a class definition
+after being used in that definition
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+typedef int I;
+struct S {
+  I i;
+  int I;                  // [:en] valid C, invalid [=Cpp]
+};
+[codeblock:end]
+
+[para:rationale]
+[:en] When classes become complicated, allowing such a redefinition after the
+type has been used can create confusion for [=Cpp] programmers as to what the
+meaning of 'I' really is.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] Either the type or the struct member has to be renamed.
+[para:howwide]
+[:en] Seldom.

@@ -1,0 +1,433 @@
+﻿[section#diff.library
+    [:en] C standard library
+]
+
+[%[:en] library[!C standard]]
+
+[para]
+[:en] This subclause summarizes the contents of the [=Cpp] standard library
+included from the Standard C library.
+[:en] It also summarizes the explicit changes in definitions, declarations, or
+behavior from the Standard C library noted in other subclauses ([#headers],
+[#support.types], [#c.strings]).
+
+[para]
+[:en] The [=Cpp] standard library provides 57 standard macros from the C
+library, as shown in Table [#tab:diff.standard.macros].
+
+[para]
+[:en] The header names (enclosed in [`<] and [`>]) indicate that the macro may
+be defined in more than one header.
+[:en] All such definitions are equivalent ([#basic.def.odr]).
+
+[table:listing@simple#tab:diff.standard.macros
+    [:en] Standard macros
+    [columns@repeated=5@code]
+    [border:cell@none]
+]
+
+[|] assert
+[|] BUFSIZ
+[|] CLOCKS_PER_SEC
+[|] EDOM
+[|] EILSEQ
+[|] EOF
+[|] ERANGE
+[|] errno
+[|] EXIT_FAILURE
+[|] EXIT_SUCCESS
+[|] FILENAME_MAX
+[|] FOPEN_MAX
+
+[|] HUGE_VAL
+[|] LC_ALL
+[|] LC_COLLATE
+[|] LC_CTYPE
+[|] LC_MONETARY
+[|] LC_NUMERIC
+[|] LC_TIME
+[|] L_tmpnam
+[|] MB_CUR_MAX
+[|] NULL <clocale>
+[|] NULL <cstddef>
+[|] NULL <cstdlib>
+
+[|] NULL <cstring>
+[|] NULL <ctime>
+[|] NULL <cwchar>
+[|] offsetof
+[|] RAND_MAX
+[|] SEEK_CUR
+[|] SEEK_END
+[|] SEEK_SET
+[|] setjmp
+[|] SIGABRT
+[|] SIGFPE
+[|] SIGILL
+
+[|] SIGINT
+[|] SIGSEGV
+[|] SIGTERM
+[|] SIG_DFL
+[|] SIG_ERR
+[|] SIG_IGN
+[|] stderr
+[|] stdin
+[|] stdout
+[|] TMP_MAX
+[|] va_arg
+[|] va_copy
+
+[|] va_end
+[|] va_start
+[|] WCHAR_MAX
+[|] WCHAR_MIN
+[|] WEOF <cwchar>
+[|] WEOF <cwctype>
+[|] _IOFBF
+[|] _IOLBF
+[|] _IONBF
+
+[table:end]
+
+[para]
+[:en] The [=Cpp] standard library provides 57 standard values from the C
+library, as shown in Table [#tab:diff.standard.values].
+
+[table:listing@simple#tab:diff.standard.values
+    [:en] Standard values
+    [columns@repeated=4@code]
+    [border:cell@none]
+]
+
+[|] CHAR_BIT
+[|] CHAR_MAX
+[|] CHAR_MIN
+[|] DBL_DIG
+[|] DBL_EPSILON
+[|] DBL_MANT_DIG
+[|] DBL_MAX
+[|] DBL_MAX_10_EXP
+[|] DBL_MAX_EXP
+[|] DBL_MIN
+[|] DBL_MIN_10_EXP
+[|] DBL_MIN_EXP
+
+[|] FLT_DIG
+[|] FLT_EPSILON
+[|] FLT_MANT_DIG
+[|] FLT_MAX
+[|] FLT_MAX_10_EXP
+[|] FLT_MAX_EXP
+[|] FLT_MIN
+[|] FLT_MIN_10_EXP
+[|] FLT_MIN_EXP
+[|] FLT_RADIX
+[|] FLT_ROUNDS
+[|] INT_MAX
+
+[|] INT_MIN
+[|] LDBL_DIG
+[|] LDBL_EPSILON
+[|] LDBL_MANT_DIG
+[|] LDBL_MAX
+[|] LDBL_MAX_10_EXP
+[|] LDBL_MAX_EXP
+[|] LDBL_MIN
+[|] LDBL_MIN_10_EXP
+[|] LDBL_MIN_EXP
+[|] LONG_MAX
+[|] LONG_MIN
+
+[|] MB_LEN_MAX
+[|] SCHAR_MAX
+[|] SCHAR_MIN
+[|] SHRT_MAX
+[|] SHRT_MIN
+[|] UCHAR_MAX
+[|] UINT_MAX
+[|] ULONG_MAX
+[|] USHRT_MAX
+
+[table:end]
+
+[para]
+[:en] The [=Cpp] standard library provides 20 standard types from the C library,
+as shown in Table [#tab:diff.standard.types].
+
+[table:listing@simple#tab:diff.standard.types
+    [:en] Standard types
+    [columns@repeated=4@code]
+    [border:cell@none]
+]
+
+[|] clock_t
+[|] div_t
+[|] FILE
+[|] fpos_t
+[|] jmp_buf
+
+[|] ldiv_t
+[|] mbstate_t
+[|] ptrdiff_t
+[|] sig_atomic_t
+[|] size_t <cstddef>
+
+[|] size_t <cstdio>
+[|] size_t <cstdlib>
+[|] size_t <cstring>
+[|] size_t <ctime>
+[|] time_t
+
+[|] va_list
+[|] wctrans_t
+[|] wctype_t
+[|] wint_t <cwchar>
+[|] wint_t <cwctype>
+[table:end]
+
+[para]
+[:en] The [=Cpp] standard library provides 2 standard [`struct]s from the C
+library, as shown in Table [#tab:diff.standard.structs].
+
+[table:listing@simple#tab:diff.standard.structs
+    [:en] Standard structs
+    [columns@repeated=2@code]
+    [border:cell@none]
+]
+[|] lconv
+[|] tm
+[table:end]
+
+[para]
+[:en] The [=Cpp] standard library provides 209 standard functions from the C library,
+as shown in Table [#tab:diff.standard.functions].
+
+[table:listing@simple#tab:diff.standard.functions
+    [:en] Standard functions
+    [columns@repeated=6@code]
+    [border:cell@none]
+]
+
+[|] abort
+[|] abs
+[|] acos
+[|] asctime
+[|] asin
+[|] atan
+[|] atan2
+[|] atexit
+[|] atof
+[|] atoi
+[|] atol
+[|] bsearch
+[|] btowc
+[|] calloc
+[|] ceil
+[|] clearerr
+[|] clock
+[|] cos
+[|] cosh
+[|] ctime
+[|] difftime
+[|] div
+[|] exit
+[|] exp
+[|] fabs
+[|] fclose
+[|] feof
+[|] ferror
+[|] fflush
+[|] fgetc
+[|] fgetpos
+[|] fgets
+[|] fgetwc
+[|] fgetws
+[|] floor
+
+[|] fmod
+[|] fopen
+[|] fprintf
+[|] fputc
+[|] fputs
+[|] fputwc
+[|] fputws
+[|] fread
+[|] free
+[|] freopen
+[|] frexp
+[|] fscanf
+[|] fseek
+[|] fsetpos
+[|] ftell
+[|] fwide
+[|] fwprintf
+[|] fwrite
+[|] fwscanf
+[|] getc
+[|] getchar
+[|] getenv
+[|] getwc
+[|] getwchar
+[|] gmtime
+[|] isalnum
+[|] isalpha
+[|] iscntrl
+[|] isdigit
+[|] isgraph
+[|] islower
+[|] isprint
+[|] ispunct
+[|] isspace
+[|] isupper
+
+[|] iswalnum
+[|] iswalpha
+[|] iswcntrl
+[|] iswctype
+[|] iswdigit
+[|] iswgraph
+[|] iswlower
+[|] iswprint
+[|] iswpunct
+[|] iswspace
+[|] iswupper
+[|] iswxdigit
+[|] isxdigit
+[|] labs
+[|] ldexp
+[|] ldiv
+[|] localeconv
+[|] localtime
+[|] log
+[|] log10
+[|] longjmp
+[|] malloc
+[|] mblen
+[|] mbrlen
+[|] mbrtowc
+[|] mbsinit
+[|] mbsrtowcs
+[|] mbstowcs
+[|] mbtowc
+[|] memchr
+[|] memcmp
+[|] memcpy
+[|] memmove
+[|] memset
+[|] mktime
+
+[|] modf
+[|] perror
+[|] pow
+[|] printf
+[|] putc
+[|] putchar
+[|] puts
+[|] putwc
+[|] putwchar
+[|] qsort
+[|] raise
+[|] rand
+[|] realloc
+[|] remove
+[|] rename
+[|] rewind
+[|] scanf
+[|] setbuf
+[|] setlocale
+[|] setvbuf
+[|] signal
+[|] sin
+[|] sinh
+[|] sprintf
+[|] sqrt
+[|] srand
+[|] sscanf
+[|] strcat
+[|] strchr
+[|] strcmp
+[|] strcoll
+[|] strcpy
+[|] strcspn
+[|] strerror
+[|] strftime
+
+[|] strlen
+[|] strncat
+[|] strncmp
+[|] strncpy
+[|] strpbrk
+[|] strrchr
+[|] strspn
+[|] strstr
+[|] strtod
+[|] strtok
+[|] strtol
+[|] strtoul
+[|] strxfrm
+[|] swprintf
+[|] swscanf
+[|] system
+[|] tan
+[|] tanh
+[|] time
+[|] tmpfile
+[|] tmpnam
+[|] tolower
+[|] toupper
+[|] towctrans
+[|] towlower
+[|] towupper
+[|] ungetc
+[|] ungetwc
+[|] vfprintf
+[|] vfwprintf
+[|] vprintf
+[|] vsprintf
+[|] vswprintf
+[|] vwprintf
+[|] wcrtomb
+
+[|] wcscat
+[|] wcschr
+[|] wcscmp
+[|] wcscoll
+[|] wcscpy
+[|] wcscspn
+[|] wcsftime
+[|] wcslen
+[|] wcsncat
+[|] wcsncmp
+[|] wcsncpy
+[|] wcspbrk
+[|] wcsrchr
+[|] wcsrtombs
+[|] wcsspn
+[|] wcsstr
+[|] wcstod
+[|] wcstok
+[|] wcstol
+[|] wcstombs
+[|] wcstoul
+[|] wcsxfrm
+[|] wctob
+[|] wctomb
+[|] wctrans
+[|] wctype
+[|] wmemchr
+[|] wmemcmp
+[|] wmemcpy
+[|] wmemmove
+[|] wmemset
+[|] wprintf
+[|] wscanf
+[table:end]
+
+[include diff.mods.to.headers]
+
+[include diff.mods.to.definitions]
+
+[include diff.mods.to.declarations]
+
+[include diff.mods.to.behavior】

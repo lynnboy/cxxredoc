@@ -1,0 +1,109 @@
+﻿[section#diff.basic
+    [:en] Clause [#basic]: basic concepts
+]
+
+[para:~]
+[#basic.def]
+[para:change]
+[:en] [=Cpp] does not have ["tentative definitions] as in C
+[:en] E.g., at file scope,
+
+[codeblock]
+int i;
+int i;
+[codeblock:end]
+
+[:en@~] is valid in C, invalid in [=Cpp].
+[:en] This makes it impossible to define mutually referential file-local static
+objects, if initializers are restricted to the syntactic forms of C.
+[:en] For example,
+
+[codeblock]
+struct X { int i; struct X* next; };
+
+static struct X a;
+static struct X b = { 0, &a };
+static struct X a = { 1, &b };
+[codeblock:end]
+
+[para:rationale]
+[:en] This avoids having different initialization rules for fundamental types
+and user-defined types.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[para:rationale]
+[:en] In [=Cpp], the initializer for one of a set of mutually-referential
+file-local static objects must invoke a function call to achieve the
+initialization.
+[para:howwide]
+[:en] Seldom.
+
+[para:~]
+[#basic.scope]
+[para:change]
+[:en] A [`struct] is a scope in [=Cpp], not in C
+[para:rationale]
+[:en] Class scope is crucial to [=Cpp], and a struct is a class.
+[para:effect]
+[:en] Change to semantics of well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[para:howwide]
+[:en] C programs use [`struct] extremely frequently, but the change is only
+noticeable when [`struct], enumeration, or enumerator names are referred to
+outside the [`struct].
+[:en] The latter is probably rare.
+
+[para:~]
+[:en] [#basic.link] [=[]also [#dcl.type][=]]
+[para:change]
+[:en] A name of file scope that is explicitly declared [`const], and not
+explicitly declared [`extern], has internal linkage, while in C it would have
+external linkage
+[para:rationale]
+[:en] Because [`const] objects can be used as compile-time values in [=Cpp],
+this feature urges programmers to provide explicit initializer values for each
+[`const].
+[:en] This feature allows the user to put [`const]objects in header files that
+are included in many compilation units.
+[para:effect]
+[:en] Change to semantics of well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation
+[para:howwide]
+[:en] Seldom
+
+[para:~]
+[#basic.start]
+[para:change]
+[:en] Main cannot be called recursively and cannot have its address taken
+[para:rationale]
+[:en] The [`main] function may require special actions.
+[para:effect]
+[:en] Deletion of semantically well-defined feature
+[para:difficulty]
+[:en] Trivial: create an intermediary function such as [`mymain(argc, argv)].
+[para:howwide]
+[:en] Seldom
+
+[para:~]
+[#basic.types]
+[para:change]
+[:en] C allows ["compatible types] in several places, [=Cpp] does not
+[:en] For example, otherwise-identical [`struct] types with different tag names
+are ["compatible] in C but are distinctly different types in [=Cpp].
+[para:rationale]
+[:en] Stricter type checking is essential for [=Cpp].
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] The ["typesafe linkage] mechanism will find many, but not all, of such
+problems.
+[:en] Those problems not found by typesafe linkage will continue to function
+properly, according to the ["layout compatibility rules] of this International
+Standard.
+[para:howwide]
+[:en] Common.

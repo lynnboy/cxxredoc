@@ -1,0 +1,44 @@
+﻿[section#diff.special
+    [:en] Clause [#special]: special member functions
+]
+
+[#class.copy]
+[para:change]
+[:en] Copying volatile objects
+
+[para:~]
+[:en] The implicitly-declared copy constructor and implicitly-declared copy
+assignment operator cannot make a copy of a volatile lvalue.
+[:en] For example, the following is valid in ISO C:
+
+[codeblock]
+struct X { int i; };
+volatile struct X x1 = {0};
+struct X x2(x1);                // [:en] invalid [=Cpp]
+struct X x3;
+x3 = x1;                        // [:en] also invalid [=Cpp]
+[codeblock:end]
+
+[para:rationale]
+[:en] Several alternatives were debated at length.
+[:en] Changing the parameter to [`volatile const X&] would greatly complicate
+the generation of efficient code for class objects.
+[:en] Discussion of providing two alternative signatures for these
+implicitly-defined operations raised unanswered concerns about creating
+ambiguities and complicating the rules that specify the formation of these
+operators according to the bases and members.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] If volatile semantics are required for the copy, a user-declared
+constructor or assignment must be provided.
+
+[enter:note]
+[:en] This user-declared constructor may be explicitly defaulted.
+[exit:note]
+
+[:en] If non-volatile semantics are required, an explicit [`const_cast] can be
+used.
+[para:howwide]
+[:en] Seldom.

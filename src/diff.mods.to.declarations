@@ -1,0 +1,23 @@
+﻿[section#diff.mods.to.declarations
+    [:en] Modifications to declarations
+]
+
+[para]
+[%@library <cstring> [sortas cstring]]
+[:en] Header [`<cstring>]:
+
+[:en] The following functions have different declarations:
+[list]
+[item]
+[`strchr]
+[item]
+[`strpbrk]
+[item]
+[`strrchr]
+[item]
+[`strstr]
+[item]
+[`memchr]
+[list:end]
+
+[:en] [#c.strings] describes the changes.

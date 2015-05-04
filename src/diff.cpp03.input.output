@@ -1,0 +1,64 @@
+﻿[section#diff.cpp03.input.output
+    [:en] Clause [#input.output]: Input/output library
+]
+
+[#istream::sentry],
+[#ostream::sentry],
+[#iostate.flags]
+[para:change]
+[:en] Specify use of explicit in existing boolean conversion operators
+[para:rationale]
+[:en] Clarify intentions, avoid workarounds.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that relies on implicit boolean conversions will
+fail to compile with this International Standard.
+[:en] Such conversions occur in the following conditions:
+
+[list]
+[item]
+[:en] passing a value to a function that takes an argument of type [`bool];
+[item]
+[:en] using [`operator==] to compare to [`false] or [`true];
+[item]
+[:en] returning a value from a function with a return type of [`bool];
+[item]
+[:en] initializing members of type [`bool] via aggregate initialization;
+[item]
+[:en] initializing a [`const bool&] which would bind to a temporary.
+[list:end]
+
+[para:~]
+[#ios::failure]
+[para:change]
+[:en] Change base class of [`std::ios_base::failure]
+[para:rationale]
+[:en] More detailed error messages.
+[para:effect]
+[:en] [`std::ios_base::failure] is no longer derived directly from
+[`std::exception], but is now derived from [`std::system_error], which in turn
+is derived from [`std::runtime_error].
+[:en] Valid [=Cpp] 2003 code that assumes that [`std::ios_base::failure] is
+derived directly from [`std::exception] may execute differently in this
+International Standard.
+
+[para:~]
+[#ios.base]
+[para:change]
+[:en] Flag types in [`std::ios_base] are now bitmasks with values defined as
+constexpr static members
+[para:rationale]
+[:en] Required for new features.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that relies on [`std::ios_base] flag types being
+represented as [`std::bitset] or as an integer type may fail to compile with
+this International Standard. For example:
+
+[codeblock]
+#include <iostream>
+
+int main() {
+  int flag = std::ios_base::hex;
+  std::cout.setf(flag);         // [:en] error: [`setf] does not take argument of type [`int]
+  return 0;
+}
+[codeblock:end]

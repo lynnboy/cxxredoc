@@ -1,0 +1,13 @@
+﻿[section#diff.cpp03.expr
+    [:en] Clause [#expr]: expressions
+]
+
+[#expr.mul]
+[para:change]
+[:en] Specify rounding for results of integer [`/] and [`%]
+[para:rationale]
+[:en] Increase portability, C99 compatibility.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that uses integer division rounds the result toward
+0 or toward negative infinity, whereas this International Standard always rounds
+the result toward 0.

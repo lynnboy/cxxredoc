@@ -1,0 +1,14 @@
+﻿[section#diff.cpp14.depr
+    [:en] Annex D: compatibility features
+]
+
+[para:change]
+[:en] The class templates [`auto_ptr], [`unary_function], and
+[`binary_function], the function templates [`random_shuffle], and the function
+templates (and their return types) [`ptr_fun], [`mem_fun], [`mem_fun_ref],
+[`bind1st], and [`bind2nd] are not defined.
+[para:rationale]
+[:en] Superseded by new features.
+[para:effect]
+[:en] Valid [=Cpp] 2014 code that uses these class templates and function
+templates may fail to compile in this International Standard.

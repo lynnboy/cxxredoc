@@ -1,0 +1,33 @@
+﻿[section#diff.mods.to.behavior
+    [:en] Modifications to behavior
+]
+
+[para]
+[:en] Header [`<cstdlib>]:
+
+[:en] The following functions have different behavior:
+[list]
+[item]
+[`atexit]
+[item]
+[`exit]
+[item]
+[`abort]
+[list:end]
+
+[:en] [#support.start.term] describes the changes.
+
+[para]
+[:en] Header [`<csetjmp>]:
+
+[:en] The following functions have different behavior:
+[list]
+[item]
+[`longjmp]
+[list:end]
+
+[:en] [#support.runtime] describes the changes.
+
+[include diff.offsetof]
+
+[include diff.malloc]

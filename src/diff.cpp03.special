@@ -1,0 +1,30 @@
+﻿[section#diff.cpp03.special
+    [:en] Clause [#special]: special member functions
+]
+
+[#class.ctor], [#class.dtor], [#class.copy]
+[para:change]
+[:en] Implicitly-declared special member functions are defined as deleted when
+the implicit definition would have been ill-formed.
+[para:rationale]
+[:en] Improves template argument deduction failure.
+[para:effect]
+[:en] A valid [=Cpp] 2003 program that uses one of these special member
+functions in a context where the definition is not required (e.g., in an
+expression that is not potentially evaluated) becomes ill-formed.
+
+[para:~]
+[:en] [#class.dtor] (destructors)
+[para:change]
+[:en] User-declared destructors have an implicit exception specification.
+[para:rationale]
+[:en] Clarification of destructor requirements.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code may execute differently in this International
+Standard.
+[:en] In particular, destructors that throw exceptions will call
+[`std::terminate()] (without calling [`std::unexpected()]) if their exception
+specification is [`noexcept] or [`noexcept(true)].
+[:en] For a throwing virtual destructor of a derived class, [`std::terminate()]
+can be avoided only if the base class virtual destructor has an exception
+specification that is not [`noexcept] and not [`noexcept(true)].

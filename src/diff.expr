@@ -1,0 +1,68 @@
+﻿[section#diff.expr
+    [:en] Clause [#expr]: expressions
+]
+
+[#expr.call]
+[para:change]
+[:en] Implicit declaration of functions is not allowed
+[para:rationale]
+[:en] The type-safe nature of [=Cpp].
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[:en] Note: the original feature was labeled as ["obsolescent] in ISO C.
+[para:difficulty]
+[:en] Syntactic transformation.
+[:en] Facilities for producing explicit function declarations are fairly
+widespread commercially.
+[para:howwide]
+[:en] Common.
+
+[#expr.sizeof], [#expr.cast]
+[para:change]
+[:en] Types must be declared in declarations, not in expressions
+[:en] In C, a sizeof expression or cast expression may create a new type.
+[:en] For example,
+
+[codeblock]
+p = (void*)(struct x {int i;} *)0;
+[codeblock:end]
+
+[:en@~] declares a new type, [`struct x].
+[para:rationale]
+[:en] This prohibition helps to clarify the location of declarations in the
+source code.
+[para:effect]
+[:en] Deletion of a semantically well-defined feature.
+[para:difficulty]
+[:en] Syntactic transformation.
+[para:howwide]
+[:en] Seldom.
+
+[para:~]
+[#expr.cond], [#expr.ass], [#expr.comma]
+[%@conversion[!lvalue-to-rvalue]]
+[%@rvalue[!lvalue conversion to]]
+[%lvalue]
+[para:change]
+[:en] The result of a conditional expression, an assignment expression, or a
+comma expression may be an lvalue
+[para:rationale]
+[:en] [=Cpp] is an object-oriented language, placing relatively more emphasis on
+lvalues.
+[:en] For example, functions may return lvalues.
+[para:effect]
+[:en] Change to semantics of well-defined feature.
+[:en] Some C expressions that implicitly rely on lvalue-to-rvalue conversions
+will yield different results.
+[:en] For example,
+
+[codeblock]
+char arr[100];
+sizeof(0, arr)
+[codeblock:end]
+
+[:en@~] yields [`100] in [=Cpp] and [`sizeof(char*)] in C.
+[para:difficulty]
+[:en] Programs must add explicit casts to the appropriate rvalue.
+[para:howwide]
+[:en] Rare.

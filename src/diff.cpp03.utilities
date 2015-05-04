@@ -1,0 +1,27 @@
+﻿[section#diff.cpp03.utilities
+    [:en] Clause [#utilities]: general utilities library
+]
+
+[#util.dynamic.safety]
+[para:change]
+[:en] Minimal support for garbage-collected regions
+[para:rationale]
+[:en] Required by new feature.
+[para:effect]
+[:en]Valid [=Cpp] 2003 code, compiled without traceable pointer support, that
+interacts with newer [=Cpp] code using regions declared reachable may have
+different runtime behavior.
+
+[para:~]
+[#refwrap], [#arithmetic.operations], [#comparisons],
+[#logical.operations], [#bitwise.operations], [#negators]
+[para:change]
+[:en] Standard function object types no longer derived from
+[`std::unary_function] or [`std::binary_function]
+[para:rationale]
+[:en] Superseded by new feature; [`unary_function] and [`binary_function] are no
+longer defined.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that depends on function object types being derived
+from [`unary_function] or [`binary_function] may fail to compile in this
+International Standard.

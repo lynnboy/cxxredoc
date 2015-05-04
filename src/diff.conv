@@ -1,0 +1,37 @@
+﻿[section#diff.conv
+    [:en] Clause [#conv]: standard conversions
+]
+
+[#conv.ptr]
+[para:change]
+[:en] Converting [`void*] to a pointer-to-object type requires casting
+
+[codeblock]
+char a[10];
+void* b=a;
+void foo() {
+  char* c=b;
+}
+[codeblock:end]
+
+[:en] ISO C will accept this usage of pointer to void being assigned to a
+pointer to object type.
+[:en] [=Cpp] will not.
+[para:rationale]
+[:en] [=Cpp] tries harder than C to enforce compile-time type safety.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Could be automated.
+[:en] Violations will be diagnosed by the [=Cpp] translator.
+[:en] The fix is to add a cast.
+[:en] For example:
+
+[codeblock]
+char* c = (char*) b;
+[codeblock:end]
+
+[para:howwide]
+[:en] This is fairly widely used but it is good programming practice to add the
+cast when assigning pointer-to-void to pointer-to-object.
+[:en] Some ISO C translators will give a warning if the cast is not used.

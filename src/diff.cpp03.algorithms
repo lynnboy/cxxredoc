@@ -1,0 +1,15 @@
+﻿[section#diff.cpp03.algorithms
+    [:en] Clause [#algorithms]: algorithms library
+]
+
+[#algorithms.general]
+[para:change]
+[:en] Result state of inputs after application of some algorithms
+[para:rationale]
+[:en] Required by new feature.
+[para:effect]
+[:en] A valid [=Cpp] 2003 program may detect that an object with a valid but
+unspecified state has a different valid but unspecified state with this
+International Standard.
+[:en] For example, [`std::remove] and [`std::remove_if] may leave the tail of
+the input sequence with a different set of values than previously.

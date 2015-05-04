@@ -1,0 +1,13 @@
+﻿[section#diff.cpp03.diagnostics
+    [:en] Clause [#diagnostics]: diagnostics library
+]
+
+[#errno]
+[para:change]
+[:en] Thread-local error numbers
+[para:rationale]
+[:en] Support for new thread facilities.
+[para:effect]
+[:en] Valid but implementation-specific [=Cpp] 2003 code that relies on [`errno]
+being the same across threads may change behavior in this International
+Standard.

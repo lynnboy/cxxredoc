@@ -1,0 +1,20 @@
+﻿[section#diff.cpp03.conv
+    [:en] Clause [#conv]: standard conversions
+]
+
+[#conv.ptr]
+[para:change]
+[:en] Only literals are integer null pointer constants
+[para:rationale]
+[:en] Removing surprising interactions with templates and constant expressions
+[para:effect]
+[:en] Valid [=Cpp] 2003 code may fail to compile or produce different results in
+this International Standard, as the following example illustrates:
+
+[codeblock]
+void f(void *);  // #1
+void f(...);     // #2
+template<int N> void g() {
+  f(0*N);        // [:en] calls #2; used to call #1
+}
+[codeblock:end]

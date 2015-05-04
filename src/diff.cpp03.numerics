@@ -1,0 +1,13 @@
+﻿[section#diff.cpp03.numerics
+    [:en] Clause [#numerics]: numerics library
+]
+
+[#complex.numbers]
+[para:change]
+[:en] Specified representation of complex numbers
+[para:rationale]
+[:en] Compatibility with C99.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that uses implementation-specific knowledge about
+the binary representation of the required template specializations of
+[`std::complex] may not be compatible with this International Standard.

@@ -1,0 +1,63 @@
+﻿[section#diff.cpp03.library
+    [:en] Clause [#library]: library introduction
+]
+
+[#library] [=-] [#thread]
+[para:change]
+[:en] New reserved identifiers
+[para:rationale]
+[:en] Required by new features.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that uses any identifiers added to the [=Cpp]
+standard library by this International Standard may fail to compile or produce
+different results in This International Standard.
+[:en] A comprehensive list of identifiers used by the [=Cpp] standard library
+can be found in the Index of Library Names in this International Standard.
+
+[para:~]
+[#headers]
+[para:change]
+[:en] New headers
+[para:rationale]
+[:en] New functionality.
+[para:effect]
+[:en] The following [=Cpp] headers are new: [`<array>], [`<atomic>],
+[`<chrono>], [`<codecvt>], [`<condition_variable>], [`<forward_list>],
+[`<future>], [`<initializer_list>], [`<mutex>], [`<random>], [`<ratio>],
+[`<regex>], [`<scoped_allocator>], [`<system_error>], [`<thread>], [`<tuple>],
+[`<typeindex>], [`<type_traits>], [`<unordered_map>], and [`<unordered_set>].
+[:en] In addition the following C compatibility headers are new: [`<ccomplex>],
+[`<cfenv>], [`<cinttypes>], [`<cstdalign>], [`<cstdbool>], [`<cstdint>],
+[`<ctgmath>], and [`<cuchar>].
+[:en] Valid [=Cpp] 2003 code that [`#include]s headers with these names may be
+invalid in this International Standard.
+
+[para:~]
+[#swappable.requirements]
+[para:effect]
+[:en] Function [`swap] moved to a different header
+[para:rationale]
+[:en] Remove dependency on [`<algorithm>] for [`swap].
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that has been compiled expecting swap to be in
+[`<algorithm>] may have to instead include [`<utility>].
+
+[para:~]
+[#namespace.posix]
+[para:change] New reserved namespace
+[para:rationale] New functionality.
+[para:effect]The global namespace [`posix] is now reserved for standardization. Valid
+[=Cpp] 2003 code that uses a top-level namespace [`posix] may be invalid in
+this International Standard.
+
+[para:~]
+[#res.on.macro.definitions]
+[para:change]
+[:en] Additional restrictions on macro names
+[para:rationale]
+[:en] Avoid hard to diagnose or non-portable constructs.
+[para:effect]
+[:en] Names of attribute identifiers may not be used as macro names.
+[:en] Valid [=Cpp] 2003 code that defines [`override], [`final],
+[`carries_dependency], or [`noreturn] as macros is invalid in this
+International Standard.

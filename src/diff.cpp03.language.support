@@ -1,0 +1,51 @@
+﻿[section#diff.cpp03.language.support
+    [:en] Clause [#language.support]: language support library
+]
+
+[#new.delete.single]
+[para:change]
+[:en] Linking [`new] and [`delete] operators
+[para:rationale]
+[:en] The two throwing single-object signatures of [`operator new] and
+[`operator delete] are now specified to form the base functionality for
+the other operators.
+[:en] This clarifies that replacing just these two signatures changes others,
+even if they are not explicitly changed.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that replaces global [`new] or [`delete] operators
+may execute differently in this International Standard.
+[:en] For example, the following program should write [`"custom deallocation"]
+twice, once for the single-object delete and once for the array delete.
+
+[codeblock]
+#include <cstdio>
+#include <cstdlib>
+#include <new>
+
+void* operator new(std::size_t size) throw(std::bad_alloc) {
+  return std::malloc(size);
+}
+
+void operator delete(void* ptr) throw() {
+  std::puts("custom deallocation");
+  std::free(ptr);
+}
+
+int main() {
+  int* i = new int;
+  delete i;                     // [:en] single-object delete
+  int* a = new int[3];
+  delete [] a;                  // [:en] array delete
+  return 0;
+}
+[codeblock:end]
+
+[para:~]
+[#new.delete.single]
+[para:change]
+[:en] [`operator new] may throw exceptions other than [`std::bad_alloc]
+[para:rationale]
+[:en] Consistent application of [`noexcept].
+[para:effect]
+[:en] Valid [=Cpp] 2003 code that assumes that global [`operator new] only
+throws [`std::bad_alloc] may execute differently in this International Standard.

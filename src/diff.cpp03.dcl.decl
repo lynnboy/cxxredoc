@@ -1,0 +1,18 @@
+﻿[section#diff.cpp03.dcl.decl
+    [:en] Clause [#dcl.decl]: declarators
+]
+
+[#dcl.init.list]
+[para:change]
+[:en] Narrowing restrictions in aggregate initializers
+[para:rationale]
+[:en] Catches bugs.
+[para:effect]
+[:en] Valid [=Cpp] 2003 code may fail to compile in this International Standard.
+[:en] For example, the following code is valid in [=Cpp] 2003 but invalid in
+this International Standard because [`double] to [`int] is a narrowing
+conversion:
+
+[codeblock]
+int x[] = { 2.0 };
+[codeblock:end]

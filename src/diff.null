@@ -1,0 +1,15 @@
+﻿[section#diff.null
+    [:en] Macro [`NULL]
+]
+
+[para]
+[:en] The macro [`NULL], defined in any of
+[%@library <clocale> [sortas clocale]] [`<clocale>],
+[%@library <cstddef> [sortas cstddef]] [`<cstddef>],
+[%@library <cstdio> [sortas cstdio]] [`<cstdio>],
+[%@library <cstdlib> [sortas cstdlib]] [`<cstdlib>],
+[%@library <cstring> [sortas cstring]] [`<cstring>],
+[%@library <ctime> [sortas ctime]] [`<ctime>], or
+[%@library <cwchar> [sortas cwchar]] [`<cwchar>], is an implementation-defined
+[=Cpp] null pointer constant in [%implementation-defined] this International
+Standard ([#support.types]).

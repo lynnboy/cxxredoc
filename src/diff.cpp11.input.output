@@ -1,0 +1,12 @@
+﻿[section#diff.cpp11.input.output
+    [:en] Clause [#input.output]: input/output library
+]
+
+[#c.files]
+[para:change]
+[:en] [`gets] is not defined.
+[para:rationale]
+[:en] Use of [`gets] is considered dangerous.
+[para:effect]
+[:en] Valid [=Cpp] 2011 code that uses the [`gets] function may fail to compile
+in this International Standard.

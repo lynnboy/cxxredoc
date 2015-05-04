@@ -1,0 +1,107 @@
+﻿[section#diff.decl
+    [:en] Clause [#dcl.decl]: declarators
+]
+
+[#dcl.fct]
+[para:change]
+[:en] In [=Cpp], a function declared with an empty parameter list takes no
+arguments.
+[:en] In C, an empty parameter list means that the number and type of the
+function arguments are unknown.
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+int f();            // [:en] means [`int f(void)] in [=Cpp]
+                    // [:en@~] [`int f(] unknown [`)] in C
+[codeblock:end]
+
+[para:rationale]
+[:en] This is to avoid erroneous function calls (i.e., function calls with the
+wrong number or type of arguments).
+[para:effect]
+[:en] Change to semantics of well-defined feature.
+[:en] This feature was marked as ["obsolescent] in C.
+[para:difficulty]
+[:en] Syntactic transformation.
+[:en] The function declarations using C incomplete declaration style must
+be completed to become full prototype declarations.
+[:en] A program may need to be updated further if different calls to the same
+(non-prototype) function have different numbers of arguments or if the type of
+corresponding arguments differed.
+[para:howwide]
+[:en] Common.
+
+[para:~]
+[#dcl.fct] [=[]see [#expr.sizeof][=]]
+[para:change]
+[:en] In [=Cpp], types may not be defined in return or parameter types.
+[:en] In C, these type definitions are allowed
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+void f( struct S { int a; } arg ) {}    // [:en] valid C, invalid [=Cpp]
+enum E { A, B, C } f() {}               // [:en] valid C, invalid [=Cpp]
+[codeblock:end]
+
+[para:rationale]
+[:en] When comparing types in different compilation units, [=Cpp] relies on name
+equivalence when C relies on structural equivalence.
+[:en] Regarding parameter types: since the type defined in an parameter list
+would be in the scope of the function, the only legal calls in [=Cpp] would be
+from within the function itself.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] The type definitions must be moved to file scope, or in header files.
+[para:howwide]
+[:en] Seldom.
+[:en] This style of type definitions is seen as poor coding style.
+
+[para:~]
+[#dcl.fct.def]
+[para:change]
+[:en] In [=Cpp], the syntax for function definition excludes the ["old-style] C
+function.
+[:en] In C, ["old-style] syntax is allowed, but deprecated as ["obsolescent.]
+[para:rationale]
+[:en] Prototypes are essential to type safety.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Syntactic transformation.
+[para:howwide]
+[:en] Common in old programs, but already known to be obsolescent.
+
+[para:~]
+[#dcl.init.string]
+[para:change]
+[:en] In [=Cpp], when initializing an array of character with a string, the
+number of characters in the string (including the terminating [`'\0']) must not
+exceed the number of elements in the array.
+[:en] In C, an array can be initialized with a string even if the array is not
+large enough to contain the string-terminating [`'\0']
+
+[para:~]
+[:en] Example:
+
+[codeblock]
+char array[4] = "abcd";         // [:en] valid C, invalid [=Cpp]
+[codeblock:end]
+
+[para:rationale]
+[:en] When these non-terminated arrays are manipulated by standard string
+routines, there is potential for major catastrophe.
+[para:effect]
+[:en] Deletion of semantically well-defined feature.
+[para:difficulty]
+[:en] Semantic transformation.
+[:en] The arrays must be declared one element bigger to contain the string
+terminating [`'\0'].
+[para:howwide]
+[:en] Seldom.
+[:en] This style of array initialization is seen as poor coding style.

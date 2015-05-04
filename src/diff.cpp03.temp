@@ -1,0 +1,46 @@
+﻿[section#diff.cpp03.temp
+    [:en] Clause [#temp]: templates
+]
+
+[#temp.param]
+[para:change]
+[:en] Remove [`export]
+[para:rationale]
+[:en] No implementation consensus.
+[para:effect]
+[:en] A valid [=Cpp] 2003 declaration containing [`export] is ill-formed in this
+International Standard.
+
+[para:~]
+[#temp.arg]
+[para:change]
+[:en] Remove whitespace requirement for nested closing template right angle
+brackets
+[para:rationale]
+[:en] Considered a persistent but minor annoyance.
+[:en] Template aliases representing nonclass types would exacerbate whitespace
+issues.
+[para:effect]
+[:en] Change to semantics of well-defined expression.
+[:en] A valid [=Cpp] 2003 expression containing a right angle bracket (["[`>]])
+followed immediately by another right angle bracket may now be treated as
+closing two templates.
+[:en] For example, the following code is valid in [=Cpp] 2003 because ["[`>>]]
+is a right-shift operator, but invalid in this International Standard because
+["[`>>]] closes two templates.
+
+[codeblock]
+template <class T> struct X { };
+template <int N> struct Y { };
+X< Y< 1 >> 2 > > x;
+[codeblock:end]
+
+[para:~]
+[#temp.dep.candidate]
+[para:change]
+[:en] Allow dependent calls of functions with internal linkage
+[para:rationale]
+[:en] Overly constrained, simplify overload resolution rules.
+[para:effect]
+[:en] A valid [=Cpp] 2003 program could get a different result than this
+International Standard.

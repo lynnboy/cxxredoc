@@ -15,7 +15,8 @@ enclosing [~iteration-statement], that is, to the end of the loop.
 [:en]
 More precisely, in each of the statements
 
-[/\begin{minipage}{.30\hsize}/]
+[multicolumn@3]
+[|]
 [codeblock]
 while (foo) {
   {
@@ -24,8 +25,7 @@ while (foo) {
 contin: ;
 }
 [codeblock:end]
-[/\end{minipage}
-\begin{minipage}{.30\hsize}/]
+[|]
 [codeblock]
 do {
   {
@@ -34,8 +34,7 @@ do {
 contin: ;
 } while (foo);
 [codeblock:end]
-[/\end{minipage}
-\begin{minipage}{.30\hsize}/]
+[|]
 [codeblock]
 for (;;) {
   {
@@ -44,7 +43,7 @@ for (;;) {
 contin: ;
 }
 [codeblock:end]
-[/\end{minipage}/]
+[multicolumn:end]
 
 [:en@~]
 a [`continue] not contained in an enclosed iteration statement is equivalent to
