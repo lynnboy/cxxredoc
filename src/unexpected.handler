@@ -1,0 +1,24 @@
+﻿[section#unexpected.handler
+    [:en] Type [`unexpected_handler]
+]
+
+[%@library unexpected_handler]
+[codeblock:declaration]
+typedef void (*unexpected_handler)();
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] The type of a [+handler function] to be called by [`unexpected()] when a
+function attempts to throw an exception not listed in its
+[~dynamic-exception-specification].
+
+[para:required]
+[:en] An [`unexpected_handler] shall not return.
+
+[:en] See also [#except.unexpected].
+
+[para:default]
+[:en] The implementation[=']s default [`unexpected_handler] calls
+[%@library terminate] [`std::terminate()].
+[exit:description]

@@ -1,0 +1,23 @@
+﻿[section#depr.istrstream.members
+    [:en] Member functions
+]
+
+[%@library rdbuf[!istrstream]]
+[codeblock:declaration]
+strstreambuf* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`const_cast<strstreambuf*>(&sb)].
+[exit:description]
+
+[%@library str[!istrstream]]
+[codeblock:declaration]
+char* str();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->str()].
+[exit:description]

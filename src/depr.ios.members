@@ -1,0 +1,118 @@
+﻿[section#depr.ios.members
+    [:en] Old iostreams members
+]
+
+[para]
+[:en] The following member names are in addition to names specified in Clause
+[#input.output]:
+
+[codeblock:synopsis [special T1 T2 T3 implementation-defined] ]
+namespace std {
+  class ios_base {
+  public:
+    typedef T1 io_state;
+    typedef T2 open_mode;
+    typedef T3 seek_dir;
+    typedef implementation-defined streamoff;
+    typedef implementation-defined streampos;
+    // [:en] remainder unchanged
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The type [`io_state] is a synonym for an integer type (indicated here as
+[`T1]) that permits certain member functions to overload others on parameters of
+type [`iostate] and provide the same behavior.
+
+[para]
+[:en] The type [`open_mode] is a synonym for an integer type (indicated here as
+[`T2]) that permits certain member functions to overload others on parameters of
+type [`openmode] and provide the same behavior.
+
+[para]
+[:en] The type [`seek_dir] is a synonym for an integer type (indicated here as
+[`T3]) that permits certain member functions to overload others on parameters of
+type [`seekdir] and provide the same behavior.
+
+[para]
+[:en] The type [%@library streamoff] [`streamoff] is an [%@impldef type of
+[`ios_base::streamoff]] implementation-defined type that satisfies the
+requirements of off_type in [#iostreams.limits.pos].
+
+[para]
+[:en] The type [`streampos] is an [%@impldef type of [`ios_base::streampos]]
+implementation-defined type that satisfies the requirements of pos_type in
+[#iostreams.limits.pos].
+
+[para]
+[:en] An implementation may provide the following additional member function,
+which has the effect of calling [`sbumpc()] ([#streambuf.pub.get]):
+
+[codeblock:synopsis]
+namespace std {
+  template<class charT, class traits = char_traits<charT> >
+  class basic_streambuf {
+  public:
+    void stossc();
+    // [:en] remainder unchanged
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] An implementation may provide the following member functions that overload
+signatures specified in Clause [#input.output]:
+
+[codeblock]
+namespace std {
+  template<class charT, class traits> class basic_ios {
+  public:
+    void clear(io_state state);
+    void setstate(io_state state);
+    void exceptions(io_state);
+    // [:en] remainder unchanged
+  };
+
+  class ios_base {
+  public:
+    // [:en] remainder unchanged
+  };
+
+  template<class charT, class traits = char_traits<charT> >
+  class basic_streambuf {
+  public:
+    pos_type pubseekoff(off_type off, ios_base::seek_dir way,
+              ios_base::open_mode which = ios_base::in | ios_base::out);
+    pos_type pubseekpos(pos_type sp,
+              ios_base::open_mode which);
+    // [:en] remainder unchanged
+  };
+
+  template <class charT, class traits = char_traits<charT> >
+  class basic_filebuf : public basic_streambuf<charT,traits> {
+  public:
+    basic_filebuf<charT,traits>* open
+    (const char* s, ios_base::open_mode mode);
+    // [:en] remainder unchanged
+  };
+
+  template <class charT, class traits = char_traits<charT> >
+  class basic_ifstream : public basic_istream<charT,traits> {
+  public:
+    void open(const char* s, ios_base::open_mode mode);
+    // [:en] remainder unchanged
+  };
+
+  template <class charT, class traits = char_traits<charT> >
+  class basic_ofstream : public basic_ostream<charT,traits> {
+  public:
+    void open(const char* s, ios_base::open_mode mode);
+    // [:en] remainder unchanged
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The effects of these functions is to call the corresponding member
+function specified in Clause [#input.output].

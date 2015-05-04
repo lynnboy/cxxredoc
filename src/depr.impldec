@@ -1,0 +1,15 @@
+﻿[section#depr.impldec
+    [:en] Implicit declaration of copy functions
+]
+
+[para]
+[:en] The implicit definition of a copy constructor as defaulted is deprecated
+if the class has a user-declared copy assignment operator or a user-declared
+destructor.
+
+[:en] The implicit definition of a copy assignment operator as defaulted is
+deprecated if the class has a user-declared copy constructor or a user-declared
+destructor ([#class.dtor], [#class.copy]).
+
+[:en] In a future revision of this International Standard, these implicit
+definitions could become deleted ([#dcl.fct.def]).

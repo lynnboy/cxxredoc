@@ -1,0 +1,13 @@
+﻿[section#depr.uncaught
+    [:en] [`uncaught_exception]
+]
+
+[%@library uncaught_exception]
+[codeblock:declaration]
+bool uncaught_exception() noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`uncaught_exceptions() > 0].
+[exit:description]

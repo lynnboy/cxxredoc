@@ -1,0 +1,7 @@
+﻿[section#depr.incr.bool
+    [:en] Increment operator with [`bool] operand
+]
+
+[para]
+[:en] The use of an operand of type [`bool] with the [`++] operator is
+deprecated (see [#expr.pre.incr] and [#expr.post.incr]).

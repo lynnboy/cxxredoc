@@ -1,0 +1,21 @@
+﻿[section#set.unexpected
+    [:en] [`set_unexpected]
+]
+
+[%@library set_unexpected]
+[codeblock:declaration]
+unexpected_handler set_unexpected(unexpected_handler f) noexcept;
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Establishes the function designated by [`f] as the current
+[`unexpected_handler].
+
+[para:remark]
+[:en] It is unspecified whether a null pointer value designates the default
+[`unexpected_handler].
+
+[para:returns]
+[:en] The previous [`unexpected_handler].
+[exit:description]

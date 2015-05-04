@@ -1,0 +1,40 @@
+﻿[section#depr.istrstream
+    [:en] Class [`istrstream]
+]
+
+[%@library istrstream]
+[codeblock:synopsis]
+namespace std {
+  class istrstream : public basic_istream<char> {
+  public:
+    explicit istrstream(const char* s);
+    explicit istrstream(char* s);
+    istrstream(const char* s, streamsize n);
+    istrstream(char* s, streamsize n);
+    virtual ~istrstream();
+
+    strstreambuf* rdbuf() const;
+    char* str();
+  private:
+    strstreambuf sb;  // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`istrstream] supports the reading of objects of class
+[`strstreambuf].
+
+[:en] It supplies a [`strstreambuf] object to control the associated array
+object.
+
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`sb], the [`strstreambuf] object.
+[list:end]
+
+[include depr.istrstream.cons]
+
+[include depr.istrstream.members]

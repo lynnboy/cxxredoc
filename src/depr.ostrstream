@@ -1,0 +1,40 @@
+﻿[section#depr.ostrstream
+    [:en] Class [`ostrstream]
+]
+
+[%@library ostrstream]
+[codeblock:synopsis]
+namespace std {
+  class ostrstream : public basic_ostream<char> {
+  public:
+    ostrstream();
+    ostrstream(char* s, int n, ios_base::openmode mode = ios_base::out);
+    virtual ~ostrstream();
+
+    strstreambuf* rdbuf() const;
+    void freeze(bool freezefl = true);
+    char* str();
+    int pcount() const;
+  private:
+    strstreambuf sb;  // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`ostrstream] supports the writing of objects of class
+[`strstreambuf].
+
+[:en] It supplies a [`strstreambuf] object to control the associated array
+object.
+
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`sb], the [`strstreambuf] object.
+[list:end]
+
+[include depr.ostrstream.cons]
+
+[include depr.ostrstream.members]

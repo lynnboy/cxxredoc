@@ -1,0 +1,53 @@
+﻿[section#depr.strstream
+    [:en] Class [`strstream]
+]
+
+[%@library strstream]
+[codeblock:synopsis]
+namespace std {
+  class strstream
+    : public basic_iostream<char> {
+  public:
+    // [:en] Types
+    typedef char                                char_type;
+    typedef typename char_traits<char>::int_type int_type;
+    typedef typename char_traits<char>::pos_type pos_type;
+    typedef typename char_traits<char>::off_type off_type;
+
+    // [:en] constructors/destructor
+    strstream();
+    strstream(char* s, int n,
+              ios_base::openmode mode = ios_base::in|ios_base::out);
+    virtual ~strstream();
+
+    // [:en] Members:
+    strstreambuf* rdbuf() const;
+    void freeze(bool freezefl = true);
+    int pcount() const;
+    char* str();
+
+  private:
+  strstreambuf sb;  // [=Expos]
+  };
+}
+[codeblock:end]
+
+[para]
+[:en] The class [`strstream] supports reading and writing from objects of class
+[`strstreambuf].
+
+[:en] It supplies a [`strstreambuf] object to control the associated array
+object.
+
+[:en] For the sake of exposition, the maintained data is presented here as:
+
+[list]
+[item]
+[:en] [`sb], the [`strstreambuf] object.
+[list:end]
+
+[include depr.strstream.cons]
+
+[include depr.strstream.dest]
+
+[include depr.strstream.oper]

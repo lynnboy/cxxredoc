@@ -1,0 +1,74 @@
+﻿[section#depr.c.headers
+    [:en] C standard library headers
+]
+
+[para]
+[:en] For compatibility with the [%library[!C standard]] C standard library and
+the C Unicode TR, the [=Cpp] standard library provides the 26 [+C headers], as
+shown in Table [#tab:future.c.headers].
+
+[table:listing@simple#tab:future.c.headers
+    [:en] C headers
+    [columns@code@repeated=5]
+    [border:cell@none]
+]
+
+[|] <assert.h>
+[|] <complex.h>
+[|] <ctype.h>
+[|] <errno.h>
+[|] <fenv.h>
+[|] <float.h>
+
+[|] <inttypes.h>
+[|] <iso646.h>
+[|] <limits.h>
+[|] <locale.h>
+[|] <math.h>
+[|] <setjmp.h>
+
+[|] <signal.h>
+[|] <stdalign.h>
+[|] <stdarg.h>
+[|] <stdbool.h>
+[|] <stddef.h>
+[|] <stdint.h>
+
+[|] <stdio.h>
+[|] <stdlib.h>
+[|] <string.h>
+[|] <tgmath.h>
+[|] <time.h>
+[|] <uchar.h>
+
+[|] <wchar.h>
+[|] <wctype.h>
+
+[table:end]
+
+[para]
+[:en] Every C header, each of which has a name of the form [%header[!C]]
+[`name.h], behaves as if each name placed in the standard library namespace by
+the corresponding [`c[$name]] header is placed within the global namespace
+scope.
+
+[:en] It is unspecified whether these names are first declared or defined within
+[%namespace] namespace scope ([#basic.scope.namespace]) of the namespace [`std]
+and are then injected into the global namespace scope by explicit
+[~using-declaration]s ([#namespace.udecl]).
+
+[para]
+[enter:example]
+[:en] The header
+[%@library <cstdlib> [sortas cstdlib]]
+[%@library <stdlib.h> [sortas stdlib.h]]
+[`<cstdlib>] assuredly provides its declarations and definitions within the
+namespace [`std].
+
+[:en] It may also provide these names within the global namespace.
+
+[:en] The header [`<stdlib.h>] assuredly provides the same declarations and
+definitions within the global namespace, much as in the C Standard.
+
+[:en] It may also provide these names within the namespace [`std].
+[exit:example]

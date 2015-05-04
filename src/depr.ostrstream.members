@@ -1,0 +1,43 @@
+﻿[section#depr.ostrstream.members
+    [:en] Member functions
+]
+
+[%@library rdbuf[!ostrstream]]
+[codeblock:declaration]
+strstreambuf* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`(strstreambuf*)&sb].
+[exit:description]
+
+[%@library freeze[!ostrstream]]
+[codeblock:declaration]
+void freeze(bool freezefl = true);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`rdbuf()->freeze(freezefl)].
+[exit:description]
+
+[%@library str[!ostrstream]]
+[codeblock:declaration]
+char* str();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->str()].
+[exit:description]
+
+[%@library pcount[!ostrstream]]
+[codeblock:declaration]
+int pcount() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->pcount()].
+[exit:description]

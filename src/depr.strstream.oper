@@ -1,0 +1,33 @@
+﻿[section#depr.strstream.oper
+    [:en] [`strstream] operations
+]
+
+[%@library freeze[!strstream]]
+[codeblock:declaration]
+void freeze(bool freezefl = true);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Calls [`rdbuf()->freeze(freezefl)].
+[exit:description]
+
+[%@library str[!strstream]]
+[codeblock:declaration]
+char* str();
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->str()].
+[exit:description]
+
+[%@library pcount[!strstream]]
+[codeblock:declaration]
+int pcount() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`rdbuf()->pcount()].
+[exit:description]

@@ -1,0 +1,16 @@
+﻿[section#depr.str.strstreams
+    [:en] [`char*] streams
+]
+
+[para]
+[:en] The header [`<strstream>] defines three types that associate stream
+buffers with character array objects and assist reading and writing such
+objects.
+
+[include depr.strstreambuf]
+
+[include depr.istrstream]
+
+[include depr.ostrstream]
+
+[include depr.strstream]

@@ -1,0 +1,284 @@
+﻿[section#depr.strstreambuf.virtuals
+    [:en] [`strstreambuf] overridden virtual functions
+]
+
+[%@library overflow[!strstreambuf]]
+[codeblock:declaration]
+int_type overflow(int_type c = EOF);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Appends the character designated by [`c] to the output sequence, if
+possible, in one of two ways:
+
+[list]
+[item]
+[:en] If [`c != EOF] and if either the output sequence has a write position
+available or the function makes a write position available (as described below),
+assigns [`c] to [`*pnext++].
+
+[:en] Returns [`(unsigned char)c].
+
+[item]
+[:en] If [`c == EOF], there is no character to append.
+
+[:en] Returns a value other than [`EOF].
+[list:end]
+
+[para]
+[:en] Returns [`EOF] to indicate failure.
+
+[para:notes]
+[:en] The function can alter the number of write positions available as a result
+of any call.
+
+[para]
+[:en] To make a write position available, the function reallocates (or initially
+allocates) an array object with a sufficient number of elements [`n] to hold the
+current array object (if any), plus at least one additional write position.
+
+[:en] How many additional write positions are made available is otherwise
+[%unspecified] unspecified.
+
+[footnote]
+[:en] An implementation should consider [`alsize] in making this decision.
+[footnote:end]
+
+[:en] If [`palloc] is not a null pointer, the function calls [`(*palloc)(n)] to
+allocate the new dynamic array object.
+
+[:en] Otherwise, it evaluates the expression [`new charT[n`]].
+
+[:en] In either case, if the allocation fails, the function returns [`EOF].
+
+[:en] Otherwise, it sets [`allocated] in [`strmode].
+
+[para]
+[:en] To free a previously existing dynamic array object whose first element
+address is [`p]:
+
+[:en] If [`pfree] is not a null pointer, the function calls [`(*pfree)(p)].
+
+[:en] Otherwise, it evaluates the expression [`delete[`]p].
+
+[para]
+[:en] If [`strmode & dynamic == 0], or if [`strmode & frozen != 0], the function
+cannot extend the array (reallocate it with greater length) to make a write
+position available.
+[exit:description]
+
+[%@library pbackfail[!strstreambuf]]
+[codeblock:declaration]
+int_type pbackfail(int_type c = EOF);
+[codeblock:end]
+
+[enter:description]
+[para]
+[:en] Puts back the character designated by [`c] to the input sequence, if
+possible, in one of three ways:
+
+[list]
+[item]
+[:en] If [`c != EOF], if the input sequence has a putback position available,
+and if [`(char)c == gnext[-1`]], assigns [`gnext - 1] to [`gnext].
+
+[:en] Returns [`c].
+
+[item]
+[:en] If [`c != EOF], if the input sequence has a putback position available,
+and if [`strmode & constant] is zero, assigns [`c] to [`*--gnext].
+
+[:en] Returns [`c].
+
+[item]
+[:en] If [`c == EOF] and if the input sequence has a putback position available,
+assigns [`gnext - 1] to [`gnext].
+
+[:en] Returns a value other than [`EOF].
+[list:end]
+
+[para]
+[:en] Returns [`EOF] to indicate failure.
+
+[para:notes]
+[:en] If the function can succeed in more than one of these ways, it is
+[%unspecified] unspecified which way is chosen.
+
+[:en] The function can alter the number of putback positions available as a
+result of any call.
+[exit:description]
+
+[%@library underflow[!strstreambuf]]
+[codeblock:declaration]
+int_type underflow();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Reads a character from the [+input sequence], if possible, without moving
+the stream position past it, as follows:
+
+[list]
+[item]
+[:en] If the input sequence has a read position available, the function signals
+success by returning [`(unsigned char)*gnext].
+
+[item]
+[:en] Otherwise, if the current write next pointer [`pnext] is not a null
+pointer and is greater than the current read end pointer [`gend], makes a [+read
+position] available by assigning to [`gend] a value greater than [`gnext] and
+no greater than [`pnext].
+
+[:en] Returns [`(unsigned char*)gnext].
+[list:end]
+
+[para]
+[:en] Returns [`EOF] to indicate failure.
+
+[para:notes]
+[:en] The function can alter the number of read positions available as a result
+of any call.
+[exit:description]
+
+[%@library seekoff[!strstreambuf]]
+[codeblock:declaration]
+pos_type seekoff(off_type off, seekdir way, openmode which = in | out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Alters the stream position within one of the controlled sequences, if
+possible, as indicated in Table [#tab:future.seekoff.positioning].
+
+[table:listing#tab:future.seekoff.positioning
+    [:en] [`seekoff] positioning
+    [columns
+        [column@headercenter
+            [:en] Conditions
+        ]
+        [column@headercenter
+            [:en] Result
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] [`(which & ios::in) != 0]
+[|] [:en] positions the input sequence
+
+[|] [`(which & ios::out) != 0]
+[|] [:en] positions the output sequence
+
+[|] [`(which & (ios::in |] [br] [`ios::out)) == (ios::in |] [br] [`ios::out))]
+    and [`way ==] either [`ios::beg] or [`ios::end]
+[|] [:en] positions both the input and the output sequences
+
+[|] Otherwise
+[|] [:en] the positioning operation fails.
+
+[table:end]
+
+[para]
+[:en] For a sequence to be positioned, if its next pointer is a null pointer,
+the positioning operation fails.
+
+[:en] Otherwise, the function determines [`newoff] as indicated in Table
+[#tab:future.newoff.values].
+
+[table:listing#tab:future.newoff.values
+    [:en] [`newoff] values
+    [columns
+        [column@headercenter@code
+            [:en] Condition
+        ]
+        [column@headercenter
+            [:en] [`newoff] Value
+        ]
+    ]
+    [border:row@both]
+]
+
+[|] way == ios::beg
+[|] 0
+
+[|] way == ios::cur
+[|] [:en] the next pointer minus the beginning pointer ([`xnext - xbeg]).
+
+[|] way == ios::end
+[|] [`seekhigh] minus the beginning pointer ([`seekhigh - xbeg]).
+
+[table:end]
+
+[para]
+[:en] If [`(newoff + off) < (seeklow - xbeg)] or
+[`(seekhigh - xbeg) < (newoff + off)], the positioning operation fails.
+
+[:en] Otherwise, the function assigns [`xbeg + newoff + off] to the next pointer
+[`xnext].
+
+[para:returns]
+[:en] [`pos_type(newoff)], constructed from the resultant offset [`newoff] (of
+type [`off_type]), that stores the resultant stream position, if possible.
+
+[:en] If the positioning operation fails, or if the constructed object cannot
+represent the resultant stream position, the return value is
+[`pos_type(off_type(-1))].
+[exit:description]
+
+[%@library seekpos[!strstreambuf]]
+[codeblock:declaration]
+pos_type seekpos(pos_type sp, ios_base::openmode which
+                  = ios_base::in | ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Alters the stream position within one of the controlled sequences, if
+possible, to correspond to the stream position stored in [`sp] (as described
+below).
+
+[list]
+[item]
+[:en] If [`(which & ios::in) != 0], positions the input sequence.
+[item]
+[:en] If [`(which & ios::out) != 0], positions the output sequence.
+[item]
+[:en] If the function positions neither sequence, the positioning operation
+fails.
+[list:end]
+
+[para]
+[:en] For a sequence to be positioned, if its next pointer is a null pointer,
+the positioning operation fails.
+
+[:en] Otherwise, the function determines [`newoff] from [`sp.offset()]:
+
+[list]
+[item]
+[:en] If [`newoff] is an invalid stream position, has a negative value, or has a
+value greater than ([`seekhigh] - [`seeklow]), the positioning operation fails
+[item]
+[:en] Otherwise, the function adds [`newoff] to the beginning pointer [`xbeg]
+and stores the result in the next pointer [`xnext].
+[list:end]
+
+[para:returns]
+[:en] [`pos_type(newoff)], constructed from the resultant offset [`newoff] (of
+type [`off_type]), that stores the resultant stream position, if possible.
+
+[:en] If the positioning operation fails, or if the constructed object cannot
+represent the resultant stream position, the return value is
+[`pos_type(off_type(-1))].
+[exit:description]
+
+[%@library setbuf[!strstreambuf]]
+[codeblock:declaration]
+streambuf<char>* setbuf(char* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Implementation defined, except that [%@library setbuf[!streambuf]]
+[`setbuf(0, 0)] has no effect.
+[exit:description]

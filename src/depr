@@ -1,0 +1,34 @@
+﻿[section:annex@normative#depr
+    [:en] Compatibility features
+]
+
+[para]
+[:en] This Clause describes features of the [=Cpp] Standard that are specified
+for compatibility with existing implementations.
+
+[para]
+[:en] These are deprecated features, where [+deprecated] is defined as:
+
+[:en] Normative for the current edition of the Standard, but having been
+identified as a candidate for removal from future revisions.
+
+[:en] An implementation may declare library names and entities described in this
+section with the [`deprecated] attribute ([#dcl.attr.deprecated]).
+
+[include depr.incr.bool]
+
+[include depr.register]
+
+[include depr.impldec]
+
+[include depr.except.spec]
+
+[include depr.c.headers]
+
+[include depr.ios.members]
+
+[include depr.str.strstreams]
+
+[include exception.unexpected]
+
+[include depr.uncaught]

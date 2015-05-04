@@ -1,0 +1,198 @@
+﻿[section#depr.strstreambuf.cons
+    [:en] [`strstreambuf] constructors
+]
+
+[%@library strstreambuf[!strstreambuf]]
+[codeblock:declaration]
+explicit strstreambuf(streamsize alsize_arg = 0);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`strstreambuf], initializing the base class
+with [`streambuf()].
+
+[:en] The postconditions of this function are indicated in Table
+[#tab:future.strstreambuf.effects].
+[exit:description]
+
+[table:listing#tab:future.strstreambuf.effects
+    [:en] [`strstreambuf(streamsize)] effects
+    [columns
+        [column@code@headercenter
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] strmode
+[|] [`dynamic]
+
+[|] alsize
+[|] [`alsize_arg]
+
+[|] palloc
+[|] [:en] a null pointer
+
+[|] pfree
+[|] [:en] a null pointer
+
+[table:end]
+
+[%@library strstreambuf]
+[codeblock:declaration]
+strstreambuf(void* (*palloc_arg)(size_t), void (*pfree_arg)(void*));
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`strstreambuf], initializing the base class
+with [`streambuf()].
+
+[:en] The postconditions of this function are indicated in Table
+[#tab:future.strstreambuf1.effects].
+
+[table:listing#tab:future.strstreambuf1.effects
+    [:en] [`strstreambuf(void* (*)(size_t), void (*)(void*))] effects
+    [columns
+        [column@code@headercenter
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] strmode
+[|] [`dynamic]
+
+[|] alsize
+[|] [:en] an unspecified value
+
+[|] palloc
+[|] [`palloc_arg]
+
+[|] pfree
+[|] [`pfree_arg]
+
+[table:end]
+
+[exit:description]
+
+[%unspecified]
+[codeblock:declaration]
+strstreambuf(char* gnext_arg, streamsize n, char* pbeg_arg = 0);
+strstreambuf(signed char* gnext_arg, streamsize n,
+             signed char* pbeg_arg = 0);
+strstreambuf(unsigned char* gnext_arg, streamsize n,
+             unsigned char* pbeg_arg = 0);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`strstreambuf], initializing the base class
+with [`streambuf()].
+
+[:en] The postconditions of this function are indicated in Table
+[#tab:future.strstreambuf2.effects].
+
+[table:listing#tab:future.strstreambuf2.effects
+    [:en] [`strstreambuf(charT*, streamsize, charT*)] effects
+    [columns
+        [column@code@headercenter
+            [:en] Element
+        ]
+        [column@headercenter
+            [:en] Value
+        ]
+    ]
+    [border:cell@none]
+]
+
+[|] strmode
+[|] 0
+
+[|] alsize
+[|] [:en] an unspecified value
+
+[|] palloc
+[|] [:en] a null pointer
+
+[|] pfree
+[|] [:en] a null pointer
+
+[table:end]
+
+[para]
+[:en] [`gnext_arg] shall point to the first element of an array object whose
+number of elements [`N] is determined as follows:
+
+[list]
+[item]
+[:en] If [`n > 0], [`N] is [`n].
+[item]
+[:en] If [`n == 0], [`N] is [%@library strlen] [`std::strlen(gnext_arg)].
+[item]
+[:en] If [`n < 0], [`N] is [`INT_MAX].
+
+[footnote]
+[:en] The function signature [%@library strlen] [`strlen(const char*)] is
+declared in [%@library <cstring> [sortas cstring]] [`<cstring>]. ([#c.strings]).
+
+[:en] The macro [`INT_MAX] is defined in
+[%@library <climits> [sortas climits]] [`<climits>] ([#support.limits]).
+[footnote:end]
+
+[list:end]
+
+[para]
+[:en] If [`pbeg_arg] is a null pointer, the function executes:
+
+[%@library strstreambuf[!setg]]
+[%@library setg[!strstreambuf]]
+[codeblock:notation]
+setg(gnext_arg, gnext_arg, gnext_arg + N);
+[codeblock:end]
+
+[para]
+[:en] Otherwise, the function executes:
+
+[codeblock:notation]
+setg(gnext_arg, gnext_arg, pbeg_arg);
+setp(pbeg_arg,  pbeg_arg + N);
+[codeblock:end]
+[exit:description]
+
+[codeblock:declaration]
+strstreambuf(const char* gnext_arg, streamsize n);
+strstreambuf(const signed char* gnext_arg, streamsize n);
+strstreambuf(const unsigned char* gnext_arg, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Behaves the same as [`strstreambuf((char*)gnext_arg,n)], except that the
+constructor also sets [`constant] in [`strmode].
+[exit:description]
+
+[%@library strstreambuf[![:en]destructor]]
+[codeblock:declaration]
+virtual ~strstreambuf();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`strstreambuf].
+
+[:en] The function frees the dynamically allocated array object only if
+[`strmode & allocated != 0] and [`strmode & frozen == 0].
+
+[:en] ([#depr.strstreambuf.virtuals] describes how a dynamically allocated array
+object is freed.)
+[exit:description]

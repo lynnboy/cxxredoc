@@ -1,0 +1,23 @@
+﻿[section#depr.strstream.dest
+    [:en] [`strstream] destructor
+]
+
+[%@library strstream[![:en]destructor]]
+[codeblock:declaration]
+virtual ~strstream();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Destroys an object of class [`strstream].
+[exit:description]
+
+[%@library rdbuf[!strstream]]
+[codeblock:declaration]
+strstreambuf* rdbuf() const;
+[codeblock:end]
+
+[enter:description]
+[para:returns]
+[:en] [`&sb].
+[exit:description]

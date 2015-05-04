@@ -1,0 +1,31 @@
+﻿[section#depr.istrstream.cons
+    [:en] [`istrstream] constructors
+]
+
+[%@library istrstream[!istrstream]]
+[codeblock:declaration]
+explicit istrstream(const char* s);
+explicit istrstream(char* s);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`istrstream], initializing the base class
+with [`istream(&sb)] and initializing [`sb] with [`strstreambuf(s,0))].
+
+[:en] [`s] shall designate the first element of an [%NTBS] [em@sc ntbs].
+[exit:description]
+
+[%@library istrstream[![:en]constructor]]
+[codeblock:declaration]
+istrstream(const char* s, streamsize n);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`istrstream], initializing the base class
+with [`istream(&sb)] and initializing [`sb] with [`strstreambuf(s,n))].
+
+[:en] [`s] shall designate the first element of an array whose length is [`n]
+elements, and [`n] shall be greater than zero.
+[exit:description]

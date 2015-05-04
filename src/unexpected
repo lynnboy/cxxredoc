@@ -1,0 +1,25 @@
+﻿[section#unexpected
+    [:en] [`unexpected]
+]
+
+[%@library unexpected]
+[codeblock:declaration]
+[[noreturn]] void unexpected();
+[codeblock:end]
+
+[enter:description]
+[para:remarks]
+[:en] Called by the implementation when a function exits via an exception not
+allowed by its [~exception-specification] ([#except.unexpected]), in effect
+after evaluating the throw-expression ([#unexpected.handler]).
+
+[:en] May also be called directly by the program.
+
+[para:effects]
+[:en] Calls the current [`unexpected_handler] function.
+
+[enter:note]
+[:en] A default [`unexpected_handler] is always considered a callable handler in
+this context.
+[exit:note]
+[exit:description]

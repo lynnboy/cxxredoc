@@ -1,0 +1,46 @@
+﻿[section#depr.ostrstream.cons
+    [:en] [`ostrstream] constructors
+]
+
+[%@library ostrstream[!ostrstream]]
+[codeblock:declaration]
+    ostrstream();
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`ostrstream], initializing the base class
+with [`ostream(&sb)] and initializing [`sb] with [`strstreambuf())].
+[exit:description]
+
+[%@library ostrstream[![:en]constructor]]
+[codeblock:declaration]
+ostrstream(char* s, int n, ios_base::openmode mode = ios_base::out);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Constructs an object of class [`ostrstream], initializing the base class
+with [`ostream(&sb)], and initializing [`sb] with one of two constructors:
+
+[list]
+[item]
+[:en] If [`(mode & app) == 0], then [`s] shall designate the first element of an
+array of [`n] elements.
+
+[:en] The constructor is [`strstreambuf(s, n, s)].
+
+[item]
+[:en] If [`(mode & app) != 0], then [`s] shall designate the first element of an
+array of [`n] elements that contains an [%NTBS] [em@sc ntbs] whose first element
+is designated by [`s].
+
+[:en] The constructor is [`strstreambuf(s, n, s + std::strlen(s))].
+
+[footnote]
+[:en] The function signature [%@library strlen] [`strlen(const char*)]
+is declared in [%@library <cstring> [sortas cstring]] [`<cstring>]
+([#c.strings]).
+[footnote:end]
+[list:end]
+[exit:description]
