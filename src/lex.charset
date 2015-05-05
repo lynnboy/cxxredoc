@@ -15,8 +15,9 @@ The [+basic source character set] consists of 96 characters: the space
 character, the control characters representing horizontal tab, vertical tab,
 form feed, and new-line, plus the following 91 graphical characters:
 [:zh_CN]
-[+字符集]由 96 个字符组成：空格字符，表示水平制表、垂直制表、换页、换行的控制
-字符，加上如下 91 个图形字符：
+[%字符集[!基本源～]]
+[+基本源字符集]由 96 个字符组成：空格字符，表示水平制表、垂直制表、换页、换行的
+控制字符，加上如下 91 个图形字符：
 
 [footnote]
 [:en]
@@ -85,7 +86,7 @@ surrogate code point (in the range 0xD800[=-]0xDFFF, inclusive), the program is
 ill-formed.
 [:zh_CN]
 如果某通用字符名的十六进制值对应于一个代用代码点（处于范围
-[=crange(0xD800,0xDFFF)] 内），则程序非良构。
+[=crange[0xD800,0xDFFF`]] 内），则程序非良构。
 
 [:en]
 Additionally, if the hexadecimal value for a universal-character-name outside
@@ -95,8 +96,8 @@ or string literal corresponds to a control character (in either of the ranges
 source character set, the program is ill-formed.
 [:zh_CN]
 此外，如果处于字符或字符串字面量的 [~c-字符序列]，[~s-字符序列] 或 [~r-字符序列]
-之外的通用字符名的十六进制值对应于某个控制字符（处于范围 [=crange(0x00,0x1F)] 或
-[=crange(0x7F,0x9F)] 内）或者对应于某个基本源字符集中的字符，则程序非良构。
+之外的通用字符名的十六进制值对应于某个控制字符（处于范围 [=crange[0x00,0x1F`]] 或
+[=crange[0x7F,0x9F`]] 内）或者对应于某个基本源字符集中的字符，则程序非良构。
 
 [footnote]
 [:en]

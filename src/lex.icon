@@ -1,6 +1,6 @@
 ﻿[section#lex.icon
     [:en] Integer literals
-    [:zh_CN] 
+    [:zh_CN] 整数字面量
 ]
 
 [syntax]
@@ -177,6 +177,8 @@ The type of an integer literal is the first of the corresponding list in Table
 [%后缀[![`l]]]
 [%后缀[![`u]]]
 [%字面量[!整数～的类型]]
+整数字面量的类型是在表 [#tab:lex.type.integer.literal] 中相应列表中的第一个能够
+表示其值的类型。
 
 [table:grid#tab:lex.type.integer.literal
     [:en] Types of integer literals

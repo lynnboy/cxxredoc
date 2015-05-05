@@ -47,8 +47,8 @@ Any source file character not in the basic source character set ([#lex.charset])
 is replaced by the [%universal character name] universal-character-name that
 designates that character.
 [:zh_CN]
-把不在基本源字符集（[#lex.charset]）中的任何源文件字符替换为代表该字符的通用
-字符名。
+把不在基本源字符集（[#lex.charset]）中的任何源文件字符替换为代表该字符的
+[%通用字符名]通用字符名。
 
 [:en]
 (An implementation may use any internal encoding, so long as an actual extended

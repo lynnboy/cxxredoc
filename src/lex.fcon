@@ -3,7 +3,8 @@
     [:zh_CN] 浮点字面量
 ]
 
-[%literal[!floating]]
+[% [:en] literal [!floating]
+ [:zh_CN] 字面量 [!浮点～] ]
 
 [syntax]
 [rule floating-literal [:zh_CN] 浮点字面量]
@@ -27,7 +28,7 @@
 
 [rule digit-sequence [:zh_CN] 数字序列]
     [| digit]
-    [| digit-sequence [~:opt '] digit]
+    [| digit-sequence [`:opt '] digit]
 [rule:end]
 
 [rule:oneof floating-suffix [:zh_CN] 浮点后缀]
@@ -43,6 +44,7 @@ A floating literal consists of an integer part, a decimal point, a fraction
 part, an [%suffix[![`e]]] [`e] or [%suffix[![`E]]] [`E], an optionally signed
 integer exponent, and an optional type suffix.
 [:zh_CN]
+[%字面量[!浮点～]]
 浮点字面量由整数部分，小数点，小数部分，[%后缀[![`e]]] [`e] 或 [%后缀[![`E]]]
 [`E]，带有可选正负号的整数指数，以及可选的类型后缀组成。
 
