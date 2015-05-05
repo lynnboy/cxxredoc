@@ -30,14 +30,14 @@ implementations.
 In particular, they need not copy or emulate the structure of the abstract
 machine.
 [:zh_CN]
-特别是，它们并不需要复制或模拟这个抽象机器的结构。
+尤其是，它们并不需要复制或模拟这个抽象机器的结构。
 
 [:en]
 [%as-if rule][%behavior [!observable]]
 Rather, conforming implementations are required to emulate (only) the observable
 behavior of the abstract machine as explained below.
 [:zh_CN]
-[%“如同”原则 sortas[如同原则]] [%行为 [!可观察～]]
+[%“如同”原则 [sortas 如同原则]] [%行为 [!可观察～]]
 更确切地说，符合标准的实现需要模拟的（仅仅）是下文阐明的抽象机器的可观察行为。
 
 [footnote]
@@ -323,10 +323,10 @@ result is then added to 5 which results in the value assigned to [`a].
 
 [:en]
 On a machine in which overflows produce an exception and in which the range of
-values representable by an [`int] is [=crange[-32768,+32767]], the
+values representable by an [`int] is [=crange[-32768,+32767`]], the
 implementation cannot rewrite this expression as
 [:zh_CN]
-在溢出产生异常且 [`int] 能够表示的值的范围是 [=crange[-32768,+32767]] 的机器上，
+在溢出产生异常且 [`int] 能够表示的值的范围是 [=crange[-32768,+32767`]] 的机器上，
 实现不能把该表达式重写为
 
 [codeblock]
@@ -389,7 +389,8 @@ expression.
 in some contexts, such as unevaluated operands, a syntactic subexpression is
 considered a full-expression (Clause [#expr]).
 [:zh_CN]
-在某些语境中，比如免求值操作数，语法上的子表达式被当做全表达式（第 [#expr] 条）。
+在某些语境中，比如免求值操作数，语法上的子表达式被当做全表达式（第 [#expr] 条）
+。
 [exit:note]
 
 [:en]
@@ -456,7 +457,7 @@ For example, subexpressions involved in evaluating default arguments
 ([#dcl.fct.default]) are considered to be created in the expression that calls
 the function, not the expression that defines the default argument.
 [:zh_CN]
-例如，默认实参表达式（[#dcl.fct.default]）求值时涉及的子表达式，被认为创建于调用
+例如，默认实参（[#dcl.fct.default]）求值时涉及的子表达式，被认为创建于调用
 函数的表达式中，而不是定义该默认实参的表达式中。
 [exit:note]
 

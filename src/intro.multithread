@@ -445,14 +445,14 @@ the value of [$A] is used as an operand of [$B], unless:
 [$A] is the left operand of a built-in logical AND ([`&&], see [#expr.log.and])
 or logical OR ([`||], see [#expr.log.or]) operator, or
 [:zh_CN]
-[$A] 是内建逻辑与（[`&&]，见 [#expr.log.and]）或逻辑或（[`||]，见
+[$A] 是内建逻辑与（[`&&]，参见 [#expr.log.and]）或逻辑或（[`||]，参见
 [#expr.log.or]）运算符的左操作数，或者
 
 [item]
 [:en]
 [$A] is the left operand of a conditional ([`?:], see [#expr.cond]) operator, or
 [:zh_CN]
-[$A] 是条件（[`?:]，见 [#expr.cond]）运算符的左操作数，或者
+[$A] 是条件（[`?:]，参见 [#expr.cond]）运算符的左操作数，或者
 
 [item]
 [:en]

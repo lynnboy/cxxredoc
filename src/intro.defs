@@ -107,7 +107,7 @@ message belonging to an implementation-defined subset of the implementation[=']s
 output messages
 [:zh_CN]
 [index@impldef 诊断消息]
-实现的输出消息，属于一个由实现定义的子集
+属于实现的输出消息中的一个由实现定义的子集的消息
 
 [section:def#defns.dynamic.type
     [:en] dynamic type [index type [sub dynamic]]
@@ -221,8 +221,8 @@ The extended character set is a superset of the basic character set
 declaration or definition or in the catch clause of an exception handler that
 acquires a value on entry to the function or handler
 [:zh_CN]
-【函数或捕获子句】 作为函数声明式或定义式的一部分，或位于异常处理器的捕获子句中
-所声明的，在函数或处理器的入口点获得值的对象或引用
+【函数或 catch 子句】 作为函数声明式或定义式的一部分，或位于异常处理器的 catch
+子句中所声明的，在函数或处理器的入口点获得值的对象或引用
 
 [section:def#defns.parameter.macro
     [:en] parameter [index parameter [sub function-like macro]]
