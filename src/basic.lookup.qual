@@ -81,10 +81,10 @@ class C {
 };
 X C::arr[number];   // [:en] ill-formed:
                     // [|:zh_CN] 非良构：
-                    // [:en@~] equivalent to: [`::X] [`C::arr[C::number];]
-                    // [|:zh_CN@~] 等价于：[`::X] [`C::arr[C::number];]
-                    // [:en@~] not to: [`C::X] [`C::arr[C::number];]
-                    // [|:zh_CN@~] 而不是：[`C::X] [`C::arr[C::number];]
+                    // [:en@~] equivalent to: [`::X] [`C::arr[C::number`];]
+                    // [|:zh_CN@~] 等价于：[`::X] [`C::arr[C::number`];]
+                    // [:en@~] not to: [`C::X] [`C::arr[C::number`];]
+                    // [|:zh_CN@~] 而不是：[`C::X] [`C::arr[C::number`];]
 [codeblock:end]
 [exit:example]
 

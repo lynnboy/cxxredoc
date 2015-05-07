@@ -135,7 +135,7 @@ implementation-defined.
 A program that defines [`main] as deleted or that declares [`main] to be
 [`inline], [`static], or [`constexpr] is ill-formed.
 [:zh_CN]
-将 [`main] 定义为作废的，或将 [`main] 声明为 [`inline]，[`static]，或
+将 [`main] 定义为弃置的，或将 [`main] 声明为 [`inline]，[`static]，或
 [`constexpr] 的程序是非良构的。
 
 [:en]
@@ -187,6 +187,6 @@ statement, the effect is that of executing
 [:zh_CN]
 若控制未遇到 [`return] 语句而到达 [`main] 的末尾，其效果为执行
 
-[codeblock]
+[codeblock:notation]
 return 0;
 [codeblock:end]

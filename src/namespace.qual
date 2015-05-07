@@ -39,7 +39,7 @@ namespace set of [`X] ([#namespace.def]).
 [:en]
 If [$S'(X, m)] is not empty, [$S(X, m)] is [$S'(X, m)]; otherwise, [$S(X, m)] is
 the union of [$S(N[_i], m)] for all namespaces [$N[_i]] nominated by
-[~using-directives] in [`X] and its inline namespace set.
+[~using-directive]s in [`X] and its inline namespace set.
 [:zh_CN]
 如果 [$S'(X, m)] 非空，则 [$S(X, m)] 即为 [$S'(X, m)]；否则 [$S(X, m)] 是 [`X]
 及其内联命名空间集合中的 [~using-指令]所提名的每个命名空间 [$N[_i]] 的

@@ -76,9 +76,8 @@ such that [`B] is a base class of [`D], the result is a pointer to the unique
 
 [:en]
 Similarly, if [`T] is ["reference to [$cv1] [`B]] and [`v] has type [$cv2] [`D]
-such that [`B] is a base class of
-[`D], the result is the unique [`B] subobject of the [`D] object referred to by
-[`v].
+such that [`B] is a base class of [`D], the result is the unique [`B] subobject
+of the [`D] object referred to by [`v].
 [:zh_CN]
 相似地，若 [`T] 为“到 [$cv1] [`B] 的引用”而 [`v] 具有类型 [$cv2] [`D]，其中 [`B]
 为 [`D] 的基类，则其结果为由 [`v] 所指代的 [`D] 对象的唯一 [`B] 子对象。

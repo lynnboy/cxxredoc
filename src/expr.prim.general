@@ -195,7 +195,7 @@ An [~identifier] is an [~id-expression] provided it has been suitably declared
 (Clause [#dcl.dcl]).
 [:zh_CN]
 [%标识符]
-[~标识符]是已经进行适当声明（第 [#dcl.dcl] 条）的[~标识表达式]。
+[~标识符]是[~标识表达式]，只要其已经进行过适当声明（第 [#dcl.dcl] 条）。
 
 [enter:note]
 [:en]
@@ -326,7 +326,8 @@ refer to the same class; this notation names the destructor ([#class.dtor]).
 The form [`~] [~decltype-specifier] also denotes the destructor, but it shall
 not be used as the [~unqualified-id] in a [~qualified-id].
 [:zh_CN]
-形式 [`~] [~decltype-说明符]也可用于代表析构函数，但它不能用作[~限定标识]之中的[~未限定标识]。
+形式 [`~] [~decltype-说明符]也可用于代表析构函数，但它不能用作[~限定标识]之中的
+[~未限定标识]。
 
 [enter:note]
 [:en]

@@ -107,7 +107,8 @@ If [`T2] is an inaccessible (Clause [#class.access]) or ambiguous
 ([#class.member.lookup]) base class of [`T1], a program that necessitates such a
 cast is ill-formed.
 [:zh_CN]
-如果 [`T2] 是 [`T1] 的不可访问的（第 [#class.access] 条）或有歧义的（[#class.member.lookup]）基类，则需要进行这种强制转换的程序是非良构的。
+如果 [`T2] 是 [`T1] 的不可访问的（第 [#class.access] 条）或有歧义的
+（[#class.member.lookup]）基类，则需要进行这种强制转换的程序是非良构的。
 
 [para]
 [:en]
@@ -249,8 +250,8 @@ original value to the floating-point type.
 A value of integral or enumeration type can be explicitly converted to a
 complete enumeration type.
 [:zh_CN]
-[%枚举类型[!转换为]]
-[%枚举类型[![`static_cast][!转换为]]]
+[%枚举类型[!转换为～]]
+[%枚举类型[![`static_cast][!转换为～]]]
 整型或枚举类型的值可被显式转换为完整的枚举类型。
 
 [:en]
@@ -367,7 +368,7 @@ the object with which indirection through the pointer to member is performed
 must contain the original member; see [#expr.mptr.oper].
 [:zh_CN]
 虽然类 [`B] 不必包含原成员，但用以对该成员指针进行间接的对象的动态类型必须包含此
-原成员；见 [#expr.mptr.oper]。
+原成员；参见 [#expr.mptr.oper]。
 [exit:note]
 
 [para]
@@ -377,7 +378,8 @@ type ["pointer to [$cv2] [`T],] where [`T] is an object type and [$cv2] is the
 same cv-qualification as, or greater cv-qualification than, [$cv1].
 [:zh_CN]
 “指向 [$cv1] [`void] 的指针”类型的纯右值可被转换为类型“指向 [$cv2] [`T] 的指针”
-的纯右值，其中 [`T] 为对象类型且 [$cv2] 具有与 [$cv1] 相同的 cv-限定性或更强的 cv-限定性。
+的纯右值，其中 [`T] 为对象类型且 [$cv2] 具有与 [$cv1] 相同的 cv-限定性或更强的
+cv-限定性。
 
 [:en]
 The null pointer value is converted to the null pointer value of the destination

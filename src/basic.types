@@ -97,9 +97,9 @@ By using, for example, the library functions ([#headers]) [`std::memcpy] or
 通过使用（比如）程序库函数（[#headers]）[`std::memory] 或 [`std::memmove]。
 [footnote:end]
 
-[:en]
+[:en@~]
 [`obj2] shall subsequently hold the same value as [`obj1].
-[:zh_CN]
+[:zh_CN@~]
 则 [`obj2] 随后应当持有与 [`obj1] 相同的值。
 
 [enter:example]

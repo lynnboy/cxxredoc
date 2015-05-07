@@ -67,12 +67,12 @@ If [`p] is an expression of pointer type, then [`*p], [`(*p)], [`*(p)],
 等等都满足此规定。
 [footnote:end]
 
-[:en]
+[:en@~]
 and the pointer is a null pointer value ([#conv.ptr]), the [`typeid] expression
 throws an exception ([#except.throw]) of a type that would match a handler of
 type [%[`bad_typeid]] [%@library bad_typeid] [`std::bad_typeid] exception
 ([#bad.typeid]).
-[:zh_CN]
+[:zh_CN@~]
 ，而该指针又是空指针值（[#conv.ptr]），则 [`typeid] 表达式将抛出
 （[#except.throw]）能够与 [%[`bad_typeid]] [%@library bad_typeid]
 [`std::bad_typeid] 类型（[#bad.typeid]）的处理器相匹配的异常。

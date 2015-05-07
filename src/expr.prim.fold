@@ -19,7 +19,8 @@ A fold expression performs a fold of a template parameter pack
 [rule fold-expression [:zh_CN] 折叠表达式 ]
     [| [`(] cast-expression fold-operator [`...] [`)] ]
     [| [`(] [`...] fold-operator cast-expression [`)] ]
-    [| [`(] cast-expression fold-operator [`...] fold-operator cast-expression [`)] ]
+    [| [`(] cast-expression fold-operator [`...] fold-operator cast-expression
+        [`)] ]
 [rule:end]
 
 [rule:oneof@aligned fold-operator [:zh_CN] 折叠运算符 ]

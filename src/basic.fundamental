@@ -142,9 +142,9 @@ execution environment%
 [footnote]
 [:en]
 [`int] must also be large enough to contain any value in the range
-[=crange[INT_MIN,INT_MAX]], as defined in the header [`<climits>].
+[=crange[INT_MIN,INT_MAX`]], as defined in the header [`<climits>].
 [:zh_CN]
-[`int] 的大小必须足够包含范围 [=crange[INT_MIN,INT_MAX]]（在头文件 [`<climits>]
+[`int] 的大小必须足够包含范围 [=crange[INT_MIN,INT_MAX`]]（在头文件 [`<climits>]
 中定义）中的任何值。
 [footnote:end]
 
@@ -325,7 +325,7 @@ unsigned integer types are collectively called [%integral type] [+integral]
 types.
 [:zh_CN]
 类型 [`bool]，[`char]，[`char16_t]，[`char32_t]，[`wchar_t]，以及有符号和无符号
-整数类型统称[%整型类型][整型]类型。
+整数类型统称[%整型类型][+整型]类型。
 
 [footnote]
 [:en]
@@ -402,12 +402,12 @@ of values of the type [`long double].
 double] 类型的值集的子集
 
 [:en]
+[%floating point type[!implementation-defined]]
 The value representation of floating-point types is [%@impldef value
 representation of floating-point types] implementation-defined.
-[%floating point type[!implementation-defined]]
 [:zh_CN]
-浮点类型的值表示是[%@impldef 浮点类型的值表示]由实现定义的。
 [%浮点类型[!由实现定义的～]]
+浮点类型的值表示是[%@impldef 浮点类型的值表示]由实现定义的。
 
 [:en]
 [%type[!arithmetic]]

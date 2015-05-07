@@ -31,7 +31,7 @@ or of a class of which [`T] is an unambiguous and accessible base class.
 [:zh_CN]
 二元运算符 [`.*] 向其第一个操作数（类型应当为类 [`T] 或者以 [`T] 为无歧义可访问
 基类的类）绑定其第二个操作数（类型应当为“指向 [`T] 的成员的指针”），其中 [`T]
-是完全定义的类类型。
+是完整定义的类类型。
 
 [:en]
 The result is an object or a function of the type specified by the second

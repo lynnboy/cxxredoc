@@ -1,6 +1,6 @@
 ﻿[section#basic.stc.dynamic
     [:en] Dynamic storage duration
-    [:zh_CN] 
+    [:zh_CN] 动态存储期
 ]
 
 [%:begin#storage.duration.dynamic
@@ -60,7 +60,7 @@ implicitly declared in global scope in each translation unit of a program.
 在程序的每个翻译单元的全局作用域中，隐含地声明了下列分配和回收函数
 （[#support.dynamic]）。
 
-[codeblock]
+[codeblock:notation]
 void* operator new(std::size_t);
 void* operator new[](std::size_t);
 void operator delete(void*) noexcept;

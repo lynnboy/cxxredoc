@@ -46,8 +46,8 @@ When a name has [def external linkage][%linkage[!external]], the entity it
 denotes can be referred to by names from scopes of other translation units or
 from other scopes of the same translation unit.
 [:zh_CN]
-若某个名字具有[def 外部连接]，则其所代表的实体可以用其他翻译单元中的作用域，或
-相同翻译单元中的其他作用域中的名字来代表。
+若某个名字具有[def 外部连接][%连接[!外部～]]，则其所代表的实体可以用其他翻译单元
+中的作用域，或相同翻译单元中的其他作用域中的名字来代表。
 
 [item]
 [:en]
@@ -55,8 +55,8 @@ When a name has [def internal linkage][%linkage[!internal]], the entity it
 denotes can be referred to by names from other scopes in the same translation
 unit.
 [:zh_CN]
-若某个名字具有[def 内部连接]，则其所代表的实体可以用相同翻译单元中的其他作用域
-中的名字来代表。
+若某个名字具有[def 内部连接][%连接[!内部～]]，则其所代表的实体可以用相同翻译单元
+中的其他作用域中的名字来代表。
 
 [item]
 [:en]

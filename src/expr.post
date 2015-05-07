@@ -39,7 +39,7 @@ Postfix expressions group left-to-right.
 [rule:end]
 
 [rule expression-list [:zh_CN] 表达式列表 ]
-    initializer-list
+    [| initializer-list ]
 [rule:end]
 
 [rule pseudo-destructor-name [:zh_CN] 伪析构函数名 ]

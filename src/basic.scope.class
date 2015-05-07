@@ -17,7 +17,7 @@ The following rules describe the scope of names declared in classes.
 The potential scope of a name declared in a class consists not only of the
 declarative region following the name[=']s point of declaration, but also of all
 function bodies, default arguments, [~exception-specification]s, and
-[~brace-or-equal-initializers] of non-static data members in that class
+[~brace-or-equal-initializer]s of non-static data members in that class
 (including such things in nested classes).
 [:zh_CN]
 在类中声明的名字的潜在作用域，不仅包括该名字的声明点后面的声明区，也包括该类中的

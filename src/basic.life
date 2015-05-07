@@ -22,7 +22,7 @@ aggregate type and it or one of its members is initialized by a constructor
 other than a trivial default constructor.
 [:zh_CN]
 如果某个对象是类或聚合类型，并且它或它的一个成员以不是平凡默认构造函数的构造函数
-来进行初始化，则称该对象具有非空虚初始化。
+来进行初始化，则称该对象具有[+非空虚初始化]。
 
 [enter:note]
 [:en]
@@ -154,12 +154,12 @@ For example, before the construction of a global object of non-POD class type
 例如，在某个非 POD 类类型的全局对象进行构造之前（[#class.cdtor]）。
 [footnote:end]
 
-[:en]
+[:en@~]
 or, after the lifetime of an object has ended and before the storage which the
 object occupied is reused or released, any pointer that refers to the storage
 location where the object will be or was located may be used but only in limited
 ways.
-[:zh_CN]
+[:zh_CN@~]
 ，或者在对象的生存期结束后而该对象占据过的存储被重用或释放之前，可以但仅能以有限
 的方式使用指向该对象将要或曾经位于的存储位置的指针。
 

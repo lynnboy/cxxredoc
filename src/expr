@@ -11,19 +11,19 @@
 [% [`operator new] [seealso [`new]] ]
 [% [`operator delete] [seealso [`delete]] ]
 [% [:en] usual arithmetic conversions [see conversion [!usual arithmetic]]
-   [:zh_CN] 一般算数转换 [see 转换[!一般算数～]] ]
+   [:zh_CN] 一般算数转换 [see 转换[!一般算术～]] ]
 [% [:en] [`==] [see equality operator]
    [:zh_CN] [`==] [see 相等运算符 ] ]
 [% [:en] [`!=] [see inequality operator]
    [:zh_CN] [`!=] [see 不相等运算符 ] ]
 [% [:en] [`static_cast] [see cast [!static]]
-   [:zh_CN] [`static_cast] [see 强制转换 [!静态]] ]
+   [:zh_CN] [`static_cast] [see 强制转换 [!静态～]] ]
 [% [:en] [`dynamic_cast] [see cast [!dynamic]]
-   [:zh_CN] [`dynamic_cast] [see 强制转换 [!动态]] ]
+   [:zh_CN] [`dynamic_cast] [see 强制转换 [!动态～]] ]
 [% [:en] [`const_cast] [see cast [!const]]
-   [:zh_CN] [`const_cast] [see 强制转换[!常量]] ]
+   [:zh_CN] [`const_cast] [see 强制转换[!const～]] ]
 [% [:en] [`reinterpret_cast] [see cast [!reinterpret]]
-   [:zh_CN] [`reinterpret_cast] [see 强制转换[!重解释]] ]
+   [:zh_CN] [`reinterpret_cast] [see 强制转换[!重解释～]] ]
 
 [%:begin#expression
     [:en] expression
@@ -65,7 +65,7 @@ An expression can result in a value and can cause side effects.
 Operators can be overloaded, that is, given meaning when applied to expressions
 of class type (Clause [#class]) or enumeration type ([#dcl.enum]).
 [:zh_CN]
-[%运算符[!重载]]
+[%运算符[!重载～]]
 可以对运算符进行重载，这是指，指定它在应用于类类型（第 [#class] 条）或枚举类型
 （[#dcl.enum]）的表达式上时的含义。
 

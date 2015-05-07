@@ -61,8 +61,10 @@ the [~new-expression] has a cv-qualified type.
 
 [syntax]
 [rule new-expression [:zh_CN] new-表达式 ]
-    [| [`:opt ::] [`new] [~:opt new-placement] new-type-id [~:opt new-initializer] ]
-    [| [`:opt ::] [`new] [~:opt new-placement] [`(] type-id [`)] [~:opt new-initializer] ]
+    [| [`:opt ::] [`new] [~:opt new-placement] new-type-id
+        [~:opt new-initializer] ]
+    [| [`:opt ::] [`new] [~:opt new-placement] [`(] type-id [`)]
+        [~:opt new-initializer] ]
 [rule:end]
 
 [%  [:en] [`new] [! storage allocation]
@@ -83,7 +85,8 @@ the [~new-expression] has a cv-qualified type.
 
 [rule noptr-new-declarator [:zh_CN] 非指针-new-声明符 ]
     [| [`[] expression [``]] [~:opt attribute-specifier-seq] ]
-    [| noptr-new-declarator [`[] constant-expression [``]] [~:opt attribute-specifier-seq] ]
+    [| noptr-new-declarator [`[] constant-expression [``]]
+        [~:opt attribute-specifier-seq] ]
 [rule:end]
 
 [rule new-initializer [:zh_CN] new-初始化式 ]
@@ -275,7 +278,7 @@ a strictly positive value.
 
 [:en]
 [%[`new]]
-The [~expression] in a [~noptr-new-declarator]is implicitly converted to
+The [~expression] in a [~noptr-new-declarator] is implicitly converted to
 [`std::size_t].
 [:zh_CN]
 [%[`new]]
@@ -633,15 +636,15 @@ expression is called a [def placement [~new-expression]].
 
 [item]
 [:en@~]
-[`new T[5]] results in a call of [`operator new[`](sizeof(T)*5+x)], and
+[`new T[5`]] results in a call of [`operator new[`](sizeof(T)*5+x)], and
 [:zh_CN@~]
-[`new T[5]] 产生调用 [`operator new[`](sizeof(T)*5+x)]，而
+[`new T[5`]] 产生调用 [`operator new[`](sizeof(T)*5+x)]，而
 
 [item]
 [:en@~]
-[`new(2,f) T[5]] results in a call of [`operator new[`](sizeof(T)*5+y,2,f)].
+[`new(2,f) T[5`]] results in a call of [`operator new[`](sizeof(T)*5+y,2,f)].
 [:zh_CN@~]
-[`new(2,f) T[5]] 产生调用 [`operator new[`](sizeof(T)*5+y,2,f)]。
+[`new(2,f) T[5`]] 产生调用 [`operator new[`](sizeof(T)*5+y,2,f)]。
 [list:end]
 
 [:en]

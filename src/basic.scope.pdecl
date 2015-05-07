@@ -57,7 +57,7 @@ The point of declaration for a class or class template first declared by a
 [~class-specifier] is immediately after the [~identifier] or
 [~simple-template-id] (if any) in its [~class-head] (Clause [#class]).
 [:zh_CN]
-由[~类说明符]所首先声明的类或类模板的声明点，紧跟其[~类头]中的[~标示符]或[~简单
+由[~类说明符]所首先声明的类或类模板的声明点，紧跟其[~类头]中的[~标识符]或[~简单
 模板标识]（如果有）之后（第 [#class] 条）。
 
 [:en]
@@ -66,7 +66,7 @@ The point of declaration for an enumeration is immediately after the
 first [~opaque-enum-declaration] ([#dcl.enum]), whichever comes first.
 [:zh_CN]
 枚举的声明点紧跟其率先出现的[~枚举说明符]（[#dcl.enum]）或其第一个[~笼统枚举声
-明式]（[#dcl.enum]）中的[~标示符]（如果有）之后。
+明式]（[#dcl.enum]）中的[~标识符]（如果有）之后。
 
 [:en]
 The point of declaration of an alias or alias template immediately follows the
@@ -118,7 +118,7 @@ up in the scope of its class.
 this is true even if the class is an incomplete class.
 [:zh_CN]
 [%类型[!不完整～]]
-即使该类是不完全类也是如此。
+即使该类是不完整类也是如此。
 
 [:en]
 For example,

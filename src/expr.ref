@@ -25,10 +25,10 @@ followed by the keyword [`template] ([#temp.names]), and then followed by an
 [%语义[!类成员]]
 [%运算符[!类成员访问～]]
 [%[`.][see 运算符 [!类成员访问～]]]
-[%点运算符[see 运算符 [!类成员访问]]]
+[%点运算符[see 运算符 [!类成员访问～]]]
 [%运算符[!类成员访问～]]
-[%[`->][see 运算符 [!类成员访问]]]
-[%箭头运算符[see 运算符 [!类成员访问]]]
+[%[`->][see 运算符 [!类成员访问～]]]
+[%箭头运算符[see 运算符 [!类成员访问～]]]
 后缀表达式后面跟着点 [`.] 或箭头 [`->]，可选地跟着关键字 [`template]
 （[#temp.names]），再跟着[~标识表达式]，是后缀表达式。
 
@@ -106,7 +106,7 @@ the name of a class is also considered a nested member of that class.
 
 [para]
 [:en]
-Abbreviating [+postfix-expression.id-expression] as [`E1.E2], [`E1] is called
+Abbreviating [~postfix-expression].[~id-expression] as [`E1.E2], [`E1] is called
 the [def object expression].
 [:zh_CN]
 将[~后缀表达式].[~标识表达式]简记为 [`E1.E2]，[`E1] 被称为[def 对象表达式]。

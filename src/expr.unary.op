@@ -22,7 +22,7 @@ or function to which the expression points.
 If the type of the expression is ["pointer to [`T],] the type of the result is
 ["[`T].]
 [:zh_CN]
-若表达式的类型为“指向 [`T] 的指针”，则其结果的类型为“[`T]”。
+若表达式的类型为“[`T] 的指针”，则其结果的类型为“[`T]”。
 
 [enter:note]
 [:en]
@@ -31,7 +31,7 @@ indirection through a pointer to an incomplete type (other than [$cv] [`void])
 is valid.
 [:zh_CN]
 [%类型[!不完整～]]
-可以对指向不完全类型（除了 [$cv] [`void]）的指针进行解间接。
+可以通过指向不完整类型（除了 [$cv] [`void]）的指针进行间接。
 
 [:en]
 The lvalue thus obtained can be used in limited ways (to initialize a reference,
@@ -69,7 +69,7 @@ of some class [`C] with type [`T], the result has type ["pointer to member of
 class [`C] of type [`T]] and is a prvalue designating [`C::m].
 [:zh_CN]
 若其操作数是指名了某个类 [`C] 的类型为 [`T] 的非静态成员 [`m] 的[~限定标识]，则
-其结果的类型为“指向的 [`C] 的类型为 [`T] 的成员的指针”，且是一个代表 [`C::m] 的
+其结果的类型为“指向 [`C] 中类型为 [`T] 的成员的指针”，且是一个代表 [`C::m] 的
 纯右值。
 
 [:en]

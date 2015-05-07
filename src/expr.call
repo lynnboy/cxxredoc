@@ -137,7 +137,7 @@ called is different.
 This return type shall be an object type, a reference type or [$cv] [`void].
 [:zh_CN]
 [%类型[!不完整～]]
-此类型应当是对象类型、引用类型或类型 [`void]。
+此返回类型应当是对象类型、引用类型或类型 [$cv] [`void]。
 
 [para]
 [:en]
@@ -195,13 +195,13 @@ completely-defined object type.
 this still allows a parameter to be a pointer or reference to an incomplete
 class type.
 [:zh_CN]
-这仍然允许形参为指向不完全类类型的指针或引用。
+这仍然允许形参为指向不完整类类型的指针或引用。
 
 [:en]
 However, it prevents a passed-by-value parameter to have an incomplete class
 type.
 [:zh_CN]
-然而，它防止了按值传递的形参具有不完全的类类型。
+然而，它防止了按值传递的形参具有不完整的类类型。
 [exit:note]
 
 [:en]
@@ -392,7 +392,7 @@ unsequenced relative to one another.
 [:zh_CN]
 [%求值[!实参的～]]
 [%求值[!未指明的函数调用的～顺序]]
-后缀表达式和各实参表达式的求值之间是无顺序的。
+后缀表达式和各实参的求值之间是无顺序的。
 
 [:en]
 [%evaluation[!unspecified order of argument]]
@@ -418,7 +418,8 @@ A function call is an lvalue if the result type is an lvalue reference type or
 an rvalue reference to function type, an xvalue if the result type is an rvalue
 reference to object type, and a prvalue otherwise.
 [:zh_CN]
-当函数的返回类型是左值引用类型或指代函数的右值引用类型时，函数调用是左值，当其返回类型是指代对象的右值引用类型时，是临限值，否则就是纯右值。
+当函数的返回类型是左值引用类型或指代函数的右值引用类型时，函数调用是左值，当其
+返回类型是指代对象的右值引用类型时，是临限值，否则就是纯右值。
 
 [para]
 [:en]

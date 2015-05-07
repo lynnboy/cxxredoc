@@ -163,9 +163,10 @@ functions ([#basic.lookup], [#over.match], [#over.over]), unless it is a pure
 virtual function and either its name is not explicitly qualified or the
 expression forms a pointer to member ([#expr.unary.op]).
 [:zh_CN]
-名字用作潜在求值表达式的函数，若它是唯一查找结果或被选取的重载函数集合的成员
+当函数的名字用作潜在求值表达式时，若它是唯一查找结果或被选取的重载函数集合的成员
 （[#basic.lookup]，[#over.match]，[#over.over]），即被 ODR-式使用，除非它是纯虚
-函数，而且要么并未显式限定其名字，要么该表达式构成了成员指针。
+函数，而且要么其名字并未被显式限定，要么该表达式构成了成员指针
+（[#expr.unary.op]）。
 
 [enter:note]
 [:en]

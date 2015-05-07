@@ -232,7 +232,8 @@ When viewed in this way, an implementation need only provide one extra byte
 (which might overlap another object in the program) just after the end of the
 object in order to satisfy the ["one past the last element] requirements.
 [:zh_CN]
-当按照这种观点看待时，实现为满足“越过末尾元素一个位置”规定只须紧跟对象的末尾之后提供一个额外字节（它可能与程序中的另一个对象重叠）。
+当按照这种观点看待时，实现为满足“越过末尾元素一个位置”规定只须紧跟对象的末尾之后
+提供一个额外字节（它可能与程序中的另一个对象重叠）。
 [footnote:end]
 
 [para]

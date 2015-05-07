@@ -139,8 +139,8 @@ installed new-handler function ([#new.handler]), if any.
 有）。
 
 [enter:note]
-[:en]
 [%[`new_handler]]
+[:en]
 A program-supplied allocation function can obtain the address of the currently
 installed [`new_handler] using the [`std::get_new_handler] function
 ([#set.new.handler]).

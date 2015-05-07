@@ -1,6 +1,6 @@
 ﻿[section#expr.const.cast
     [:en] Const cast
-    [:zh_CN] 常量性强制转换
+    [:zh_CN] Const 强制转换
 ]
 
 [para]
@@ -161,7 +161,8 @@ cv-decomposition of the form
 具有如下形式的 cv-分解式
 
 [syntax:explanation]
-[$cv[_0][^2]] [$P[_0][^2]] [$cv[_1][^2]] [$P[_1][^2]] [=cdots] [$cv[_n-1][^2]] [$P[_n-1][^2]] [$cv[_n][^2]] [`U][_2],
+[$cv[_0][^2]] [$P[_0][^2]] [$cv[_1][^2]] [$P[_1][^2]] [=cdots]
+    [$cv[_n-1][^2]] [$P[_n-1][^2]] [$cv[_n][^2]] [`U][_2],
 [syntax:end]
 
 [:en@~]
@@ -170,7 +171,8 @@ and there is no qualification conversion that converts [`T1] to
 并且不存在将 [`T1] 转换为以下形式的限定性转换
 
 [syntax:explanation]
-[$cv[_0][^2]] [$P[_0][^1]] [$cv[_1][^2]] [$P[_1][^1]] [=cdots] [$cv[_n-1][^2]] [$P[_n-1][^1]] [$cv[_n][^2]] [`U][_1].
+[$cv[_0][^2]] [$P[_0][^1]] [$cv[_1][^2]] [$P[_1][^1]] [=cdots]
+    [$cv[_n-1][^2]] [$P[_n-1][^1]] [$cv[_n][^2]] [`U][_1].
 [syntax:end]
 
 [para]

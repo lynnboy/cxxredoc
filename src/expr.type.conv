@@ -56,7 +56,7 @@ cv-qualified) [`void] type, creates a prvalue of the specified type, whose value
 is that produced by value-initializing ([#dcl.init]) an object of type [`T]; no
 initialization is done for the [`void()] case.
 [:zh_CN]
-表达式 [`T()]，其中 [`T] 为表示非数组的完全对象类型的[~简单类型说明符]或
+表达式 [`T()]，其中 [`T] 为表示非数组的完整对象类型的[~简单类型说明符]或
 [~typename-说明符]或（可能被 cv-限定的）[`void] 类型，创建所指定类型的纯右值，并
 进行值初始化（[#dcl.init]）；[`void()] 的情况不作初始化。
 

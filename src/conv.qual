@@ -141,7 +141,7 @@ int main() {
 [exit:note]
 
 [para]
-[enternote]
+[enter:note]
 [:en]
 A prvalue of type ["pointer to [$cv1] [`T]] can be converted to a prvalue of
 type ["pointer to [$cv2] [`T]] if ["[$cv2] [`T]] is more cv-qualified than
@@ -161,7 +161,7 @@ if ["[$cv2] [`T]] is more cv-qualified than ["[$cv1] [`T]].
 [exit:note]
 
 [para]
-[enternote]
+[enter:note]
 [:en]
 Function types (including those used in pointer to member function types) are
 never cv-qualified ([#dcl.fct]).

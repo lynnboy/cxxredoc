@@ -325,7 +325,7 @@ the operand is a pointer to a class type with a non-trivial destructor or a
 (possibly multi-dimensional) array thereof, the function with two parameters is
 selected.
 [:zh_CN]
-若其为完全类型，且（仅对于第二种情况，删除数组）若其操作数是指向带有非平凡析构
+若其为完整类型，且（仅对于第二种情况，删除数组）若其操作数是指向带有非平凡析构
 函数的类类型或其（可能多维的）数组的指针，则选择带有两个形参的函数。
 
 [item]

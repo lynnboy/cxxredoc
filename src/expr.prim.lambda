@@ -70,8 +70,8 @@ void abssort(float* x, unsigned N) {
 
 [rule lambda-declarator [:zh_CN] lambda-声明符 ]
     [| [`(] parameter-declaration-clause [`)] [`:opt mutable]
-        [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
-    [| [~:opt trailing-return-type] ]
+        [~:opt exception-specification] [~:opt attribute-specifier-seq]
+        [~:opt trailing-return-type] ]
 [rule:end]
 [syntax:end]
 
@@ -506,8 +506,8 @@ in [#dcl.fct.def.general].
 If a [~lambda-capture] includes a [~capture-default] that is [`&], no identifier
 in a [~simple-capture] of that [~lambda-capture] shall be preceded by [`&].
 [:zh_CN]
-如果 [~lambda-捕获式]中包含的[~默认捕获符]是 [`&]，则在 [~lambda-捕获式]之中的
-标识符前面不应当有 [`&]。
+如果 [~lambda-捕获式]中包含的[~默认捕获符]是 [`&]，则在 [~lambda-捕获式]的
+[~简单捕获式]之中的标识符前面不应当有 [`&]。
 
 [:en]
 If a [~lambda-capture] includes a [~capture-default] that is [`=], each
