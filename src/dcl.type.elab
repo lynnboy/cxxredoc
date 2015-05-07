@@ -1,15 +1,20 @@
 ﻿[section#dcl.type.elab
     [:en] Elaborated type specifiers
+    [:zh_CN] 详细类型说明符
 ]
 
+[%[`typename]]
 [:en]
 [%type specifier[!elaborated]]
-[%[`typename]]
 [%type specifier[![`enum]]]
+[:zh_CN]
+[%类型说明符[!详细～]]
+[%类型说明符[![`enum]]]
 
 [syntax]
-[rule elaborated-type-specifier [:zh_CN] ]
-    [| class-key [~:opt attribute-specifier-seq] [~:opt nested-name-specifier] identifier ]
+[rule elaborated-type-specifier [:zh_CN] 详细类型说明符 ]
+    [| class-key [~:opt attribute-specifier-seq] [~:opt nested-name-specifier]
+        identifier ]
     [| class-key simple-template-id ]
     [| class-key nested-name-specifier [`:opt template] simple-template-id ]
     [| [`enum] [~:opt nested-name-specifier] identifier ]
@@ -23,19 +28,29 @@
 An [~attribute-specifier-seq] shall not appear in an
 [~elaborated-type-specifier] unless the latter is the sole constituent of a
 declaration.
+[:zh_CN]
+[%类名[!详细]]
+[%名字[!详细[![`enum]]]]
+[~特性说明符序列]不能出现于[~详细类型说明符]中，除非后者是一个声明式的唯一组成
+部分。
 
 [:en]
 If an [~elaborated-type-specifier] is the sole constituent of a declaration, the
 declaration is ill-formed unless it is an explicit specialization
 ([#temp.expl.spec]), an explicit instantiation ([#temp.explicit]) or it has one
 of the following forms:
+[:zh_CN]
+若[~详细类型说明符]是某个声明式的唯一成分，则该声明式非良构，除非该声明式是显式
+特化式（[#temp.expl.spec]），显式实例化式（[#temp.explicit]），或者它具有如下
+形式之一：
 
 [syntax:explanation]
 [| [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;] ]
 [| [`friend] [~class-key] [`:opt ::] [~identifier] [`;] ]
 [| [`friend] [~class-key] [`:opt ::] [~simple-template-id] [`;] ]
 [| [`friend] [~class-key] [~nested-name-specifier] identifier [`;] ]
-[| [`friend] [~class-key] [~nested-name-specifier] [`:opt template] [~simple-template-id] [`;] ]
+[| [`friend] [~class-key] [~nested-name-specifier] [`:opt template]
+    [~simple-template-id] [`;] ]
 [syntax:end]
 
 [:en]
@@ -43,26 +58,39 @@ In the first case, the [~attribute-specifier-seq], if any, appertains
 to the class being declared; the attributes in the
 [~attribute-specifier-seq] are thereafter considered attributes of
 the class whenever it is named.
+[:zh_CN]
+第一种情况中，[~特性说明符序列]（如果有）属于所声明的类；随即一旦指名该类，
+[~特性说明符序列]中的特性就被当作这个类的特性。
 
 [para]
 [:en]
 [#basic.lookup.elab] describes how name lookup proceeds for the [~identifier] in
 an [~elaborated-type-specifier].
+[:zh_CN]
+[#basic.lookup.elab] 说明如何对[~详细类型说明符]中的[~标识符]进行名字查找。
 
 [:en]
 If the [~identifier] resolves to a [~class-name] or [~enum-name], the
 [~elaborated-type-specifier] introduces it into the declaration the same way a
 [~simple-type-specifier] introduces its [~type-name].
+[:zh_CN]
+若此[~标识符]被判读为[~类名]或[~枚举名]，则该[~详细类型说明符]以与[~简单类型说明
+符]引入其[~类型名]相同的方式将它引入到声明式中。
 
 [:en]
 If the [~identifier] resolves to a [~typedef-name] or the [~simple-template-id]
 resolves to an alias template specialization, the [~elaborated-type-specifier]
 is ill-formed.
+[:zh_CN]
+若此[~标识符]被判读为某个 [~typedef-名]，或者此[~简单模板标识]被判读为某个别名
+模板的特例，则该[~详细类型说明符]非良构。
 
 [enter:note]
 [:en]
 This implies that, within a class template with a template [~type-parameter]
 [`T], the declaration
+[:zh_CN]
+这表明，在带有模板[~类型形参] [`T] 的类模板中，声明式
 
 [codeblock]
 friend class T;
@@ -70,8 +98,13 @@ friend class T;
 
 [:en@~]
 is ill-formed.
+[:zh_CN@~]
+非良构。
 
+[:en]
 However, the similar declaration [`friend T;] is allowed ([#class.friend]).
+[:zh_CN]
+然而，与此相似的声明式 [`friend T;] 却是被允许的（[#class.friend]）。
 [exit:note]
 
 [para]
@@ -79,11 +112,17 @@ However, the similar declaration [`friend T;] is allowed ([#class.friend]).
 The [~class-key] or [`enum] keyword present in the [~elaborated-type-specifier]
 shall agree in kind with the declaration to which the name in the
 [~elaborated-type-specifier] refers.
+[:zh_CN]
+在[~详细类型说明符]中出现的[~类关键字]或 [`enum] 关键字应当与[~详细类型说明符]中
+的名字所涉指的声明式的种类一致。
 
 [:en]
 This rule also applies to the form of [~elaborated-type-specifier] that declares
 a [~class-name] or [`friend] class since it can be construed as referring to the
 definition of the class.
+[:zh_CN]
+对于其形式声明了[~类名]或 [`friend] 类的[~详细类型说明符]，这条规则也适用于，
+这是由于可将其当作涉指了该类的定义式。
 
 [:en]
 Thus, in any [~elaborated-type-specifier], the [`enum] keyword shall be used to
@@ -91,6 +130,11 @@ refer to an enumeration ([#dcl.enum]), the [`union] [~class-key] shall be used
 to refer to a union (Clause [#class]), and either the [`class] or [`struct]
 [~class-key] shall be used to refer to a class (Clause [#class]) declared using
 the [`class] or [`struct] [~class-key].
+[:zh_CN]
+因此，在任意[~详细类型说明符]中，应当用 [`enum] 关键字提及枚举（[#dcl.enum]），
+应当用[~类关键字] [`union] 提及联合（第 [#class] 条），应当用[~类关键字]
+[`class] 或 [`struct] 提及用[~类关键字] [`class] 或 [`struct] 所声明的类（第
+[#class] 条）。
 
 [enter:example]
 [codeblock]

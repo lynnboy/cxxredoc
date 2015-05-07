@@ -1,50 +1,73 @@
 ﻿[section#dcl.typedef
     [:en] The [`typedef] specifier
+    [:zh_CN] [`typedef] 说明符
 ]
 
 [%  [:en] specifier[![`typedef]]
-    [:zh_CN] ]
+    [:zh_CN] 说明符[![`typedef]] ]
 
 [para]
 [:en]
 Declarations containing the [~decl-specifier] [`typedef] declare identifiers
 that can be used later for naming fundamental ([#basic.fundamental]) or compound
 ([#basic.compound]) types.
+[:zh_CN]
+包含[~声明说明符] [`typedef] 的声明式所声明的标识符，可在其后用于指名基础类型
+（[#basic.fundamental]）或组合类型（[#basic.compound]）。
 
 [:en]
 The [`typedef] specifier shall not be combined in a [~decl-specifier-seq] with
 any other kind of specifier except a [~type-specifier], and it shall not be used
 in the [~decl-specifier-seq] of a [~parameter-declaration] ([#dcl.fct]) nor in
 the [~decl-specifier-seq] of a [~function-definition] ([#dcl.fct.def]).
+[:zh_CN]
+[`typedef] 说明符不能与除了[~类型说明符]之外的任何其他种类的说明符在[~声明说明符
+序列]中进行组合，而且它既不能用在[~形参声明式]的[~声明说明符序列]中
+（[#dcl.fct]），也不能用在[~函数定义式]的[~声明说明符序列]中（[#dcl.fct.def]）。
 
 [syntax]
-[rule typedef-name [:zh_CN] ]
+[rule typedef-name [:zh_CN] typedef-名 ]
     [| identifier ]
 [rule:end]
 [syntax:end]
 
 [:en]
 A name declared with the [`typedef] specifier becomes a [~typedef-name].
+[:zh_CN]
+用 [`typedef] 说明符所声明的名字成为 [~typedef-名]。
 
 [:en]
 Within the scope of its declaration, a [~typedef-name] is syntactically
 equivalent to a keyword and names the type associated with the identifier in the
 way described in Clause [#dcl.decl].
+[:zh_CN]
+在其声明式的作用域中，[~typedef-名]在语法上与一个关键字等价，并且对根据第
+[#dcl.decl] 条说明的方式与该标识符关联的类型进行命名。
 
 [:en]
 [%declaration[![`typedef] as type]]
 [%equivalence[!type]]
 [%synonym[!type name as]]
 A [~typedef-name] is thus a synonym for another type.
+[:zh_CN]
+[%声明式[![`typedef] 作为类型～]]
+[%等价[!类型～]]
+[%同义词[!类型名作为～]]
+因此该 [~typedef-名]就是另一个类型的同义词。
 
 [:en]
 A [~typedef-name] does not introduce a new type the way a class declaration
 ([#class.name]) or enum declaration does.
+[:zh_CN]
+[~typedef-名]并不像类声明式（[#class.name]）或枚举声明式那样引入新的类型。
 
 [enter:example]
 [:en]
 [%example[![`typedef]]]
 after
+[:zh_CN]
+[%示例[![`typedef]]]
+在
 
 [codeblock]
 typedef int MILES, *KLICKSP;
@@ -52,6 +75,8 @@ typedef int MILES, *KLICKSP;
 
 [:en@~]
 the constructions
+[:zh_CN@~]
+之后，如下的构造
 
 [codeblock]
 MILES distance;
@@ -61,30 +86,44 @@ extern KLICKSP metricp;
 [:en@~]
 are all correct declarations; the type of [`distance] is [`int] and that of
 [`metricp] is ["pointer to [`int].]
+[:zh_CN@~]
+都是正确的声明式；[`distance] 的类型是 [`int] 而 [`metricp] 的类型是“[`int] 的
+指针”。
 [exit:example]
 
 [para]
 [:en]
 A [~typedef-name] can also be introduced by an [~alias-declaration].
+[:zh_CN]
+[~typedef-名]还可由[~别名声明式]引入。
 
 [:en]
 The [~identifier] following the [`using] keyword becomes a [~typedef-name] and
 the optional [~attribute-specifier-seq] following the [~identifier] appertains
 to that [~typedef-name].
+[:zh_CN]
+跟在 [`using] 关键字后面的[~标识符]成为 [~typedef-名]，而跟在[~标识符]后面的可选
+的[~特性说明符序列]则属于这个 [~typedef-名]。
 
 [:en]
 It has the same semantics as if it were introduced by the [`typedef] specifier.
+[:zh_CN]
+它具有与当它通过 [`typedef] 说明符引入时相同的语义。
 
 [:en]
 In particular, it does not define a new type and it shall not appear in the
 [~type-id].
+[:zh_CN]
+尤其是，它并不定义新的类型并且它不能出现在[~类型标识]之中。
 
 [enter:example]
 [codeblock]
 using handler_t = void (*)(int);
 extern handler_t ignore;
 extern void (*ignore)(int);         // [:en] redeclare [`ignore]
+                                    // [|:zh_CN] 重新声明 [`ignore]
 using cell = pair<void*, cell*>;    // [:en] ill-formed
+                                    // [|:zh_CN] 非良构
 [codeblock:end]
 [exit:example]
 
@@ -94,6 +133,10 @@ using cell = pair<void*, cell*>;    // [:en] ill-formed
 In a given non-class scope, a [`typedef] specifier can be used to redefine the
 name of any type declared in that scope to refer to the type to which it already
 refers.
+[:zh_CN]
+[%重新定义[![`typedef]]]
+在给定的非类作用域中，[`typedef] 说明符可用于对该作用域中的任意类型的名字进行
+重复定义，以代表其已经代表的类型。
 
 [enter:example]
 [codeblock]
@@ -109,6 +152,9 @@ typedef I I;
 In a given class scope, a [`typedef] specifier can be used to redefine any
 [~class-name] declared in that scope that is not also a [~typedef-name] to refer
 to the type to which it already refers.
+[:zh_CN]
+在给定的类作用域中，[`typedef] 说明符可用于把该作用域中所声明的不是
+[~typedef-名]的任何[~类名]重新定义为代表其已经代表的类型。
 
 [enter:example]
 [codeblock]
@@ -116,6 +162,7 @@ struct S {
   typedef struct A { } A;       // OK
   typedef struct B B;           // OK
   typedef A A;                  // [:en] error
+                                // [|:zh_CN] 错误
 };
 [codeblock:end]
 [exit:example]
@@ -126,6 +173,10 @@ If a [`typedef] specifier is used to redefine in a given scope an entity that
 can be referenced using an [~elaborated-type-specifier], the entity can continue
 to be referenced by an [~elaborated-type-specifier] or as an enumeration or
 class name in an enumeration or class definition respectively.
+[:zh_CN]
+如果在某个给定作用域中，用一个 [`typedef] 说明符来重新定义某个实体，而它可以在
+其中通过使用[~详细类型说明符]而被涉指，则可以继续对该实体通过[~详细类型说明符]
+进行涉指，或者在枚举或类的定义式中分别作为枚举或类的名字而被涉指。
 
 [enter:example]
 [codeblock]
@@ -142,11 +193,15 @@ struct S { };                   // OK
 [:en]
 In a given scope, a [`typedef] specifier shall not be used to redefine the name
 of any type declared in that scope to refer to a different type.
+[:zh_CN]
+在给定作用域中，[`typedef] 说明符不能用于对此作用域中所声明的任意类型的名字进行
+重新定义以代表不同的类型。
 
 [enter:example]
 [codeblock]
 class complex { /* ... */ };
 typedef int complex;            // [:en] error: redefinition
+                                // [|:zh_CN] 错误：重新定义
 [codeblock:end]
 [exit:example]
 
@@ -155,11 +210,15 @@ typedef int complex;            // [:en] error: redefinition
 Similarly, in a given scope, a class or enumeration shall not be declared with
 the same name as a [~typedef-name] that is declared in that scope and refers to
 a type other than the class or enumeration itself.
+[:zh_CN]
+相似地，在给定作用域中，如果该作用域中声明的 [~typedef-名]所代表的类型不同于某个
+类或枚举本身，则该类或枚举不能用与之相同的名字来进行声明。
 
 [enter:example]
 [codeblock]
 typedef int complex;
 class complex { /* ... */ };    // [:en] error: redefinition
+                                // [|:zh_CN] 错误：重新定义
 [codeblock:end]
 [exit:example]
 
@@ -169,12 +228,19 @@ class complex { /* ... */ };    // [:en] error: redefinition
 [%class name[![`typedef]]]
 A [~typedef-name] that names a class type, or a cv-qualified version thereof, is
 also a [~class-name] ([#class.name]).
+[:zh_CN]
+[%类名[![`typedef]]]
+命名类类型或其被 cv-限定的版本的 [~typedef-名]，也是[~类名]（[#class.name]）。
 
 [:en]
 If a [~typedef-name] is used to identify the subject of an
 [~elaborated-type-specifier] ([#dcl.type.elab]), a class definition (Clause
 [#class]), a constructor declaration ([#class.ctor]), or a destructor
 declaration ([#class.dtor]), the program is ill-formed.
+[:zh_CN]
+若 [~typedef-名]被用于标识[~详细类型说明符]（[#dcl.type.elab]），类定义式（第
+[#class] 条），构造函数声明式（[#class.ctor]），或析构函数声明式
+（[#class.dtor]）的主体，则程序非良构。
 [exit:note]
 
 [enter:example]
@@ -188,6 +254,7 @@ typedef struct S T;
 
 S a = T();                      // OK
 struct T * p;                   // [:en] error
+                                // [|:zh_CN] 错误
 [codeblock:end]
 [exit:example]
 
@@ -200,9 +267,17 @@ If the typedef declaration defines an unnamed class (or enum), the first
 [~typedef-name] declared by the declaration to be that class type (or enum type)
 is used to denote the class type (or enum type) for linkage purposes only
 ([#basic.link]).
+[:zh_CN]
+[%类名[![`typedef]]]
+[%枚举名[![`typedef]]]
+[%类[!无名～]]
+若某个 typedef 声明式定义了一个无名类（或枚举），则由该声明式声明为这个类类型
+（或枚举类型）的第一个 [~typedef-名]，仅为连接的目的（[#basic.link]）时用于代表
+这个类类型（或枚举类型）。
 
 [enter:example]
 [codeblock]
-typedef struct { } *ps, S;      // [:en] [`s] is the class name for linkage purposes
+typedef struct { } *ps, S;      // [:en] [`S] is the class name for linkage purposes
+                                // [|:zh_CN] [`S] 是为连接的目的而提供的类名
 [codeblock:end]
 [exit:example]

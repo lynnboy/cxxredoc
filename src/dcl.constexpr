@@ -1,103 +1,148 @@
 ﻿[section#dcl.constexpr
     [:en] The [`constexpr] specifier
+    [:zh_CN] [`constexpr] 说明符
 ]
 
 [%  [:en] specifier[![`constexpr]]
-    [:zh_CN] ]
+    [:zh_CN] 说明符[![`constexpr]] ]
 
 [para]
 [:en]
 The [`constexpr] specifier shall be applied only to the definition of a variable
 or variable template, the declaration of a function or function template, or the
 declaration of a static data member of a literal type ([#basic.types]).
+[:zh_CN]
+[`constexpr] 说明符只能施加于变量或变量模板的定义式，函数或函数模板的声明式，
+或者字面量类型（[#basic.types]）的静态数据成员的声明式上。
 
 [:en]
 If any declaration of a function or function template has a [`constexpr]
 specifier, then all its declarations shall contain the [`constexpr] specifier.
+[:zh_CN]
+如果某个函数或函数模板的任何声明式带有 [`constexpr] 说明符，则它的所有声明式都
+应当带有 [`constexpr] 说明符。
 
 [enter:note]
 [:en]
 An explicit specialization can differ from the template declaration with respect
 to the [`constexpr] specifier.
+[:zh_CN]
+在 [`constexpr] 说明符方面，显式特化式可以与其模板声明式不相同。
+函数形参不能声明为 <code class="key">constexpr</code>。
 [exit:note]
 
 [enter:note]
 [:en]
 Function parameters cannot be declared [`constexpr].
+[:zh_CN]
+函数形参不能声明为 [`constexpr]。
 [exit:note]
 
 [enter:example]
 [codeblock]
 constexpr void square(int &x);  // [:en] OK: declaration
+                                // [|:zh_CN] OK：声明式
 constexpr int bufsz = 1024;     // [:en] OK: definition
+                                // [|:zh_CN] OK：定义式
 constexpr struct pixel {        // [:en] error: [`pixel] is a type
+                                // [|:zh_CN] 错误：[`pixel] 是类型
   int x;
   int y;
   constexpr pixel(int);         // [:en] OK: declaration
+                                // [|:zh_CN] OK：声明式
 }; 
 constexpr pixel::pixel(int a)
   : x(a), y(x)                  // [:en] OK: definition
+                                // [|:zh_CN] OK：定义式
   { square(x); }
 constexpr pixel small(2);       // [:en] error: [`square] not defined, so [`small(2)]
+                                // [|:zh_CN] 错误：[`square] 未定义，所以 [`small(2)]
                                 // [:en@~] not constant ([#expr.const]) so [`constexpr] not satisfied
+                                // [|:zh_CN@~] 不是常量（[#expr.const]），故不满足 [`constexpr]
 
 constexpr void square(int &x) { // [:en] OK: definition
+                                // [|:zh_CN] OK：定义式
   x *= x;
 }
 constexpr pixel large(4);       // [:en] OK: [`square] defined
+                                // [|:zh_CN] OK：[`square] 已定义
 int next(constexpr int x) {     // [:en] error: not for parameters
+                                // [|:zh_CN] 错误：不适用于形参
      return x + 1;
 } 
 extern constexpr int memsz;     // [:en] error: not a definition 
+                                // [|:zh_CN] 错误：不是定义式
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 A [`constexpr] specifier used in the declaration of a function that is not a
-constructor declares that
-function to be a [def constexpr function[%specifier[![`constexpr][!function]]]].
+constructor declares that function to be a [def [`constexpr] function
+[%specifier[![`constexpr][!function]]]].
+[:zh_CN]
+用在不是够造函数的函数的声明式中的 [`constexpr] 说明符，将该函数声明为一个
+[def [`constexpr] 函数 [%说明符[![`constexpr][!～函数]]]]。
 
 [:en]
 Similarly, a [`constexpr] specifier used in  a constructor declaration declares
-that constructor to be a [def constexpr constructor[%specifier[![`constexpr]
+that constructor to be a [def [`constexpr] constructor[%specifier[![`constexpr]
 [!constructor]]]].
+[:zh_CN]
+相似地，用在构造函数声明式中的 [`constexpr] 说明符，将该构造函数声明为一个
+[def [`constexpr] 构造函数 [%说明符[![`constexpr][!～构造函数]]]]。
 
 [:en]
 [`constexpr] functions and [`constexpr] constructors are implicitly [`inline]
 ([#dcl.fct.spec]).
+[:zh_CN]
+[`constexpr] 函数和 [`constexpr] 构造函数隐含为 [`inline]（[#dcl.fct.spec]）。
 
 [para]
 [:en]
 [%specifier[![`constexpr][!function]]]
-[%constexpr function]
+[%[`constexpr] function]
 The definition of a [`constexpr] function shall satisfy the following
 constraints:
+[:zh_CN]
+[%说明符[![`constexpr][!～函数]]]
+[%[`constexpr] 函数]
+[`constexpr] 函数的定义式应当满足如下约束条件：
 
 [list]
 [item]
 [:en] it shall not be virtual ([#class.virtual]);
+[:zh_CN] 它不能是虚函数（[#class.virtual]）；
 
 [item]
 [:en] its return type shall be a literal type;
+[:zh_CN] 其返回类型应当是字面量类型；
 
 [item]
 [:en] each of its parameter types shall be a literal type;
+[:zh_CN] 它的每个形参类型均应当是字面量类型；
 
 [item]
 [:en] its [~function-body] shall be [`= delete], [`= default], or a
 [~compound-statement] that does not contain
+[:zh_CN] 其[~函数体]应当为 [`= delete]，[`= default]，或者为不包含下列各项的
+[~组合语句]：
 
 [list]
 [item]
 [:en@~] an [~asm-definition],
+[:zh_CN@~] [~asm-定义式]，
 [item]
 [:en@~] a [`goto] statement,
+[:zh_CN@~] [`goto] 语句，
 [item]
 [:en@~] a [~try-block], or
+[:zh_CN@~] [~try-块]，或者
 [item]
 [:en@~] a definition of a variable of non-literal type or of static or thread
 storage duration or for which no initialization is performed.
+[:zh_CN@~] 非字面量类型的，或具有静态或线程存储期的，或者不进行初始化的变量的
+定义式。
 [list:end]
 
 [list:end]
@@ -115,10 +160,12 @@ constexpr int abs(int x) {
 }
 constexpr int first(int n) {
   static int value = n;         // [:en] error: variable has static storage duration
+                                // [|:zh_CN] 错误：变量具有静态存储期
   return value;
 }
 constexpr int uninit() {
   int a;                        // [:en] error: variable is uninitialized
+                                // [|:zh_CN] 错误：变量未初始化
   return a;
 }
 constexpr int prev(int x)
@@ -136,21 +183,29 @@ constexpr int g(int x, int n) { // OK
 [%specifier[![`constexpr][!constructor]]]
 The definition of a [`constexpr] constructor shall satisfy the following
 constraints:
+[:zh_CN]
+[%说明符[![`constexpr][!～构造函数]]]
+[`constexpr] 构造函数的定义式应当满足如下约束条件：
 
 [list]
 [item]
 [:en@~] the class shall not have any virtual base classes;
+[:zh_CN@~] 该类不应当带有任何虚基类；
 
 [item]
 [:en@~] each of the parameter types shall be a literal type;
+[:zh_CN@~] 它的每个形参类型均应当是字面量类型；
 
 [item]
 [:en@~] its [~function-body] shall not be a [~function-try-block];
+[:zh_CN@~] 其[~函数体]不能为[~函数-try-块]；
 [list:end]
 
 [:en]
 In addition, either its [~function-body] shall be [`= delete], or it shall
 satisfy the following constraints:
+[:zh_CN]
+此外，其[~函数体]应当为 [`= delete]，或者应当满足如下约束条件：
 
 [list]
 [item]
@@ -158,33 +213,48 @@ satisfy the following constraints:
 either its [~function-body] shall be [`= default], or the [~compound-statement]
 of its [~function-body] shall satisfy the constraints for a [~function-body] of
 a [`constexpr] function;
+[:zh_CN]
+其[~函数体]应当为 [`= default]，或者其[~函数体]的[~组合语句]应当满足
+[`constexpr] 函数的[~函数体]的约束条件；
 
 [item]
 [:en]
 every non-variant non-static data member and base class sub-object shall be
 initialized ([#class.base.init]);
+[:zh_CN]
+其每个非可变非静态数据成员和基类子对象都应当被初始化（[#class.base.init]）；
 
 [item]
 [:en]
 if the class is a union having variant members ([#class.union]), exactly one of
 them shall be initialized;
+[:zh_CN]
+若该类为具有可变成员的联合（[#class.union]），则恰有一个被初始化；
 
 [item]
 [:en]
 if the class is a union-like class, but is not a union, for each of its
 anonymous union members having variant members, exactly one of them shall be
 initialized;
+[:zh_CN]
+若该类是类似联合的类但并非联合，则其每个具有可变成员的匿名联合成员，都应当恰有
+一个可变成员被初始化；
 
 [item]
 [:en]
 for a non-delegating constructor, every constructor selected to initialize
 non-static data members and base class sub-objects shall be a [`constexpr]
 constructor;
+[:zh_CN]
+对于非委派构造函数，被选择用以初始化非静态数据成员和基类子对象的每个构造函数都
+应当是 [`constexpr] 构造函数；
 
 [item]
 [:en]
 for a delegating constructor, the target constructor shall be a [`constexpr]
 constructor.
+[:zh_CN]
+对于委派构造函数，其目标构造函数应当是 [`constexpr] 构造函数。
 [list:end]
 
 [enter:example]
@@ -205,15 +275,22 @@ exist such that an invocation of the function or constructor could be an
 evaluated subexpression of a core constant expression ([#expr.const]), or, for a
 constructor, a constant initializer for some object ([#basic.start.init]), the
 program is ill-formed; no diagnostic required.
+[:zh_CN]
+对于非模板、非预置的 [`constexpr] 函数或者非模板、非预置、非继承的 [`constexpr]
+构造函数，如果不存在实参值能够使得函数或构造函数的调用可以成为核心常量表达式
+（[#expr.const]）的求值子表达式，或对于构造函数，可以成为某个对象的常量初始化式
+（[#basic.start.init]），则程序非良构；无须诊断。
 
 [enter:example]
 [codeblock]
 constexpr int f(bool b)
   { return b ? throw 0 : 0; }               // OK
 constexpr int f() { return f(true); }       // [:en] ill-formed, no diagnostic required
+                                            // [|:zh_CN] 非良构，无须诊断
 
 struct B {
   constexpr B(int x) : i(0) { }             // [:en] [`x] is unused
+                                            // [|:zh_CN] [`x] 未被使用
   int i;
 };
 
@@ -221,7 +298,9 @@ int global;
 
 struct D : B {
   constexpr D() : B(global) { }             // [:en] ill-formed, no diagnostic required
+                                            // [|:zh_CN] 非良构，无须诊断
                                             // [:en@~] lvalue-to-rvalue conversion on non-constant [`global]
+                                            // [|:zh_CN@~] 对非常量 [`global] 进行左值向右值转换
 };
 [codeblock:end]
 [exit:example]
@@ -233,23 +312,36 @@ or member function of a class template would fail to satisfy the requirements
 for a [`constexpr] function or [`constexpr] constructor, that specialization is
 still a [`constexpr] function or [`constexpr] constructor, even though a call to
 such a function cannot appear in a constant expression.
+[:zh_CN]
+若某个 [`constexpr] 的函数模板或类模板的成员函数的某个已实例化的模板特例，无法
+满足 [`constexpr] 函数或 [`constexpr] 构造函数的规定，则该特例仍然是
+[`constexpr] 函数或 [`constexpr] 构造函数，尽管对这种函数的调用不能出现于常量
+表达式中。
 
 [:en]
 If no specialization of the template would satisfy the requirements for a
 [`constexpr] function or [`constexpr] constructor when considered as a
 non-template function or constructor, the template is ill-formed; no diagnostic
 required.
+[:zh_CN]
+如果该模板不存在特例，使得当考察非模板函数和构造函数时可以满足 [`constexpr] 函数
+或 [`constexpr] 构造函数的规定，则该模板非良构；无须诊断。
 
 [para]
 [:en]
 A call to a [`constexpr] function produces the same result as a call to an
 equivalent non-[`constexpr] function in all respects except that a call to a
 [`constexpr] function can appear in a constant expression.
+[:zh_CN]
+调用 [`constexpr] 函数所产生的结果与调用等价的非-[`constexpr] 函数在各方面都相同
+，但对 [`constexpr] 函数的调用可以出现于常量表达式之中。
 
 [para]
 [:en]
 The [`constexpr] specifier has no effect on the type of a [`constexpr] function
 or a [`constexpr] constructor.
+[:zh_CN]
+[`constexpr] 说明符对 [`constexpr] 函数或 [`constexpr] 构造函书的类型没有影响。
 
 [enter:example]
 [codeblock]
@@ -257,6 +349,7 @@ constexpr int bar(int x, int y) // OK
     { return x + y + x*y; } 
 // ... 
 int bar(int x, int y)           // [:en] error: redefinition of [`bar]
+                                // [|:zh_CN] 错误：重新定义 [`bar]
     { return x * 2 + 3 * y; } 
 [codeblock:end]
 [exit:example]
@@ -265,23 +358,35 @@ int bar(int x, int y)           // [:en] error: redefinition of [`bar]
 [:en]
 A [`constexpr] specifier used in an object declaration declares the object as
 [`const].
+[:zh_CN]
+用在对象声明式中的 [`constexpr] 将该对象声明为 [`const]。
 
 [:en]
 Such an object shall have literal type and shall be initialized.
+[:zh_CN]
+此种对象应当具有字面量类型且应当进行初始化。
 
 [:en]
 If it is initialized by a constructor call, that call shall be a constant
 expression ([#expr.const]).
+[:zh_CN]
+若它通过构造函数调用进行初始化，则该调用应当是常量表达式（[#expr.const]）。
 
 [:en]
 Otherwise, or if a [`constexpr] specifier is used in a reference declaration,
 every full-expression that appears in its initializer shall be a constant
 expression
+[:zh_CN]
+否则，或者若在引用的声明式中使用了 [`constexpr] 说明符，则出现于其初始化式中的
+每个全表达式都应当是常量表达式。
 
 [enter:note]
 [:en]
 Each implicit conversion used in converting the initializer expressions and each
 constructor call used for the initialization is part of such a full-expression.
+[:zh_CN]
+用于转换初始化式表达式的每个隐式转换，以及初始化过程中调用的每个构造函数，都是
+这种全表达式的一部分。
 [exit:note]
 
 [enter:example]
@@ -290,6 +395,7 @@ struct pixel {
   int x, y; 
 }; 
 constexpr pixel ur = { 1294, 1024 };// OK
-constexpr pixel origin;             // [:en] error: initializer missing 
+constexpr pixel origin;             // [:en] error: initializer missing
+                                    // [|:zh_CN] 错误：缺少初始化式
 [codeblock:end]
 [exit:example]

@@ -1,38 +1,44 @@
 ﻿[section#dcl.type
     [:en] Type specifiers
+    [:zh_CN] 类型说明符
 ]
 
 [%  [:en] specifier[!type][see type specifier]
-    [:zh_CN] ]
+    [:zh_CN] 说明符[!类型～][see 类型说明符] ]
 
 [para]
 [:en]
 The type-specifiers are
+[:zh_CN]
+类型说明符为
 
 [:en]
 [%type[![`const]]]
 [%type[![`volatile]]]
+[:zh_CN]
+[%类型[![`const]]]
+[%类型[![`volatile]]]
 
 [syntax]
-[rule type-specifier [:zh_CN] ]
+[rule type-specifier [:zh_CN] 类型说明符 ]
     [| trailing-type-specifier ]
     [| class-specifier ]
     [| enum-specifier ]
 [rule:end]
 
-[rule trailing-type-specifier [:zh_CN] ]
+[rule trailing-type-specifier [:zh_CN] 尾部类型说明符 ]
     [| simple-type-specifier ]
     [| elaborated-type-specifier ]
     [| typename-specifier ]
     [| cv-qualifier ]
 [rule:end]
 
-[rule type-specifier-seq [:zh_CN] ]
+[rule type-specifier-seq [:zh_CN] 类型说明符序列 ]
     [| type-specifier [~:opt attribute-specifier-seq] ]
     [| type-specifier type-specifier-seq ]
 [rule:end]
 
-[rule trailing-type-specifier-seq [:zh_CN] ]
+[rule trailing-type-specifier-seq [:zh_CN] 尾部类型说明符序列 ]
     [| trailing-type-specifier [~:opt attribute-specifier-seq] ]
     [| trailing-type-specifier trailing-type-specifier-seq ]
 [rule:end]
@@ -42,39 +48,57 @@ The type-specifiers are
 The optional [~attribute-specifier-seq] in a [~type-specifier-seq] or a
 [~trailing-type-specifier-seq] appertains to the type denoted by the preceding
 [~type-specifier]s ([#dcl.meaning]).
+[:zh_CN]
+[~类型说明符序列]或[~尾部类型说明符序列]中的可选的[~特性说明符序列]，属于其前面
+的[~类型说明符]所代表的类型（[#dcl.meaning]）。
 
 [:en]
 The [~attribute-specifier-seq] affects the type only for the declaration it
 appears in, not other declarations involving the same type.
+[:zh_CN]
+此[~特性说明符序列]仅会影响包含它的声明式中的类型，而不会对涉及相同类型的其他
+声明式有影响。
 
 [para]
 [:en]
 As a general rule, at most one [~type-specifier] is allowed in the complete
 [~decl-specifier-seq] of a [~declaration] or in a [~type-specifier-seq] or
 [~trailing-type-specifier-seq].
+[:zh_CN]
+作为一般规则，在某个[~声明式]的整个[~声明说明符序列]中，或者某个[~类型说明符
+序列]或[~尾部类型说明符序列]中，最多允许有一个[~类型说明符]。
 
 [:en]
 The only exceptions to this rule are the following:
+[:zh_CN]
+此规则只有下述例外情况：
 
 [list]
 [item]
 [:en] [`const] can be combined with any type specifier except itself.
+[:zh_CN] [`const] 可以与除其自身之外的任何类型说明符组合。
 
 [item]
 [:en] [`volatile] can be combined with any type specifier except itself.
+[:zh_CN] [`volatile] 可以与除其自身之外的任何类型说明符组合。
 
 [item]
 [:en] [`signed] or [`unsigned] can be combined with [`char], [`long], [`short],
 or [`int].
+[:zh_CN] [`signed] 或 [`unsigned] 可以与 [`char]，[`long]，[`short]，或 [`int]
+组合。
 
 [item]
 [:en] [`short] or [`long] can be combined with [`int].
+[:zh_CN] [`short] 或 [`long] 可以与 [`int] 组合。
 
 [item]
 [:en] [`long] can be combined with [`double].
+[:zh_CN] [`long] 可以与 [`double] 组合。
 
 [item]
 [:en] [`long] can be combined with [`long].
+[:zh_CN] [`long] 可以与 [`long] 组合。
 [list:end]
 
 [para]
@@ -82,30 +106,46 @@ or [`int].
 Except in a declaration of a constructor, destructor, or conversion function, at
 least one [~type-specifier] that is not a [~cv-qualifier] shall appear in a
 complete [~type-specifier-seq] or a complete [~decl-specifier-seq].
+[:zh_CN]
+在声明式中，除非它声明构造函数、析构函数或转换函数，否则在整个[~类型说明符序列]
+或整个[~声明说明符序列]中，应当至少存在一个不是[~cv-限定符]的[~类型说明符]。
 
 [footnote]
 [:en]
 There is no special provision for a [~decl-specifier-seq] that lacks a
 [~type-specifier] or that has a [~type-specifier] that only specifies
 [~cv-qualifier]s.
+[:zh_CN]
+对缺失[~类型说明符]，或所带有的[~类型说明符]仅指定了 [~cv-限定符]的[~声明说明符
+序列]没有特殊支持。
 
 [:en]
 The ["implicit int] rule of C is no longer supported.
+[:zh_CN]
+不再支持 C 的“隐式 int”规则。
 [footnote:end]
 
 [:en]
 A [~type-specifier-seq] shall not define a class or enumeration unless it
 appears in the [~type-id] of an [~alias-declaration] ([#dcl.typedef]) that is
 not the [~declaration] of a [~template-declaration].
+[:zh_CN]
+除非[~类型说明符序列]出现于（并非作为某个[~模板声明式]中的[~声明式]的）[~别名
+声明式]（[#dcl.typedef]）的[~类型标识]之中，否则它不能定义类或枚举。
 
 [para]
 [enter:note]
 [:en]
 [~enum-specifier]s, [~class-specifier]s, and [~typename-specifier]s are
 discussed in [#dcl.enum], Clause [#class], and [#temp.res], respectively.
+[:zh_CN]
+[~枚举说明符]，[~类说明符]，和[~typename-说明符]分别在 [#dcl.enum]，[#class] 和
+[#temp.res] 中讨论。
 
 [:en]
 The remaining [~type-specifier]s are discussed in the rest of this section.
+[:zh_CN]
+其余的[~类型说明符]在本节的余下部分中讨论。
 [exit:note]
 
 [include dcl.type.cv]

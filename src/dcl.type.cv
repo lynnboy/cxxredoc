@@ -1,5 +1,6 @@
 ﻿[section#dcl.type.cv
     [:en] The [~cv-qualifier]s
+    [:zh_CN] [~cv-限定符]
 ]
 
 [:en]
@@ -7,30 +8,48 @@
 [%initialization[![`const]]]
 [%type specifier[![`const]]]
 [%type specifier[![`volatile]]]
+[:zh_CN]
+[%说明符[!cv-限定符]]
+[%初始化[![`const]]]
+[%类型说明符[![`const]]]
+[%类型说明符[![`volatile]]]
 
 [para]
 [:en]
-There are two [~cv-qualifiers], [`const] and [`volatile].
+There are two [~cv-qualifier]s, [`const] and [`volatile].
+[:zh_CN]
+有两个 [~cv-限定符]，[`const] 和 [`volatile]。
 
 [:en]
 Each [~cv-qualifier] shall appear at most once in a [~cv-qualifier-seq].
+[:zh_CN]
+每个 [~cv-限定符]在 [~cv-限定符序列]中最多出现一次。
 
 [:en]
 If a [~cv-qualifier] appears in a [~decl-specifier-seq], the
 [~init-declarator-list] of the declaration shall not be empty.
+[:zh_CN]
+若在[~声明说明符序列]中出现了 [~cv-限定符]，则该声明式的[~初始化声明符列表]不应
+为空。
 
 [enter:note]
 [:en]
 [#basic.type.qualifier] and [#dcl.fct] describe how cv-qualifiers affect object
 and function types.
+[:zh_CN]
+[#basic.type.qualifier] 和 [#dcl.fct] 说明 cv-限定符如何影响对象和函数类型。
 [exit:note]
 
 [:en]
 Redundant cv-qualifications are ignored.
+[:zh_CN]
+多余的 cv-限定性被忽略。
 
 [enter:note]
 [:en]
 For example, these could be introduced by typedefs.
+[:zh_CN]
+例如，它们可能由 typedef 所引入。
 [exit:note]
 
 [para]
@@ -38,11 +57,17 @@ For example, these could be introduced by typedefs.
 [:en]
 Declaring a variable [`const] can affect its linkage ([#dcl.stc]) and its
 usability in constant expressions ([#expr.const]).
+[:zh_CN]
+将一个变量声明为 [`const] 将会影响它的连接性（[#dcl.stc]）以及它是否可被用在常量
+表达式中（[#expr.const]）。
 
 [:en]
 As described in [#dcl.init], the definition of an object or subobject of
 const-qualified type must specify an initializer or be subject to
 default-initialization.
+[:zh_CN]
+如在 [#dcl.init] 中所述，被 const-限定的类型的对象或子对象的定义式必须指定初始化
+式，或允许进行默认初始化。
 [exit:note]
 
 [para]
@@ -51,11 +76,18 @@ A pointer or reference to a cv-qualified type need not actually point or refer
 to a cv-qualified object, but it is treated as if it does; a const-qualified
 access path cannot be used to modify an object even if the object referenced is
 a non-const object and can be modified through some other access path.
+[:zh_CN]
+指向被 cv-限定的类型的指针或引用不必真的指向或指代被 cv-限定的对象，但它被认为是
+这样；即使被指代的对象是非-const 对象且可以通过某些其他访问路径进行改动，也不能
+使用被 const-限定的访问路径来改动该对象。
 
 [enter:note]
 [:en]
-Cv-qualifiers are supported by the type system so that they cannot be
-subverted without casting ([#expr.const.cast]).
+Cv-qualifiers are supported by the type system so that they cannot be subverted
+without casting ([#expr.const.cast]).
+[:zh_CN]
+cv-限定符是由类型系统所支持的，且不使用强制转换（[#expr.const.cast]）就不能推翻
+它们。
 [exit:note]
 
 [para]
@@ -64,29 +96,46 @@ subverted without casting ([#expr.const.cast]).
 Except that any class member declared [`mutable] ([#dcl.stc]) can be modified,
 any attempt to modify a [`const] object during its lifetime ([#basic.life])
 results in undefined behavior.
+[:zh_CN]
+[%[`const]-对象[!未定义的改动～]]
+除了声明为 [`mutable]（[#dcl.stc]）的任何类成员都可以改动外，在 [`const] 对象的
+生存期（[#basic.life]）中对其进行改动的任何尝试都导致未定义的行为。
 
 [enter:example]
 [codeblock]
 const int ci = 3;               // [:en] cv-qualified (initialized as required)
+                                // [|:zh_CN] cv-限定的（按要求进行了初始化）
 ci = 4;                         // [:en] ill-formed: attempt to modify [`const]
+                                // [|:zh_CN] 非良构：试图改动 [`const]
 
 int i = 2;                      // [:en] not cv-qualified
+                                // [|:zh_CN] 未被 cv-限定的
 const int* cip;                 // [:en] pointer to [`const int]
+                                // [|:zh_CN] [`const int] 的指针
 cip = &i;                       // [:en] OK: cv-qualified access path to unqualified
+                                // [|:zh_CN] OK：到未限定对象的被 cv-限定的访问路径
 *cip = 4;                       // [:en] ill-formed: attempt to modify through ptr to [`const]
+                                // [|:zh_CN] 非良构：试图通过 [`const] 指针进行改动
 
 int* ip;
 ip = const_cast<int*>(cip);     // [:en] cast needed to convert [`const int*] to [`int*]
+                                // [|:zh_CN] 需要从 [`const int*] 到 [`int*] 的强制转换
 *ip = 4;                        // [:en] defined: [`*ip] points to [`i], a non-[`const] object
+                                // [|:zh_CN] 有定义的：[`*ip] 指向了 [`i]，一个非 [`const] 对象
 
 const int* ciq = new const int (3);     // [:en] initialized as required
+                                        // [|:zh_CN] 按要求进行了初始化
 int* iq = const_cast<int*>(ciq);        // [:en] cast required
+                                        // [|:zh_CN] 需要进行强制转换
 *iq = 4;                                // [:en] undefined: modifies a [`const] object
+                                        // [|:zh_CN] 未定义的：改动 [`const] 对象
 [codeblock:end]
 
 [para]
 [:en]
 For another example
+[:zh_CN]
+又例如
 
 [codeblock]
 struct X {
@@ -100,10 +149,15 @@ struct Y {
 
 const Y y;
 y.x.i++;                        // [:en] well-formed: [`mutable] member can be modified
+                                // [|:zh_CN] 良构：可以改动 [`mutable] 成员
 y.x.j++;                        // [:en] ill-formed: [`const]-qualified member modified
+                                // [|:zh_CN] 非良构：改动了被 [`const]-限定的成员
 Y* p = const_cast<Y*>(&y);      // [:en] cast away const-ness of [`y]
+                                // [|:zh_CN] 强制移除 [`y] 的常量性
 p->x.i = 99;                    // [:en] well-formed: [`mutable] member can be modified
+                                // [|:zh_CN] 良构：可以改动 [`mutable] 成员
 p->x.j = 99;                    // [:en] undefined: modifies a [`const] member
+                                // [|:zh_CN] 未定义的：改动了 [`const] 成员
 [codeblock:end]
 [exit:example]
 
@@ -111,30 +165,45 @@ p->x.j = 99;                    // [:en] undefined: modifies a [`const] member
 [:en]
 What constitutes an access to an object that has volatile-qualified type is
 implementation-defined.
+[:zh_CN]
+对具有 volatile-限定的类型的对象的访问是如何构成的是由实现定义的。
 
 [:en]
 If an attempt is made to refer to an object defined with a volatile-qualified
 type through the use of a glvalue with a non-volatile-qualified type, the
 program behavior is undefined.
+[:zh_CN]
+如果试图通过使用非-volatile-限定的类型的泛左值来指代定义为带有被 volatile-限定的
+类型的对象，程序的行为是未定义的。
 
 [para]
+[enter:note]
 [:en]
 [%type specifier[![`volatile]]]
 [%[`volatile][!implementation-defined]]
-[enter:note]
-[:en]
 [`volatile] is a hint to the implementation to avoid aggressive optimization
 involving the object because the value of the object might be changed by means
 undetectable by an implementation.
+[:zh_CN]
+[%类型说明符[![`volatile]]]
+[%[`volatile][!由实现定义的]]
+[`volatile] 是对实现的提示，用以避免对该对象的过度优化，因为该对象的值可能以实现
+无法察觉的方式改变。
 
 [:en]
 Furthermore, for some implementations, [`volatile] might indicate that special
 hardware instructions are required to access the object.
+[:zh_CN]
+此外，一些实现中可能用 [`volatile] 指出访问对象时需要特殊的硬件指令。
 
 [:en]
 See [#intro.execution] for detailed semantics.
+[:zh_CN]
+关于其语义的细节，参见 [#intro.execution]。
 
 [:en]
 In general, the semantics of [`volatile] are intended to be the same in [=Cpp]
 as they are in C.
+[:zh_CN]
+一般来说，[`volatile] 在 [=Cpp] 中的语义特意与其在 C 中的语义保持一致。
 [exit:note]
