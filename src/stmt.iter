@@ -1,38 +1,46 @@
 ﻿[section#stmt.iter
     [:en] Iteration statements
+    [:zh_CN] 循环语句
 ]
 
 [%:begin#statement.iteration
     [:en] statement[!iteration]
+    [:zh_CN] 语句[!循环～]
 ]
 
 [para]
 [:en]
 Iteration statements specify looping.
+[:zh_CN]
+循环语句指定循环。
 
 [:en]
 [%statement[![`while]]]
 [%statement[![`do]]]
 [%statement[![`for]]]
+[:zh_CN]
+[%语句[![`while]]]
+[%语句[![`do]]]
+[%语句[![`for]]]
 
 [syntax]
-[rule iteration-statement [:zh_CN] ]
+[rule iteration-statement [:zh_CN] 循环语句 ]
     [| [`while] [`(] condition [`)] statement ]
     [| [`do] statement [`while] [`(] expression [`)] [`;] ]
     [| [`for] [`(] for-init-statement [~:opt condition] [`;] [~:opt expression] [`)] statement ]
     [| [`for] [`(] for-range-declaration [`:] for-range-initializer [`)] statement ]
 [rule:end]
 
-[rule for-init-statement [:zh_CN] ]
+[rule for-init-statement [:zh_CN] for-初始化语句 ]
     [| expression-statement ]
     [| simple-declaration ]
 [rule:end]
 
-[rule for-range-declaration [:zh_CN] ]
+[rule for-range-declaration [:zh_CN] for-范围声明式 ]
     [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator ]
 [rule:end]
 
-[rule for-range-initializer [:zh_CN] ]
+[rule for-range-initializer [:zh_CN] for-范围初始化式 ]
     [| expression ]
     [| braced-init-list ]
 [rule:end]
@@ -41,22 +49,33 @@ Iteration statements specify looping.
 [:en]
 See [#dcl.meaning] for the optional [~attribute-specifier-seq] in a
 [~for-range-declaration].
+[:zh_CN]
+关于[~for-范围声明式]中的[~特性说明符序列]，参见 [#dcl.meaning]。
 
 [enter:note]
 [:en]
 A [~for-init-statement] ends with a semicolon.
+[:zh_CN]
+[~for-初始化语句]以分号结尾。
 [exit:note]
 
 [para]
 [:en]
 The substatement in an [~iteration-statement] implicitly defines a block scope
 ([#basic.scope]) which is entered and exited each time through the loop.
+[:zh_CN]
+[~循环语句]中的子语句隐式定义了一个块作用域（[#basic.scope]），循环每次经过时都
+进入和退出该作用域。
 
 [:en]
 [%scope[![~iteration-statement]]]
 If the substatement in an iteration-statement is a single statement and not a
 [~compound-statement], it is as if it was rewritten to be a compound-statement
 containing the original statement.
+[:zh_CN]
+[%作用域[![~循环语句]的～]]
+若[~循环语句]中的子语句是单个语句而不是[~组合语句]，则如同把它重写为包含该原语句
+的组合语句一样。
 
 [enter:example]
 [codeblock]
@@ -66,6 +85,8 @@ while (--x >= 0)
 
 [:en]
 can be equivalently rewritten as
+[:zh_CN]
+可被等价地重写为
 
 [codeblock]
 while (--x >= 0) {
@@ -76,6 +97,8 @@ while (--x >= 0) {
 [para]
 [:en]
 Thus after the [`while] statement, [`i] is no longer in scope.
+[:zh_CN]
+故在 [`while] 语句之后，[`i] 不再处于作用域中。
 [exit:example]
 
 [para]
@@ -83,6 +106,8 @@ Thus after the [`while] statement, [`i] is no longer in scope.
 [:en]
 The requirements on [~condition]s in iteration statements are described in
 [#stmt.select].
+[:zh_CN]
+对循环语句中的[~条件]的规定在 [#stmt.select] 中说明。
 [exit:note]
 
 [include stmt.while]

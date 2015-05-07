@@ -1,15 +1,19 @@
 ﻿[section#stmt.label
     [:en] Labeled statement
+    [:zh_CN] 带标号语句
 ]
 
 [para]
 [:en]
 [%statement[!labeled]]
-[%[`:][!label~specifier]]
+[%[`:][!label specifier]]
 A statement can be labeled.
+[:zh_CN]
+[%语句[!带标号～]]
+[%[`:][!标号说明符]]
 
 [syntax]
-[rule labeled-statement [:zh_CN] ]
+[rule labeled-statement [:zh_CN] 带标号语句 ]
     [| [~:opt attribute-specifier-seq] identifier [`:] statement ]
     [| [~:opt attribute-specifier-seq] [`case] constant-expression [`:] statement ]
     [| [~:opt attribute-specifier-seq] [`default] [`:] statement ]
@@ -18,30 +22,50 @@ A statement can be labeled.
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the label.
+[:zh_CN]
+可选的[~特性说明符序列]属于标号。
 
 [:en]
 An identifier label declares the identifier.
+[:zh_CN]
+标识符标号声明了其标识符。
 
 [:en]
 The only use of an identifier label is as the target of a
 [%statement[![`goto]]] [`goto].
+[:zh_CN]
+标识符标号仅能用作 [%语句[![`goto]]] [`goto] 的目标。
 
 [:en]
 [%label[!scope of]]
 The scope of a label is the function in which it appears.
+[:zh_CN]
+[%标号[!～的作用域]]
+标号的作用域是它所在的函数。
 
 [:en]
 Labels shall not be redeclared within a function.
+[:zh_CN]
+标号不能在函数中重复声明。
 
 [:en]
 A label can be used in a [`goto] statement before its definition.
+[:zh_CN]
+可以在标号的定义之前就在 [`goto] 语句中使用它。
 
 [:en]
 [%name space[!label]]
 Labels have their own name space and do not interfere with other identifiers.
+[:zh_CN]
+[%命名空间[!标号的～]]
+标号有它自己的命名空间，并不与其他标识符相干扰。
 
 [para]
 [:en]
 [%label[![`case]]]
 [%label[![`default]]]
 Case labels and default labels shall occur only in switch statements.
+[:zh_CN]
+[%标号[![`case]]]
+[%标号[![`default]]]
+Case 标号和 default 标号只能出现在 switch 语句中。

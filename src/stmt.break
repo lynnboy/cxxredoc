@@ -1,14 +1,19 @@
 ﻿[section#stmt.break
     [:en] The [`break] statement
+    [:zh_CN] [`break] 语句
 ]
 
 [%  [:en] statement[![`break]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[![`break]] ]
 
 [para]
 [:en]
-The [`break] statement shall occur only in an
-[%[~iteration-statement]] [%statement[![`switch]]]
-[~iteration-statement] or a [`switch] statement and causes termination of the
-smallest enclosing [~iteration-statement] or [`switch] statement; control passes
-to the statement following the terminated statement, if any.
+The [`break] statement shall occur only in an [%[~iteration-statement]]
+[~iteration-statement] or a [%statement[![`switch]]] [`switch] statement and
+causes termination of the smallest enclosing [~iteration-statement] or [`switch]
+statement; control passes to the statement following the terminated statement,
+if any.
+[:zh_CN]
+[`break] 语句只能在[%[~循环语句]] [~循环语句]或 [%语句[![`switch]]][`switch]
+语句中出现，并导致终止其最小的外围[~循环语句]或 [`switch] 语句；控制传递到跟在被
+终止的语句之后的语句（如果有）。

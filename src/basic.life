@@ -423,7 +423,7 @@ exit from the block for an object with automatic storage duration, upon exit
 from the thread for an object with thread storage duration, or upon exit from
 the program for an object with static storage duration.
 [:zh_CN]
-就是说，某个析构函数将被隐式调用的对象——具有自动存储期的对象的所在块退出时，
+就是说，某个析构函数将被隐式调用的对象——具有自动存储期的对象的所在语句块退出时，
 具有线程存储期的对象的线程退出时，或者具有静态存储期的对象在程序退出时。
 [footnote:end]
 
@@ -438,7 +438,7 @@ behavior of the program is undefined.
 [:en]
 This is true even if the block is exited with an exception.
 [:zh_CN]
-即使块的退出是由异常引发的也应如此。
+即使语句块的退出是由异常引发的也应如此。
 
 [enter:example]
 
@@ -452,7 +452,7 @@ void h() {
    B b;
    new (&b) T;
 }                               // [:en] undefined behavior at block exit
-                                // [|:zh_CN] 块退出时具有未定义行为
+                                // [|:zh_CN] 语句块退出时具有未定义行为
 [codeblock:end]
 [exit:example]
  

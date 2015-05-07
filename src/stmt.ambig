@@ -1,63 +1,92 @@
 ﻿[section#stmt.ambig
     [:en] Ambiguity resolution
+    [:zh_CN] 歧义消解
 ]
 
 [%  [:en] ambiguity[!declaration versus expression]
-    [:zh_CN] ]
+    [:zh_CN] 歧义[!声明式和表达式之间的～] ]
 
 [para]
 [:en]
 There is an ambiguity in the grammar involving [~expression-statement]s and
 [~declaration]s:
+[:zh_CN]
+涉及[~表达式语句]和[~声明式]的文法中存在歧义：
 
 [:en]
 An [~expression-statement] with a function-style explicit type conversion
 ([#expr.type.conv]) as its leftmost subexpression can be indistinguishable from
 a [~declaration] where the first [~declarator] starts with a [`(].
+[:zh_CN]
+以函数风格的显式类型转换（[#expr.type.conv]）作为其最左边的子表达式的[~表达式
+语句]可能与由 [`(] 开始其第一个[~声明符]的[~声明式]之间无法区分。
 
 [:en]
 In those cases the [~statement] is a [~declaration].
+[:zh_CN]
+这些情况中的语句都是声明式。
 
 [para]
 [enter:note]
 [:en]
 If the [~statement] cannot syntactically be a [~declaration], there is no
 ambiguity, so this rule does not apply.
+[:zh_CN]
+如果该[~语句]在语法上不能为[~声明式]，则不存在歧义，且不适用这条规则。
 
 [:en]
 The whole [~statement] might need to be examined to determine whether this is
 the case.
+[:zh_CN]
+可能必须检查整个[~语句]以确定它是否属于这种情况。
 
 [:en]
 This resolves the meaning of many examples.
+[:zh_CN]
+这样可以消除许多例子中的歧义。
 
 [enter:example]
 [:en]
 Assuming [`T] is a [~simple-type-specifier] ([#dcl.type]),
+[:zh_CN]
+假设 [`T] 是[~简单类型说明符]（[#dcl.type]），
 
 [codeblock]
 T(a)->m = 7;        // [:en] expression-statement
+                    // [|:zh_CN] 表达式语句
 T(a)++;             // [:en] expression-statement
+                    // [|:zh_CN] 表达式语句
 T(a,5)<<c;          // [:en] expression-statement
+                    // [|:zh_CN] 表达式语句
 
 T(*d)(int);         //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(e)[5];            //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(f) = { 1, 2 };    //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(*g)(double(3));   //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 [codeblock:end]
 
 [:en]
 In the last example above, [`g], which is a pointer to [`T], is initialized to
 [`double(3)].
+[:zh_CN]
+在上面最后一个例子中，指向 [`T] 的指针 [`g] 被初始化为 [`double(3)]。
 
 [:en]
 This is of course ill-formed for semantic reasons, but that does not affect the
 syntactic analysis.
+[:zh_CN]
+这在语义上讲当然是非良构的，但这并不影响语法分析。
 [exit:example]
 
 [para:~]
 [:en]
 The remaining cases are [~declaration]s.
+[:zh_CN]
+其余的情况都是声明式。
 
 [enter:example]
 [codeblock]
@@ -69,11 +98,16 @@ public:
   T(int, int);
 };
 T(a);               //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(*b)();            //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(c)=7;             //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 T(d),e,f=3;         //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 extern int h;
 T(g)(h,2);          //  [:en] declaration
+                    //  [|:zh_CN] 声明式
 [codeblock:end]
 [exit:example]
 [exit:note]
@@ -83,25 +117,39 @@ T(g)(h,2);          //  [:en] declaration
 The disambiguation is purely syntactic; that is, the meaning of the names
 occurring in such a statement, beyond whether they are [~type-name]s or not, is
 not generally used in or changed by the disambiguation.
+[:zh_CN]
+歧义消解纯粹是语法上的；就是说，出现于这种语句中的名字的含义，除了它们是否是
+[~类型名]之外，通常并不会在歧义消解过程中被使用或被改变。
 
 [:en]
 Class templates are instantiated as necessary to determine if a qualified name
 is a [~type-name].
+[:zh_CN]
+为确定一个限定名是否是[~类型名]，当需要时将会对类模板进行实例化。
 
 [:en]
 Disambiguation precedes parsing, and a statement disambiguated as a declaration
 may be an ill-formed declaration.
+[:zh_CN]
+歧义消解在语法解析之前进行，而且被歧义消解为声明式的语句可能是非良构的声明式。
 
 [:en]
 If, during parsing, a name in a template parameter is bound differently than it
 would be bound during a trial parse, the program is ill-formed.
+[:zh_CN]
+在进行语法解析时，如果某个模板形参中的名字的绑定与其在简单的解析中所绑定的不同，
+则程序非良构。
 
 [:en]
 No diagnostic is required.
+[:zh_CN]
+无须诊断。
 
 [enter:note]
 [:en]
 This can occur only when the name is declared earlier in the declaration.
+[:zh_CN]
+这种情况只有当名字在声明式中已于之前声明过才会发生。
 [exit:note]
 
 [enter:example]
@@ -115,15 +163,23 @@ struct T2 { T2(int){ } };
 int a, (*(*b)(T2))(int), c, d;
 
 void f() {
-  // disambiguation requires this to be parsed as a declaration:
+  // [:en] disambiguation requires this to be parsed as a declaration:
+  // [|:zh_CN] 歧义消解要求它被解析为声明式
   T1(a) = 3,
   T2(4),                        // [:en] [`T2] will be declared as
+                                // [|:zh_CN] [`T2] 将被声明为
   (*(*b)(T2(c)))(int(d));       // [:en@~] a variable of type [`T1]
+                                // [|:zh_CN@~] 类型 [`T1] 的变量
                                 // [:en@~] but this will not allow
+                                // [|:zh_CN@~] 但这样就导致了
                                 // [:en@~] the last part of the
+                                // [|:zh_CN@~] 此声明式的最后部分
                                 // [:en@~] declaration to parse
+                                // [|:zh_CN@~] 无法正确地进行解析
                                 // [:en@~] properly since it depends
+                                // [|:zh_CN@~] 因为它依赖于
                                 // [:en@~] on [`T2] being a type-name
+                                // [|:zh_CN@~] [`T2] 是个类型名
 }
 [codeblock:end]
 [exit:example]

@@ -1,9 +1,11 @@
 ﻿[section:chapter#stmt.stmt
     [:en] Statements
+    [:zh_CN] 语句
 ]
 
 [%:begin#statement
     [:en] statement
+    [:zh_CN] 语句
 ]
 
 [/
@@ -11,15 +13,17 @@
 %gram:
 /]
 
-[%  [:en] block statement [see statement, compound]
-    [:zh_CN] ]
+[%  [:en] block statement [see statement [!compound]]
+    [:zh_CN] 块语句 [see 语句[!组合～]] ]
 
 [para]
 [:en]
 Except as indicated, statements are executed in sequence.
+[:zh_CN]
+除非明确指出，否则语句都是按顺序执行的。
 
 [syntax]
-[rule statement [:zh_CN] ]
+[rule statement [:zh_CN] 语句 ]
     [| labeled-statement ]
     [| [~:opt attribute-specifier-seq] expression-statement ]
     [| [~:opt attribute-specifier-seq] compound-statement ]
@@ -33,6 +37,8 @@ Except as indicated, statements are executed in sequence.
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the respective statement.
+[:zh_CN]
+可选的[~特性说明符序列]属于相应的语句。
 
 [include stmt.label]
 

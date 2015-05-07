@@ -1,38 +1,55 @@
 ﻿[section#stmt.expr
     [:en] Expression statement
+    [:zh_CN] 表达式语句
 ]
 
 [:en]
 [%statement[!expression]]
+[:zh_CN]
+[%语句[!表达式～]]
 
 [para]
 [:en]
 Expression statements have the form
+[:zh_CN]
+表达式语句的形式为
 
 [syntax]
-[rule expression-statement [:zh_CN] ]
+[rule expression-statement [:zh_CN] 表达式语句 ]
     [| [~:opt expression] [`;] ]
 [rule:end]
 [syntax:end]
 
 [:en]
 The expression is a discarded-value expression (Clause [#expr]).
+[:zh_CN]
+表达式是丢弃值的表达式（第 [#expr] 条）。
 
 [:en]
 All [%side effects] side effects from an expression statement are completed
 before the next statement is executed.
+[:zh_CN]
+表达式语句造成的所有[%副作用]副作用，都在下一个表达式执行之前完成。
 
 [:en]
 [%statement[!null]] [%statement[!empty]]
 An expression statement with the expression missing is called a null statement.
+[:zh_CN]
+[%语句[!空～]] [%语句[!空～]]
+没有表达式的表达式语句被称为空语句。
 
 [enter:note]
 [:en]
 Most statements are expression statements [=--] usually assignments or function
 calls.
+[:zh_CN]
+大多数语句都是表达式语句——它们通常是赋值或函数调用。
 
 [:en]
 A null statement is useful to carry a label just before the [`\] of a compound
 statement and to supply a null body to an iteration statement such as a [`while]
 statement ([#stmt.while]).
+[:zh_CN]
+空语句的用处是，在组合语句的 [`}] 之前设置标号，以及为如 [`while] 语句
+（[#stmt.while]）这样的循环语句提供空的执行体。
 [exit:note]

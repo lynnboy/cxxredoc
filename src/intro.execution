@@ -207,8 +207,8 @@ Such an object exists and retains its last-stored value during the execution of
 the block and while the block is suspended (by a call of a function or receipt
 of a signal).
 [:zh_CN]
-这些对象将在该块的执行期间，以及当该块（因调用函数或接收信号而）被挂起时存在，
-并保持其最近保存的值。
+这些对象将在该语句块的执行期间，以及当该语句块（因调用函数或接收信号而）被挂起时
+存在，并保持其最近保存的值。
 
 [para]
 [:en]

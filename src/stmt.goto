@@ -1,15 +1,20 @@
 ﻿[section#stmt.goto
     [:en] The [`goto] statement
+    [:zh_CN] [`goto] 语句
 ]
 
 [%  [:en] statement[![`goto]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[![`goto]] ]
 
 [para]
 [:en]
 The [`goto] statement unconditionally transfers control to the statement labeled
 by the identifier.
+[:zh_CN]
+[`goto] 语句无条件地将控制转移到以标识符为标号的语句。
 
 [:en]
 The identifier shall be a [%label] label ([#stmt.label]) located in the current
 function.
+[:zh_CN]
+这个标识符应当是位于当前函数中的一个[%标号]标号（[#stmt.label]）。

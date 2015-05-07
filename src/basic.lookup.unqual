@@ -129,10 +129,10 @@ shall be declared before its use in namespace [`N] or, if [`N] is a nested
 namespace, shall be declared before its use in one of [`N][=']s enclosing
 namespaces.
 [:zh_CN@~]
-之后所使用的名字，应当在使用它的块或其外围块（[#stmt.block]）之一之中，在其被
-使用之前进行声明，或者应当在命名空间 [`N] 之中，在其被使用之前进行声明，或者当
-[`N] 为嵌套的命名空间时，应当在 [`N] 的外围命名空间之一之中，在其被使用之前进行
-声明。
+之后所使用的名字，应当在使用它的语句块或其外围语句块（[#stmt.block]）之一之中，
+在其被使用之前进行声明，或者应当在命名空间 [`N] 之中，在其被使用之前进行声明，
+或者当 [`N] 为嵌套的命名空间时，应当在 [`N] 的外围命名空间之一之中，在其被使用
+之前进行声明。
 
 [enter:example]
 
@@ -223,7 +223,7 @@ before the definition of class [`X] in a block enclosing the definition of class
 [`X], or
 [:zh_CN]
 若 [`X] 是局部类（[#class.local]）或是局部类的嵌套类，则处于包含类 [`X] 的定义式
-的某个块之中，在类 [`X] 的定义式之前，或者
+的某个语句块之中，在类 [`X] 的定义式之前，或者
 
 [item]
 [:en]
@@ -331,7 +331,7 @@ That is, an unqualified name that occurs, for instance, in a type in the
 before its use in the block in which it is used or in an enclosing block
 ([#stmt.block]), or
 [:zh_CN]
-在使用它的块或其某个外围块（[#stmt.block]）之中，处于其被使用之前，或者
+在使用它的语句块或其某个外围语句块（[#stmt.block]）之中，处于其被使用之前，或者
 
 [item]
 [:en]
@@ -370,8 +370,8 @@ if [`X] is a local class ([#class.local]) or is a nested class of a local class,
 before the definition of class [`X] in a block enclosing the definition of class
 [`X], or
 [:zh_CN]
-若 [`X] 是局部类（[#class.local]）或是局部类的嵌套类，则在包含类 [`X] 的某个块之
-中，处于类 [`X] 的定义式之前，或者
+若 [`X] 是局部类（[#class.local]）或是局部类的嵌套类，则在包含类 [`X] 的某个语句
+块之中，处于类 [`X] 的定义式之前，或者
 
 [item]
 [:en]
@@ -506,8 +506,8 @@ block, class or namespace scopes containing the function declaration.
 [:zh_CN]
 对于在函数的[~形参声明子句]中用作默认实参（[#dcl.fct.default]），或在构造函数
 的一个[~成员初始化式]（[#class.base.init]）中的[~表达式]中使用的名字，当对其进行
-查找时，函数形参名可见，并将隐藏声明于包含该函数声明式的块、类或命名空间作用域
-之中的实体的名字。
+查找时，函数形参名可见，并将隐藏声明于包含该函数声明式的语句块、类或命名空间作用
+域之中的实体的名字。
 
 [enter:note]
 [:en]
@@ -531,8 +531,8 @@ are visible and hide the names of entities declared in the block, class, or
 namespace scopes containing the [~enum-specifier].
 [:zh_CN]
 当对[~枚举符定义式]的[~常量表达式]之中所使用的名字进行查找时，该枚举中早前声明的
-[~枚举符]可见，并将隐藏声明于包含该[~枚举说明符]的块、类或命名空间作用域中的实体
-的名字。
+[~枚举符]可见，并将隐藏声明于包含该[~枚举说明符]的语句块、类或命名空间作用域中的
+实体的名字。
 
 [para]
 [:en]
@@ -584,22 +584,22 @@ looked up as if the name was used in the outermost block of the function
 definition.
 [:zh_CN]
 在[~函数-try-块]（第 [#except] 条）的某个处理器中使用的名字，按照如同该名字被
-使用于该函数定义式的最外层块中来进行查找。
+使用于该函数定义式的最外层语句块中来进行查找。
 
 [:en]
 In particular, the function parameter names shall not be redeclared in the
 [~exception-declaration] nor in the outermost block of a handler for the
 [~function-try-block].
 [:zh_CN]
-特别是，既不能在[~异常声明]中，也不能在[~函数-try-块]的任何处理器的最外层块中
-重复声明函数形参名。
+特别是，既不能在[~异常声明]中，也不能在[~函数-try-块]的任何处理器的最外层语句块
+中重复声明函数形参名。
 
 [:en]
 Names declared in the outermost block of the function definition are not found
 when looked up in the scope of a handler for the [~function-try-block].
 [:zh_CN]
-在[~函数-try-块]的某个处理器的作用域中查找时，不会找到函数定义式的最外层块中声明
-的名字。
+在[~函数-try-块]的某个处理器的作用域中查找时，不会找到函数定义式的最外层语句块中
+声明的名字。
 
 [enter:note]
 [:en]

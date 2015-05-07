@@ -1,33 +1,45 @@
 ﻿[section#stmt.switch
     [:en] The [`switch] statement
+    [:zh_CN] [`switch] 语句
 ]
 
 [%  [:en] statement[![`switch]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[![`switch]] ]
 
 [para]
 [:en]
 The [`switch] statement causes control to be transferred to one of several
 statements depending on the value of a condition.
+[:zh_CN]
+[`switch] 语句导致控制依据条件的值被转移到几个语句之一。
 
 [para]
 [:en]
 The condition shall be of integral type, enumeration type, or class type.
+[:zh_CN]
+其条件应当为整型类型，枚举类型，或者类类型。
 
 [:en]
 If of class type, the condition is contextually implicitly converted (Clause
 [#conv]) to an integral or enumeration type.
+[:zh_CN]
+若为类类型，则条件被按语境隐式转换（第 [#conv] 条）为整型或枚举类型。
 
 [:en]
 If the (possibly converted) type is subject to integral promotions
 ([#conv.prom]), the condition is converted to the promoted type. 
+[:zh_CN]
+若（可能进行了转换的）类型符合整型提升（[#conv.prom]），则条件被转换为提升后的
+类型。
 
 [:en]
 Any statement within the [`switch] statement can be labeled with one or more
 case labels as follows:
+[:zh_CN]
+[`switch] 语句中的任何语句都可以带有如下的一个或多个 case 标号：
 
 [%  [:en] label[![`case]]
-    [:zh_CN] ]
+    [:zh_CN] 标号[![`case]] ]
 [syntax:explanation]
 [`case] [~constant-expression] [`:]
 [syntax:end]
@@ -35,15 +47,23 @@ case labels as follows:
 [:en@~]
 where the [~constant-expression] shall be a converted constant expression
 ([#expr.const]) of the adjusted type of the switch condition.
+[:zh_CN@~]
+其中的[~常量表达式]应当是 switch 条件的调整后类型的经转换的常量表达式
+（[#expr.const]）。
 
 [:en]
 No two of the case constants in the same switch shall have the same value after
 conversion.
+[:zh_CN]
+转换后，同一个 switch 中的任何两个 case 常量都不能具有相同的值。
 
 [para]
 [:en]
 [%label[![`default]]]
 There shall be at most one label of the form
+[:zh_CN]
+[%标号[![`default]]]
+[`switch] 语句中，形式为
 
 [codeblock:notation]
 default :
@@ -51,46 +71,71 @@ default :
 
 [:en@~]
 within a [`switch] statement.
+[:zh_CN@~]
+的标号至多可以有一个。
 
 [para]
 [:en]
 Switch statements can be nested; a [`case] or [`default] label is associated
 with the smallest switch enclosing it.
+[:zh_CN]
+switch 语句可以嵌套；[`case] 或 [`default] 标号与围绕它的最小的 switch 相关联。
 
 [para]
 [:en]
 When the [`switch] statement is executed, its condition is evaluated and
 compared with each case constant.
+[:zh_CN]
+当执行 [`switch] 语句时，对其条件求值并与每个 case 常量进行比较。
 
 [:en]
 [%label[![`case]]]
 If one of the case constants is equal to the value of the condition, control is
 passed to the statement following the matched case label.
+[:zh_CN]
+[%标号[![`case]]]
+若其 case 常量之一等于条件的值，则控制被传递到紧跟这个匹配 case 标号之后的语句。
 
 [:en]
 If no case constant matches the condition, and if there is a
 [%label[![`default]]] [`default] label, control passes to the statement labeled
 by the default label.
+[:zh_CN]
+若没有与条件相匹配的 case 常量，且若存在 [%标号[![`default]]] [`default] 标号，
+则控制被传递到标记了 default 标号的语句。
 
 [:en]
 If no case matches and if there is no [`default] then none of the statements in
 the switch is executed.
+[:zh_CN]
+若没有匹配的 case 且没有 [`default]，则 switch 中的语句都不执行。
 
 [para]
 [:en]
 [`case] and [`default] labels in themselves do not alter the flow of control,
 which continues unimpeded across such labels.
+[:zh_CN]
+[`case] 和 [`default] 标号本身并不改变控制流，控制流不受阻碍地穿过这些标号继续
+进行。
 
 [:en]
 To exit from a switch, see [`break], [#stmt.break].
+[:zh_CN]
+要退出 switch，参见 [`break]，[#stmt.break]。
 
 [enter:note]
 [:en]
 Usually, the substatement that is the subject of a switch is compound and
 [`case] and [`default] labels appear on the top-level statements contained
 within the (compound) substatement, but this is not required.
+[:zh_CN]
+通常情况下，属于某个 switch 的子语句是组合语句，而 [`case] 和 [`default] 标号
+出现在该（组合）子语句中所包含的顶层语句上，但这并不是必须的。
 
 [:en]
 [%statement[!declaration in [`switch]]]
-Declarations can appear in the substatement of a [~switch-statement].
+Declarations can appear in the substatement of a [+switch-statement].
+[:zh_CN]
+[%语句[![`switch]～中的声明式]]
+[+switch-语句]的子语句中可以出现声明式。
 [exit:note]

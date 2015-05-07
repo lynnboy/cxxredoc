@@ -1,14 +1,16 @@
 ﻿[section#stmt.jump
     [:en] Jump statements
+    [:zh_CN] 跳转语句
 ]
 
 [%  [:en] statement[!jump]
-    [:zh_CN] ]
+    [:zh_CN] 语句[!跳转～] ]
 
 [para]
 [:en]
-[%statement[!jump]]
 Jump statements unconditionally transfer control.
+[:zh_CN]
+跳转语句无条件地转移控制。
 
 [:en]
 [%statement[![`break]]]
@@ -16,9 +18,15 @@ Jump statements unconditionally transfer control.
 [%[`return] statement[see [`return]]]
 [%[`return]]
 [%statement[![`goto]]]
+[:zh_CN]
+[%语句[![`break]]]
+[%语句[![`continue]]]
+[%[`return] 语句[see [`return]]]
+[%[`return]]
+[%语句[![`goto]]]
 
 [syntax]
-[rule jump-statement [:zh_CN] ]
+[rule jump-statement [:zh_CN] 跳转语句 ]
     [| [`break] [`;] ]
     [| [`continue] [`;] ]
     [| [`return] [~:opt expression] [`;] ]
@@ -34,10 +42,17 @@ Jump statements unconditionally transfer control.
 On exit from a scope (however accomplished), objects with automatic storage
 duration ([#basic.stc.auto]) that have been constructed in that scope are
 destroyed in the reverse order of their construction.
+[:zh_CN]
+[%局部变量[!～的销毁]]
+[%作用域[!析构函数与～的退出]]
+在（以无论何种方式）退出作用域时，该作用域中构造的每个带有自动存储期
+（[#basic.stc.auto]）的对象，按它们构造的相反顺序进行销毁。
 
 [enter:note]
 [:en]
 For temporaries, see [#class.temporary].
+[:zh_CN]
+对于临时对象，参见 [#class.temporary]。
 [exit:note]
 
 [:en]
@@ -45,18 +60,26 @@ Transfer out of a loop, out of a block, or back past an initialized variable
 with automatic storage duration involves the destruction of objects with
 automatic storage duration that are in scope at the point transferred from but
 not at the point transferred to.
+[:zh_CN]
+转移出循环，转移出语句块，或向后转移并越过具有自动存储期的已初始化的变量时，都涉
+及到对在转移源点处于作用域中，而在转移目的点不处于作用域中的具有自动存储期的对象
+进行销毁。
 
 [:en]
 (See [#stmt.dcl] for transfers into blocks).
+[:zh_CN]
+（关于向语句块中转移，参见 [#stmt.dcl]）。
 
 [enter:note]
 [:en]
 However, the program can be terminated (by calling
-[%[`exit]] [%@library exit]
-[`std::exit()] or
-[%[`abort]] [%@library abort]
-[`std::abort()] ([#support.start.term]), for example) without destroying class
-objects with automatic storage duration.
+[%[`exit]] [%@library exit] [`std::exit()] or
+[%[`abort]] [%@library abort] [`std::abort()] ([#support.start.term]), for
+example) without destroying class objects with automatic storage duration.
+[:zh_CN]
+然而，程序在终止（如通过调用 [%[`exit]] [%@library exit] [`std::exit()] 或
+[%[`abort]] [%@library abort] [`std::abort()]（[#support.start.term]））时，可以
+不销毁具有自动存储期的类对象。
 [exit:note]
 
 [include stmt.break]

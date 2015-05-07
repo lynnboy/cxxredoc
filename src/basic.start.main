@@ -160,7 +160,7 @@ function [`std::exit(int)] ([#support.start.term])) does not destroy any
 objects with automatic storage duration ([#class.dtor]).
 [:zh_CN]
 [%终止[!程序～]]
-在不离开当前代码块的情况下终止程序（例如调用函数 [`std::exit(int)]
+在不离开当前语句块的情况下终止程序（例如调用函数 [`std::exit(int)]
 （[#support.start.term]）），并不销毁任何具有自动存储期的对象（[#class.dtor]）。
 
 [:en]

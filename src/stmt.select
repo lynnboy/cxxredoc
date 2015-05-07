@@ -1,49 +1,67 @@
 ﻿[section#stmt.select
     [:en] Selection statements
+    [:zh_CN] 选择语句
 ]
 
 [%:begin#statement.selection
     [:en] statement [!selection]
+    [:zh_CN] 语句 [!选择～]
 ]
 
 [para]
 [:en]
 Selection statements choose one of several flows of control.
+[:zh_CN]
+选择语句在几个控制流中选取一个。
 
 [:en]
 [%statement[![`if]]]
 [%statement[![`switch]]]
+[:zh_CN]
+[%语句[![`if]]]
+[%语句[![`switch]]]
 
 [syntax]
-[rule selection-statement [:zh_CN] ]
+[rule selection-statement [:zh_CN] 选择语句 ]
     [| [`if] [`(] condition [`)] statement ]
     [| [`if] [`(] condition [`)] statement [`else] statement ]
     [| [`switch] [`(] condition [`)] statement ]
 [rule:end]
 
-[rule condition [:zh_CN] ]
+[rule condition [:zh_CN] 条件 ]
     [| expression ]
     [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator [`=] initializer-clause ]
-    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator braced-init-list
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator braced-init-list ]
 [rule:end]
 [syntax:end]
 
 [:en]
 See [#dcl.meaning] for the optional [~attribute-specifier-seq] in a condition.
+[:zh_CN]
+关于条件中的[~特性说明符序列]，参见 [#dcl.meaning]。
 
 [:en]
 In Clause [#stmt.stmt], the term [+substatement] refers to the contained
 [~statement] or [~statement]s that appear in the syntax notation.
+[:zh_CN]
+在第 [#stmt.stmt] 条中，术语[+子语句]代表各语法记述中所出现的一个或多个[~语句]。
 
 [:en]
 [%scope[![~selection-statement]]]
 The substatement in a [~selection-statement] (each substatement, in the [`else]
 form of the [`if] statement) implicitly defines a block scope ([#basic.scope]).
+[:zh_CN]
+[%作用域[![~选择语句]的～]]
+[~选择语句]中的子语句（[`else] 形式的 [`if] 语句中的每个子语句），隐式定义了一个
+块作用域（[#basic.scope]）。
 
 [:en]
-If the substatement in a selection-statement is a single statement and not a
+If the substatement in a [~selection-statement] is a single statement and not a
 [~compound-statement], it is as if it was rewritten to be a compound-statement
 containing the original substatement.
+[:zh_CN]
+若[~选择语句]中的子语句是单个语句而不是[~组合语句]，则如同把它重写为包含该原语句
+的组合语句一样。
 
 [enter:example]
 [codeblock]
@@ -53,6 +71,8 @@ if (x)
 
 [:en]
 can be equivalently rewritten as
+[:zh_CN]
+可被等价地重写为
 
 [codeblock]
 if (x) {
@@ -62,6 +82,8 @@ if (x) {
 
 [:en]
 Thus after the [`if] statement, [`i] is no longer in scope.
+[:zh_CN]
+故在 [`if] 语句之后，[`i] 不再处于作用域中。
 [exit:example]
 
 [para]
@@ -69,17 +91,28 @@ Thus after the [`if] statement, [`i] is no longer in scope.
 [%[~condition]s[!rules for]]
 The rules for [~condition]s apply both to [~selection-statement]s and to the
 [`for] and [`while] statements ([#stmt.iter]).
+[:zh_CN]
+[%[~条件][!～的规则]]
+关于条件的规则既适用于[~选择语句]也适用于 [`for] 和 [`while] 语句
+（[#stmt.iter]）。
 
 [:en]
 The [~declarator] shall not specify a function or an array.
+[:zh_CN]
+其[~声明符]不能指定函数或数组。
 
 [:en]
 The [~decl-specifier-seq] shall not define a class or enumeration.
+[:zh_CN]
+其[~声明说明符序列]不能定义类或枚举。
 
 [:en]
 If the [`auto] [~type-specifier] appears in the [~decl-specifier-seq], the type
 of the identifier being declared is deduced from the initializer as described in
 [#dcl.spec.auto].
+[:zh_CN]
+若在[~类型说明符序列]中出现了 [`auto] [~类型说明符]，则按 [#dcl.spec.auto] 中的
+描述从初始化式中推断出被声明的标识符的类型。
 
 [para]
 [:en]
@@ -89,18 +122,28 @@ A name introduced by a declaration in a [~condition] (either introduced by the
 [~decl-specifier-seq] or the [~declarator] of the condition) is in scope from
 its point of declaration until the end of the substatements controlled by the
 condition.
+[:zh_CN]
+[%语句[![`if]～中的声明式]]
+[%语句[![`switch]～中的声明式]]
+由[~条件]中的声明式所引入的名字（由这个条件的[~声明说明符序列]或者[~声明符]所
+引入），从其声明点直到被该条件所控制的子语句的末尾都处于作用域中。
 
 [:en]
 If the name is re-declared in the outermost block of a substatement controlled
 by the condition, the declaration that re-declares the name is ill-formed.
+[:zh_CN]
+若在这个条件所控制的子语句的最外层语句块中重复声明了此名字，则重复声明该名字的
+声明式是非良构的。
 
 [enter:example]
 [codeblock]
 if (int x = f()) {
   int x;            // [:en] ill-formed, redeclaration of [`x]
+                    // [|:zh_CN] 非良构，[`x] 的重复声明
 }
 else {
   int x;            // [:en] ill-formed, redeclaration of [`x]
+                    // [|:zh_CN] 非良构，[`x] 的重复声明
 }
 [codeblock:end]
 [exit:example]
@@ -110,34 +153,53 @@ else {
 The value of a [~condition] that is an initialized declaration in a statement
 other than a [`switch] statement is the value of the declared variable
 contextually converted to [`bool] (Clause [#conv]).
+[:zh_CN]
+除了 [`switch] 语句之外，语句中的条件若是带初始化的声明式，则其值就是其所声明的
+变量按语境转换为 [`bool] 的值（第 [#conv] 条）。
 
 [:en]
 If that conversion is ill-formed, the program is ill-formed.
+[:zh_CN]
+若此转换是非良构的，则程序非良构。
 
 [:en]
 The value of a [~condition] that is an initialized declaration in a [`switch]
 statement is the value of the declared variable if it has integral or
 enumeration type, or of that variable implicitly converted to integral or
 enumeration type otherwise.
+[:zh_CN]
+如果 [`switch] 语句中的带初始化声明式的条件具有整型或枚举类型，则其值就是其所
+声明的变量的值，否则就是该变量隐式转换为整型或枚举类型的值。
 
 [:en]
 The value of a [~condition] that is an expression is the value of the
 expression, contextually converted to [`bool] for statements other than
 [`switch]; if that conversion is ill-formed, the program is ill-formed.
+[:zh_CN]
+如果[~条件]是一个表达式，则其值就是该表达式的值，并且对于除 [`switch] 外的语句，
+按语境转换为 [`bool]；若此转换是非良构的，则程序非良构。
 
 [:en]
 The value of the condition will be referred to as simply ["the condition] where
 the usage is unambiguous.
+[:zh_CN]
+在没有歧义时，条件的值就简单地称为“条件”。
 
 [para]
 [:en]
 If a [~condition] can be syntactically resolved as either an expression or the
 declaration of a block-scope name, it is interpreted as a declaration.
+[:zh_CN]
+如果在语法上既可以把[~条件]解析为表达式，也可以为块作用域名字的声明式，则要把它
+判读为声明式。
 
 [para]
 [:en]
 In the [~decl-specifier-seq] of a [~condition], each [~decl-specifier] shall be
 either a [~type-specifier] or [`constexpr].
+[:zh_CN]
+在[~条件]的[~声明说明符序列]中，每个[~声明说明符]应当要么是一个[~类型说明符]，
+要么是 [`constexpr]。
 
 [include stmt.if]
 

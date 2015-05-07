@@ -19,7 +19,7 @@ Block-scope variables explicitly declared [`register] or not explicitly declared
 The storage for these entities lasts until the block in which they are created
 exits.
 [:zh_CN]
-这些实体的存储维持到创建它们的块退出之时。
+这些实体的存储维持到创建它们的语句块退出之时。
 
 [para]
 [enter:note]
@@ -38,5 +38,5 @@ except that a class object or its copy/move may be eliminated as specified in
 [#class.copy].
 [:zh_CN]
 如果具有自动存储期的变量带有具有副作用的初始化或者析构函数，则即使它看起来并未被
-使用，也不应在块结尾之前销毁它，或者作为优化而将其消除掉，但可以根据
+使用，也不应在语句块结尾之前销毁它，或者作为优化而将其消除掉，但可以根据
 [#class.copy] 中所述消除类对象或其复制/移动。

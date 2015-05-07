@@ -1,48 +1,69 @@
 ﻿[section#stmt.return
     [:en] The [`return] statement
+    [:zh_CN] [`return] 语句
 ]
 
 [%[`return]]
 [%  [:en] function return[see [`return]]
-    [:zh_CN] ]
+    [:zh_CN] 函数返回[see [`return]] ]
 
 [para]
 [:en]
 A function returns to its caller by the [`return] statement.
+[:zh_CN]
+函数用 [`return] 语句返回其调用方。
 
 [para]
 [:en]
 The [~expression] or [~braced-init-list] of a return statement is called its
 operand.
+[:zh_CN]
+返回语句的[~表达式]或[~花括号初始化列表]称为其操作数。
 
 [:en]
 A return statement with no operand shall be used only in a function whose return
 type is [$cv] [`void], a constructor ([#class.ctor]), or a destructor
 ([#class.dtor]).
+[:zh_CN]
+没有操作数的返回语句仅能用在返回类型为 [$cv] [`void] 的函数，构造函数
+（[#class.ctor]），或析构函数（[#class.dtor]）中。
 
 [:en]
 [%[`return][!constructor and]]
 A return statement with an operand of type [`void] shall be used only in a
 function whose return type is [$cv] [`void].
+[:zh_CN]
+[%[`return][!构造函数与～]]
+具有 [`void] 类型的操作数的返回语句仅能用在返回类型为 [$cv] [`void] 的函数中。
 
 [:en]
 A return statement with any other operand shall be used only in a function
 whose return type is not [$cv] [`void];
+[:zh_CN]
+具有其他任何操作数的返回语句仅能用在返回类型不是 [$cv] [`void] 的函数中；
 
 [:en]
 [%conversion[!return type]]
 the return statement initializes the object or reference to be returned by
 copy-initialization ([#dcl.init]) from the operand.
+[:zh_CN]
+[%转换[!返回类型]]
+返回语句从其操作数对其所返回的对象或引用进行复制初始化（[#dcl.init]）。
 
 [enter:note]
 [:en]
 A return statement can involve the construction and copy or move of a temporary
 object ([#class.temporary]).
+[:zh_CN]
+返回语句可能涉及临时对象的构造以及复制或移动（[#class.temporary]）。
 
 [:en]
 A copy or move operation associated with a return statement may be elided or
 considered as an rvalue for the purpose of overload resolution in selecting a
 constructor ([#class.copy]).
+[:zh_CN]
+与返回语句相关联的复制或移动操作可能会被消除掉，或者在为选择构造函数而进行的重载
+决议（[#class.copy]）中被当作一个右值。
 [exit:note]
 
 [enter:example]
@@ -56,6 +77,9 @@ std::pair<std::string,int> f(const char* p, int x) {
 [:en]
 Flowing off the end of a function is equivalent to a [`return] with no value;
 this results in undefined behavior in a value-returning function.
+[:zh_CN]
+流程越过函数末尾等价于不带值的 [`return]；这在能够返回值的函数中将造成未定义的
+行为。
 
 [para]
 [:en]
@@ -64,3 +88,7 @@ destruction of temporaries at the end of the full-expression established by the
 operand of the return statement, which, in turn, is sequenced before the
 destruction of local variables ([#stmt.jump]) of the block enclosing the return
 statement.
+[:zh_CN]
+所返回的实体进行的复制初始化按顺序早于全表达式末尾对由返回语句的操作数所建立的
+临时变量的销毁，而这又按顺序早于包含返回语句的语句块中的局部变量的销毁
+（[#stmt.jump]）。

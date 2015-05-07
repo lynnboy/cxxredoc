@@ -1,22 +1,28 @@
 ﻿[section#stmt.block
     [:en] Compound statement or block
+    [:zh_CN] 组合语句或语句块
 ]
 
 [:en]
 [%statement[!compound]]
 [%[`{}][!block statement]]
+[:zh_CN]
+[%语句[!组合～]]
+[%[`{}][!块语句]]
 
 [para]
 [:en]
 So that several statements can be used where one is expected, the compound
 statement (also, and equivalently, called ["block]) is provided.
+[:zh_CN]
+提供组合语句（也可等价地称之为“语句块”），以便在预期单个语句的地方使用多个语句。
 
 [syntax]
-[rule compound-statement [:zh_CN] ]
+[rule compound-statement [:zh_CN] 组合语句 ]
     [| [`{] [~:opt statement-seq] [`}] ]
 [rule:end]
 
-[rule statement-seq [:zh_CN] ]
+[rule statement-seq [:zh_CN] 语句序列 ]
     [| statement ]
     [| statement-seq statement ]
 [rule:end]
@@ -24,8 +30,12 @@ statement (also, and equivalently, called ["block]) is provided.
 
 [:en]
 A compound statement defines a block scope ([#basic.scope]).
+[:zh_CN]
+组合语句定义一个块作用域（[#basic.scope]）。
 
 [enter:note]
 [:en]
 A declaration is a [~statement] ([#stmt.dcl]).
+[:zh_CN]
+声明式是[~语句]（[#stmt.dcl]）。
 [exit:note]

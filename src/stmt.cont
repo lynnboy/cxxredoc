@@ -1,9 +1,10 @@
 ﻿[section#stmt.cont
     [:en] The [`continue] statement
+    [:zh_CN] [`continue] 语句
 ]
 
 [%  [:en] statement[![`continue]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[![`continue]] ]
 
 [para]
 [:en]
@@ -11,9 +12,14 @@ The [`continue] statement shall occur only in an
 [%[~iteration-statement]] [~iteration-statement]
 and causes control to pass to the loop-continuation portion of the smallest
 enclosing [~iteration-statement], that is, to the end of the loop.
+[:zh_CN]
+[`continue] 语句只能在[%[~循环语句]] [~循环语句]中出现，并导致控制传递到其最小的
+外围[~循环语句]的循环继续部分，就是说，传递到该循环的末尾。
 
 [:en]
 More precisely, in each of the statements
+[:zh_CN]
+更确切地说，下列每个语句中
 
 [multicolumn@3]
 [|]
@@ -48,3 +54,5 @@ contin: ;
 [:en@~]
 a [`continue] not contained in an enclosed iteration statement is equivalent to
 [`goto contin].
+[:zh_CN@~]
+不被包含在某个内嵌的循环语句中的 [`continue] 等价于 [`goto contin]。

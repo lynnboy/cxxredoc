@@ -1,17 +1,25 @@
 ﻿[section#stmt.while
     [:en] The [`while] statement
+    [:zh_CN] [`while] 语句
 ]
 
 [:en]
 [%statement[![`while]]]
+[:zh_CN]
+[%语句[![`while]]]
 
 [para]
 [:en]
 In the [`while] statement the substatement is executed repeatedly until the
 value of the condition ([#stmt.select]) becomes [`false].
+[:zh_CN]
+[`while] 语句中，子语句被重复执行，直到其条件的值（[#stmt.select]）变为
+[`false]。
 
 [:en]
 The test takes place before each execution of the substatement.
+[:zh_CN]
+其测试发生于每次其子语句的执行之前。
 
 [para]
 [:en]
@@ -19,9 +27,15 @@ The test takes place before each execution of the substatement.
 When the condition of a [`while] statement is a declaration, the scope of the
 variable that is declared extends from its point of declaration
 ([#basic.scope.pdecl]) to the end of the [`while] [~statement].
+[:zh_CN]
+[%语句[![`while]～中的声明式]]
+当 [`while] 语句的条件是声明式时，被声明的变量的作用域从其声明点
+（[#basic.scope.pdecl]）延续到 [`while] [~语句]的末尾。
 
 [:en]
 A [`while] statement of the form
+[:zh_CN]
+形式为
 
 [codeblock:notation]
 while (T t = x) [~statement]
@@ -29,21 +43,27 @@ while (T t = x) [~statement]
 
 [:en@~]
 is equivalent to
+[:zh_CN@~]
+的 [`while] 语句等价于
 
 [codeblock:notation]
 label:
 {                   // [:en] start of condition scope
+                    // [|:zh_CN] 条件的作用域的开始
   T t = x;
   if (t) {
     [~statement]
     goto label;
   }
 }                   // [:en] end of condition scope
+                    // [|:zh_CN] 条件的作用域的末尾
 [codeblock:end]
 
 [:en]
 The variable created in a condition is destroyed and created with each iteration
 of the loop.
+[:zh_CN]
+在条件中所创建的变量，在每次循环重复时进行销毁和创建。
 
 [enter:example]
 [codeblock]
@@ -63,4 +83,7 @@ while (A a = i) {
 [:en]
 In the while-loop, the constructor and destructor are each called twice, once
 for the condition that succeeds and once for the condition that fails.
+[:zh_CN]
+在 while 循环中，构造函数和析构函数各自被调用两次，一次于条件成功时，一次于条件
+失败时。
 [exit:example]

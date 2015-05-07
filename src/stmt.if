@@ -1,29 +1,41 @@
 ﻿[section#stmt.if
     [:en] The [`if] statement
+    [:zh_CN] [`if] 语句
 ]
 
 [%  [:en] statement[![`if]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[![`if]] ]
 
 [para]
 [:en]
 If the condition ([#stmt.select]) yields [`true] the first substatement is
 executed.
+[:zh_CN]
+如果其条件（[#stmt.select]）产生 [`true] 则执行第一个子语句。
 
 [:en]
 If the [`else] part of the selection statement is present and the condition
 yields [`false], the second substatement is executed.
+[:zh_CN]
+如果选择语句的 [`else] 部分存在且其条件产生 [`false]，则执行第二个子语句。
 
 [:en]
 If the first substatement is reached via a label, the condition is not evaluated
 and the second substatement is not executed.
+[:zh_CN]
+当通过标号到达第一个子语句时，其条件不进行求值，且不执行第二个子语句。
 
 [:en]
 In the second form of [`if] statement (the one including [`else]), if the first
 substatement is also an [`if] statement then that inner [`if] statement shall
 contain an [`else] part.
+[:zh_CN]
+在 [`if] 语句的第二种形式（包含 [`else] 的那种）中，如果其第一个子语句也是 [`if]
+语句，则这个内部的 [`if] 语句应当包含 [`else] 部分。
 
 [footnote]
 [:en]
 In other words, the [`else] is associated with the nearest un-elsed [`if].
+[:zh_CN]
+换句话说，[`else] 与最接近的不带 else 的 [`if] 相关联。
 [footnote:end]

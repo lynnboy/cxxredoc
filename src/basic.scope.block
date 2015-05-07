@@ -10,13 +10,13 @@ A name declared in a block ([#stmt.block]) is local to that block; it has
 [def block scope].
 [:zh_CN]
 [%作用域[!块～]] [%局部作用域 [see 块作用域]]
-块（[#stmt.block]）中所声明的名字局部与该块；它具有[def 块作用域]。
+语句块（[#stmt.block]）中所声明的名字局部与该语句块；它具有[def 块作用域]。
 
 [:en]
 Its potential scope begins at its point of declaration ([#basic.scope.pdecl])
 and ends at the end of its block.
 [:zh_CN]
-其潜在作用域开始于其声明点（[#basic.scope.pdecl]）并结束于该块的末尾。
+其潜在作用域开始于其声明点（[#basic.scope.pdecl]）并结束于该语句块的末尾。
 
 [:en]
 A variable declared at block scope is a [def local variable].
@@ -41,15 +41,15 @@ associated handler, otherwise it ends at the end of the outermost block of the
 function definition.
 [:zh_CN]
 若函数具有[~函数-try-块]，则其形参或函数局部预定义变量的潜在作用域结束于其所关联
-的最后一个处理器的末尾，否则就结束于函数定义式的最外层块的末尾。
+的最后一个处理器的末尾，否则就结束于函数定义式的最外层语句块的末尾。
 
 [:en]
 A parameter name shall not be redeclared in the outermost block of the function
 definition nor in the outermost block of any handler associated with a
 [~function-try-block].
 [:zh_CN]
-在函数定义式的最外层块或在[~函数-try-块]所关联的任何处理器的最外层块中重复声明
-任何形参名。
+在函数定义式的最外层语句块或在[~函数-try-块]所关联的任何处理器的最外层语句块中
+重复声明任何形参名。
 
 [para]
 [:en]
@@ -58,8 +58,8 @@ The name declared in an [~exception-declaration] is local to the [~handler] and
 shall not be redeclared in the outermost block of the [~handler].
 [:zh_CN]
 [%作用域[!异常声明的～]]
-在[~异常声明]中声明的名字局部于[~处理器]，且不能在该[~处理器]的最外层块中重复
-声明。
+在[~异常声明]中声明的名字局部于[~处理器]，且不能在该[~处理器]的最外层语句块中
+重复声明。
 
 [para]
 [:en]
@@ -72,5 +72,5 @@ the outermost blocks) of the controlled statement; see [#stmt.select].
 [:zh_CN]
 在 [~for-初始化语句]、[~for-范围声明式]中，以及在 [`if]、[`while]、[`for] 和
 [`switch] 语句的[~条件]中声明的名字局部于该 [`if]、[`while]、[`for] 或 [`switch]
-语句（包括其控制的语句），并且不能在该语句的后继条件或其控制的语句的最外层块
-（或者，对于 [if] 语句，任何最外层块）中重复声明；见 [#stmt.select]。
+语句（包括其控制的语句），并且不能在该语句的后继条件或其控制的语句的最外层语句块
+（或者，对于 [if] 语句，任何最外层语句块）中重复声明；见 [#stmt.select]。

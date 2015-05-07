@@ -1,13 +1,16 @@
 ﻿[section#stmt.ranged
     [:en] The range-based [`for] statement
+    [:zh_CN] 基于范围的 [`for] 语句
 ]
 
 [%  [:en] statement[!range based [`for]]
-    [:zh_CN] ]
+    [:zh_CN] 语句[!基于范围的 [`for]～] ]
 
 [para]
 [:en]
 For a range-based [`for] statement of the form
+[:zh_CN]
+对于具有如下形式的基于范围的 [`for] 语句
 
 [syntax:explanation]
 [`for] [`(] [~for-range-declaration] [`:] [~expression] [`)] [~statement]
@@ -16,11 +19,16 @@ For a range-based [`for] statement of the form
 [:en@~]
 let [$range-init] be equivalent to the [~expression] surrounded
 by parentheses
+[:zh_CN@~]
+设 [$range-init] 等价于被括号所包围的[~表达式]
 
 [footnote]
 [:en]
 this ensures that a top-level comma operator cannot be reinterpreted as a
 delimiter between [~init-declarator]s in the declaration of [`__range].
+[:zh_CN]
+以确保 [`__range] 的声明式中的顶层的逗号运算符不会被重新解释为[~初始化声明符]
+之间的分隔符。
 [footnote:end]
 
 [syntax:explanation]
@@ -29,6 +37,8 @@ delimiter between [~init-declarator]s in the declaration of [`__range].
 
 [:en@~]
 and for a range-based [`for] statement of the form
+[:zh_CN@~]
+而对于具有如下形式的基于范围的 [`for] 语句
 
 [syntax:explanation]
 [`for] [`(] [~for-range-declaration] [`:] [~braced-init-list] [`)] [~statement]
@@ -36,9 +46,12 @@ and for a range-based [`for] statement of the form
 
 [:en@~]
 let [$range-init] be equivalent to the [~braced-init-list].
+[:zh_CN@~]
+设 [$range-init] 等价于其[~花括号初始化列表]
 
 [:en]
 In each case, a range-based [`for] statement is equivalent to
+[:zh_CN]
 
 [codeblock:notation [special range-init begin-expr end-expr] ]
 {
@@ -57,16 +70,24 @@ In each case, a range-based [`for] statement is equivalent to
 where [`__range], [`__begin], and [`__end] are variables defined for exposition
 only, and [`_RangeT] is the type of the [~expression], and [$begin-expr] and
 [$end-expr] are determined as follows:
+[:zh_CN@~]
+其中 [`__range]、[`__begin] 和 [`__end] 是仅为便于说明而定义的变量，而
+[`_RangeT] 是[~表达式]的类型，并根据下述规则确定 [$begin-expr] 和 [$end-expr]：
 
 [list]
 [item]
 [:en]
 if [`_RangeT] is an array type, [$begin-expr] and [$end-expr] are [`__range] and
 [`__range + __bound], respectively, where [`__bound] is the array bound.
+[:zh_CN]
+如果 [`_RangeT] 是数组类型，则 [$begin-expr] 和 [$end-expr] 分别为 [`__range] 和
+[`__range + __bound]，其中 [`__bound] 为数组的界。
 
 [:en]
 If [`_RangeT] is an array of unknown size or an array of incomplete type, the
 program is ill-formed;
+[:zh_CN]
+若 [`_RangeT] 是未知大小的数组，或者是不完整类型的数组，则程序非良构；
 
 [item]
 [:en]
@@ -75,16 +96,26 @@ looked up in the scope of class [`_RangeT] as if by class member access lookup
 ([#basic.lookup.classref]), and if either (or both) finds at least one
 declaration, [$begin-expr] and [$end-expr] are [`__range.begin()] and
 [`__range.end()], respectively;
+[:zh_CN]
+如果 [`_RangeT] 是类类型，则在类 [`_RangeT] 的作用域中，如同进行类成员访问查找
+（[#basic.lookup.classref]）一样，对[~未限定标识] [`begin] 和 [`end] 进行查找，
+而且如果有任何一个（或者二者都）找到至少一个声明式，那么 [$begin-expr] 和
+[$end-expr] 则分别为 [`__range.begin()] 和 [`__range.end()]；
 
 [item]
 [:en]
 otherwise, [$begin-expr] and [$end-expr] are [`begin(__range)] and
 [`end(__range)], respectively, where [`begin] and [`end] are looked up in the
 associated namespaces ([#basic.lookup.argdep]).
+[:zh_CN]
+否则，[$begin-expr] 和 [$end-expr] 分别为 [`begin(__range)] 和 [`end(__range)]，
+其中 [`begin] 和 [`end] 在关联的命名空间（[#basic.lookup.argdep]）中查找。
 
 [enter:note]
 [:en]
 Ordinary unqualified lookup ([#basic.lookup.unqual]) is not performed.
+[:zh_CN]
+不进行常规未限定查找（[#basic.lookup.unqual]）。
 [exit:note]
 [list:end]
 
@@ -100,6 +131,11 @@ for (int& x : array)
 [:en]
 In the [~decl-specifier-seq] of a [~for-range-declaration], each
 [~decl-specifier] shall be either a [~type-specifier] or [`constexpr].
+[:zh_CN]
+在 [~for-范围声明式]的[~声明说明符序列]中，每个[~声明说明符]应当要么是一个[~类型
+说明符]，要么是 [`constexpr]。
 
 [:en]
 The [~decl-specifier-seq] shall not define a class or enumeration.
+[:zh_CN]
+其[~声明说明符序列]不能定义类或枚举。
