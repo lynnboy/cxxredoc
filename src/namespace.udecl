@@ -1,18 +1,22 @@
 ﻿[section#namespace.udecl
     [:en] The [`using] declaration
+    [:zh_CN] [`using] 声明式
 ]
 
 [%:begin#using.declaration
     [:en] using-declaration
+    [:zh_CN] using-声明式
 ]
 
 [para]
 [:en]
 A [~using-declaration] introduces a name into the declarative region in which
 the [~using-declaration] appears.
+[:zh_CN]
+[~using-声明式]向出现该 [~using-声明式]的声明区中引入名字。
 
 [syntax]
-[rule using-declaration [:zh_CN] ]
+[rule using-declaration [:zh_CN] using-声明式 ]
     [| [`using] [`:opt typename] nested-name-specifier unqualified-id [`;] ]
 [rule:end]
 [syntax:end]
@@ -20,12 +24,17 @@ the [~using-declaration] appears.
 [:en]
 The member name specified in a [~using-declaration] is declared in the
 declarative region in which the [~using-declaration] appears.
+[:zh_CN]
+[~using-声明式]中所指定的成员名，声明于包含该 [~using-声明式]的声明区之中。
 
 [enter:note]
 [:en]
 Only the specified name is so declared; specifying an enumeration name in a
 [~using-declaration] does not declare its enumerators in the
 [~using-declaration][=']s declarative region.
+[:zh_CN]
+只有所指定的名字是这样进行声明的；当[~using-声明式]中指定某个枚举名时，并不将其
+枚举符声明于该 [~using-声明式]的声明区中。
 [exit:note]
 
 [:en]
@@ -34,11 +43,17 @@ declares a set of constructors in the class in which the [~using-declaration]
 appears ([#class.inhctor]); otherwise the name specified in a
 [~using-declaration] is a synonym for a set of declarations in another namespace
 or class.
+[:zh_CN]
+如果 [~using-声明式]指名构造函数（[#class.qual]），则它在包含该 [~using-声明式]
+的类中隐含地声明一组构造函数（[#class.inhctor]），否则，在 [~using-声明式]中指定
+的名字就是在另一个命名空间或类中的一组声明式的集合的同义词。
 
 [para]
 [:en]
 Every [~using-declaration] is a [~declaration] and a [~member-declaration] and
 so can be used in a class definition.
+[:zh_CN]
+[~using-声明式]是[~声明式]，也是[~成员声明式]，因此可以用在类定义式之中。
 
 [enter:example]
 [codeblock]
@@ -52,7 +67,9 @@ struct B {
 struct D : B {
   using B::f;
   void f(int) { f('c'); }       // [:en] calls [`B::f(char)]
+                                // [|:zh_CN] 调用了 [`B::f(char)]
   void g(int) { g('c'); }       // [:en] recursively calls [`D::g(int)]
+                                // [|:zh_CN] 递归地调用了 [`D::g(int)]
 };
 [codeblock:end]
 [exit:example]
@@ -61,12 +78,18 @@ struct D : B {
 [:en]
 In a [~using-declaration] used as a [~member-declaration], the
 [~nested-name-specifier] shall name a base class of the class being defined.
+[:zh_CN]
+[~成员声明式]的 [~using-声明式]中，[~嵌套名说明符]应当指名所定义的类的基类之一。
 
 [:en]
 If such a [~using-declaration] names a constructor, the [~nested-name-specifier]
 shall name a direct base class of the class being defined; otherwise it
 introduces the set of declarations found by member name lookup
 ([#class.member.lookup], [#class.qual]).
+[:zh_CN]
+如果此种 [~using-声明式]指名构造函数，则其[~嵌套名说明符]应当指名所定义的类的
+直接基类；否则它引入由成员名查找所找到的声明式集合（[#class.member.lookup]，
+[#class.qual]）。
 
 [enter:example]
 [codeblock]
@@ -76,9 +99,13 @@ class C {
 
 class D2 : public B {
   using B::f;                   // [:en] OK: [`B] is a base of [`D2]
+                                // [|:zh_CN] OK：[`B] 是 [`D2] 的基类
   using B::e;                   // [:en] OK: [`e] is an enumerator of base [`B]
+                                // [|:zh_CN] OK：[`e] 是基类 [`B] 的枚举符
   using B::x;                   // [:en] OK: [`x] is a union member of base [`B]
+                                // [|:zh_CN] OK：[`x] 是基类 [`B] 的联合成员
   using C::g;                   // [:en] error: [`C] isn[=']t a base of [`D2]
+                                // [|:zh_CN] 错误：[`C] 不是 [`D2] 的基类
 };
 [codeblock:end]
 [exit:example]
@@ -87,9 +114,17 @@ class D2 : public B {
 [enter:note]
 [:en]
 Since destructors do not have names, a [~using-declaration] cannot refer to a
-destructor for a base class. Since specializations of member templates for
-conversion functions are not found by name lookup, they are not considered when
-a [~using-declaration] specifies a conversion function ([#temp.mem]).
+destructor for a base class.
+[:zh_CN]
+由于析构函数没有名字，[~using-声明式]无法涉指基类的析构函数。
+
+[:en]
+Since specializations of member templates for conversion functions are not found
+by name lookup, they are not considered when a [~using-declaration] specifies a
+conversion function ([#temp.mem]).
+[:zh_CN]
+由于名字查找无法找到转换函数的成员模板的特化式，[~using-声明式]指定转换函数时并
+不考虑它们（[#temp.mem]）。
 [exit:note]
 
 [:en]
@@ -100,10 +135,17 @@ implicit declaration of the derived class assignment operator; the copy/move
 assignment operator from the base class is hidden or overridden by the
 implicitly-declared copy/move assignment operator of the derived class, as
 described below.
+[:zh_CN]
+当从基类带入派生类作用域中的赋值运算符具有派生类的复制/移动赋值运算符的签名时
+（[#class.copy]），[~using-声明式]自身并不能抑制派生类的赋值运算符的隐含声明式；
+基类中的复制/移动赋值运算符将被派生类隐式声明的复制/移动赋值运算符所隐藏或覆盖，
+描述如下。
 
 [para]
 [:en]
 A [~using-declaration] shall not name a [~template-id].
+[:zh_CN]
+[~using-声明式]不能指名[~模板标识]。
 
 [enter:example]
 [codeblock]
@@ -113,7 +155,9 @@ struct A {
 };
 struct B : A {
   using A::f<double>;           // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   using A::X<int>;              // [:en] ill-formed
+                                // [|:zh_CN] 非良构
 };
 [codeblock:end]
 [exit:example]
@@ -121,14 +165,20 @@ struct B : A {
 [para]
 [:en]
 A [~using-declaration] shall not name a namespace.
+[:zh_CN]
+[~using-声明式]不能指名命名空间。
 
 [para]
 [:en]
 A [~using-declaration] shall not name a scoped enumerator.
+[:zh_CN]
+[~using-声明式]不能指名有作用域枚举符。
 
 [para]
 [:en]
 A [~using-declaration] for a class member shall be a [~member-declaration].
+[:zh_CN]
+指名类成员[~using-声明式]应当是[~成员声明式]。
 
 [enter:example]
 [codeblock]
@@ -139,9 +189,13 @@ struct X {
 
 void f() {
   using X::i;       // [:en] error: [`X::i] is a class member
+                    // [|:zh_CN] 错误：[`X::i] 是类成员
                     // [:en@~] and this is not a member declaration.
+                    // [|:zh_CN@~] 而这并不是成员声明式。
   using X::s;       // [:en] error: [`X::s] is a class member
+                    // [|:zh_CN] 错误：[`X::s] 是类成员
                     // [:en@~] and this is not a member declaration.
+                    // [|:zh_CN@~] 而这并不是成员声明式。
 }
 [codeblock:end]
 [exit:example]
@@ -150,6 +204,9 @@ void f() {
 [:en]
 Members declared by a [~using-declaration] can be referred to by explicit
 qualification just like other member names ([#namespace.qual]).
+[:zh_CN]
+[~using-声明式]所声明的成员可以像其他成员名那样用显式限定来指代
+（[#namespace.qual]）。
 
 [enter:example]
 [codeblock]
@@ -161,13 +218,17 @@ namespace A {
 
 namespace X {
   using ::f;        // [:en] global [`f]
+                    // [|:zh_CN] 全局的 [`f]
   using A::g;       // [:en] [`A][=']s [`g]
+                    // [|:zh_CN] [`A] 中的 [`g]
 }
 
 void h()
 {
   X::f();           // [:en] calls [`::f]
+                    // [|:zh_CN] 调用 [`::f]
   X::g();           // [:en] calls [`A::g]
+                    // [|:zh_CN] 调用 [`A::g]
 }
 [codeblock:end]
 [exit:example]
@@ -176,6 +237,8 @@ void h()
 [:en]
 A [~using-declaration] is a [~declaration] and can therefore be used repeatedly
 where (and only where) multiple declarations are allowed.
+[:zh_CN]
+[~using-声明式]是[~声明式]，故可（且仅可）在允许多个声明式的地方重复使用。
 
 [enter:example]
 [codeblock]
@@ -186,11 +249,13 @@ namespace A {
 namespace A1 {
   using A::i;
   using A::i;       // [:en] OK: double declaration
+                    // [|:zh_CN] OK：两个声明式
 }
 
 void f() {
   using A::i;
   using A::i;       // [:en] error: double declaration
+                    // [|:zh_CN] 错误：两个声明式
 }
 
 struct B {
@@ -200,6 +265,7 @@ struct B {
 struct X : B {
   using B::i;
   using B::i;       // [:en] error: double member declaration
+                    // [|:zh_CN] 错误：两个成员声明式
 };
 [codeblock:end]
 [exit:example]
@@ -208,6 +274,8 @@ struct X : B {
 [:en]
 Members added to the namespace after the [~using-declaration] are not considered
 when a use of the name is made.
+[:zh_CN]
+当使用名字时，并不考察于 [~using-声明式]之后新加入命名空间的成员。
 
 [enter:note]
 [:en]
@@ -215,6 +283,10 @@ Thus, additional overloads added after the [~using-declaration] are ignored, but
 default function arguments ([#dcl.fct.default]), default template arguments
 ([#temp.param]), and template specializations ([#temp.class.spec],
 [#temp.expl.spec]) are considered.
+[:zh_CN]
+因此，于 [~using-声明式]之后添加的其他重载是不被考察的，但要考察默认函数实参
+（[#dcl.fct.default]），默认模板实参（[#temp.param]），以及模板的特化式
+（[#temp.class.spec]，[#temp.expl.spec]）。
 [exit:note]
 
 [enter:example]
@@ -224,19 +296,26 @@ namespace A {
 }
 
 using A::f;         // [:en] [`f] is a synonym for [`A::f];
+                    // [|:zh_CN] [`f] 是 [`A::f] 的同义词
                     // [:en@~] that is, for [`A::f(int)].
+                    // [|:zh_CN@~] 亦即代表 [`A::f(int)]。
 namespace A {
   void f(char);
 }
 
 void foo() {
   f('a');           // [:en] calls [`f(int)],
+                    // [|:zh_CN] 调用 [`f(int)]，
 }                   // [:en@~] even though [`f(char)] exists.
+                    // [|:zh_CN@~] 尽管有 [`f(char)] 存在。
 
 void bar() {
   using A::f;       // [:en] [`f] is a synonym for [`A::f];
+                    // [|:zh_CN] [`f] 是 [`A::f] 的同义词；
                     // [:en@~] that is, for [`A::f(int)] and [`A::f(char)].
+                    // [|:zh_CN@~] 亦即代表 [`A::f(int)] 和 [`A::f(char)]。
   f('a');           // [:en] calls [`f(char)]
+                    // [|:zh_CN] 调用 [`f(char)]
 }
 [codeblock:end]
 [exit:example]
@@ -247,11 +326,16 @@ void bar() {
 Partial specializations of class templates are found by looking up the primary
 class template and then considering all partial specializations of that
 template.
+[:zh_CN]
+对主类模板进行查找时将查找到类模板的部分特化式，然后考察该模板的所有部分特化式。
 
 [:en]
 If a [~using-declaration] names a class template, partial specializations
 introduced after the [~using-declaration] are effectively visible because the
 primary template is visible ([#temp.class.spec]).
+[:zh_CN]
+如果 [~using-声明式]指名了某个类模板，则由于主模板是可见的，于该 [~using-声明式]
+之后引入的部分特化式也是可见的（[#temp.class.spec]）。
 [exit:note]
 
 [para]
@@ -259,6 +343,9 @@ primary template is visible ([#temp.class.spec]).
 Since a [~using-declaration] is a declaration, the restrictions on declarations
 of the same name in the same declarative region ([#basic.scope]) also apply to
 [~using-declaration]s.
+[:zh_CN]
+由于 [~using-声明式]也是声明式，对于在同一个声明区中声明相同名字的限制
+（[#basic.scope]）同样适用于 [~using-声明式]。
 
 [enter:example]
 [codeblock]
@@ -273,21 +360,30 @@ namespace B {
   void f(int);
   void f(double);
   void g(char);     // [:en] OK: hides [`struct g]
+                    // [|:zh_CN] OK：隐藏了 [`struct g]
 }
 
 void func() {
   int i;
   using B::i;       // [:en] error: [`i] declared twice
+                    // [|:zh_CN] 错误：[`i] 声明了两次
   void f(char);
   using B::f;       // [:en] OK: each [`f] is a function
+                    // [|:zh_CN] OK：每个 [`f] 都是函数
   f(3.5);           // [:en] calls [`B::f(double)]
+                    // [|:zh_CN] 调用 [`B::f(double)]
   using B::g;
   g('a');           // [:en] calls [`B::g(char)]
+                    // [|:zh_CN] 调用 [`B::g(char)]
   struct g g1;      // [:en] [`g1] has class type [`B::g]
+                    // [|:zh_CN] [`g1] 具有类类型 [`B::g]
   using B::x;
   using A::x;       // [:en] OK: hides [`struct B::x]
+                    // [|:zh_CN] OK：隐藏 [`struct B::x]
   x = 99;           // [:en] assigns to [`A::x]
+                    // [|:zh_CN] 对 [`A::x] 赋值
   struct x x1;      // [:en] [`x1] has class type [`B::x]
+                    // [|:zh_CN] [`X1] 具有类类型 [`B::x]
 }
 [codeblock:end]
 [exit:example]
@@ -298,21 +394,33 @@ If a function declaration in namespace scope or block scope has the same name
 and the same parameter-type-list ([#dcl.fct]) as a function introduced by a
 [~using-declaration], and the declarations do not declare the same function, the
 program is ill-formed.
+[:zh_CN]
+如果命名空间或块作用域中的某个函数声明式，与由 [~using-声明式]所引入的某个函数
+具有相同的名字和相同的形参类型列表，而这些声明式并不声明同一个函数，则程序非良构
+。
 
 [:en]
 If a function template declaration in namespace scope has the same name,
 parameter-type-list, return type, and template parameter list as a function
 template introduced by a [~using-declaration], the program is ill-formed.
+[:zh_CN]
+如果命名空间或块作用域中的某个函数模板声明式，与由 [~using-声明式]所引入的某个
+函数模板具有相同的名字，形参类型列表，返回类型亦即模板形参列表，则程序非良构。
 
 [enter:note]
 [:en]
 Two [~using-declaration]s may introduce functions with the same name and the
 same parameter-type-list.
+[:zh_CN]
+两个 [~using-声明式]可能导入具有相同名字和相同形参类型的函数。
 
 [:en]
 If, for a call to an unqualified function name, function overload resolution
 selects the functions introduced by such [~using-declaration]s, the function
 call is ill-formed.
+[:zh_CN]
+对于未限定的函数名的调用，如果函数重载决议选取了由此种 [~using-声明式]所引入的
+函数，则该函数调用非良构。
 
 [enter:example]
 [codeblock]
@@ -328,10 +436,15 @@ namespace C {
 
 void h() {
   using B::f;       // [:en] [`B::f(int)] and [`B::f(double)]
+                    // [|:zh_CN] [`B::f(int)] 和 [`B::f(double)]
   using C::f;       // [:en] [`C::f(int)], [`C::f(double)], and [`C::f(char)]
+                    // [|:zh_CN] [`C::f(int)]，[`C::f(double)]，和 [`C::f(char)]
   f('h');           // [:en] calls [`C::f(char)]
+                    // [|:zh_CN] 调用 [`C::f(char)]
   f(1);             // [:en] error: ambiguous: [`B::f(int)] or [`C::f(int)]?
+                    // [|:zh_CN] 错误：有歧义：[`B::f(int)] 还是 [`C::f(int)]？
   void f(int);      // [:en] error: [`f(int)] conflicts with [`C::f(int)] and [`B::f(int)]
+                    // [|:zh_CN] 错误：[`f(int)] 与 [`C::f(int)] 和 [`B::f(int)] 冲突
 }
 [codeblock:end]
 [exit:example]
@@ -345,10 +458,17 @@ scope, member functions and member function templates in the derived class
 override and/or hide member functions and member function templates with the
 same name, parameter-type-list ([#dcl.fct]), cv-qualification, and
 [~ref-qualifier] (if any) in a base class (rather than conflicting).
+[:zh_CN]
+[%名字隐藏[!using-声明式与～]]
+当 [~using-声明式]从基类向派生类作用域中带入名字时，派生类中的成员函数和成员函数
+模板覆盖和/或隐藏了基类中具有相同名字、形参类型列表（[#dcl.fct]）、cv-限定性和
+[~引用限定符]（如果有）的成员函数和成员函数模板（而不是引起冲突）。
 
 [enter:note]
 [:en]
 For [~using-declaration]s that name a constructor, see [#class.inhctor].
+[:zh_CN]
+对于指名构造函数的 [~using-声明式]，参见 [#class.inhctor]。
 [exit:note]
 
 [enter:example]
@@ -363,20 +483,26 @@ struct B {
 struct D : B {
   using B::f;
   void f(int);      // [:en] OK: [`D::f(int)] overrides [`B::f(int)];
+                    // [|:zh_CN] OK：[`D::f(int)] 覆盖了 [`B::f(int)]；
 
   using B::g;
   void g(char);     // OK
 
   using B::h;
   void h(int);      // [:en] OK: [`D::h(int)] hides [`B::h(int)]
+                    // [|:zh_CN] OK：[`D::h(int)] 隐藏了 [`B::h(int)]
 };
 
 void k(D* p)
 {
   p->f(1);          // [:en] calls [`D::f(int)]
+                    // [|:zh_CN] 调用 [`D::f(int)]
   p->f('a');        // [:en] calls [`B::f(char)]
+                    // [|:zh_CN] 调用 [`B::f(char)]
   p->g(1);          // [:en] calls [`B::g(int)]
+                    // [|:zh_CN] 调用 [`B::g(int)]
   p->g('a');        // [:en] calls [`D::g(char)]
+                    // [|:zh_CN] 调用 [`D::g(char)]
 }
 [codeblock:end]
 [exit:example]
@@ -387,14 +513,23 @@ void k(D* p)
 For the purpose of overload resolution, the functions which are introduced by a
 [~using-declaration] into a derived class will be treated as though they were
 members of the derived class.
+[:zh_CN]
+[%重载[!using-声明式与～]]
+当进行重载决议时，由 [~using-声明式]引入到派生类中的函数将被认为它们就是该派生类
+的成员。
 
 [:en]
 In particular, the implicit [`this] parameter shall be treated as if it were a
 pointer to the derived class rather than to the base class.
+[:zh_CN]
+尤其是，其隐含的 [`this] 形参应当被当作如同是指向派生类的指针而不是指向基类的
+指针。
 
 [:en]
 This has no effect on the type of the function, and in all other respects the
 function remains a member of the base class.
+[:zh_CN]
+这并不影响函数的类型，且在所有其他方面该函数仍为基类的成员。
 
 [para]
 [:en]
@@ -402,28 +537,44 @@ function remains a member of the base class.
 The access rules for inheriting constructors are specified in [#class.inhctor];
 otherwise all instances of the name mentioned in a [~using-declaration] shall be
 accessible.
+[:zh_CN]
+[%访问控制[!using-声明式与～]]
+[#class.inhctor] 中说明了有关继承构造函数的访问规则；除此之外，[~using-声明式]中
+所提到的名字的所有实例都应当是可访问的。
 
 [:en]
 In particular, if a derived class uses a [~using-declaration] to access a member
 of a base class, the member name shall be accessible.
+[:zh_CN]
+尤其是，若派生类使用 [~using-声明式]访问基类的成员，则该成员名应当是可访问的。
 
 [:en]
 If the name is that of an overloaded member function, then all functions named
 shall be accessible.
+[:zh_CN]
+若这个名字是被重载的成员函数的名字，则所有被指名的函数都应当是可访问的。
 
 [:en]
 The base class members mentioned by a [~using-declaration] shall be visible in
 the scope of at least one of the direct base classes of the class where the
 [~using-declaration] is specified.
+[:zh_CN]
+[~using-声明式]所提到的基类成员，应当在提出此 [~using-声明式]的类的至少一个直接
+基类的作用域中可见。
 
 [enter:note]
 [:en]
 Because a [~using-declaration] designates a base class member (and not a member
 subobject or a member function of a base class subobject), a
 [~using-declaration] cannot be used to resolve inherited member ambiguities.
+[:zh_CN]
+由于 [~using-声明式]代表了基类成员（而不是基类子对象的成员子对象或成员函数），
+[~using-声明式]不能用于解决所继承的成员的歧义。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 struct A { int x(); };
@@ -439,18 +590,25 @@ struct D : B, C {
 };
 int f(D* d) {
   return d->x();    // [:en] ambiguous: [`B::x] or [`C::x]
+                    // [|:zh_CN] 有歧义：[`B::x] 还是 [`C::x]
 }
 [codeblock:end]
 [exit:note]
 
 [para]
+[:en]
 The alias created by the [~using-declaration] has the usual accessibility for a
 [~member-declaration].
+[:zh_CN]
+由 [~using-声明式]所创建的别名具有常规的[~成员声明式]的可访问性。
 
 [enter:note]
 [:en]
 A [~using-declaration] that names a constructor does not create aliases; see
 [#class.inhctor] for the pertinent accessibility rules.
+[:zh_CN]
+指名构造函数的 [~using-声明式]并不创建别名；相关的可访问性规则，参见
+[#class.inhctor]。
 [exit:note]
 
 [enter:example]
@@ -466,8 +624,10 @@ protected:
 
 class B : public A {
   using A::f;       // [:en] error: [`A::f(char)] is inaccessible
+                    // [|:zh_CN] 错误：[`A::f(char)] 不可访问
 public:
   using A::g;       // [:en] [`B::g] is a public synonym for [`A::g]
+                    // [|:zh_CN] [`B::g] 是 [`A::g] 的公用同义词
 };
 [codeblock:end]
 [exit:example]
@@ -477,5 +637,9 @@ public:
 If a [~using-declaration] uses the keyword [`typename] and specifies a dependent
 name ([#temp.dep]), the name introduced by the [~using-declaration] is treated
 as a [~typedef-name] ([#dcl.typedef]).
+[:zh_CN]
+若某个 [~using-声明式]使用了关键字 [`typename] 且指定了某个待决名字
+（[#temp.dep]），则被该 [~using-声明式]所引入的名字就被当作 [~typedef-名]
+（[#dcl.typedef]）看待。
 
 [%:end#using.declaration]

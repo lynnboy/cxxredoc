@@ -1,13 +1,16 @@
 ﻿[section#namespace.unnamed
     [:en] Unnamed namespaces
+    [:zh_CN] 无名命名空间
 ]
 
 [%  [:en] namespace[!unnamed]
-    [:zh_CN] ]
+    [:zh_CN] 命名空间[!无名～] ]
 
 [para]
 [:en]
 An [~unnamed-namespace-definition] behaves as if it were replaced by
+[:zh_CN]
+[~无名命名空间定义式]相当于被替换为
 
 [syntax:explanation]
 [`:opt inline] [`namespace] [$@bi unique] [`{ /* empty body */ }] [br]
@@ -20,10 +23,16 @@ where [`inline] appears if and only if it appears in the
 [~unnamed-namespace-definition] and all occurrences of [$@bi unique] in a
 translation unit are replaced by the same identifier, and this identifier
 differs from all other identifiers in the translation unit.
+[:zh_CN@~]
+其中当且仅当[~无名命名空间定义式]中包含 [`inline] 时包含 [`inline]，在翻译单元中
+出现的所有 [$@bi unique] 都被替换为相同的标识符，而此标识符与该翻译单元中的所有
+其他标识符都不相同。
 
 [:en]
 The optional [~attribute-specifier-seq] in the [~unnamed-namespace-definition]
 appertains to [$@bi unique].
+[:zh_CN]
+[~无名命名空间定义式]中可选的[~特性说明符序列]属于 [$@bi unique]。
 
 [enter:example]
 [codeblock]
@@ -40,7 +49,8 @@ namespace A {
 
 using namespace A;
 void h() {
-  i++;                          // error: [$@bi unique][`::i] or [`A::][$@bi unique][`::i]
+  i++;                          // [:en] error: [$@bi unique][`::i] or [`A::][$@bi unique][`::i]
+                                // [|:zh_CN] 错误：[$@bi unique][`::i] 还是 [`A::][$@bi unique][`::i]
   A::i++;                       // [`A::][$@bi unique][`::i]
   j++;                          // [`A::][$@bi unique][`::j]
 }

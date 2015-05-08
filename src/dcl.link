@@ -1,46 +1,65 @@
 ﻿[section#dcl.link
     [:en] Linkage specifications
+    [:zh_CN] 连接说明
 ]
 
 [%:begin#specification.linkage
     [:en] specification [!linkage]
+    [:zh_CN] 说明[!连接～]
 ]
 
 [para]
 [:en]
 All function types, function names with external linkage, and variable names
 with external linkage have a [+language linkage].
+[:zh_CN]
+所有函数类型，带有外部连接的函数名，和带有外部连接的变量名都有[+语言连接]。
 
 [enter:note]
 [:en]
 Some of the properties associated with an entity with language linkage are
 specific to each implementation and are not described here.
+[:zh_CN]
+与带有语言连接的实体所关联的一些性质是特定于实现的，且并不在此处描述。
 
 [:en]
 For example, a particular language linkage may be associated with a particular
 form of representing names of objects and functions with external linkage, or
 with a particular calling convention, etc.
+[:zh_CN]
+例如，某个特定的语言连接可能关联于某种带有外部连接的对象和函数的名字的特定表示
+形式，或关联于某种特定的调用约定等等。
 [exit:note]
 
 [:en]
 The default language linkage of all function types, function names, and variable
 names is [=Cpp] language linkage.
+[:zh_CN]
+所有函数类型、函数名和变量名的缺省语言连接是 [=Cpp] 语言连接。
 
 [:en]
 Two function types with different language linkages are distinct types even if
 they are otherwise identical.
+[:zh_CN]
+两个带有不同的语言连接的函数类型，即使他们相同也是不同的类型。
 
 [para]
 [:en]
 Linkage ([#basic.link]) between [=Cpp] and  non-[=Cpp] code fragments can be
 achieved using a [~linkage-specification]:
+[:zh_CN]
+在 [=Cpp] 和非 [=Cpp] 代码片段之间的连接（[#basic.link]）可以通过使用[~连接说明]
+获得：
 
 [:en]
 [%[~linkage-specification]]
 [%specification[!linkage[![`extern]]]]
+[:zh_CN]
+[%[~连接说明]]
+[%说明[!连接～[![`extern]]]]
 
 [syntax]
-[rule linkage-specification [:zh_CN] ]
+[rule linkage-specification [:zh_CN] 连接说明 ]
     [| [`extern] string-literal [`{] [~:opt declaration-seq] [`}] ]
     [| [`extern] string-literal declaration ]
 [rule:end]
@@ -48,30 +67,43 @@ achieved using a [~linkage-specification]:
 
 [:en]
 The [~string-literal] indicates the required language linkage.
+[:zh_CN]
+其[~字符串字面量]指定了所需的语言连接。
 
 [:en]
 This International Standard specifies the semantics for the [~string-literal]s
 [`"C"] and [`"C++"].
+[:zh_CN]
+本国际标准指定了[~字符串字面量] [`"C"] 和 [`"C++"] 的语义。
 
 [:en]
 Use of a [~string-literal] other than [`"C"] or [`"C++"] is
 conditionally-supported, with [%@impldef semantics of linkage specifiers]
 implementation-defined semantics.
+[:zh_CN]
+使用除 [`"C"] 和 [`"C++"] 之外的[~字符串字面量]是有条件支持的，其含义是
+[%@impldef 连接说明符的语义]由实现定义的。
 
 [enter:note]
 [:en]
 Therefore, a linkage-specification with a [~string-literal] that is unknown to
 the implementation requires a diagnostic.
+[:zh_CN]
+因此，带有对实现来说是未知的[~字符串字面量]的连接说明需要进行诊断。
 [exit:note]
 
 [enter:note]
 [:en]
 It is recommended that the spelling of the [~string-literal] be taken from the
 document defining that language.
+[:zh_CN]
+建议该[~字符串字面量]的拼写采用该语言的定义性文件。
 
 [:en]
 For example, [`Ada] (not [`ADA]) and [`Fortran] or [`FORTRAN], depending on the
 vintage.
+[:zh_CN]
+例如 [`Ada]（而不是 [`ADA]）以及 [`Fortran] 或 [`FORTRAN]，依赖于其年代。
 [exit:note]
 
 [para]
@@ -80,12 +112,18 @@ vintage.
 Every implementation shall provide for linkage to functions written in the C
 programming language, [%C[!linkage to]] [`"C"], and linkage to [=Cpp] functions,
 [`"C++"].
+[:zh_CN]
+[%说明[!连接～[!由实现定义的～]]]
+每个实现都应当提供对 C 程序设计语言所编写的函数的连接，[%C[!到～的连接]][`"C"]，
+以及对 [=Cpp] 函数的连接，[`"C++"]。
 
 [enter:example]
 [codeblock]
 complex sqrt(complex);          // [:en] [=Cpp] linkage by default
+                                // [|:zh_CN] 默认为 [=Cpp] 连接
 extern "C" {
   double sqrt(double);          // [:en] C linkage
+                                // [|:zh_CN] C 连接
 }
 [codeblock:end]
 [exit:example]
@@ -94,60 +132,97 @@ extern "C" {
 [:en]
 [%specification[!linkage[!nesting]]]
 Linkage specifications nest.
+[:zh_CN]
+[%说明[!连接～[!嵌套]]]
+连接说明可以嵌套。
 
 [:en]
 When linkage specifications nest, the innermost one determines the language
 linkage.
+[:zh_CN]
+当连接说明进行嵌套时，由最内层的连接说明决定其语言连接。
 
 [:en]
 A linkage specification does not establish a scope.
+[:zh_CN]
+连接说明并不设立作用域。
 
 [:en]
 A [~linkage-specification] shall occur only in namespace scope ([#basic.scope]).
+[:zh_CN]
+[~连接说明]只能在命名空间作用域（[#basic.scope]）中出现。
 
 [:en]
 In a [~linkage-specification], the specified language linkage applies to the
 function types of all function declarators, function names with external
 linkage, and variable names with external linkage declared within the
 [~linkage-specification].
+[:zh_CN]
+在[~连接说明]中，其所指定的语言连接施加于该[~连接说明]中所声明的所有函数说明符的
+函数类型，所有带有外部连接的函数名，以及所有带有外部连接的变量名上。
 
 [enter:example]
 [codeblock]
 extern "C" void f1(void(*pf)(int));
                                 // [:en] the name [`f1] and its function type have C language
+                                // [|:zh_CN] 名字 [`f1] 及其函数类型具有 C 语言
                                 // [:en@~] linkage; [`pf] is a pointer to a C function
+                                // [|:zh_CN@~] 连接；[`pf] 是指向 C 函数的指针
 extern "C" typedef void FUNC();
 FUNC f2;                        // [:en] the name [`f2] has [=Cpp] language linkage and the
+                                // [|:zh_CN] 名字 [`f2] 具有 [=Cpp] 语言连接而其
                                 // [:en@~] function[=']s type has C language linkage
+                                // [|:zh_CN@~] 函数的类型具有 C 语言连接
 extern "C" FUNC f3;             // [:en] the name of function [`f3] and the function[=']s type
+                                // [|:zh_CN] 函数 [`f3] 的名字及该函数的类型
                                 // [:en@~] have C language linkage
+                                // [|:zh_CN@~] 具有 C 语言连接
 void (*pf2)(FUNC*);             // [:en] the name of the variable [`pf2] has [=Cpp] linkage and
+                                // [|:zh_CN] 变量 [`pf2] 的名字具有 [=Cpp] 连接而
                                 // [:en@~] the type of [`pf2] is pointer to [=Cpp] function that
+                                // [|:zh_CN@~] [`pf2] 的类型为指向 [=Cpp] 函数的指针，该函数
                                 // [:en@~] takes one parameter of type pointer to C function
+                                // [|:zh_CN@~] 带有一个类型为指向 C 函数的指针的形参
 extern "C" {
-  static void f4();             // [:en] the name of the function f4 has
+  static void f4();             // [:en] the name of the function [`f4] has
+                                // [|:zh_CN] 函数 [`f4] 的名字具有
                                 // [:en@~] internal linkage (not C language
+                                // [|:zh_CN@~] 内部连接（不是 C 语言
                                 // [:en@~] linkage) and the function[=']s type
+                                // [|:zh_CN@~] 连接）而该函数的类型
                                 // [:en@~] has C language linkage.
+                                // [|:zh_CN@~] 具有 C 语言连接。
 }
 
 extern "C" void f5() {
   extern void f4();             // [:en] OK: Name linkage (internal)
+                                // [|:zh_CN] OK：名字连接（内部）
                                 // [:en@~] and function type linkage (C
+                                // [|:zh_CN@~] 和函数类型连接（C
                                 // [:en@~] language linkage) obtained from
+                                // [|:zh_CN@~] 语言连接）来自
                                 // [:en@~] previous declaration.
+                                // [|:zh_CN@~] 之前的声明式。
 }
 
 extern void f4();               // [:en] OK: Name linkage (internal)
+                                // [|:zh_CN] OK：名字连接（内部）
                                 // [:en@~] and function type linkage (C
+                                // [|:zh_CN@~] 和函数类型连接（C
                                 // [:en@~] language linkage) obtained from
+                                // [|:zh_CN@~] 语言连接）来自
                                 // [:en@~] previous declaration.
+                                // [|:zh_CN@~] 之前的声明式。
 
 void f6() {
   extern void f4();             // [:en] OK: Name linkage (internal)
+                                // [|:zh_CN] OK：名字连接（内部）
                                 // [:en@~] and function type linkage (C
+                                // [|:zh_CN@~] 和函数类型连接（C
                                 // [:en@~] language linkage) obtained from
+                                // [|:zh_CN@~] 语言连接）来自
                                 // [:en@~] previous declaration.
+                                // [|:zh_CN@~] 之前的声明式。
 }
 [codeblock:end]
 [exit:example]
@@ -156,28 +231,44 @@ void f6() {
 [%class[!linkage specification]]
 A C language linkage is ignored in determining the language linkage of the names
 of class members and the function type of class member functions.
+[:zh_CN]
+[%类[!连接说明]]
+当确定类成员名字和类成员函数的函数类型的语言连接时，忽略 C 语言连接。
 
 [enter:example]
 [codeblock]
 extern "C" typedef void FUNC_c();
 class C {
   void mf1(FUNC_c*);            // [:en] the name of the function [`mf1] and the member
+                                // [|:zh_CN] 函数 [`mf1] 的名字及成员
                                 // [:en@~] function[=']s type have [=Cpp] language linkage; the
+                                // [|:zh_CN@~] 函数的类型具有 [=Cpp] 语言连接；
                                 // [:en@~] parameter has type pointer to C function
+                                // [|:zh_CN@~] 其形参类型为指向 C 函数的指针
   FUNC_c mf2;                   // [:en] the name of the function [`mf2] and the member
+                                // [|:zh_CN] 函数 [`mf2] 的名字及成员
                                 // [:en@~] function[=']s type have [=Cpp] language linkage
+                                // [|:zh_CN@~] 函数的类型具有 [=Cpp] 语言连接
   static FUNC_c* q;             // [:en] the name of the data member [`q] has [=Cpp] language
+                                // [|:zh_CN] 数据成员 [`q] 的名字具有 [=Cpp] 语言
                                 // [:en@~] linkage and the data member[=']s type is pointer to
+                                // [|:zh_CN@~] 连接而该数据成员的类型是指向
                                 // [:en@~] C function
+                                // [|:zh_CN@~] C 函数的指针
 };
 
 extern "C" {
   class X {
     void mf();                  // [:en] the name of the function [`mf] and the member
+                                // [|:zh_CN] 函数 [`mf] 的名字及成员
                                 // [:en@~] function[=']s type have [=Cpp] language linkage
+                                // [|:zh_CN@~] 函数的类型具有 [=Cpp] 语言连接
     void mf2(void(*)());        // [:en] the name of the function [`mf2] has [=Cpp] language
+                                // [|:zh_CN] 函数 [`mf2] 的名字具有 [=Cpp] 语言
                                 // [:en@~] linkage; the parameter has type pointer to
+                                // [|:zh_CN@~] 连接；其形参类型为指向
                                 // [:en@~] C function
+                                // [|:zh_CN@~] C 函数的指针
   };
 }
 [codeblock:end]
@@ -191,50 +282,81 @@ declare objects with the same name to be members of the same namespace and the
 declarations give the names different language linkages, the program is
 ill-formed; no diagnostic is required if the declarations appear in different
 translation units.
+[:zh_CN]
+若两个声明式以相同的名字和[~形参类型列表]（[#dcl.fct]）将两个函数声明为相同命名
+空间的成员，或者若它们以相同的名字将两个对象声明为相同命名空间的成员，但这两个
+声明式为这些名字给出不同的语言连接，则程序非良构；如果这些声明式出现于不同翻译
+单元中，则无须进行诊断。
 
 [:en]
 [%consistency[!linkage specification]]
 Except for functions with [=Cpp] linkage, a function declaration without a
 linkage specification shall not precede the first linkage specification for that
 function.
+[:zh_CN]
+[%一致性[!连接说明]]
+除了带有 [=Cpp] 连接的函数外，不能在对函数首次提供连接说明之前出现不带有连接说明
+的函数声明式。
 
 [:en]
 A function can be declared without a linkage specification after an explicit
 linkage specification has been seen; the linkage explicitly specified in the
 earlier declaration is not affected by such a function declaration.
+[:zh_CN]
+函数在出现明确的连接说明之后，可以不带连接说明而进行声明；此种函数声明式并不影响
+之前的声明式中所明确指定的连接。
 
 [para]
 [:en]
 [%function[!linkage specification overloaded]]
 At most one function with a particular name can have C language linkage.
+[:zh_CN]
+[%函数[!重载～的连接说明]]
+特定名字的函数中最多有一个可以具有 C 语言连接。
 
 [:en]
 Two declarations for a function with C language linkage with the same function
 name (ignoring the namespace names that qualify it) that appear in different
 namespace scopes refer to the same function.
+[:zh_CN]
+出现于不同命名空间作用域中的具有相同函数名（忽略限定它的命名空间名）的两个带有
+C 语言连接的函数的声明式代表同一个函数。
 
 [:en]
 Two declarations for a variable with C language linkage with the same name
 (ignoring the namespace names that qualify it) that appear in different
 namespace scopes refer to the same variable.
+[:zh_CN]
+出现于不同命名空间作用域中的具有相同名字（忽略限定它的命名空间名）的两个带有
+C 语言连接的变量的声明式代表同一个变量。
 
 [:en]
 An entity with C language linkage shall not be declared with the same name as a
 variable in global scope, unless both declarations denote the same entity; no
 diagnostic is required if the declarations appear in different translation
 units.
+[:zh_CN]
+对于某个带有 C 语言连接的实体，不能用相同的名字声明为全局作用域中的变量，除非这
+两个声明式代表相同的实体；如果这些声明式出现于不同翻译单元中，则无须进行诊断。
 
 [:en]
 A variable with C language linkage shall not be declared with the same name as a
 function with C language linkage (ignoring the namespace names that qualify the
 respective names); no diagnostic is required if the declarations appear in
 different translation units.
+[:zh_CN]
+对于某个带有 C 语言连接的变量，不能用相同的名字声明带有 C 语言连接的函数（忽略
+用于限定相应名字的命名空间的名字）；如果这些声明式出现于不同翻译单元中，则无须
+进行诊断。
 
 [enter:note]
 [:en]
 Only one definition for an entity with a given name with C language linkage may
 appear in the program (see [#basic.def.odr]); this implies that such an entity
 must not be defined in more than one namespace scope.
+[:zh_CN]
+只能在程序中出现一个带有给定名字并带有 C 语言连接的实体的定义式（参见
+[#basic.def.odr]）；这意味着此种实体不能在多个命名空间作用域中进行定义。
 [exit:note]
 
 [enter:example]
@@ -245,17 +367,24 @@ namespace A {
   extern "C" int g() { return 1; }
   extern "C" int h();
   extern "C" int x();               // [:en] ill-formed: same name as global-space object [`x]
+                                    // [|:zh_CN] 非良构：与全局空间的对象 [`x] 名字相同
 }
 
 namespace B {
   extern "C" int f();               // [:en] [`A::f] and [`B::f] refer to the same function
+                                    // [|:zh_CN] [`A::f] 和 [`B::f] 代表相同的函数
   extern "C" int g() { return 1; }  // [:en] ill-formed, the function [`g]
+                                    // [|:zh_CN] 非良构，带有 C 语言连接的
                                     // [:en@~] with C language linkage has two definitions
+                                    // [|:zh_CN@~] 函数 [`g] 有两个定义式
 }
 
 int A::f() { return 98; }           // [:en] definition for the function [`f] with C language linkage
+                                    // [|:zh_CN] 带有 C 语言连接的函数 [`f] 的定义式
 extern "C" int h() { return 97; }   // [:en] definition for the function [`h] with C language linkage
+                                    // [|:zh_CN] 带有 C 语言连接的函数 [`h] 的定义式
                                     // [:en] [`A::h] and [`::h] refer to the same function
+                                    // [|:zh_CN] [`A::h] 和 [`::h] 代表同一个函数
 [codeblock:end]
 [exit:example]
 
@@ -264,19 +393,28 @@ extern "C" int h() { return 97; }   // [:en] definition for the function [`h] wi
 A declaration directly contained in a [~linkage-specification] is treated as if
 it contains the [`extern] specifier ([#dcl.stc]) for the purpose of determining
 the linkage of the declared name and whether it is a definition.
+[:zh_CN]
+在确定被声明的名字的连接和确定它是否是定义式时，直接在[~连接说明]中包含的声明式
+被当作如同它包含了 [`extern] 说明符（[#dcl.stc]）。
 
 [:en]
 Such a declaration shall not specify a storage class.
+[:zh_CN]
+此种声明式不能指定存储类。
 
 [enter:example]
 [codeblock]
 extern "C" double f();
 static double f();                  // [:en] error
+                                    // [|:zh_CN] 错误
 extern "C" int i;                   // [:en] declaration
+                                    // [|:zh_CN] 声明式
 extern "C" {
   int i;                            // [:en] definition
+                                    // [|:zh_CN] 定义式
 }
 extern "C" static void g();         // [:en] error
+                                    // [|:zh_CN] 错误
 [codeblock:end]
 [exit:example]
 
@@ -286,6 +424,10 @@ extern "C" static void g();         // [:en] error
 Because the language linkage is part of a function type, when indirecting
 through a pointer to C function, the function to which the resulting lvalue
 refers is considered a C function.
+[:zh_CN]
+由于语言连接是函数类型的一部分，所以当对（比如）指向 C 函数的指针进行间接时，其
+所指代的函数被认为是 C 函数。
+
 [exit:note]
 
 [para]
@@ -294,9 +436,16 @@ refers is considered a C function.
 [%linkage[!implementation-defined object]]
 Linkage from [=Cpp] to objects defined in other languages and to objects defined
 in [=Cpp] from other languages is implementation-defined and language-dependent.
+[:zh_CN]
+[%对象[!连接说明]]
+[%连接[!由实现定义的对象～]]
+从 [=Cpp] 到其他语言中所定义的对象的连接，以及从其他语言到 [=Cpp] 中定义的对象的
+连接，是由实现定义的和语言相关的。
 
 [:en]
 Only where the object layout strategies of two language implementations are
 similar enough can such linkage be achieved.
+[:zh_CN]
+只有当两个语言实现的对象布局策略足够相像时才能进行这种连接。
 
 [%:end#specification.linkage]

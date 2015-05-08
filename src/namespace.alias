@@ -1,27 +1,34 @@
 ﻿[section#namespace.alias
     [:en] Namespace alias
+    [:zh_CN] 命名空间别名
 ]
 
 [:en]
 [%namespace[!alias]]
 [%alias[!namespace]]
 [%synonym]
+[:zh_CN]
+[%命名空间[!～别名]]
+[%别名[!命名空间～]]
+[%同义词]
 
 [para]
 [:en]
 A [~namespace-alias-definition] declares an alternate name for a
 namespace according to the following grammar:
+[:zh_CN]
+[~命名空间别名定义式]按照下列文法为命名空间声明可替代的名字：
 
 [syntax]
-[rule namespace-alias [:zh_CN] ]
+[rule namespace-alias [:zh_CN] 命名空间别名 ]
     [| identifier ]
 [rule:end]
 
-[rule namespace-alias-definition [:zh_CN] ]
+[rule namespace-alias-definition [:zh_CN] 命名空间别名定义式 ]
     [| [`namespace] identifier [`=] qualified-namespace-specifier [`;] ]
 [rule:end]
 
-[rule qualified-namespace-specifier [:zh_CN] ]
+[rule qualified-namespace-specifier [:zh_CN] 限定命名空间说明符 ]
     [| [~:opt nested-name-specifier] namespace-name ]
 [rule:end]
 [syntax:end]
@@ -31,11 +38,17 @@ namespace according to the following grammar:
 The [~identifier] in a [~namespace-alias-definition] is a synonym for the name
 of the namespace denoted by the [~qualified-namespace-specifier] and becomes a
 [~namespace-alias].
+[:zh_CN]
+[~命名空间别名定义式]中的[~标识符]，是由[~限定的命名空间说明符]所代表的命名空间
+的名字的同义词，并成为[~命名空间别名]。
 
 [enter:note]
 [:en]
 When looking up a [~namespace-name] in a [~namespace-alias-definition], only
 namespace names are considered, see [#basic.lookup.udir].
+[:zh_CN]
+当查找[~命名空间别名定义式]中的[~命名空间名]时，只考虑命名空间名，参见
+[#basic.lookup.udir]。
 [exit:note]
 
 [para]
@@ -43,15 +56,21 @@ namespace names are considered, see [#basic.lookup.udir].
 In a declarative region, a [~namespace-alias-definition] can be used to redefine
 a [~namespace-alias] declared in that declarative region to refer only to the
 namespace to which it already refers.
+[:zh_CN]
+在某个声明区中，[~命名空间别名定义式]可用于重复定义此声明区中已声明过的[~命名
+空间别名]，但只能指代它已经指代的命名空间。
 
 [enter:example]
 [:en]
 the following declarations are well-formed:
+[:zh_CN]
+下列声明式是良构的：
 
 [codeblock]
 namespace Company_with_very_long_name { /* ... */ }
 namespace CWVLN = Company_with_very_long_name;
 namespace CWVLN = Company_with_very_long_name;          // [:en] OK: duplicate
+                                                        // [|:zh_CN] OK：重复
 namespace CWVLN = CWVLN;
 [codeblock:end]
 [exit:example]

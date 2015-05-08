@@ -1,26 +1,36 @@
 ﻿[section#basic.namespace
     [:en] Namespaces
+    [:zh_CN] 命名空间
 ]
 [%:begin#namespaces
     [:en] namespaces
+    [:zh_CN] 命名空间
 ]
 
 [para]
 [:en]
 A namespace is an optionally-named declarative region.
+[:zh_CN]
+命名空间是可选地带有名字的声明区。
 
 [:en]
 The name of a namespace can be used to access entities declared in that
 namespace; that is, the members of the namespace.
+[:zh_CN]
+命名空间的名字可用于访问在该命名空间中声明的实体；它们也就是该命名空间的成员。
 
 [:en]
 Unlike other declarative regions, the definition of a namespace can be split
 over several parts of one or more translation units.
+[:zh_CN]
+不像其他声明区，命名空间的定义式可以被分割为一个或多个翻译单元中的几个不同部分。
 
 [para]
 [:en]
 The outermost declarative region of a translation unit is a namespace; see
 [#basic.scope.namespace].
+[:zh_CN]
+翻译单元的最外层声明区是命名空间；参见 [#basic.scope.namespace]。
 
 [include namespace.def]
 

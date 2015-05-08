@@ -1,13 +1,16 @@
 ﻿[section#namespace.udir
     [:en] Using directive
+    [:zh_CN] Using 指令
 ]
 [%:begin#using.directive
     [:en] using-directive
+    [:zh_CN] using-指令
 ]
 
 [syntax]
-[rule using-directive [:zh_CN] ]
-    [| [~:opt attribute-specifier-seq] [`using] [`namespace] [~:opt nested-name-specifier] namespace-name [`;] ]
+[rule using-directive [:zh_CN] using-指令 ]
+    [| [~:opt attribute-specifier-seq] [`using] [`namespace]
+        [~:opt nested-name-specifier] namespace-name [`;] ]
 [rule:end]
 [syntax:end]
 
@@ -15,36 +18,53 @@
 [:en]
 A [~using-directive] shall not appear in class scope, but may appear in
 namespace scope or in block scope.
+[:zh_CN]
+[~using-指令]不能出现于类作用域中，但可出现于命名空间作用域或块作用域中。
 
 [enter:note]
 [:en]
 When looking up a [~namespace-name] in a [~using-directive], only namespace
 names are considered, see [#basic.lookup.udir].
+[:zh_CN]
+当对 [~using-指令]中的[~命名空间名]进行查找时，只考察命名空间名，参见
+[#basic.lookup.udir]
 [exit:note]
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the [~using-directive].
+[:zh_CN]
+可选的[~特性说明符序列]属于 [~using-指令]。
 
 [para]
 [:en]
 A [~using-directive] specifies that the names in the nominated namespace can be
 used in the scope in which the [~using-directive] appears after the
 [~using-directive].
+[:zh_CN]
+[~using-指令]指定，其所提名的命名空间中的名字，可以在包含该 [~using-指令]的作用
+域中，于该 [~using-指令]之后进行使用。
 
 [:en]
 During unqualified name lookup ([#basic.lookup.unqual]), the names appear as if
 they were declared in the nearest enclosing namespace which contains both the
 [~using-directive] and the nominated namespace.
+[:zh_CN]
+当进行未限定名查找（[#basic.lookup.unqual]）时，如同这些名字被声明于同时包含该
+[~using-指令]和所提名的命名空间的最内层外围命名空间之中一样。
 
 [enter:note]
 [:en]
 In this context, ["contains] means ["contains directly or indirectly].
+[:zh_CN]
+在这个语境中，“包含”的意思是“直接或间接包含”。
 [exit:note]
 
 [para]
 [:en]
 A [~using-directive] does not add any members to the declarative region in which
 it appears.
+[:zh_CN]
+[~using-指令]并不向包含它的声明区中添加任何成员。
 
 [enter:example]
 [codeblock]
@@ -57,6 +77,7 @@ namespace A {
     using namespace A::B::C;
     void f1() {
       i = 5;        // [:en] OK, [`C::i] visible in [`B] and hides [`A::i]
+                    // [|:zh_CN] OK，[`C::i] 在 [`B] 中可见，且隐藏了 [`A::i]
     }
   }
   namespace D {
@@ -64,14 +85,17 @@ namespace A {
     using namespace C;
     void f2() {
       i = 5;        // [:en] ambiguous, [`B::C::i] or [`A::i]?
+                    // [|:zh_CN] 有歧义，[`B::C::i] 还是 [`A::i]？
     }
   }
   void f3() {
     i = 5;          // [:en] uses [`A::i]
+                    // [|:zh_CN] 使用了 [`A::i]
   }
 }
 void f4() {
   i = 5;            // [:en] ill-formed; neither [`i] is visible
+                    // [|:zh_CN] 非良构；没有可见的 [`i]
 }
 [codeblock:end]
 [exit:example]
@@ -82,10 +106,16 @@ For unqualified lookup ([#basic.lookup.unqual]), the [~using-directive] is
 transitive: if a scope contains a [~using-directive] that nominates a second
 namespace that itself contains [~using-directive]s, the effect is as if the
 [~using-directive]s from the second namespace also appeared in the first.
+[:zh_CN]
+对于未限定的查找（[#basic.lookup.unqual]）来说，[~using-指令]具有可传递性：如果
+一个作用域中包含的 [~using-指令]所提名的第二个命名空间自己也包含 [~using-指令]，
+其效果就如同第二个命名空间中的 [~using-指令]同样出现在第一个之中。
 
 [enter:note]
 [:en]
 For qualified lookup, see [#namespace.qual].
+[:zh_CN]
+对于带限定的名字查找，参见 [#namespace.qual]。
 [exit:note]
 
 [enter:example]
@@ -102,11 +132,14 @@ namespace N {
 void f() {
   using namespace N;
   i = 7;            // [:en] error: both [`M::i] and [`N::i] are visible
+                    // [|:zh_CN] 错误：[`M::i] 和 [`N::i] 都可见
 }
 [codeblock:end]
 
 [:en]
 For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 namespace A {
@@ -121,12 +154,17 @@ namespace B {
       int j;
       int k;
       int a = i;    // [:en] [`B::i] hides [`A::i]
+                    // [|:zh_CN] [`B::i] 隐藏了 [`A::i]
     }
     using namespace D;
     int k = 89;     // [:en] no problem yet
+                    // [|:zh_CN] 还被什么问题
     int l = k;      // [:en] ambiguous: [`C::k] or [`D::k]
+                    // [|:zh_CN] 有歧义：[`C::k] 还是 [`D::k]
     int m = i;      // [:en] [`B::i] hides [`A::i]
+                    // [|:zh_CN] [`B::i] 隐藏了 [`A::i]
     int n = j;      // [:en] [`D::j] hides [`B::j]
+                    // [|:zh_CN] [`D::j] 隐藏了 [`B::j]
   }
 }
 [codeblock:end]
@@ -138,20 +176,32 @@ If a namespace is extended ([#namespace.def]) after a [~using-directive] for
 that namespace is given, the additional members of the extended namespace and
 the members of namespaces nominated by [~using-directive]s in the extending
 [~namespace-definition] can be used after the extending [~namespace-definition].
+[:zh_CN]
+如果在给出某个命名空间的 [~using-指令]之后，对这个命名空间进行了扩充
+（[#namespace.def]），则所扩充的命名空间的新增加的成员，以及扩充的[~命名空间
+定义式]中的 [~using-指令]所提名的命名空间的成员，在这个扩充的[~命名空间定义式]
+之后也可以使用。
 
 [para]
 [:en]
 If name lookup finds a declaration for a name in two different namespaces, and
 the declarations do not declare the same entity and do not declare functions,
 the use of the name is ill-formed.
+[:zh_CN]
+若名字查找找到了某个名字在两个不同命名空间中的声明式，而这些声明式并不声明同一个
+实体，而且并不声明函数，则使用这个名字是非良构的。
 
 [enter:note]
 [:en]
 In particular, the name of a variable, function or enumerator does not hide the
 name of a class or enumeration declared in a different namespace.
+[:zh_CN]
+特别地，变量、函数或枚举符的名字并不会隐藏不同命名空间中所声明的类或枚举的名字。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 namespace A {
@@ -169,8 +219,11 @@ using namespace B;
 
 void f() {
   X(1);             // [:en] error: name [`X] found in two namespaces
+                    // [|:zh_CN] 错误：名字 [`X] 在两个命名空间中被找到
   g();              // [:en] OK: name [`g] refers to the same entity
+                    // [|:zh_CN] OK：名字 [`g] 指代相同的实体
   h();              // [:en] OK: overload resolution selects [`A::h]
+                    // [|:zh_CN] OK：重载决议选择了 [`A::h]
 }
 [codeblock:end]
 [exit:note]
@@ -180,31 +233,47 @@ void f() {
 [%overloading[!using directive and]]
 During overload resolution, all functions from the transitive search are
 considered for argument matching.
+[:zh_CN]
+[%重载[!using 指令与～]]
+当进行重载决议时，为进行实参匹配，需要考察经传递性搜索所找到的所有函数。
 
 [:en]
 The set of declarations found by the transitive search is unordered.
+[:zh_CN]
+由传递性搜索找到的声明式的集合是无顺序的。
 
 [enter:note]
 [:en]
 In particular, the order in which namespaces were considered and the
 relationships among the namespaces implied by the [~using-directive]s do not
 cause preference to be given to any of the declarations found by the search.
+[:zh_CN]
+特别地，对命名空间进行考察的顺序，以及由 [~using-指令]之间所暗含的命名空间之间的
+关系，并不会对由此搜索所查找到的任何声明式赋予优先性。
 [exit:note]
 
 [:en]
 An ambiguity exists if the best match finds two functions with the same
 signature, even if one is in a namespace reachable through [~using-directive]s
 in the namespace of the other.
+[:zh_CN]
+如果找到了两个具有相同签名的函数作为其最佳匹配，则存在歧义，即使其中一个所在的
+命名空间，是通过另一个所在的命名空间中的 [~using-指令]而可达到的也是如此。
 
 [footnote]
 [:en]
 During name lookup in a class hierarchy, some ambiguities may be resolved by
 considering whether one member hides the other along some paths
 ([#class.member.lookup]).
+[:zh_CN]
+在类层次结构中进行名字查找时，一些歧义可以通过考察经由某些路径时一个成员是否可以
+隐藏另一个而得到解决（[#class.member.lookup]）。
 
 [:en]
 There is no such disambiguation when considering the set of names found as a
 result of following [~using-directive]s.
+[:zh_CN]
+当考察经由 [~using-指令]所找到的名字的集合时并不进行这种歧义消解。
 [footnote:end]
 
 [enter:example]
@@ -216,6 +285,7 @@ namespace D {
 using namespace D;
 
 int d1;             // [:en] OK: no conflict with [`D::d1]
+                    // [|:zh_CN] OK：与 [`D::d1] 没有冲突
 
 namespace E {
   int e;
@@ -223,6 +293,7 @@ namespace E {
 }
 
 namespace D {       // [:en] namespace extension
+                    // [|:zh_CN] 命名空间扩充
   int d2;
   using namespace E;
   void f(int);
@@ -230,11 +301,13 @@ namespace D {       // [:en] namespace extension
 
 void f() {
   d1++;             // [:en] error: ambiguous [`::d1] or [`D::d1]?
+                    // [|:zh_CN] 错误：歧义 [`::d1] 还是 [`D::d1]？
   ::d1++;           // OK
   D::d1++;          // OK
   d2++;             // OK: [`D::d2]
   e++;              // OK: [`E::e]
   f(1);             // [:en] error: ambiguous: [`D::f(int)] or [`E::f(int)]?
+                    // [|:zh_CN] 错误：歧义 [`D::f(int)] 还是 [`E::f(int)]？
   f('a');           // OK: [`D::f(char)]
 }
 [codeblock:end]

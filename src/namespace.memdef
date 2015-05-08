@@ -1,14 +1,18 @@
 ﻿[section#namespace.memdef
     [:en] Namespace member definitions
+    [:zh_CN] 命名空间成员的定义式
 ]
 [%  [:en] namespace[!member definition]
-    [:zh_CN] ]
+    [:zh_CN] 命名空间[!～成员的定义式] ]
 
 [para]
 [:en]
 A declaration in a namespace [`N] (excluding declarations in nested scopes)
 whose [~declarator-id] is an [~unqualified-id] declares (or redeclares) a member
 of [`N], and may be a definition.
+[:zh_CN]
+命名空间 [`N] 中的声明式（排除嵌套作用域中的声明式），若其[~声明符标识]是
+[~未限定标识]，则声明（或重新声明）[`N] 的一个成员，并且也可能是定义式。
 
 [enter:note]
 [:en]
@@ -16,18 +20,25 @@ An explicit instantiation ([#temp.explicit]) or explicit specialization
 ([#temp.expl.spec]) of a template does not introduce a name and thus may be
 declared using an [~unqualified-id] in a member of the enclosing namespace set,
 if the primary template is declared in an inline namespace.
+[:zh_CN]
+模板的显式实例化（[#temp.explicit]）或显式特化（[#temp.expl.spec]）并不会引入
+名字，因此当其主模板被声明于某个内联命名空间时，可能使用外围命名空间集合的某个
+成员中的[~未限定标识]来进行声明。
 [exit:note]
 
 [enter:example]
 [codeblock]
 namespace X {
   void f() { /* ... */ }  // [:en] OK: introduces [`X::f()]
+                          // [|:zh_CN] OK：引入了 [`X::f()]
 
   namespace M {
     void g();             // [:en] OK: introduces [`X::M::g()]
+                          // [|:zh_CN] OK：引入了 [`X::M::g()]
   }
   using M::g;
   void g();               // [:en] error: conflicts with [`X::M::g()]
+                          // [|:zh_CN] 错误：与 [`X::M::g()] 冲突
 }
 [codeblock:end]
 [exit:example]
@@ -39,6 +50,11 @@ explicit qualification ([#namespace.qual]) of the name being defined, provided
 that the entity being defined was already declared in the namespace and the
 definition appears after the point of declaration in a namespace that encloses
 the declaration[=']s namespace.
+[:zh_CN]
+还可以对具名命名空间的成员，在该命名空间之外通过对所定义的名字进行明确的限定
+（[#namespace.qual]）来进行定义，但要满足其所定义的实体已经在该命名空间中被声明
+过，并且此定义式出现于这个声明式所在命名空间的外围命名空间中，并在它的声明点之后
+。
 
 [enter:example]
 [codeblock]
@@ -48,6 +64,7 @@ namespace Q {
   }
   void V::f() { /* ... */ }     // OK
   void V::g() { /* ... */ }     // [:en] error: [`g()] is not yet a member of [`V]
+                                // [|:zh_CN] 错误：[`g()] 还不是 [`V] 的成员
   namespace V {
     void g();
   }
@@ -55,6 +72,7 @@ namespace Q {
 
 namespace R {
   void Q::V::g() { /* ... */ }  // [:en] error: [`R] doesn[=']t enclose [`Q]
+                                // [|:zh_CN] 错误：[`R] 并不包含 [`Q]
 }
 [codeblock:end]
 [exit:example]
@@ -63,66 +81,99 @@ namespace R {
 [:en]
 If a [`friend] declaration in a non-local class first declares a class,
 function, class template or function template
+[:zh_CN]
+如果非局部类中的某个 [`friend] 声明式首次声明了某个类，函数，类模板，或函数模板
 
 [footnote]
 [:en]
 this implies that the name of the class or function is unqualified.
+[:zh_CN]
+这意味着该类或函数的名字是未限定的。
 [footnote:end]
 
 [:en@~]
 the friend is a member of the innermost enclosing namespace.
+[:zh_CN@~]
+，则该友元类或函数是其最内层外围命名空间的成员。
 
 [:en]
 The [`friend] declaration does not by itself make the name visible to
 unqualified lookup ([#basic.lookup.unqual]) or qualified lookup
 ([#basic.lookup.qual]).
+[:zh_CN]
+[`friend] 声明式自身并不会使这个名字对于未限定名查找（[#basic.lookup.unqual]）
+或限定名查找（[#basic.lookup.qual]）可见。
 
 [enter:note]
 [:en]
 The name of the friend will be visible in its namespace if a matching
 declaration is provided at namespace scope (either before or after the class
 definition granting friendship).
+[:zh_CN]
+该友元的名字，直到在此命名空间作用域中（授予友元关系的类的声明式之前或之后）提供
+了与其匹配的声明式，才会变为可见。
 [exit:note]
 
 [:en]
 If a friend function or function template is called, its name may be found by
 the name lookup that considers functions from namespaces and classes associated
 with the types of the function arguments ([#basic.lookup.argdep]).
+[:zh_CN]
+当调用友元函数或函数模板时，通过考察与函数实参的类型相关联的命名空间和类
+（[#basic.lookup.argdep]）之中的函数所进行的名字查找，能够找到它的名字。
 
 [:en]
 If the name in a [`friend] declaration is neither qualified nor a [~template-id]
 and the declaration is a function or an [~elaborated-type-specifier], the lookup
 to determine whether the entity has been previously declared shall not consider
 any scopes outside the innermost enclosing namespace.
+[:zh_CN]
+若 [`friend] 声明式中的名字既未被限定也不是[~模板标识]，且该声明式是函数或[~详细
+类型说明符]，则用以确定该实体是否在之前已经被声明过的查找过程，不应当考虑其
+最内层外围命名空间外面的任何作用域。
 
 [enter:note]
 [:en]
 The other forms of [`friend] declarations cannot declare a new member of the
 innermost enclosing namespace and thus follow the usual lookup rules.
+[:zh_CN]
+[`friend] 声明式的其他形式不能声明其最内层外围命名空间的新成员，并因此需要遵循
+常规的查找规则。
 [exit:note]
 
 [enter:example]
 [codeblock]
 // [:en] Assume [`f] and [`g] have not yet been declared.
+// [|:zh_CN] 假设 [`f] 和 [`g] 并未被定义过。
 void h(int);
 template <class T> void f2(T);
 namespace A {
   class X {
     friend void f(X);           // [:en] [`A::f(X)] is a friend
+                                // [|:zh_CN] [`A::f(X)] 是友元
     class Y {
       friend void g();          // [:en] [`A::g] is a friend
+                                // [|:zh_CN] [`A::g] 是友元
       friend void h(int);       // [:en] [`A::h] is a friend
+                                // [|:zh_CN] [`A::h] 是友元
                                 // [:en@~] [`::h] not considered
+                                // [|:zh_CN@~] [`::h] 未被考虑
       friend void f2<>(int);    // [:en] [`::f2<>(int)] is a friend
+                                // [|:zh_CN] [`::f2<>(int)] 是友元
     };
   };
 
   // [:en] [`A::f], [`A::g] and [`A::h] are not visible here
+  // [|:zh_CN] [`A::f]，[`A::g] 和 [`A::h] 在此处不可见
   X x;
   void g() { f(x); }            // [:en] definition of [`A::g]
+                                // [|:zh_CN] [`A::g] 的定义式
   void f(X) { /* ... */ }       // [:en] definition of [`A::f]
+                                // [|:zh_CN] [`A::f] 的定义式
   void h(int) { /* ... */ }     // [:en] definition of [`A::h]
+                                // [|:zh_CN] [`A::h] 的定义式
   // [:en] [`A::f], [`A::g] and [`A::h] are visible here and known to be friends
+  // [|:zh_CN] [`A::f]，[`A::g] 和 [`A::h] 在此处可见且知其为友元
 }
 
 using A::x;
@@ -130,7 +181,9 @@ using A::x;
 void h() {
   A::f(x);
   A::X::f(x);                   // [:en] error: [`f] is not a member of [`A::X]
+                                // [|:zh_CN] 错误：[`f] 不是 [`A::X] 的成员
   A::X::Y::g();                 // [:en] error: [`g] is not a member of [`A::X::Y]
+                                // [|:zh_CN] 错误：[`g] 不是 [`A::X::Y] 的成员
 }
 [codeblock:end]
 [exit:example]

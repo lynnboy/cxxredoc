@@ -1,45 +1,54 @@
 ﻿[section#namespace.def
     [:en] Namespace definition
+    [:zh_CN] 命名空间定义式
 ]
 
 [:en]
 [%definition[!namespace]]
 [%namespace[!definition]]
+[:zh_CN]
+[%定义式[!命名空间～]]
+[%命名空间[!～定义式]]
 
 [para]
 [:en]
 The grammar for a [~namespace-definition] is
+[:zh_CN]
+[~命名空间定义式]的文法是
 
 [syntax]
-[rule namespace-name [:zh_CN] ]
+[rule namespace-name [:zh_CN] 命名空间名 ]
     [| identifier ]
     [| namespace-alias ]
 [rule:end]
 
-[rule namespace-definition [:zh_CN] ]
+[rule namespace-definition [:zh_CN] 命名空间定义式 ]
     [| named-namespace-definition ]
     [| unnamed-namespace-definition ]
     [| nested-namespace-definition ]
 [rule:end]
 
-[rule named-namespace-definition [:zh_CN] ]
-    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq] identifier [`{] namespace-body [`}] ]
+[rule named-namespace-definition [:zh_CN] 具名命名空间定义式 ]
+    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq] identifier
+        [`{] namespace-body [`}] ]
 [rule:end]
 
-[rule unnamed-namespace-definition [:zh_CN] ]
-    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq] [`{] namespace-body [`}] ]
+[rule unnamed-namespace-definition [:zh_CN] 无名命名空间定义式 ]
+    [`:opt inline] [`namespace] [~:opt attribute-specifier-seq]
+        [`{] namespace-body [`}] ]
 [rule:end]
 
-[rule nested-namespace-definition [:zh_CN] ]
-    [| [`namespace] enclosing-namespace-specifier [`::] identifier [`{] namespace-body [`}] ]
+[rule nested-namespace-definition [:zh_CN] 嵌套命名空间定义式 ]
+    [| [`namespace] enclosing-namespace-specifier [`::] identifier
+        [`{] namespace-body [`}] ]
 [rule:end]
 
-[rule enclosing-namespace-specifier [:zh_CN] ]
+[rule enclosing-namespace-specifier [:zh_CN] 外围命名空间说明符 ]
     [| identifier ]
     [| enclosing-namespace-specifier [`::] identifier ]
 [rule:end]
 
-[rule namespace-body [:zh_CN] ]
+[rule namespace-body [:zh_CN] 命名空间体 ]
     [| [~:opt declaration-seq] ]
 [rule:end]
 [syntax:end]
@@ -48,28 +57,44 @@ The grammar for a [~namespace-definition] is
 [:en]
 Every [~namespace-definition] shall appear in the global scope or in a namespace
 scope ([#basic.scope.namespace]).
+[:zh_CN]
+所有[~命名空间定义式]都应当出现于全局作用域或命名空间作用域
+（[#basic.scope.namespace]）中。
 
 [para]
 [:en]
 In a [~named-namespace-definition], the [~identifier] is the name of the
 namespace.
+[:zh_CN]
+[~具名命名空间定义式]中，其[~标识符]是命名空间的名字。
 
 [:en]
 If the [~identifier], when looked up ([#basic.lookup.unqual]), refers to a
 [~namespace-name] (but not a [~namespace-alias]) introduced in the declarative
 region in which the [~named-namespace-definition] appears, the
-[~namespace-definition] [%extend[see namespace, extend]] [def extends
+[~namespace-definition] [%extend[see namespace[!extend]]] [def extends
 [%namespace[!extend]]] the previously-declared namespace.
+[:zh_CN]
+如果其[~标识符]当进行查找时（[#basic.lookup.unqual]）指代某个被引入到包含该
+[~具名命名空间定义式]的声明区中的[~命名空间名]（但不是[~命名空间别名]），则该
+[~命名空间定义式][%扩充[see 命名空间[!扩充～]]][def 扩充[%命名空间[!扩充～]]]
+了之前所声明的命名空间。
 
 [:en]
 Otherwise, the [~identifier] is introduced as a [~namespace-name] into the
 declarative region in which the [~named-namespace-definition] appears.
+[:zh_CN]
+否则，该[~标识符]作为[~命名空间名]被引入到包含该[~具名命名空间定义式]的声明区
+之中。
 
 [para]
 [:en]
 Because a [~namespace-definition] contains [~declaration]s in its
 [~namespace-body] and a [~namespace-definition] is itself a [~declaration], it
 follows that [~namespace-definitions] can be nested.
+[:zh_CN]
+由于[~命名空间定义式]在其[~命名空间体]中包含[~声明式]，而[~命名空间定义式]本身也
+是[~声明式]，这导致[~命名空间定义式]可以嵌套。
 
 [enter:example]
 [codeblock]
@@ -90,22 +115,32 @@ The [+enclosing namespaces] of a declaration are those namespaces in which the
 declaration lexically appears, except for a redeclaration of a namespace member
 outside its original namespace (e.g., a definition as specified in
 [#namespace.memdef]).
+[:zh_CN]
+某个声明式的[+外围命名空间]，是在词法上包含该声明式的命名空间，但不考虑于初始
+命名空间之外对命名空间成员的重复声明（例如，在 [#namespace.memdef] 中所指定的
+定义式）。
 
 [:en]
 Such a redeclaration has the same enclosing namespaces as the original
 declaration.
+[:zh_CN]
+此种重复声明与其原始声明式具有相同的外围命名空间。
 
 [enter:example]
 [codeblock]
 namespace Q {
   namespace V {
     void f();   // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+                // [|:zh_CN] 外围命名空间是全局命名空间，[`Q]，以及 [`Q::V]
     class C { void m(); };
   }
   void V::f() { // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+                // [|:zh_CN] 外围命名空间是全局命名空间，[`Q]，以及 [`Q::V]
     extern void h();  // [:en@~] ... so this declares [`Q::V::h]
+                      // [|:zh_CN@~] …… 此处声明了 [`Q::V::h]
   }
   void V::C::m() { // [:en] enclosing namespaces are the global namespace, [`Q], and [`Q::V]
+                   // [|:zh_CN] 外围命名空间是全局命名空间，[`Q]，以及 [`Q::V]
   }
 }
 [codeblock:end]
@@ -116,21 +151,31 @@ namespace Q {
 If the optional initial [`inline] keyword appears in a [~namespace-definition]
 for a particular namespace, that namespace is declared to be an [+inline
 namespace].
+[:zh_CN]
+如果特定命名空间的[~命名空间定义式]中的开头出现可选的关键字 [`inline]，则所声明
+的命名空间是[+内联命名空间]。
 
 [:en]
 The [`inline] keyword may be used on a [~namespace-definition] that extends a
 namespace only if it was previously used on the [~namespace-definition] that
 initially declared the [~namespace-name] for that namespace.
+[:zh_CN]
+只有当最初声明某个命名空间的[~命名空间名]的[~命名空间定义式]之中已经使用关键字
+[`inline] 时，它才能用在扩充该命名空间的[~命名空间定义式]之中。
 
 [para]
 [:en]
 The optional [~attribute-specifier-seq] in a [~named-namespace-definition]
 appertains to the namespace being defined or extended.
+[:zh_CN]
+[~具名命名空间定义式]中可选的[~特性说明符序列]属于被定义或扩充的命名空间。
 
 [para]
 [:en]
 Members of an inline namespace can be used in most respects as though they were
 members of the enclosing namespace.
+[:zh_CN]
+内联命名空间的成员，在大多数时候都可以被当作其外围命名空间的成员来使用。
 
 [:en]
 Specifically, the inline namespace and its enclosing namespace are both added to
@@ -138,38 +183,62 @@ the set of associated namespaces used in argument-dependent lookup
 ([#basic.lookup.argdep]) whenever one of them is, and a [~using-directive]
 ([#namespace.udir]) that names the inline namespace is implicitly inserted into
 the enclosing namespace as for an unnamed namespace ([#namespace.unnamed]).
+[:zh_CN]
+特别是，内联命名空间及其外围命名空间，一旦其中之一满足条件，则都被加入到由依赖于
+实参的名字查找所使用的关联命名空间集合中（[#basic.lookup.argdep]），而且如同对
+无名命名空间（[#namespace.unnamed]）一样，向外围命名空间中隐含地插入一条指名了
+内联命名空间的 [~using-指令]（[#namespace.udir]）。
 
 [:en]
 Furthermore, each member of the inline namespace can subsequently be partially
 specialized ([#temp.class.spec]), explicitly instantiated ([#temp.explicit]), or
 explicitly specialized ([#temp.expl.spec]) as though it were a member of the
 enclosing namespace.
+[:zh_CN]
+而且，内联命名空间的所有成员，都可以如同是外围命名空间的成员那样，随后进行部分
+特化（[#temp.class.spec]），显式实例化（[#temp.explicit]），或显式特化
+（[#temp.expl.spec]）。
 
 [:en]
 Finally, looking up a name in the enclosing namespace via explicit qualification
 ([#namespace.qual]) will include members of the inline namespace brought in by
 the [~using-directive] even if there are declarations of that name in the
 enclosing namespace.
+[:zh_CN]
+最后，使用显式限定（[#namespace.qual]）在外围命名空间中查找某个名字时，即使外围
+命名空间中已经存在这个名字的声明式，也会将由这条 [~using-指令]所带入的内联命名
+空间的成员包括进来。
 
 [para]
 [:en]
 These properties are transitive: if a namespace [`N] contains an inline
 namespace [`M], which in turn contains an inline namespace [`O], then the
 members of [`O] can be used as though they were members of [`M] or [`N].
+[:zh_CN]
+这些性质是可传递的：如果命名空间 [`N] 包含内联命名空间 [`M]，它又包含内联命名
+空间 [`O]，那么 [`O] 的成员就可以被当作如同是 [`M] 或 [`N] 的成员那样进行使用。
 
 [:en]
 The [+inline namespace set] of [`N] is the transitive closure of all inline
 namespaces in [`N].
+[:zh_CN]
+[`N] 的[+内联命名空间集合]，是 [`N] 中的全部内联命名空间的传递闭包。
 
 [:en]
 The [+enclosing namespace set] of [`O] is the set of namespaces consisting of
 the innermost non-inline namespace enclosing an inline namespace [`O], together
 with any intervening inline namespaces.
+[:zh_CN]
+[`O] 的[+外围命名空间集合]，由包含内联命名空间 [`O] 的最内层非内联命名空间，以及
+介于它们之中的所有内联命名空间一起构成 。
 
 [para]
 [:en]
 A [~nested-namespace-definition] with an [~enclosing-namespace-specifier] [`E],
 [~identifier] [`I] and [~namespace-body] [`B] is equivalent to
+[:zh_CN]
+带有[~外围命名空间说明符] [`E]，[~标识符] [`I]，以及[~命名空间体] [`B] 的[~嵌套
+命名空间定义式]，等价于
 
 [codeblock:notation]
 namespace E { namespace I { B } }
@@ -184,6 +253,8 @@ namespace A::B::C {
 
 [:en]
 The above has the same effect as:
+[:zh_CN]
+以上的效果等同于：
 
 [codeblock]
 namespace A {
