@@ -1,8 +1,10 @@
 ﻿[section:chapter#dcl.decl
     [:en] Declarators
+    [:zh_CN] 声明符
 ]
 [%:begin#declarator
     [:en] declarator
+    [:zh_CN] 声明符
 ]
 
 [/
@@ -17,23 +19,35 @@
 [%[`::*][see declarator[!pointer to member]]]
 [%[`[`]][see declarator[!array]]]
 [%[`()][see declarator[!function]]]
+[:zh_CN]
+[%初始化[!类对象～][seealso 构造函数]]
+[%[`*][see 声明符[!指针～]]]
+[%[`&][see 声明符[!引用～]]]
+[%[`::*][see 声明符[!成员指针～]]]
+[%[`[`]][see 声明符[!数组～]]]
+[%[`()][see 声明符[!函数～]]]
 
 [para]
 [:en]
 A declarator declares a single variable, function, or type, within a
 declaration.
+[:zh_CN]
+在声明式中，每个声明符声明一个变量、函数或类型。
 
 [:en]
 The [~init-declarator-list] appearing in a declaration is a comma-separated
 sequence of declarators, each of which can have an initializer.
+[:zh_CN]
+声明式中的[~初始化声明符列表]是由逗号分隔的声明符的序列，它们每个都可以带有初始
+化式。
 
 [syntax]
-[rule  init-declarator-list [:zh_CN] ]
+[rule  init-declarator-list [:zh_CN] 初始化声明符列表 ]
     [| init-declarator ]
     [| init-declarator-list [`,] init-declarator ]
 [rule:end]
 
-[rule init-declarator [:zh_CN] ]
+[rule init-declarator [:zh_CN] 初始化声明符 ]
     [| declarator [~:opt initializer] ]
 [rule:end]
 [syntax:end]
@@ -43,32 +57,48 @@ sequence of declarators, each of which can have an initializer.
 The three components of a [~simple-declaration] are the attributes
 ([#dcl.attr]), the specifiers ([~decl-specifier-seq]; [#dcl.spec]) and the
 declarators ([~init-declarator-list]).
+[:zh_CN]
+[~简单声明式]有三个部分：特性标注（[#dcl.attr]），说明符（[~声明说明符序列]；
+[#dcl.spec]），和声明符（[~初始化声明符列表]）。
 
 [:en]
 The specifiers indicate the type, storage class or other properties of the
 entities being declared.
+[:zh_CN]
+说明符指定了被声明的实体的类型、存储类或其他属性。
 
 [:en]
 The declarators specify the names of these entities and (optionally) modify the
 type of the specifiers with operators such as [`*] (pointer to) and [`()]
 (function returning).
+[:zh_CN]
+声明符指定了这些实体的名字，并（可选地）用 [`*]（指针）和 [`()]（函数返回）等
+运算符来修改其说明符的类型。
 
 [:en]
 Initial values can also be specified in a declarator; initializers are discussed
 in [#dcl.init] and [#class.init].
+[:zh_CN]
+声明符中还可以指定初始值；初始化式在 [#dcl.init] 和 [#class.init] 中讨论。
 
 [para]
 [:en]
 Each [~init-declarator] in a declaration is analyzed separately as if it was in
 a declaration by itself.
+[:zh_CN]
+声明式中的每个[~初始化声明符]都是分别进行分析的，如同它们被单独声明那样。
 
 [footnote]
 [:en]
 A declaration with several declarators is usually equivalent to the
 corresponding sequence of declarations each with a single declarator.
+[:zh_CN]
+带有多个声明符的声明式通常等价于相应的声明式序列，其中每个都带有单个的声明符。
 
 [:en]
 That is
+[:zh_CN]
+就是说
 
 [codeblock:notation]
 T  D1, D2, ... Dn;
@@ -76,6 +106,8 @@ T  D1, D2, ... Dn;
 
 [:en@~]
 is usually equivalent to
+[:zh_CN@~]
+通常等价于
 
 [codeblock:notation]
 T  D1; T D2; ... T Dn;
@@ -83,96 +115,117 @@ T  D1; T D2; ... T Dn;
 
 [:en@~]
 where [`T] is a [~decl-specifier-seq] and each [`Di] is an [~init-declarator].
+[:zh_CN@~]
+其中 [`T] 是[~声明说明符序列]，而每个 [`Di] 是[~初始化声明符]。
 
 [:en]
 An exception occurs when a name introduced by one of the [~declarator]s hides a
 type name used by the [~decl-specifier]s, so that when the same
 [~decl-specifier]s are used in a subsequent declaration, they do not have the
 same meaning, as in
+[:zh_CN]
+例外发生于当由[~声明符]之一所引入的名字隐藏了由[~声明说明符]所使用的类型名时，
+此时当相同的[~声明说明符]在后续的声明式中使用时，它们并不具有相同的含义，正如
 
 [codeblock]
 struct S { ... };
 S S, T; // [:en] declare two instances of [`struct S]
+        // [|:zh_CN] 声明两个 [`struct S] 的实例
 [codeblock:end]
 
 [:en@~]
 which is not equivalent to
+[:zh_CN@~]
+并不等价于
 
 [codeblock]
 struct S { ... };
 S S;
 S T; // [:en] error
+     // [|:zh_CN] 错误
 [codeblock:end]
 
 [:en]
 Another exception occurs when [`T] is [`auto] ([#dcl.spec.auto]), for example:
+[:zh_CN]
+另一种例外发生于当 [`T] 是 [`auto] 时（[#dcl.spec.auto]）例如：
 
 [codeblock]
 auto i = 1, j = 2.0; // [:en] error: deduced types for [`i] and [`j] do not match
+                     // [|:zh_CN] 错误：为 [`i] 和 [`j] 推断的类型并不匹配
 [codeblock:end]
 
-[:en]
+[:en@~]
 as opposed to
+[:zh_CN@~]
+相对而言
 
 [codeblock]
-auto i = 1;    // OK: [`i] deduced to have type [`int]
-auto j = 2.0;  // OK: [`j] deduced to have type [`double]
+auto i = 1;    // [:en] OK: [`i] deduced to have type [`int]
+               // [|:zh_CN] OK：[`i] 被推断为具有类型 [`int]
+auto j = 2.0;  // [:en] OK: [`j] deduced to have type [`double]
+               // [|:zh_CN] OK：[`j] 被推断为具有类型 [`double]
 [codeblock:end]
 [footnote:end]
 
 [para]
 [:en]
 Declarators have the syntax
+[:zh_CN]
+声明符的语法是
 
 [syntax]
-[rule declarator [:zh_CN] ]
+[rule declarator [:zh_CN] 声明符 ]
     [| ptr-declarator ]
     [| noptr-declarator parameters-and-qualifiers trailing-return-type ]
 [rule:end]
 
-[rule ptr-declarator [:zh_CN] ]
+[rule ptr-declarator [:zh_CN] 指针声明符 ]
     [| noptr-declarator ]
     [| ptr-operator ptr-declarator ]
 [rule:end]
 
-[rule noptr-declarator [:zh_CN] ]
+[rule noptr-declarator [:zh_CN] 非指针声明符 ]
     [| declarator-id [~:opt attribute-specifier-seq] ]
     [| noptr-declarator parameters-and-qualifiers ]
-    [| noptr-declarator [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq] ]
+    [| noptr-declarator [`[] [~:opt constant-expression] [``]]
+        [~:opt attribute-specifier-seq] ]
     [| [`(] ptr-declarator [`)] ]
 [rule:end]
 
-[rule parameters-and-qualifiers [:zh_CN] ]
+[rule parameters-and-qualifiers [:zh_CN] 形参和限定符 ]
     [`(] parameter-declaration-clause [`)] [~:opt cv-qualifier-seq]
-        [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
+        [~:opt ref-qualifier] [~:opt exception-specification]
+        [~:opt attribute-specifier-seq] ]
 [rule:end]
 
-[rule trailing-return-type [:zh_CN] ]
+[rule trailing-return-type [:zh_CN] 尾部返回类型 ]
     [| [`->] trailing-type-specifier-seq [~:opt abstract-declarator] ]
 [rule:end]
 
-[rule ptr-operator [:zh_CN] ]
+[rule ptr-operator [:zh_CN] 指针运算符 ]
     [| [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] ]
     [| [`&] [~:opt attribute-specifier-seq] ]
     [| [`&&] [~:opt attribute-specifier-seq] ]
-    [| nested-name-specifier [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] ]
+    [| nested-name-specifier [`*] [~:opt attribute-specifier-seq]
+        [~:opt cv-qualifier-seq] ]
 [rule:end]
 
-[rule cv-qualifier-seq [:zh_CN] ]
+[rule cv-qualifier-seq [:zh_CN] cv-限定符序列 ]
     [| cv-qualifier [~:opt cv-qualifier-seq] ]
 [rule:end]
 
-[rule cv-qualifier [:zh_CN] ]
+[rule cv-qualifier [:zh_CN] cv-限定符 ]
     [| [`const] ]
     [| [`volatile] ]
 [rule:end]
 
-[rule ref-qualifier [:zh_CN] ]
+[rule ref-qualifier [:zh_CN] 引用限定符 ]
     [| [`&] ]
     [| [`&&] ]
 [rule:end]
 
-[rule declarator-id [:zh_CN] ]
+[rule declarator-id [:zh_CN] 声明符标识 ]
     [| [`:opt ...] id-expression ]
 [rule:end]
 [syntax:end]
@@ -181,19 +234,27 @@ Declarators have the syntax
 [:en]
 The optional [~attribute-specifier-seq] in a [~trailing-return-type] appertains
 to the indicated return type.
+[:zh_CN]
+[~尾部返回类型]中可选的[~特性说明符序列]属于其指定的返回类型。
 
 [:en]
 The [~type-id] in a [~trailing-return-type] includes the longest possible
 sequence of [~abstract-declarator]s.
+[:zh_CN]
+[~尾部返回类型]中的[~类型标识]，包含[~抽象声明符]的最长可能序列。
 
 [enter:note]
 [:en]
 This resolves the ambiguous binding of array and function declarators.
+[:zh_CN]
+这解决了对数组和函数声明符之间的绑定歧义。
 
 [enter:example]
 [codeblock]
 auto f()->int(*)[4];  // [:en] function returning a pointer to array[4] of [`int]
+                      // [|:zh_CN] 返回一个指向包含四个 [`int] 的数组的指针的函数，
                       // [:en@~] not function returning array[4] of pointer to [`int]
+                      // [|:zh_CN@~] 而不是返回包含四个 [`int] 的指针的数组的函数
 [codeblock:end]
 [exit:example]
 [exit:note]

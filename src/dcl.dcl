@@ -74,7 +74,7 @@ Declarations have the form
     [| [`;] ]
 [rule:end]
 
-[rule attribute-declaration [:zh_CN] 特性声明式 ]
+[rule attribute-declaration [:zh_CN] 特性标注声明式 ]
     [| attribute-specifier-seq [`;] ]
 [rule:end]
 [syntax:end]
@@ -162,7 +162,8 @@ declaration.
 Except where otherwise specified, the meaning of an [~attribute-declaration] is
 [%@impldef meaning of attribute declaration] implementation-defined.
 [:zh_CN]
-除非特别指明，[~特性声明式]的含义是[%@impldef 特性声明式的含义]由实现定义的。
+除非特别指明，[~特性标注声明式]的含义是[%@impldef 特性标注声明式的含义]由实现
+定义的。
 
 [para]
 [:en]

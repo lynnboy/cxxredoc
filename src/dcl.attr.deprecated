@@ -1,27 +1,37 @@
 ﻿[section#dcl.attr.deprecated
     [:en] Deprecated attribute
+    [:zh_CN] Deprecated 特性标注
 ]
 
 [%  [:en] attribute[!deprecated]
-    [:zh_CN] ]
+    [:zh_CN] 特性标注[!deprecated] ]
 
 [para]
 [:en]
 The [~attribute-token] [`deprecated] can be used to mark names and entities
 whose use is still allowed, but is discouraged for some reason.
+[:zh_CN]
+[~特性记号] [`deprecated] 可以用于标记那些仍然允许使用，但出于某些原因被劝阻继续
+使用的名字和实体。
 
 [enter:note]
 [:en]
 in particular, [`deprecated] is appropriate for names and entities that are
 deemed obsolescent or unsafe.
+[:zh_CN]
+尤其是，[`deprecated] 适用于那些被认为是废弃的或者不安全的名字和实体。
 [exit:note]
 
 [:en]
 It shall appear at most once in each [~attribute-list].
+[:zh_CN]
+它在每个[~特性列表]中最多出现一次。
 
 [:en]
 An [~attribute-argument-clause] may be present and, if present, it shall have
 the form:
+[:zh_CN]
+可以带有[~特性实参子句]，如果存在，则其应具有如下形式：
 
 [codeblock:notation]
 ( [~string-literal] )
@@ -31,6 +41,9 @@ the form:
 [:en]
 the [~string-literal] in the [~attribute-argument-clause] could be used to
 explain the rationale for deprecation and/or to suggest a replacing entity.
+[:zh_CN]
+[~特性实参子句]中的[~字符串字面量]可以用于解释所摒弃的依据，以及/或者建议一个
+换用的实体。
 [exit:note]
 
 [para]
@@ -38,26 +51,39 @@ explain the rationale for deprecation and/or to suggest a replacing entity.
 The attribute may be applied to the declaration of a class, a [~typedef-name],
 a variable, a non-static data member, a function, a namespace, an enumeration,
 an enumerator, or a template specialization.
+[:zh_CN]
+该特性标注可以应用于类，[~typedef-名]，变量，非静态数据成员，函数，命名空间，
+枚举，枚举符，或者模板特化式。
 
 [para]
 [:en]
 A name or entity declared without the [`deprecated] attribute can later be
 re-declared with the attribute and vice-versa.
+[:zh_CN]
+声明时不带有 [`deprecated] 特性标注的名字或实体，可以随后被重新声明为带有该特性
+标注，反之亦然。
 
 [enter:note]
 [:en]
 Thus, an entity initially declared without the attribute can be marked as
 deprecated by a subsequent redeclaration.
+[:zh_CN]
+因此，一个最初声明时不带有该特性标注的实体可以在后续的重新声明中标记为被摒弃的。
 
 [:en]
 However, after an entity is marked as deprecated, later redeclarations do not
 un-deprecate the entity.
+[:zh_CN]
+然而，一旦一个实体被标记为被摒弃的，后续的重新声明不会将对该实体的摒弃去除。
 [exit:note] 
 
 [:en]
 Redeclarations using different forms of the attribute (with or without the
 [~attribute-argument-clause] or with different [~attribute-argument-clause]s)
 are allowed.
+[:zh_CN]
+使用不同形式（带有或没有[~特性实参子句]，或者不同的[~特性实参子句]）的特性标注
+进行重新声明是允许的。
 
 [para]
 [enter:note]
@@ -65,9 +91,15 @@ are allowed.
 Implementations may use the [`deprecated] attribute to produce a diagnostic
 message in case the program refers to a name or entity other than to declare it,
 after a declaration that specifies the attribute.
+[:zh_CN]
+于指定了 [`deprecated] 特性标注的声明式之后，如果程序以除了声明之外的方式涉及其
+名字或实体，则实现可以利用该特性标注以产生诊断消息。
 
 [:en]
 The diagnostic message may include the text provided within the
 [~attribute-argument-clause] of any [`deprecated] attribute applied to the name
 or entity.
+[:zh_CN]
+诊断消息中可以包含施加于这个名字或实体的任意 [`deprecated] 特性标注的[~特性实参
+子句]之中所提供的文本。
 [exit:note]

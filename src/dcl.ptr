@@ -1,12 +1,16 @@
 ﻿[section#dcl.ptr
     [:en] Pointers
+    [:zh_CN] 指针
 ]
 
-[%  [:en] declarator[!pointer]]
+[%  [:en] declarator[!pointer]
+    [:zh_CN] 声明符[!指针～] ]
 
 [para]
 [:en]
 In a declaration [`T D] where [`D] has the form
+[:zh_CN]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
 [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] [`D1]
@@ -14,24 +18,39 @@ In a declaration [`T D] where [`D] has the form
 
 [:en@~]
 and the type of the identifier in the declaration [`T D1] is
-["[~derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
-is ["[~derived-declarator-type-list cv-qualifier-seq] pointer to [`T].]
+["[$derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
+is ["[$derived-declarator-type-list] [~cv-qualifier-seq] pointer to [`T].]
+[:zh_CN@~]
+且声明式 [`T D1] 中的标识符的类型是“[`T] [$衍生的声明符类型列表]”，则 [`D] 的
+标识符的类型就为“[`T] [$衍生的声明符类型列表]的 [~cv-限定符序列]指针”。
 
 [:en]
 [%declaration[!pointer]]
 [%declaration[!constant pointer]]
 The [~cv-qualifier]s apply to the pointer and not to the object pointed to.
+[:zh_CN]
+[%声明[!指针]]
+[%声明[!常量指针]]
+[~cv-限定符序列]施加于指针上，而不是其所指向的对象。
 
 [:en]
 Similarly, the optional [~attribute-specifier-seq] ([#dcl.attr.grammar])
 appertains to the pointer and not to the object pointed to.
+[:zh_CN]
+相似地，可选的[~特性说明符序列]（[#dcl.attr.grammar]）属于指针，而不是其所指向的
+对象。
 
 [para]
 [enter:example]
 [:en]
 the declarations
-[%example[![`const]]]
-[%example[!constant pointer]]
+[:zh_CN]
+声明式
+
+[%[:en]example[![`const]]
+  [:zh_CN]示例[![`const]] ]
+[%[:en]example[!constant pointer]
+  [:zh_CN]示例[!常量指针] ]
 
 [codeblock]
 const int ci = 10, *pc = &ci, *const cpc = pc, **ppc;
@@ -43,15 +62,25 @@ declare [`ci], a constant integer; [`pc], a pointer to a constant integer;
 [`cpc], a constant pointer to a constant integer; [`ppc], a pointer to a pointer
 to a constant integer; [`i], an integer; [`p], a pointer to integer; and [`cp],
 a constant pointer to integer.
+[:zh_CN@~]
+声明 [`ci] 为常量整数；[`pc] 为常量整数的指针；[`cpc] 为常量整数的常量指针，
+[`ppc] 为常量整数的指针的指针；[`i] 为整数；[`p] 为整数的指针；以及 [`cp] 为整数
+的常量指针。
 
 [:en]
 The value of [`ci], [`cpc], and [`cp] cannot be changed after initialization.
+[:zh_CN]
+[`ci]、[`cpc] 和 [`cp] 的值在初始化之后不能改变。
 
 [:en]
 The value of [`pc] can be changed, and so can the object pointed to by [`cp].
+[:zh_CN]
+[`pc] 的值可以改变，而 [`cp] 所指向的对象也可以。
 
 [:en]
 Examples of some correct operations are
+[:zh_CN]
+一些正确操作的例子有
 
 [codeblock]
 i = ci;
@@ -64,43 +93,67 @@ ppc = &pc;
 
 [:en]
 Examples of ill-formed operations are
+[:zh_CN]
+非良构的操作的例子有
 
 [codeblock]
 ci = 1;             // [:en] error
+                    // [|:zh_CN] 错误
 ci++;               // [:en] error
+                    // [|:zh_CN] 错误
 *pc = 2;            // [:en] error
+                    // [|:zh_CN] 错误
 cp = &ci;           // [:en] error
+                    // [|:zh_CN] 错误
 cpc++;              // [:en] error
+                    // [|:zh_CN] 错误
 p = pc;             // [:en] error
+                    // [|:zh_CN] 错误
 ppc = &p;           // [:en] error
+                    // [|:zh_CN] 错误
 [codeblock:end]
 
 [:en]
 Each is unacceptable because it would either change the value of an object
 declared [`const] or allow it to be changed through a cv-unqualified pointer
 later, for example:
+[:zh_CN]
+它们都是不可接受的，因为它们要么要改变被声明为 [`const] 的对象的值，要么允许通过
+cv-未限定的指针来稍后改变它，例如：
 
 [codeblock]
 *ppc = &ci;         // [:en] OK, but would make [`p] point to [`ci] ...
+                    // [|:zh_CN] OK，但可能使 [`p] 指向 [`ci] ...
                     // [:en@~] ... because of previous error
+                    // [|:zh_CN@~] ... 由于之前的错误而
 *p = 5;             // [:en] clobber [`ci]
+                    // [|:zh_CN] 搞垮了 [`ci]
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 See also [#expr.ass] and [#dcl.init].
+[:zh_CN]
+另见 [#expr.ass] 和 [#dcl.init]。
 
 [para]
 [enter:note]
 [:en]
 Forming a pointer to reference type is ill-formed; see [#dcl.ref].
+[:zh_CN]
+引用类型的指针的形式是非良构的；参见 [#dcl.ref]。
 
 [:en]
 Forming a pointer to function type is ill-formed if the function type has
 [~cv-qualifier]s or a [~ref-qualifier]; see [#dcl.fct].
+[:zh_CN]
+当函数类型带有 [~cv-限定符]或者[~引用限定符]时，函数类型的指针的形式是非良构的，
+参见 [#dcl.fct]。
 
 [:en]
 Since the address of a bit-field ([#class.bit]) cannot be taken, a pointer can
 never point to a bit-field.
+[:zh_CN]
+由于无法获得位字段（[#class.bit]）的地址，所以指针不会指向位字段。
 [exit:note]

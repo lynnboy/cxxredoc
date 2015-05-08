@@ -1,5 +1,6 @@
 ﻿[section#dcl.attr.grammar
     [:en] Attribute syntax and semantics
+    [:zh_CN] 特性标注的语法和语义
 ]
 
 [para]
@@ -7,61 +8,65 @@
 [%attribute[!syntax and semantics]]
 Attributes specify additional information for various source constructs such as
 types, variables, names, blocks, or translation units.
+[:zh_CN]
+[%特性标注[!语法和语义]]
+特性标注为各种源代码构造，如类型、变量、名字、语句块或翻译单元指定额外的信息。
 
 [syntax]
-[rule attribute-specifier-seq [:zh_CN] ]
+[rule attribute-specifier-seq [:zh_CN] 特性说明符序列 ]
     [| [~:opt attribute-specifier-seq] attribute-specifier ]
 [rule:end]
 
-[rule attribute-specifier [:zh_CN] ]
+[rule attribute-specifier [:zh_CN] 特性说明符 ]
     [| [`[] [`[] attribute-list [``]] [``]] ]
     [| alignment-specifier ]
 [rule:end]
 
-[rule alignment-specifier [:zh_CN] ]
+[rule alignment-specifier [:zh_CN] 对齐说明符 ]
     [| [`alignas] [`(] type-id [`:opt ...] [`)] ]
     [| [`alignas] [`(] constant-expression [`:opt ...] [`)] ]
 [rule:end]
 
-[rule attribute-list [:zh_CN] ]
+[rule attribute-list [:zh_CN] 特性列表 ]
     [| [~:opt attribute] ]
     [| attribute-list [`,] [~:opt attribute] ]
     [| attribute [`...] ]
     [| attribute-list [`,] attribute [`...] ]
 [rule:end]
 
-[rule attribute [:zh_CN] ]
+[rule attribute [:zh_CN] 特性 ]
     [| attribute-token [~:opt attribute-argument-clause] ]
 [rule:end]
 
-[rule attribute-token [:zh_CN] ]
+[rule attribute-token [:zh_CN] 特性记号 ]
     [| identifier ]
     [| attribute-scoped-token ]
 [rule:end]
 
-[rule attribute-scoped-token [:zh_CN] ]
+[rule attribute-scoped-token [:zh_CN] 有作用域特性记号 ]
     [| attribute-namespace [`::] identifier ]
 [rule:end]
 
-[rule attribute-namespace [:zh_CN] ]
+[rule attribute-namespace [:zh_CN] 特性命名空间 ]
     [| identifier ]
 [rule:end]
 
-[rule attribute-argument-clause [:zh_CN] ]
+[rule attribute-argument-clause [:zh_CN] 特性实参子句 ]
     [| [`(] balanced-token-seq [`)] ]
 [rule:end]
 
-[rule balanced-token-seq [:zh_CN] ]
+[rule balanced-token-seq [:zh_CN] 平衡记号序列 ]
     [| [~:opt balanced-token] ]
     [| balanced-token-seq balanced-token ]
 [rule:end]
 
-[rule balanced-token [:zh_CN] ]
+[rule balanced-token [:zh_CN] 平衡记号 ]
     [| [`(] balanced-token-seq [`)] ]
     [| [`[] balanced-token-seq [``]] ]
     [| [`{] balanced-token-seq [`}] ]
     [|:descriptive
         [:en] any [~token] other than a parenthesis, a bracket, or a brace
+        [:zh_CN] 除圆括号、方括号或花括号外的任何[~记号]
     ]
 [rule:end]
 [syntax:end]
@@ -69,45 +74,68 @@ types, variables, names, blocks, or translation units.
 [para]
 [enter:note]
 [:en]
-For each individual attribute, the form of the [~balanced-token-seq] will be specified.
+For each individual attribute, the form of the [~balanced-token-seq] will be
+specified.
+[:zh_CN]
+每个特性标注将个别指定其[~平衡记号序列]的形式。
 [exit:note]
 
 [para]
 [:en]
 In an [~attribute-list], an ellipsis may appear only if that [~attribute][=']s
 specification permits it.
+[:zh_CN]
+[~特性列表]中，仅当其[~特性]的说明允许时，才能出现省略号。
 
 [:en]
 An [~attribute] followed by an ellipsis is a pack expansion ([#temp.variadic]).
+[:zh_CN]
+[~特性]后面跟着省略号是一个包组展开式（[#temp.variadic]）。
 
 [:en]
 An [~attribute-specifier] that contains no [~attribute]s has no effect.
+[:zh_CN]
+不包含任何[~特性]的[~特性说明符]没有效果。
 
 [:en]
 The order in which the [~attribute-tokens] appear in an [~attribute-list] is not
 significant.
+[:zh_CN]
+[~特性记号]在[~特性列表]中出现的顺序没有意义。
 
 [:en]
 If a keyword ([#lex.key]) or an alternative token ([#lex.digraph]) that
 satisfies the syntactic requirements of an [~identifier] ([#lex.name]) is
 contained in an [~attribute-token], it is considered an identifier.
+[:zh_CN]
+如果[~特性记号]中包含符合标识符（[#lex.name]）的语法规定的关键字（[#lex.key]）
+或者替代标记（[#lex.digraph]），则它被当作是一个标识符。
 
 [:en]
 No name lookup ([#basic.lookup]) is performed on any of the identifiers
 contained in an [~attribute-token].
+[:zh_CN]
+不会对[~特性记号]中包含的任何标识符进行名字查找（[#basic.lookup]）。
 
 [:en]
 The [~attribute-token] determines additional requirements on the
 [~attribute-argument-clause] (if any).
+[:zh_CN]
+由[~特性记号]决定对[~特性实参子句]（如果有）的额外要求。
 
 [:en]
 The use of an [~attribute-scoped-token] is conditionally-supported, with
 [%@impldef behavior of attribute scoped token] implementation-defined behavior.
+[:zh_CN]
+使用[~有作用域特性记号]是有条件支持的，并带有[%@impldef 有作用域特性记号的行为]
+由实现定义的行为。
 
 [enter:note]
 [:en]
 Each implementation should choose a distinctive name for the
 [~attribute-namespace] in an [~attribute-scoped-token].
+[:zh_CN]
+每个实现都应当为[~有作用域特性记号]中的[~特性命名空间]选择一个有区别性的名字。
 [exit:note]
 
 [para]
@@ -115,36 +143,55 @@ Each implementation should choose a distinctive name for the
 Each [~attribute-specifier-seq] is said to [def appertain] to some entity or
 statement, identified by the syntactic context where it appears (Clause
 [#stmt.stmt], Clause [#dcl.dcl], Clause [#dcl.decl]).
+[:zh_CN]
+称每个[~特性说明符序列][def 属于]某个实体或语句，这由包含它的语法中的语境来指定
+（第 [#stmt.stmt] 条，第 [#dcl.dcl] 条，第 [#dcl.decl] 条）。
 
 [:en]
 If an [~attribute-specifier-seq] that appertains to some entity or statement
 contains an [~attribute] that is not allowed to apply to that entity or
 statement, the program is ill-formed.
+[:zh_CN]
+如果属于某个实体或语句的[~特性说明符序列]包含不允许应用于该实体或语句的[~特性]，
+则程序非良构。
 
 [:en]
 If an [~attribute-specifier-seq] appertains to a friend declaration
 ([#class.friend]), that declaration shall be a definition.
+[:zh_CN]
+如果[~特性说明符序列]属于某个友元声明式（[#class.friend]），则该声明式应当是定义
+式。
 
 [:en]
 No [~attribute-specifier-seq] shall appertain to an explicit instantiation
 ([#temp.explicit]).
+[:zh_CN]
+[~特性说明符序列]不能属于显式实例化式（[#temp.explicit]）。
 
 [para]
 [:en]
 For an [~attribute-token] not specified in this International Standard, the
 behavior is [%@impldef behavior of non-standard attributes]
 implementation-defined.
+[:zh_CN]
+未在本国际标准中说明的[~特性记号]的行为是[%@impldef 非标准特性标注的行为]由实现
+定义的。
 
 [para]
 [:en]
 Two consecutive left square bracket tokens shall appear only when introducing an
 [~attribute-specifier].
+[:zh_CN]
+只能在引入[~特性说明符]时才能出现连续的两个左方括号标记。
 
 [enter:note]
 [:en]
 If two consecutive left square brackets appear where an [~attribute-specifier]
 is not allowed, the program is ill-formed even if the brackets match an
 alternative grammar production.
+[:zh_CN]
+如果连续的两个左方括号标记出现于不允许[~特性说明符]的地方，则即使这些方括号能够
+与别的文法产生式相匹配，程序也是非良构的。
 [exit:note]
 
 [enter:example]
@@ -153,10 +200,15 @@ int p[10];
 void f() {
   int x = 42, y[5];
   int(p[[x] { return x; }()]);  // [:en] error: invalid attribute on a nested
+                                // [|:zh_CN] 错误：在一个嵌套的[~声明符标识]上的
                                 // [:en@~] [~declarator-id] and not a function-style cast of
+                                // [|:zh_CN@~] 无效的特性标注，而并非对 [`p] 的元素
                                 // [:en@~] an element of [`p].
+                                // [|:zh_CN@~] 进行函数式的强制转换。
   y[[] { return 2; }()] = 2;    // [:en] error even though attributes are not allowed
+                                // [|:zh_CN] 虽然这个语境中不允许特性标注，但也是
                                 // [:en@~] in this context.
+                                // [|:zh_CN@~] 错误的。
 }
 [codeblock:end]
 [exit:example]

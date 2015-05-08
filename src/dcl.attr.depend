@@ -1,18 +1,23 @@
 ﻿[section#dcl.attr.depend
     [:en] Carries dependency attribute
+    [:zh_CN] 传递依赖特性标注
 ]
 
 [%  [:en] attribute[!carries dependency]
-    [:zh_CN] ]
+    [:zh_CN] 特性标注[!传递依赖] ]
 
 [para]
 [:en]
 The [~attribute-token] [`carries_dependency] specifies dependency propagation
 into and out of functions.
+[:zh_CN]
+[~特性记号] [`carries_dependency] 指明向函数内或向函数外传播依赖。
 
 [:en]
 It shall appear at most once in each [~attribute-list] and no
 [~attribute-argument-clause] shall be present.
+[:zh_CN]
+它在每个[~特性列表]中最多出现一次，且不能带有[~特性实参子句]。
 
 [:en]
 The attribute may be applied to the [~declarator-id] of a
@@ -20,22 +25,35 @@ The attribute may be applied to the [~declarator-id] of a
 specifies that the initialization of the parameter carries a dependency to
 ([#intro.multithread]) each lvalue-to-rvalue conversion ([#conv.lval]) of that
 object.
+[:zh_CN]
+该特性标注可以应用于函数声明式或 lambda 中的[~形参声明式]的[~声明符标识]上，这种
+情况下它指明对该形参进行的初始化将传递依赖给（[#intro.multithread]）这个对象的
+每次左值向右值转换（[#conv.lval]）。
 
 [:en]
 The attribute may also be applied to the [~declarator-id] of a function
 declaration, in which case it specifies that the return value, if any, carries a
 dependency to the evaluation of the function call expression.
+[:zh_CN]
+该特性标注还可以应用于函数声明式的[~声明符标识]，这种情况下它指定其返回值（如果
+有）传递依赖给对函数调用表达式所进行的求值。
 
 [para]
 [:en]
 The first declaration of a function shall specify the [`carries_dependency]
 attribute for its [~declarator-id] if any declaration of the function specifies
 the [`carries_dependency] attribute.
+[:zh_CN]
+若某个函数的任何声明式指定了 [`carries_dependency] 特性标注，则该函数的首个声明
+式应当为其[~声明符标识]指定 [`carries_dependency] 特性标注。
 
 [:en]
 Furthermore, the first declaration of a function shall specify the
 [`carries_dependency] attribute for a parameter if any declaration of that
 function specifies the [`carries_dependency] attribute for that parameter.
+[:zh_CN]
+此外，若某个函数的任何声明式为某个形参指定了 [`carries_dependency] 特性标注，则
+该函数的首个声明式应当为该形参指定 [`carries_dependency] 特性标注。
 
 [:en]
 If a function or one of its parameters is declared with the
@@ -43,18 +61,26 @@ If a function or one of its parameters is declared with the
 and the same function or one of its parameters is declared without the
 [`carries_dependency] attribute in its first declaration in another translation
 unit, the program is ill-formed; no diagnostic required.
+[:zh_CN]
+若某个函数或它的一个形参在一个翻译单元中的首个声明式声明为带有
+[`carries_dependency] 特性标注，而同一个函数或它的一个形参在另一个翻译单元中的
+首个声明式声明为不带有 [`carries_dependency] 特性标注，则程序非良构；无须诊断。
 
 [para]
 [enter:note]
 [:en]
 The [`carries_dependency] attribute does not change the meaning of the program,
 but may result in generation of more efficient code.
+[:zh_CN]
+[`carries_dependency] 特性标注不会改变程序的含义，但它可以导致产生更加高效的代码
+。
 [exit:note]
 
 [para]
 [enter:example]
 [codeblock]
 /* [:en] Translation unit A. */
+/* [|:zh_CN] 翻译单元 A */
 
 struct foo { int* a; int* b; };
 std::atomic<struct foo *> foo_head[10];
@@ -69,6 +95,7 @@ int g(int* x, int* y [[carries_dependency]]) {
 }
 
 /* [:en] Translation unit B. */
+/* [|:zh_CN] 翻译单元 B */
 
 [[carries_dependency]] struct foo* f(int i);
 int g(int* x, int* y [[carries_dependency]]);
@@ -89,22 +116,34 @@ void h(int i) {
 The [`carries_dependency] attribute on function [`f] means that the return value
 carries a dependency out of [`f], so that the implementation need not constrain
 ordering upon return from [`f].
+[:zh_CN]
+函数 [`f] 的 [`carries_dependency] 特性标注的含义是，通过返回值向 [`f] 之外传递
+依赖，因此实现不需要强制保证从 [`f] 中返回的顺序性。
 
 [:en]
 Implementations of [`f] and its caller may choose to preserve dependencies
 instead of emitting hardware memory ordering instructions (a.k.a. fences).
+[:zh_CN]
+[`f] 及其调用方的实现，可以选择维持依赖而并不生成硬件内存顺序指令（亦称内存
+栅栏）。
 
 [para]
 [:en]
 Function [`g][=']s second parameter has a [`carries_dependency] attribute, but
 its first parameter does not.
+[:zh_CN]
+函数 [`g] 的第二个实参带有 [`carries_dependency] 特性标注，但其第一个实参没有。
 
 [:en]
 Therefore, function [`h][=']s first call to [`g] carries a dependency into [`g],
 but its second call does not.
+[:zh_CN]
+因此，函数 [`h] 中第一次调用 [`g] 向 [`g] 中传递依赖，旦第二次调用并不如此。
 
 [:en]
 The implementation might need to insert a fence prior to the second call to
 [`g].
+[:zh_CN]
+实现可能需要在第二次调用 [`g] 之前插入一个内存栅栏。
 
 [exit:example]

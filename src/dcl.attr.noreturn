@@ -1,44 +1,65 @@
 ﻿[section#dcl.attr.noreturn
     [:en] Noreturn attribute
+    [:zh_CN] Noreturn 特性标注
 ]
 
 [%  [:en] attribute[!noreturn]
-    [:zh_CN] ]
+    [:zh_CN] 特性标注[!noreturn] ]
 
 [para]
 [:en]
 The [~attribute-token] [`noreturn] specifies that a function does not return.
+[:zh_CN]
+[~特性记号] [`noreturn] 指出函数不会返回。
 
 [:en]
 It shall appear at most once in each [~attribute-list] and no
 [~attribute-argument-clause] shall be present.
+[:zh_CN]
+它在每个[~特性列表]中最多出现一次，且不能带有[~特性实参子句]。
 
 [:en]
 The attribute may be applied to the [~declarator-id] in a function declaration.
+[:zh_CN]
+该特性标注可以应用于函数声明式中的[~声明符标识]。
 
 [:en]
 The first declaration of a function shall specify the [`noreturn] attribute if
 any declaration of that function specifies the [`noreturn] attribute.
+[:zh_CN]
+若某个函数的任何声明式指定了 [`noreturn] 特性标注，则该函数的首个声明式应当指定
+[`noreturn] 特性标注。
 
 [:en]
 If a function is declared with the [`noreturn] attribute in one translation unit
 and the same function is declared without the [`noreturn] attribute in another
 translation unit, the program is ill-formed; no diagnostic required.
+[:zh_CN]
+若某个函数在一个翻译单元中声明时带有 [`noreturn] 特性标注，而同一个函数在另一个
+翻译单元中声明时不带有 [`noreturn] 特性标注，则程序非良构；无须诊断。
 
 [para]
 [:en]
 If a function [`f] is called where [`f] was previously declared with the
 [`noreturn] attribute and [`f] eventually returns, the behavior is undefined.
+[:zh_CN]
+如果调用函数 [`f] 前 [`f] 已经以 [`noreturn] 特性标注声明过，而 [`f] 最终却返回
+，则其行为是未定义的。
+该函数可以通过抛出异常而终止。 ——<em>结注</em> ]</span> <span class="note">[ <em>注：</em> 鼓励实现在当一个被标有 <code>[[<span class="pp">noreturn</span>]]</code> 的函数可能返回时生成警告信息。
 
 [enter:note]
 [:en]
 The function may terminate by throwing an exception.
+[:zh_CN]
+该函数可以通过抛出异常而终止。
 [exit:note]
 
 [enter:note]
 [:en]
 Implementations are encouraged to issue a warning if a function marked
 [`[[noreturn`]`]] might return.
+[:zh_CN]
+鼓励实现在当一个被标有 [`[[noreturn`]`]] 的函数可能返回时生成警告信息。
 [exit:note]
 
 [para]
@@ -49,6 +70,7 @@ Implementations are encouraged to issue a warning if a function marked
 }
 
 [[ noreturn ]] void q(int i) { // [:en] behavior is undefined if called with an argument [`<= 0]
+                               // [|:zh_CN] 如果进行调用时的实参 [`<= 0] 则行为是未定义的
   if (i > 0)
     throw "positive";
 }

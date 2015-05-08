@@ -1,11 +1,16 @@
 ﻿[section#dcl.ref
     [:en] References
+    [:zh_CN] 引用
 ]
 
-[% [:en]declarator[!reference]]
+[%  [:en] declarator[!reference]
+    [:zh_CN] 声明符[!引用～] ]
 
 [para]
+[:en]
 In a declaration [`T D] where [`D] has either of the forms
+[:zh_CN]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
 [| [`&] [~:opt attribute-specifier-seq] [`D1] ]
@@ -14,38 +19,55 @@ In a declaration [`T D] where [`D] has either of the forms
 
 [:en@~]
 and the type of the identifier in the declaration [`T D1] is
-["[~derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
-is ["[~derived-declarator-type-list] reference to [`T].]
+["[$derived-declarator-type-list] [`T],] then the type of the identifier of [`D]
+is ["[$derived-declarator-type-list] reference to [`T].]
+[:zh_CN@~]
+且声明式 [`T D1] 中的标识符的类型是“[`T] [$衍生的声明符类型列表]”，则 [`D] 的
+标识符的类型就为“[`T] [$衍生的声明符类型列表]的引用”。
 
 [:en]
-The optional [~attribute-specifier-seq} appertains to the reference type.
+The optional [~attribute-specifier-seq] appertains to the reference type.
+[:zh_CN]
+可选的[~特性说明符序列]属于引用类型。
 
 [:en]
 Cv-qualified references are ill-formed except when the cv-qualifiers are
 introduced through the use of a [~typedef-name] ([#dcl.typedef], [#temp.param])
 or [~decltype-specifier] ([#dcl.type.simple]), in which case the cv-qualifiers
 are ignored.
+[:zh_CN]
+被 cv-限定的引用是非良构的，除非 cv-限定符是通过使用 [~typedef-名]
+（[#dcl.typedef]，[#temp.param]）或者[~decltype-说明符]（[#dcl.type.simple]）
+所引入的，这些情况下忽略其 cv-限定符，否则。
 
 [enter:example]
 [codeblock]
 typedef int& A;
 const A aref = 3;   // [:en] ill-formed; lvalue reference to non-[`const] initialized with rvalue
+                    // [|:zh_CN] 非良构；非 [`const] 的左值引用被以右值进行初始化
 [codeblock:end]
 
 [:en]
 The type of [`aref] is ["lvalue reference to [`int]], not ["lvalue reference to
 [`const int]].
+[:zh_CN]
+[`aref] 的类型是“[`int] 的左值引用”，而不是“[`const int] 的左值引用”。
 [exit:example]
 
 [enter:note]
 [:en]
 A reference can be thought of as a name of an object.
+[:zh_CN]
+引用可被当作是对象的名字。
 [exit:note]
 
 [:en]
 [%[`void&]]
 A declarator that specifies the type ["reference to [$cv] [`void]] is
 ill-formed.
+[:zh_CN]
+[%[`void&]]
+指定“[$cv] [`void] 的引用”的声明符是非良构的。
 
 [para]
 [:en]
@@ -54,18 +76,30 @@ ill-formed.
 A reference type that is declared using [`&] is called an [+lvalue reference],
 and a reference type that is declared using [`&&] is called an [+rvalue
 reference].
+[:zh_CN]
+[%左值引用]
+[%右值引用]
+用 [`&] 声明的引用类型被称作[+左值引用]，而用 [`&&] 声明的引用类型被称作[+右值
+引用]。
 
 [:en]
 Lvalue references and rvalue references are distinct types.
+[:zh_CN]
+左值引用和右值引用是不同的类型。
 
 [:en]
 Except where explicitly noted, they are semantically equivalent and commonly
 referred to as references.
+[:zh_CN]
+当没有明确注明时，它们在语义上是等价的，且通常都被叫做引用。
 
 [para]
 [:en]
 [%declaration[!reference]]
 [%parameter[!reference]]
+[:zh_CN]
+[%声明[!引用]]
+[%形参[!引用]]
 [enter:example]
 [codeblock]
 void f(double& a) { a += 3.14; }
@@ -77,6 +111,8 @@ f(d);
 [:en]
 declares [`a] to be a reference parameter of [`f] so the call [`f(d)] will add
 [`3.14] to [`d].
+[:zh_CN]
+声明 [`a] 为 [`f] 的引用形参，故调用 [`f(d)] 将给 [`d] 加上 [`3.14]。
 
 [codeblock]
 int v[20];
@@ -89,9 +125,14 @@ g(3) = 7;
 [:en]
 declares the function [`g()] to return a reference to an integer so [`g(3)=7]
 will assign [`7] to the fourth element of the array [`v].
+[:zh_CN]
+声明函数 [`g()] 为返回整数的引用，故 [`g(3)=7] 将把数组 [`v] 的第四个元素赋值为
+[`7]。
 
 [:en]
 For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 struct link {
@@ -101,6 +142,7 @@ struct link {
 link* first;
 
 void h(link*& p) {  // [:en] [`p] is a reference to pointer
+                    // [|:zh_CN] [`p] 是指针的引用
   p->next = first;
   first = p;
   p = 0;
@@ -115,20 +157,29 @@ void k() {
 [:en]
 declares [`p] to be a reference to a pointer to [`link] so [`h(q)] will leave
 [`q] with the value zero.
+[:zh_CN]
+声明 [`p] 为 [`link] 的指针的引用，故 [`h(q)] 留给 [`q] 的值将为零。
 
 [:en]
 See also [#dcl.init.ref].
+[:zh_CN]
+另见 [#dcl.init.ref]。
 [exit:example]
 
 [para]
 [:en]
 It is unspecified whether or not a reference requires storage ([#basic.stc]).
+[:zh_CN]
+引用是否需要存储（[#basic.stc]）是未指明的。
 
 [para]
 [:en]
 [%restriction[!reference]]
 There shall be no references to references, no arrays of references, and no
 pointers to references.
+[:zh_CN]
+[%限制[!引用]]
+不存在引用的引用，不存在引用的数组，不存在引用的指针。
 
 [:en]
 [%initialization[!reference]]
@@ -137,9 +188,16 @@ except when the declaration contains an explicit [`extern] specifier
 ([#dcl.stc]), is a class member ([#class.mem]) declaration within a class
 definition, or is the declaration of a parameter or a return type ([#dcl.fct]);
 see [#basic.def].
+[:zh_CN]
+[%初始化[!引用]]
+引用的声明式应当包含[~初始化式]（[#dcl.init.ref]），除非声明式明确包含了
+[`extern] 声明符（[#dcl.stc]），是处于类定义式之中的类成员（[#class.mem]）声明式
+，或者是形参或返回类型的声明式（[#dcl.fct]）；参见 [#basic.def]。
 
 [:en]
 A reference shall be initialized to refer to a valid object or function.
+[:zh_CN]
+引用应当被初始化为指代某个有效的对象或函数。
 
 [enter:note]
 [:en]
@@ -147,10 +205,16 @@ A reference shall be initialized to refer to a valid object or function.
 in particular, a null reference cannot exist in a well-defined program, because
 the only way to create such a reference would be to bind it to the ["object]
 obtained by indirection through a null pointer, which causes undefined behavior.
+[:zh_CN]
+[%引用[!空～]]
+特别地，在良构的程序中不能存在空引用，这是由于创建这种引用的唯一方式，是将其绑定
+到对空指针进行间接所获得的“对象”上，而这会引起未定义的行为。
 
 [:en]
 As described in [#class.bit], a reference cannot be bound directly to a
 bit-field.
+[:zh_CN]
+如 [#class.bit] 中所述，引用不能直接绑定到位字段上。
 [exit:note]
 
 [para]
@@ -161,6 +225,12 @@ If a [~typedef-name] ([#dcl.typedef], [#temp.param]) or a [~decltype-specifier]
 attempt to create the type ["lvalue reference to [$cv] [`TR]] creates the type
 ["lvalue reference to [`T]], while an attempt to create the type ["rvalue
 reference to [$cv] [`TR]] creates the type [`TR].
+[:zh_CN]
+[%引用坍缩]
+如果由某个 [~typedef-名]（[#dcl.typedef]，[#temp.param]）或者 [~decltype-说明符]
+（[#dcl.type.simple]）所代表的类型 [`TR] 是类型 [`T] 的引用，则当试图生成类型
+“[$cv] [`TR] 的左值引用”时将生成类型“[`T] 的左值引用”，而当试图生成类型
+“[$cv] [`TR] 的右值引用”时将生成类型 [`TR]。
 
 [enter:example]
 [codeblock]
@@ -169,14 +239,21 @@ typedef int& LRI;
 typedef int&& RRI;
 
 LRI& r1 = i;                    // [:en] [`r1] has the type [`int&]
+                                // [|:zh_CN] [`r1] 的类型为 [`int&]
 const LRI& r2 = i;              // [:en] [`r2] has the type [`int&]
+                                // [|:zh_CN] [`r2] 的类型为 [`int&]
 const LRI&& r3 = i;             // [:en] [`r3] has the type [`int&]
+                                // [|:zh_CN] [`r3] 的类型为 [`int&]
 
 RRI& r4 = i;                    // [:en] [`r4] has the type [`int&]
+                                // [|:zh_CN] [`r4] 的类型为 [`int&]
 RRI&& r5 = 5;                   // [:en] [`r5] has the type [`int&&]
+                                // [|:zh_CN] [`r5] 的类型为 [`int&&]
 
 decltype(r2)& r6 = i;           // [:en] [`r6] has the type [`int&]
+                                // [|:zh_CN] [`r6] 的类型为 [`int&]
 decltype(r2)&& r7 = i;          // [:en] [`r7] has the type [`int&]
+                                // [|:zh_CN] [`r7] 的类型为 [`int&]
 [codeblock:end]
 [exit:example]
 
@@ -185,4 +262,7 @@ decltype(r2)&& r7 = i;          // [:en] [`r7] has the type [`int&]
 [:en]
 Forming a reference to function type is ill-formed if the function type has
 [~cv-qualifier]s or a [~ref-qualifier]; see [#dcl.fct].
+[:zh_CN]
+当函数类型带有 [~cv-限定符]或者[~引用限定符]时，函数类型的引用的形式是非良构的，
+参见 [#dcl.fct]。
 [exit:note]
