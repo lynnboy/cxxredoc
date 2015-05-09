@@ -1,5 +1,6 @@
 ﻿[section#class.union
     [:en] Unions
+    [:zh_CN] 联合
 ]
 
 [%[`union]]
@@ -9,10 +10,15 @@
 In a union, at most one of the non-static data members can be active at any
 time, that is, the value of at most one of the non-static data members can be
 stored in a union at any time.
+[:zh_CN]
+在一个联合中，任意时刻至多只有一个非静态数据成员是活动的，就是说，任意时刻在一个
+联合中可以存储至多一个非静态数据成员的值。
 
 [enter:note]
 [:en]
 One special guarantee is made in order to simplify the use of unions:
+[:zh_CN]
+一条特殊的保证用以简化对联合的使用：
 
 [:en]
 If a standard-layout union contains several standard-layout structs that share a
@@ -20,38 +26,56 @@ common initial sequence ([#class.mem]), and if an object of this standard-layout
 union type contains one of the standard-layout structs, it is permitted to
 inspect the common initial sequence of any of standard-layout struct members;
 see [#class.mem].
+[:zh_CN]
+若一个标准布局联合包含几个共享了共同初始序列（[#class.mem]）的标准布局结构，且若
+该标准布局联合类型的某个对象包含这些标准布局结构之一，则允许探察这些标准布局结构
+成员中的任意一个的共同初始序列部分；见 [#class.mem]。
 [exit:note]
 
 [:en]
 The size of a union is sufficient to contain the largest of its non-static data
 members.
+[:zh_CN]
+联合的大小足够包含其最大的非静态数据成员。
 
 [:en]
 Each non-static data member is allocated as if it were the sole member of a
 struct.
+[:zh_CN]
+对每个非静态数据成员所进行的分配都如同它是某个结构的唯一成员一样。
 
 [:en]
 All non-static data members of a union object have the same address.
+[:zh_CN]
+联合对象的所有非静态数据成员都具有相同的地址。
 
 [para]
 [:en]
-[%member function[![`union]]]
-[%constructor[![`union]]]
-[%destructor[![`union]]]
+[%member function[![`union]]] [%constructor[![`union]]] [%destructor[![`union]]]
 A union can have member functions (including constructors and destructors),
-[%restriction[![`union]]]
-but not virtual ([#class.virtual]) functions.
+[%restriction[![`union]]] but not virtual ([#class.virtual]) functions.
+[:zh_CN]
+[%成员函数[![`union]]] [%构造函数[![`union]]] [%析构函数[![`union]]]
+联合可以具有成员函数（包括构造函数和析构函数），[%限制[![`union]]] 但不能有
+虚（[#class.virtual]）函数。
 
 [:en]
 A union shall not have base classes.
+[:zh_CN]
+联合不能有基类。
 
 [:en]
 A union shall not be used as a base class.
+[:zh_CN]
+联合不能用作基类。
 
 [:en]
 [%restriction[![`union]]]
 If a union contains a non-static data member of reference type the program is
 ill-formed.
+[:zh_CN]
+[%限制[![`union]]]
+如果某个联合中含有引用类型的非静态数据成员，则程序非良构。
 
 [enter:note]
 [:en]
@@ -61,12 +85,20 @@ If any non-static data member of a union has a non-trivial default constructor
 operator ([#class.copy]), or destructor ([#class.dtor]), the corresponding
 member function of the union must be user-provided or it will be implicitly
 deleted ([#dcl.fct.def.delete]) for the union.
+[:zh_CN]
+若某个联合的任何非静态数据成员具有非平凡的默认构造函数（[#class.ctor]）、复制
+构造函数（[#class.copy]）、移动构造函数（[#class.copy]）、复制赋值运算符
+（[#class.copy]）、移动赋值运算符（[#class.copy]）或析构函数（[#class.dtor]），
+则该联合的对应成员函数必须是用户提供的，否则它在该联合中就是隐式弃置的
+（[#dcl.fct.def.delete]）。
 [exit:note]
 
 [para]
 [enter:example]
 [:en]
 Consider the following union:
+[:zh_CN]
+考虑如下联合：
 
 [codeblock]
 union U {
@@ -81,9 +113,15 @@ Since [`std::string] ([#string.classes]) declares non-trivial versions of all of
 the special member functions, [`U] will have an implicitly deleted default
 constructor, copy/move constructor, copy/move assignment operator, and
 destructor.
+[:zh_CN]
+因为 [`std::string]（[#string.classes]）声明了所有特殊成员函数的非平凡版本，所以
+[`U] 将带有隐式弃置的默认构造函数、复制/移动构造函数、复制/移动赋值运算符以及
+析构函数。
 
 [:en]
 To use [`U], some or all of these member functions must be user-provided.
+[:zh_CN]
+要使用 [`U]，这些成员函数中的一些或者全部必须是由用户提供的。
 [exit:example]
 
 [para]
@@ -91,18 +129,27 @@ To use [`U], some or all of these member functions must be user-provided.
 [:en]
 In general, one must use explicit destructor calls and placement new operators
 to change the active member of a union.
+[:zh_CN]
+一般来说，必须使用显式析构函数调用和放置式 new 运算符来改换一个联合的活动成员。
 [exit:note]
 
 [enter:example]
 [:en]
 Consider an object [`u] of a [`union] type [`U] having non-static data members
 [`m] of type [`M] and [`n] of type [`N].
+[:zh_CN]
+考虑带有 [`M] 类型的非静态数据成员 [`m] 和 [`N] 类型的非静态数据成员 [`n] 的
+[`union] 类型 [`U] 的某个对象 [`u]。
 
 [:en]
 If [`M] has a non-trivial destructor and [`N] has a non-trivial constructor (for
 instance, if they declare or inherit virtual functions), the active member of
 [`u] can be safely switched from [`m] to [`n] using the destructor and placement
 new operator as follows:
+[:zh_CN]
+若 [`M] 带有非平凡析构函数，且 [`N] 带有非平凡构造函数（例如，当它们声明或继承了
+虚函数时），则 [`u] 的活动成员，就可以通过如下析构函数和放置式 new 运算符，安全
+地由 [`m] 切换为 [`n]：
 
 [codeblock]
 u.m.~M();
@@ -114,6 +161,9 @@ new (&u.n) N;
 [:en]
 [%[`union][!anonymous]]
 A union of the form
+[:zh_CN]
+[%[`union][!匿名～]]
+形式为
 
 [syntax:explanation]
 [`union] [`{] [~member-specification] [`}] [`;]
@@ -122,28 +172,41 @@ A union of the form
 [:en@~]
 is called an [def anonymous union]; it defines an unnamed object of unnamed
 type.
+[:zh_CN@~]
+的联合被称为[def 匿名联合]，它定义了一个无名类型的无名对象。
 
 [:en]
 Each [~member-declaration] in the [~member-specification] of an anonymous union
 shall either define a non-static data member or be a
 [~static_assert-declaration].
+[:zh_CN]
+匿名联合的[~成员说明]中的[~成员声明式]，应当要么定义非静态数据成员，要么是
+[~static_assert-声明式]。
 
 [enter:note]
 [:en]
 Nested types, anonymous unions, and functions cannot be declared within an
 anonymous union.
+[:zh_CN]
+不能在匿名联合中声明嵌套类型、匿名联合和函数。
 [exit:note]
 
 [:en]
 The names of the members of an anonymous union shall be distinct from the names
 of any other entity in the scope in which the anonymous union is declared.
+[:zh_CN]
+匿名联合的成员的名字应该区别于声明了该匿名联合的作用域中的任何其它实体的名字。
 
 [:en]
 For the purpose of name lookup, after the anonymous union definition, the
 members of the anonymous union are considered to have been defined in the scope
 in which the anonymous union is declared.
+[:zh_CN]
+对于名字查找来说，匿名联合的定义式之后，匿名联合的成员就被当作是定义于声明了该
+匿名联合的作用域之中。
 
-[%initialization[![`union]]]
+[%[:en] initialization[![`union]]
+  [:zh_CN] 初始化[![`union]]]
 [enter:example]
 [codeblock]
 void f() {
@@ -156,42 +219,59 @@ void f() {
 [:en]
 Here [`a] and [`p] are used like ordinary (nonmember) variables, but since they
 are union members they have the same address.
+[:zh_CN]
+此处 [`a] 和 [`p] 就像普通（非成员）变量一样使用，但它们是联合成员，使它们具有
+相同的地址。
 [exit:example]
 
 [para]
 [:en]
-[%[`union][!global anonymous]]
-[%scope[!anonymous [`union] at namespace]]
+[%[`union][!global anonymous]] [%scope[!anonymous [`union] at namespace]]
 Anonymous unions declared in a named namespace or in the global namespace shall
 be declared [`static].
+[:zh_CN]
+[%[`union][!全局匿名～]] [%作用域[!命名空间～的匿名 [`union]]]
+在具名命名空间或全局命名空间中声明的匿名联合，应当声明为 [`static]。
 
 [:en]
 Anonymous unions declared at block scope shall be declared with any storage
 class allowed for a block-scope variable, or with no storage class.
+[:zh_CN]
+在块作用域中声明的匿名联合，应当以块作用域变量所允许的任意存储类，或者不带存储类
+来进行声明。
 
 [:en]
 A storage class is not allowed in a declaration of an anonymous union in a class
 scope.
+[:zh_CN]
+类作用域中的匿名联合的声明式中不允许使用存储类。
 
 [:en]
-[%access control[!anonymous [`union]]]
-[%restriction[!anonymous [`union]]]
+[%access control[!anonymous [`union]]] [%restriction[!anonymous [`union]]]
 An anonymous union shall not have [`private] or [`protected] members (Clause
 [#class.access]).
+[:zh_CN]
+[%访问控制[!匿名 [`union]]] [%限制[!匿名 [`union]]]
+匿名联合不能有 [`private] 或 [`protected] 成员（第 [#class.access] 条）。
 
 [:en]
 An anonymous union shall not have function members.
+[:zh_CN]
+匿名联合不能有函数成员。
 
 [para]
 [:en]
 A union for which objects, pointers, or references are declared is not an
 anonymous union.
+[:zh_CN]
+声明了对象、指针或引用的联合并不是匿名联合。
 
 [enter:example]
 [codeblock]
 void f() {
   union { int aa; char* p; } obj, *ptr = &obj;
   aa = 1;                         // [:en] error
+                                  // [|:zh_CN] 错误
   ptr->aa = 1;                    // OK
 }
 [codeblock:end]
@@ -200,32 +280,47 @@ void f() {
 The assignment to plain [`aa] is ill-formed since the member name is not visible
 outside the union, and even if it were visible, it is not associated with any
 particular object.
+[:zh_CN]
+对普通 [`aa] 的赋值是非良构的，这是由于在联合之外该成员名并不可见，而即使它可见
+，它也并未与任何特定的对象相关联。
 [exit:example]
 
 [enter:note]
 [:en]
 Initialization of unions with no user-declared constructors is described in
 ([#dcl.init.aggr]).
+[:zh_CN]
+不带有用户定义的构造函数的联合的初始化在（[#dcl.init.aggr]）中说明。
 [exit:note]
 
 [para]
 [:en]
 A [+union-like class] is a union or a class that has an anonymous union as a
 direct member.
+[:zh_CN]
+[+类似联合的类]为联合或以匿名联合为直接成员的类。
 
 [:en]
 A union-like class [`X] has a set of [+variant members].
+[:zh_CN]
+类似联合的类 [`X] 具有一组[+可变成员]。
 
 [:en]
 If [`X] is a union, a non-static data member of [`X] that is not an anonymous
 union is a variant member of [`X].
+[:zh_CN]
+若 [`X] 为联合则其不是匿名联合的非静态数据成员是其可变成员。
 
 [:en]
 In addition, a non-static data member of an anonymous union that is a member of
 [`X] is also a variant member of [`X].
+[:zh_CN]
+此外，作为 [`X] 的成员的匿名联合的非静态数据成员也是 [`X] 的可变成员。
 
 [:en]
 At most one variant member of a union may have a [~brace-or-equal-initializer].
+[:zh_CN]
+联合的可变成员中最多有一个可以具有[~花括号或等号初始化式]。
 
 [enter:example]
 [codeblock]
@@ -235,6 +330,7 @@ union U {
   union {
     int z;
     int y = 1; // [:en] error: initialization for second variant member of [`U]
+               // [|:zh_CN] 错误：初始化 [`U] 的第二个可变成员
   };
 };
 [codeblock:end]

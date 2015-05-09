@@ -175,7 +175,7 @@ to be referenced by an [~elaborated-type-specifier] or as an enumeration or
 class name in an enumeration or class definition respectively.
 [:zh_CN]
 如果在某个给定作用域中，用一个 [`typedef] 说明符来重新定义某个实体，而它可以在
-其中通过使用[~详细类型说明符]而被涉指，则可以继续对该实体通过[~详细类型说明符]
+其中通过使用[~详述类型说明符]而被涉指，则可以继续对该实体通过[~详述类型说明符]
 进行涉指，或者在枚举或类的定义式中分别作为枚举或类的名字而被涉指。
 
 [enter:example]
@@ -238,7 +238,7 @@ If a [~typedef-name] is used to identify the subject of an
 [#class]), a constructor declaration ([#class.ctor]), or a destructor
 declaration ([#class.dtor]), the program is ill-formed.
 [:zh_CN]
-若 [~typedef-名]被用于标识[~详细类型说明符]（[#dcl.type.elab]），类定义式（第
+若 [~typedef-名]被用于标识[~详述类型说明符]（[#dcl.type.elab]），类定义式（第
 [#class] 条），构造函数声明式（[#class.ctor]），或析构函数声明式
 （[#class.dtor]）的主体，则程序非良构。
 [exit:note]

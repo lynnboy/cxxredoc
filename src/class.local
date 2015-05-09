@@ -1,30 +1,46 @@
 ﻿[section#class.local
     [:en] Local class declarations
+    [:zh_CN] 局部类的声明
 ]
 
 [:en]
 [%declaration[!local class]]
 [%definition[!local class]]
+[:zh_CN]
+[%声明式[!局部类]]
+[%定义式[!局部类]]
 
 [para]
 [:en]
 A class can be declared within a function definition; such a class is called a
 [+local] class.
+[:zh_CN]
+可以在函数定义式之中声明类；此种类被称为[+局部]类。
 
 [:en]
 The name of a local class is local to its enclosing scope.
+[:zh_CN]
+局部类的名字局部于其外围作用域。
 
 [:en]
 [%local class[!scope of]]
 The local class is in the scope of the enclosing scope, and has the same access
 to names outside the function as does the enclosing function.
+[:zh_CN]
+[%局部类[!～的作用域]]
+局部类处于其外围作用域的作用域中，且对其外围函数之外的名字具有与该函数相同的
+访问权。
 
 [:en]
 Declarations in a local class shall not odr-use ([#basic.def.odr]) a variable
 with automatic storage duration from an enclosing scope.
+[:zh_CN]
+局部类之中的声明式不能 ODR-式使用（[#basic.def.odr]）其外围作用域中具有自动存储
+期的变量。
 
 [enter:example]
-[%  [:en] example[!local class]]
+[%  [:en] example[!local class]
+    [:zh_CN] 示例[!局部类] ]
 [codeblock]
 int x;
 void f() {
@@ -35,15 +51,19 @@ void f() {
 
   struct local {
     int g() { return x; }       // [:en] error: odr-use of automatic variable [`x]
+                                // [|:zh_CN] 错误：[`x] 具有自动存储期
     int h() { return s; }       // OK
     int k() { return ::x; }     // OK
     int l() { return q(); }     // OK
     int m() { return N; }       // [:en] OK: not an odr-use
+                                // [|:zh_CN] OK：并非 ODR-式使用
     int* n() { return &N; }     // [:en] error: odr-use of automatic variable [`N]
+                                // [|:zh_CN] 错误：ODR-式使用了自动变量 [`N]
   };
 }
 
 local* p = 0;                   // [:en] error: [`local] not in scope
+                                // [|:zh_CN] 错误：[`local] 不在作用域中
 [codeblock:end]
 [exit:example]
 
@@ -51,11 +71,17 @@ local* p = 0;                   // [:en] error: [`local] not in scope
 [:en]
 An enclosing function has no special access to members of the local class; it
 obeys the usual access rules (Clause [#class.access]).
+[:zh_CN]
+外围函数没有对局部类成员的特殊访问权；它遵循常规的访问规则（第 [#class.access]
+条）。
 
 [:en]
 [%member function[!local class]]
 Member functions of a local class shall be defined within their class
 definition, if they are defined at all.
+[:zh_CN]
+[%成员函数[!局部类]]
+如果要定义局部类的成员函数，就应当定义于其类定义式之中。
 
 [para]
 [:en]
@@ -63,11 +89,20 @@ definition, if they are defined at all.
 If class [`X] is a local class a nested class [`Y] may be declared in class [`X]
 and later defined in the definition of class [`X] or be later defined in the
 same scope as the definition of class [`X].
+[:zh_CN]
+[%嵌套类[!局部类]]
+若类 [`X] 是局部类，则嵌套类 [`Y] 可被声明于类 [`X] 之中并稍后在类 [`X] 的定义式
+之中进行定义，或者稍后在与类 [`X] 的定义式相同的作用域之中进行定义。
 
 [:en]
 [%restriction[!local class]]
 A class nested within a local class is a local class.
+[:zh_CN]
+[%限制[!局部类]]
+局部类中所嵌套的类是局部类。
 
 [para]
 [:en]
 A local class shall not have static data members.
+[:zh_CN]
+局部类不能具有静态数据成员。

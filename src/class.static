@@ -1,25 +1,37 @@
 ﻿[section#class.static
     [:en] Static members
+    [:zh_CN] 静态成员
 ]
 
 [:en]
 [%member[!static]]
 [%member function[!static]]
+[:zh_CN]
+[%成员[!静态～]]
+[%成员函数[!静态～]]
 
 [para]
 [:en]
 A data or function member of a class may be declared [`static] in a class
 definition, in which case it is a [+static member] of the class.
+[:zh_CN]
+类的数据或函数成员可以在类的定义式中声明为 [`static]，这种情况下它是该类的[+静态
+成员]。
 
 [para]
 [:en]
 A [`static] member [`s] of class [`X] may be referred to using the
 [~qualified-id] expression [`X::s]; it is not necessary to use the class member
 access syntax ([#expr.ref]) to refer to a [`static] member.
+[:zh_CN]
+类 [`X] 的 [`static] 成员 [`s]，可以用[~限定标识]表达式 [`X::s] 指代；不必用类
+成员访问语法（[#expr.ref]）来指代 [`static] 成员。
 
 [:en]
 A [`static] member may be referred to using the class member access syntax, in
 which case the object expression is evaluated.
+[:zh_CN]
+类成员访问语法可以指代 [`static] 成员，此种情况下其对象表达式亦被求值。
 
 [enter:example]
 [codeblock]
@@ -30,7 +42,9 @@ process& g();
 
 void f() {
   process::reschedule();        // [:en] OK: no object necessary
+                                // [|:zh_CN] OK：不需要对象
   g().reschedule();             // [:en] [`g()] is called
+                                // [|:zh_CN] 调用了 [`g()]
 }
 [codeblock:end]
 [exit:example]
@@ -42,6 +56,10 @@ the scope of a class derived (Clause [#class.derived]) from its class; in this
 case, the [`static] member is referred to as if a [~qualified-id] expression was
 used, with the [~nested-name-specifier] of the [~qualified-id] naming the class
 scope from which the static member is referenced.
+[:zh_CN]
+[`static] 成员所在类的作用域或其类的派生类（第 [#class.derived] 条）的作用域中可
+以直接指代该成员；这种情况下，对 [`static] 成员的指代就如同使用[~限定标识]表达式
+一样，其中[~限定标识]中的[~嵌套名说明符]指名这个被指代的静态成员所在类的作用域。
 
 [enter:example]
 [codeblock]
@@ -52,7 +70,8 @@ struct X {
 struct Y : X {
   static int i;
 };
-int Y::i = g();                 // equivalent to [`Y::g();]
+int Y::i = g();                 // [:en] equivalent to [`Y::g();]
+                                // [|:zh_CN] 等价于 [`Y::g();]
 [codeblock:end]
 [exit:example]
 
@@ -65,26 +84,41 @@ member, enumerator, or nested type of the member[=']s class (or of a base class
 of the member[=']s class), the [~unqualified-id] is transformed into a
 [~qualified-id] expression in which the [~nested-name-specifier] names the class
 scope from which the member is referenced.
+[:zh_CN]
+若在某个 [`static] 成员的定义式中，于该成员的[~声明符标识]之后使用了一个[~未限定
+标识]（[#expr.prim]），而由名字查找（[#basic.lookup.unqual]）所找到的这个[~未限
+定标识]，指代此成员的类（或此成员的类的某个基类）的 [`static] 成员、枚举符或嵌套
+类型，则这个[~未限定标识]被转换为一个[~限定标识]表达式，其中的[~嵌套名说明符]
+指名了被涉指成员的类作用域。
 
 [enter:note]
 [:en]
 See [#expr.prim] for restrictions on the use of non-static data members and
 non-static member functions.
+[:zh_CN]
+关于非静态数据成员和非静态成员函数的使用限制，参见 [#expr.prim]。
 [exit:note]
 
 [para]
 [:en]
 Static members obey the usual class member access rules (Clause
 [#class.access]).
+[:zh_CN]
+静态成员遵循通常的类成员访问规则（第 [#class.access] 条）。
 
 [:en]
 When used in the declaration of a class member, the [`static] specifier shall
 only be used in the member declarations that appear within the
 [~member-specification] of the class definition.
+[:zh_CN]
+当在类成员的声明式中使用 [`static] 说明符时，它只能用在出现于类声明式的[~成员
+说明]之中的成员声明式中。
 
 [enter:note]
 [:en]
 It cannot be specified in member declarations that appear in namespace scope.
+[:zh_CN]
+不能在出现于命名空间作用域的成员声明式中指定它。
 [exit:note]
 
 [include class.static.mfct]

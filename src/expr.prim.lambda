@@ -1010,7 +1010,7 @@ void f3() {
 The closure type associated with a [~lambda-expression] has no default
 constructor and a deleted copy assignment operator.
 [:zh_CN]
-与 [~lambda-表达式]相关联的闭包类型，没有默认构造函数，并具有一个作废的复制赋值
+与 [~lambda-表达式]相关联的闭包类型，没有默认构造函数，并具有一个弃置的复制赋值
 运算符。
 
 [:en]
@@ -1024,7 +1024,7 @@ It has a defaulted copy constructor and a defaulted move constructor
 These special member functions are implicitly defined as usual, and might
 therefore be defined as deleted.
 [:zh_CN]
-这些特殊成员函数以常规方式进行隐式定义，并可能因此被定义为作废的。
+这些特殊成员函数以常规方式进行隐式定义，并可能因此被定义为弃置的。
 [exit:note]
 
 [para]

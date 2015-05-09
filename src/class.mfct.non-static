@@ -1,25 +1,37 @@
 ﻿[section#class.mfct.non-static
     [:en] Nonstatic member functions
+    [:zh_CN] 非静态成员函数
 ]
 
-[%  [:en] member function[!nonstatic]]
+[%  [:en] member function[!nonstatic]
+    [:zh_CN] 成员函数[!非静态～] ]
 
 [para]
 [:en]
-A [~non-static] member function may be called for an object of its class type,
+A [+non-static] member function may be called for an object of its class type,
 or for an object of a class derived (Clause [#class.derived]) from its class
 type, using the class member access syntax ([#expr.ref], [#over.match.call]).
+[:zh_CN]
+可以对类类型的对象，或者对其类的派生类类型（第 [#class.derived] 条）的对象使用
+类成员访问语法（[#expr.ref]，[#over.match.call]）来调用其[+非静态]成员函数。
 
 [:en]
 A non-static member function may also be called directly using the function call
 syntax ([#expr.call], [#over.match.call]) from within the body of a member
 function of its class or of a class derived from its class.
+[:zh_CN]
+在其类或其类的派生类的成员函数的函数体中，非静态成员函数还可以直接使用函数调用
+语法（[#expr.call]，[#over.match.call]）进行调用。
 
 [para]
 [:en]
 [%member function[!call undefined]]
 If a non-static member function of a class [`X] is called for an object that is
 not of type [`X], or of a type derived from [`X], the behavior is undefined.
+[:zh_CN]
+[%成员函数[!未定义的～调用]]
+若对不是类型 [`X] 或派生自 [`X] 的类型的对象调用了类 [`X] 的非静态成员函数，则其
+行为是未定义的。
 
 [para]
 [:en]
@@ -32,11 +44,21 @@ the name in the [~id-expression] to a non-static non-type member of some class
 [`X] or a base class of [`X], the [~id-expression] is transformed into a class
 member access expression ([#expr.ref]) using [`(*this)] ([#class.this]) as the
 [~postfix-expression] to the left of the [`.] operator.
+[:zh_CN]
+当在类 [`X] 的某个成员中可以使用 [`this] 的语境之中，使用了并不是类成员访问语法
+（[#expr.ref]），且并不用于构成指向成员的指针（[#expr.unary.op]）的某个[~标识
+表达式]（[#expr.prim]）时，如果名字查找（[#basic.lookup.unqual]）将该[~标识表达
+式]中的名字决议为某个类 [`C] 的非静态非类型成员，并且要么这个[~标识表达式]是潜在
+求值的，要么 [`C] 为 [`X] 或者 [`X] 的某个基类，则就以 [`(*this)]
+（[#class.this]）作为 [`.] 运算符左边的[~后缀表达式]而把该[~标识表达式]转换为类
+成员访问表达式（[#expr.ref]）。
 
 [enter:note]
 [:en]
 If [`C] is not [`X] or a base class of [`X], the class member access expression
 is ill-formed.
+[:zh_CN]
+若 [`C] 既不是 [`X] 也不是 [`X] 的基类，则该类成员访问表达式是非良构的。
 [exit:note]
 
 [:en]
@@ -45,10 +67,15 @@ the definition of a member function for class [`X] resolves to a [`static]
 member, an enumerator or a nested type of class [`X] or of a base class of [`X],
 the [~unqualified-id] is transformed into a [~qualified-id] ([#expr.prim]) in
 which the [~nested-name-specifier] names the class of the member function.
+[:zh_CN]
+相似地，在名字查找中，当类 [`X] 的成员函数的定义式中所使用的某个[~未限定标识]
+（[#expr.prim]）被决议为类 [`X] 或 [`X] 的基类的 [`static] 成员、枚举符或嵌套
+类型时，该[~未限定标识]即被转换为一个[~限定标识]（[#expr.prim]），其中的[~嵌套名
+说明符]指名此成员函数的类。
 
 [enter:example]
-[:en]
-[%example[!member function]]
+[%[:en] example[!member function]
+  [:zh_CN] 示例[!成员函数] ]
 [codeblock]
 struct tnode {
   char tword[20];
@@ -77,34 +104,53 @@ void f(tnode n1, tnode n2) {
 In the body of the member function [`tnode::set], the member names [`tword],
 [`count], [`left], and [`right] refer to members of the object for which the
 function is called.
+[:zh_CN]
+在成员函数 [`tnode::set] 的函数体中，成员名 [`tword]、[`count]、[`left] 和
+[`right] 指代被调用了函数的对象的成员。
 
 [:en]
 Thus, in the call [`n1.set("abc",&n2,0)], [`tword] refers to [`n1.tword], and in
 the call [`n2.set("def",0,0)], it refers to [`n2.tword].
+[:zh_CN]
+因此，在调用 [`n1.set("abc",&n2,0)] 中，[`tword] 指代 [`n1.tword]，而在调用
+[`n2.set("def",0,0)] 中，它指代 [`n2.tword]。
 
 [:en]
 The functions [`strlen], [`perror], and [`strcpy] are not members of the class
 [`tnode] and should be declared elsewhere.
+[:zh_CN]
+函数 [`strlen]、[`perror] 和 [`strcpy] 不是类 [`tnode] 的成员且应当在他处进行
+声明。
 
 [footnote]
 [:en]
 See, for example, [`<cstring>] ([#c.strings]).
+[:zh_CN]
+参见（例如）[`<cstring>]（[#c.strings]）。
 [footnote:end]
 [exit:example]
 
 [para]
 [:en]
-A non-static member function may be declared [`const], [`volatile], or [`const]
-[`volatile].
+A non-static member function may be declared [`const], [`volatile], or [`const
+volatile].
+[:zh_CN]
+非静态成员函数可被声明为 [`const]、[`volatile] 或 [`const volatile]。
 
 [:en]
-These [~cv-qualifiers] affect the type of the [`this] pointer ([#class.this]).
+These [~cv-qualifier]s affect the type of the [`this] pointer ([#class.this]).
+[:zh_CN]
+这些 [~cv-限定符]影响 [`this] 指针的类型（[#class.this]）。
 
 [:en]
 They also affect the function type ([#dcl.fct]) of the member function; a member
 function declared [`const] is a [+const] member function, a member function
 declared [`volatile] is a [+volatile] member function and a member function
-declared [`const] [`volatile] is a [+const volatile] member function.
+declared [`const volatile] is a [+const volatile] member function.
+[:zh_CN]
+它们还影响成员函数的函数类型（[#dcl.fct]）；被声明为 [`const] 的成员函数是
+[+const] 成员函数，被声明为 [`volatile] 的成员函数是 [+volatile] 成员函数，而被
+声明为 [`const volatile] 的成员函数是 [+const volatile] 成员函数。
 
 [enter:example]
 [codeblock]
@@ -115,16 +161,24 @@ struct X {
 [codeblock:end]
 
 [:en]
-[`X::g] is a [`const] member function and [`X::h] is a [`const] [`volatile]
-member function.
+[`X::g] is a [`const] member function and [`X::h] is a [`const volatile] member
+function.
+[:zh_CN]
+[`X::g] 是 [`const] 成员函数而 [`X::h] 是 [`const volatile] 成员函数。
 [exit:example]
 
 [para]
 [:en]
 A non-static member function may be declared with a [~ref-qualifier]
 ([#dcl.fct]); see [#over.match.funcs].
+[:zh_CN]
+声明非静态成员函数时可以带有[~引用限定符]（[#dcl.fct]）；参见
+[#over.match.funcs]。
 
 [para]
 [:en]
 A non-static member function may be declared [+virtual] ([#class.virtual]) or
 [+pure virtual] ([#class.abstract]).
+[:zh_CN]
+非静态成员函数可被声明为[+虚函数]（[#class.virtual]）或[+纯虚函数]
+（[#class.abstract]）。

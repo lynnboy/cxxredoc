@@ -1,34 +1,51 @@
 ﻿[section#class.nest
     [:en] Nested class declarations
+    [:zh_CN] 嵌套类的声明
 ]
 
 [:en]
 [%definition[!nested class]]
 [%class local[see local class]]
 [%class nested[see nested class]]
+[:zh_CN]
+[%定义式[!嵌套类]]
+[%类 [!局部～][see 局部类]]
+[%类 [!嵌套～][see 嵌套类]]
 
 [para]
 [:en]
 A class can be declared within another class.
+[:zh_CN]
+可以在一个类中声明另一个类。
 
 [:en]
-A class declared within another is called a [~nested] class.
+A class declared within another is called a [+nested] class.
+[:zh_CN]
+声明于其它类中的类称为[+嵌套]类。
 
 [:en]
 The name of a nested class is local to its enclosing class.
+[:zh_CN]
+嵌套类的名字局部于其外围类。
 
 [:en]
 [%nested class[!scope of]]
 The nested class is in the scope of its enclosing class.
+[:zh_CN]
+[%嵌套类[!～的作用域]]
+嵌套类处于其外围类的作用域中。
 
 [enter:note]
 [:en]
 See [#expr.prim] for restrictions on the use of non-static data members and
 non-static member functions.
+[:zh_CN]
+关于非静态数据成员和非静态成员函数的使用限制，参见 [#expr.prim]。
 [exit:note]
 
 [para:~]
-[%  [:en] example[!nested class]]
+[%  [:en] example[!nested class]
+    [:zh_CN] 示例[!嵌套类] ]
 [enter:example]
 [codeblock]
 int x;
@@ -40,19 +57,26 @@ struct enclose {
 
   struct inner {
     void f(int i) {
-      int a = sizeof(x);        // [:en] OK: operand of sizeof is an unevaluated operand
+      int a = sizeof(x);        // [:en] OK: operand of [`sizeof] is an unevaluated operand
+                                // [|:zh_CN] OK：[`sizeof] 的操作数是免值的操作数
       x = i;                    // [:en] error: assign to [`enclose::x]
+                                // [|:zh_CN] 错误：指代了 [`enclose::x]
       s = i;                    // [:en] OK: assign to [`enclose::s]
+                                // [|:zh_CN] OK：向 [`enclose::s] 赋值
       ::x = i;                  // [:en] OK: assign to global [`x]
+                                // [|:zh_CN] OK：向全局 [`x] 赋值
       y = i;                    // [:en] OK: assign to global [`y]
+                                // [|:zh_CN] OK：向全局 [`y] 赋值
     }
     void g(enclose* p, int i) {
       p->x = i;                 // [:en] OK: assign to [`enclose::x]
+                                // [|:zh_CN] OK：向 [`enclose::x] 赋值
     }
   };
 };
 
 inner* p = 0;                   // [:en] error: [`inner] not in scope
+                                // [|:zh_CN] 错误：[`inner] 不在作用域中
 [codeblock:end]
 [exit:example]
 
@@ -60,8 +84,12 @@ inner* p = 0;                   // [:en] error: [`inner] not in scope
 [:en]
 Member functions and static data members of a nested class can be defined in a
 namespace scope enclosing the definition of their class.
+[:zh_CN]
+嵌套类的成员函数和静态数据成员，可在包围它们的类的定义式的某个命名空间作用域中
+进行定义。
 
-[%  [:en] example[!nested class definition]]
+[%  [:en] example[!nested class definition]
+    [:zh_CN] 示例[!嵌套类定义式] ]
 [enter:example]
 [codeblock]
 struct enclose {
@@ -82,16 +110,24 @@ void enclose::inner::f(int i) { /* ... */ }
 If class [`X] is defined in a namespace scope, a nested class [`Y] may be
 declared in class [`X] and later defined in the definition of class [`X] or be
 later defined in a namespace scope enclosing the definition of class [`X].
+[:zh_CN]
+若类 [`X] 在命名空间作用域中进行定义，则嵌套类 [`Y] 可以在类 [`X] 中进行声明而
+稍后在类 [`X] 的定义式中进行定义，或者稍后在包围类 [`X] 的命名空间作用域中进行
+定义。
 
-[%  [:en] example[!nested class forward declaration]]
+[%  [:en] example[!nested class forward declaration]
+    [:zh_CN] 示例[!嵌套类前向声明式] ]
 [enter:example]
 [codeblock]
 class E {
   class I1;                     // [:en] forward declaration of nested class
+                                // [|:zh_CN] 嵌套类的前向声明
   class I2;
   class I1 { };                 // [:en] definition of nested class
+                                // [|:zh_CN] 嵌套类的定义式
 };
 class E::I2 { };                // [:en] definition of nested class
+                                // [|:zh_CN] 嵌套类的定义式
 [codeblock:end]
 [exit:example]
 
@@ -102,3 +138,8 @@ Like a member function, a friend function ([#class.friend]) defined within a
 nested class is in the lexical scope of that class; it obeys the same rules for
 name binding as a static member function of that class ([#class.static]), but it
 has no special access rights to members of an enclosing class.
+[:zh_CN]
+[%友元函数[!嵌套类]]
+与成员函数相似，在嵌套类中定义的友元函数（[#class.friend]）处于该类的词法作用域
+中；它遵循与该类的静态成员函数（[#class.static]）相同的名字绑定规则，但它对其
+外围类的成员没有特殊访问权。

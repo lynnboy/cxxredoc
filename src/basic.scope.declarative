@@ -100,7 +100,7 @@ declaration occurs, except that the presence of a [`friend] specifier
 general behavior.
 [:zh_CN]
 声明式将其所声明的名字引入到出现该声明式的作用域中，但带有 [`friend] 说明符
-（[#class.friend]）的声明式，[~详细类型说明符]（[#dcl.type.elab]）的特定用法，
+（[#class.friend]）的声明式，[~详述类型说明符]（[#dcl.type.elab]）的特定用法，
 以及 [~using-指令]（[#namespace.udir]）能够改变此一般行为。
 
 [para]
@@ -157,7 +157,7 @@ In particular, [~elaborated-type-specifier]s ([#dcl.type.elab]) and friend
 declarations ([#class.friend]) may introduce a (possibly not visible) name into
 an enclosing namespace; these restrictions apply to that region.
 [:zh_CN]
-特别地，[~详细类型说明符]（[#dcl.type.elab]）和友元声明式（[#class.friend]）能够
+特别地，[~详述类型说明符]（[#dcl.type.elab]）和友元声明式（[#class.friend]）能够
 向其所处的命名空间中引入（可能不可见的）名字；这些规定适用于这个区域。
 
 [:en]

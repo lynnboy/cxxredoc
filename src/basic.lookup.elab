@@ -1,11 +1,11 @@
 ﻿[section#basic.lookup.elab
     [:en] Elaborated type specifiers
-    [:zh_CN] 详细类型说明符
+    [:zh_CN] 详述类型说明符
 ]
 
 [%:begin#lookup.elab
     [:en] lookup [!elaborated type specifier]
-    [:zh_CN] 查找 [!详细类型说明符的～]
+    [:zh_CN] 查找 [!详述类型说明符的～]
 ]
 
 [para]
@@ -16,7 +16,7 @@ previously declared [~class-name] or [~enum-name] even though the name has been
 hidden by a non-type declaration ([#basic.scope.hiding]).
 [:zh_CN]
 [%类型说明符[!详细～]]
-[~详细类型说明符]（[#dcl.type.elab]）可以用于提及之前所声明过的[~类名]或
+[~详述类型说明符]（[#dcl.type.elab]）可以用于提及之前所声明过的[~类名]或
 [~枚举名]，即使这个名字已被某个非类型的声明式所隐藏（[#basic.scope.hiding]）。
 
 [para]
@@ -25,7 +25,7 @@ If the [~elaborated-type-specifier] has no [~nested-name-specifier], and unless
 the [~elaborated-type-specifier] appears in a declaration with the following
 form:
 [:zh_CN]
-若[~详细类型说明符]中没有[~嵌套名说明符]，且该[~详细类型说明符]并非出现于具有
+若[~详述类型说明符]中没有[~嵌套名说明符]，且该[~详述类型说明符]并非出现于具有
 如下形式的声明式中：
 
 [syntax:explanation]
@@ -44,16 +44,16 @@ If the [~elaborated-type-specifier] is introduced by the [`enum] keyword and
 this lookup does not find a previously declared [~type-name], the
 [~elaborated-type-specifier] is ill-formed.
 [:zh_CN]
-若该[~详细类型说明符]是由关键字 [`enum] 引入，而此名字查找过程并未找到之前声明
-过的[~类型名]，则该[~详细类型说明符]是非良构的。
+若该[~详述类型说明符]是由关键字 [`enum] 引入，而此名字查找过程并未找到之前声明
+过的[~类型名]，则该[~详述类型说明符]是非良构的。
 
 [:en]
 If the [~elaborated-type-specifier] is introduced by the [~class-key] and this
 lookup does not find a previously declared [~type-name], or if the
 [~elaborated-type-specifier] appears in a declaration with the form:
 [:zh_CN]
-若该[~详细类型说明符]是由[~类关键字]所引入，而此查找过程并未找到之前声明过的
-[~类型名]，或该[~详细类型说明符]出现于具有如下形式的声明式中：
+若该[~详述类型说明符]是由[~类关键字]所引入，而此查找过程并未找到之前声明过的
+[~类型名]，或该[~详述类型说明符]出现于具有如下形式的声明式中：
 
 [syntax:explanation]
 [~class-key] [~:opt attribute-specifier-seq] [~identifier] [`;]
@@ -63,7 +63,7 @@ lookup does not find a previously declared [~type-name], or if the
 the [~elaborated-type-specifier] is a declaration that introduces the
 [~class-name] as described in [#basic.scope.pdecl].
 [:zh_CN@~]
-则该[~详细类型说明符]是如在 [#basic.scope.pdecl] 中所述的一个引入[~类名]的声明
+则该[~详述类型说明符]是如在 [#basic.scope.pdecl] 中所述的一个引入[~类名]的声明
 式。
 
 [para]
@@ -72,14 +72,14 @@ If the [~elaborated-type-specifier] has a [~nested-name-specifier], qualified
 name lookup is performed, as described in [#basic.lookup.qual], but ignoring any
 non-type names that have been declared.
 [:zh_CN]
-若该[~详细类型说明符]中含有[~嵌套名说明符]，则实施限定名查找，如在
+若该[~详述类型说明符]中含有[~嵌套名说明符]，则实施限定名查找，如在
 [#basic.lookup.qual] 中所述，但忽略任何已声明的非类型的名字。
 
 [:en]
 If the name lookup does not find a previously declared [~type-name], the
 [~elaborated-type-specifier] is ill-formed.
 [:zh_CN]
-若此名字查找过程并未找到之前声明的[~类型名]，则该[~详细类型说明符]是非良构的。
+若此名字查找过程并未找到之前声明的[~类型名]，则该[~详述类型说明符]是非良构的。
 
 [enter:example]
 

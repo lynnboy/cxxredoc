@@ -1,15 +1,22 @@
 ﻿[section#class.name
     [:en] Class names
+    [:zh_CN] 类名
 ]
 
 [:en]
 [%definition[!class name as type]]
 [%structure tag[see class name]]
 [%equivalence[!type]]
+[:zh_CN]
+[%定义[!类名作为类型]]
+[%结构标记[see 类名]]
+[%等价[!类型～]]
 
 [para]
 [:en]
 A class definition introduces a new type.
+[:zh_CN]
+类定义式引入新的类型。
 
 [enter:example]
 [codeblock]
@@ -22,17 +29,25 @@ int a3;
 
 [:en]
 declares three variables of three different types.
+[:zh_CN]
+声明了三个不同类型的三个变量。
 
 [:en]
 This implies that
+[:zh_CN]
+这意味着
 
 [codeblock]
 a1 = a2;                        // [:en] error: [`Y] assigned to [`X]
+                                // [|:zh_CN] 错误：[`Y] 向 [`X] 赋值
 a1 = a3;                        // [:en] error: [`int] assigned to [`X]
+                                // [|:zh_CN] 错误：[`int] 向 [`X] 赋值
 [codeblock:end]
 
 [:en@~]
 are type mismatches, and that
+[:zh_CN@~]
+的类型不匹配，而
 
 [codeblock]
 int f(X);
@@ -43,33 +58,49 @@ int f(Y);
 [%overloading]
 declare an overloaded (Clause [#over]) function [`f()] and not simply a single
 function [`f()] twice.
+[:zh_CN@~]
+[%重载]
+声明了重载的（第 [#over] 条）函数 [`f()] 而不仅是单个函数 [`f()] 声明两次。
 
 [:en]
 For the same reason,
+[:zh_CN]
+由于同样原因，
 
 [codeblock]
 struct S { int a; };
 struct S { int a; };            // [:en] error, double definition
+                                // [|:zh_CN] 错误，两个定义式
 [codeblock:end]
 
 [:en@~]
 is ill-formed because it defines [`S] twice.
+[:zh_CN@~]
+因为 [`S] 定义了两次所以是非良构的。
 [exit:example]
 
 [para]
 [:en]
-[%definition[!scope of class]]
-[%class name[!scope of]]
-A class declaration introduces the class name into the scope where
+[%definition[!scope of class]] [%class name[!scope of]]
 [%name hiding[!class definition]]
+A class declaration introduces the class name into the scope where
 it is declared and hides any class, variable, function, or other declaration of
 that name in an enclosing scope ([#basic.scope]).
+[:zh_CN]
+[%定义式[!类～的作用域]] [%类名[!～的作用域]]
+[%名字隐藏[!类定义式]]
+类声明式向声明了它的作用域中引入类名，并且隐藏了其外围作用域中具有这个名字的任何
+类、变量、函数或者其他声明式（[#basic.scope]）。
 
 [:en]
 If a class name is declared in a scope where a variable, function, or enumerator
 of the same name is also declared, then when both declarations are in scope, the
 class can be referred to only using an [~elaborated-type-specifier]
 ([#basic.lookup.elab]).
+[:zh_CN]
+如果一个类名是在已经声明了相同名字的变量、函数或枚举符的作用域中声明的，则两个
+声明式均处于作用域中，该类只能通过使用[~详述类型说明符]（[#basic.lookup.elab]）
+来提及。
 
 [enter:example]
 [codeblock]
@@ -78,27 +109,38 @@ struct stat {
 };
 
 stat gstat;                     // [:en] use plain [`stat] to
+                                // [|:zh_CN] 使用普通的 [`stat] 来
                                 // [:en@~] define variable
+                                // [|:zh_CN@~] 定义变量
 
 int stat(struct stat*);         // [:en] redeclare [`stat] as function
+                                // [|:zh_CN] 将 [`stat] 重新声明为函数
 
 void f() {
   struct stat* ps;              // [:en] [`struct] prefix needed
+                                // [|:zh_CN] 需要 [`struct] 前缀
                                 // [:en@~] to name [`struct stat]
+                                // [|:zh_CN@~] 以指明 [`struct stat]
   stat(ps);                     // [:en] call [`stat()]
+                                // [|:zh_CN] 调用了 [`stat()]
 }
 [codeblock:end]
 [exit:example]
 
 [:en]
-[%class name[!elaborated]]
-[%declaration[!forward class]]
+[%class name[!elaborated]] [%declaration[!forward class]]
 A [~declaration] consisting solely of [~class-key] [~identifier][`;] is either a
 redeclaration of the name in the current scope or a forward declaration of the
 identifier as a class name.
+[:zh_CN]
+[%类名[!详细的～]] [%声明式[!前向类～]]
+仅由“[~类关键字] [~标识符] [`;]”构成的[~声明式]，要么是对当前作用域中的名字进行
+重复声明，要么是以其标识符作为类名的前向声明。
 
 [:en]
 It introduces the class name into the current scope.
+[:zh_CN]
+它向当前作用域中引入这个类名。
 
 [enter:example]
 [codeblock]
@@ -106,10 +148,15 @@ struct s { int a; };
 
 void g() {
   struct s;                     // [:en] hide global [`struct s]
+                                // [|:zh_CN] 用局部的声明式隐藏了
                                 // [:en@~] with a block-scope declaration
+                                // [|:zh_CN@~] 全局的 [`struct s]
   s* p;                         // [:en] refer to local [`struct s]
+                                // [|:zh_CN] 涉指局部的 [`struct s]
   struct s { char* p; };        // [:en] define local [`struct s]
+                                // [|:zh_CN] 定义了局部的 [`struct s]
   struct s;                     // [:en] redeclaration, has no effect
+                                // [|:zh_CN] 重复声明，没有效果
 }
 [codeblock:end]
 [exit:example]
@@ -117,8 +164,11 @@ void g() {
 [enter:note]
 [:en]
 Such declarations allow definition of classes that refer to each other.
+[:zh_CN]
+用这种声明式可以定义一些互相有所涉指的类。
 
-[%  [:en] example[!friend]]
+[%  [:en] example[!friend]
+    [:zh_CN] 示例[!友元] ]
 [enter:example]
 [codeblock]
 class Vector;
@@ -137,6 +187,8 @@ class Vector {
 [:en]
 Declaration of [`friend]s is described in [#class.friend], operator functions in
 [#over.oper].
+[:zh_CN]
+[`friend] 的声明式在 [#class.friend] 中说明，运算符函数在 [#over.oper] 中说明。
 [exit:example]
 [exit:note]
 
@@ -144,15 +196,24 @@ Declaration of [`friend]s is described in [#class.friend], operator functions in
 [:en]
 [%class name[!elaborated]]
 [%elaborated type specifier[see class name[!elaborated]]]
+[:zh_CN]
+[%类名[!详细的～]]
+[%详述类型说明符[see 类名[!详细的～]]]
 
 [enter:note]
 [:en]
 An [~elaborated-type-specifier] ([#dcl.type.elab]) can also be used as a
 [~type-specifier] as part of a declaration.
+[:zh_CN]
+[~详述类型说明符]（[#dcl.type.elab]）还可以作为声明式的一部分而用作[~类型说明符]
+。
 
 [:en]
 It differs from a class declaration in that if a class of the elaborated name is
 in scope the elaborated name will refer to it.
+[:zh_CN]
+它与类声明式的不同之处在于，如果某个具有所详述的名字的类处于作用域中，则这个详述
+的名字即涉指它。
 [exit:note]
 
 [enter:example]
@@ -161,20 +222,27 @@ struct s { int a; };
 
 void g(int s) {
   struct s* p = new struct s;   // [:en] global [`s]
+                                // [|:zh_CN] 全局的 [`s]
   p->a = s;                     // [:en] parameter [`s]
+                                // [|:zh_CN] 形参 [`s]
 }
 [codeblock:end]
 [exit:example]
 
 [para]
-[%  [:en] class name[!point of declaration]]
+[%  [:en] class name[!point of declaration]
+    [:zh_CN] 类名[!声明点] ]
 [enter:note]
 [:en]
 The declaration of a class name takes effect immediately after the [~identifier]
 is seen in the class definition or [~elaborated-type-specifier].
+[:zh_CN]
+对类名的声明，紧跟其[~标识符]在类定义式或[~详述类型说明符]中出现之后即生效。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 class A * A;
@@ -183,13 +251,19 @@ class A * A;
 [:en@~]
 first specifies [`A] to be the name of a class and then redefines it as the name
 of a pointer to an object of that class.
+[:zh_CN@~]
+首先指定 [`A] 为某类的名字，然后将其重新定义为指向这个类的对象的一个指针。
 
 [:en]
 This means that the elaborated form [`class A] must be used to refer to the
 class.
+[:zh_CN]
+这意味着必须使用详述形式 [`class A] 来涉指此类。
 
 [:en]
 Such artistry with names can be confusing and is best avoided.
+[:zh_CN]
+这样的名字花招会造成混乱，因此最好避免这样使用。
 [exit:note]
 
 [para]
@@ -197,10 +271,19 @@ Such artistry with names can be confusing and is best avoided.
 [%class name[![`typedef]]]
 A [~typedef-name] ([#dcl.typedef]) that names a class type, or a cv-qualified
 version thereof, is also a [~class-name].
+[:zh_CN]
+[%类名[![`typedef]]]
+指名某个类类型，或其被 cv-限定的版本的 [~typedef-名]（[#dcl.typedef]），也是
+[~类名]。
 
 [:en]
 If a [~typedef-name] that names a cv-qualified class type is used where a
 [~class-name] is required, the cv-qualifiers are ignored.
+[:zh_CN]
+若在需要[~类名]的地方使用了指名某个被 cv-限定的类类型的 [~typedef-名]，则忽略其
+cv-限定符。
 
 [:en]
 A [~typedef-name] shall not be used as the [~identifier] in a [~class-head].
+[:zh_CN]
+[~typedef-名]不能用作[~类头]中的[~标识符]。

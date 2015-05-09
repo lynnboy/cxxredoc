@@ -1,9 +1,11 @@
 ﻿[section:chapter#class
     [:en] Classes
+    [:zh_CN] 类
 ]
 
 [%:begin#class
     [:en] class
+    [:zh_CN] 类
 ]
 
 [/
@@ -12,22 +14,31 @@
 /]
 
 [%  [:en] class[!member function][see member function [!class]]
-    [:zh_CN] ]
+    [:zh_CN] 类[!成员函数][see 成员函数[!类]] ]
 
 [para]
 [:en]
 [%[`{}][!class declaration]]
 [%[`{}][!class definition]]
 [%type[!class and]]
-[%object class[see also class object]]
+[%object[!class][see class object]]
 A class is a type.
+[:zh_CN]
+[%[`{}][!类声明式]]
+[%[`{}][!类定义式]]
+[%类型[!类和～]]
+[%对象[!类～][see 类对象]]
+类是类型。
 
 [:en]
-[%name class[see class name]]
+[%name [!class][see class name]]
 Its name becomes a [~class-name] ([#class.name]) within its scope.
+[:zh_CN]
+[%名字 [!类][see 类名]]
+它的名字在其作用域中称为一个[~类名]（[#class.name]）。
 
 [syntax]
-[rule class-name [:zh_CN] ]
+[rule class-name [:zh_CN] 类名 ]
     [| identifier ]
     [| simple-template-id ]
 [rule:end]
@@ -36,31 +47,36 @@ Its name becomes a [~class-name] ([#class.name]) within its scope.
 [:en]
 [~Class-specifier]s and [~elaborated-type-specifier]s ([#dcl.type.elab]) are
 used to make [~class-name]s.
+[:zh_CN]
+[~类名]是由[~类说明符]和[~详述类型说明符]（[#dcl.type.elab]）产生的。
 
 [:en]
 An object of a class consists of a (possibly empty) sequence of members and base
 class objects.
+[:zh_CN]
+类的对象是由其成员和基类对象的（可能为空的）序列构成的。
 
 [syntax]
-[rule class-specifier [:zh_CN] ]
+[rule class-specifier [:zh_CN] 类说明符 ]
     [| class-head [`{] [~:opt member-specification] [`}] ]
 [rule:end]
 
-[rule class-head [:zh_CN] ]
-    [| class-key [~:opt attribute-specifier-seq] class-head-name [~:opt class-virt-specifier] [~:opt base-clause] ]
+[rule class-head [:zh_CN] 类头 ]
+    [| class-key [~:opt attribute-specifier-seq] class-head-name
+        [~:opt class-virt-specifier] [~:opt base-clause] ]
     [| class-key [~:opt attribute-specifier-seq] [~:opt base-clause] ]
 [rule:end]
 
-[rule class-head-name [:zh_CN] ]
+[rule class-head-name [:zh_CN] 类头名 ]
     [| [~:opt nested-name-specifier] class-name ]
 [rule:end]
 
-[rule class-virt-specifier [:zh_CN] ]
+[rule class-virt-specifier [:zh_CN] 类虚说明符 ]
     [| [`final] ]
 [rule:end]
 
 
-[rule class-key [:zh_CN] ]
+[rule class-key [:zh_CN] 类关键字 ]
     [| [`class] ]
     [| [`struct] ]
     [| [`union] ]
@@ -70,61 +86,92 @@ class objects.
 [:en]
 A [~class-specifier] whose [~class-head] omits the [~class-head-name] defines an
 unnamed class.
+[:zh_CN]
+在[~类头]中省略了[~类头名]的[~类说明符]，定义无名类。
 
 [enter:note]
 [:en]
 An unnamed class thus can[=']t be [`final].
+[:zh_CN]
+无名类不能为 [`final]。
 [exit:note]
 
 [para]
 [:en]
 A [~class-name] is inserted into the scope in which it is declared immediately
 after the [~class-name] is seen.
+[:zh_CN]
+紧跟[~类名]出现之后，该[~类名]就被插入到声明它的作用域之中。
 
 [:en]
+[%[+injected-class-name]]
 The [~class-name] is also inserted into the scope of the class itself; this is
-known as the [~injected-class-name].
+known as the [+injected-class-name].
+[:zh_CN]
+[%[+注入类名]]
+[~类名]也被插入到该类自身的作用域之中；这被称为[+注入类名]。
 
 [:en]
-[%[~injected-class-name]]
 For purposes of access checking, the injected-class-name is treated as if it
 were a public member name.
+[:zh_CN]
+当进行访问检查时，注入类名被当作如同是个公用成员名。
 
 [:en]
 [%definition[!class]]
-A [~class-spe]cifier} is commonly referred to as a class definition.
+A [~class-specifier] is commonly referred to as a class definition.
+[:zh_CN]
+[%定义式[!类～]]
+[~类说明符]通常称为类定义式。
 
 [:en]
 [%definition[!class]]
 A class is considered defined after the closing brace of its [~class-specifier]
 has been seen even though its member functions are in general not yet defined.
+[:zh_CN]
+[%定义式[!类～]]
+在一个类的[~类说明符]的闭花括号出现之后，即使其成员函数一般还未被定义，这个类也
+被认为是已定义的。
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the class; the attributes
 in the [~attribute-specifier-seq] are thereafter considered attributes of the
 class whenever it is named.
+[:zh_CN]
+可选的[~特性说明符序列]属于该类；随即一旦指名该类，[~特性说明符序列]中的特性标注
+就被当作是该类的特性。
 
 [para]
 [:en]
 If a class is marked with the [~class-virt-specifier] [`final] and it appears
 as a [~base-type-specifier] in a [~base-clause] (Clause [#class.derived]), the
 program is ill-formed.
+[:zh_CN]
+如果一个类标有[~类虚说明符] [`final]，而它被用作[~基子句]中的一个[~基类型说明符]
+（第 [#class.derived] 条），则程序非良构。
 
 [:en]
 Whenever a [~class-key] is followed by a [~class-head-name], the [~identifier]
 [`final], and a colon or left brace, [`final] is interpreted as a
 [~class-virt-specifier].
+[:zh_CN]
+每当[~类关键字]后面跟着[~类头名]，[~标识符] [`final]，以及冒号或者左花括号，则
+[`final] 即被解释为[~类虚说明符]。
 
 [enter:example]
 [codeblock]
 struct A;
 struct A final {};      // [:en] OK: definition of [`struct A],
+                        // [|:zh_CN] OK：[`struct A] 的定义式
                         // [:en@~] not value-initialization of variable [`final]
+                        // [|:zh_CN@~] 而不是变量 [`final] 的值初始化
 
 struct X {
  struct C { constexpr operator int() { return 5; } };
  struct B final : C{};  // [:en] OK: definition of nested class [`B],
+                        // [|:zh_CN] OK：嵌套类 [`B] 的定义式，
                         // [:en@~] not declaration of a bit-field member [`final]
+                        // [|:zh_CN@~] 而不是位字段成员 [`final] 的声明式
 };
 [codeblock:end]
 [exit:example]
@@ -132,10 +179,14 @@ struct X {
 [para]
 [:en]
 Complete objects and member subobjects of class type shall have nonzero size.
+[:zh_CN]
+类类型的完整对象和成员子对象应当具有非零大小。
 
 [footnote]
 [:en]
 Base class subobjects are not so constrained.
+[:zh_CN]
+基类子对象没有这种约束。
 [footnote:end]
 
 [enter:note]
@@ -143,100 +194,139 @@ Base class subobjects are not so constrained.
 Class objects can be assigned, passed as arguments to functions, and returned by
 functions (except objects of classes for which copying or moving has been
 restricted; see [#class.copy]).
+[:zh_CN]
+类对象可以被赋值，作为实参传递给函数，或者由函数返回（但不包括限制了复制或移动
+操作的类对象；参见 [#class.copy]）。
 
 [:en]
 Other plausible operators, such as equality comparison, can be defined by the
 user; see [#over.oper].
+[:zh_CN]
+其他貌似合理的运算符，如相等性比较，可以由用户进行定义；参见 [#over.oper]。
 [exit:note]
 
 [para]
 [:en]
-[%[`struct][![`class] versus]]
-[%structure]
+[%[`struct][![`class] versus]] [%structure]
 [%[`union][![`class] versus]]
 A [+union] is a class defined with the [~class-key] [`union];
 [%access control[![`union] default member]]
 it holds at most one data member at a time ([#class.union]).
+[:zh_CN]
+[%[`struct][![`class] 与～]] [%结构]
+[%[`union][![`class] 与～]]
+[+联合]是用[~类关键字] [`union] 定义的类；
+[%访问控制[![`union] 的默认成员]]
+它一次只能保持一个数据成员（[#class.union]）。
 
 [enter:note]
 [:en]
 Aggregates of class type are described in [#dcl.init.aggr].
+[:zh_CN]
+类类型的聚合在 [#dcl.init.aggr] 中说明。
 [exit:note]
 
 [para]
 [:en]
-[%class[!trivial]]
-[%trivial class]
+[%class[!trivial]] [%trivial class]
 A [def trivially copyable class] is a class that:
+[:zh_CN]
+[%类[!平凡～]] [%平凡类]
+[def 可平凡复制的类]是如下的类：
 
 [list]
 [item]
-[:en@~] has no non-trivial copy constructors ([#class.copy]),
+[:en] has no non-trivial copy constructors ([#class.copy]),
+[:zh_CN] 没有非平凡的复制构造函数（[#class.copy]），
 [item]
-[:en@~] has no non-trivial move constructors ([#class.copy]),
+[:en] has no non-trivial move constructors ([#class.copy]),
+[:zh_CN] 没有非平凡的移动构造函数（[#class.copy]），
 [item]
-[:en@~] has no non-trivial copy assignment operators ([#over.ass],
+[:en] has no non-trivial copy assignment operators ([#over.ass],
 [#class.copy]),
+[:zh_CN] 没有非平凡的复制赋值运算符（[#over.ass]，[#class.copy]），
 [item]
-[:en@~] has no non-trivial move assignment operators ([#over.ass],
+[:en] has no non-trivial move assignment operators ([#over.ass],
 [#class.copy]), and
+[:zh_CN] 没有非平凡的移动赋值运算符（[#over.ass]，[#class.copy]），
 [item]
-[:en@~] has a trivial destructor ([#class.dtor]).
+[:en] has a trivial destructor ([#class.dtor]).
+[:zh_CN] 具有平凡的析构函数（[#over.dtor]）。
 [list:end]
 
 [:en]
 A [+trivial class] is a class that has a default constructor ([#class.ctor]),
 has no non-trivial default constructors, and is trivially copyable.
+[:zh_CN]
+[+平凡类]是具有一个平凡的默认构造函数（[#class.ctor]），没有非平凡的默认构造函数
+，并且是可平凡复制的类。
 
 [enter:note]
 [:en]
 In particular, a trivially copyable or trivial class does not have virtual
 functions or virtual base classes.
+[:zh_CN]
+特别地，可平凡复制的或平凡类没有虚函数或虚基类。
 [exit:note]
 
 [para]
 [:en]
-[%class[!standard-layout]]
-[%standard-layout class]
-A class [`S] is a [~standard-layout class] if it:
+[%class[!standard-layout]] [%standard-layout class]
+A class [`S] is a [+standard-layout class] if it:
+[:zh_CN]
+[%类[!标准布局～]] [%标准布局类]
+如果类 [`S] 满足如下条件，则它是[+标准布局类]：
 
 [list]
 [item]
 [:en] has no non-static data members of type non-standard-layout class (or
 array of such types) or reference,
+[:zh_CN] 没有非标准布局类（或这种类型的数组）或引用类型的非静态数据成员，
 
 [item]
 [:en] has no virtual functions ([#class.virtual]) and no virtual base classes
 ([#class.mi]),
+[:zh_CN] 没有虚函数（[#class.virtual]）和虚基类（[#class.mi]），
 
 [item]
 [:en] has the same access control (Clause [#class.access]) for all non-static
 data members,
+[:zh_CN] 所有非静态数据成员具有相同的访问控制（第 [#class.access] 条），
 
 [item]
 [:en] has no non-standard-layout base classes,
+[:zh_CN] 没有非标准布局的基类，
 
 [item]
 [:en] has at most one base class subobject of any given type,
+[:zh_CN] 最多有一个任意给定类型的基类子对象
 
 [item]
 [:en] has all non-static data members and bit-fields in the class and its base
 classes first declared in the same class, and
+[:zh_CN] 其类中以及任何基类中的全部非静态数据成员和位字段都首先声明与相同的类中
+，以及
 
 [item]
 [:en] has no element of the set [$M([`S])] of types (defined below) as a base
 class.
+[:zh_CN] 没有基类是类型集合 [$M([`S])]（定义如下）的成员。
 
 [footnote]
 [:en]
 This ensures that two subobjects that have the same class type and that belong
 to the same most derived object are not allocated at the same address
 ([#expr.eq]).
+[:zh_CN]
+这保证了具有相同类型并属于相同的全派生对象的两个子对象，不会被分配到同一个地址上
+（[#expr.eq]）。
 [footnote:end]
 [list:end]
 
 [:en]
 [$M([`X])] is defined as follows:
+[:zh_CN]
+[$M([`X])] 这样定义：
 
 [list]
 [item]
@@ -246,108 +336,154 @@ If [`X] is a non-union class type, the set [$M([`X])] is empty if [`X] has no
 otherwise, it consists of the type of the first non-static data member of [`X]
 (where said member may be an anonymous union), [`X][_0], and the elements of
 [$M([`X][_0])].
+[:zh_CN]
+若 [`X] 为非联合类类型，则当 [`X] 没有（可能为继承的（第 [#class.derived] 条））
+非静态数据成员时，集合 [$M([`X])] 为空；否则，它由 [`X] 的第一个非静态数据成员
+（所述成员可能是匿名联合）的类型（称为 [`X][_0]），以及 [$M([`X][_0])] 的元素所
+构成。
 
 [item]
 [:en]
 If [`X] is a union type, the set [$M([`X])] is the union of all [$M([`U][_i])]
 and the set containing all [$[`U][_i]], where each [$[`U][_i]]
 is the type of the [$i]th non-static data member of [`X].
+[:zh_CN]
+若 [`X] 为联合类型，则集合 [$M([`X])] 为所有 [$M([`U][_i])] 以及包含所有
+[$[`U][_i]] 的集合的并集，其中每个 [$[`U][_i]] 为 [`X] 的第 [$i] 个非静态数据
+成员的类型。
 
 [item]
 [:en]
 If [`X] is a non-class type, the set [$M([`X])] is empty.
+[:zh_CN]
+若 [`X] 为非类类型，则集合 [$M([`X])] 为空。
 [list:end]
 
 [enter:note]
 [:en]
 [$M([`X])] is the set of the types of all non-base-class subobjects that are
 guaranteed in a standard-layout class to be at a zero offset in [`X].
+[:zh_CN]
+[$M([`X])] 是 [`X] 中的所有在标准布局类中保证处于零偏移量的非基类子对象的类型的
+集合。
 [exit:note]
 
 [para:~]
 [enter:example]
 [codeblock]
    struct B { int i; };         // [:en] standard-layout class
+                                // [|:zh_CN] 标准布局类
    struct C : B { };            // [:en] standard-layout class
+                                // [|:zh_CN] 标准布局类
    struct D : C { };            // [:en] standard-layout class
+                                // [|:zh_CN] 标准布局类
    struct E : D { char : 4; };  // [:en] not a standard-layout class
+                                // [|:zh_CN] 不是标准布局类
 
    struct Q {};
    struct S : Q { };
    struct T : Q { };
    struct U : S, T { };         // [:en] not a standard-layout class
+                                // [|:zh_CN] 不是标准布局类
 [codeblock:end]
 [exit:example]
 
 [:en]
-[%struct[!standard-layout]]
-[%standard-layout struct]
-[%union[!standard-layout]]
-[%standard-layout union]
+[%struct[!standard-layout]] [%standard-layout struct]
+[%union[!standard-layout]] [%standard-layout union]
+[:zh_CN]
+[%结构[!标准布局～]] [%标准布局结构]
+[%联合[!标准布局～]] [%标准布局联合]
 [para]
 [:en]
-A [~standard-layout struct] is a standard-layout class defined with the
+A [+standard-layout struct] is a standard-layout class defined with the
 [~class-key] [`struct] or the [~class-key] [`class].
+[:zh_CN]
+[+标准布局结构]是以[~类关键字] [`struct] 或者[~类关键字] [`class] 定义的标准布局
+类。
 
 [:en]
-A [~standard-layout union] is a standard-layout class defined with the
+A [+standard-layout union] is a standard-layout class defined with the
 [~class-key] [`union].
+[:zh_CN]
+[+标准布局联合]是以[~类关键字] [`union] 定义的标准布局类。
 
 [para]
 [enter:note]
 [:en]
 Standard-layout classes are useful for communicating with code written in other
 programming languages.
+[:zh_CN]
+标准布局类可用于与其它程序设计语言所写的代码进行通信。
 
 [:en]
 Their layout is specified in [#class.mem].
+[:zh_CN]
+[#class.mem] 中指定了它们的布局。
 [exit:note]
 
 [para]
 [:en]
 [%POD struct][%POD class][%POD union]
 A [+POD struct]
+[:zh_CN]
+[%POD 结构][%POD 类][%POD 联合]
+[+POD 结构]
 
 [footnote]
 [:en]
 The acronym POD stands for ["plain old data].
+[:zh_CN]
+首字母缩略词 POD 代表“Plain Old Data（传统数据）”。
 [footnote:end]
 
 [:en@~]
 is a non-union class that is both a trivial class and a standard-layout class,
 and has no non-static data members of type non-POD struct, non-POD union (or
 array of such types).
+[:zh_CN@~]
+是既为平凡类也为标准布局类，并且没有非-POD 结构、非-POD 联合（或这些类型的数组）
+的非静态数据成员的非联合类。
 
 [:en]
 Similarly, a [+POD union] is a union that is both a trivial class and a
 standard-layout class, and has no non-static data members of type non-POD
 struct, non-POD union (or array of such types).
+[:zh_CN]
+相似地，[+POD 联合]是既为平凡类也为标准布局类，并且没有非-POD 结构、非-POD 联合
+（或这些类型的数组）的非静态数据成员的联合。
 
 [:en]
 A [+POD class] is a class that is either a POD struct or a POD union.
+[:zh_CN]
+[+POD 类]是要么是 POD 结构要么是 POD 联合的类。
 
 [para:~]
 [enter:example]
 [codeblock]
 struct N {          // [:en] neither trivial nor standard-layout
+                    // [|:zh_CN] 既不是平凡的也不是标准布局的
   int i;
   int j;
   virtual ~N();
 };
 
 struct T {          // [:en] trivial but not standard-layout
+                    // [|:zh_CN] 平凡的但不是标准布局的
   int i;
 private: 
   int j;
 };
 
 struct SL {         // [:en] standard-layout but not trivial
+                    // [|:zh_CN] 标准布局的但不是平凡的
   int i;
   int j;
   ~SL();
 };
 
 struct POD {        // [:en] both trivial and standard-layout
+                    // [|:zh_CN] 既是平凡的也是标准布局的
   int i;
   int j;
 };
@@ -363,10 +499,17 @@ element of the inline namespace set ([#namespace.def]) of that namespace (i.e.,
 not merely inherited or introduced by a [~using-declaration]), and the
 [~class-specifier] shall appear in a namespace enclosing the previous
 declaration.
+[:zh_CN]
+若[~类头名]包含[~嵌套名说明符]，则该[~类说明符]应当涉指在由该[~嵌套名说明符]所
+涉指的类或命名空间中，或者在这个命名空间的内联命名空间集合（[#namespace.def]）的
+某个元素之中，某个曾经直接声明过的类（就是说，并非继承来的或通过 [~using-声明式]
+所引入的），并且该[~类说明符]应当出现在一个包围这个先前的声明式的命名空间中。
 
 [:en]
 In such cases, the [~nested-name-specifier] of the [~class-head-name] of the
 definition shall not begin with a [~decltype-specifier].
+[:zh_CN]
+这些情况中，该定义式的[~类头名]的[~嵌套名说明符]不能以 [~decltype-说明符]开始。
 
 [include class.name]
 

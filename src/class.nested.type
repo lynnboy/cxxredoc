@@ -1,21 +1,28 @@
 ﻿[section#class.nested.type
     [:en] Nested type names
+    [:zh_CN] 嵌套类型名
 ]
 
 [:en]
 [%type name[!nested]]
 [%type name[!nested[!scope of]]]
+[:zh_CN]
 
 [para]
 [:en]
 Type names obey exactly the same scope rules as other names.
+[:zh_CN]
+类型名与其他名字遵循完全相同的作用域规则。
 
 [:en]
 In particular, type names defined within a class definition cannot be used
 outside their class without qualification.
+[:zh_CN]
+特别地，在类定义式中定义的类型名在类之外不能不进行限定地使用。
 
 [enter:example]
-[%[:en] example[!nested type name]]
+[%[:en] example[!nested type name]
+  [:zh_CN] 示例[!嵌套类型名] ]
 [codeblock]
 struct X {
   typedef int I;
@@ -24,7 +31,9 @@ struct X {
 };
 
 I b;                            // [:en] error
+                                // [|:zh_CN] 错误
 Y c;                            // [:en] error
+                                // [|:zh_CN] 错误
 X::Y d;                         // OK
 X::I e;                         // OK
 [codeblock:end]

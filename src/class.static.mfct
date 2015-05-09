@@ -1,28 +1,41 @@
 ﻿[section#class.static.mfct
     [:en] Static member functions
+    [:zh_CN] 静态成员函数
 ]
 
-[%  [:en] member function[!static]]
+[%  [:en] member function[!static]
+    [:zh_CN] 成员函数[!静态～] ]
 
 [para]
 [enter:note]
 [:en]
 The rules described in [#class.mfct] apply to [`static] member functions.
+[:zh_CN]
+[#class.mfct] 中所描述的规则适用于 [`static] 成员函数。
 [exit:note]
 
 [para]
 [enter:note]
 [:en]
 A [`static] member function does not have a [`this] pointer ([#class.this]).
+[:zh_CN]
+[`static] 成员函数没有 [`this] 指针（[#class.this]）。
 [exit:note]
 
 [:en]
 A [`static] member function shall not be [`virtual].
+[:zh_CN]
+[`static] 成员函数不能为 [`virtual]。
 
 [:en]
 There shall not be a [`static] and a non-static member function with the same
 name and the same parameter types ([#over.load]).
+[:zh_CN]
+不能存在具有相同名字和相同形参类型（[#over.load]）的 [`static] 和非静态成员函数
+。
 
 [:en]
 A [`static] member function shall not be declared [`const], [`volatile], or
 [`const volatile].
+[:zh_CN]
+[`static] 成员函数不能被声明为 [`const]、[`volatile] 或 [`const volatile]。

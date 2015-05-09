@@ -1,9 +1,10 @@
 ﻿[section#class.this
     [:en] The [`this] pointer
+    [:zh_CN] [`this] 指针
 ]
 [%[`this]]
 [%  [:en] member function[![`this]]
-    [:zh_CN] ]
+    [:zh_CN] 成员函数[![`this]]]
 
 [para]
 [:en]
@@ -11,10 +12,17 @@
 In the body of a non-static ([#class.mfct]) member function, the keyword [`this]
 is a prvalue expression whose value is the address of the object for which the
 function is called.
+[:zh_CN]
+[%[`this] 指针[see [`this]]]
+在非静态成员函数（[#class.mfct]）的函数体中，关键字 [`this] 是纯右值表达式，其值
+为被调用了函数的对象的地址。
 
 [:en]
 [%[`this][!type of]]
 The type of [`this] in a member function of a class [`X] is [`X*].
+[:zh_CN]
+[%[`this][!～的类型]]
+在类 [`X] 的成员函数中 [`this] 的类型为 [`X*]。
 
 [:en]
 [%member function[![`const]]]
@@ -23,13 +31,21 @@ If the member function is declared [`const], the type of [`this] is [`const X*],
 if the member function is declared [`volatile], the type of [`this] is
 [`volatile X*], and if the member function is declared [`const volatile], the
 type of [`this] is [`const volatile X*].
+[:zh_CN]
+[%成员函数[![`const]]]
+若成员函数被声明为 [`const]，则 [`this] 的类型为 [`const X*]，
+[%成员函数[![`volatile]]]
+若成员函数被声明为 [`volatile]，则 [`this] 的类型为 [`volatile X*]，而若成员函数
+被声明为 [`const volatile]，则 [`this] 的类型为 [`const volatile X*]。
 
-[:en]
-[%member function[![`const]]]
 [enter:note]
 [:en]
+[%member function[![`const]]]
 thus in a [`const] member function, the object for which the function is called
 is accessed through a [`const] access path.
+[:zh_CN]
+[%成员函数[![`const]]]
+在 [`const] 成员函数中，被调用了函数的对象是通过 [`const] 访问路径访问的。
 [exit:note]
 
 [enter:example]
@@ -39,6 +55,7 @@ struct s {
   int f() const;
   int g() { return a++; }
   int h() const { return a++; } // [:en] error
+                                // [|:zh_CN] 错误
 };
 
 int s::f() const { return a; }
@@ -47,22 +64,34 @@ int s::f() const { return a; }
 [:en]
 The [`a++] in the body of [`s::h] is ill-formed because it tries to modify (a
 part of) the object for which [`s::h()] is called.
+[:zh_CN]
+[`s::h] 的函数体中的 [`a++] 由于其试图改动被调用了 [`s::h()] 的对象（的一部分）
+因而是非良构的。
 
 [:en]
 This is not allowed in a [`const] member function because [`this] is a pointer
 to [`const]; that is, [`*this] has [`const] type.
+[:zh_CN]
+这在 [`const] 成员函数中是不允许的，因为 [`this] 是指向 [`const] 的指针；就是
+说，[`*this] 具有 [`const] 类型。
 [exit:example]
 
 [para]
 [:en]
 Similarly, [`volatile] semantics ([#dcl.type.cv]) apply in [`volatile] member
 functions when accessing the object and its non-static data members.
+[:zh_CN]
+相似地，当访问对象及其非静态数据成员时，[`volatile] 语义（[#dcl.type.cv]）适用于
+[`volatile] 成员函数。
 
 [para]
 [:en]
-A [~cv-qualified] member function can be called on an object-expression
+A [+cv-qualified] member function can be called on an object-expression
 ([#expr.ref]) only if the object-expression is as cv-qualified or
 less-cv-qualified than the member function.
+[:zh_CN]
+仅当对象表达式（[#expr.ref]）是与成员函数具有相同 cv-限定性或更弱 cv-限定性时，
+才能在对象表达式上调用被 [+cv-限定的]成员函数。
 
 [enter:example]
 [codeblock]
@@ -71,6 +100,7 @@ void k(s& x, const s& y) {
   x.g();
   y.f();
   y.g();                        // [:en] error
+                                // [|:zh_CN] 错误
 }
 [codeblock:end]
 
@@ -78,19 +108,28 @@ void k(s& x, const s& y) {
 The call [`y.g()] is ill-formed because [`y] is [`const] and [`s::g()] is a
 non-[`const] member function, that is, [`s::g()] is less-qualified than the
 object-expression [`y].
+[:zh_CN]
+调用 [`y.g()] 是非良构的，因为 [`y] 为 [`const] 而 [`s::g()] 却为非-[`const]
+成员函数，就是说，[`s::g()] 比对象表达式 [`y] 的限定性弱。
 [exit:example]
 
 [para]
 [:en]
-[%[`const][!constructor and]]
-[%[`const][!destructor and]]
-[%[`volatile][!constructor and]]
-[%[`volatile][!destructor and]]
+[%[`const][!constructor and]] [%[`const][!destructor and]]
+[%[`volatile][!constructor and]] [%[`volatile][!destructor and]]
 Constructors ([#class.ctor]) and destructors ([#class.dtor]) shall not be
 declared [`const], [`volatile] or [`const volatile].
+[:zh_CN]
+[%[`const][!构造函数与～]] [%[`const][!析构函数与～]]
+[%[`volatile][!构造函数与～]] [%[`volatile][!析构函数与～]]
+构造函数（[#class.ctor]）和析构函数（[#class.dtor]）不能被声明为 [`const]、
+[`volatile] 或 [`const volatile]。
 
 [enter:note]
 [:en]
 However, these functions can be invoked to create and destroy objects with
 cv-qualified types, see ([#class.ctor]) and ([#class.dtor]).
+[:zh_CN]
+然而，可以调用这些函数以创建和销毁被 cv-限定的类型的对象，参见 [#class.ctor] 和
+[#class.dtor]。
 [exit:note]

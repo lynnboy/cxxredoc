@@ -78,7 +78,7 @@ Lookups in which function names are ignored include names appearing in a
 [~nested-name-specifier], an [~elaborated-type-specifier], or a
 [~base-specifier].
 [:zh_CN]
-忽略函数名的查找，包括[~嵌套名说明符]，[~详细类型说明符]，或者[~基类说明符]。
+忽略函数名的查找，包括[~嵌套名说明符]，[~详述类型说明符]，或者[~基类说明符]。
 [footnote:end]
 
 [:en@~]
@@ -118,7 +118,7 @@ For example, the constructor is not an acceptable lookup result in an
 [~elaborated-type-specifier] so the constructor would not be used in place of
 the injected-class-name.
 [:zh_CN]
-例如，在[~详细类型说明符]中，构造函数就不是可接受的查找结果，故该构造函数不能被
+例如，在[~详述类型说明符]中，构造函数就不是可接受的查找结果，故该构造函数不能被
 用于替代注入类名。
 [exit:note]
 

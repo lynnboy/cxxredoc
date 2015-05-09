@@ -1,6 +1,6 @@
 ﻿[section#dcl.type.elab
     [:en] Elaborated type specifiers
-    [:zh_CN] 详细类型说明符
+    [:zh_CN] 详述类型说明符
 ]
 
 [%[`typename]]
@@ -12,7 +12,7 @@
 [%类型说明符[![`enum]]]
 
 [syntax]
-[rule elaborated-type-specifier [:zh_CN] 详细类型说明符 ]
+[rule elaborated-type-specifier [:zh_CN] 详述类型说明符 ]
     [| class-key [~:opt attribute-specifier-seq] [~:opt nested-name-specifier]
         identifier ]
     [| class-key simple-template-id ]
@@ -31,7 +31,7 @@ declaration.
 [:zh_CN]
 [%类名[!详细]]
 [%名字[!详细[![`enum]]]]
-[~特性说明符序列]不能出现于[~详细类型说明符]中，除非后者是一个声明式的唯一组成
+[~特性说明符序列]不能出现于[~详述类型说明符]中，除非后者是一个声明式的唯一组成
 部分。
 
 [:en]
@@ -40,7 +40,7 @@ declaration is ill-formed unless it is an explicit specialization
 ([#temp.expl.spec]), an explicit instantiation ([#temp.explicit]) or it has one
 of the following forms:
 [:zh_CN]
-若[~详细类型说明符]是某个声明式的唯一成分，则该声明式非良构，除非该声明式是显式
+若[~详述类型说明符]是某个声明式的唯一成分，则该声明式非良构，除非该声明式是显式
 特化式（[#temp.expl.spec]），显式实例化式（[#temp.explicit]），或者它具有如下
 形式之一：
 
@@ -67,14 +67,14 @@ the class whenever it is named.
 [#basic.lookup.elab] describes how name lookup proceeds for the [~identifier] in
 an [~elaborated-type-specifier].
 [:zh_CN]
-[#basic.lookup.elab] 说明如何对[~详细类型说明符]中的[~标识符]进行名字查找。
+[#basic.lookup.elab] 说明如何对[~详述类型说明符]中的[~标识符]进行名字查找。
 
 [:en]
 If the [~identifier] resolves to a [~class-name] or [~enum-name], the
 [~elaborated-type-specifier] introduces it into the declaration the same way a
 [~simple-type-specifier] introduces its [~type-name].
 [:zh_CN]
-若此[~标识符]被判读为[~类名]或[~枚举名]，则该[~详细类型说明符]以与[~简单类型说明
+若此[~标识符]被判读为[~类名]或[~枚举名]，则该[~详述类型说明符]以与[~简单类型说明
 符]引入其[~类型名]相同的方式将它引入到声明式中。
 
 [:en]
@@ -83,7 +83,7 @@ resolves to an alias template specialization, the [~elaborated-type-specifier]
 is ill-formed.
 [:zh_CN]
 若此[~标识符]被判读为某个 [~typedef-名]，或者此[~简单模板标识]被判读为某个别名
-模板的特例，则该[~详细类型说明符]非良构。
+模板的特例，则该[~详述类型说明符]非良构。
 
 [enter:note]
 [:en]
@@ -113,7 +113,7 @@ The [~class-key] or [`enum] keyword present in the [~elaborated-type-specifier]
 shall agree in kind with the declaration to which the name in the
 [~elaborated-type-specifier] refers.
 [:zh_CN]
-在[~详细类型说明符]中出现的[~类关键字]或 [`enum] 关键字应当与[~详细类型说明符]中
+在[~详述类型说明符]中出现的[~类关键字]或 [`enum] 关键字应当与[~详述类型说明符]中
 的名字所涉指的声明式的种类一致。
 
 [:en]
@@ -121,7 +121,7 @@ This rule also applies to the form of [~elaborated-type-specifier] that declares
 a [~class-name] or [`friend] class since it can be construed as referring to the
 definition of the class.
 [:zh_CN]
-对于其形式声明了[~类名]或 [`friend] 类的[~详细类型说明符]，这条规则也适用于，
+对于其形式声明了[~类名]或 [`friend] 类的[~详述类型说明符]，这条规则也适用于，
 这是由于可将其当作涉指了该类的定义式。
 
 [:en]
@@ -131,7 +131,7 @@ to refer to a union (Clause [#class]), and either the [`class] or [`struct]
 [~class-key] shall be used to refer to a class (Clause [#class]) declared using
 the [`class] or [`struct] [~class-key].
 [:zh_CN]
-因此，在任意[~详细类型说明符]中，应当用 [`enum] 关键字提及枚举（[#dcl.enum]），
+因此，在任意[~详述类型说明符]中，应当用 [`enum] 关键字提及枚举（[#dcl.enum]），
 应当用[~类关键字] [`union] 提及联合（第 [#class] 条），应当用[~类关键字]
 [`class] 或 [`struct] 提及用[~类关键字] [`class] 或 [`struct] 所声明的类（第
 [#class] 条）。

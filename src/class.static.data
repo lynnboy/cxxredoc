@@ -1,40 +1,66 @@
 ﻿[section#class.static.data
     [:en] Static data members
+    [:zh_CN] 静态数据成员
 ]
 
-[%  [:en] member data[!static]]
+[%  [:en] member data[!static]
+    [:zh_CN] 成员数据[!静态～] ]
 
 [para]
 [:en]
-A [`static] data member is not part of the subobjects of a class. If a
-[`static] data member is declared [`thread_local] there is one copy of
-the member per thread. If a [`static] data member is not declared
-[`thread_local] there is one copy of the data member that is shared by all
-the objects of the class.
+A [`static] data member is not part of the subobjects of a class.
+[:zh_CN]
+[`static] 数据成员并不属于类的子对象。
+
+[:en]
+If a [`static] data member is declared [`thread_local] there is one copy of the
+member per thread.
+[:zh_CN]
+若 [`static] 数据成员被声明为 [`thread_local]，则每个线程都有该成员的一个副本。
+
+[:en]
+If a [`static] data member is not declared [`thread_local] there is one copy of
+the data member that is shared by all the objects of the class.
+[:zh_CN]
+若 [`static] 数据成员未被声明为 [`thread_local]，则该数据成员的一个副本由这个类
+的所有对象所共享。
 
 [para]
 [:en]
-[%initialization[!static member]]
-[%definition[!static member]]
+[%initialization[!static member]] [%definition[!static member]]
 The declaration of a [`static] data member in its class definition is not a
 definition and may be of an incomplete type other than cv-qualified [`void].
+[:zh_CN]
+[%初始化[!静态成员]] [%定义式[!静态成员]]
+[`static] 数据成员在其类定义式中的声明式并不是定义式，并且可以具有除被 cv-限定的
+[`void] 外的不完整类型。
 
 [:en]
 The definition for a [`static] data member shall appear in a namespace scope
 enclosing the member[=']s class definition.
+[:zh_CN]
+[`static] 数据成员的定义式应当出现于包围该成员的类的定义式的某个命名空间作用域
+之中。
 
 [:en]
 [%operator use[!scope resolution]]
 In the definition at namespace scope, the name of the [`static] data member
 shall be qualified by its class name using the [`::] operator.
+[:zh_CN]
+[%运算符[!使用作用域解析～]]
+在命名空间作用域中的定义式中，[`static] 数据成员的名字应当使用 [`::] 运算符由其
+类的名字进行限定。
 
 [:en]
 The [~initializer] expression in the definition of a [`static] data member is in
 the scope of its class ([#basic.scope.class]).
+[:zh_CN]
+[`static] 数据成员的定义式中的[~初始化式]表达式处于其类的作用域
+（[#basic.scope.class]）之中。
 
 [enter:example]
-[:en]
-[%example[![`static] member]]
+[%[:en] example[![`static] member]
+  [:zh_CN] 示例[![`static] 成员] ]
 [codeblock]
 class process {
   static process* run_chain;
@@ -49,10 +75,17 @@ process* process::run_chain = running;
 The [`static] data member [`run_chain] of class [`process] is defined in global
 scope; the notation [`process::run_chain] specifies that the member [`run_chain]
 is a member of class [`process] and in the scope of class [`process].
+[:zh_CN]
+类 [`process] 的 [`static] 数据成员 [`run_chain] 在全局作用域中定义；记号
+[`process::run_chain] 指明了成员 [`run_chain] 是类 [`process] 的成员并处于类
+[`process] 的作用域中。
 
 [:en]
 In the [`static] data member definition, the [~initializer] expression refers to
 the [`static] data member [`running] of class [`process].
+[:zh_CN]
+在 [`static] 数据成员的定义式中，[~初始化式]表达式指代类 [`process] 的 [`static]
+数据成员 [`running]。
 [exit:example]
 
 [para:~]
@@ -60,11 +93,16 @@ the [`static] data member [`running] of class [`process].
 [:en]
 Once the [`static] data member has been defined, it exists even if no objects of
 its class have been created.
+[:zh_CN]
+一旦定义了 [`static] 数据成员，则即使未创建过其类的对象它也存在。
 
 [enter:example]
 [:en]
 in the example above, [`run_chain] and [`running] exist even if no objects of
 class [`process] are created by the program.
+[:zh_CN]
+在上例中，即使在程序中并未创建类 [`process] 的对象，[`run_chain] 和 [`running]
+也存在。
 [exit:example]
 [exit:note]
 
@@ -74,48 +112,76 @@ If a non-volatile [`const static] data member is of integral or enumeration
 type, its declaration in the class definition can specify a
 [~brace-or-equal-initializer] in which every [~initializer-clause] that is an
 [~assignment-expression] is a constant expression ([#expr.const]).
+[:zh_CN]
+若一个非 volatile 的 [`const static] 数据成员是整型或枚举类型，则它在类定义式中
+的声明式可以指定[~花括号或等号初始化式]，其中的每个是[~赋值表达式]的[~初始化式
+子句]均为常量表达式（[#expr.const]）。
 
 [:en]
 A [`static] data member of literal type can be declared in the class definition
 with the [`constexpr] specifier; if so, its declaration shall specify a
 [~brace-or-equal-initializer] in which every [~initializer-clause] that is an
 [~assignment-expression] is a constant expression.
+[:zh_CN]
+可以在类定义式中以 [`constexpr] 说明符声明字面量类型的 [`static] 数据成员；若
+这样进行声明，其声明式应当指定[~花括号或等号初始化式]，其中的每个是[~赋值表达式]
+的[~初始化式子句]均为常量表达式。
 
 [enter:note]
 [:en]
 In both these cases, the member may appear in constant expressions.
+[:zh_CN]
+这两种情况下，该成员都可出现在常量表达式中。
 [exit:note]
 
 [:en]
 The member shall still be defined in a namespace scope if it is odr-used
 ([#basic.def.odr]) in the program and the namespace scope definition shall not
 contain an [~initializer].
+[:zh_CN]
+若在程序中 ODR-式使用（[#basic.def.odr]）该成员，则它仍需进行定义，且其命名空间
+作用域的定义式不能包含[~初始化式]。
 
 [para]
 [enter:note]
 [:en]
 There shall be exactly one definition of a [`static] data member that is
 odr-used ([#basic.def.odr]) in a program; no diagnostic is required.
+[:zh_CN]
+程序中 ODR-式使用（[#basic.def.odr]）的 [`static] 数据成员的定义式应当恰好有一个
+；无须诊断。
 [exit:note]
 
 [:en]
 Unnamed classes and classes contained directly or indirectly within unnamed
 classes shall not contain [`static] data members.
+[:zh_CN]
+无名类和无名类中直接或间接包含的类不能含有 [`static] 数据成员。
 
 [para]
 [:en]
 [%restriction[![`static] member local class]]
 [`Static] data members of a class in namespace scope have the linkage of that
 class ([#basic.link]).
+[:zh_CN]
+[%限制[![`static] 成员局部类]]
+命名空间作用域中的类的 [`static] 数据成员具有外部连接（[#basic.link]）。
 
 [:en]
 A local class shall not have [`static] data members.
+[:zh_CN]
+局部类不能具有 [`static] 数据成员。
 
 [para]
 [:en]
 [`Static] data members are initialized and destroyed exactly like non-local
 variables ([#basic.start.init], [#basic.start.term]).
+[:zh_CN]
+[`static] 数据成员的初始化和销毁与非局部变量完全相同（[#basic.start.init]，
+[#basic.start.term]）。
 
 [para]
 [:en]
 A [`static] data member shall not be [`mutable] ([#dcl.stc]).
+[:zh_CN]
+[`static] 数据成员不能为 [`mutable]（[#dcl.stc]）。

@@ -1,19 +1,28 @@
 ﻿[section#class.mfct
     [:en] Member functions
+    [:zh_CN]
 ]
 
-[%  [:en] member function[!class]]
+[%  [:en] member function[!class]
+    [:zh_CN] 成员函数[!类] ]
 
 [para]
 [:en]
 Functions declared in the definition of a class, excluding those declared with a
 [`friend] specifier ([#class.friend]), are called member functions of that
 class.
+[:zh_CN]
+在类的定义式中声明的函数，除了以 [`friend] 说明符（[#class.friend]）声明的那些
+之外，称为该类的成员函数。
 
 [:en]
 A member function may be declared [`static] in which case it is a [+static]
 member function of its class ([#class.static]); otherwise it is a [+non-static]
 member function of its class ([#class.mfct.non-static], [#class.this]).
+[:zh_CN]
+成员函数可被声明为 [`static]，此种情况它是这个类的[+静态]成员函数
+（[#class.static]）；否则它是这个类的[+非静态]成员函数（[#class.mfct.non-static]
+，[#class.this]）。
 
 [para]
 [:en]
@@ -23,16 +32,28 @@ A member function may be defined ([#dcl.fct.def]) in its class definition, in
 which case it is an [+inline] member function ([#dcl.fct.spec]), or it may be
 defined outside of its class definition if it has already been declared but not
 defined in its class definition.
+[:zh_CN]
+[%成员函数[!内联～]]
+[%定义式[!成员函数～]]
+成员函数可以在类定义式之中进行定义（[#dcl.fct.def]），这种情况下它是[+内联]成员
+函数（[#dcl.fct.spec]），或者当它在类定义式之中进行了声明但并未进行定义，则它还
+可定义于其类定义式之外。
 
 [:en]
 A member function definition that appears outside of the class definition shall
 appear in a namespace scope enclosing the class definition.
+[:zh_CN]
+出现在类定义式之外的成员函数定义式，应当处于包围其类定义式的某个命名空间作用域
+之中。
 
 [:en]
 Except for member function definitions that appear outside of a class
 definition, and except for explicit specializations of member functions of class
 templates and member function templates ([#temp.spec]) appearing outside of the
 class definition, a member function shall not be redeclared.
+[:zh_CN]
+除了出现在类定义式外面的成员函数定义式，以及出现在类定义式外面的类模板的成员函数
+和成员函数模板的显式特化式（[#temp.spec]）以外，成员函数不能被重复声明。
 
 [para]
 [:en]
@@ -40,28 +61,43 @@ An [`inline] member function (whether static or non-static) may also be defined
 outside of its class definition provided either its declaration in the class
 definition or its definition outside of the class definition declares the
 function as [`inline].
+[:zh_CN]
+[`inline] 成员函数（不论是静态的还是非静态的）还可以在类定义式之外进行定义，只要
+其类定义式之中的声明式，或其类定义式之外的定义式将该函数声明为 [`inline] 即可。
 
 [enter:note]
 [:en]
 Member functions of a class in namespace scope have the linkage of that class.
+[:zh_CN]
+命名空间作用域中的类的成员函数具有其类的连接。
 
 [:en]
 Member functions of a local class ([#class.local]) have no linkage.
+[:zh_CN]
+局部类（[#class.local]）的成员函数没有连接。
 
 [:en]
 See [#basic.link].
+[:zh_CN]
+参见 [#basic.link]。
 [exit:note]
 
 [para]
 [:en]
 There shall be at most one definition of a non-inline member function in a
 program; no diagnostic is required.
+[:zh_CN]
+非内联成员函数的定义式在程序中最多只能有一个；无须诊断。
 
 [:en]
 There may be more than one [`inline] member function definition in a program.
+[:zh_CN]
+[`inline] 成员函数的定义式在程序中可以多于一个。
 
 [:en]
 See [#basic.def.odr] and [#dcl.fct.spec].
+[:zh_CN]
+参见 [#basic.def.odr] 和 [#dcl.fct.spec]。
 
 [para]
 [:en]
@@ -69,6 +105,10 @@ See [#basic.def.odr] and [#dcl.fct.spec].
 If the definition of a member function is lexically outside its class
 definition, the member function name shall be qualified by its class name using
 the [`::] operator.
+[:zh_CN]
+[%运算符[!作用域解析～]]
+如果成员函数的定义式在词法上处于其类定义式之外，则该成员函数的名字应该以 [`::]
+运算符用其类的名字进行限定。
 
 [enter:note]
 [:en]
@@ -76,6 +116,9 @@ A name used in a member function definition (that is, in the
 [~parameter-declaration-clause] including the default arguments
 ([#dcl.fct.default]) or in the member function body) is looked up as described
 in [#basic.lookup].
+[:zh_CN]
+对成员函数定义式之中（就是说，包括默认实参（[#dcl.fct.default]）在内的[~形参声明
+子句]之中，或者在成员函数体之中）使用的名字的查找在 [#basic.lookup] 中说明。
 [exit:note]
 
 [enter:example]
@@ -92,48 +135,71 @@ void X::f(T t = count) { }
 The member function [`f] of class [`X] is defined in global scope; the notation
 [`X::f] specifies that the function [`f] is a member of class [`X] and in the
 scope of class [`X].
+[:zh_CN]
+类 [`X] 的成员函数 [`f] 在全局作用域中定义；记法 [`X::f] 指明了函数 [`f] 是类
+[`X] 的一个成员函数并处于类 [`X] 的作用域之中。
 
 [:en]
 In the function definition, the parameter type [`T] refers to the typedef member
 [`T] declared in class [`X] and the default argument [`count] refers to the
 static data member [`count] declared in class [`X].
+[:zh_CN]
+在其函数定义式中，形参类型 [`T] 涉指在类 [`X] 中声明的 typedef 成员 [`T]，而其
+默认实参 [`count] 涉指在类 [`X] 中声明的静态数据成员 [`count]。
 [exit:example]
 
 [para]
 [:en]
 A [`static] local variable in a member function always refers to the same
 object, whether or not the member function is [`inline].
+[:zh_CN]
+成员函数中的 [`static] 局部变量总是指代相同的对象，无论该成员函数是否是
+[`inline]。
 
 [para]
 [:en]
 Previously declared member functions may be mentioned in [`friend] declarations.
+[:zh_CN]
+之前已经声明过的成员函数可在 [`friend] 声明式中被提及。
 
 [para]
 [:en]
 [%local class[!member function in]]
 Member functions of a local class shall be defined inline in their class
 definition, if they are defined at all.
+[:zh_CN]
+[%局部类[!～中的成员函数]]
+如果确实要定义局部类的成员函数的话，就应当在其类定义式之中定义为内联的。
 
 [para]
 [enter:note]
 [:en]
 A member function can be declared (but not defined) using a typedef for a
 function type.
+[:zh_CN]
+成员函数可以使用某个函数类型的 typedef 来进行声明（但不能进行定义）。
 
 [:en]
 The resulting member function has exactly the same type as it would have if the
 function declarator were provided explicitly, see [#dcl.fct].
+[:zh_CN]
+所产生的成员函数的类型与显式提供其函数声明符时所能产生的完全相同，参见
+[#dcl.fct]。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 typedef void fv(void);
 typedef void fvc(void) const;
 struct S {
   fv memfunc1;      // [:en] equivalent to: [`void memfunc1(void);]
+                    // [|:zh_CN] 等价于：[`void memfunc1(void);]
   void memfunc2();
   fvc memfunc3;     // [:en] equivalent to: [`void memfunc3(void) const;]
+                    // [|:zh_CN] 等价于：[`void memfunc3(void) const;]
 };
 fv  S::* pmfv1 = &S::memfunc1;
 fv  S::* pmfv2 = &S::memfunc2;
@@ -142,6 +208,8 @@ fvc S::* pmfv3 = &S::memfunc3;
 
 [:en]
 Also see [#temp.arg].
+[:zh_CN]
+另见 [#temp.arg]。
 [exit:note]
 
 [include class.mfct.non-static]

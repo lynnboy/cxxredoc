@@ -139,7 +139,7 @@ struct X {
 The point of declaration of a class first declared in an
 [~elaborated-type-specifier] is as follows:
 [:zh_CN]
-由[~详细类型说明符]所首先声明的类的声明点如下：
+由[~详述类型说明符]所首先声明的类的声明点如下：
 
 [list]
 [item]
@@ -174,7 +174,7 @@ if the [~elaborated-type-specifier] is used in the [~decl-specifier-seq] or
 [~identifier] is declared as a [~class-name] in the namespace that contains the
 declaration;
 [:zh_CN@~]
-的[~详细类型说明符]，如果该[~详细类型说明符]是在定义于命名空间作用域中的函数的
+的[~详述类型说明符]，如果该[~详述类型说明符]是在定义于命名空间作用域中的函数的
 [~声明说明符序列]或[~形参声明子句]中使用的，则其[~标识符]就被声明为包含该声明式
 的命名空间中的[~类名]；
 
@@ -197,7 +197,7 @@ These rules also apply within templates.
 Other forms of [~elaborated-type-specifier] do not declare a new name, and
 therefore must refer to an existing [~type-name].
 [:zh_CN]
-其他形式的[~详细类型说明符]并不会声明新的名字，因此就必须涉指一个已声明的
+其他形式的[~详述类型说明符]并不会声明新的名字，因此就必须涉指一个已声明的
 [~类型名]。
 
 [:en]
@@ -210,10 +210,10 @@ See [#basic.lookup.elab] and [#dcl.type.elab].
 
 [para]
 [:en]
-The point of declaration for an [~injected-class-name] (Clause [#class]) is
+The point of declaration for an [+injected-class-name] (Clause [#class]) is
 immediately following the opening brace of the class definition.
 [:zh_CN]
-[~注入类名]（第 [#class] 条）的声明点紧跟其类定义式的开花括号之后。
+[+注入类名]（第 [#class] 条）的声明点紧跟其类定义式的开花括号之后。
 
 [para]
 [:en]

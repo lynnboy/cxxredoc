@@ -1,116 +1,177 @@
 ﻿[section#class.bit
     [:en] Bit-fields
+    [:zh_CN] 位字段
 ]
 
-[%  [:en] bit-field]
+[%  [:en] bit-field
+    [:zh_CN] 位字段 ]
 
 [para]
 [:en]
 A [~member-declarator] of the form
+[:zh_CN]
+如下形式的[~成员声明符]
 
 [syntax:explanation]
 [~:opt identifier] [~:opt attribute-specifier-seq] [`:] [~constant-expression]
 [syntax:end]
 
 [:en]
-[%[`:][!field declaration]]
-[%declaration[!bit-field]]
+[%[`:][!field declaration]] [%declaration[!bit-field]]
 specifies a bit-field; its length is set off from the bit-field name by a colon.
+[:zh_CN]
+[%[`:][!字段声明式]] [%声明式[!位字段]]
+指定了位字段；其长度以冒号设置在位字段的名字后边。
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the entity being declared.
+[:zh_CN]
+可选的[~特性说明符序列]属于所声明的实体。
 
 [:en]
 The bit-field attribute is not part of the type of the class member.
+[:zh_CN]
+位字段性质并不是类成员的类型的一部份。
 
 [:en]
 The [~constant-expression] shall be an integral constant expression with a value
 greater than or equal to zero.
+[:zh_CN]
+[~常量表达式]应当为具有大于或等于零的值的整型常量表达式。
 
 [:en]
 The value of the integral constant expression may be larger than the number of
 bits in the object representation ([#basic.types]) of the bit-field[=']s type;
 in such cases the extra bits are used as padding bits and do not participate in
 the value representation ([#basic.types]) of the bit-field.
+[:zh_CN]
+该整型常量表达式的值可能大于该位字段的类型在对象表示（[#basic.types]）中的位数；
+在此种情况下额外的位用作填充位，且并不参与该位字段的值表示（[#basic.types]）。
 
 [:en]
 [%allocation[!implementation defined bit-field]]
 Allocation of bit-fields within a class object is [%@impldef allocation of
 bit-fields within a class object] implementation-defined.
+[:zh_CN]
+[%分配[!由实现定义的位字段的～]]
+位字段在类对象之中的分配是[%@impldef 类对象中的位字段的分配]由实现定义的。
 
 [:en]
 [%bit-field[!implementation defined alignment of]]
 Alignment of bit-fields is [%@impldef alignment of bit-fields within a class
 object] implementation-defined.
+[:zh_CN]
+[%位字段[!由实现定义的～的对齐]]
+位字段的对齐是[%@impldef 类对象中的位字段的对齐]由实现定义的。
 
 [:en]
 [%layout[!bit-field]]
 Bit-fields are packed into some addressable allocation unit.
+[:zh_CN]
+[%布局[!位字段]]
+位字段被分组包装到可寻址的分配单元中。
 
 [enter:note]
 [:en]
 Bit-fields straddle allocation units on some machines and not on others.
+[:zh_CN]
+位字段在某些机器上跨越分配单元而在其它机器上不会。
 
 [:en]
 Bit-fields are assigned right-to-left on some machines, left-to-right on others.
+[:zh_CN]
+位字段在某些机器上按从右向左赋值，其它机器上则是从左向右。
 [exit:note]
 
 [para]
 [:en]
 [%bit-field[!unnamed]]
 A declaration for a bit-field that omits the [~identifier] declares an
-[~unnamed] bit-field.
+[+unnamed] bit-field.
+[:zh_CN]
+[%位字段[!无名～]]
+省略[~标识符]的位字段声明式声明了[+无名]位字段。
 
 [:en]
 Unnamed bit-fields are not members and cannot be initialized.
+[:zh_CN]
+无名位字段不是成员且无法进行初始化。
 
 [enter:note]
 [:en]
 An unnamed bit-field is useful for padding to conform to externally-imposed
 layouts.
+[:zh_CN]
+无名位字段可以用于填充，以满足外部设定的布局方案。
 [exit:note]
 
 [:en]
-[%bit-field[!zero width of]]
-[%bit-field[!alignment of]]
+[%bit-field[!zero width of]] [%bit-field[!alignment of]]
 As a special case, an unnamed bit-field with a width of zero specifies alignment
 of the next bit-field at an allocation unit boundary.
+[:zh_CN]
+[%位字段[!零宽度的～]] [%位字段[!～的对齐]]
+作为一种特殊情况，宽度为零的无名位字段指定其下一个位字段的对齐处于分配单元的边界
+。
 
 [:en]
 Only when declaring an unnamed bit-field may the value of the
 [~constant-expression] be equal to zero.
+[:zh_CN]
+只有当声明无名位字段时其[~常量表达式]的值才可等于零。
 
 [para]
 [:en]
 [%bit-field[!type of]]
 A bit-field shall not be a static member.
+[:zh_CN]
+[%位字段[!～的类型]]
+位字段不能为静态成员。
 
 [:en]
 A bit-field shall have integral or enumeration type ([#basic.fundamental]).
+[:zh_CN]
+位字段应当具有整型或枚举类型（[#basic.fundamental]）。
 
 [:en]
 [%Boolean]
 A [`bool] value can successfully be stored in a bit-field of any nonzero size.
+[:zh_CN]
+[%布尔]
+[`bool] 值可以成功存储在任何非零大小的位字段中。
 
 [:en]
 [%bit-field[!address of]]
 The address-of operator [`&] shall not be applied to a bit-field, so there are
 no pointers to bit-fields.
+[:zh_CN]
+[%位字段[!～的地址]]
+取地址运算符 [`&] 不能用于位字段，因此没有指向位字段的指针。
 
 [:en]
 [%restriction[!bit-field]]
 [%restriction[!address of bit-field]]
 [%restriction[!pointer to bit-field]]
 A non-const reference shall not be bound to a bit-field ([#dcl.init.ref]).
+[:zh_CN]
+[%限制[!位字段]]
+[%限制[!位字段的地址]]
+[%限制[!位字段的指针]]
+非常量引用不能被绑定到位字段上（[#dcl.init.ref]）。
 
 [enter:note]
 [:en]
 If the initializer for a reference of type [`const T&] is an lvalue that refers
 to a bit-field, the reference is bound to a temporary initialized to hold the
 value of the bit-field; the reference is not bound to the bit-field directly.
+[:zh_CN]
+若类型 [`const T&] 的引用的初始化式指代位字段的左值，则该引用被绑定到被初始化以
+持有该位字段的值的临时对象上；该引用并不直接绑定到位字段上。
 
 [:en]
 See [#dcl.init.ref].
+[:zh_CN]
+参见 [#dcl.init.ref]。
 [exit:note]
 
 [para]
@@ -118,12 +179,18 @@ See [#dcl.init.ref].
 If the value [`true] or [`false] is stored into a bit-field of type [`bool] of
 any size (including a one bit bit-field), the original [`bool] value and the
 value of the bit-field shall compare equal.
+[:zh_CN]
+若 [`true] 或 [`false] 值被存储到任意大小（包括只有一个位的位字段）的类型
+[`bool] 的位字段之中，则原 [`bool] 值和该位字段的值比较应当相等。
 
 [:en]
 If the value of an enumerator is stored into a bit-field of the same enumeration
 type and the number of bits in the bit-field is large enough to hold all the
 values of that enumeration type ([#dcl.enum]), the original enumerator value and
 the value of the bit-field shall compare equal.
+[:zh_CN]
+若某枚举符的值被存储到相同枚举类型的位字段之中，且该位字段的位数足够持有该枚举
+类型的所有值（[#dcl.enum]），则原枚举符的值和该位字段的值比较应当相等。
 
 [enter:example]
 [codeblock]
@@ -135,6 +202,7 @@ A a;
 void f() {
   a.b = TRUE;
   if (a.b == TRUE)              // [:en] yields [`true]
+                                // [|:zh_CN] 产生 [`true]
     { /* ... */ }
 }
 [codeblock:end]

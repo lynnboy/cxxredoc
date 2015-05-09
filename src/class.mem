@@ -1,19 +1,24 @@
 ﻿[section#class.mem
     [:en] Class members
+    [:zh_CN] 类成员
 ]
 
 [:en]
 [%declaration[!member]]
 [%data member[see member]]
+[:zh_CN]
+[%声明式[!成员～]]
+[%数据成员[see 成员]]
 
 [syntax]
-[rule member-specification [:zh_CN] ]
+[rule member-specification [:zh_CN] 成员说明 ]
     [| member-declaration [~:opt member-specification] ]
     [| access-specifier [`:] [~:opt member-specification] ]
 [rule:end]
 
-[rule member-declaration [:zh_CN] ]
-    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~:opt member-declarator-list] [`;] ]
+[rule member-declaration [:zh_CN] 成员声明式 ]
+    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq]
+        [~:opt member-declarator-list] [`;] ]
     [| function-definition ]
     [| using-declaration ]
     [| static_assert-declaration ]
@@ -22,28 +27,29 @@
     [| empty-declaration ]
 [rule:end]
 
-[rule member-declarator-list [:zh_CN] ]
+[rule member-declarator-list [:zh_CN] 成员声明符列表 ]
     [| member-declarator ]
     [| member-declarator-list [`,] member-declarator ]
 [rule:end]
 
-[rule member-declarator [:zh_CN] ]
+[rule member-declarator [:zh_CN] 成员声明符 ]
     [| declarator [~:opt virt-specifier-seq] [~:opt pure-specifier] ]
     [| declarator [~:opt brace-or-equal-initializer] ]
-    [| [~:opt identifier] [~:opt attribute-specifier-seq] [`:] constant-expression ]
+    [| [~:opt identifier] [~:opt attribute-specifier-seq]
+        [`:] constant-expression ]
 [rule:end]
 
-[rule virt-specifier-seq [:zh_CN] ]
+[rule virt-specifier-seq [:zh_CN] 虚说明符序列 ]
     [| virt-specifier ]
     [| virt-specifier-seq virt-specifier ]
 [rule:end]
 
-[rule virt-specifier [:zh_CN] ]
+[rule virt-specifier [:zh_CN] 虚说明符 ]
     [| [`override] ]
     [| [`final] ]
 [rule:end]
 
-[rule pure-specifier [:zh_CN] ]
+[rule pure-specifier [:zh_CN] 纯说明符 ]
     [| [`=] [`0] ]
 [rule:end]
 [syntax:end]
@@ -53,22 +59,35 @@
 [%definition[!class]]
 The [~member-specification] in a class definition declares the full set of
 members of the class; no member can be added elsewhere.
+[:zh_CN]
+[%定义式[!类～]]
+类定义式中的[~成员说明]声明了该类的成员的全集；无法在别处增加成员。
 
 [:en]
 Members of a class are data members, member functions ([#class.mfct]), nested
 types, and enumerators.
+[:zh_CN]
+类的成员包括数据成员、成员函数（[#class.mfct]）、嵌套的类型以及枚举符。
 
 [:en]
 Data members and member functions are static or non-static; see [#class.static].
+[:zh_CN]
+数据成员和成员函数可为静态或非静态的；参见 [#class.static]。
 
 [:en]
 Nested types are classes ([#class.name], [#class.nest]) and enumerations
 ([#dcl.enum]) defined in the class, and arbitrary types declared as members by
 use of a typedef declaration ([#dcl.typedef]).
+[:zh_CN]
+嵌套的类型为在该类中所定义的类（[#class.name]，[#class.nest]）和枚举
+（[#dcl.enum]），以及任何使用 typedef 声明式（[#dcl.typedef]）声明为其成员的类型
+。
 
 [:en]
 The enumerators of an unscoped enumeration ([#dcl.enum]) defined in the class
 are members of the class.
+[:zh_CN]
+类中所定义的无作用域枚举的枚举符（[#dcl.enum]）是该类的成员。
 
 [:en]
 Except when used to declare friends ([#class.friend]), to declare an unnamed
@@ -77,18 +96,30 @@ into a derived class ([#namespace.udecl]), or when the declaration is an
 [~empty-declaration], [~member-declaration]s declare members of the class, and
 each such [~member-declaration] shall declare at least one member name of the
 class.
+[:zh_CN]
+除了用于声明友元（[#class.friend]），声明无名位字段（[#class.bit]），或向派生类
+中引入基类成员的名字（[#namespace.udecl]），或者声明式是[~空声明式]的情况之外，
+[~成员声明式]声明的都是该类的成员，且每个这种[~成员声明式]应当声明该类的至少一个
+成员名。
 
 [:en]
 A member shall not be declared twice in the [~member-specification], except that
 a nested class or member class template can be declared and then later defined,
 and except that an enumeration can be introduced with an
 [~opaque-enum-declaration] and later redeclared with an [~enum-specifier].
+[:zh_CN]
+除了嵌套类或成员类模板可以先声明稍候再进行定义，以及枚举可以先由[~笼统枚举声明
+式]引入稍后再以[~枚举说明符]重新声明以外，[~成员说明]中不能对一个成员声明两次。
 
 [para]
 [:en]
 [%completely defined]
 A class is considered a completely-defined object type ([#basic.types]) (or
 complete type) at the closing [`}] of the [~class-specifier].
+[:zh_CN]
+[%完整定义]
+一个类在其[~类说明符]的闭合 [`}] 处被当作是完整定义的对象类型（[#basic.types]）
+（或完整类型）。
 
 [:en]
 Within the class [~member-specification], the class is regarded as complete
@@ -96,40 +127,61 @@ within function bodies, default arguments, [~using-declaration]s introducing
 inheriting constructors ([#class.inhctor]), [~exception-specification]s, and
 [~brace-or-equal-initializer]s for non-static data members (including such
 things in nested classes).
+[:zh_CN]
+在一个类的[~成员说明]之内，在函数体，默认实参，引入继承的构造函数的 [~using-声明
+式]（[#class.inhctor]），[~异常说明]，以及非静态数据成员的[~花括号或等号初始化
+式]（包括嵌套类中的这类事物）中，该类被看作是完整的。
 
 [:en]
 Otherwise it is regarded as incomplete within its own class
 [~member-specification].
+[:zh_CN]
+否则，它在自身的类[~成员说明]中即被看作是不完整的。
 
 [para]
 [enter:note]
 [:en]
 A single name can denote several function members provided their types are
 sufficiently different (Clause [#over]).
+[:zh_CN]
+一个名字可以代表多个函数成员，只要它们的类型（第 [#over] 条）有足够的区别。
 [exit:note]
 
 [para]
 [:en]
 A [~brace-or-equal-initializer] shall appear only in the declaration of a data
 member.
+[:zh_CN]
+[~花括号或等号初始化式]只能出现于数据成员的声明式中。
 
 [:en]
 (For static data members, see [#class.static.data]; for non-static data members,
 see [#class.base.init]).
+[:zh_CN]
+（对于静态数据成员，参见 [#class.static.data]；对于非静态数据成员，参见
+[#class.base.init]）。
 
 [:en]
 A [~brace-or-equal-initializer] for a non-static data member shall not directly
 or indirectly cause the implicit definition of a defaulted default constructor
 for the enclosing class or the exception specification of that constructor.
+[:zh_CN]
+非静态数据成员的[~花括号或等号初始化式]不能直接或间接导致对其外围类的预置的默认
+构造函数或者该函数的异常说明的隐式定义。
 
 [para]
 [:en]
 A member shall not be declared with the [`extern] or [`register]
 [~storage-class-specifier].
+[:zh_CN]
+不能用[~存储类说明符] [`extern] 或 [`register] 来声明成员。
 
 [:en]
 Within a class definition, a member shall not be declared with the
 [`thread_local] [~storage-class-specifier] unless also declared [`static].
+[:zh_CN]
+在类定义式中，除非同时声明为 [`static]，否则不能用[~存储类说明符]
+[`thread_local] 来声明成员。
 
 [para]
 [:en]
@@ -137,43 +189,67 @@ The [~decl-specifier-seq] may be omitted in constructor, destructor, and
 conversion function declarations only; when declaring another kind of member the
 [~decl-specifier-seq] shall contain a [~type-specifier] that is not a
 [~cv-qualifier].
+[:zh_CN]
+只有在构造函数、析构函数以及转换函数的声明式之中才可以省略[~声明说明符序列]；当
+声明其他种类的成员时，其[~声明说明符序列]应当包含一个并非 [~cv-限定符]的[~类型
+说明符]。
 
 [:en]
 The [~member-declarator-list] can be omitted only after a [~class-specifier] or
 an [~enum-specifier] or in a [`friend] declaration ([#class.friend]).
+[:zh_CN]
+只有在[~类说明符]或[~枚举说明符]之后，或者在 [`friend] 声明式（[#class.friend]）
+之中，才能省略[~成员声明符列表]。
 
 [:en]
 A [~pure-specifier] shall be used only in the declaration of a virtual function
 ([#class.virtual]).
+[:zh_CN]
+[~纯说明符]只能用在虚函数（[#class.virtual]）的声明式中。
 
 [para]
 [:en]
 The optional [~attribute-specifier-seq] in a [~member-declaration] appertains to
 each of the entities declared by the [~member-declarator]s; it shall not appear
 if the optional [~member-declarator-list] is omitted.
+[:zh_CN]
+[~成员声明式]中可选的[~特性说明符序列]属于每一个[~成员声明符]所声明的实体；当
+可选的[~成员声明符列表]被省略时则不能出现它。
 
 [para]
 [:en]
 A [~virt-specifier-seq] shall contain at most one of each [~virt-specifier].
+[:zh_CN]
+[~虚说明符序列]中，每种[~虚说明符]应当最多出现一次。
 
 [:en]
 A [~virt-specifier-seq] shall appear only in the declaration of a virtual member
 function ([#class.virtual]).
+[:zh_CN]
+[~虚说明符序列]只能出现于虚成员函数（[#class.virtual]）的声明式中。
 
 [para]
 [:en]
 [%class object[!member]]
 Non-[`static] ([#class.static]) data members shall not have incomplete types.
+[:zh_CN]
+[%类对象[!成员]]
+非-[`static]（[#class.static]）数据成员不应当具有不完整类型。
 
 [:en]
 In particular, a class [`C] shall not contain a non-static member of class [`C],
 but it can contain a pointer or reference to an object of class [`C].
+[:zh_CN]
+特别地，类 [`C] 中不能包含类 [`C] 的非静态成员，但它可以包含指向类 [`C] 的对象的
+指针或引用。
 
 [para]
 [enter:note]
 [:en]
 See [#expr.prim] for restrictions on the use of non-static data members and
 non-static member functions.
+[:zh_CN]
+对非静态数据成员和非静态成员函数的使用限制，参见 [#expr.prim]。
 [exit:note]
 
 [para]
@@ -181,9 +257,13 @@ non-static member functions.
 [:en]
 The type of a non-static member function is an ordinary function type, and the
 type of a non-static data member is an ordinary object type.
+[:zh_CN]
+非静态成员函数的类型是常规的函数类型，而非静态数据成员的类型是常规的对象类型。
 
 [:en]
 There are no special member function types or data member types.
+[:zh_CN]
+不存在特殊的成员函数类型或数据成员类型。
 [exit:note]
 
 [para]
@@ -191,6 +271,9 @@ There are no special member function types or data member types.
 [:en]
 [%example[!class definition]]
 A simple example of a class definition is
+[:zh_CN]
+[%示例[!类定义式]]
+一个类定义式的简单例子为
 
 [codeblock]
 struct tnode {
@@ -204,9 +287,13 @@ struct tnode {
 [:en@~]
 which contains an array of twenty characters, an integer, and two pointers to
 objects of the same type.
+[:zh_CN@~]
+其中包含了一个二十个字符的数组，一个整数，以及两个指向相同类型的对象的指针。
 
 [:en]
 Once this definition has been given, the declaration
+[:zh_CN]
+一旦给定了这个定义式，声明式
 
 [codeblock]
 tnode s, *sp;
@@ -214,12 +301,18 @@ tnode s, *sp;
 
 [:en@~]
 declares [`s] to be a [`tnode] and [`sp] to be a pointer to a [`tnode].
+[:zh_CN@~]
+即把 [`s] 声明为 [`tnode] 而 [`sp] 声明为指向 [`tnode] 的指针。
 
 [:en]
 With these declarations, [`sp->count] refers to the [`count] member of the
 object to which [`sp] points; [`s.left] refers to the [`left] subtree pointer of
 the object [`s]; and [`s.right->tword[0`]] refers to the initial character of
 the [`tword] member of the [`right] subtree of [`s].
+[:zh_CN]
+按这些声明式，[`sp->count] 代表 [`sp] 所指向的对象的 [`count] 成员；[`s.left]
+代表对象 [`s] 的 [`left] 子树指针；而 [`s.right->tword[0`]] 代表 [`s] 的
+[`right] 子树的 [`tword] 成员的初始字符。
 [exit:example]
 
 [para]
@@ -228,51 +321,73 @@ the [`tword] member of the [`right] subtree of [`s].
 Nonstatic data members of a (non-union) class with the same access control
 (Clause [#class.access]) are allocated so that later members have higher
 addresses within a class object.
+[:zh_CN]
+[%布局[!类对象]]
+对于某个（非联合）类的一组具有相同访问控制（第 [#class.access] 条）的非静态数据
+成员所进行的分配，将使得在一个类对象之中，处于后面的成员具有更高地址。
 
 [:en]
 [%allocation[!unspecified]]
 The order of allocation of non-static data members with different access control
 is unspecified (Clause [#class.access]).
+[:zh_CN]
+[%分配[!未指明的]]
+具有不同访问控制的非静态数据成员的分配顺序是未指明的（[#class.access]）。
 
 [:en]
 Implementation alignment requirements might cause two adjacent members not to be
 allocated immediately after each other; so might requirements for space for
 managing virtual functions ([#class.virtual]) and virtual base classes
 ([#class.mi]).
+[:zh_CN]
+实现的对齐要求可能造成两个相邻的成员的分配并不紧紧相连；用于管理虚函数
+（[#class.virtual]）和虚基类（[#class.mi]）的空间要求也可能造成如此结果。
 
 [para]
 [:en]
 If [`T] is the name of a class, then each of the following shall
 have a name different from [`T]:
+[:zh_CN]
+若 [`T] 为某个类的名字，则如下每个都需要一个与 [`T] 不同的名字：
 
 [list]
 [item]
 [:en] every static data member of class [`T];
+[:zh_CN] 类 [`T] 的每个静态数据成员；
 
 [item]
 [:en] every member function of class [`T]
+[:zh_CN] 类 [`T] 的每个成员函数
 
 [enter:note]
 [:en]
 This restriction does not apply to constructors, which do not have names
 ([#class.ctor])
+[:zh_CN]
+这条限制并不适用于构造函数，它们并没有名字（[#class.ctor]）
 [exit:note]
 
 [:en@~]
 ;
+[:zh_CN@~]
+；
 
 [item]
 [:en] every member of class [`T] that is itself a type;
+[:zh_CN] 类 [`T] 的每个类型成员；
 
 [item]
 [:en] every member template of class [`T];
+[:zh_CN] 类 [`T] 的每个成员模板；
 
 [item]
 [:en] every enumerator of every member of class [`T] that is an unscoped
 enumerated type; and
+[:zh_CN] 类 [`T] 的每个无作用域枚举类型的枚举符；以及
 
 [item]
 [:en] every member of every anonymous union that is a member of class [`T].
+[:zh_CN] 类 [`T] 的每个匿名联合成员的每个成员。
 [list:end]
 
 [para]
@@ -280,6 +395,9 @@ enumerated type; and
 In addition, if class [`T] has a user-declared constructor ([#class.ctor]),
 every non-static data member of class [`T] shall have a name different from
 [`T].
+[:zh_CN]
+此外，若类 [`T] 带有用户声明的构造函数（[#class.ctor]），则类 [`T] 的每个非静态
+数据成员应具有一个与 [`T] 不同的名字。
 
 [para]
 [:en]
@@ -288,6 +406,10 @@ The [def common initial sequence] of two standard-layout struct (Clause
 bit-fields in declaration order, starting with the first such entity in each of
 the structs, such that corresponding entities have layout-compatible types and
 either neither entity is a bit-field or both are bit-fields with the same width.
+[:zh_CN]
+两个标准布局结构（第 [#class] 条）类型类型的[def 共同起始序列]，是非静态数据成员
+和位字段依照声明顺序的最长序列，开始于每个结构中的第一个这种实体，并且对应的实体
+具有布局兼容的类型，且要么都不是位字段要么都是具有相同宽度的位字段。
 
 [enter:example]
 [codeblock]
@@ -301,13 +423,19 @@ either neither entity is a bit-field or both are bit-fields with the same width.
 [:en]
 The common initial sequence of [`A] and [`B] comprises all members of either
 class.
+[:zh_CN]
+[`A] 和 [`B] 的共同起始序列由两个类的所有成员构成。
 
 [:en]
 The common initial sequence of [`A] and [`C] and of [`A] and [`D] comprises the
 first member in each case.
+[:zh_CN]
+[`A] 和 [`C] 以及 [`A] 和 [`D] 的共同起始序列都由第一个成员构成。
 
 [:en]
 The common initial sequence of [`A] and [`E] is empty.
+[:zh_CN]
+[`A] 和 [`E] 的共同起始序列为空。
 [exit:example]
 
 [para]
@@ -315,12 +443,18 @@ The common initial sequence of [`A] and [`E] is empty.
 Two standard-layout struct (Clause [#class]) types are layout-compatible if
 their common initial sequence comprises all members and bit-fields of both
 classes ([#basic.types]).
+[:zh_CN]
+当两个标准布局结构（第 [#class] 条）类型的共同起始序列包含两个类的所有成员和位
+字段时，它们为布局兼容的（[#basic.types]）。
 
 [para]
 [:en]
 Two standard-layout unions are layout-compatible if they have the same number of
 non-static data members and corresponding non-static data members (in any order)
 have layout-compatible types ([#basic.types]).
+[:zh_CN]
+当两个标准布局联合具有相同数量的非静态数据成员，且对应的非静态数据成员（任意
+顺序）均具有布局兼容的类型时，它们为布局兼容的（[#basic.types]）。
 
 [para]
 [:en]
@@ -328,24 +462,38 @@ In a standard-layout union with an active member ([#class.union]) of struct type
 [`T1], it is permitted to read a non-static data member [`m] of another union
 member of struct type [`T2] provided [`m] is part of the common initial sequence
 of [`T1] and [`T2].
+[:zh_CN]
+在具有结构类型 [`T1] 的活动成员（[#class.union]）的标准布局联合中，允许读取具有
+结构类型 [`T2] 的另一个联合成员的非静态数据成员 [`m]，只要 [`m] 属于 [`T] 和
+[`T2] 的共同起始序列的一部分即可。
 
 [enter:note]
 [:en]
 Reading a volatile object through a non-volatile glvalue has undefined behavior
 ([#dcl.type.cv]).
+[:zh_CN]
+通过非 volatile 泛左值读取 volatile 对象具有未定义行为。
 [exit:note]
 
 [para]
 [:en]
 If a standard-layout class object has any non-static data members, its address
 is the same as the address of its first non-static data member.
+[:zh_CN]
+若标准布局类对象带有任何非静态数据成员，则其地址与其第一个非静态数据成员的地址
+相同。
 
 [:en]
 Otherwise, its address is the same as the address of its first base class
 subobject (if any).
+[:zh_CN]
+否则其地址与其第一个基类子对象（如果有）的地址相同。
 
 [enter:note]
 [:en]
 There might therefore be unnamed padding within a standard-layout struct object,
 but not at its beginning, as necessary to achieve appropriate alignment.
+[:zh_CN]
+为获得适当的对齐，标准布局结构对象之内可能存在无名的填充空间，但并不会出现于其
+起始处。
 [exit:note]
