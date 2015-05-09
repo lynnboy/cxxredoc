@@ -1,12 +1,16 @@
 ﻿[section#dcl.array
     [:en] Arrays
+    [:zh_CN] 数组
 ]
 
-[%  [:en] declarator[!array] ]
+[%  [:en] declarator[!array]
+    [:zh_CN] 声明符[!数组～] ]
 
 [para]
 [:en]
 In a declaration [`T D] where [`D] has the form
+[:zh_CN]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
 [`D1] [`[] [~:opt constant-expression] [``]] [~:opt attribute-specifier-seq]
@@ -14,57 +18,89 @@ In a declaration [`T D] where [`D] has the form
 
 [:en@~]
 and the type of the identifier in the declaration [`T D1] is
-["[~derived-declarator-type-list] [`T]], then the type of the identifier of [`D]
+["[$derived-declarator-type-list] [`T]], then the type of the identifier of [`D]
 is an array type; if the type of the identifier of [`D] contains the [`auto]
 [~type-specifier], the program is ill-formed.
+[:zh_CN@~]
+且声明式 [`T D1] 中的标识符的类型是“[`T] [$衍生的声明符类型列表]”，则 [`D] 的
+标识符的类型就为数组类型；若 [`D] 的标识符的类型包含[~类型说明符] [`auto]，则
+程序非良构。
 
 [:en]
 [`T] is called the array [+element type]; this type shall not be a reference
 type, the (possibly cv-qualified) type [`void], a function type or an abstract
 class type.
+[:zh_CN]
+[`T] 被称为数组的[+元素类型]；这个类型不能是引用类型，（可能被 cv-限定的）
+[`void] 类型，函数类型，或者抽象类类型。
 
 [:en]
 [%declaration[!array]]
 If the [~constant-expression] ([#expr.const]) is present, it shall be a
 converted constant expression of type [`std::size_t] and its value shall be
 greater than zero.
+[:zh_CN]
+[%声明[!数组]]
+若其中带有[~常量表达式]（[#expr.const]），则它应当是 [`std::size_t] 类型的经转换
+常量表达式，且其值应大于零。
 
 [:en]
 The constant expression specifies the [%array[!bound]] [%bound[!of array]]
 [+bound] of (number of elements in) the array.
+[:zh_CN]
+常量表达式指定了该数组的（元素个数的）[%数组[!～边界]] [%边界[!数组的～]]
+[+边界]。
 
 [:en]
 If the value of the constant expression is [`N], the array has [`N] elements
 numbered [`0] to [`N-1], and the type of the identifier of [`D] is
-["[~derived-declarator-type-list] array of [`N T]].
+["[$derived-declarator-type-list] array of [`N T]].
+[:zh_CN]
+若常量表达式的值为 [`N]，则该数组具有 [`N] 个元素，标号从 [`0] 到 [`N-1]，而
+[`D] 的标识符的类型为“[`T] 的 [`N] 元素数组 [$衍生的声明符类型列表]”。
 
 [:en]
 An object of array type contains a contiguously allocated non-empty set of [`N]
 subobjects of type [`T].
+[:zh_CN]
+数组类型的对象包含连续分配的 [`N] 个 [`T] 类型的子对象的非空集合。
 
 [:en]
 Except as noted below, if the constant expression is omitted, the type of the
-identifier of [`D] is ["[~derived-declarator-type-list] array of unknown bound
+identifier of [`D] is ["[$derived-declarator-type-list] array of unknown bound
 of [`T]], an incomplete object type.
+[:zh_CN]
+除下文说明的情况之外，若常量表达式被省略，则 [`D] 的标识符的类型为“[`T] 的未知
+边界数组 [$衍生的声明符类型列表]”，且是不完整的对象类型。
 
 [:en]
-The type ["[~derived-declarator-type-list] array of [`N T]] is a different type
-from the type ["[~derived-declarator-type-list] array of unknown bound of [`T]],
+The type ["[$derived-declarator-type-list] array of [`N T]] is a different type
+from the type ["[$derived-declarator-type-list] array of unknown bound of [`T]],
 see [#basic.types].
+[:zh_CN]
+类型“[`T] 的 [`N] 元素数组 [$衍生的声明符类型列表]”与类型“[`T] 的未知边界数组
+[$衍生的声明符类型列表]”是不同的类型，参见 [#basic.types]。
 
 [:en]
 Any type of the form ["[~cv-qualifier-seq] array of [`N T]] is adjusted to
 ["array of [`N] [~cv-qualifier-seq] [`T]], and similarly for ["array of unknown
 bound of [`T]].
+[:zh_CN]
+任何形式为“[`T] 的 [`N] 元素 [~cv-限定符序列]数组”的类型都被调整为“[~cv-限定符
+序列] [`T] 的 [`N] 元素数组”，“[`T] 的未知边界数组”与此相似。
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the array.
+[:zh_CN]
+可选的[~特性说明符序列]属于该数组。
 
 [enter:example]
 [codeblock]
 typedef int A[5], AA[2][3];
 typedef const A CA;             // [:en] type is ["array of 5 [`const int]]
+                                // [|:zh_CN] 类型为“[`const int] 的 5 元素数组”
 typedef const AA CAA;           // [:en] type is ["array of 2 array of 3 [`const int]]
+                                // [|:zh_CN] 类型为“[`const int] 的 3 元素数组的 2 元素数组”
 [codeblock:end]
 [exit:example]
 
@@ -72,6 +108,9 @@ typedef const AA CAA;           // [:en] type is ["array of 2 array of 3 [`const
 [:en]
 An ["array of [`N] [~cv-qualifier-seq] [`T]] has cv-qualified type; see
 [#basic.type.qualifier].
+[:zh_CN]
+“[~cv-限定符序列] [`T] 的 [`N] 元素数组”具有被 cv-限定的类型；参见
+[#basic.type.qualifier]。
 [exit:note]
 
 [para]
@@ -79,38 +118,57 @@ An ["array of [`N] [~cv-qualifier-seq] [`T]] has cv-qualified type; see
 An array can be constructed from one of the fundamental types (except [`void]),
 from a pointer, from a pointer to member, from a class, from an enumeration
 type, or from another array.
+[:zh_CN]
+数组可以从基础类型（除了 [`void]）之一，从指针，从成员指针，从类，从枚举类型，或
+从其他数组构造而成。
 
 [para]
 [:en]
 When several ["array of] specifications are adjacent, a multidimensional array
 is created; only the first of the constant expressions that specify the bounds
 of the arrays may be omitted.
+[:zh_CN]
+当几个“……数组”说明连续相邻时，就创建了多维数组；只有第一个用以指定数组边界的
+常量表达式可以被省略。
 
 [:en]
 In addition to declarations in which an incomplete object type is allowed, an
 array bound may be omitted in some cases in the declaration of a function
 parameter ([#dcl.fct]).
+[:zh_CN]
+除了一些允许使用不完整的对象类型的声明式之外，某些情况下函数形参的声明式
+（[#dcl.fct]）中也可以省略一个数组边界。
 
 [:en]
 An array bound may also be omitted when the declarator is followed by an
 [~initializer] ([#dcl.init]).
+[:zh_CN]
+当声明符后面跟着[~初始化式]（[#dcl.init]）时，也可以省略一个数组边界。
 
 [:en]
 In this case the bound is calculated from the number [%array size[!default]] of
 initial elements (say, [`N]) supplied ([#dcl.init.aggr]), and the type of the
 identifier of [`D] is ["array of [`N T].]
+[:zh_CN]
+这种情况下其边界是从为其提供的初始元素的[%数组大小[!缺省～]]个数（称其为 [`N]）
+计算出来的（[#dcl.init.aggr]），而 [`D] 的标识符的类型则为“[`T] 的 [`N] 元素
+数组”。
 
 [:en]
 Furthermore, if there is a preceding declaration of the entity in the same scope
 in which the bound was specified, an omitted array bound is taken to be the same
 as in that earlier declaration, and similarly for the definition of a static
 data member of a class.
+[:zh_CN]
+此外，如果相同作用域中包含这个实体的某个指明了边界的早前的声明式，则被省略的数组
+边界被当作与这个早前的声明式中的相同，类的静态数据成员的定义式与此相似。
 
 [para]
 [enter:example]
-[:en]
-[%example[!subscripting]]
-[%example[!array]]
+[%[:en] example[!subscripting]
+  [:zh_CN] 示例[!下标] ]
+[%[:en] example[!array]
+  [:zh_CN] 示例[!数组] ]
 [codeblock]
 float fa[17], *afp[17];
 [codeblock:end]
@@ -118,10 +176,15 @@ float fa[17], *afp[17];
 [:en]
 declares an array of [`float] numbers and an array of pointers to [`float]
 numbers.
+[:zh_CN]
+声明了一个 [`float] 数值的数组和一个 [`float] 数值的指针的数组。
 
 [:en]
 [%declarator[!multidimensional array]]
 For another example,
+[:zh_CN]
+[%声明符[!多维数组～]]
+又例如，
 
 [codeblock]
 static int x3d[3][5][7];
@@ -130,17 +193,27 @@ static int x3d[3][5][7];
 [:en]
 declares a static three-dimensional array of integers, with rank [$3 [=times] 5
 [=times] 7].
+[:zh_CN]
+声明了整数的静态三维数组，其秩为 [$3 [=times] 5 [=times] 7]。
 
 [:en]
 In complete detail, [`x3d] is an array of three items; each item is an array of
 five arrays; each of the latter arrays is an array of seven integers.
+[:zh_CN]
+完整的细节是，[`x3d] 是三个项目的数组；每个项目是五个数组的数组；后面的数组的
+每个项目是具有七个整数的数组。
 
 [:en]
 Any of the expressions [`x3d], [`x3d[i`]], [`x3d[i`][j`]], [`x3d[i`][j`][k`]]
 can reasonably appear in an expression.
+[:zh_CN]
+表达式 [`x3d]、[`x3d[i`]]、[`x3d[i`][j`]]、[`x3d[i`][j`][k`]] 的任何一个都可合理
+地出现在表达式中。
 
 [:en]
 Finally,
+[:zh_CN]
+最后，
 
 [codeblock]
 extern int x[10];
@@ -149,11 +222,14 @@ struct S {
 };
 
 int x[];                      // [:en] OK: bound is 10
+                              // [|:zh_CN] OK：边界是 10
 int S::y[];                   // [:en] OK: bound is 10
+                              // [|:zh_CN] OK：边界是 10
 
 void f() {
   extern int x[];
   int i = sizeof(x);          // [:en] error: incomplete object type
+                              // [|:zh_CN] 错误，不完整的对象类型
 }
 [codeblock:end]
 [exit:example]
@@ -162,44 +238,70 @@ void f() {
 [enter:note]
 [:en]
 conversions affecting expressions of array type are described in [#conv.array].
+[:zh_CN]
+[#conv.array] 中说明对数组类型的表达式有影响的转换。
+
+[:en]
 Objects of array types cannot be modified, see [#basic.lval].
+[:zh_CN]
+数组类型的对象不能改变，参见 [#basic.lval]。
 [exit:note]
 
 [para]
 [enter:note]
+[:en]
 Except where it has been declared for a class ([#over.sub]), the subscript
 operator [`[`]] is interpreted in such a way that [`E1[E2`]] is identical to
 [`*((E1)+(E2))].
+[:zh_CN]
+除非已经为类声明了下标运算符（[#over.sub]），否则对下标运算符 [`[`]] 的解释方式
+中，[`E1[E2`]] 等价于 [`*((E1)+(E2))]。
 
 [:en]
 Because of the conversion rules that apply to [`+], if [`E1] is an array and
 [`E2] an integer, then [`E1[E2`]] refers to the [`E2]-th member of [`E1].
+[:zh_CN]
+根据适用于 [`+] 的转换规则，若 [`E1] 是数组且 [`E2] 是整数，则 [`E1[E2`]] 代表
+[`E1] 的第 [`E2] 个成员。
 
 [:en]
 Therefore, despite its asymmetric appearance, subscripting is a commutative
 operation.
+[:zh_CN]
+因此，尽管下标的表现形式不对称，它其实是可交换的运算。
 
 [para]
 [:en]
 A consistent rule is followed for [%array[!multidimensional]] multidimensional
 arrays.
+[:zh_CN]
+[%数组[!多维～]]多维数组也遵循与此一致的规则。
 
 [:en]
 If [`E] is an [$n]-dimensional array of rank [$i [=times] j [=times] [=ldots]
 [=times] k], then [`E] appearing in an expression that is subject to the
 array-to-pointer conversion ([#conv.array]) is converted to a pointer to an
 [$(n-1)]-dimensional array with rank [$j [=times] [=ldots] [=times] k].
+[:zh_CN]
+若 [`E] 是秩为 [$i [=times] j [=times] [=ldots] [=times] k] 的 [$n]-维数组，则
+需要进行数组向指针转换（[#conv.array]）的表达式中所出现 [`E] 将被转换为指向秩为
+[$j [=times] [=ldots] [=times] k] 的 [$(n-1)]-维数组的指针。
 
 [:en]
 If the [`*] operator, either explicitly or implicitly as a result of
 subscripting, is applied to this pointer, the result is the pointed-to
 [$(n-1)]-dimensional array, which itself is immediately converted into a
 pointer.
+[:zh_CN]
+若 [`*] 运算符（显式地，或作为下标的结果隐式地）应用于这个指针，则其结果是被指向
+的 [$(n-1)]-维数组，而它也立刻被转换为指针。
 
 [para]
 [enter:example]
 [:en]
 consider
+[:zh_CN]
+考虑
 
 [codeblock]
 int x[3][5];
@@ -207,24 +309,38 @@ int x[3][5];
 
 [:en]
 Here [`x] is a [$3 [=times] 5] array of integers.
+[:zh_CN]
+此处 [`x] 是整数的 [$3 [=times] 5] 数组。
 
 [:en]
 When [`x] appears in an expression, it is converted to a pointer to (the first
 of three) five-membered arrays of integers.
+[:zh_CN]
+当在表达式中出现 [`x] 时，它被转换为指向（三个中的第一个）整数的五个成员的数组的
+指针。
 
 [:en]
 In the expression [`x[i`]] which is equivalent to [`*(x+i)], [`x] is first
 converted to a pointer as described; then [`x+i] is converted to the type of
 [`x], which involves multiplying [`i] by the length of the object to which the
 pointer points, namely five integer objects.
+[:zh_CN]
+在表达式 [`x[i`]] 中（等价于 [`*(x+i)]），[`x] 首先按所描述的转换为指针；然后把
+[`x+i] 转换为 [`x] 的类型，其中包括对 [`i] 乘以该指针所指向的对象（就是五个整数
+对象）的长度。
 
 [:en]
 The results are added and indirection applied to yield an array (of five
 integers), which in turn is converted to a pointer to the first of the integers.
+[:zh_CN]
+其结果被加上后，再进行间接以产生（五个整数的）数组，它再被转换为指向其第一个整数
+的指针。
 
 [:en]
 If there is another subscript the same argument applies again; this time the
 result is an integer.
+[:zh_CN]
+如果还有另一个下标，则要再次应用相同的操作过程；这次其结果就是整数。
 [exit:example]
 [exit:note]
 
@@ -235,4 +351,8 @@ It follows from all this that arrays in [=Cpp] are stored row-wise (last
 subscript varies fastest) [%array[!storage of]] and that the first subscript in
 the declaration helps determine the amount of storage consumed by an array but
 plays no other part in subscript calculations.
+[:zh_CN]
+所有以上这些的结果是，[%数组[!～的存储]][=Cpp] 中的数组是按行存储的（最后面的
+下标变化最快），而且声明式中的第一个下标除帮助确定数组所消耗的存储量外并不参与
+下标计算的其他部分。
 [exit:note]

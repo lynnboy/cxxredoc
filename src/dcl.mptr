@@ -1,31 +1,43 @@
 ﻿[section#dcl.mptr
     [:en] Pointers to members
+    [:zh_CN] 成员指针
 ]
 
-[%  [:en] declarator[!pointer to member]]
+[%  [:en] declarator[!pointer to member]
+    [:zh_CN] 声明符[!成员指针～] ]
 
 [para]
 [:en]
 In a declaration [`T D] where [`D] has the form
+[:zh_CN]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
-[~nested-name-specifier] [`*] [~:opt attribute-specifier-seq] [~:opt cv-qualifier-seq] [`D1]
+[~nested-name-specifier] [`*] [~:opt attribute-specifier-seq]
+    [~:opt cv-qualifier-seq] [`D1]
 [syntax:end]
 
 [:en@~]
 and the [~nested-name-specifier] denotes a class, and the type of the identifier
-in the declaration [`T D1] is ["[~derived-declarator-type-list] [`T]], then the
-type of the identifier of [`D] is ["[~derived-declarator-type-list
-cv-qualifier-seq] pointer to member of class [~nested-name-specifier] of type
+in the declaration [`T D1] is ["[$derived-declarator-type-list] [`T]], then the
+type of the identifier of [`D] is ["[$derived-declarator-type-list]
+[~cv-qualifier-seq] pointer to member of class [~nested-name-specifier] of type
 [`T]].
+[:zh_CN@~]
+且其[~嵌套名说明符]代表某个类，且声明式 [`T D1] 中的标识符的类型是“[`T] [$衍生的
+声明符类型列表]”，则 [`D] 的标识符的类型就为“[`T] 类型的类[~嵌套名说明符]中的
+[~cv-限定符序列]成员的指针 [$衍生的声明符类型列表]”。
 
 [:en]
 The optional [~attribute-specifier-seq] ([#dcl.attr.grammar]) appertains to the 
 pointer-to-member.
+[:zh_CN]
+可选的[~特性说明符序列]（[#dcl.attr.grammar]）属于成员指针。
 
 [para]
 [enter:example]
-[%  [:en] example[!pointer to member]]
+[%  [:en] example[!pointer to member]
+    [:zh_CN] 示例[!成员指针] ]
 [codeblock]
 struct X {
   void f(int);
@@ -44,25 +56,39 @@ declares [`pmi], [`pmf], [`pmd] and [`pmc] to be a pointer to a member of [`X]
 of type [`int], a pointer to a member of [`X] of type [`void(int)], a pointer to
 a member of [`X] of type [`double] and a pointer to a member of [`Y] of type
 [`char] respectively.
+[:zh_CN]
+声明 [`pmi]、[`pmf]、[`pmd] 和 [`pmc] 分别为 [`int] 类型的 [`X] 的成员的指针、
+[`void(int)] 类型的 [`X] 的成员的指针、[`double] 类型的 [`X] 的成员的指针和
+[`char] 类型的 [`Y] 的成员的指针。
 
 [:en]
 The declaration of [`pmd] is well-formed even though [`X] has no members of type
 [`double].
+[:zh_CN]
+即使 [`X] 并没有 [`double] 类型的成员，[`pmd] 的声明式仍是良构的。
 
 [:en]
 Similarly, the declaration of [`pmc] is well-formed even though [`Y] is an
 incomplete type.
+[:zh_CN]
+类似地，即使 [`Y] 是不完整类型，[`pmc] 的声明式仍是良构的。
 
 [:en]
 [`pmi] and [`pmf] can be used like this:
+[:zh_CN]
+[`pmi] 和 [`pmf] 可被使用如下：
 
 [codeblock]
 X obj;
 // ...
 obj.*pmi = 7;       // [:en] assign [`7] to an integer
+                    // [|:zh_CN] 向 [`obj] 的整数成员
                     // [:en@~] member of [`obj]
+                    // [|:zh_CN@~] 赋值为 [`7]
 (obj.*pmf)(7);      // [:en] call a function member of [`obj]
+                    // [|:zh_CN] 以实参 [`7] 调用 [`obj]
                     // [:en@~] with the argument [`7]
+                    // [|:zh_CN@~] 的成员函数
 [codeblock:end]
 [exit:example]
 
@@ -70,17 +96,27 @@ obj.*pmi = 7;       // [:en] assign [`7] to an integer
 [:en]
 A pointer to member shall not point to a static member of a class
 ([#class.static]), a member with reference type, or ["[$cv] [`void].]
+[:zh_CN]
+成员指针不能指向类的静态成员（[#class.static]），具有引用类型的成员，或者“[$cv]
+[`void]”。
 
 [para:~]
 [enter:note]
 [:en]
 See also [#expr.unary] and [#expr.mptr.oper].
+[:zh_CN]
+另见 [#expr.unary] 和 [#expr.mptr.oper]。
 
 [:en]
 The type ["pointer to member] is distinct from the type ["pointer], that is, a
 pointer to member is declared only by the pointer to member declarator syntax,
 and never by the pointer declarator syntax.
+[:zh_CN]
+类型“成员指针”与类型“指针”是不同的，就是说，成员指针只能用成员指针声明符语法声明
+，而不能用指针声明符语法声明。
 
 [:en]
 There is no ["reference-to-member] type in [=Cpp].
+[:zh_CN]
+[=Cpp] 中没有“成员引用”类型。
 [exit:note]

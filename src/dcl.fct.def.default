@@ -1,26 +1,36 @@
 ﻿[section#dcl.fct.def.default
     [:en] Explicitly-defaulted functions
+    [:zh_CN] 显式预置的函数
 ]
 
-[%  [:en] definition[!function[!explicitly-defaulted]]]
+[%  [:en] definition[!function[!explicitly-defaulted]]
+    [:zh_CN] 定义式[!函数[!显式预置的～]] ]
 
 [para]
 [:en]
 A function definition of the form:
+[:zh_CN]
+以下形式的函数定义式：
 
 [syntax:explanation]
-[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator] [~:opt virt-specifier-seq] [`=] [`default] [`;]
+[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator]
+    [~:opt virt-specifier-seq] [`=] [`default] [`;]
 [syntax:end]
 
 [:en@~]
-is called an [~explicitly-defaulted] definition.
+is called an [+explicitly-defaulted] definition.
+[:zh_CN@~]
+被称为[+显式预置的]定义式。
 
 [:en]
 A function that is explicitly defaulted shall
+[:zh_CN]
+显式预置的函数应当
 
 [list]
 [item]
 [:en@~] be a special member function,
+[:zh_CN@~] 是特殊成员函数，
 
 [item]
 [:en@~] have the same declared function type (except for possibly differing
@@ -28,26 +38,38 @@ A function that is explicitly defaulted shall
 assignment operator, the parameter type may be ["reference to non-const [`T]],
 where [`T] is the name of the member function[=']s class) as if it had been
 implicitly declared, and
+[:zh_CN@~] 具有与当其被隐式声明时所声明的相同的函数类型，但[~引用限定符]可能不同
+，以及在复制构造函数和复制赋值运算符的情况中，其形参类型可以为“非 const 的 [`T]
+的引用”，其中 [`T] 为该成员函数所在的类，并且
 
 [item]
 [:en@~] not have default arguments.
+[:zh_CN@~] 没有默认实参。
 [list:end]
 
 [para]
 [:en]
 An explicitly-defaulted function that is not defined as deleted may be declared
 [`constexpr] only if it would have been implicitly declared as [`constexpr].
+[:zh_CN]
+仅当函数被隐式声明时应当为 [`constexpr] 时，并未被声明为弃置的显式预置函数才能被
+声明为 [`constexpr]。
 
 [:en]
 If a function is explicitly defaulted on its first declaration,
+[:zh_CN]
+如果某个函数的首个声明式即为显式预置的，则
 
 [list]
 [item]
 [:en@~] it is implicitly considered to be [`constexpr] if the implicit
 declaration would be, and,
+[:zh_CN@~] 当它的隐式声明式本应为 [`constexpr] 时，它被隐含地当作是 [`constexpr]
+的，
 [item]
 [:en@~] it has the same exception specification as if it had been implicitly
 declared ([#except.spec]).
+[:zh_CN@~] 它带有与当它被隐式声明时所带有的相同的异常说明（[#except.spec]）.
 [list:end]
 
 [para]
@@ -55,13 +77,18 @@ declared ([#except.spec]).
 If a function that is explicitly defaulted is declared with an
 [~exception-specification] that is not compatible ([#except.spec]) with the
 exception specification of the implicit declaration, then
+[:zh_CN]
+若显式预置的函数所声明的[~异常说明]与且隐式声明式的异常说明不兼容
+（[#except.spec]），则
 
 [list]
 [item]
 [:en@~] if the function is explicitly defaulted on its first declaration, it is
 defined as deleted;
+[:zh_CN@~] 若该函数在其首个声明式中被显式预置，则它被定义为弃置的；
 [item]
 [:en@~] otherwise, the program is ill-formed.
+[:zh_CN@~] 否则，程序非良构
 [list:end]
 
 [para]
@@ -69,14 +96,20 @@ defined as deleted;
 [codeblock]
 struct S {
   constexpr S() = default;                  // [:en] ill-formed: implicit [`S()] is not [`constexpr]
+                                            // [|:zh_CN] 非良构：隐式的 [`S()] 并非 [`constexpr]
   S(int a = 0) = default;                   // [:en] ill-formed: default argument
+                                            // [|:zh_CN] 非良构：默认实参
   void operator=(const S&) = default;       // [:en] ill-formed: non-matching return type
+                                            // [|:zh_CN] 非良构：返回类型不匹配
   ~S() throw(int) = default;                // [:en] deleted: exception specification does not match
+                                            // [|:zh_CN] 被弃置：异常说明不匹配
 private:
   int i;
   S(S&);                                    // [:en] OK: private copy constructor
+                                            // [|:zh_CN] OK：私有的复制构造函数
 };
 S::S(S&) = default;                         // [:en] OK: defines copy constructor
+                                            // [|:zh_CN] OK：定义复制构造函数
 [codeblock:end]
 [exit:example]
 
@@ -86,21 +119,34 @@ Explicitly-defaulted functions and implicitly-declared functions are
 collectively called [def defaulted] functions, and the implementation shall
 provide implicit definitions for them ([#class.ctor] [#class.dtor],
 [#class.copy]), which might mean defining them as deleted.
+[:zh_CN]
+显式预置的函数和隐式声明的函数统称为[def 预置的]函数，且实现应当为它们提供隐式
+定义（[#class.ctor]，[#class.dtor]，[#class.copy]），这也可能意味着将它们定义为
+弃置的。
 
 [:en]
 A function is [def user-provided] if it is user-declared and not explicitly
 defaulted or deleted on its first declaration.
+[:zh_CN]
+若函数是用户定义的，并且其首个声明式并非显式地预置的或弃置的，则它是[def 用户
+提供的]。
 
 [:en]
 A user-provided explicitly-defaulted function (i.e., explicitly defaulted after
 its first declaration) is defined at the point where it is explicitly defaulted;
 if such a function is implicitly defined as deleted, the program is ill-formed.
+[:zh_CN]
+用户提供的显式预置函数（就是说，在其首个声明式之后才被显式预置的函数），是在其被
+显式预置之处定义的；若该函数被隐式定义为弃置的，则程序非良构。
 
 [enter:note]
 [:en]
 Declaring a function as defaulted after its first declaration can provide
 efficient execution and concise definition while enabling a stable binary
 interface to an evolving code base.
+[:zh_CN]
+在函数的首个声明式之后将其声明为预置的，使得可以提供高效的执行和清晰的定义，同时
+能够为演化中的代码基提供一个稳定的二进制接口。
 [exit:note]
 
 [para]
@@ -119,5 +165,6 @@ struct nontrivial1 {
   nontrivial1();
 };
 nontrivial1::nontrivial1() = default;           // [:en] not first declaration
+                                                // [|:zh_CN] 不是其首个声明式
 [codeblock:end]
 [exit:example]

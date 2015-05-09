@@ -1,133 +1,193 @@
 ﻿[section#dcl.fct
     [:en] Functions
+    [:zh_CN] 函数
 ]
 
 [%:begin#declarator.function
     [:en] declarator[!function]
+    [:zh_CN] 声明符[!函数～]
 ]
 
 [para]
 [:en]
 [%type[!function]]
 In a declaration [`T D] where [`D] has the form
+[:zh_CN]
+[%类型[!函数～]]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
 [| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
-    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] ]
+    [~:opt ref-qualifier] [~:opt exception-specification]
+    [~:opt attribute-specifier-seq] ]
 [syntax:end]
 
 [:en@~]
 and the type of the contained [~declarator-id] in the declaration [`T D1] is
-["[~derived-declarator-type-list] [`T]], the type of the [~declarator-id] in
-[`D] is ["[~derived-declarator-type-list] function of
+["[$derived-declarator-type-list] [`T]], the type of the [~declarator-id] in
+[`D] is ["[$derived-declarator-type-list] function of
 ([~parameter-declaration-clause]) [~:opt cv-qualifier-seq] [~:opt ref-qualifier]
 returning [`T]].
+[:zh_CN@~]
+且声明式 [`T D1] 中包含的[~声明符标识]的类型为“[`T] [$衍生的声明符类型列表]”，则
+[`D] 中的[~声明符标识]的类型是“[`T] 为返回类型的 ([~形参声明子句])
+[~:opt cv-限定符序列] [~:opt 引用限定符] 函数 [$衍生的声明符类型列表]”。
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the function type.
+[:zh_CN]
+可选的[~特性说明符序列]属于该函数类型。
 
 [para]
 [:en]
 In a declaration [`T D] where [`D] has the form
+[:zh_CN]
+在声明式 [`T D] 中，其中 [`D] 的形式为
 
 [syntax:explanation]
 [| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
-    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] [~trailing-return-type] ]
+    [~:opt ref-qualifier] [~:opt exception-specification]
+    [~:opt attribute-specifier-seq] [~trailing-return-type] ]
 [syntax:end]
 
 [:en@~]
 and the type of the contained [~declarator-id] in the declaration [`T D1] is
-["[~derived-declarator-type-list] [`T]], [`T] shall be the single
+["[$derived-declarator-type-list] [`T]], [`T] shall be the single
 [~type-specifier] [`auto].
+[:zh_CN@~]
+且声明式 [`T D1] 中包含的[~声明符标识]的类型为“[`T] [$衍生的声明符类型列表]”，
+[`T] 应当为单个[~类型说明符] [`auto]。
 
 [:en]
-The type of the [~declarator-id] in [`D] is ["[~derived-declarator-type-list]
+The type of the [~declarator-id] in [`D] is ["[$derived-declarator-type-list]
 function of ([~parameter-declaration-clause]) [~:opt cv-qualifier-seq]
 [~:opt ref-qualifier] returning [~trailing-return-type]].
+[:zh_CN]
+则 [`D] 中的[~声明符标识]的类型是“[~尾部返回类型] 为返回类型的 ([~形参声明子句])
+[~:opt cv-限定符序列] [~:opt 引用限定符] 函数 [$衍生的声明符类型列表]”。
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the function type.
+[:zh_CN]
+可选的[~特性说明符序列]属于该函数类型。
 
 [para]
 [:en]
 [%type[!function]]
 A type of either form is a [+function type].
+[:zh_CN]
+[%类型[!函数～]]
+这两种形式的类型都是[+函数类型]。
 
 [footnote]
 [:en]
 As indicated by syntax, cv-qualifiers are a significant component in function
 return types.
+[:zh_CN]
+正如在语法中指出的，cv-限定符是函数返回类型中的有效成分。
 [footnote:end]
 
-[%  [:en] declaration[!function]]
+[%  [:en] declaration[!function]
+    [:zh_CN] 声明[!函数] ]
 [syntax]
-[rule parameter-declaration-clause [:zh_CN] ]
+[rule parameter-declaration-clause [:zh_CN] 形参声明子句 ]
     [| [~:opt parameter-declaration-list] [`:opt ...] ]
     [| parameter-declaration-list [`,] [`...] ]
 [rule:end]
 
-[rule parameter-declaration-list [:zh_CN] ]
+[rule parameter-declaration-list [:zh_CN] 形参声明式列表 ]
     [| parameter-declaration ]
     [| parameter-declaration-list [`,] parameter-declaration ]
 [rule:end]
 
-[rule parameter-declaration [:zh_CN] ]
+[rule parameter-declaration [:zh_CN] 形参声明式 ]
     [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator ]
-    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator [`=] initializer-clause ]
-    [| [~:opt attribute-specifier-seq] decl-specifier-seq [~:opt abstract-declarator] ]
-    [| [~:opt attribute-specifier-seq] decl-specifier-seq [~:opt abstract-declarator] [`=] initializer-clause ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq declarator
+        [`=] initializer-clause ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq
+        [~:opt abstract-declarator] ]
+    [| [~:opt attribute-specifier-seq] decl-specifier-seq
+        [~:opt abstract-declarator] [`=] initializer-clause ]
 [rule:end]
 [syntax:end]
 
 [:en]
 The optional [~attribute-specifier-seq] in a [~parameter-declaration] appertains
 to the parameter.
+[:zh_CN]
+[~形参声明式]中可选的[~特性说明符序列]属于这个形参。
 
 [para]
 [:en]
 [%declaration[!parameter]]
 The [~parameter-declaration-clause] determines the arguments that can be
 specified, and their processing, when the function is called.
+[:zh_CN]
+[%声明[!形参]]
+[~形参声明子句]决定了调用函数时可以指定给它的实参，以及它们的处理方式。
 
 [enter:note]
 [:en]
 [%conversion[!argument]]
 the [~parameter-declaration-clause] is used to convert the arguments specified
 on the function call; see [#expr.call].
+[:zh_CN]
+[%转换[!实参]]
+[~形参声明子句]用于对在函数调用中所指定的实参进行转换；参见 [#expr.call]。
 [exit:note]
 
 [:en]
 [%argument list[!empty]]
 If the [~parameter-declaration-clause] is empty, the function takes no
 arguments.
+[:zh_CN]
+[%实参列表[!空～]]
+若[~形参声明子句]为空，则函数不接受实参。
 
 [:en]
 A parameter list consisting of a single unnamed parameter of non-dependent type
 [`void] is equivalent to an empty parameter list.
+[:zh_CN]
+由单个非待决类型 [`void] 的无名形参构成的形参列表等价于空形参列表。
 
 [:en]
 [%parameter[![`void]]]
 Except for this special case, a parameter shall not have type [$cv] [`void].
+[:zh_CN]
+[%形参[![`void]]]
+除了这种特殊情况外，形参类型不能为 [$cv] [`void]。
 
 [:en]
-If the [~parameter-declaration-clause]
 [%argument type[!unknown]]
 [%[`...][see ellipsis]] [%declaration[!ellipsis in function]]
 [%argument list[!variable]] [%parameter list[!variable]]
-terminates with an ellipsis or a function parameter pack ([#temp.variadic]), the
-number of arguments shall be equal to or greater than the number of parameters
-that do not have a default argument and are not function parameter packs.
+If the [~parameter-declaration-clause] terminates with an ellipsis or a function
+parameter pack ([#temp.variadic]), the number of arguments shall be equal to or
+greater than the number of parameters that do not have a default argument and
+are not function parameter packs.
+[:zh_CN]
+[%实参类型[!未知的～]]
+[%[`...][see 省略号]] [%声明式[!函数～中的省略号]]
+[%实参列表[!可变的～]] [%形参列表[!可变的～]]
+若[~形参声明子句]以省略号或函数形参包组（[#temp.variadic]）结尾，则实参的数量应
+等于或者大于没有默认实参且不是函数形参包组的形参的数量。
 
 [:en]
 Where syntactically correct and where ["[`...]] is not part of an
 [~abstract-declarator], ["[`, ...]] is synonymous with ["[`...]].
+[:zh_CN]
+语法正确且“[`...]”不是[~抽象声明符]的一部分时，“[`, ...]”与“[`...]”同义。
 
 [enter:example]
 [:en]
-[%example[!ellipsis]]
-[%example[!variable parameter list]]
 the declaration
+[:zh_CN]
+声明式
 
+[%[:en] example[!ellipsis]
+  [:zh_CN] 示例[!省略号] ]
+[%[:en] example[!variable parameter list]
+  [:zh_CN] 示例[!可变实参列表] ]
 [codeblock]
 int printf(const char*, ...);
 [codeblock:end]
@@ -135,6 +195,8 @@ int printf(const char*, ...);
 [:en@~]
 declares a function that can be called with varying numbers and types of
 arguments.
+[:zh_CN@~]
+声明了可以用可变数量和类型的实参来调用的函数。
 
 [codeblock]
 printf("hello world");
@@ -144,6 +206,8 @@ printf("a=%d b=%d", a, b);
 [:en]
 However, the first argument must be of a type that can be converted to a
 [`const char*]
+[:zh_CN]
+然而，其第一个实参必须具有可以转换为 [`const char*] 的类型。
 [exit:example]
 
 [enter:note]
@@ -151,6 +215,9 @@ However, the first argument must be of a type that can be converted to a
 The standard header [`<cstdarg>] [%[`<cstdarg>][sortas cstdarg]]
 contains a mechanism for accessing arguments passed using the ellipsis
 (see [#expr.call] and [#support.runtime]).
+[:zh_CN]
+标准头文件 [`<cstdarg>] [%[`<cstdarg>][sortas cstdarg]] 包含了对通过省略号传递的
+实参进行访问的机制（参见 [#expr.call] 和 [#support.runtime]）。
 [exit:note]
 
 [para]
@@ -159,41 +226,66 @@ contains a mechanism for accessing arguments passed using the ellipsis
 [%type[!function]]
 A single name can be used for several different functions in a single scope;
 this is function overloading (Clause [#over]).
+[:zh_CN]
+[%重载]
+[%类型[!函数～]]
+在一个作用域中可以为几个不同函数使用相同的名字；这就是函数重载（第 [#over] 条）
+。
 
 [:en]
 All declarations for a function shall agree exactly in both the return type and
 the parameter-type-list.
+[:zh_CN]
+一个函数的所有声明式的返回值类型和形参类型列表都应该严格一致。
 
 [:en]
 The type of a function is determined using the following rules.
+[:zh_CN]
+函数的类型用下列规则确定。
 
 [:en]
 The type of each parameter (including function parameter packs) is determined
 from its own [~decl-specifier-seq] and [~declarator].
+[:zh_CN]
+每个形参（包括函数形参包组）的类型由各自的[~声明说明符序列]和[~声明符]确定。
 
 [:en]
 After determining the type of each parameter, any parameter of type ["array of
-[%array] [%type[!array]] [`T]]
-[%function] [%type[!function]] or ["function returning [`T]]
-is adjusted to be ["pointer to [`T]] or ["pointer to function returning [`T],]
-respectively.
+[%array] [%type[!array]] [`T]] [%function] [%type[!function]] or ["function
+returning [`T]] is adjusted to be ["pointer to [`T]] or ["pointer to function
+returning [`T],] respectively.
+[:zh_CN]
+为每个形参确定类型之后，任何 [%数组] [%类型[!数组～]]“[`T] 的数组”或 [%函数]
+[%类型[!函数～]]“[`T] 为返回类型的函数”类型的形参都分别要调整为“[`T] 的指针”或
+“[`T] 为返回类型的函数的指针”。
 
 [:en]
 After producing the list of parameter types, any top-level [~cv-qualifier]s
 modifying a parameter type are deleted when forming the function type.
+[:zh_CN]
+产生形参类型的列表之后，在构成函数类型时任何修饰形参类型的顶层 [~cv-限定符]都被
+移除。
 
 [:en]
 The resulting list of transformed parameter types and the presence or absence of
 the ellipsis or a function parameter pack is the function[=']s
-[~parameter-type-list].
+[+parameter-type-list].
+[:zh_CN]
+由此所产生的经过变换的形参类型的列表，再加上可能出现的省略号或函数形参包组，即为
+该函数的[+形参类型列表]。
 
 [enter:note]
 [:en]
 This transformation does not affect the types of the parameters.
+[:zh_CN]
+这种变换并不会影响形参的类型。
 
 [:en]
 For example, [`int(*)(const int p, decltype(p)*)] and [`int(*)(int, const int*)]
 are identical types.
+[:zh_CN]
+例如，[`int(*)(const int p, decltype(p)*)] 和 [`int(*)(int, const int*)] 是等价
+的类型。
 [exit:note]
 
 [para]
@@ -201,31 +293,40 @@ are identical types.
 A function type with a [~cv-qualifier-seq] or a [~ref-qualifier] (including a
 type named by [~typedef-name] ([#dcl.typedef], [#temp.param])) shall appear only
 as:
+[:zh_CN]
+包含[~cv-限定符序列]或[~引用限定符]的函数类型（包括由 [~typedef-名]
+（[#dcl.typedef]，[#temp.param]）所指名的类型），只能被用作：
 
 [list]
 [item]
 [:en] the function type for a non-static member function,
+[:zh_CN] 非静态成员函数的函数类型，
 
 [item]
 [:en] the function type to which a pointer to member refers,
+[:zh_CN] 成员指针所涉及的函数类型，
 
 [item]
 [:en] the top-level function type of a function typedef declaration or
 [~alias-declaration],
+[:zh_CN] 函数的 typedef 声明式或[~别名声明式]的顶层函数类型，
 
 [item]
 [:en] the [~type-id] in the default argument of a [~type-parameter]
 ([#temp.param]), or
+[:zh_CN] [~类型形参]的默认实参中的[~类型标识]（[#temp.param]），或者
 
 [item]
 [:en] the [~type-id] of a [~template-argument] for a [~type-parameter]
 ([#temp.arg.type]).
+[:zh_CN] [~类型形参]的某个[~模板实参]的[~类型标识]（[#temp.names]）。
 [list:end]
 
 [enter:example]
 [codeblock]
 typedef int FIC(int) const;
 FIC f;              // [:en] ill-formed: does not declare a member function
+                    // [|:zh_CN] 非良构：并未声明成员函数
 struct S {
   FIC f;            // OK
 };
@@ -237,14 +338,21 @@ FIC S::*pm = &S::f; // OK
 [:en]
 The effect of a [~cv-qualifier-seq] in a function declarator is not the same as
 adding cv-qualification on top of the function type.
+[:zh_CN]
+函数声明符中的 [~cv-限定符序列]的效果与在函数类型之上添加 cv-限定符不同。
 
 [:en]
 In the latter case, the cv-qualifiers are ignored.
+[:zh_CN]
+在后一种情况下，cv-限定符被忽略掉。
 
 [enter:note]
 [:en]
 a function type that has a [~cv-qualifier-seq] is not a cv-qualified type; there
 are no cv-qualified function types.
+[:zh_CN]
+带有 [~cv-限定符序列]的函数类型并不是被 cv-限定的类型；不存在被 cv-限定的函数
+类型。
 [exit:note]
 
 [enter:example]
@@ -252,6 +360,7 @@ are no cv-qualified function types.
 typedef void F();
 struct S {
   const F f;        // [:en] OK: equivalent to: [`void f();]
+                    // [:zh_CN] OK：等价于：[`void f();]
 };
 [codeblock:end]
 [exit:example]
@@ -261,11 +370,17 @@ struct S {
 The return type, the parameter-type-list, the [~ref-qualifier], and the
 [~cv-qualifier-seq], but not the default arguments ([#dcl.fct.default]) or the
 exception specification ([#except.spec]), are part of the function type.
+[:zh_CN]
+返回类型、形参类型列表、[~引用限定符]以及 [~cv-限定符序列]，但不包括默认实参
+（[#dcl.fct.default]）或异常说明（[#except.spec]），是函数类型的组成部分。
 
 [enter:note]
 [:en]
 Function types are checked during the assignments and initializations of
-pointers to functions, references to functions, and pointers to member functions.
+pointers to functions, references to functions, and pointers to member
+functions.
+[:zh_CN]
+在进行函数指针、函数引用以及成员函数指针的赋值和初始化时，要对函数类型进行检查。
 [exit:note]
 
 [para]
@@ -273,6 +388,9 @@ pointers to functions, references to functions, and pointers to member functions
 [:en]
 [%example[!function declaration]]
 the declaration
+[:zh_CN]
+[%示例[!函数声明式]]
+声明式
 
 [codeblock]
 int fseek(FILE*, long, int);
@@ -281,6 +399,8 @@ int fseek(FILE*, long, int);
 [:en@~]
 declares a function taking three arguments of the specified types, and returning
 [`int] ([#dcl.type]).
+[:zh_CN@~]
+声明了带有三个指定类型的实参的函数，并返回 [`int]（[#dcl.type]）。
 [exit:example]
 
 [para]
@@ -289,32 +409,50 @@ declares a function taking three arguments of the specified types, and returning
 [%return type]
 Functions shall not have a return type of type array or function, although they
 may have a return type of type pointer or reference to such things.
+[:zh_CN]
+[%函数返回类型[see 返回类型]]
+[%返回类型]
+函数不能带有数组或函数类型的返回类型，但它们可以带有指向这些东西的指针或引用类型
+的返回类型。
 
 [:en]
 There shall be no arrays of functions, although there can be arrays of pointers
 to functions.
+[:zh_CN]
+不存在函数的数组，但可以有函数指针的数组。
 
 [para]
 [:en]
 Types shall not be defined in return or parameter types.
+[:zh_CN]
+不能在返回或形参类型中定义类型。
 
 [:en]
 The type of a parameter or the return type for a function definition shall not
 be an incomplete (possibly cv-qualified) class type in the context of the
 function definition unless the function is deleted ([#dcl.fct.def.delete]).
+[:zh_CN]
+函数定义式的形参类型或返回类型，在函数定义式的语境中不能为不完整的（可能被
+cv-限定的）类类型，除非该函数被弃置（[#dcl.fct.def.delete]）。
 
 [para]
 [:en]
 [%typedef[!function]]
 A typedef of function type may be used to declare a function but shall not be
 used to define a function ([#dcl.fct.def]).
+[:zh_CN]
+[%typedef[!函数]]
+函数类型的 typedef 可用于声明函数，但不能用于定义函数（[#dcl.fct.def]）。
 
 [enter:example]
 [codeblock]
 typedef void F();
 F  fv;              // [:en] OK: equivalent to [`void fv();]
+                    // [|:zh_CN] OK：等价于 [`void fv();]
 F  fv { }           // [:en] ill-formed
+                    // [|:zh_CN] 非良构
 void fv() { }       // [:en] OK: definition of [`fv]
+                    // [|:zh_CN] OK：[`fv] 的定义式
 [codeblock:end]
 [exit:example]
 
@@ -322,25 +460,37 @@ void fv() { }       // [:en] OK: definition of [`fv]
 [:en]
 An identifier can optionally be provided as a parameter name; if present in a
 function definition ([#dcl.fct.def]), it names a parameter.
+[:zh_CN]
+可以可选地提供标识符作为形参名；若它出现在函数定义式中（[#dcl.fct.def]），则它
+命名了一个形参。
 
 [enter:note]
 [:en]
 In particular, parameter names are also optional in function definitions and
 names used for a parameter in different declarations and the definition of a
 function need not be the same.
+[:zh_CN]
+特别是，形参名在函数定义式中也是可选的，而且函数的不同声明式和它的定义式中用作
+形参的名字也不必相同。
 
 [:en]
 If a parameter name is present in a function declaration that is not a
 definition, it cannot be used outside of its function declarator because that is
 the extent of its potential scope ([#basic.scope.proto]).
+[:zh_CN]
+若在不是定义式的函数声明式中出现形参名，则不能在这个函数声明符之外使用它，这是
+由于这就是其潜在作用域的范围（[#basic.scope.proto]）。
 [exit:note]
 
 [para]
 [enter:example]
 [:en]
 the declaration
+[:zh_CN]
+声明式
 
-[%  [:en] example[!declaration]]
+[%  [:en] example[!declaration]
+    [:zh_CN] 示例[!声明式] ]
 [codeblock]
 int i,
     *pi,
@@ -357,29 +507,46 @@ argument and returning a pointer to an integer, a pointer [`pif] to a function
 which takes two pointers to constant characters and returns an integer, a
 function [`fpif] taking an integer argument and returning a pointer to a
 function that takes an integer argument and returns an integer.
+[:zh_CN@~]
+声明了整数 [`i]，整数的指针 [`pi]，不获取实参而返回整数的函数 [`f]，获取一个整数
+实参而返回整数指针的函数 [`fpi]，指向获取两个指向常量字符的指针而返回整数的函数
+的指针 [`pif]，获取一个整数实参而返回指向获取一个整数实参而返回整数的函数的指针
+的函数 [`fpif]。
 
 [:en]
 It is especially useful to compare [`fpi] and [`pif].
+[:zh_CN]
+对 [`fpi] 和 [`pif] 进行比较尤其有意义。
 
 [:en]
 The binding of [`*fpi(int)] is [`*(fpi(int))], so the declaration suggests, and
 the same construction in an expression requires, the calling of a function
 [`fpi], and then using indirection through the (pointer) result to yield an
 integer.
+[:zh_CN]
+[`*fpi(int)] 的绑定是 [`*(fpi(int))]，因此这个声明式意味着，而且在表达式中的相同
+构造也要求了，调用函数 [`fpi]，并随即对其（指针）结果进行间接来产生一个整数。
 
 [:en]
 In the declarator [`(*pif)(const char*, const char*)], the extra parentheses are
 necessary to indicate that indirection through a pointer to a function yields a
 function, which is then called.
+[:zh_CN]
+在声明符 [`(*pif)(const char*, const char*)] 中，必须用额外的括号来表明，通过对
+指向函数的指针进行间接来产生一个函数，然后再调用它。
 [exit:example]
 
 [enter:note]
 [:en]
 Typedefs and [~trailing-return-type]s are sometimes convenient when the return
 type of a function is complex.
+[:zh_CN]
+当函数的返回类型比较复杂时，使用 typedef 和[~尾部返回类型]有时就很方便。
 
 [:en]
 For example, the function [`fpif] above could have been declared
+[:zh_CN]
+例如，上面的函数 [`fpif] 可被声明为
 
 [codeblock]
 typedef int  IFUNC(int);
@@ -388,6 +555,8 @@ IFUNC*  fpif(int);
 
 [:en@~]
 or
+[:zh_CN@~]
+或者
 
 [codeblock]
 auto fpif(int)->int(*)(int);
@@ -396,6 +565,8 @@ auto fpif(int)->int(*)(int);
 [:en]
 A [~trailing-return-type] is most useful for a type that would be more
 complicated to specify before the [~declarator-id]:
+[:zh_CN]
+[~尾部返回类型]对于那些如果在[~声明符标识]之前指定就要复杂得多的类型最有用处：
 
 [codeblock]
 template <class T, class U> auto add(T t, U u) -> decltype(t + u);
@@ -403,6 +574,8 @@ template <class T, class U> auto add(T t, U u) -> decltype(t + u);
 
 [:en@~]
 rather than
+[:zh_CN@~]
+要好于
 
 [codeblock]
 template <class T, class U> decltype((*(T*)0) + (*(U*)0)) add(T t, U u);
@@ -413,32 +586,47 @@ template <class T, class U> decltype((*(T*)0) + (*(U*)0)) add(T t, U u);
 [:en]
 A [+non-template function] is a function that is not a function template
 specialization.
+[:zh_CN]
+[+非模板函数]是并非函数模板特例的函数。
 
 [enter:note]
 [:en]
 A function template is not a function.
+[:zh_CN]
+函数模板不是函数。
 [exit:note]
 
 [para]
 [:en]
 A [~declarator-id] or [~abstract-declarator] containing an ellipsis shall only
 be used in a [~parameter-declaration].
+[:zh_CN]
+包含省略号的[+声明符标识]或[~抽象声明符]只能在[~形参声明式]中使用。
 
 [:en]
 Such a [~parameter-declaration] is a parameter pack ([#temp.variadic]).
+[:zh_CN]
+这样的[~形参声明式]就是形参包组（[#temp.variadic]）。
 
 [:en]
 When it is part of a [~parameter-declaration-clause], the parameter pack is a
 function parameter pack ([#temp.variadic]).
+[:zh_CN]
+当它是[~形参声明子句]的一部分时，该形参包组为函数形参包组（[#temp.variadic]）。
 
 [enter:note]
 [:en]
 Otherwise, the [~parameter-declaration] is part of a [~template-parameter-list]
 and the parameter pack is a template parameter pack; see [#temp.param].
+[:zh_CN]
+否则，该[~形参声明式]就是[~模板形参列表]的一部分，且该形参包组为模板形参包组；
+参见 [#temp.param]。
 [exit:note]
 
 [:en]
 A function parameter pack is a pack expansion ([#temp.variadic]).
+[:zh_CN]
+函数形参包组是包组展开式（[#temp.variadic]）。
 
 [enter:example]
 [codeblock]
@@ -457,12 +645,17 @@ void g() {
 [:en]
 There is a syntactic ambiguity when an ellipsis occurs at the end of a
 [~parameter-declaration-clause] without a preceding comma.
+[:zh_CN]
+当在[~形参声明子句]的末尾出现省略号但前面没有逗号时会出现语法歧义。
 
 [:en]
 In this case, the ellipsis is parsed as part of the [~abstract-declarator] if
 the type of the parameter either names a template parameter pack that has not
 been expanded or contains [`auto]; otherwise, it is parsed as part of the
 [~parameter-declaration-clause].
+[:zh_CN]
+这种情况下，若该形参的类型指名了还未展开的模板形参包组，或者包含了 [`auto]，则
+这个省略号被解析为[~抽象声明符]的一部分；否则它被解析为[~形参声明子句]的一部分。
 
 [footnote]
 [:en]
@@ -470,6 +663,9 @@ One can explicitly disambiguate the parse either by introducing a comma (so the
 ellipsis will be parsed as part of the [~parameter-declaration-clause]) or by
 introducing a name for the parameter (so the ellipsis will be parsed as part of
 the [~declarator-id]).
+[:zh_CN]
+可以通过引入逗号（由此使得省略号被解析为[~形参声明子句]的一部分），或为形参引入
+名字（由此使得省略号被解析为[~声明符标识]的一部分）明确地进行解析的歧义消解。
 [footnote:end]
 
 [%:end#declarator.function]

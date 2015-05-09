@@ -51,7 +51,7 @@ Given [`X::m] (where [`X] is a user-declared namespace), or given [`::m] (where
 [`X] is the global namespace), if [$S(X, m)] is the empty set, the program is
 ill-formed.
 [:zh_CN]
-给定 [`X::m]（其中 [`X] 是自定义的命名空间），或给定 [`::m]（其中 [`X] 是全局
+给定 [`X::m]（其中 [`X] 是用户定义的命名空间），或给定 [`::m]（其中 [`X] 是全局
 命名空间），若 [$S(X, m)] 是空集，则该程序非良构。
 
 [:en]

@@ -1,8 +1,10 @@
 ﻿[section#dcl.init.string
     [:en] Character arrays
+    [:zh_CN] 字符数组
 ]
 
-[%  [:en] initialization[!character array]]
+[%  [:en] initialization[!character array]
+    [:zh_CN] 初始化[!字符数组] ]
 
 [para]
 [:en]
@@ -11,11 +13,19 @@ An array of narrow character type ([#basic.fundamental]), [`char16_t] array,
 literal, [`char16_t] string literal, [`char32_t] string literal, or wide string
 literal, respectively, or by an appropriately-typed string literal enclosed in
 braces ([#lex.string]).
+[:zh_CN]
+窄字符类型的数组（[#basic.fundamental]），[`char16_t] 数组，[`char32_t] 数组，
+或者 [`wchar_t] 数组可以分别用窄字符串字面量，[`char16_t] 字符串字面量，
+[`char32_t]字符串字面量，或者宽字符串字面量初始化，或者用由花括号包围的相应类型
+的字符串字面量初始化（[#lex.string]）。
 
 [:en]
 [%initialization[!character array]]
 Successive characters of the value of the string literal initialize the elements
 of the array.
+[:zh_CN]
+[%初始化[!字符数组]]
+字符串字面量中的字符依次初始化数组的元素。
 
 [enter:example]
 [codeblock]
@@ -24,26 +34,38 @@ char msg[] = "Syntax error on line %s\n";
 
 [:en]
 shows a character array whose members are initialized with a [~string-literal].
+[:zh_CN]
+展示了一个其成员用[~字符串字面量]初始化的字符数组。
 
 [:en]
 Note that because [`'\n'] is a single character and because a trailing [`'\0']
 is appended, [`sizeof(msg)] is [`25].
+[:zh_CN]
+注意，由于 [`'\n'] 为单个字符且由于添加了尾部 [`'\0']，[`sizeof(msg)] 是 [`25]。
 [exit:example]
 
 [para]
 [:en]
 There shall not be more initializers than there are array elements.
+[:zh_CN]
+初始化式不能多于数组元素。
 
 [enter:example]
 [codeblock]
-char cv[4] = "asdf";            // error
+char cv[4] = "asdf";            // [:en] error
+                                // [|:zh_CN] 错误
 [codeblock:end]
 
 [:en]
 is ill-formed since there is no space for the implied trailing [`'\0'].
+[:zh_CN]
+是非良构的，这是因为没有隐含的 [`'\0'] 的位置。
 [exit:example]
 
 [para]
 [:en]
 If there are fewer initializers than there are array elements, each element not
 explicitly initialized shall be zero-initialized ([#dcl.init]).
+[:zh_CN]
+如果初始化式比数组元素少，则每个未显式初始化的元素应当被零初始化（[#dcl.init]）
+。

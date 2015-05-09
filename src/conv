@@ -233,14 +233,14 @@ it as a glvalue.
 For class types, user-defined conversions are considered as well; see
 [#class.conv].
 [:zh_CN]
-对于类类型，还要考察自定义转换；见 [#class.conv]。
+对于类类型，还要考察用户定义转换；见 [#class.conv]。
 
 [:en]
 In general, an implicit conversion sequence ([#over.best.ics]) consists of a
 standard conversion sequence followed by a user-defined conversion followed by
 another standard conversion sequence.
 [:zh_CN]
-一般地，隐式转换序列（[#over.best.ics]）由一个标准转换序列跟着一个自定义转换再
+一般地，隐式转换序列（[#over.best.ics]）由一个标准转换序列跟着一个用户定义转换再
 跟着另一个标准转换序列构成。
 [exit:note]
 

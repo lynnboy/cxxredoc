@@ -1,54 +1,79 @@
 ﻿[section#dcl.init.list
     [:en] List-initialization
+    [:zh_CN] 列表初始化
 ]
 
 [%:begin#initialization.list.initialization
     [:en] initialization[!list-initialization]
+    [:zh_CN] 初始化[!列表初始化]
 ]
 
 [para]
 [:en]
-[~List-initialization] is initialization of an object or reference from a
+[+List-initialization] is initialization of an object or reference from a
 [~braced-init-list].
+[:zh_CN]
+[+列表初始化]是用[~花括号初始化列表]对对象或引用所进行的初始化。
 
 [:en]
 Such an initializer is called an [+initializer list], and the comma-separated
 [~initializer-clause]s of the list are called the [+elements] of the initializer
 list.
+[:zh_CN]
+这种初始化式称为[+初始化式列表]，而列表中由逗号分隔的[~初始化式子句]称为初始化式
+列表的[+元素]。
 
 [:en]
 An initializer list may be empty.
+[:zh_CN]
+初始化式列表可以为空。
 
 [:en]
 List-initialization can occur in direct-initialization or copy-initialization
 contexts; list-initialization in a direct-initialization context is called
-[~direct-list-initialization] and list-initialization in a copy-initialization
-context is called [~copy-list-initialization].
+[+direct-list-initialization] and list-initialization in a copy-initialization
+context is called [+copy-list-initialization].
+[:zh_CN]
+列表初始化可以发生于直接初始化或复制初始化的语境之中；直接初始化语境中的列表初始
+化称为[+直接列表初始化]，而复制初始化语境中的列表初始化称为[+复制列表初始化]。
 
 [enter:note]
 [:en]
 List-initialization can be used
+[:zh_CN]
+列表初始化可以用作
 
 [list]
 [item]
 [:en@~] as the initializer in a variable definition ([#dcl.init])
+[:zh_CN@~] 变量定义式中的初始化式（[#dcl.init]）
 [item]
 [:en@~] as the initializer in a [~new-expression] ([#expr.new])
+[:zh_CN@~] [~new-表达式]中的初始化式（[#expr.new]）
 [item]
 [:en@~] in a return statement ([#stmt.return])
+[:zh_CN@~] 返回语句（[#stmt.return]）中
 [item]
 [:en@~] as a [~for-range-initializer] ([#stmt.iter])
+[:zh_CN@~] [~for-范围初始化式]（[#stmt.iter]）
 [item]
 [:en@~] as a function argument ([#expr.call])
-[item] as a subscript ([#expr.sub])
+[:zh_CN@~] 函数实参（[#expr.call]）
+[item]
+[:en@~] as a subscript ([#expr.sub])
+[:zh_CN@~] 下标（[#expr.sub]）
 [item]
 [:en@~] as an argument to a constructor invocation ([#dcl.init], [#expr.type.conv])
+[:zh_CN@~] 构造函数调用的实参（[#dcl.init]，[#expr.type.conv]）
 [item]
 [:en@~] as an initializer for a non-static data member ([#class.mem])
+[:zh_CN@~] 非静态数据成员的初始化式（[#class.mem]）
 [item]
 [:en@~] in a [~mem-initializer] ([#class.base.init])
+[:zh_CN@~] [~成员初始化式]（[#class.base.init]）中
 [item]
 [:en@~] on the right-hand side of an assignment ([#expr.ass])
+[:zh_CN@~] 赋值的右侧（[#expr.ass]）
 [list:end]
 
 [enter:example]
@@ -56,10 +81,15 @@ List-initialization can be used
 int a = {1};
 std::complex<double> z{1,2};
 new std::vector<std::string>{"once", "upon", "a", "time"};  // [:en] 4 string elements
+                                                            // [|:zh_CN] 4 个字符串元素
 f( {"Nicholas","Annemarie"} );  // [:en] pass list of two elements
+                                // [|:zh_CN] 传递有两个元素的列表
 return { "Norah" };             // [:en] return list of one element
+                                // [|:zh_CN] 返回一个元素的列表
 int* e {};                      // [:en] initialization to zero / null pointer
-x = double{1};                  // [:en] explicitly construct a double 
+                                // [|:zh_CN] 初始化为零/空指针
+x = double{1};                  // [:en] explicitly construct a [`double]
+                                // [|:zh_CN] 显式构造一个 [`double]
 std::map<std::string,int> anim = { {"bear",4}, {"cassowary",2}, {"tiger",7} };
 [codeblock:end]
 [exit:example]
@@ -72,17 +102,28 @@ type [`std::initializer_list<E>] or reference to possibly cv-qualified
 [`std::initializer_list<E>] for some type [`E], and either there are no other
 parameters or else all other parameters have default arguments
 ([#dcl.fct.default]).
+[:zh_CN]
+对于某个类型 [`E]，如果构造函数的第一个形参的类型为[`std::initializer_list<E>]，
+或者是可能被 cv-限定的到 [`std::initializer_list<E>] 的引用，并且要么没有其他
+形参，要么其他形参都带有默认实参（[#dcl.fct.default]），则这个构造函数是[+初始化
+式列表构造函数]。
 
 [enter:note]
 [:en]
 Initializer-list constructors are favored over other constructors in
 list-initialization ([#over.match.list]).
+[:zh_CN]
+进行列表初始化时，初始化式列表构造函数优先于其他构造函数（[#over.match.list]）。
 
 [:en]
 Passing an initializer list as the argument to the constructor template
 [`template<class T> C(T)] of a class [`C] does not create an initializer-list
 constructor, because an initializer list argument causes the corresponding
 parameter to be a non-deduced context ([#temp.deduct.call]).
+[:zh_CN]
+将初始化式列表作为实参传递给类 [`C] 的构造函数模板 [`template<class T> C(T)]，
+并不会创建初始化式列表构造函数，这是因为初始化式列表实参将导致其对应的形参成为
+非推断语境（[#temp.deduct.all]）。
 [exit:note]
 
 [:en]
@@ -90,11 +131,17 @@ The template [`std::initializer_list] is not predefined; if the header
 [`<initializer_list>] is not included prior to a use of [`std::initializer_list]
 [=--] even an implicit use in which the type is not named ([#dcl.spec.auto])
 [=--] the program is ill-formed.
+[:zh_CN]
+模板 [`std::initializer_list] 并不是预定义的；如果在使用
+[`std::initializer_list]（即使是并没有指名其类型的隐式的使用（[#dcl.spec.auto]）
+）之前并没有包含头文件 [`<initializer_list>]，则程序非良构。
 
 [para]
 [:en]
 List-initialization of an object or reference of type [`T] is defined as
 follows:
+[:zh_CN]
+类型 [`T] 的对象或引用的列表初始化定义如下：
 [list]
 
 [item]
@@ -104,23 +151,33 @@ If [`T] is a class type and the initializer list has a single element of type
 initialized from that element (by copy-initialization for
 copy-list-initialization, or by direct-initialization for
 direct-list-initialization).
-
+[:zh_CN]
+如果 [`T] 为类类型，且初始化式列表包含单个 [$cv] [`U] 类型的元素，其中 [`U] 是
+[`T] 或派生自 [`T] 的类，则对象被以该元素进行初始化（对于复制列表初始化则进行
+复制初始化，而对于直接列表初始化则进行直接初始化）。
+  
 [item]
 [:en]
 Otherwise, if [`T] is a character array and the initializer list has a single
 element that is an appropriately-typed string literal ([#dcl.init.string]),
 initialization is performed as described in that section.
+[:zh_CN]
+否则，如果 [`T] 为字符数组，且初始化式列表包含单个成员且为适当类型的字符串字面量
+（[#dcl.init.string]），则对象根据此小节所述进行初始化。
 
 [item]
 [:en]
 Otherwise, if [`T] is an aggregate, aggregate initialization is performed
 ([#dcl.init.aggr]).
+[:zh_CN]
+否则，若 [`T] 是聚合，则实施聚合初始化（[#dcl.init.aggr]）。
 
 [para:~]
 [enter:example]
 [codeblock]
 double ad[] = { 1, 2.0 };           // OK
 int ai[] = { 1, 2.0 };              // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 
 struct S2 {
   int m1;
@@ -128,7 +185,9 @@ struct S2 {
 };
 S2 s21 = { 1, 2, 3.0 };             // OK
 S2 s22 { 1.0, 2, 3 };               // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 S2 s23 { };                         // [:en] OK: default to 0,0,0
+                                    // [|:zh_CN] OK：默认为 0,0,0
 [codeblock:end]
 [exit:example]
 
@@ -136,25 +195,39 @@ S2 s23 { };                         // [:en] OK: default to 0,0,0
 [:en]
 Otherwise, if the initializer list has no elements and [`T] is a class type with
 a default constructor, the object is value-initialized.
-
+[:zh_CN]
+否则，若初始化式列表没有元素，且 [`T] 是带有默认构造函数的类类型，则对象被值
+初始化。
+  
 [item]
 [:en]
 Otherwise, if [`T] is a specialization of [`std::initializer_list<E>], a prvalue
 [`initializer_list] object is constructed as described below and used to
 initialize the object according to the rules for initialization of an object
 from a class of the same type ([#dcl.init]).
+[:zh_CN]
+否则，若 [`T] 为 [`std::initializer_list<E>] 的特例，则根据后文所述构造一个
+[`initializer_list] 对象的纯右值，并根据对对象用相同类型进行初始化的规则，用它对
+这个对象进行初始化（[#dcl.init]）。
 
 [item]
 [:en]
 Otherwise, if [`T] is a class type, constructors are considered.
+[:zh_CN]
+否则，若 [`T] 为类类型，则考察其构造函数。
 
 [:en]
 The applicable constructors are enumerated and the best one is chosen through
 overload resolution ([#over.match], [#over.match.list]).
+[:zh_CN]
+对所有适用的构造函数进行列举，并通过重载决议选择最优的一个（[#over.match]，
+[#over.match.list]）。
 
 [:en]
 If a narrowing conversion (see below) is required to convert any of the
 arguments, the program is ill-formed.
+[:zh_CN]
+如果需要对任何实参进行窄化转换（见下文），则程序非良构。
 
 [para:~]
 [enter:example]
@@ -166,8 +239,11 @@ struct S {
   // ...
 };
 S s1 = { 1.0, 2.0, 3.0 };           // [:en] invoke #1
+                                    // [|:zh_CN] 调用 #1
 S s2 = { 1, 2, 3 };                 // [:en] invoke #2
+                                    // [|:zh_CN] 调用 #2
 S s3 = { };                         // [:en] invoke #3
+                                    // [|:zh_CN] 调用 #3
 [codeblock:end]
 [exit:example]
 
@@ -186,13 +262,17 @@ Map ship = {{"Sophie",14}, {"Surprise",28}};
 [codeblock]
 struct S {
   // [:en] no initializer-list constructors
+  // [|:zh_CN] 
   S(int, double, double);           // #1
   S();                              // #2
   // ...
 };
 S s1 = { 1, 2, 3.0 };               // [:en] OK: invoke #1
+                                    // [|:zh_CN] OK：调用 #1
 S s2 { 1.0, 2, 3 };                 // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 S s3 { };                           // [:en] OK: invoke #2
+                                    // [|:zh_CN] OK：调用 #2
 [codeblock:end]
 [exit:example]
 
@@ -204,12 +284,18 @@ Otherwise, if the initializer list has a single element of type [`E] and either
 copy-initialization for copy-list-initialization, or by direct-initialization
 for direct-list-initialization); if a narrowing conversion (see below) is
 required to convert the element to [`T], the program is ill-formed.
+[:zh_CN]
+否则，若初始化式列表具有单个 [`E] 类型的元素，且 [`T] 不是引用类型或者其所指代的
+类型与 [`E] 引用相关，则对象或引用被以该元素进行初始化（对于复制列表初始化则进行
+复制初始化，而对于直接列表初始化则进行直接初始化）；如果将该元素转换为 [`T] 时
+需要进行窄化转换（见下文），则程序非良构。
 
 [para:~]
 [enter:example]
 [codeblock]
 int x1 {2};                         // OK
 int x2 {2.0};                       // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 [codeblock:end]
 [exit:example]
 
@@ -219,11 +305,16 @@ Otherwise, if [`T] is a reference type, a prvalue temporary of the type
 referenced by [`T] is copy-list-initialized or direct-list-initialized,
 depending on the kind of initialization for the reference, and the reference is
 bound to that temporary.
+[:zh_CN]
+否则，若 [`T] 为引用类型，则复制列表初始化或直接列表初始化（以来与该引用的初始化
+的种类）一个 [`T] 所指代的类型的纯右值临时对象，而该引用被绑定到此临时对象上。
 
 [enter:note]
 [:en]
 As usual, the binding will fail and the program is ill-formed if the reference
 type is an lvalue reference to a non-const type.
+[:zh_CN]
+照常，如果此引用类型是指代某个非-const 类型的左值引用，则绑定失败且程序非良构。
 [exit:note]
 
 [para:~]
@@ -235,11 +326,16 @@ struct S {
   // ...
 };
 const S& r1 = { 1, 2, 3.0 };        // [:en] OK: invoke #1
+                                    // [|:zh_CN] OK：调用 #1
 const S& r2 { "Spinach" };          // [:en] OK: invoke #2
+                                    // [|:zh_CN] OK：调用 #2
 S& r3 = { 1, 2, 3 };                // [:en] error: initializer is not an lvalue
+                                    // [|:zh_CN] 错误：初始化式不是左值
 const int& i1 = { 1 };              // OK
 const int& i2 = { 1.1 };            // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 const int (&iar)[2] = { 1, 2 };     // [:en] OK: [`iar] is bound to temporary array
+                                    // [|:zh_CN] OK：[`iar] 绑定到临时数组
 [codeblock:end]
 [exit:example]
 
@@ -247,37 +343,50 @@ const int (&iar)[2] = { 1, 2 };     // [:en] OK: [`iar] is bound to temporary ar
 [:en]
 Otherwise, if the initializer list has no elements, the object is
 value-initialized.
+[:zh_CN]
+否则，若初始化式列表没有元素，则对象被值初始化。
 
 [para:~]
 [enter:example]
 [codeblock]
 int** pp {};                        // [:en] initialized to null pointer
+                                    // [|:zh_CN] 初始化为空指针
 [codeblock:end]
 [exit:example]
 
 [item]
 [:en]
 Otherwise, the program is ill-formed.
+[:zh_CN]
+否则，程序非良构。
 
 [para:~]
 [enter:example]
 [codeblock]
 struct A { int i; int j; };
 A a1 { 1, 2 };                      // [:en] aggregate initialization 
+                                    // [|:zh_CN] 聚合初始化
 A a2 { 1.2 };                       // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 struct B {
   B(std::initializer_list<int>);
 };
 B b1 { 1, 2 };                      // [:en] creates [`initializer_list<int>] and calls constructor
+                                    // [|:zh_CN] 创建 [`initializer_list<int>] 并调用构造函数
 B b2 { 1, 2.0 };                    // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 struct C {
   C(int i, double j);
 };
 C c1 = { 1, 2.2 };                  // [:en] calls constructor with arguments (1, 2.2) 
+                                    // [|:zh_CN] 以实参 (1, 2.2) 调用构造函数
 C c2 = { 1.1, 2 };                  // [:en] error: narrowing
+                                    // [|:zh_CN] 错误：窄化
 
 int j { 1 };                        // [:en] initialize to 1
+                                    // [|:zh_CN] 初始化为 1
 int k { };                          // [:en] initialize to 0
+                                    // [|:zh_CN] 初始化为 0
 [codeblock:end]
 [exit:example]
 
@@ -288,12 +397,18 @@ int k { };                          // [:en] initialize to 0
 Within the [~initializer-list] of a [~braced-init-list], the
 [~initializer-clause]s, including any that result from pack expansions
 ([#temp.variadic]), are evaluated in the order in which they appear.
+[:zh_CN]
+在[~花括号初始化列表]的[~初始化式列表]中，[~初始化式子句]，包括由包组展开所产生
+的（[#temp.variadic]），以它们的出现顺序进行求值。
 
 [:en]
 That is, every value computation and side effect associated with a given
 [~initializer-clause] is sequenced before every value computation and side
 effect associated with any [~initializer-clause] that follows it in the
 comma-separated list of the [~initializer-list].
+[:zh_CN]
+就是说，给定的[~初始化式子句]所关联的每个值计算和副作用，都按顺序早于[~初始化式
+列表]的逗号分隔列表中，跟在其后面的[~初始化式子句]所关联的任何值计算和副作用。
 
 [enter:note]
 [:en]
@@ -302,6 +417,9 @@ initialization; for example, it applies when the elements of the
 [~initializer-list] are interpreted as arguments of a constructor call, even
 though ordinarily there are no sequencing constraints on the arguments of a
 call.
+[:zh_CN]
+这个求值顺序与初始化的语义无关；例如，当[~初始化式列表]中的元素被解释为构造函数
+调用的实参时这也同样适用，即使一般来说调用中的实参之间并没有顺序约束。
 [exit:note]
 
 [para]
@@ -309,21 +427,33 @@ call.
 An object of type [`std::initializer_list<E>] is constructed from an initializer
 list as if the implementation allocated a temporary array of [$N] elements of
 type [`const E], where [$N] is the number of elements in the initializer list.
+[:zh_CN]
+由初始化式列表所构造的类型 [`std::initializer_list<E>] 的对象，就如同由实现分配
+了一个 [`const E] 类型的 [$N] 个元素的数组一样，其中 [$N] 为初始化式列表中的元素
+的数量。
 
 [:en]
 Each element of that array is copy-initialized with the corresponding element of
 the initializer list, and the [`std::initializer_list<E>] object is constructed
 to refer to that array.
+[:zh_CN]
+该数组中的每个元素都由初始化式列表中的对应元素进行复制初始化，而此
+[`std::initializer_list<E>] 对象就被构造为代表这个数组。
 
 [enter:note]
 [:en]
 A constructor or conversion function selected for the copy shall be accessible
 (Clause [#class.access]) in the context of the initializer list.
+[:zh_CN]
+所选择用于复制的构造函数或转换函数在初始化式列表的语境中应当是可访问的
+（第 [#class.access] 条）。
 [exit:note]
 
 [:en]
 If a narrowing conversion is required to initialize any of the elements, the
 program is ill-formed.
+[:zh_CN]
+如果对任何元素进行初始化时需要进行窄化转换，则程序非良构。
 
 [enter:example]
 [codeblock]
@@ -335,6 +465,8 @@ X x{ 1,2,3 };
 
 [:en]
 The initialization will be implemented in a way roughly equivalent to this:
+[:zh_CN]
+这个初始化将被实现为大致与此等价：
 
 [codeblock]
 const double __a[3] = {double{1}, double{2}, double{3}};
@@ -344,6 +476,8 @@ X x(std::initializer_list<double>(__a, __a+3));
 [:en@~]
 assuming that the implementation can construct an [`initializer_list] object
 with a pair of pointers.
+[:zh_CN@~]
+假设该实现可以用一对指针来构造 [`initializer_list] 对象。
 [exit:example]
 
 [para]
@@ -352,6 +486,10 @@ The array has the same lifetime as any other temporary object
 ([#class.temporary]), except that initializing an [`initializer_list] object
 from the array extends the lifetime of the array exactly like binding a
 reference to a temporary.
+[:zh_CN]
+该数组的生存期与其他临时对象相同（[#class.temporary]），但从该数组对
+[`initializer_list] 对象进行初始化，将以绑定引用到临时对象完全相同的方式扩展数组
+的生存期。
 
 [enter:example]
 [codeblock]
@@ -366,39 +504,56 @@ void f() {
 struct A {
   std::initializer_list<int> i4;
   A() : i4{ 1, 2, 3 } {}  // [:en] creates an [`A] with a dangling reference
+                          // [|:zh_CN] 创建带有悬挂引用的 [`A]
 };
 [codeblock:end]
 
 [:en]
 For [`v1] and [`v2], the [`initializer_list] object is a parameter in a function
 call, so the array created for [`{ 1, 2, 3 }] has full-expression lifetime.
+[:zh_CN]
+对于 [`v1] 和 [`v2]，其 [`initializer_list] 对象是函数调用中的形参，故为
+[`{ 1, 2, 3 }] 所构造的数组具有全表达式生存期。
 
 [:en]
 For [`i3], the [`initializer_list] object is a variable, so the array persists
 for the lifetime of the variable.
+[:zh_CN]
+对于 [`i3]，其 [`initializer_list] 对象是变量，故数组保持该变量的生存期。
 
 [:en]
 For [`i4], the [`initializer_list] object is initialized in a constructor[=']s
 [~ctor-initializer], so the array persists only until the constructor exits, and
 so any use of the elements of [`i4] after the constructor exits produces
 undefined behavior.
+[:zh_CN]
+对于 [`i4]，期 [`initializer_list] 对象在构造函数的[~构造函数初始化式]中初始化，
+故数组仅保持到构造函数退出时，且因此构造函数退出之后的任何对 [`i4] 的成员的使用
+都导致未定义的行为。
 [exit:example]
 
 [enter:note]
 [:en]
 The implementation is free to allocate the array in read-only memory if an
 explicit array with the same initializer could be so allocated.
+[:zh_CN]
+实现可以自由地将数组分配到只读内存中，只要具有相同初始化式的明确使用的数组也能够
+采用这种分配。
 [exit:note]
 
 [para]
 [:en]
 A [%narrowing conversion] [%conversion[!narrowing]] [+narrowing conversion] is
 an implicit conversion
+[:zh_CN]
+[%窄化转换] [%转换[!窄化～]] [+窄化转换]是这样的隐式转换：
 
 [list]
 [item]
 [:en]
 from a floating-point type to an integer type, or
+[:zh_CN]
+从浮点类型转换为整数类型，或者
 
 [item]
 [:en]
@@ -406,6 +561,10 @@ from [`long double] to [`double] or [`float], or from [`double] to [`float],
 except where the source is a constant expression and the actual value after
 conversion is within the range of values that can be represented (even if it
 cannot be represented exactly), or
+[:zh_CN]
+从 [`long double] 转换为 [`double] 或 [`float]，或者从 [`double] 转换为 [`float]
+，除非源值是常量表达式，而且转换后的实际值处于可以被表示的值的范围之内（即使无法
+被精确表示），或者
 
 [item]
 [:en]
@@ -413,6 +572,9 @@ from an integer type or unscoped enumeration type to a floating-point type,
 except where the source is a constant expression and the actual value after
 conversion will fit into the target type and will produce the original value
 when converted back to the original type, or
+[:zh_CN]
+从整数类型或无作用域枚举类型转换为浮点类型，除非源值是常量表达式，而且转换后的
+实际值能够适合目标类型，且当它转换回原来类型时将产生其原始值，或者
 
 [item]
 [:en]
@@ -420,34 +582,53 @@ from an integer type or unscoped enumeration type to an integer type that cannot
 represent all the values of the original type, except where the source is a
 constant expression whose value after integral promotions will fit into the
 target type.
+[:zh_CN]
+从整数类型或无作用域枚举类型转换为无法表示原类型的全部值的整数类型，除非源值是
+常量表达式，而且转换后的实际值能够适合目标类型，且当它转换回原来类型时将产生其
+原始值。
 [list:end]
 
 [enter:note]
 [:en]
 As indicated above, such conversions are not allowed at the top level in
 list-initializations.
+[:zh_CN]
+正如前文指出的，在列表初始化的顶层不允许进行这种转换。
 [exit:note]
 
 [enter:example]
 [codeblock]
-int x = 999;              // [:en] x is not a constant expression
+int x = 999;              // [:en] [`x] is not a constant expression
+                          // [|:zh_CN] [`x] 不是常量表达式
 const int y = 999;
 const int z = 99;
 char c1 = x;              // [:en] OK, though it might narrow (in this case, it does narrow)
+                          // [|:zh_CN] OK，虽然它可能被窄化（这时它确实被窄化了）
 char c2{x};               // [:en] error: might narrow
+                          // [|:zh_CN] 错误，可能被窄化
 char c3{y};               // [:en] error: narrows (assuming [`char] is 8 bits)
+                          // [|:zh_CN] 错误：窄化（假设 [`char] 是 8 位）
 char c4{z};               // [:en] OK: no narrowing needed
+                          // [|:zh_CN] OK：不需要进行窄化
 unsigned char uc1 = {5};  // [:en] OK: no narrowing needed
+                          // [|:zh_CN] OK：不需要进行窄化
 unsigned char uc2 = {-1}; // [:en] error: narrows
+                          // [|:zh_CN] 错误：窄化
 unsigned int ui1 = {-1};  // [:en] error: narrows
+                          // [|:zh_CN] 错误：窄化
 signed int si1 =
   { (unsigned int)-1 };   // [:en] error: narrows
+                          // [|:zh_CN] 错误：窄化
 int ii = {2.0};           // [:en] error: narrows
+                          // [|:zh_CN] 错误：窄化
 float f1 { x };           // [:en] error: might narrow
-float f2 { 7 };           // [:en] OK: 7 can be exactly represented as a float
+                          // [|:zh_CN] 错误，可能被窄化
+float f2 { 7 };           // [:en] OK: 7 can be exactly represented as a [`float]
+                          // [|:zh_CN] OK：7 可以被 [`float] 精确表示出来
 int f(int);
 int a[] =
-  { 2, f(2), f(2.0) };    // [:en] OK: the double-to-int conversion is not at the top level
+  { 2, f(2), f(2.0) };    // [:en] OK: the [`double]-to-[`int] conversion is not at the top level
+                          // [|:zh_CN] OK：[`double] 向 [`int] 的转换并未在顶层发生
 [codeblock:end]
 [exit:example]
 

@@ -1,5 +1,6 @@
 ﻿[section#dcl.init.aggr
     [:en] Aggregates
+    [:zh_CN] 聚合
 ]
 
 [:en]
@@ -9,7 +10,15 @@
 [%initialization[!array]]
 [%initialization[!class object]]
 [%class object initialization[see constructor]]
-[%[`{}][!initializer list]
+[%[`{}][!initializer list]]
+[:zh_CN]
+[%聚合]
+[%初始化[!聚合～]]
+[%聚合初始化]
+[%初始化[!数组～]]
+[%初始化[!类对象～]]
+[%类对象初始化[see 构造函数]]
+[%[`{}][!初始化式列表]]
 
 [para]
 [:en]
@@ -17,26 +26,41 @@ An [+aggregate] is an array or a class (Clause [#class]) with no user-provided
 constructors ([#class.ctor]), no private or protected non-static data members
 (Clause [#class.access]), no base classes (Clause [#class.derived]), and no
 virtual functions ([#class.virtual]).
+[:zh_CN]
+[+聚合]是数组，或者是没有用户提供的构造函数（[#class.ctor]），没有私有或受保护
+非静态数据成员（第 [#class.access] 条），没有基类（第 [#class.derived] 条），且
+没有虚函数（[#class.virtual]）的类（第 [#class] 条）。
 
 [para]
 [:en]
 When an aggregate is initialized by an initializer list, as specified in
 [#dcl.init.list], the elements of the initializer list are taken as initializers
 for the members of the aggregate, in increasing subscript or member order.
+[:zh_CN]
+当用初始化式列表对聚合进行初始化时（按 [#dcl.init.list] 所述），初始化式列表中的
+元素，就按下标增加或成员顺序作为该聚合的每个成员的初始化式。
 
 [:en]
 Each member is copy-initialized from the corresponding [~initializer-clause].
+[:zh_CN]
+每个成员都以其所对应的[~初始化式子句]进行复制初始化。
 
 [:en]
 If the [~initializer-clause] is an expression and a narrowing conversion
 ([#dcl.init.list]) is required to convert the expression, the program is
 ill-formed.
+[:zh_CN]
+如果[~初始化式子句]为表达式，并且需要对表达式进行窄化转换（[#dcl.init.list]），
+则程序是非良构的。
 
 [enter:note]
 [:en]
 If an [~initializer-clause] is itself an initializer list, the member is
 list-initialized, which will result in a recursive application of the rules in
 this section if the member is an aggregate.
+[:zh_CN]
+如果[~初始化式子句]本身也是个初始化式列表，则该成员被列表初始化，并且当该成员为
+聚合时导致递归地对其实施本节中的规则。
 [exit:note]
 
 [enter:example]
@@ -52,18 +76,25 @@ struct A {
 
 [:en]
 initializes [`a.x] with 1, [`a.b.i] with 2, [`a.b.j] with 3.
+[:zh_CN]
+把 [`a.x] 初始化为 1，[`a.b.i] 为 2，[`a.b.j] 为 3。
 [exit:example]
 
 [para]
 [:en]
 An aggregate that is a class can also be initialized with a single expression
 not enclosed in braces, as described in [#dcl.init].
+[:zh_CN]
+当聚合是类时，它还可用未被花括号包围的单个表达式初始化，如 [#dcl.init] 中所述。
 
 [para]
 [:en]
 An array of unknown size initialized with a brace-enclosed [~initializer-list]
 containing [`n] [~initializer-clause]s, where [`n] shall be greater than zero,
 is defined as having [`n] elements ([#dcl.array]).
+[:zh_CN]
+由花括号包围的包含 [`n] 个[~初始化式子句]的[~初始化式列表]所初始化的未知大小的
+数组，被定义为具有 [`n] 个元素（[#dcl.array]），其中 [`n] 应大于零。
 
 [enter:example]
 [codeblock]
@@ -73,22 +104,30 @@ int x[] = { 1, 3, 5 };
 [:en]
 declares and initializes [`x] as a one-dimensional array that has three elements
 since no size was specified and there are three initializers.
+[:zh_CN]
+声明并初始化 [`x] 为具有三个元素的一维数组，因为并未指定大小但带有三个初始化式。
 [exit:example]
 
 [:en]
 An empty initializer list [`{}] shall not be used as the [~initializer-clause]
 for an array of unknown bound.
+[:zh_CN]
+空初始化列表 [`{}] 不能用作未知边界的数组的[~初始化式子句]。
 
 [footnote]
 [:en]
 The syntax provides for empty [~initializer-list]s, but nonetheless [=Cpp] does
 not have zero length arrays.
+[:zh_CN]
+虽然空[~初始化式列表]受语法的支持，但无论如何 [=Cpp] 并不具有零长度的数组。
 [footnote:end]
 
 [para]
 [:en]
 Static data members and anonymous bit-fields are not considered members of the
 class for purposes of aggregate initialization.
+[:zh_CN]
+进行聚合初始化时，静态数据成员和无名位字段并不被当作类成员。
 
 [enter:example]
 [codeblock]
@@ -105,20 +144,28 @@ struct A {
 Here, the second initializer 2 initializes [`a.j] and not the static data member
 [`A::s], and the third initializer 3 initializes [`a.k] and not the anonymous
 bit-field before it.
+[:zh_CN]
+此处，第二个初始化式 2 初始化了 [`a.j] 而不是静态数据成员 [`A::s]，而第三个初始
+化式 3 初始化了 [`a.k] 而不是它前面的无名位字段。
 [exit:example]
 
 [para]
 [:en]
 An [~initializer-list] is ill-formed if the number of [~initializer-clause]s 
 exceeds the number of members or elements to initialize.
+[:zh_CN]
+若[~初始化式子句]的数量超过被其初始化的成员或元素的数量，则其[~初始化式列表]就是
+非良构的。
 
 [enter:example]
 [codeblock]
 char cv[4] = { 'a', 's', 'd', 'f', 0 };     // [:en] error
+                                            // [|:zh_CN] 错误
 [codeblock:end]
 
 [:en]
 is ill-formed.
+[:zh_CN] 是非良构的。
 [exit:example]
 
 [para]
@@ -128,6 +175,10 @@ the aggregate, then each member not explicitly initialized shall be initialized
 from its [~brace-or-equal-initializer] or, if there is no
 [~brace-or-equal-initializer], from an empty initializer list
 ([#dcl.init.list]).
+[:zh_CN]
+若列表中的[~初始化式子句]少于聚合中的成员，则应当对未被显式初始化的成员以其
+[~花括号或等号初始化式]进行初始化，或当其没有[~花括号或等号初始化式]时，以空初始
+化式列表进行初始化（[#dcl.init.list]）。
 
 [enter:example]
 [codeblock]
@@ -139,6 +190,9 @@ S ss = { 1, "asdf" };
 initializes [`ss.a] with 1, [`ss.b] with [`"asdf"], [`ss.c] with the value of an
 expression of the form [`int{}] (that is, [`0]), and [`ss.d] with the value of
 [`ss.b[ss.a`]] (that is, [`'s']), and in
+[:zh_CN]
+初始化 [`ss.a] 为 1，[`ss.b] 为 [`"asdf"]，[`ss.c] 为形式为 [`int{}] 的表达式的
+值（亦即 [`0]），而 [`ss.d] 为 [`ss.b[ss.a`]] 的值（亦即 [`'s']），而在
 
 [codeblock]
 struct X { int i, j, k = 42; };
@@ -148,6 +202,8 @@ X b[2] = { { 1, 2, 3 }, { 4, 5, 6 } };
 
 [:en@~]
 [`a] and [`b] have the same value
+[:zh_CN@~]
+中，[`a] 和 [`b] 的值相同
 [exit:example]
 
 [para]
@@ -155,6 +211,9 @@ X b[2] = { { 1, 2, 3 }, { 4, 5, 6 } };
 If a reference member is initialized from its [~brace-or-equal-initializer] and
 a potentially-evaluated subexpression thereof is an aggregate initialization
 that would use that [~brace-or-equal-initializer], the program is ill-formed.
+[:zh_CN]
+如果引用成员被以其[~花括号或等号初始化式]进行初始化，而其潜在求值的子表达式是
+可能使用该[~花括号或等号初始化式]的聚合初始化，则程序非良构。
 
 [enter:example]
 [codeblock]
@@ -163,6 +222,7 @@ that would use that [~brace-or-equal-initializer], the program is ill-formed.
   struct A {
     const A& a1 { A{a,a} };   // OK
     const A& a2 { A{} };      // [:en] error
+                              // [|:zh_CN] 错误
   };
   A a{a,a};                   // OK
 [codeblock:end]
@@ -175,6 +235,10 @@ members for purposes of aggregate initialization, the [~initializer-clause] for
 [`m] shall not be omitted from an [~initializer-list] for an object of type [`C]
 unless the [~initializer-clause]s for all members of [`C] following [`m] are
 also omitted.
+[:zh_CN]
+若聚合类 [`C] 所包含的某个子聚合成员 [`m] 不含有参与聚合初始化的成员，则在类型
+[`C] 的对象的[~初始化式列表]之中不能省略 [`m] 的[~初始化式子句]，除非 [`C] 中
+跟在 [`m] 后面的所有成员的[~初始化式子句]也都被省略掉。
 
 [enter:example]
 [codeblock]
@@ -188,10 +252,13 @@ struct A {
   int i3;
 } a = {
   { },      // [:en] Required initialization
+            // [|:zh_CN] 所需要的初始化
   0,
   s,        // [:en] Required initialization
+            // [|:zh_CN] 所需要的初始化
   0
 };          // [:en] Initialization not required for [`A::s3] because [`A::i3] is also not initialized
+            // [|:zh_CN] 由于 [`A::i3] 也未被初始化，所以并不需要初始化 [`A::s3]
 [codeblock:end]
 [exit:example]
 
@@ -199,12 +266,17 @@ struct A {
 [:en]
 If an incomplete or empty [~initializer-list] leaves a member of reference type
 uninitialized, the program is ill-formed.
+[:zh_CN]
+若不完整的或空的[~初始化式列表]遗留引用类型的成员未初始化，则程序非良构。
 
 [para]
 [:en]
 When initializing a multi-dimensional array, the [~initializer-clause]s
 initialize the elements with the last (rightmost) index of the array varying the
 fastest ([#dcl.array]).
+[:zh_CN]
+当初始化多维数组时，用[~初始化式子句]初始化其元素时数组的最末（最右）索引变化
+最快（[#dcl.array]）。
 
 [enter:example]
 [codeblock]
@@ -214,9 +286,14 @@ int x[2][2] = { 3, 1, 4, 2 };
 [:en@~]
 initializes [`x[0`][0`]] to [`3], [`x[0`][1`]] to [`1], [`x[1`][0`]] to [`4],
 and [`x[1`][1`]] to [`2].
+[:zh_CN@~]
+初始化 [`x[0`][0`]] 为 [`3]，[`x[0`][1`]] 为 [`1]，[`x[1`][0`]] 为 [`4]，而
+[`x[1`][1`]] 为 [`2]。
 
 [:en]
 On the other hand,
+[:zh_CN]
+另一方面，
 
 [codeblock]
 float y[4][3] = {
@@ -227,17 +304,24 @@ float y[4][3] = {
 [:en@~]
 initializes the first column of [`y] (regarded as a two-dimensional array) and
 leaves the rest zero.
+[:zh_CN@~]
+初始化 [`y] 的第一列（将其当作二维数组）而把其他列留为零。
 [exit:example]
 
 [para]
 [:en]
 Braces can be elided in an [~initializer-list] as follows.
+[:zh_CN]
+花括号在[~初始化式列表]中可以按如下被省略。
 
 [:en]
 If the [~initializer-list] begins with a left brace, then the succeeding
 comma-separated list of [~initializer-clause]s initializes the members of a
 subaggregate; it is erroneous for there to be more [~initializer-clause]s than
 members.
+[:zh_CN]
+若[~初始化式列表]开始于左花括号，则后继的[~初始化式子句]的逗号分隔列表初始化某个
+子聚合的成员；[~初始化式子句]比成员多是错误的。
 
 [:en]
 If, however, the [~initializer-list] for a subaggregate does not begin with a
@@ -245,6 +329,10 @@ left brace, then only enough [~initializer-clause]s from the list are taken to
 initialize the members of the subaggregate; any remaining [~initializer-clause]s
 are left to initialize the next member of the aggregate of which the current
 subaggregate is a member.
+[:zh_CN]
+然而，若子聚合的[~初始化式列表]并不开始于左花括号，则仅从该列表中获得足够的
+[~初始化式子句]用于初始化该子聚合的成员；剩余的所有[~初始化式子句]，都留给以当前
+子聚合为成员的聚合中的下一个成员进行初始化。
 
 [enter:example]
 [codeblock]
@@ -257,23 +345,36 @@ float y[4][3] = {
 
 [:en]
 is a completely-braced initialization:
+[:zh_CN]
+是带有完整花括号的初始化：
 
 [:en]
 1, 3, and 5 initialize the first row of the array [`y[0`]], namely [`y[0`][0`]],
 [`y[0`][1`]], and [`y[0`][2`]].
+[:zh_CN]
+1，3，和 5 初始化了数组的第一行 [`y[0`]]，就是 [`y[0`][0`]]、[`y[0`][1`]] 和
+[`y[0`][2`]]。
 
 [:en]
 Likewise the next two lines initialize [`y[1`]] and [`y[2`]].
+[:zh_CN]
+相似地，下两行初始化了 [`y[1`]] 和 [`y[2`]]。
 
 [:en]
 The initializer ends early and therefore [`y[3`]]s elements are initialized as
 if explicitly initialized with an expression of the form [`float()], that is,
 are initialized with [`0.0].
+[:zh_CN]
+该初始化较早地结束了，因此 [`y[3`]] 的元素的初始化如同被显式地以形式为
+[`float()] 的表达式初始化，也就是被初始化为 [`0.0]。
 
 [:en]
 In the following example, braces in the [~initializer-list] are elided; however
 the [~initializer-list] has the same effect as the completely-braced
 [~initializer-list] of the above example,
+[:zh_CN]
+在下面的例子中，[~初始化式列表]中的花括号被省略了；然而其[~初始化式列表]与上面
+例子中的带有完整花括号的[~初始化式列表]的效果相同，
 
 [codeblock]
 float y[4][3] = {
@@ -284,30 +385,45 @@ float y[4][3] = {
 [:en]
 The initializer for [`y] begins with a left brace, but the one for [`y[0`]] does
 not, therefore three elements from the list are used.
+[:zh_CN]
+[`y] 的初始化式开始于左花括号，但 [`y[0`]] 的却不是，因此使用了列表中的三个元素
+。
 
 [:en]
 Likewise the next three are taken successively for [`y[1`]] and [`y[2`]].
+[:zh_CN]
+相似地，[`y[1`]] 和 [`y[2`]] 相继获得三个初始化式。
 [exit:example]
 
 [para]
 [:en]
 All implicit type conversions (Clause [#conv]) are considered when initializing
 the aggregate member with an [~assignment-expression].
+[:zh_CN]
+当用[~赋值表达式]来初始化聚合成员时，所有隐式类型转换（第 [#conv] 条）都要考虑。
 
 [:en]
 If the [~assignment-expression] can initialize a member, the member is
 initialized.
+[:zh_CN]
+若该[~赋值表达式]可以初始化成员，则该成员被初始化。
 
 [:en]
 Otherwise, if the member is itself a subaggregate, brace elision is assumed and
 the [~assignment-expression] is considered for the initialization of the first
 member of the subaggregate.
+[:zh_CN]
+否则，若该成员自身为子聚合，则假设省略了花括号且该[~赋值表达式]被当作用于该子
+聚合的第一个成员的初始化。
 
 [enter:note]
 [:en]
 As specified above, brace elision cannot apply to subaggregates with no members
 for purposes of aggregate initialization; an [~initializer-clause] for the
 entire subobject is required.
+[:zh_CN]
+正如上文所述，花括号省略是不能对不含有用于聚合初始化的成员的子聚合实施的；需要为
+整个子对象提供一个[~初始化式子句]。
 [exit:note]
 
 [para:~]
@@ -327,21 +443,31 @@ B b = { 4, a, a };
 
 [:en]
 Braces are elided around the [~initializer-clause] for [`b.a1.i].
+[:zh_CN]
+[`b.a1.i] 的[~初始化式子句]周围的花括号被省略了。
 
 [:en]
 [`b.a1.i] is initialized with 4, [`b.a2] is initialized with [`a], [`b.z] is
 initialized with whatever [`a.operator int()] returns.
+[:zh_CN]
+[`b.a1.i] 被初始化为 4，[`b.a2] 被初始化为 [`a]，[`b.z] 被初始化为
+[`a.operator int()] 所返回的结果。
 [exit:example]
 
 [para]
-[%  [:en] initialization[!array of class objects]]
+[%  [:en] initialization[!array of class objects]
+    [:zh_CN] 初始化[!类对象的数组] ]
 [enter:note]
 [:en]
 An aggregate array or an aggregate class may contain members of a class type
 with a user-provided constructor ([#class.ctor]).
+[:zh_CN]
+聚合数组或聚合类可以包含带有用户提供的构造函数（[#class.ctor]）的类类型的成员。
 
 [:en]
 Initialization of these aggregate objects is described in [#class.expl.init].
+[:zh_CN]
+这些聚合对象的初始化在 [#class.expl.init] 中描述。
 [exit:note]
 
 [para]
@@ -349,6 +475,9 @@ Initialization of these aggregate objects is described in [#class.expl.init].
 [:en]
 Whether the initialization of aggregates with static storage duration is static
 or dynamic is specified in [#basic.start.init] and [#stmt.dcl].
+[:zh_CN]
+[#basic.start.init] 和 [#stmt.dcl] 中说明具有静态存储期的聚合的初始化需要静态
+进行还是动态进行。
 [exit:note]
 
 [para]
@@ -357,6 +486,10 @@ or dynamic is specified in [#basic.start.init] and [#stmt.dcl].
 When a union is initialized with a brace-enclosed initializer, the braces shall
 only contain an [~initializer-clause] for the first non-static data member of
 the union.
+[:zh_CN]
+[%初始化[![`union]]]
+当用被花括号包围的初始化式对联合进行初始化时，花括号中只能包含该联合的第一个非
+静态数据成员的[~初始化式子句]。
 
 [enter:example]
 [codeblock]
@@ -364,8 +497,11 @@ union u { int a; const char* b; };
 u a = { 1 };
 u b = a;
 u c = 1;                        // [:en] error
+                                // [|:zh_CN] 错误
 u d = { 0, "asdf" };            // [:en] error
+                                // [|:zh_CN] 错误
 u e = { "asdf" };               // [:en] error
+                                // [|:zh_CN] 错误
 [codeblock:end]
 [exit:example]
 
@@ -374,4 +510,7 @@ u e = { "asdf" };               // [:en] error
 [:en]
 As described above, the braces around the [~initializer-clause] for a union
 member can be omitted if the union is a member of another aggregate.
+[:zh_CN]
+如上所述，当联合是另一个聚合的成员时，可以省略联合成员的[~初始化式子句]外围的
+花括号。
 [exit:note]

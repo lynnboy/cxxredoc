@@ -153,7 +153,7 @@ Another ambiguity arises in a [~parameter-declaration-clause] of a function
 declaration, or in a [~type-id] that is the operand of a [`sizeof] or [`typeid]
 operator, when a [~type-name] is nested in parentheses.
 [:zh_CN]
-在函数声明式的[~形参声明式子句]中，或者在作为 [`sizeof] 或 [`typeid] 运算符的
+在函数声明式的[~形参声明子句]中，或者在作为 [`sizeof] 或 [`typeid] 运算符的
 操作数的[~类型标识]中，当出现嵌套在括号中的[~类型名]时会产生另一种歧义。
 
 [:en]

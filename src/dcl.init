@@ -1,46 +1,56 @@
 ﻿[section#dcl.init
     [:en] Initializers
+    [:zh_CN] 初始化式
 ]
 
 [%:begin#initialization
     [:en] initialization
+    [:zh_CN] 初始化
 ]
 
 [para]
 [:en]
 A declarator can specify an initial value for the identifier being declared.
+[:zh_CN]
+声明符可以为其所声明的标识符指定初始值。
 
 [:en]
 The identifier designates a variable being initialized.
+[:zh_CN]
+标识符代表了被初始化的变量。
 
 [:en]
 The process of initialization described in the remainder of [#dcl.init] applies
 also to initializations specified by other syntactic contexts, such as the
 initialization of function parameters with argument expressions ([#expr.call])
 or the initialization of return values ([#stmt.return]).
+[:zh_CN]
+[#dcl.init] 的余下部分中说明的初始化过程也适用于其他语法语境中指定的初始化上，
+比如函数形参用实参表达式进行的初始化（[#expr.call]），或者对返回值的初始化
+（[#stmt.return]）。
 
 [syntax]
-[rule initializer [:zh_CN] ]
+[rule initializer [:zh_CN] 初始化式 ]
     [| brace-or-equal-initializer ]
     [| [`(] expression-list [`)] ]
 [rule:end]
 
-[rule brace-or-equal-initializer [:zh_CN] ]
+[rule brace-or-equal-initializer [:zh_CN] 花括号或等号初始化式 ]
     [| [`=] initializer-clause ]
     [| braced-init-list ]
 [rule:end]
 
-[rule initializer-clause [:zh_CN] ]
+[rule initializer-clause [:zh_CN] 初始化式子句 ]
     [| assignment-expression ]
     [| braced-init-list ]
 [rule:end]
 
-[rule initializer-list [:zh_CN] ]
+[rule initializer-list [:zh_CN] 初始化式列表 ]
     [| initializer-clause [`:opt ...] ]
     [| initializer-list [`,] initializer-clause [`:opt ...] ]
 [rule:end]
 
-[rule braced-init-list [:zh_CN] ]
+[rule braced-init-list [:zh_CN] 花括号初始化列表 ]
     [| [`{] initializer-list [`:opt ,] [`}] ]
     [| [`{] [`}] ]
 [rule:end]
@@ -51,10 +61,13 @@ or the initialization of return values ([#stmt.return]).
 Except for objects declared with the [`constexpr] specifier, for which see
 [#dcl.constexpr], an [~initializer] in the definition of a variable can consist
 of arbitrary
-[%initialization[!automatic object]]
-[%initialization[![`static] object]]
+[%initialization[!automatic object]] [%initialization[![`static] object]]
 expressions involving literals and previously declared variables and functions,
 regardless of the variable[=']s storage duration.
+[:zh_CN]
+除了以 [`constexpr] 声明的对象（参见 [#dcl.constexpr]）之外，变量的定义式中的
+[~初始化式]，[%初始化[!自动对象]] [%初始化[![`static] 对象]]可以由涉及字面量和
+之前声明过的变量和函数的任意表达式构成，并与该变量的存储期无关。
 
 [enter:example]
 [codeblock]
@@ -69,36 +82,49 @@ int c(b);
 [enter:note]
 [:en]
 Default arguments are more restricted; see [#dcl.fct.default].
+[:zh_CN]
+默认实参表达式受到更多的限制；参见 [#dcl.fct.default]。
 
 [para]
 [:en]
 The order of initialization of variables with static storage duration is
 described in [#basic.start] and [#stmt.dcl].
+[:zh_CN]
+具有静态存储期的变量的初始化顺序在 [#basic.start] 和 [#stmt.dcl] 中说明。
 [exit:note]
 
 [para]
 [:en]
 A declaration of a block-scope variable with external or internal linkage that
 has an [~initializer] is ill-formed.
+[:zh_CN]
+具有外部或内部连接的块作用域变量的带有[~初始化式]的声明式是非良构的。
 
 [para]
 [:en]
-[%initialization[![`static] object]]
-[%initialization[!default]]
-[%variable[!indeterminate uninitialized]]
-[%zero-initialization]
+[%initialization[![`static] object]] [%initialization[!default]]
+[%variable[!indeterminate uninitialized]] [%zero-initialization]
 To [+zero-initialize] an object or reference of type [`T] means:
+[:zh_CN]
+[%初始化[![`static] 对象]] [%初始化[!默认～]]
+[%变量[!不确定的未初始化～]] [%零初始化]
+[`T] 类型的对象或引用的[+零初始化]的含义是：
 
 [list]
 [item]
 [:en]
 if [`T] is a scalar type ([#basic.types]), the object is initialized to the
 value obtained by converting the integer literal [`0] (zero) to [`T];
+[:zh_CN]
+若 [`T] 为标量类型（[#basic.types]），则对象被设置为将整型字面量 [`0]（零）转换
+为 [`T] 所获得的值；
 
 [footnote]
 [:en]
 As specified in [#conv.ptr], converting an integer literal whose value is [`0]
 to a pointer type results in a null pointer value.
+[:zh_CN]
+如 [#conv.ptr] 所述，把值为 [`0] 的整型字面量转换为指针类型时产生空指针值。
 [footnote:end]
 
 [item]
@@ -106,60 +132,90 @@ to a pointer type results in a null pointer value.
 if [`T] is a (possibly cv-qualified) non-union class type, each non-static data
 member and each base-class subobject is zero-initialized and padding is
 initialized to zero bits;
+[:zh_CN]
+若 [`T] 为（可能被 cv-限定的）非联合类类型，则其每个非静态数据成员和每个基类子
+对象都被零初始化，且填充位被初始化为零位；
 
 [item]
 [:en]
 if [`T] is a (possibly cv-qualified) union type, the object[=']s first
 non-static named data member is zero-initialized and padding is initialized to
 zero bits;
+[:zh_CN]
+若 [`T] 为（可能被 cv-限定的）联合类型，则对象的第一个非静态具名数据成员被
+零初始化，且填充位被初始化为零位；
 
 [item]
 [:en]
 if [`T] is an array type, each element is zero-initialized;
+[:zh_CN]
+若 [`T] 为数组类型，则其每个元素都被零初始化；
 
 [item]
 [:en]
 if [`T] is a reference type, no initialization is performed.
+[:zh_CN]
+若 [`T] 为引用类型，则不进行初始化。
 [list:end]
 
 [para]
 [:en]
 [%default-initialization]
 To [+default-initialize] an object of type [`T] means:
+[:zh_CN]
+[%默认初始化]
+[`T] 类型的对象的[+默认初始化]的含义是：
 
 [list]
 [item]
 [:en]
 If [`T] is a (possibly cv-qualified) class type (Clause [#class]), constructors
 are considered.
+[:zh_CN]
+若 [`T] 为（可能被 cv-限定的）类类型（第 [#class] 条），则考察期构造函数。
 
 [:en]
 The applicable constructors are enumerated ([#over.match.ctor]), and the best
 one for the [~initializer] [`()] is chosen through overload resolution
 ([#over.match]).
+[:zh_CN]
+对所有可用的构造函数进行列举（[#over.match.ctor]），并通过重载决议
+（[#over.match]）为初始化式 [`()] 选择最佳的一个。
 
 [:en]
 The constructor thus selected is called, with an empty argument list, to
 initialize the object.
+[:zh_CN]
+所选择的构造函数被以空实参列表进行调用，以初始化该对象。
 
 [item]
 [:en]
 If [`T] is an array type, each element is default-initialized.
+[:zh_CN]
+若 [`T] 为数组类型，则其每个元素进行默认初始化。
 
 [item]
 [:en]
 Otherwise, no initialization is performed.
+[:zh_CN]
+否则，不进行初始化。
 [list:end]
 
 [:en]
 If a program calls for the default initialization of an object of a
 const-qualified type [`T], [`T] shall be a class type with a user-provided
 default constructor.
+[:zh_CN]
+如果程序对具有 const-限定的类型 [`T] 的对象进行默认初始化，那么 [`T] 应当为带有
+用户提供的默认构造函数的类类型。
 
 [para]
 [:en]
 [%value-initialization]
 To [~value-initialize] an object of type [`T] means:
+[:zh_CN]
+[%值初始化]
+[`T] 类型的对象的[+值初始化]的含义是：
 
 [list]
 [item]
@@ -167,6 +223,9 @@ To [~value-initialize] an object of type [`T] means:
 if [`T] is a (possibly cv-qualified) class type (Clause [#class]) with either no
 default constructor ([#class.ctor]) or a default constructor that is
 user-provided or deleted, then the object is default-initialized;
+[:zh_CN]
+若 [`T] 为（可能被 cv-限定的）类类型（第 [#class] 条），且要么没默认构造函数
+（[#class.ctor]），要么带有用户提供的或弃置的默认构造函数，则对象进行值初始化；
 
 [item]
 [:en]
@@ -174,14 +233,22 @@ if [`T] is a (possibly cv-qualified) class type without a user-provided or
 deleted default constructor, then the object is zero-initialized and the
 semantic constraints for default-initialization are checked, and if [`T] has a
 non-trivial default constructor, the object is default-initialized;
+[:zh_CN]
+若 [`T] 为（可能被 cv-限定的）类类型，且不带有用户提供的或弃置的默认构造函数，则
+该对象进行零初始化并进行默认初始化的语义约束检查，而当 [`T] 带有非平凡默认构造
+函数时，该对象进行默认初始化；
 
 [item]
 [:en]
 if [`T] is an array type, then each element is value-initialized;
+[:zh_CN]
+若 [`T] 为数组类型，则其每个元素都被值初始化；
 
 [item]
 [:en]
 otherwise, the object is zero-initialized.
+[:zh_CN]
+否则，该对象被零初始化
 [list:end]
 
 [:en]
@@ -189,32 +256,47 @@ An object that is value-initialized is deemed to be constructed and thus subject
 to provisions of this International Standard applying to ["constructed] objects,
 objects ["for which the constructor has completed,] etc., even if no constructor
 is invoked for the object[=']s initialization.
+[:zh_CN]
+经过值初始化的对象被视为是已经构造的，且适用于本国际标准中针对“已构造”的对象，
+“构造函数已经完成”的对象等的条款，即使在对象的初始化过程并未调用任何构造函数也是
+如此。
 
 [para]
 [:en]
 A program that calls for default-initialization or value-initialization of an
 entity of reference type is ill-formed.
+[:zh_CN]
+试图对引用类型的实体进行默认初始化或值初始化的程序是非良构的。
 
 [para]
 [enter:note]
 [:en]
 Every object of static storage duration is zero-initialized at program startup
 before any other initialization takes place.
+[:zh_CN]
+每个静态存储期的对象都在程序启动时发生任何其他初始化之前进行零初始化。
 
 [:en]
 In some cases, additional initialization is done later.
+[:zh_CN]
+某些情况下，稍后还进行额外的初始化。
 [exit:note]
 
 [para]
 [:en]
 An object whose initializer is an empty set of parentheses, i.e., [`()], shall
 be value-initialized.
+[:zh_CN]
+初始化式为一组空括号（即 [`()]）的对象，应当进行值初始化。
 
 [para:~]
-[%ambiguity[!function declaration]]
 [enter:note]
 [:en]
+[%ambiguity[!function declaration]]
 Since [`()] is not permitted by the syntax for [~initializer],
+[:zh_CN]
+[%歧义[!函数声明式]]
+由于[~初始化式]的语法中不允许 [`()]，故
 
 [codeblock]
 X a();
@@ -223,54 +305,77 @@ X a();
 [:en@~]
 is not the declaration of an object of class [`X], but the declaration of a
 function taking no argument and returning an [`X].
+[:zh_CN@~]
+并不是类 [`X] 的对象的声明式，而是不获取实参而返回 [`X] 的函数的声明式。
 
 [:en]
 The form [`()] is permitted in certain other initialization contexts
 ([#expr.new], [#expr.type.conv], [#class.base.init]).
+[:zh_CN]
+其他的特定初始化语境中允许 [`()] 的形式（[#expr.new]，[#expr.type.conv]，
+[#class.base.init]）。
 [exit:note]
 
 [para]
 [:en]
-[%value[!indeterminate]]
-[%indeterminate value]
+[%value[!indeterminate]] [%indeterminate value]
 If no initializer is specified for an object, the object is default-initialized.
+[:zh_CN]
+[%值[!不确定的～]] [%不确定的值]
+若未对对象指定初始化式，则该对象被默认初始化。
 
 [:en]
 When storage for an object with automatic or dynamic storage duration is
 obtained, the object has an [+indeterminate value], and if no initialization is
 performed for the object, that object retains an indeterminate value until that
 value is replaced ([#expr.ass]).
+[:zh_CN]
+当具有自动或动态存储期的对象获得存储时，对象具有不确定的值，而若该对象不进行任何
+初始化，则该对象保留不确定的值，直到这个值被替换掉（[#expr.ass]）。
 
 [enter:note]
 [:en]
 Objects with static or thread storage duration are zero-initialized, see
 [#basic.start.init].
+[:zh_CN]
+具有静态或线程存储期的对象进行零初始化，参见 [#basic.start.init]。
 [exit:note]
 
 [:en]
 If an indeterminate value is produced by an evaluation, the behavior is
 undefined except in the following cases:
+[:zh_CN]
+除下列情况外，当求值产生不确定的值时，其行为是未定义的：
 
 [list]
 [item]
 [:en]
 If an indeterminate value of unsigned narrow character type
 ([#basic.fundamental]) is produced by the evaluation of:
+[:zh_CN]
+如果在对以下求值中产生了无符号的窄字符类型（[#basic.fundamental]）的不确定的值：
 
 [list]
 [item]
 [:en@~] the second or third operand of a conditional expression ([#expr.cond]),
+[:zh_CN@~] 条件表达式的第二或第三个操作数（[#expr.cond]），
 [item]
 [:en@~] the right operand of a comma expression ([#expr.comma]),
+[:zh_CN@~] 逗号表达式的右操作数（[#expr.comma]），
 [item]
 [:en@~] the operand of a cast or conversion to an unsigned narrow character type
 ([#conv.integral], [#expr.type.conv], [#expr.static.cast], [#expr.cast]), or
+[:zh_CN@~] 向无符号窄字符类型进行的强制转换或转换的操作数（[#conv.integral]，
+[#expr.type.conv]，[#expr.static.cast]，[#expr.cast]），或者
 [item]
 [:en@~] a discarded-value expression (Clause [#expr]),
+[:zh_CN@~] 弃值表达式（第 [#expr] 条），
 [list:end]
 
 [:en@~]
 then the result of the operation is an indeterminate value.
+[:zh_CN@~]
+则该操作的结果是不确定的值。
 
 [item]
 [:en]
@@ -279,6 +384,10 @@ evaluation of the right operand of a simple assignment operator ([#expr.ass])
 whose first operand is an lvalue of unsigned narrow character type, an
 indeterminate value replaces the value of the object referred to by the left
 operand.
+[:zh_CN]
+如果在对简单赋值运算符（[#expr.ass]）的右操作数的求值中产生了无符号的窄字符类型
+的不确定的值，而其第一个操作数是无符号的窄字符类型的左值，则左操作数所代表的对象
+的值被不确定的值所替代。
 
 [item]
 [:en]
@@ -286,6 +395,9 @@ If an indeterminate value of unsigned narrow character type is produced by the
 evaluation of the initialization expression when initializing an object of
 unsigned narrow character type, that object is initialized to an indeterminate
 value.
+[:zh_CN]
+当对无符号的窄字符类型的对象进行初始化时，如果对初始化表达式的求值中产生了无符号
+的窄字符类型的不确定的值，则该对象的值被不确定的值所初始化。
 [list:end]
 
 [enter:example]
@@ -293,8 +405,11 @@ value.
   int f(bool b) {
     unsigned char c;
     unsigned char d = c; // [:en] OK, [`d] has an indeterminate value
+                         // [|:zh_CN] OK，[`d] 具有不确定的值
     int e = d;           // [:en] undefined behavior
+                         // [|:zh_CN] 未定义行为
     return b ? d : 0;    // [:en] undefined behavior if [`b] is [`true]
+                         // [|:zh_CN] 当 [`b] 为 [`true] 时具有未定义行为
   }
 [codeblock:end]
 [exit:example]
@@ -303,6 +418,9 @@ value.
 [:en]
 [%initialization[!class member]]
 An initializer for a static member is in the scope of the member[=']s class.
+[:zh_CN]
+[%初始化[!类成员的～]]
+静态成员的初始化式处于该成员的类的作用域中。
 
 [enter:example]
 [codeblock]
@@ -322,27 +440,39 @@ int X::b = a;       // [`X::b = X::a]
 [:en]
 If the entity being initialized does not have class type, the [~expression-list]
 in a parenthesized initializer shall be a single expression.
+[:zh_CN]
+如果所初始化的实体不具有类类型，则带括号的初始化式中的[~表达式列表]应当是单个
+表达式。
 
 [para]
 [:en]
-[%initialization[!copy]]
-[%initialization[!direct]]
+[%initialization[!copy]] [%initialization[!direct]]
 The initialization that occurs in the [`=] form of a
 [~brace-or-equal-initializer] or [~condition] ([#stmt.select]), as well as in
 argument passing, function return, throwing an exception ([#except.throw]),
 handling an exception ([#except.handle]), and aggregate member initialization
 ([#dcl.init.aggr]), is called [def copy-initialization].
+[:zh_CN]
+[%初始化[!复制～]] [%初始化[!直接～]]
+发生于 [`=] 形式的[~花括号或等号初始化式]或[~条件]（[#stmt.select]）中，以及
+发生于实参传递，函数返回，异常的抛出（[#except.throw]），异常的处理
+（[#except.handle]），以及聚合成员初始化（[#dcl.init.aggr]）中初始化，被称为
+[def 复制初始化]。
 
 [enter:note]
 [:en]
 Copy-initialization may invoke a move ([#class.copy]).
+[:zh_CN]
+复制初始化可能执行移动操作（[#class.copy]）。
 [exit:note]
 
 [para]
 [:en]
 The initialization that occurs in the forms
+[:zh_CN]
+发生于以下形式中的初始化
 
-[codeblock]
+[codeblock:notation]
 T x(a);
 T x{a};
 [codeblock:end]
@@ -351,48 +481,74 @@ T x{a};
 as well as in [`new] expressions ([#expr.new]), [`static_cast] expressions
 ([#expr.static.cast]), functional notation type conversions ([#expr.type.conv]),
 [~mem-initializer]s ([#class.base.init]), and the [~braced-init-list] form of a
-[~condition] is called [~direct-initialization].
+[~condition] is called [+direct-initialization].
+[:zh_CN@~]
+以及发生于 [`new] 表达式（[#expr.new]），[`static_cast] 表达式
+（[#expr.static.cast]），函数形式的类型转换（[#expr.type.conv]），
+[~成员初始化式]（[#class.base.init]），以及[~花括号初始化列表]形式的[~条件]中的
+初始化，被称为[+直接初始化]。
 
 [para]
 [:en]
 The semantics of initializers are as follows.
+[:zh_CN]
+初始化式的语义如下。
 
 [:en]
 The [%type[!destination]] [+destination type] is the type of the object or
 reference being initialized and the [+source type] is the type of the
 initializer expression.
+[:zh_CN]
+被初始化的对象或引用的类型是[%类型[!目标～]][+目标类型]，而初始化式表达式的类型
+为[+源类型]。
 
 [:en]
 If the initializer is not a single (possibly parenthesized) expression, the
 source type is not defined.
+[:zh_CN]
+当初始化式不是单个（可能带有括号的）表达式时，并未定义源类型。
 
 [list]
 [item]
 [:en]
 If the initializer is a (non-parenthesized) [~braced-init-list], the object or
 reference is list-initialized ([#dcl.init.list]).
+[:zh_CN]
+若初始化式为（未被括号包围的）[~花括号初始化列表]，则对象或引用进行列表初始化
+（[#dcl.init.list]）。
 
 [item]
 [:en]
 If the destination type is a reference type, see [#dcl.init.ref].
+[:zh_CN]
+若目标类型为引用类型，参见 [#dcl.init.ref]。
 
 [item]
 [:en]
 If the destination type is an array of characters, an array of [`char16_t],
 an array of [`char32_t], or an array of [`wchar_t], and the initializer is a
 string literal, see [#dcl.init.string].
+[:zh_CN]
+若目标类型为字符数组，[`char16_t] 的数组，[`char32_t] 的数组，或者 [`wchar_t]
+的数组，且其初始化式为字符串字面量，参见 [#dcl.init.string]。
 
 [item]
 [:en]
 If the initializer is [`()], the object is value-initialized.
+[:zh_CN]
+若初始化式为 [`()]，则对象被值初始化。
 
 [item]
 [:en]
 Otherwise, if the destination type is an array, the program is ill-formed.
+[:zh_CN]
+否则，若目标类型为数组，则程序是非良构的。
 
 [item]
 [:en]
 If the destination type is a (possibly cv-qualified) class type:
+[:zh_CN]
+若目标类型为（可能被 cv-限定的）类类型：
 
 [list]
 [item]
@@ -400,18 +556,29 @@ If the destination type is a (possibly cv-qualified) class type:
 If the initialization is direct-initialization, or if it is copy-initialization
 where the cv-unqualified version of the source type is the same class as, or a
 derived class of, the class of the destination, constructors are considered.
-
+[:zh_CN]
+若其初始化为直接初始化，或者若其为复制初始化，其中源类型的 cv-未限定的版本与目标
+的类是相同的类或是其派生类，则考察其构造函数。
+    
 [:en]
 The applicable constructors are enumerated ([#over.match.ctor]), and the best
 one is chosen through overload resolution ([#over.match]).
+[:zh_CN]
+对所有可用的构造函数进行列举（[#over.match.ctor]），并通过重载决议
+（[#over.match]）选取其中最佳的一个。
 
 [:en]
 The constructor so selected is called to initialize the object, with the
 initializer expression or [~expression-list] as its argument(s).
+[:zh_CN]
+所选取的构造函数被以初始化式表达式或[~表达式列表]作为实参进行调用，以初始化该
+对象。
 
 [:en]
 If no constructor applies, or the overload resolution is ambiguous, the
 initialization is ill-formed.
+[:zh_CN]
+若没有适用的构造函数，或重载决议有歧义，则该初始化非良构。
 
 [item]
 [:en]
@@ -420,71 +587,111 @@ conversion sequences that can convert from the source type to the destination
 type or (when a conversion function is used) to a derived class thereof are
 enumerated as described in [#over.match.copy], and the best one is chosen
 through overload resolution ([#over.match]).
+[:zh_CN]
+否则（就是说，对于其他复制初始化情况），对所有可以把源类型转换到目标类型，或
+（当使用某个转换函数时）到其派生类的用户定义的转换序列，按照 [#over.match.copy]
+所述进行列举，并通过重载决议（[#over.match]）选取其中最佳的一个。
 
 [:en]
 If the conversion cannot be done or is ambiguous, the initialization is
 ill-formed.
+[:zh_CN]
+若不能进行转换或发生歧义，则该初始化非良构。
 
 [:en]
 The function selected is called with the initializer expression as its argument;
 if the function is a constructor, the call initializes a temporary of the
 cv-unqualified version of the destination type.
+[:zh_CN]
+所选取的函数以初始化式表达式作为实参进行调用；若该函数是构造函数，则该调用初始化
+目标类型的 cv-未限定版本的一个临时对象。
 
 [:en]
 The temporary is a prvalue.
+[:zh_CN]
+此临时对象是纯右值。
 
 [:en]
 The result of the call (which is the temporary for the constructor case) is then
 used to direct-initialize, according to the rules above, the object that is the
 destination of the copy-initialization.
+[:zh_CN]
+随即用该调用的结果（即构造函数情况中的临时对象），对复制初始化的目标对象根据上一
+条规则进行直接初始化。
 
 [:en]
 In certain cases, an implementation is permitted to eliminate the copying
 inherent in this direct-initialization by constructing the intermediate result
 directly into the object being initialized; see [#class.temporary],
 [#class.copy].
+[:zh_CN]
+在特定情况下，允许实现通过把中间结果直接构造到被初始化的对象中，以消除在直接初始
+化中蕴含的复制操作；参见 [#class.temporary]，[#class.copy]。
 [list:end]
 
 [item]
 [:en]
 Otherwise, if the source type is a (possibly cv-qualified) class type,
 conversion functions are considered.
-
+[:zh_CN]
+否则，若源对象为（可能被 cv-限定的）类类型，则考察转换函数。
+  
 [:en]
 The applicable conversion functions are enumerated ([#over.match.conv]), and the
 best one is chosen through overload resolution ([#over.match]).
+[:zh_CN]
+对所有可用的转换函数进行列举（[#over.match.conv]），并通过重载决议
+（[#over.match]）选取其中最佳的一个。
 
 [:en]
 The user-defined conversion so selected is called to convert the initializer
 expression into the object being initialized.
+[:zh_CN]
+调用所选取的用户定义转换来把初始化式表达式转换到所初始化的对象中。
 
 [:en]
 If the conversion cannot be done or is ambiguous, the initialization is
 ill-formed.
+[:zh_CN]
+若不能进行转换或发生歧义，则该初始化非良构。
 
 [item]
 [:en]
 Otherwise, the initial value of the object being initialized is the (possibly
 converted) value of the initializer expression.
+[:zh_CN]
+否则，被初始化的对象的初值为初始化式表达式的（可能经过转换的）值。
 
 [:en]
 Standard conversions (Clause [#conv]) will be used, if necessary, to convert the
 initializer expression to the cv-unqualified version of the destination type; no
 user-defined conversions are considered.
+[:zh_CN]
+如果需要，将使用标准转换（第 [#conv] 条）把初始化式表达式转换为目标类型的
+cv-未限定版本；不考虑用户定义转换。
 
 [:en]
 If the conversion cannot be done, the initialization is ill-formed.
+[:zh_CN]
+若不能进行转换，则该初始化非良构。
 
 [:en]
 When initializing a bit-field with a value that it cannot represent, the
 resulting value of the bit-field is [%@impldef value of bit-field that cannot
 represent[!initializer]] implementation-defined.
+[:zh_CN]
+当用无法表示的值对位字段进行初始化时，该位字段的结果值是[%@impldef 无法表示的
+位字段值[!初始化式]]由实现定义的。
 
+[enter:note]
 [:en]
 [%initialization[![`const]]]
-[enter:note]
 An expression of type ["[$cv1] [`T]] can initialize an object of type ["[$cv2]
 [`T]] independently of the cv-qualifiers [$cv1] and [$cv2].
+[:zh_CN]
+[%初始化[![`const]]]
+类型“[$cv] [`T]”的表达式可以初始化类型“[$cv2] [`T]”的对象，与其 cv-限定符 [$cv1]
+和 [$cv2] 并不相关。
 
 [codeblock]
 int a;
@@ -499,6 +706,8 @@ int c = b;
 [:en]
 An [~initializer-clause] followed by an ellipsis is a pack expansion
 ([#temp.variadic]).
+[:zh_CN]
+后面跟着省略号的[~初始化式子句]是包组展开式（[#temp.variadic]）。
 
 [include dcl.init.aggr]
 

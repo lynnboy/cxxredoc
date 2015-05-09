@@ -1,14 +1,19 @@
 ﻿[section#dcl.init.ref
     [:en] References
+    [:zh_CN] 引用
 ]
 
-[%  [:en] initialization[!reference]]
+[%  [:en] initialization[!reference]
+    [:zh_CN] 初始化[!引用] ]
 
 [para]
 [:en]
 A variable declared to be a [`T&] or [`T&&], that is, ["reference to type [`T]]
 ([#dcl.ref]), shall be initialized by an object, or function, of type [`T] or by
 an object that can be converted into a [`T].
+[:zh_CN]
+声明为 [`T&] 或 [`T&&] 的变量，是“类型 [`T] 的引用”（[#dcl.ref]），应当用某个
+[`T] 类型的对象或函数，或者可以转换为 [`T] 的对象来初始化。
 
 [enter:example]
 [codeblock]
@@ -16,14 +21,22 @@ int g(int);
 void f() {
   int i;
   int& r = i;                   // [:en] [`r] refers to [`i]
+                                // [|:zh_CN] [`r] 指代 [`i]
   r = 1;                        // [:en] the value of [`i] becomes [`1]
+                                // [|:zh_CN] [`i] 的值变为 [`1]
   int* p = &r;                  // [:en] [`p] points to [`i]
+                                // [|:zh_CN] [`p] 指向 [`i]
   int& rr = r;                  // [:en] [`rr] refers to what [`r] refers to, that is, to [`i]
+                                // [|:zh_CN] [`rr] 指代 [`r] 所指代的，亦即 [`i]
   int (&rg)(int) = g;           // [:en] [`rg] refers to the function [`g]
+                                // [|:zh_CN] [`rg] 指代函数 [`g]
   rg(i);                        // [:en] calls function [`g]
+                                // [|:zh_CN] 调用函数 [`g]
   int a[3];
   int (&ra)[3] = a;             // [:en] [`ra] refers to the array [`a]
+                                // [|:zh_CN] [`ra] 指代数组 [`a]
   ra[1] = i;                    // [:en] modifies [`a[1`]]
+                                // [|:zh_CN] 改动 [`a[1`]]
 }
 [codeblock:end]
 [exit:example]
@@ -31,28 +44,42 @@ void f() {
 [para]
 [:en]
 A reference cannot be changed to refer to another object after initialization.
+[:zh_CN]
+引用不能在初始化之后被更改为指代另一个对象。
 
 [:en]
 [%assignment[!reference]]
 Note that initialization of a reference is treated very differently from
 assignment to it.
+[:zh_CN]
+[%赋值[!引用]]
+注意，引用的初始化与向它赋值非常不同。
 
 [:en]
-[%argument passing[!reference and]]
-Argument passing ([#expr.call]) [%[`return][!reference and]]
-and function value return ([#stmt.return]) are initializations.
+[%argument passing[!reference and]] Argument passing ([#expr.call])
+[%[`return][!reference and]] and function value return ([#stmt.return]) are
+initializations.
+[:zh_CN]
+[%实参传递[!引用与～]] 实参传递（[#expr.call]）和[%[`return][!引用与～]]函数值
+返回（[#stmt.return]）都是初始化。
 
 [para]
 [:en]
-[%[`extern] reference]]
+[%[`extern] reference]
 The initializer can be omitted for a reference only in a parameter declaration
 ([#dcl.fct]), in the declaration of a function return type, in the declaration
 of a class member within its class definition ([#class.mem]), and where the
 [`extern] specifier is explicitly used.
+[:zh_CN]
+[%[`extern] 引用]
+引用的初始化式，只有在形参声明式中（[#dcl.fct]），函数返回类型的声明中，在类定义
+式之内的类成员声明式中（[#class.mem]），以及显式使用 [`extern] 说明符时才可以被
+省略。
 
 [enter:example]
 [codeblock]
 int& r1;                        // [:en] error: initializer missing
+                                // [|:zh_CN] 错误：缺失初始化式
 extern int& r2;                 // OK
 [codeblock:end]
 [exit:example]
@@ -62,11 +89,17 @@ extern int& r2;                 // OK
 Given types ["[$cv1] [`T1]] and ["[$cv2] [`T2],] ["[$cv1] [`T1]] is
 [%reference-related] [+reference-related] to ["[$cv2] [`T2]] if [`T1] is the
 same type as [`T2], or [`T1] is a base class of [`T2].
+[:zh_CN]
+给定类型“[$cv1] [`T1]”和“[$cv2] [`T2]”，若 [`T1] 与 [`T2] 类型相同，或 [`T1] 是
+[`T2] 的基类，则“[$cv1] [`T1]”就与“[$cv2] [`T2]”[%引用相关][+引用相关]。
 
 [:en]
 ["[$cv1] [`T1]] is [%reference-compatible] [+reference-compatible] with ["[$cv2]
 [`T2]] if [`T1] is reference-related to [`T2] and [$cv1] is the same
 cv-qualification as, or greater cv-qualification than, [$cv2].
+[:zh_CN]
+若 [`T1] 与 [`T2] 引用相关，且 [$cv1] 具有与 [$cv2] 相同的 cv-限定性，或更强的
+cv-限定性，则“[$cv1] [`T1]”就与“[$cv2] [`T2]”[%引用兼容][+引用兼容]。
 
 [:en]
 In all cases where the reference-related or reference-compatible relationship
@@ -74,52 +107,77 @@ of two types is used to establish the validity of a reference binding, and [`T1]
 is a base class of [`T2], a program that necessitates such a binding is
 ill-formed if [`T1] is an inaccessible (Clause [#class.access]) or ambiguous
 ([#class.member.lookup]) base class of [`T2].
+[:zh_CN]
+当用两个类型的引用相关或引用兼容关系来验证引用绑定的有效性，而 [`T1] 是 [`T2] 的
+基类时，任何情况下若 [`T1] 是 [`T2] 的不可访问（第 [#class.access] 条）或有歧义
+（[#class.member.lookup]）基类，则必须进行此种绑定的程序是非良构的。
 
 [para]
 [:en]
 [%binding[!reference]]
 A reference to type ["[$cv1] [`T1]] is initialized by an expression of type
 ["[$cv2] [`T2]] as follows:
+[:zh_CN]
+[%绑定[!引用]]
+引用类型“[$cv1] [`T1]”由类型“[$cv2] [`T2]”的表达式按如下进行初始化：
 
 [list]
 [item]
 [:en]
 If the reference is an lvalue reference and the initializer expression
+[:zh_CN]
+若该引用是左值引用，且其初始化表达式
 
 [list]
 [item]
 [:en@~]
 is an lvalue (but is not a bit-field), and ["[$cv1] [`T1]] is
 reference-compatible with ["[$cv2] [`T2],] or
+[:zh_CN@~]
+是左值（但不是位字段），且“[$cv1] [`T1]”与“[$cv2] [`T2]”引用兼容，或
 
 [item]
 [:en@~]
 has a class type (i.e., [`T2] is a class type), where [`T1] is not
 reference-related to [`T2], and can be converted to an lvalue of type ["[$cv3]
 [`T3],] where ["[$cv1] [`T1]] is reference-compatible with ["[$cv3] [`T3]]
+[:zh_CN@~]
+具有类类型（就是说，[`T2] 为类类型）（其中 [`T1] 并非与 [`T2] 引用相关），且可被
+隐式转换为类型“[$cv3] [`T3]”的左值，其中“[$cv1] [`T1]”与“[$cv3] [`T3]”引用兼容
 
 [footnote]
 [:en]
 This requires a conversion function ([#class.conv.fct]) returning a reference
 type.
+[:zh_CN]
+这要求一个返回引用类型的转换函数（[#class.conv.fct]）。
 [footnote:end]
 
 [:en@~]
 (this conversion is selected by enumerating the applicable conversion functions
 ([#over.match.ref]) and choosing the best one through overload resolution
 ([#over.match])),
+[:zh_CN@~]
+（此种转换是通过列举可用的转换函数（[#over.match.ref]）并通过重载决议
+（[#over.match]）选择其中最佳的一个而选取的），
 [list:end]
 
 [:en@~]
 then the reference is bound to the initializer expression lvalue in the first
 case and to the lvalue result of the conversion in the second case (or, in
 either case, to the appropriate base class subobject of the object).
+[:zh_CN@~]
+则在第一种情况中，该引用被绑定到初始化式表达式左值上，而在第二种情况中被绑定到
+转换结果左值上（或者任何情况中被绑定到对象的适当的基类子对象上）。
 
 [enter:note]
 [:en]
 The usual lvalue-to-rvalue ([#conv.lval]), array-to-pointer ([#conv.array]), and
 function-to-pointer ([#conv.func]) standard conversions are not needed, and
 therefore are suppressed, when such direct bindings to lvalues are done.
+[:zh_CN]
+不需要进行常规的左值向右值（[#conv.lval]）、数组向指针（[#conv.array]）和函数向
+指针（[#conv.func]）标准转换，因而它们在进行此种直接到左值的绑定中是被抑制的。
 [exit:note]
 
 [para:~]
@@ -127,13 +185,18 @@ therefore are suppressed, when such direct bindings to lvalues are done.
 [codeblock]
 double d = 2.0;
 double& rd = d;                 // [:en] [`rd] refers to [`d]
+                                // [|:zh_CN] [`rd] 指代 [`d]
 const double& rcd = d;          // [:en] [`rcd] refers to [`d]
+                                // [|:zh_CN] [`rcd] 指代 [`d]
 
 struct A { };
 struct B : A { operator int&(); } b;
 A& ra = b;                      // [:en] [`ra] refers to [`A] subobject in [`b]
+                                // [|:zh_CN] [`ra] 指代 [`b] 中的 [`A] 子对象
 const A& rca = b;               // [:en] [`rca] refers to [`A] subobject in [`b]
+                                // [|:zh_CN] [`rca] 指代 [`b] 中的 [`A] 子对象
 int& ir = B();                  // [:en] [`ir] refers to the result of [`B::operator int&]
+                                // [|:zh_CN] [`ir] 指代 [`B::operator int&] 的结果
 [codeblock:end]
 [exit:example]
 
@@ -142,12 +205,17 @@ int& ir = B();                  // [:en] [`ir] refers to the result of [`B::oper
 Otherwise, the reference shall be an lvalue reference to a non-volatile const
 type (i.e., [$cv1] shall be [`const]), or the reference shall be an rvalue
 reference.
+[:zh_CN]
+否则，该引用应该是指代非-volatile 的 const 类型（亦即 [$cv1] 应当为 [`const]）
+的左值引用，或者该引用应当为右值引用。
 
 [enter:example]
 [codeblock]
 double& rd2 = 2.0;              // [:en] error: not an lvalue and reference not [`const]
+                                // [|:zh_CN] 错误：不是左值，且引用不为 [`const]
 int  i = 2;
 double& rd3 = i;                // [:en] error: type mismatch and reference not [`const]
+                                // [|:zh_CN] 错误：类型不匹配，且引用不为 [`const]
 [codeblock:end]
 [exit:example]
 
@@ -155,12 +223,17 @@ double& rd3 = i;                // [:en] error: type mismatch and reference not 
 [item]
 [:en]
 If the initializer expression
+[:zh_CN]
+若其初始化式表达式
 
 [list]
 [item]
 [:en@~]
 is an xvalue (but not a bit-field), class prvalue, array prvalue or function
 lvalue and ["[$cv1] [`T1]] is reference-compatible with ["[$cv2] [`T2]], or
+[:zh_CN@~]
+是临限值（但并非位字段）、类的纯右值、数组纯右值或函数左值，且“[$cv1] [`T1]”与
+“[$cv2] [`T2]”引用兼容，或者
 
 [item]
 [:en@~]
@@ -168,12 +241,19 @@ has a class type (i.e., [`T2] is a class type), where [`T1] is not
 reference-related to [`T2], and can be converted to an xvalue, class prvalue, or
 function lvalue of type ["[$cv3] [`T3]], where ["[$cv1] [`T1]] is
 reference-compatible with ["[$cv3] [`T3]] (see [#over.match.ref]),
+[:zh_CN@~]
 [list:end]
+具有类类型（就是说，[`T2] 为类类型）（其中 [`T1] 并非与 [`T2] 引用相关），且可被
+隐式转换为类型“[$cv3] [`T3]”的临限值、类的纯右值或函数左值，其中“[$cv1] [`T1]”与
+“[$cv3] [`T3]”引用兼容（参见 [#over.match.ref]），
 
 [:en@~]
 then the reference is bound to the value of the initializer expression in the
 first case and to the result of the conversion in the second case (or, in either
 case, to an appropriate base class subobject).
+[:zh_CN@~]
+则在第一种情况中该引用被绑定到初始化式表达式的值上，而在第二种情况中被绑定到转换
+结果上（或者任何情况中被绑定到适当的基类子对象上）。
 
 [para:~]
 [enter:example]
@@ -182,21 +262,28 @@ struct A { };
 struct B : A { } b;
 extern B f();
 const A& rca2 = f();                // [:en] bound to the [`A] subobject of the [`B] rvalue.
+                                    // [|:zh_CN] 绑定到 [`B] 右值的 [`A] 子对象上。
 A&& rra = f();                      // [:en] same as above
+                                    // [|:zh_CN] 同上
 struct X {
   operator B();
   operator int&();
 } x;
 const A& r = x;                     // [:en] bound to the [`A] subobject of the result of the conversion
+                                    // [|:zh_CN] 绑定到转换结果的 [`A] 子对象上
 int i2 = 42;
 int&& rri = static_cast<int&&>(i2); // [:en] bound directly to [`i2]
+                                    // [|:zh_CN] 直接绑定到 [`i2]
 B&& rrb = x;                        // [:en] bound directly to the result of [`operator B]
+                                    // [|:zh_CN] 直接绑定到 [`operator B] 的结果上
 [codeblock:end]
 [exit:example]
 
 [item]
 [:en]
 Otherwise:
+[:zh_CN]
+否则：
 
 [list]
 [item]
@@ -206,37 +293,57 @@ user-defined conversions are considered using the rules for copy-initialization
 of an object of type  ["[$cv1] [`T1]] by user-defined conversion ([#dcl.init],
 [#over.match.copy], [#over.match.conv]); the program is ill-formed if the
 corresponding non-reference copy-initialization would be ill-formed.
+[:zh_CN]
+当 [`T1] 和 [`T2] 为类类型，且 [`T1] 并非与 [`T2] 引用相关时，考察用户定义的转换
+并遵循对“[$cv1] [`T1]”类型的对象使用用户定义的转换进行复制初始化的规则
+（[#dcl.init]，[#over.match.copy]，[#over.match.conv]）；如果其对应的非引用的
+复制初始化非良构，则程序是非良构的。
 
 [:en]
 The result of the call to the conversion function, as described for the
 non-reference copy-initialization, is then used to direct-initialize the
 reference.
+[:zh_CN]
+调用转换函数的结果（根据非引用复制初始化的描述），随即被用于直接初始化该引用。
 
 [:en]
 For this direct-initialization, user-defined conversions are not considered.
+[:zh_CN]
+这个直接初始化中不考虑用户定义的转换。
 
 [item]
 [:en]
 Otherwise, a temporary of type ["[$cv1] [`T1]] is created and copy-initialized
 ([#dcl.init]) from the initializer expression.
+[:zh_CN]
+否则，创建类型“[$cv1] [`T1]”的临时对象，并从其初始化式表达式进行复制初始化
+（[#dcl.init]）。
 
 [:en]
 The reference is then bound to the temporary.
+[:zh_CN]
+随即该引用就绑定到此临时对象上。
 [list:end]
 
 [:en]
 If [`T1] is reference-related to [`T2]:
+[:zh_CN]
+若 [`T1] 与 [`T2] 引用相关：
 
 [list]
 [item]
 [:en@~]
 [$cv1] shall be the same cv-qualification as, or greater cv-qualification than,
 [$cv2]; and
+[:zh_CN@~]
+则 [$cv1] 应当具有与 [$cv2] 相同的 cv-限定性，或更强的 cv-限定性，并且
 
 [item]
 [:en@~]
 if the reference is an rvalue reference, the initializer expression shall not be
 an lvalue.
+[:zh_CN@~]
+若该引用是右值引用，则初始化式表达式不能是左值。
 [list:end]
 
 [enter:example]
@@ -247,23 +354,34 @@ struct Alaska { operator Banana&(); };
 void enigmatic() {
   typedef const Banana ConstBanana;
   Banana &&banana1 = ConstBanana(); // [:en] ill-formed
+                                    // [|:zh_CN] 非良构
   Banana &&banana2 = Enigma();      // [:en] ill-formed
+                                    // [|:zh_CN] 非良构
   Banana &&banana3 = Alaska();      // [:en] ill-formed
+                                    // [|:zh_CN] 非良构
 }
 
 const double& rcd2 = 2;         // [:en] [`rcd2] refers to temporary with value [`2.0]
+                                // [|:zh_CN] [`rcd2] 指代值为 [`2.0] 的临时对象
 double&& rrd = 2;               // [:en] [`rrd] refers to temporary with value [`2.0]
+                                // [|:zh_CN] [`rrd] 指代值为 [`2.0] 的临时对象
 const volatile int cvi = 1;
 const int& r2 = cvi;            // [:en] error: type qualifiers dropped
+                                // [|:zh_CN] 错误：丢弃类型限定符
 struct A { operator volatile int&(); } a;
 const int& r3 = a;              // [:en] error: type qualifiers dropped
+                                // [|:zh_CN] 错误：类型限定符被从
                                 // [:en@~] from result of conversion function
+                                // [|:zh_CN@~] 转换函数的结果丢弃
 double d2 = 1.0;
 double&& rrd2 = d2;             // [:en] error: initializer is lvalue of related type
+                                // [|:zh_CN] 错误：初始化式为相关类型的左值
 struct X { operator int&(); };
 int&& rri2 = X();               // [:en] error: result of conversion function is lvalue of related type
+                                // [|:zh_CN] 错误：转换函数的结果为相关类型的左值
 int i3 = 2;
 double&& rrd3 = i3;             // [:en] [`rrd3] refers to temporary with value [`2.0]
+                                // [|:zh_CN] [`rrd3] 指代值为 [`2.0] 的临时对象
 [codeblock:end]
 [exit:example]
 
@@ -272,11 +390,16 @@ double&& rrd3 = i3;             // [:en] [`rrd3] refers to temporary with value 
 
 [:en]
 In all cases except the last (i.e., creating and initializing a temporary from
-the initializer expression), the reference is said to \defn{bind directly} to
+the initializer expression), the reference is said to [def bind directly] to
 the initializer expression.
+[:zh_CN]
+除了最后一种（即由初始化式表达式创建并初始化一个临时对象）之外的所有情况中，称该
+引用被[def 直接绑定]到初始化式表达式上。
 
 [para]
 [enter:note]
 [:en]
 [#class.temporary] describes the lifetime of temporaries bound to references.
+[:zh_CN]
+[#class.temporary] 说明绑定到引用上的临时对象的生存期。
 [exit:note]

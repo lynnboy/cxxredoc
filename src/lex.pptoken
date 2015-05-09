@@ -48,9 +48,9 @@ literals), string literals (including user-defined string literals),
 preprocessing operators and punctuators, and single non-white-space characters
 that do not lexically match the other preprocessing token categories.
 [:zh_CN]
-预处理记号有以下几类：头文件名，标识符，预处理数字，字符字面量（包括自定义字符
-字面量），字符串字面量（包括自定义字符串字面量），预处理运算符或标点，以及词法上
-不符合其他分类的单个非空白字符。
+预处理记号有以下几类：头文件名，标识符，预处理数字，字符字面量（包括用户定义字符
+字面量），字符串字面量（包括用户定义字符串字面量），预处理运算符或标点，以及词法
+上不符合其他分类的单个非空白字符。
 
 [:en]
 If a [`'] or a [`"] character matches the last category, the behavior is

@@ -113,7 +113,7 @@ part of that process user-defined conversions will be considered where necessary
 to convert the operands to types appropriate for the built-in operator.
 [:zh_CN]
 然而，这些内建运算符参与重载决议，而且作为这个过程中的一部分，在须要把操作数转换
-为适用于内建运算符的类型时，还要考察自定义转换。
+为适用于内建运算符的类型时，还要考察用户定义转换。
 
 [:en]
 If a built-in operator is selected, such conversions will be applied to the

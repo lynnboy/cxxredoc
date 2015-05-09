@@ -1,20 +1,25 @@
 ﻿[section#dcl.fct.def.general
     [:en] In general
+    [:zh_CN] 一般说明
 ]
 
 [para]
 [:en]
 [%body[!function]]
 Function definitions have the form
+[:zh_CN]
+[%体[!函数～]]
+函数定义式的形式为
 
 [%[~function-definition]]
 
 [syntax]
-[rule function-definition [:zh_CN] ]
-    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] declarator [~:opt virt-specifier-seq] function-body ]
+[rule function-definition [:zh_CN] 函数定义式 ]
+    [| [~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] declarator
+        [~:opt virt-specifier-seq] function-body ]
 [rule:end]
 
-[rule function-body [:zh_CN] ]
+[rule function-body [:zh_CN] 函数体 ]
     [| [~:opt ctor-initializer] compound-statement ]
     [| function-try-block ]
     [| [`=] [`default] [`;] ]
@@ -25,36 +30,53 @@ Function definitions have the form
 [:en]
 Any informal reference to the body of a function should be interpreted as a
 reference to the non-terminal [~function-body].
+[:zh_CN]
+当非正式的提及函数体时，都应当解释为涉指非终结符[~函数体]。
 
 [:en]
 The optional [~attribute-specifier-seq] in a [~function-definition] appertains
 to the function.
+[:zh_CN]
+[~函数定义式]中的可选的[~特性说明符序列]属于这个函数。
 
 [:en]
 A [~virt-specifier-seq] can be part of a [~function-definition] only if it is a
 [~member-declaration] ([#class.mem]).
+[:zh_CN]
+仅当[~函数定义式]是[~成员声明式]（[#class.mem]）时，[~虚说明符序列]才可以是它的
+一部分。
 
 [para]
 [:en]
 The [~declarator] in a [~function-definition] shall have the form
+[:zh_CN]
+[~函数定义式]中的[~声明符]的形式应当为
 
 [syntax:explanation]
 [| [`D1] [`(] [~parameter-declaration-clause] [`)] [~:opt cv-qualifier-seq] [br]
-    [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] [~:opt trailing-return-type] ]
+    [~:opt ref-qualifier] [~:opt exception-specification]
+    [~:opt attribute-specifier-seq] [~:opt trailing-return-type] ]
 [syntax:end]
 
 [:en@~]
 as described in [#dcl.fct].
+[:zh_CN@~]
+正如在 [#dcl.fct] 中所述。
 
 [:en]
 A function shall be defined only in namespace or class scope.
+[:zh_CN]
+函数只能在命名空间或类作用域中进行定义。
 
 [para]
 [enter:example]
 [:en]
 a simple example of a complete function definition is
+[:zh_CN]
+完整的函数定义式的一个简单的例子如下
 
-[%  [:en] example[!function definition]]
+[%  [:en] example[!function definition]
+    [:zh_CN] 示例[!函数定义式] ]
 [codeblock]
 int max(int a, int b, int c) {
   int m = (a > b) ? a : b;
@@ -62,8 +84,13 @@ int max(int a, int b, int c) {
 }
 [codeblock:end]
 
+[:en]
 Here [`int] is the [~decl-specifier-seq]; [`max(int a, int b, int c)] is the
 [~declarator]; [`{ /* ... */ }] is the [~function-body].
+[:zh_CN]
+此处 [`int] 为[~声明说明符序列]；[`max(int a, int b, int c)] 为[~声明符]；
+[`{ /* ... */ }] 为[~函数体]。
+
 [exit:example]
 
 [para]
@@ -73,23 +100,35 @@ Here [`int] is the [~decl-specifier-seq]; [`max(int a, int b, int c)] is the
 [%definition[!constructor]]
 A [~ctor-initializer] is used only in a constructor; see [#class.ctor] and
 [#class.init].
+[:zh_CN]
+[%初始化式[!基类～]]
+[%初始化式[!成员～]]
+[%定义式[!构造函数]]
+[~构造函数初始化式]只能用在构造函数中；参见 [#class.ctor] 和 [#class.init]。
 
 [para]
 [enter:note]
 [:en]
 A [~cv-qualifier-seq] affects the type of [`this] in the body of a member
 function; see [#dcl.ref].
+[:zh_CN]
+[~cv-限定符序列]影响成员函数体重的 [`this] 的类型；参见 [#dcl.ref]。
 [exit:note]
 
 [para]
 [enter:note]
 [:en]
 Unused parameters need not be named.
+[:zh_CN]
+不需要对不使用的形参进行命名。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
-[%  [:en] example[!unnamed parameter]]
+[%  [:en] example[!unnamed parameter]
+    [:zh_CN] 示例[!无名形参] ]
 [codeblock]
 void print(int a, int) {
   std::printf("a = %d\n",a);
@@ -102,32 +141,47 @@ void print(int a, int) {
 In the [~function-body], a [+function-local predefined variable] denotes a
 block-scope object of static storage duration that is implicitly defined (see
 [#basic.scope.block]).
+[:zh_CN]
+在[~函数体]中，[+函数局部预定义变量]代表隐式定义的静态存储期的块作用域对象（参见
+[#basic.scope.block]）。
 
 [para]
 [:en]
 The function-local predefined variable [`__func__] is defined as if a definition
 of the form
+[:zh_CN]
+函数局部预定义变量 [`__func__]，如同以如下形式的定义式进行定义
 
 [codeblock:notation]
 static const char __func__[] = "[$function-name]";
 [codeblock:end]
 
 [:en@~]
-had been provided, where [$function-name] is an [%@impldef string resulting
+had been provided, where [`[$function-name]] is an [%@impldef string resulting
 from [`__func__]] implementation-defined string.
+[:zh_CN@~]
+其中 [`[$function-name]] 是[%@impldef [`__func__] 产生的字符串]由实现定义的字符
+串。
 
 [:en]
 It is unspecified whether such a variable has an address distinct from that of
 any other object in the program.
+[:zh_CN]
+此种变量是否与程序中的任何其他对象具有不同的地址是未指明的。
 
 [footnote]
 [:en]
 Implementations are permitted to provide additional predefined variables with
 names that are reserved to the implementation ([#lex.name]).
+[:zh_CN]
+允许实现提供额外的预定义变量，并具有由实现保留的名字（[#lex.name]）。
 
 [:en]
 If a predefined variable is not odr-used ([#basic.def.odr]), its string value
 need not be present in the program image.
+[:zh_CN]
+若某个预定义变量未被 ODR-式使用（[#basic.def.odr]），则其字符串值不必出现在程序
+映像之中。
 [footnote:end]
 
 [para:~]
@@ -138,5 +192,6 @@ struct S {
   const char* s;
 };
 void f(const char* s = __func__);  // [:en] error: [`__func__] is undeclared
+                                   // [:zh_CN] 错误：[`__func__] 未声明
 [codeblock:end]
 [exit:example]

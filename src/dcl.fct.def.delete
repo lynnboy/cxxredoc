@@ -1,50 +1,70 @@
 ﻿[section#dcl.fct.def.delete
     [:en] Deleted definitions
+    [:zh_CN] 弃置定义式
 ]
 
-[% [:en] definition[!function[!deleted]]]
+[% [:en] definition[!function[!deleted]]
+   [:zh_CN] 定义式[!函数[!弃置的～]] ]
 
 [para]
 [:en]
 A function definition of the form:
+[:zh_CN]
+如下形式的函数定义式：
 
 [syntax:explanation]
-[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator] [~:opt virt-specifier-seq] [`=] [`delete] [`;]
+[~:opt attribute-specifier-seq] [~:opt decl-specifier-seq] [~declarator]
+    [~:opt virt-specifier-seq] [`=] [`delete] [`;]
 [syntax:end]
 
 [:en@~]
 is called a [+deleted definition].
+[:zh_CN@~]
+被称为[+弃置定义式]。
 
 [:en]
 A function with a deleted definition is also called a [+deleted function].
+[:zh_CN]
+具有弃置定义式的函数也称为[+弃置函数]。
 
 [para]
 [:en]
 A program that refers to a deleted function implicitly or explicitly, other than
 to declare it, is ill-formed.
+[:zh_CN]
+除了对其进行声明之外，隐式或显式涉指弃置函数的程序，是非良构的。
 
 [enter:note]
 [:en]
 This includes calling the function implicitly or explicitly and forming a
 pointer or pointer-to-member to the function.
+[:zh_CN]
+这包括对函数进行隐式或显式的调用，或者构成指向函数的指针或成员指针。
 
 [:en]
 It applies even for references in expressions that are not
 potentially-evaluated.
+[:zh_CN]
+即使是在并非潜在求值的表达式中所进行的涉指，这也同样适用。
 
 [:en]
 If a function is overloaded, it is referenced only if the function is selected
 by overload resolution.
+[:zh_CN]
+如果某个函数被重载，则仅当它被重载决议所选择时才被涉指。
 [exit:note]
 
 [para]
 [enter:example]
 [:en]
 One can enforce non-default initialization and non-integral initialization with
+[:zh_CN]
+可以这样强行保证进行非默认的初始化和非整型的初始化：
 
 [codeblock]
 struct onlydouble {
   onlydouble() = delete;              // [:en] OK, but redundant
+                                      // [|:zh_CN] OK，但是多余的
   onlydouble(std::intmax_t) = delete;
   onlydouble(double);
 };
@@ -56,6 +76,9 @@ struct onlydouble {
 [:en]
 One can prevent use of a class in certain [~new-expression]s by using deleted
 definitions of a user-declared [`operator new] for that class.
+[:zh_CN]
+可以通过为类提供用户声明的 [`operator new] 的弃置定义式，来防止在特定的
+[~new-表达式]中使用这个类。
 
 [codeblock]
 struct sometype {
@@ -63,7 +86,9 @@ struct sometype {
   void* operator new[](std::size_t) = delete;
 };
 sometype* p = new sometype;     // [:en] error, deleted class [`operator new]
+                                // [|:zh_CN] 错误，弃置的类 [`operator new]
 sometype* q = new sometype[3];  // [:en] error, deleted class [`operator new[`]]
+                                // [|:zh_CN] 错误，弃置的类 [`operator new[`]]
 [codeblock:end]
 [exit:example]
 
@@ -73,6 +98,9 @@ sometype* q = new sometype[3];  // [:en] error, deleted class [`operator new[`]]
 One can make a class uncopyable, i.e. move-only, by using deleted definitions of
 the copy constructor and copy assignment operator, and then providing defaulted
 definitions of the move constructor and move assignment operator.
+[:zh_CN]
+可以通过为复制构造函数和复制赋值运算符使用弃置定义式，然后为移动构造函数和移动
+赋值运算符提供预置定义式，来让一个类无法被复制（即只能被移动）。
 
 [codeblock]
 struct moveonly {
@@ -85,22 +113,30 @@ struct moveonly {
 };
 moveonly* p;
 moveonly q(*p); // [:en] error, deleted copy constructor
+                // [|:zh_CN] 错误，弃置的复制构造函数
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 A deleted function is implicitly inline.
+[:zh_CN]
+弃置函数隐含为内联的。
 
 [enter:note]
 [:en]
 The one-definition rule ([#basic.def.odr]) applies to deleted definitions.
+[:zh_CN]
+唯一定义原则（[#basic.def.odr]）适用于弃置定义式。
 [exit:note]
 
 [:en]
 A deleted definition of a function shall be the first declaration of the
 function or, for an explicit specialization of a function template, the first
 declaration of that specialization.
+[:zh_CN]
+某个函数的弃置定义式，应当为该函数的首个声明式，或者对于函数模板的显式特化式来说
+，应当为该特例的首个声明式。
 
 [enter:example]
 [codeblock]
@@ -108,5 +144,6 @@ struct sometype {
   sometype();
 };
 sometype::sometype() = delete;      // [:en] ill-formed; not first declaration
+                                    // [|:zh_CN] 非良构；不是其首个声明式
 [codeblock:end]
 [exit:example]

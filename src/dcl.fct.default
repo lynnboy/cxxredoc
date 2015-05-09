@@ -1,26 +1,34 @@
 ﻿[section#dcl.fct.default
     [:en] Default arguments
+    [:zh_CN] 默认实参
 ]
 
 [%:begin#declaration.default.argument
     [:en] declaration [!default argument]
+    [:zh_CN] 声明[!默认实参]
 ]
 
 [para]
 [:en]
 If an [~initializer-clause] is specified in a [~parameter-declaration] this
 [~initializer-clause] is used as a default argument.
+[:zh_CN]
+若在[~形参声明式]中指定了[~初始化式子句]，则此[~初始化式子句]被用作默认实参。
 
 [:en]
 Default arguments will be used in calls where trailing arguments are missing.
+[:zh_CN]
+在缺少尾部的实参的调用中将使用默认实参。
 
 [para]
-[:en]
-[%argument[!example of default]]
+[%[:en] argument[!example of default]
+  [:zh_CN] 实参[!默认～的示例] ]
 
 [enter:example]
 [:en]
 the declaration
+[:zh_CN]
+声明式
 
 [codeblock]
 void point(int = 3, int = 4);
@@ -29,9 +37,13 @@ void point(int = 3, int = 4);
 [:en@~]
 declares a function that can be called with zero, one, or two arguments of type
 [`int].
+[:zh_CN@~]
+声明了可以用零个、一个或两个 [`int] 类型的实参来调用的函数。
 
 [:en]
 It can be called in any of these ways:
+[:zh_CN]
+它可以用如下任何方式调用：
 
 [codeblock]
 point(1,2);  point(1);  point();
@@ -40,6 +52,8 @@ point(1,2);  point(1);  point();
 [:en]
 The last two calls are equivalent to [`point(1,4)] and [`point(3,4)],
 respectively.
+[:zh_CN]
+最后两个调用分别等价于 [`point(1,4)] 和 [`point(3,4)]。
 [exit:example]
 
 [para]
@@ -48,63 +62,96 @@ A default argument shall be specified only in the
 [~parameter-declaration-clause] of a function declaration or
 [~lambda-declarator] or in a [~template-parameter] ([#temp.param]); in the
 latter case, the [~initializer-clause] shall be an [~assignment-expression].
+[:zh_CN]
+只能在函数声明式的[~形参声明子句]中，或在[~模板形参]（[#temp.param]）中指定默认
+实参；后一种情况中，[~初始化式子句]应当是一个[~赋值表达式]。
 
 [:en]
 A default argument shall not be specified for a parameter pack.
+[:zh_CN]
+不能为形参包组提供默认实参。
 
 [:en]
 If it is specified in a [~parameter-declaration-clause], it shall not occur
 within a [~declarator] or [~abstract-declarator] of a [~parameter-declaration].
+[:zh_CN]
+若它在[~形参声明子句]中指定，则它不能出现于[~形参声明式]的[~声明符]或[~抽象声明
+符]之中。
 
 [footnote]
 [:en]
 This means that default arguments cannot appear, for example, in declarations of
 pointers to functions, references to functions, or [`typedef] declarations.
+[:zh_CN]
+这意味着默认实参不能出现在（例如）函数的指针、函数的引用的声明式，或者
+[`typedef] 声明式中。
 [footnote:end]
 
 [para]
 [:en]
 For non-template functions, default arguments can be added in later declarations
 of a function in the same scope.
+[:zh_CN]
+对于非模板函数，相同作用域中，后续的函数声明式中可以添加默认实参。
 
 [:en]
 Declarations in different scopes have completely distinct sets of default
 arguments.
+[:zh_CN]
+不同作用域中的声明式具有完全独立的默认实参集合。
 
 [:en]
 That is, declarations in inner scopes do not acquire default arguments from
 declarations in outer scopes, and vice versa.
+[:zh_CN]
+就是说，内部作用域中的声明式并不从外部作用域中的声明式接收默认实参，反之亦然。
 
 [:en]
 In a given function declaration, each parameter subsequent to a parameter with a
 default argument shall have a default argument supplied in this or a previous
 declaration or shall be a function parameter pack.
+[:zh_CN]
+在给定的函数声明式中，带有默认实参的形参之后的每一个形参，都应该要么在此声明式或
+之前的声明式之中带有默认实参，要么是一个函数形参包组。
 
 [:en]
 A default argument shall not be redefined by a later declaration (not even to
 the same value).
+[:zh_CN]
+不能在后续的声明式中重新定义默认实参（即使用相同的值也不行）。
 
 [enter:example]
 [codeblock]
 void g(int = 0, ...);           // [:en] OK, ellipsis is not a parameter so it can follow
+                                // [|:zh_CN] OK，省略号不是形参，故它可以
                                 // [:en@~] a parameter with a default argument
+                                // [|:zh_CN@~] 跟在带有默认实参的形参后面
 void f(int, int);
 void f(int, int = 7);
 void h() {
   f(3);                         // [:en] OK, calls [`f(3, 7)]
+                                // [|:zh_CN] OK，调用 [`f(3, 7)]
   void f(int = 1, int);         // [:en] error: does not use default
+                                // [|:zh_CN] 错误：并不使用外围作用域
                                 // [:en@~] from surrounding scope
+                                // [|:zh_CN@~] 之中的默认实参
 }
 void m() {
   void f(int, int);             // [:en] has no defaults
+                                // [|:zh_CN] 没有默认实参
   f(4);                         // [:en] error: wrong number of arguments
+                                // [|:zh_CN] 错误：实参数量错误
   void f(int, int = 5);         // OK
   f(4);                         // [:en] OK, calls [`f(4, 5);]
+                                // [|:zh_CN] OK，调用 [`f(4, 5);]
   void f(int, int = 5);         // [:en] error: cannot redefine, even to
+                                // [|:zh_CN] 错误：不能重新定义，即使
                                 // [:en@~] same value
+                                // [|:zh_CN@~] 用相同的值也不行
 }
 void n() {
   f(6);                         // [:en] OK, calls [`f(6, 7)]
+                                // [|:zh_CN] OK，调用 [`f(6, 7)]
 }
 [codeblock:end]
 [exit:example]
@@ -113,11 +160,17 @@ void n() {
 For a given inline function defined in different translation units, the
 accumulated sets of default arguments at the end of the translation units shall
 be the same; see [#basic.def.odr].
+[:zh_CN]
+对于在不同翻译单元中定义了的给定内联函数，在这些翻译单元结尾处积累起来的默认实参
+值应该相同；参见 [#basic.def.odr]。
 
 [:en]
 If a friend declaration specifies a default argument expression, that
 declaration shall be a definition and shall be the only declaration of the
 function or function template in the translation unit.
+[:zh_CN]
+若某个友元声明式指定了默认实参表达式，则该声明式应当是定义式，且应当是该函数或
+函数模板在此翻译单元中的唯一声明式。
 
 [para]
 [:en]
@@ -127,25 +180,40 @@ function or function template in the translation unit.
 The default argument has the same semantic constraints as the initializer in a
 declaration of a variable of the parameter type, using the copy-initialization
 semantics ([#dcl.init]).
+[:zh_CN]
+[%实参[!默认～的类型检查]]
+[%实参[!默认～的绑定]]
+[%实参[!默认～的求值]]
+默认实参，与具有形参类型的变量的声明式中的初始化式具有相同的语义约束，并使用复制
+初始化语义（[#dcl.init]）。
 
 [:en]
 The names in the default argument are bound, and the semantic constraints are
 checked, at the point where the default argument appears.
+[:zh_CN]
+对默认实参中的名字的绑定，以及语义约束检查，是在出现默认实参之处进行的。
 
 [:en]
 Name lookup and checking of semantic constraints for default arguments in
 function templates and in member functions of class templates are performed as
 described in [#temp.inst].
+[:zh_CN]
+对函数模板和类模板的成员函数中的默认实参所实施的名字查找和语义约束检查在
+[#temp.inst] 中说明。
 
 [enter:example]
 [:en]
 [%argument[!example of default]]
 in the following code, [`g] will be called with the value [`f(2)]:
+[:zh_CN]
+[%实参[!默认～的示例]]
+在如下代码中，[`g] 将用值 [`f(2)] 来调用：
 
 [codeblock]
 int a = 1;
 int f(int);
 int g(int x = f(a));            // [:en] default argument: [`f(::a)]
+                                // [|:zh_CN] 默认实参：[`f(::a)]
 
 void h() {
   a = 2;
@@ -161,10 +229,15 @@ void h() {
 [:en]
 In member function declarations, names in default arguments are looked up as
 described in [#basic.lookup.unqual].
+[:zh_CN]
+在成员函数的声明式中，默认实参中的名字按照 [#basic.lookup.unqual] 中的说明进行
+查找。
 
 [:en]
 Access checking applies to names in default arguments as described in Clause
 [#class.access].
+[:zh_CN]
+按照第 [#class.access] 条中的说明对默认实参中的名字实施访问检查。
 [exit:note]
 
 [para]
@@ -175,10 +248,17 @@ added to the set of default arguments provided by the member function
 declaration in the class definition; the program is ill-formed if a default
 constructor ([#class.ctor]), copy or move constructor, or copy or move
 assignment operator ([#class.copy]) is so declared.
+[:zh_CN]
+除了类模板的成员函数之外，出现于类的定义式之外的成员函数定义式中的默认实参，也
+添加到由类的定义式之中的成员函数声明式所提供的默认实参的集合中；但若对默认构造
+函数（[#class.ctor]），复制或移动构造函数，或者复制或移动赋值运算符
+（[#class.copy]）进行这样的声明，则程序非良构。
 
 [:en]
 Default arguments for a member function of a class template shall be specified
 on the initial declaration of the member function within the class template.
+[:zh_CN]
+类模板的成员函数的默认实参，应该在该成员函数处于类模板之内的首个声明式之中指定。
 [enter:example]
 
 [codeblock]
@@ -188,21 +268,28 @@ class C {
 };
 
 void C::f(int i = 3) {          // [:en] error: default argument already
+                                // [|:zh_CN] 错误：已经在类作用域
 }                               // [:en@~] specified in class scope
+                                // [|:zh_CN@~] 中指定了默认实参
 void C::g(int i = 88, int j) {  // [:en] in this translation unit,
+                                // [|:zh_CN] 在此翻译单元中，
 }                               // [:en@~] [`C::g] can be called with no argument
+                                // [|:zh_CN@~] [`C::g] 可以不用实参进行调用
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 Local variables shall not be used in a default argument.
+[:zh_CN]
+不能在默认实参中使用局部变量。
 
 [enter:example]
 [codeblock]
 void f() {
   int i;
   extern void g(int x = i);     // [:en] error
+                                // [|:zh_CN] 错误
   // ...
 }
 [codeblock:end]
@@ -212,11 +299,14 @@ void f() {
 [:en]
 The keyword [`this] shall not be used in a default argument of a member
 function.
+[:zh_CN]
+关键字 [`this] 不能用在成员函数的默认实参中。
 
 [enter:example]
 [codeblock]
 class A {
   void f(A* p = this) { }       // [:en] error
+                                // [|:zh_CN] 错误
 };
 [codeblock:end]
 [exit:example]
@@ -226,30 +316,47 @@ class A {
 [%argument[!evaluation of default]]
 A default argument is evaluated each time the function is called with no
 argument for the corresponding parameter.
+[:zh_CN]
+[%实参[!默认～的求值]]
+默认实参在每次调用该函数且其对应形参没有实参时进行求值。
 
 [:en]
 [%arguments[!implementation-defined order of evaluation of function]]
 The order of evaluation of function arguments is unspecified.
+[:zh_CN]
+[%实参[!由实现定义的函数～的求值顺序]]
+函数实参的求值顺序是未指明的。
 
 [:en]
 [%argument[!scope of default]]
 Consequently, parameters of a function shall not be used in a default argument,
 even if they are not evaluated.
+[:zh_CN]
+[%实参[!默认～的作用域]]
+其结果就是，即使函数的形参不被求值，它们也不能用在默认实参中。
 
 [:en]
 [%argument and name hiding[!default]]
 Parameters of a function declared before a default argument are in scope and can
 hide namespace and class member names.
+[:zh_CN]
+[%实参和名字隐藏[!默认～]]
+在默认实参之前声明的函数形参处于作用域中，且能够隐藏命名空间和类成员的名字。
 
 [enter:example]
 [codeblock]
 int a;
 int f(int a, int b = a);            // [:en] error: parameter [`a]
+                                    // [|:zh_CN] 错误：形参 [`a]
                                     // [:en@~] used as default argument
+                                    // [|:zh_CN@~] 被用作默认实参
 typedef int I;
 int g(float I, int b = I(2));       // [:en] error: parameter [`I] found
+                                    // [|:zh_CN] 错误：形参 [`I] 被找到
 int h(int a, int b = sizeof(a));    // [:en] error, parameter [`a] used
+                                    // [|:zh_CN] 错误，形参 [`a] 被
                                     // [:en@~] in default argument
+                                    // [|:zh_CN@~] 用在默认实参中
 [codeblock:end]
 [exit:example]
 
@@ -258,19 +365,28 @@ Similarly, a non-static member shall not be used in a default argument, even if
 it is not evaluated, unless it appears as the [~id-expression] of a class member
 access expression ([#expr.ref]) or unless it is used to form a pointer to member
 ([#expr.unary.op]).
+[:zh_CN]
+相似地，即使非静态成员并不求值，它也不能用在默认实参中，除非它作为类成员访问表达
+式（[#expr.ref]）的[~标识表达式]或用于构成成员指针（[#expr.unary.op]）。
 
 [enter:example]
 [:en]
 the declaration of [`X::mem1()] in the following example is ill-formed because
 no object is supplied for the non-static member [`X::a] used as an initializer.
+[:zh_CN]
+在如下例子中 [`X::mem1()] 的声明式非良构，因为对非静态成员 [`X::a] 并未提供作为
+初始化式的对象。
 
 [codeblock]
 int b;
 class X {
   int a;
   int mem1(int i = a);          // [:en] error: non-static member [`a]
+                                // [|:zh_CN] 错误：非静态成员 [`a]
                                 // [:en@~] used as default argument
+                                // [|:zh_CN@~] 被用作默认实参
   int mem2(int i = b);          // [:en] OK;  use [`X::b]
+                                // [|:zh_CN] OK；使用了 [`X::b]
   static int b;
 };
 [codeblock:end]
@@ -278,13 +394,20 @@ class X {
 [:en]
 The declaration of [`X::mem2()] is meaningful, however, since no object is
 needed to access the static member [`X::b].
+[:zh_CN]
+然而，由于访问静态成员 [`X::b] 时并不需要对象，因此 [`X::mem2()] 的声明式是有
+意义的。
 
 [:en]
 Classes, objects, and members are described in Clause [#class].
+[:zh_CN]
+类、对象和成员在第 [#class] 条中描述。
 [exit:example]
 
 [:en]
 A default argument is not part of the type of a function.
+[:zh_CN]
+默认实参并不是函数类型的一部分。
 
 [enter:example]
 [codeblock]
@@ -293,10 +416,12 @@ int f(int = 0);
 void h() {
   int j = f(1);
   int k = f();                  // [:en] OK, means [`f(0)]
+                                // [|:zh_CN] OK，意思是 [`f(0)]
 }
 
 int (*p1)(int) = &f;
 int (*p2)() = &f;               // [:en] error: type mismatch
+                                // [|:zh_CN] 错误：类型不匹配
 [codeblock:end]
 [exit:example]
 
@@ -304,11 +429,17 @@ int (*p2)() = &f;               // [:en] error: type mismatch
 When a declaration of a function is introduced by way of a [~using-declaration]
 ([#namespace.udecl]), any default argument information associated with the
 declaration is made known as well.
+[:zh_CN]
+当通过 [~using-声明式]引入函数的声明式时（[#namespace.udecl]），同时也使得与该
+声明式相关联的所有默认实参的信息成为已知的。
 
 [:en]
 If the function is redeclared thereafter in the namespace with additional
 default arguments, the additional arguments are also known at any point
 following the redeclaration where the [~using-declaration] is in scope.
+[:zh_CN]
+若该函数在此命名空间中的后面用附加的默认实参进行重复声明，则这个重复声明之后，该
+[~using-声明式]处于作用域之中的任意位置，这些附加的实参也是已知的。
 
 [para]
 [:en]
@@ -316,10 +447,16 @@ following the redeclaration where the [~using-declaration] is in scope.
 A virtual function call ([#class.virtual]) uses the default arguments in the
 declaration of the virtual function determined by the static type of the pointer
 or reference denoting the object.
+[:zh_CN]
+[%实参与虚函数[!默认～]]
+虚函数调用（[#class.virtual]）中，使用根据代表对象的指针或引用的静态类型所决定的
+虚函数的声明式中的默认实参。
 
 [:en]
 An overriding function in a derived class does not acquire default arguments
 from the function it overrides.
+[:zh_CN]
+派生类中的覆盖函数并不接收来自其所覆盖的函数的默认实参。
 
 [enter:example]
 [codeblock]
@@ -333,7 +470,9 @@ void m() {
   B* pb = new B;
   A* pa = pb;
   pa->f();          // [:en] OK, calls [`pa->B::f(7)]
+                    // [|:zh_CN] OK，调用了 [`pa->B::f(7)]
   pb->f();          // [:en] error: wrong number of arguments for [`B::f()]
+                    // [|:zh_CN] 错误：[`B::f()] 的实参数量错误
 }
 [codeblock:end]
 [exit:example]

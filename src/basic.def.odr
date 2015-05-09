@@ -175,8 +175,8 @@ This covers calls to named functions ([#expr.call]), operator overloading
 function for placement new ([#expr.new]), as well as non-default initialization
 ([#dcl.init]).
 [:zh_CN]
-这涵盖了对具名函数（[#expr.call]），运算符重载（第 [#over] 条），自定义转换函数
-（[#class.conv.fct]），放置式 new 的分配函数（[#expr.new]），以及非默认初始化
+这涵盖了对具名函数（[#expr.call]），运算符重载（第 [#over] 条），用户定义转换函
+数（[#class.conv.fct]），放置式 new 的分配函数（[#expr.new]），以及非默认初始化
 （[#dcl.init]）的调用。
 
 [:en]
@@ -258,7 +258,7 @@ The definition can appear explicitly in the program, it can be found in the
 standard or a user-defined library, or (when appropriate) it is implicitly
 defined (see [#class.ctor], [#class.dtor] and [#class.copy]).
 [:zh_CN]
-该定义可以明确出现在程序中，可以在标准或自定义程序库中找到，或（适当地）被隐式
+该定义可以明确出现在程序中，可以在标准或用户定义程序库中找到，或（适当地）被隐式
 定义（见 [#class.ctor]，[#class.dtor] 和 [#class.copy]）。
 
 [:en]
