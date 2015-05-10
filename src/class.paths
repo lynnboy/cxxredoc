@@ -1,13 +1,18 @@
 ﻿[section#class.paths
     [:en] Multiple access
+    [:zh_CN] 多重访问
 ]
 
-[%  [:en] access control[!multiple access]]
+[%  [:en] access control[!multiple access]
+    [:zh_CN] 访问控制[!多重访问] ]
 
 [para]
 [:en]
 If a name can be reached by several paths through a multiple inheritance graph,
 the access is that of the path that gives most access.
+[:zh_CN]
+若某个名字在一个多继承图中可以通过多个路径到达，则其访问性是给予其最大访问性的
+路径的访问性。
 
 [enter:example]
 [codeblock]
@@ -23,4 +28,6 @@ class C : public A, public B {
 [:en]
 Since [`W::f()] is available to [`C::f()] along the public path through [`B],
 access is allowed.
+[:zh_CN]
+因为 [`W::f()] 沿着通过 [`B] 的公用路径可达 [`C::f()]，所以对其访问被允许。
 [exit:example]

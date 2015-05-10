@@ -1,22 +1,30 @@
 ﻿[section#class.access.nest
     [:en] Nested classes
+    [:zh_CN] 嵌套类
 ]
 
 [:en]
 [%access control[!nested class]]
 [%member function[!nested class]]
+[:zh_CN]
 
 [para]
 [:en]
 A nested class is a member and as such has the same access rights as any other
 member.
+[:zh_CN]
+嵌套类也是成员，并因此具有与其它任何成员相同的访问权。
 
 [:en]
 The members of an enclosing class have no special access to members of a nested
 class; the usual access rules (Clause [#class.access]) shall be obeyed.
+[:zh_CN]
+外围类的成员对嵌套类的成员没有特殊的访问权，它们应当遵循常规的访问规则（第
+[#class.access] 条）。
 
 [enter:example]
-[%[:en] example[!nested class definition]]
+[%[:en] example[!nested class definition]
+  [:zh_CN] 示例[!嵌套类定义式] ]
 [codeblock]
 class E {
   int x;
@@ -24,14 +32,17 @@ class E {
 
   class I {
     B b;                        // [:en] OK: [`E::I] can access [`E::B]
+                                // [|:zh_CN] OK：[`E::I] 可以访问 [`E::B]
     int y;
     void f(E* p, int i) {
       p->x = i;                 // [:en] OK: [`E::I] can access [`E::x]
+                                // [|:zh_CN] OK：[`E::I] 可以访问 [`E::x]
     }
   };
 
   int g(I* p) {
     return p->y;                // [:en] error: [`I::y] is private
+                                // [|:zh_CN] 错误：[`I::y] 是私有的
   }
 };
 [codeblock:end]

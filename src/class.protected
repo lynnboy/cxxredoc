@@ -1,36 +1,53 @@
 ﻿[section#class.protected
     [:en] Protected member access
+    [:zh_CN] 访问受保护成员
 ]
 
-[%[:en] access control[![`protected]]]
+[%[:en] access control[![`protected]]
+  [:zh_CN] 访问控制[![`protected]] ]
 
 [para]
 [:en]
 An additional access check beyond those described earlier in Clause
 [#class.access] is applied when a non-static data member or non-static member
 function is a protected member of its naming class ([#class.access.base])
+[:zh_CN]
+除第 [#class.access] 条前文所述的访问检查之外，当某个非静态数据成员或非静态成员
+函数是指名它的类的受保护成员（[#class.access.base]）时，还要实施另一种访问检查。
 
 [footnote]
 [:en]
 This additional check does not apply to other members, e.g., static data members
 or enumerator member constants.
+[:zh_CN]
+这项额外检查并不适用于其它成员，比如静态数据成员或枚举符成员常量。
 [footnote:end]
 
 [:en]
 As described earlier, access to a protected member is granted because the
 reference occurs in a friend or member of some class [`C].
+[:zh_CN]
+如前文所述，某个类 [`C] 授予对受保护成员的访问，是因为所进行的涉指发生于其友元或
+成员之中。
 
 [:en]
 If the access is to form a pointer to member ([#expr.unary.op]), the
 [~nested-name-specifier] shall denote [`C] or a class derived from [`C].
+[:zh_CN]
+若这种访问是用于构成成员指针（[#expr.unary.op]），则其[~嵌套名说明符]应当代表
+[`C] 或某个派生自 [`C] 的类。
 
 [:en]
 All other accesses involve a (possibly implicit) object expression
 ([#expr.ref]).
+[:zh_CN]
+所有其它的访问都（可能隐含地）涉及某个对象表达式（[#expr.ref]）。
 
 [:en]
 In this case, the class of the object expression shall be [`C] or a class
 derived from [`C].
+[:zh_CN]
+在这种情况下，对象表达式的类应当为 [`C] 或某个派生自 [`C] 的类。
 
 [enter:example]
 [codeblock]
@@ -50,31 +67,50 @@ class D2 : public B {
 
 void fr(B* pb, D1* p1, D2* p2) {
   pb->i = 1;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   p1->i = 2;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   p2->i = 3;                    // [:en] OK (access through a [`D2])
+                                // [|:zh_CN] OK（通过 [`D2] 进行访问）
   p2->B::i = 4;                 // [:en] OK (access through a [`D2], even though
+                                // [|:zh_CN] OK（通过 [`D2] 进行访问，虽然
                                 // [:en@~] naming class is [`B])
+                                // [|:zh_CN@~] 其所指名的类是 [`B]）
   int B::* pmi_B = &B::i;       // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   int B::* pmi_B2 = &D2::i;     // [:en] OK (type of [`&D2::i] is [`int B::*])
+                                // [|:zh_CN] OK（[`&D2::i] 的类型为 [`int B::*]）
   B::j = 5;                     // [:en] OK (because refers to static member)
+                                // [|:zh_CN] OK（因为指代了静态成员）
   D2::j = 6;                    // [:en] OK (because refers to static member)
+                                // [|:zh_CN] OK（因为指代了静态成员）
 }
 
 void D2::mem(B* pb, D1* p1) {
   pb->i = 1;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   p1->i = 2;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   i = 3;                        // [:en] OK (access through [`this])
+                                // [|:zh_CN] OK（通过 [`this] 进行访问）
   B::i = 4;                     // [:en] OK (access through [`this], qualification ignored)
+                                // [|:zh_CN] OK（通过 [`this] 进行访问，忽略限定性）
   int B::* pmi_B = &B::i;       // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   int B::* pmi_B2 = &D2::i;     // OK
   j = 5;                        // [:en] OK (because [`j] refers to static member)
+                                // [|:zh_CN] OK（因为 [`j] 指代了静态成员）
   B::j = 6;                     // [:en] OK (because [`B::j] refers to static member)
+                                // [|:zh_CN] OK（因为 [`B::j] 指代了静态成员）
 }
 
 void g(B* pb, D1* p1, D2* p2) {
   pb->i = 1;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   p1->i = 2;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   p2->i = 3;                    // [:en] ill-formed
+                                // [|:zh_CN] 非良构
 }
 [codeblock:end]
 [exit:example]

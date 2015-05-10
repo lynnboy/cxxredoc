@@ -1,14 +1,19 @@
 ﻿[section#class.access.virt
     [:en] Access to virtual functions
+    [:zh_CN] 访问虚函数
 ]
 
-[%[:en] access control[!virtual function]]
+[%[:en] access control[!virtual function]
+  [:zh_CN] 访问控制[!虚函数] ]
 
 [para]
 [:en]
 The access rules (Clause [#class.access]) for a virtual function are determined
 by its declaration and are not affected by the rules for a function that later
 overrides it.
+[:zh_CN]
+虚函数的访问规则（第 [#class.access] 条）由其声明式所确定，并且不受之后覆盖它的
+函数的访问规则影响。
 
 [enter:example]
 [codeblock]
@@ -28,8 +33,11 @@ void f() {
   D* pd = &d;
 
   pb->f();                      // [:en] OK: [`B::f()] is public,
+                                // [|:zh_CN] OK：[`B::f()] 是公用的，
                                 // [:en@~] [`D::f()] is invoked
+                                // [|:zh_CN@~] 调用了 [`D::f()]
   pd->f();                      // [:en] error: [`D::f()] is private
+                                // [|:zh_CN] 错误：[`D::f()] 是私有的
 }
 [codeblock:end]
 [exit:example]
@@ -39,7 +47,12 @@ void f() {
 Access is checked at the call point using the type of the expression used to
 denote the object for which the member function is called ([`B*] in the example
 above).
+[:zh_CN]
+其访问检查是在其调用点处，使用表达式（它用来代表调用了该成员函数的对象）的类型
+（前例中的 [`B*]）来进行的。
 
 [:en]
 The access of the member function in the class in which it was defined ([`D] in
 the example above) is in general not known.
+[:zh_CN]
+这个成员函数在定义它的类（前例中的 [`D]）中的访问性通常是未知的。

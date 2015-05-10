@@ -1,30 +1,48 @@
 ﻿[section#class.friend
     [:en] Friends
+    [:zh_CN] 友元
 ]
 
-[%[:en] friend function[!access and]]
-[%[:en] access control[!friend function]]
+[:en]
+[%friend function[!access and]]
+[%access control[!friend function]]
+[:zh_CN]
+[%友元函数[!访问与～]]
+[%访问控制[!友元函数]]
 
 [para]
 [:en]
 A friend of a class is a function or class that is given permission to use the
 private and protected member names from the class.
+[:zh_CN]
+类的友元是被授予了对该类的私有和受保护成员名进行使用的许可的函数和类。
 
 [:en]
 A class specifies its friends, if any, by way of friend declarations.
+[:zh_CN]
+类通过友元声明式指定其友元（如果有）。
 
 [:en]
 Such declarations give special access rights to the friends, but they do not
 make the nominated friends members of the befriending class.
+[:zh_CN]
+此种声明式向友元授予特殊访问权，但它们并不把所提名的友元变为视之为友元的类的成员
+。
 
 [enter:example]
 [:en]
 the following example illustrates the differences between members and friends:
+[:zh_CN]
+如下示例演示了成员和友元之间的区别：
 
 [:en]
 [%friend function[!member function and]]
 [%example[!friend function]]
 [%example[!member function]]
+[:zh_CN]
+[%友元函数[!成员函数与～]]
+[%示例[!友元函数]]
+[%示例[!成员函数]]
 
 [codeblock]
 class X {
@@ -51,6 +69,10 @@ void f() {
 Declaring a class to be a friend implies that the names of private and protected
 members from the class granting friendship can be accessed in the
 [~base-specifier]s and member declarations of the befriended class.
+[:zh_CN]
+[%友元[!类访问与～]]
+将类声明为友元，意味着在被视为友元的类的[~基说明符]和成员的声明式中，可以访问
+授予友元关系的类的私有和受保护成员的名字。
 
 [enter:example]
 [codeblock]
@@ -60,9 +82,12 @@ class A {
 };
 
 struct X : A::B {   // [:en] OK: [`A::B] accessible to friend
+                    // [|:zh_CN] OK：[`A::B] 对于友元是可访问的
   A::B mx;          // [:en] OK: [`A::B] accessible to member of friend
+                    // [|:zh_CN] OK：[`A::B] 对于友元的成员是可访问的
   class Y {
     A::B my;        // [:en] OK: [`A::B] accessible to nested member of friend
+                    // [|:zh_CN] OK：[`A::B] 对于友元的嵌套成员是可访问的
   };
 };
 [codeblock:end]
@@ -77,30 +102,37 @@ class X {
 
 class Y {
   int v[X::a];      // [:en] OK, [`Y] is a friend of [`X]
+                    // [|:zh_CN] OK，[`Y] 是 [`X] 的友元
 };
 
 class Z {
   int v[X::a];      // [:en] error: [`X::a] is private
+                    // [|:zh_CN] 错误：[`X::a] 是私有的
 };
 [codeblock:end]
 [exit:example]
 
 [:en]
 A class shall not be defined in a friend declaration.
+[:zh_CN]
+不能在友元声明式中定义类。
 
 [para:~]
 [enter:example]
 [codeblock]
 class A {
   friend class B { }; // [:en] error: cannot define class in friend declaration
+                      // [|:zh_CN] 粗：不能再友元声明式中定义类
 };
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
-A [`friend] declaration that does not declare a function
-shall have one of the following forms:
+A [`friend] declaration that does not declare a function shall have one of the
+following forms:
+[:zh_CN]
+不声明函数的 [`friend] 声明式应当具有如下形式之一：
 
 [syntax:explanation]
 [| [`friend] [~elaborated-type-specifier] [`;] ]
@@ -110,14 +142,20 @@ shall have one of the following forms:
 
 [enter:note]
 [:en]
-A [`friend] declaration may be the [+declaration] in a [~template-declaration]
+A [`friend] declaration may be the [~declaration] in a [~template-declaration]
 (Clause [#temp], [#temp.friend]).
+[:zh_CN]
+[`friend] 声明式可以是[~模板声明式]之中的[~声明式]（第 [#temp] 条，
+[#temp.friend]）。
 [exit:note]
 
 [:en]
 If the type specifier in a [`friend] declaration designates a (possibly
 cv-qualified) class type, that class is declared as a friend; otherwise, the
 [`friend] declaration is ignored.
+[:zh_CN]
+若 [`friend] 声明式中的类型说明符代表了某个（可能被 cv-限定的）类类型，则该类被
+声明为友元；否则，该 [`friend] 声明式就被忽略。
 
 [enter:example]
 [codeblock]
@@ -126,12 +164,16 @@ typedef C Ct;
 
 class X1 {
   friend C;         // [:en] OK: [`class C] is a friend
+                    // [|:zh_CN] OK：[`class C] 为友元
 };
 
 class X2 {
   friend Ct;        // [:en] OK: [`class C] is a friend
-  friend D;         // [:en] error: no type-name [`D] in scope
-  friend class D;   // [:en] OK: elaborated-type-specifier declares new class
+                    // [|:zh_CN] OK：[`class C] 为友元
+  friend D;         // [:en] error: no [~type-name] [`D] in scope
+                    // [|:zh_CN] 错误：不存在处于作用域中的[~类型名] [`D]
+  friend class D;   // [:en] OK: [~elaborated-type-specifier] declares new class
+                    // [|:zh_CN] OK：[~详细类型说明符]声明了新的类
 };
 
 template <typename T> class R {
@@ -139,7 +181,9 @@ template <typename T> class R {
 };
 
 R<C> rc;            // [:en] [`class C] is a friend of [`R<C>]
+                    // [|:zh_CN] [`class C] 是 [`R<C>] 的友元
 R<int> Ri;          // [:en] OK: [`"friend int;"] is ignored
+                    // [|:zh_CN] OK：[`"friend int;"] 被忽略
 [codeblock:end]
 [exit:example]
 
@@ -148,28 +192,41 @@ R<int> Ri;          // [:en] OK: [`"friend int;"] is ignored
 [%friend function[!linkage of]]
 A function first declared in a friend declaration has the linkage of the
 namespace of which it is a member ([#basic.link]).
+[:zh_CN]
+[%友元函数[!～的连接]]
+在友元声明式中被首次声明的函数具有外部连接（[#basic.link]）。
 
 [:en]
 Otherwise, the function retains its previous linkage ([#dcl.stc]).
+[:zh_CN]
+否则，该函数维持其之前的连接（[#dcl.stc]）。
 
 [para]
 [:en]
 [%declaration[!overloaded name and [`friend]]]
 When a [`friend] declaration refers to an overloaded name or operator, only the
 function specified by the parameter types becomes a friend.
+[:zh_CN]
+[%声明式[!重载的名字与 [`friend]～]]
+当 [`friend] 声明式涉指了某个重载的名字或运算符时，只有被其形参类型所指定的函数
+才成为友元。
 
 [:en]
 A member function of a class [`X] can be a friend of a class [`Y].
+[:zh_CN]
+类 [`X] 的成员函数可以成为类 [`Y] 的友元。
 
-[:en]
-[%member function[!friend]]
+[%[:en] member function[!friend]
+  [:zh_CN] 成员函数[!友元] ]
 
 [enter:example]
 [codeblock]
 class Y {
   friend char* X::foo(int);
   friend X::X(char);            // [:en] constructors can be friends
+                                // [|:zh_CN] 构造函数可以成为友元
   friend X::~X();               // [:en] destructors can be friends
+                                // [|:zh_CN] 析构函数可以成为友元
 };
 [codeblock:end]
 [exit:example]
@@ -180,12 +237,18 @@ class Y {
 A function can be defined in a friend declaration of a class if and only if the
 class is a non-local class ([#class.local]), the function name is unqualified,
 and the function has namespace scope.
-[enter:example]
+[:zh_CN]
+[%友元函数[!内联～]]
+当且仅当类为非局部类（[#class.local]）时，类的友元声明式中可以定义函数，该函数名
+是未限定的，且该函数具有命名空间作用域。
 
+[enter:example]
 [codeblock]
 class M {
   friend void f() { }           // [:en] definition of global [`f], a friend of [`M],
+                                // [|:zh_CN] 全局的 [`f] 的定义式，[`M] 的友元，
                                 // [:en@~] not the definition of a member function
+                                // [|:zh_CN@~] 而不是成员函数的定义式
 };
 [codeblock:end]
 [exit:example]
@@ -193,34 +256,51 @@ class M {
 [para]
 [:en]
 Such a function is implicitly [`inline].
+[:zh_CN]
+此函数隐含地为 [`inline]。
 
 [:en]
 A [`friend] function defined in a class is in the (lexical) scope of the class
 in which it is defined.
+[:zh_CN]
+在类中定义的 [`friend] 函数处于定义了它的类的（词法）作用域中。
 
 [:en]
 A friend function defined outside the class is not ([#basic.lookup.unqual]).
+[:zh_CN]
+而在类之外定义的友元函数并非如此（[#basic.lookup.unqual]）。
 
 [para]
 [:en]
 No [~storage-class-specifier] shall appear in the [~decl-specifier-seq] of a
 friend declaration.
+[:zh_CN]
+友元声明式的[~声明说明符序列]中不能含有[~存储类说明符]。
 
 [para]
 [:en]
 [%friend[!access specifier and]]
 A name nominated by a friend declaration shall be accessible in the scope of the
 class containing the friend declaration.
+[:zh_CN]
+[%友元[!访问说明符与～]]
+被友元声明式所提名的名字，应该在包含该友元声明式的类的作用域中是可访问的。
 
 [:en]
 The meaning of the friend declaration is the same whether the friend declaration
 appears in the [`private], [`protected] or [`public] ([#class.mem]) portion of
 the class [~member-specification].
+[:zh_CN]
+无论友元声明式出现在类的[~成员说明]的 [`private]，[`protected] 或 [`public]
+（[#class.mem]）哪个区段中，友元声明式的含义均相同。
 
 [para]
 [:en]
 [%friend[!inheritance and]]
 Friendship is neither inherited nor transitive.
+[:zh_CN]
+[%友元[!继承与～]]
+友元既不可继承也不可传递。
 
 [enter:example]
 [codeblock]
@@ -236,14 +316,18 @@ class B {
 class C  {
   void f(A* p) {
     p->a++;         // [:en] error: [`C] is not a friend of [`A]
+                    // [|:zh_CN] 错误：[`C] 不是 [`A] 的友元
                     // [:en@~] despite being a friend of a friend
+                    // [|:zh_CN@~] 尽管它是友元的友元
   }
 };
 
 class D : public B  {
   void f(A* p) {
     p->a++;         // [:en] error: [`D] is not a friend of [`A]
+                    // [|:zh_CN] 错误：[`D] 不是 [`A] 的友元
                     // [:en@~] despite being derived from a friend
+                    // [|:zh_CN@~] 尽管它派生自友元
   }
 };
 [codeblock:end]
@@ -256,16 +340,27 @@ class D : public B  {
 If a friend declaration appears in a local class ([#class.local]) and the name
 specified is an unqualified name, a prior declaration is looked up without
 considering scopes that are outside the innermost enclosing non-class scope.
+[:zh_CN]
+[%局部类[!友元]]
+[%友元[!局部类与～]]
+若友元声明式出现在局部类（[#class.local]）之中且其所指定的名字是未限定的名字，则
+查找其之前的声明式时不考虑处于其最内层外围非类作用域之外的作用域。
 
 [:en]
 For a friend function declaration, if there is no prior declaration, the program
 is ill-formed.
+[:zh_CN]
+对于友元函数声明式，如果不存在之前的声明式，则程序是非良构的。
 
 [:en]
 For a friend class declaration, if there is no prior declaration, the class that
 is specified belongs to the innermost enclosing non-class scope, but if it is
 subsequently referenced, its name is not found by name lookup until a matching
 declaration is provided in the innermost enclosing non-class scope.
+[:zh_CN]
+对于友元类声明式，如果不存在之前的声明式，则所指定的类属于最内层外围非类作用域，
+但若在这之后对它进行涉指，则其名字直到在最内层外围非类作用域中提供了匹配的声明式
+之前都不能被名字查找所找到。
 
 [enter:example]
 [codeblock]
@@ -276,14 +371,20 @@ void f() {
   extern void b();
   class A {
   friend class X;   // [:en] OK, but [`X] is a local class, not [`::X]
+                    // [|:zh_CN] OK，但 [`X] 是局部类，而不是 [`::X]
   friend class Y;   // OK
   friend class Z;   // [:en] OK, introduces local class [`Z]
+                    // [|:zh_CN] OK，引入了局部类 [`Z]
   friend void a();  // [:en] error, [`::a] is not considered
+                    // [|:zh_CN] 错误，[`::a] 不被考虑
   friend void b();  // OK
   friend void c();  // [:en] error
+                    // [|:zh_CN] 错误
   };
   X* px;            // [:en] OK, but [`::X] is found
+                    // [|:zh_CN] OK，但找到了 [`::X]
   Z* pz;            // [:en] error, no [`Z] is found
+                    // [|:zh_CN] 错误，无法找到 [`Z]
 }
 [codeblock:end]
 [exit:example]
