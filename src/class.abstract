@@ -1,54 +1,80 @@
 ﻿[section#class.abstract
     [:en] Abstract classes
+    [:zh_CN] 抽象类
 ]
 
-[%  [:en] class[!abstract]]
+[%  [:en] class[!abstract]
+    [:zh_CN] 类[!抽象～] ]
 
 [para]
 [:en]
 The abstract class mechanism supports the notion of a general concept, such as a
 [`shape], of which only more concrete variants, such as [`circle] and [`square],
 can actually be used.
+[:zh_CN]
+抽象类机制支持对类似 [`shape] 这样的一般性概念的描述，它们只有更加具体的变体，如
+[`circle] 和 [`square]，才能实际使用。
 
 [:en]
 An abstract class can also be used to define an interface for which derived
 classes provide a variety of implementations.
+[:zh_CN]
+抽象类还可用于定义接口，它的不同派生类可以为其提供不同的实现。
 
 [para]
 [:en]
 An [+abstract class] is a class that can be used only as a base class of some
 other class; no objects of an abstract class can be created except as subobjects
 of a class derived from it.
+[:zh_CN]
+[+抽象类]是只能用作某些其他类的基类的类；除了作为派生自它的类的子对象外不能创建
+抽象类的对象。
 
 [:en]
 A class is abstract if it has at least one [+pure virtual function].
+[:zh_CN]
+若某个类具有至少一个[+纯虚函数]则它就是抽象的。
 
 [enter:note]
 [:en]
 Such a function might be inherited: see below.
+[:zh_CN]
+此种函数可被继承；见下文。
 [exit:note]
 
 [:en]
 [%virtual function[!pure]]
 A virtual function is specified [+pure] by using a [~pure-specifier]
 ([#class.mem]) in the function declaration in the class definition.
+[:zh_CN]
+[%虚函数[!纯～]]
+虚函数通过其在类声明式中的函数声明式中使用[~纯说明符]（[#class.mem]），而被指定
+为[+纯]虚函数。
 
 [:en]
 [%definition[!pure virtual function]]
 A pure virtual function need be defined only if called with, or as if with
 ([#class.dtor]), the [~qualified-id] syntax ([#expr.prim]).
+[:zh_CN]
+[%定义式[!纯虚函数]]
+纯虚函数只有当被以[~限定标识]语法（[#expr.prim]）进行调用，或者如同进行这样的
+调用（[#class.dtor]）时才需要进行定义。
 
 [enter:example]
-[%  [:en] example[!pure virtual function]]
+[%  [:en] example[!pure virtual function]
+    [:zh_CN] 示例[!纯虚函数] ]
 [codeblock]
 class point { /* ... */ };
 class shape {                   // [:en] abstract class
+                                // [|:zh_CN] 抽象类
   point center;
 public:
   point where() { return center; }
   void move(point p) { center=p; draw(); }
   virtual void rotate(int) = 0; // [:en] pure virtual
+                                // [|:zh_CN] 纯虚函数
   virtual void draw() = 0;      // [:en] pure virtual
+                                // [|:zh_CN] 纯虚函数
 };
 [codeblock:end]
 [exit:example]
@@ -56,12 +82,15 @@ public:
 [enter:note]
 [:en]
 A function declaration cannot provide both a [~pure-specifier] and a definition
+[:zh_CN]
+函数声明式中不能同时提供[~纯说明符]和定义式
 [exit:note]
 
 [enter:example]
 [codeblock]
 struct C {
   virtual void f() = 0 { };     // [:en] ill-formed
+                                // [|:zh_CN] 非良构
 };
 [codeblock:end]
 [exit:example]
@@ -71,16 +100,24 @@ struct C {
 [%class[!pointer to abstract]]
 An abstract class shall not be used as a parameter type, as a function return
 type, or as the type of an explicit conversion.
+[:zh_CN]
+[%类[!抽象～的指针]]
+抽象类不能用作形参类型，用作函数返回类型，或者用作显式转换的类型。
 
 [:en]
 Pointers and references to an abstract class can be declared.
+[:zh_CN]
+可以声明指向抽象类的指针或引用。
 
 [enter:example]
 [codeblock]
 shape x;                        // [:en] error: object of abstract class
+                                // [|:zh_CN] 错误：抽象类的对象
 shape* p;                       // OK
 shape f();                      // [:en] error
+                                // [|:zh_CN] 错误
 void g(shape);                  // [:en] error
+                                // [|:zh_CN] 错误
 shape& h(shape&);               // OK
 [codeblock:end]
 [exit:example]
@@ -90,6 +127,10 @@ shape& h(shape&);               // OK
 [%virtual function[!pure]]
 A class is abstract if it contains or inherits at least one pure virtual
 function for which the final overrider is pure virtual.
+[:zh_CN]
+[%虚函数[!纯～]]
+如果一个类包含或继承了至少一个纯虚函数，且其最终覆盖函数为纯虚函数，则它是抽象的
+。
 
 [enter:example]
 [codeblock]
@@ -98,15 +139,20 @@ class ab_circle : public shape {
 public:
   void rotate(int) { }
   // [:en] [`ab_circle::draw()] is a pure virtual
+  // [|:zh_CN] [`ab_circle::draw()] 是纯虚函数
 };
 [codeblock:end]
 
 [:en]
 Since [`shape::draw()] is a pure virtual function [`ab_circle::draw()] is a pure
 virtual by default.
+[:zh_CN]
+由于 [`shape::draw()] 为纯虚函数，这使得 [`ab_circle::draw()] 默认为纯虚函数。
 
 [:en]
 The alternative declaration,
+[:zh_CN]
+而另一种声明式，
 
 [codeblock]
 class circle : public shape {
@@ -114,12 +160,15 @@ class circle : public shape {
 public:
   void rotate(int) { }
   void draw();                  // [:en] a definition is required somewhere
+                                // [|:zh_CN] 需要别处进行定义
 };
 [codeblock:end]
 
 [:en]
 would make class [`circle] nonabstract and a definition of [`circle::draw()]
 must be provided.
+[:zh_CN]
+将使 [`circle] 成为非抽象的且必须为 [`circle::draw()] 提供定义式。
 [exit:example]
 
 [para]
@@ -127,6 +176,8 @@ must be provided.
 [:en]
 An abstract class can be derived from a class that is not abstract, and a pure
 virtual function may override a virtual function which is not pure.
+[:zh_CN]
+抽象类可以派生自非抽象的类，而纯虚函数可以覆盖并不是纯的虚函数。
 [exit:note]
 
 [para]
@@ -134,9 +185,16 @@ virtual function may override a virtual function which is not pure.
 [%class[!constructor and abstract]]
 Member functions can be called from a constructor (or destructor) of an abstract
 class;
+[:zh_CN]
+[%类[!构造函数与抽象～]]
+抽象类的构造函数（或析构函数）中可以调用成员函数；
 
 [:en]
 [%virtual function call[!undefined pure]]
 the effect of making a virtual call ([#class.virtual]) to a pure virtual
 function directly or indirectly for the object being created (or destroyed) from
 such a constructor (or destructor) is undefined.
+[:zh_CN]
+[%虚函数调用[!未定义的纯～]]
+在这种构造函数（或析构函数）中对被创建（或销毁）的对象的纯虚函数进行直接或间接的
+虚函数调用（[#class.virtual]）的效果是未定义的。

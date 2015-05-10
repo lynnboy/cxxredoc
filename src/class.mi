@@ -1,18 +1,26 @@
 ﻿[section#class.mi
     [:en] Multiple base classes
+    [:zh_CN] 多个基类
 ]
 
 [:en]
 [%multiple inheritance]
 [%base class]
+[:zh_CN]
+[%多重继承]
+[%基类]
 
 [para]
 [:en]
 A class can be derived from any number of base classes.
+[:zh_CN]
+一个类可以派生于任意数量的基类。
 
 [enter:note]
 [:en]
 The use of more than one direct base class is often called multiple inheritance.
+[:zh_CN]
+使用多个直接基类通常称为多重继承。
 [exit:note]
 
 [enter:example]
@@ -28,43 +36,64 @@ class D : public A, public B, public C { /* ... */ };
 [:en]
 [%layout[!class object]]
 [%initialization[!order of]]
+[:zh_CN]
+[%布局[!类对象]]
+[%初始化[!～的顺序]]
 [enter:note]
-
 [:en]
 The order of derivation is not significant except as specified by the semantics
 of initialization by constructor ([#class.base.init]), cleanup ([#class.dtor]),
 and storage layout ([#class.mem], [#class.access.spec]).
+[:zh_CN]
+除了由构造函数进行初始化（[#class.base.init]），清理（[#class.dtor]）和存储布局
+（[#class.mem]，[#class.access.spec]）等语义所指明的之外，派生的顺序是无意义的。
 [exit:note]
 
 [para]
 [:en]
 A class shall not be specified as a direct base class of a derived class more
 than once.
+[:zh_CN]
+一个类不能被多次指定为某个派生类的直接基类。
 
 [enter:note]
 [:en]
 A class can be an indirect base class more than once and can be a direct and an
 indirect base class.
+[:zh_CN]
+一个类可以多次成为间接基类，也可以同时是直接和间接基类。
 
 [:en]
 There are limited things that can be done with such a class.
+[:zh_CN]
+对这种类所能做的事情有一些限制。
 
 [:en]
 The non-static data members and member functions of the direct base class cannot
-be referred to in the scope of the derived class. However, the static members,
-enumerations and types can be unambiguously referred to.
+be referred to in the scope of the derived class.
+[:zh_CN]
+不能在派生类的作用域中涉指直接基类的非静态数据成员和成员函数。
+
+[:en]
+However, the static members, enumerations and types can be unambiguously
+referred to.
+[:zh_CN]
+然而，静态成员、枚举以及类型可以无歧义地进行涉指。
 [exit:note]
 
 [enter:example]
 [codeblock]
 class X { /* ... */ };
 class Y : public X, public X { /* ... */ };             // [:en] ill-formed
+                                                        // [|:zh_CN] 非良构
 
 class L { public: int next;  /* ... */ };
 class A : public L { /* ... */ };
 class B : public L { /* ... */ };
 class C : public A, public B { void f(); /* ... */ };   // [:en] well-formed
+                                                        // [|:zh_CN] 良构
 class D : public A, public L { void f(); /* ... */ };   // [:en] well-formed
+                                                        // [|:zh_CN] 良构
 [codeblock:end]
 [exit:example]
 
@@ -73,30 +102,48 @@ class D : public A, public L { void f(); /* ... */ };   // [:en] well-formed
 [%virtual base class]
 A base class specifier that does not contain the keyword [`virtual], specifies a
 [~non-virtual] base class.
+[:zh_CN]
+[%虚基类]
+不包含 [`virtual] 关键字的基类说明符，指定[+非虚]基类。
 
+[:en]
 A base class specifier that contains the keyword [`virtual], specifies a
 [+virtual] base class.
+[:zh_CN]
+包含 [`virtual] 关键字的基类说明符，指定[+虚]基类。
 
+[:en]
 For each distinct occurrence of a non-virtual base class in the class lattice of
 the most derived class, the most derived object ([#intro.object]) shall contain
 a corresponding distinct base class subobject of that type.
+[:zh_CN]
+对于全派生类的类晶格中独立出现的每个非虚基类，全派生对象（[#intro.object]）中都
+应当包含该类型的一个对应的独立的基类子对象。
 
+[:en]
 For each distinct base class that is specified virtual, the most derived object
 shall contain a single base class subobject of that type.
+[:zh_CN]
+对于被指定为虚的每个独立的基类，全派生对象应当包含单个该类型的基类子对象。
 
 [enter:example]
 [:en]
 for an object of class type [`C], each distinct occurrence of a (non-virtual)
 base class [`L] in the class lattice of [`C] corresponds one-to-one with a
 distinct [`L] subobject within the object of type [`C].
+[:zh_CN]
+对于类类型 [`C] 的对象，每个在 [`C] 的类晶格中独立出现的（非虚）基类 [`L] 都与
+类型 [`C] 的对象中的独立的 [`L] 子对象一一对应。
 
 [:en]
 Given the class [`C] defined above, an object of class [`C] will have two
 subobjects of class [`L] as shown below.
+[:zh_CN]
+给定如上所定义的类 [`C]，类 [`C] 的对象中具有两个类 [`L] 的子对象，如下所示。
 
 [figure:graphviz@dot#fig:nonvirt
     [:en] Non-virtual base
-    [:zh_CN] 
+    [:zh_CN] 非虚基类
 ]
 digraph nonvirt {
     graph [nodesep=1.5, rankdir=BT];
@@ -118,22 +165,32 @@ digraph nonvirt {
 [:en]
 In such lattices, explicit qualification can be used to specify which subobject
 is meant.
+[:zh_CN]
+在这个晶格中，可用显式限定以指定所需要的是哪个子对象。
 
 [:en]
 The body of function [`C::f] could refer to the member [`next] of each [`L]
 subobject:
+[:zh_CN]
+函数 [`C::f] 的函数体中可以涉指每个 [`L] 子对象的 [`next] 成员：
 
 [codeblock]
 void C::f() { A::next = B::next; }      // [:en] well-formed
+                                        // [|:zh_CN] 良构
 [codeblock:end]
 
 [:en]
 Without the [`A::] or [`B::] qualifiers, the definition of [`C::f] above would
 be ill-formed because of ambiguity ([#class.member.lookup]).
+[:zh_CN]
+如果没有限定符 [`A::] 或 [`B::]，那么上述 [`C::f] 的定义式将因为歧义
+（[#class.member.lookup]）而成为非良构的。
 
 [para]
 [:en]
 For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 class V { /* ... */ };
@@ -145,17 +202,25 @@ class C : public A, public B { /* ... */ };
 [:en@~]
 for an object [`c] of class type [`C], a single subobject of type [`V] is shared
 by every base subobject of [`c] that has a [`virtual] base class of type [`V].
+[:zh_CN@~]
+对于类类型 [`C] 的对象 [`c]，类型 [`V] 的单个子对象被 [`c] 中类型 [`V] 的
+[`virtual] 基类的所有基类子对象所共享。
 
 [:en]
 Given the class [`C] defined above, an object of class [`C] will have one
 subobject of class [`V], as shown below.
+[:zh_CN]
+给定如上所定义的类 [`C]，类 [`C] 的对象将具有一个类 [`V] 的子对象，如下所示。
 
 [:en]
 [%DAG[!multiple inheritance]]
 [%DAG[!virtual base class]]
+[:zh_CN]
+[%DAG[!多重继承]]
+[%DAG[!虚基类]]
 [figure:graphviz@dot#fig:virt
     [:en] Virtual base
-    [:zh_CN] 
+    [:zh_CN] 虚基类
 ]
 digraph virt {
     graph [nodesep=1.5, rankdir=BT];
@@ -175,6 +240,8 @@ digraph virt {
 [para]
 [:en]
 A class can have both virtual and non-virtual base classes of a given type.
+[:zh_CN]
+类可以同时具有给定类型的虚基类和非虚基类。
 
 [codeblock]
 class B { /* ... */ };
@@ -190,18 +257,30 @@ the class lattice of [`AA] correspond to a single [`B] subobject within the
 object of type [`AA], and every other occurrence of a (non-virtual) base class
 [`B] in the class lattice of [`AA] corresponds one-to-one with a distinct [`B]
 subobject within the object of type [`AA].
+[:zh_CN]
+对于类 [`AA] 的对象，在 [`AA] 的类晶格中出现的所有 [`virtual] 的类 [`B] 都对应于
+[`AA] 类型的对象中的单个 [`B] 子对象，而在 [`AA] 的类晶格中出现的其他每个
+（非虚）基类 [`B] 都与 [`AA] 类型的对象中的独立的 [`B] 子对象一一对应。
 
 [:en]
 Given the class [`AA] defined above, class [`AA] has two subobjects of class
 [`B]: [`Z][=']s [`B] and the virtual [`B] shared by [`X] and [`Y], as shown
 below.
+[:zh_CN]
+给定如上所定义的类 [`AA]，类 [`AA] 具有两个类 [`B] 的子对象：[`Z] 中的 [`B]，
+以及由 [`X] 和 [`Y] 所共享的虚的 [`B]，如下所示。
 
+[:en]
 [%DAG[!virtual base class]]
 [%DAG[!non-virtual base class]]
 [%DAG[!multiple inheritance]]
+[:zh_CN]
+[%DAG[!虚基类]]
+[%DAG[!非虚基类]]
+[%DAG[!多重继承]]
 [figure:graphviz@dot#fig:virtnonvirt
     [:en] Virtual and non-virtual base
-    [:zh_CN] 
+    [:zh_CN] 虚基类和非虚基类
 ]
 digraph virtnonvirt {
     graph [nodesep=1.5, rankdir=BT];

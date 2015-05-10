@@ -1,8 +1,10 @@
 ﻿[section:chapter#class.derived
     [:en] Derived classes
+    [:zh_CN] 派生类
 ]
 [%:begin#derived.class
     [:en] derived class
+    [:zh_CN] 派生类
 ]
 
 [/
@@ -11,9 +13,13 @@
 /]
 
 [:en]
-[%base class virtual[see virtual base class]]
+[%base class[!virtual][see virtual base class]]
 [%function[!virtual][see virtual function]]
 [%dynamic binding[see virtual function]]
+[:zh_CN]
+[%基类[!虚～][see 虚基类]]
+[%函数[!虚～][see 虚函数]]
+[%动态绑定[see 虚函数]]
 
 [para]
 [:en]
@@ -22,34 +28,42 @@
 [%multiple inheritance]
 A list of base classes can be specified in a class definition using the
 notation:
+[:zh_CN]
+[%基类]
+[%继承]
+[%多继承]
+在类定义式中可以以如下记法指定一系列基类：
 
 [syntax]
-[rule base-clause [:zh_CN] ]
+[rule base-clause [:zh_CN] 基子句 ]
     [| [`:] base-specifier-list ]
 [rule:end]
 
-[rule base-specifier-list [:zh_CN] ]
+[rule base-specifier-list [:zh_CN] 基说明符列表 ]
     [| base-specifier [`:opt ...] ]
     [| base-specifier-list [`,] base-specifier [`:opt ...] ]
 [rule:end]
 
-[rule base-specifier [:zh_CN] ]
+[rule base-specifier [:zh_CN] 基说明符 ]
     [| [~:opt attribute-specifier-seq] base-type-specifier ]
-    [| [~:opt attribute-specifier-seq] [`virtual] [~:opt access-specifier] base-type-specifier ]
-    [| [~:opt attribute-specifier-seq] access-specifier [`:opt virtual] base-type-specifier ]
+    [| [~:opt attribute-specifier-seq] [`virtual] [~:opt access-specifier]
+        base-type-specifier ]
+    [| [~:opt attribute-specifier-seq] access-specifier [`:opt virtual]
+        base-type-specifier ]
 [rule:end]
 
-[rule class-or-decltype [:zh_CN] ]
+[rule class-or-decltype [:zh_CN] 类或-decltype ]
     [| [~:opt nested-name-specifier] class-name ]
     [| decltype-specifier ]
 [rule:end]
 
-[rule base-type-specifier [:zh_CN] ]
+[rule base-type-specifier [:zh_CN] 基类型说明符 ]
     [| class-or-decltype ]
 [rule:end]
 
-[% [:en] specifier access[see access specifier]]
-[rule access-specifier [:zh_CN] ]
+[% [:en] specifier[!access][see access specifier]
+   [:zh_CN] 说明符[!访问][see 访问说明符] ]
+[rule access-specifier [:zh_CN] 访问说明符 ]
     [| [`private] ]
     [| [`protected] ]
     [| [`public] ]
@@ -58,6 +72,8 @@ notation:
 
 [:en]
 The optional [~attribute-specifier-seq] appertains to the [~base-specifier].
+[:zh_CN]
+可选的[~特性说明符序列]属于[~基说明符]。
 
 [para]
 [:en]
@@ -65,67 +81,106 @@ The optional [~attribute-specifier-seq] appertains to the [~base-specifier].
 The type denoted by a [~base-type-specifier] shall be a class type that is not
 an incompletely defined class (Clause [#class]); this class is called a
 [%base class[!direct]] [+direct base class] for the class being defined.
+[:zh_CN]
+[%类型[!不完整～]]
+[~基类型说明符]所代表的类型应当是类类型且不能是不完整定义的类（第 [#class] 条）
+；此类被称为所定义的类的[+直接基类]。
 
 [:en]
-[%base class][%derivation[see inheritance]]
+[%base class] [%derivation[see inheritance]]
 During the lookup for a base class name, non-type names are ignored
 ([#basic.scope.hiding]).
+[:zh_CN]
+[%基类] [%派生[see 继承]]
+在查找基类的名字时，忽略非类型的名字（[#basic.scope.hiding]）。
 
 [:en]
 If the name found is not a [~class-name], the program is ill-formed.
+[:zh_CN]
+若所找到的名字不是[~类名]，则程序是非良构的。
 
 [:en]
 A class [`B] is a base class of a class [`D] if it is a direct base class of
 [`D] or a direct base class of one of [`D][=']s base classes.
+[:zh_CN]
+若类 [`B] 是类 [`D] 的直接基类或 [`D] 的基类之一的直接基类，则它是类 [`D] 的基类
+。
 
 [:en]
 [%base class[!indirect]]
 A class is an [+indirect] base class of another if it is a base class but not a
 direct base class.
+[:zh_CN]
+[%基类[!间接～]]
+若某类是另一个类的基类但不是直接基类，则它是[+间接]基类。
 
 [:en]
 A class is said to be (directly or indirectly) [+derived] from its (direct or
 indirect) base classes.
+[:zh_CN]
+称类（直接或间接）[+派生]自其（直接或间接）基类。
 
 [enter:note]
 [:en]
 See Clause [#class.access] for the meaning of [~access-specifier].
+[:zh_CN]
+[~访问说明符]的含义见第 [#class.access] 条。
 [exit:note]
 
 [:en]
 [%access control[!base class member]]
 Unless redeclared in the derived class, members of a base class are also
 considered to be members of the derived class.
+[:zh_CN]
+[%访问控制[!基类成员]]
+除非在派生类中重新进行声明，否则基类的成员也被当作是派生类的成员。
 
 [:en]
 The base class members are said to be [%inheritance] [+inherited] by the derived
 class.
+[:zh_CN]
+称基类成员被派生类所[%继承][+继承]。
 
 [:en]
 Inherited members can be referred to in expressions in the same manner as other
 members of the derived class, unless their names are hidden or ambiguous
 ([#class.member.lookup]).
+[:zh_CN]
+除非继承来的成员的名字被隐藏或者有歧义（[#class.member.lookup]），否则在表达式中
+就可以用和派生类的其他成员相同的方式涉指它们。
 
 [enter:note]
 [:en]
 [%operator[!scope resolution]]
 The scope resolution operator [`::] ([#expr.prim]) can be used to refer to a
 direct or indirect base member explicitly.
+[:zh_CN]
+[%运算符[!作用域解析～]]
+作用域解析运算符 [`::]（[#expr.prim]）可以用于明确涉指某个直接或间接基类的成员。
 
 [:en]
 This allows access to a name that has been redeclared in the derived class.
+[:zh_CN]
+这就允许访问在派生类中已经被重新声明了的名字。
 
 [:en]
 A derived class can itself serve as a base class subject to access control; see
 [#class.access.base].
+[:zh_CN]
+对于访问控制来说，派生类自身可被当作基类；参见 [#class.access.base]。
 
 [:en]
 A pointer to a derived class can be implicitly converted to a pointer to an
 accessible unambiguous base class ([#conv.ptr]).
+[:zh_CN]
+指向派生类的指针可被隐式转换为指向某个可访问的无歧义基类的指针（[#conv.ptr]）。
 
 [:en]
 An lvalue of a derived class type can be bound to a reference to an accessible
 unambiguous base class ([#dcl.init.ref]).
+[:zh_CN]
+派生类类型的左值可被绑定到指代某个可访问的无歧义基类的引用上（[#dcl.init.ref]）
+。
 [exit:note]
 
 [para]
@@ -133,9 +188,12 @@ unambiguous base class ([#dcl.init.ref]).
 The [~base-specifier-list] specifies the type of the
 [+base class subobjects] contained in an
 object of the derived class type.
+[:zh_CN]
+[~基说明符列表]指定了在派生类类型的对象中包含的[+基类子对象]的类型。
 
 [enter:example]
-[%  [:en] example[!derived class]]
+[%  [:en] example[!derived class]
+    [:zh_CN] 示例[!派生类] ]
 [codeblock]
 struct Base {
   int a, b, c;
@@ -153,17 +211,24 @@ struct Derived2 : Derived {
 [:en]
 Here, an object of class [`Derived2] will have a subobject of class [`Derived]
 which in turn will have a subobject of class [`Base].
+[:zh_CN]
+此处，类 [`Derived2] 的对象将带有一个类 [`Derived] 的子对象，它又将带有一个类
+[`Base] 的子对象。
 [exit:example]
 
 [para]
 [:en]
 A [~base-specifier] followed by an ellipsis is a pack expansion
 ([#temp.variadic]).
+[:zh_CN]
+后面跟着省略号的[~基说明符]是包组展开式（[#temp.variadic]）。
 
 [para]
 [:en]
 The order in which the base class subobjects are allocated in the most derived
 object ([#intro.object]) is unspecified.
+[:zh_CN]
+全派生对象（[#intro.object]）中基类子对象的分配顺序是未指明的。
 
 [enter:note]
 [:en]
@@ -171,13 +236,19 @@ object ([#intro.object]) is unspecified.
 [%lattice[see DAG][see subobject]]
 a derived class and its base class subobjects can be represented by a directed
 acyclic graph (DAG) where an arrow means ["directly derived from.]
+[:zh_CN]
+[%有向无环图[see DAG]]
+[%晶格[see DAG][see 子对象]]
+派生类及其基类子对象可用有向无环图（DAG）来表示，其中的箭头代表“直接派生自”。
 
 [:en]
 A DAG of subobjects is often referred to as a ["subobject lattice.]
+[:zh_CN]
+子对象的 DAG 通常被称为“子对象晶格”。
 
 [figure:graphviz@dot#fig:dag
     [:en] Directed acyclic graph
-    [:zh_CN] 
+    [:zh_CN] 有向无环图
 ]
 digraph dag {
     graph [nodesep=1.5, rankdir=BT];
@@ -194,6 +265,8 @@ digraph dag {
 [para]
 [:en]
 The arrows need not have a physical representation in memory.
+[:zh_CN]
+其中的箭头并不需要在内存中具有物理表示。
 [exit:note]
 
 [para]
@@ -201,6 +274,8 @@ The arrows need not have a physical representation in memory.
 [:en]
 Initialization of objects representing base classes can be specified in
 constructors; see [#class.base.init].
+[:zh_CN]
+用以表示基类的对象所进行的初始化可以在构造函数中指定；参见 [#class.base.init]。
 [exit:note]
 
 [para]
@@ -208,16 +283,24 @@ constructors; see [#class.base.init].
 [:en]
 A base class subobject might have a layout ([#basic.stc]) different from the
 layout of a most derived object of the same type.
+[:zh_CN]
+基类子对象的布局（[#basic.stc]）与相同类型的全派生对象的布局可以不同。
 
 [:en]
 A base class subobject might have a polymorphic behavior ([#class.cdtor])
 different from the polymorphic behavior of a most derived object of the same
 type.
+[:zh_CN]
+基类子对象所具有的多态行为（[#class.cdtor]）和相同类型的全派生对象的多态行为可以
+不同。
 
 [:en]
 A base class subobject may be of zero size (Clause [#class]); however, two
 subobjects that have the same class type and that belong to the same most
 derived object must not be allocated at the same address ([#expr.eq]).
+[:zh_CN]
+基类子对象的大小可以为零（第 [#class] 条）；然而，具有相同类类型并且属于相同的
+全派生对象的两个子对象不能被分配到相同的地址上（[#expr.eq]）。
 [exit:note]
 
 [include class.mi]
