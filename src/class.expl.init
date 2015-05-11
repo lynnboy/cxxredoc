@@ -1,25 +1,36 @@
 ﻿[section#class.expl.init
     [:en] Explicit initialization
+    [:zh_CN] 显式初始化
 ]
 
-[%[:en] initialization[!explicit]]
-[%[:en] initialization[!constructor and]]
+[%[:en] initialization[!explicit]
+  [:zh_CN] 初始化[!显式～] ]
+[%[:en] initialization[!constructor and]
+  [:zh_CN] 初始化[!构造函数与～] ]
 
 [para]
 [:en]
 An object of class type can be initialized with a parenthesized
 [~expression-list], where the [~expression-list] is construed as an argument
 list for a constructor that is called to initialize the object.
+[:zh_CN]
+类类型的对象可以用带括号的[~表达式列表]初始化，其中的[~表达式列表]将作为实参列表
+来调用用以初始化该对象的构造函数。
 
 [:en]
 Alternatively, a single [~assignment-expression] can be specified as an
 [~initializer] using the [`=] form of initialization.
+[:zh_CN]
+或者，可以使用 [`=] 形式的初始化把单个[~赋值表达式]指定为[~初始化式]。
 
 [:en]
 Either direct-initialization semantics or copy-initialization semantics apply;
 see [#dcl.init].
+[:zh_CN]
+实施直接初始化语义或者复制初始化语义；参见 [#dcl.init]。
 
-[%[:en] example[!constructor and initialization]]
+[%[:en] example[!constructor and initialization]
+  [:zh_CN] 示例[!构造函数与初始化] ]
 [enter:example]
 
 [codeblock]
@@ -32,20 +43,35 @@ struct complex {
 complex sqrt(complex,complex);
 
 complex a(1);                   // [:en] initialize by a call of
+                                // [|:zh_CN] 通过调用 [`complex(double)]
                                 // [:en@~] [`complex(double)]
+                                // [|:zh_CN@~] 进行初始化
 complex b = a;                  // [:en] initialize by a copy of [`a]
+                                // [|:zh_CN] 以 [`a] 的副本进行初始化
 complex c = complex(1,2);       // [:en] construct [`complex(1,2)]
+                                // [|:zh_CN] 用 [`complex(double,double)]
                                 // [:en@~] using [`complex(double,double)]
+                                // [|:zh_CN@~] 来构造 [`complex(1,2)]
                                 // [:en@~] copy/move it into [`c]
+                                // [|:zh_CN@~] 并将其赋值/移动给 [`c]
 complex d = sqrt(b,c);          // [:en] call [`sqrt(complex,complex)]
+                                // [|:zh_CN] 调用 [`sqrt(complex,complex)]
                                 // [:en@~] and copy/move the result into [`d]
+                                // [|:zh_CN@~] 并将其结果赋值/移动给 [`d]
 complex e;                      // [:en] initialize by a call of
+                                // [|:zh_CN] 通过调用 [`complex()]
                                 // [:en@~] [`complex()]
+                                // [|:zh_CN@~] 进行初始化
 complex f = 3;                  // [:en] construct [`complex(3)] using
+                                // [|:zh_CN] 用 [`complex(double)]
                                 // [:en@~] [`complex(double)]
+                                // [|:zh_CN@~] 来构造 [`complex(3)]
                                 // [:en@~] copy/move it into [`f]
+                                // [|:zh_CN@~] 并将其复制/移动给 [`f]
 complex g = { 1, 2 };           // [:en] initialize by a call of
+                                // [|:zh_CN] 用对 [`complex(double, double)]
                                 // [:en@~] [`complex(double, double)]
+                                // [|:zh_CN@~] 的调用进行初始化
 [codeblock:end]
 [exit:example]
 
@@ -55,15 +81,24 @@ complex g = { 1, 2 };           // [:en] initialize by a call of
 overloading of the assignment operator ([#over.ass]) has no effect on
 initialization.
 [exit:note]
+[:zh_CN]
+[%初始化[!重载的赋值与～]]
+对赋值运算符的重载（[#over.ass]）并不影响初始化。
 
 [para]
 [:en]
 [%initialization[!array of class objects]]
 [%constructor[!array of class objects and]]
 An object of class type can also be initialized by a [~braced-init-list].
+[:zh_CN]
+[%初始化[!类对象的数组]]
+[%构造函数[!类对象的数组与～]]
+类类型的对象还可以由[~花括号初始化列表]初始化。
 
 [:en]
 List-initialization semantics apply; see [#dcl.init] and [#dcl.init.list].
+[:zh_CN]
+此时采用列表初始化语义；参见 [#dcl.init] 和 [#dcl.init.list]。
 
 [enter:example]
 [codeblock]
@@ -74,7 +109,16 @@ complex v[6] = { 1, complex(1,2), complex(), 2 };
 Here, [`complex::complex(double)] is called for the initialization of [`v[0`]]
 and [`v[3`]], [`complex::complex(double, double)] is called for the
 initialization of [`v[1`]], [`complex::complex()] is called for the
-initialization [`v[2`]], [`v[4`]], and [`v[5`]]. For another example,
+initialization [`v[2`]], [`v[4`]], and [`v[5`]].
+[:zh_CN]
+此处，[`v[0`]] 和 [`v[3`]] 的初始化调用了 [`complex::complex(double)]，[`v[1`]]
+的初始化调用了 [`complex::complex(double, double)]，[`v[2`]]，[`v[4`]] 和
+[`v[5`]] 的初始化调用了 [`complex::complex()]。
+
+[:en]
+For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 struct X {
@@ -87,6 +131,9 @@ struct X {
 [:en]
 Here, [`x.i] is initialized with 99, [`x.f] is initialized with 88.8, and
 [`complex::complex(double)] is called for the initialization of [`x.c].
+[:zh_CN]
+此处，[`x.i] 被初始化为 99，[`x.f] 被初始化为 88.8，而 [`x.c] 的初始化调用了
+[`complex::complex(double)]。
 [exit:example]
 
 [enter:note]
@@ -94,6 +141,9 @@ Here, [`x.i] is initialized with 99, [`x.f] is initialized with 88.8, and
 Braces can be elided in the [~initializer-list] for any aggregate, even if the
 aggregate has members of a class type with user-defined type conversions; see
 [#dcl.init.aggr].
+[:zh_CN]
+任意聚合的[~初始化式列表]之中的花括号均可以省略，即使聚合中含有带有用户定义的
+类型转换的类类型的成员也是如此；参见 [#dcl.init.aggr]。
 [exit:note]
 
 [para]
@@ -102,6 +152,9 @@ aggregate has members of a class type with user-defined type conversions; see
 If [`T] is a class type with no default constructor, any declaration of an
 object of type [`T] (or array thereof) is ill-formed if no [~initializer]
 is explicitly specified (see [#class.init] and [#dcl.init]).
+[:zh_CN]
+若 [`T] 是没有默认构造函数的类类型，则当类型 [`T]（或其数组）的任何对象的声明式
+没有显式指定[~初始化式]时，它就是非良构的（参见 [#class.init] 和 [#dcl.init]）。
 [exit:note]
 
 [para]
@@ -110,4 +163,8 @@ is explicitly specified (see [#class.init] and [#dcl.init]).
 [%order of execution[!constructor and [`static] objects]]
 the order in which objects with static or thread storage duration
 are initialized is described in [#basic.start.init] and [#stmt.dcl].
+[:zh_CN]
+[%执行顺序[!构造函数～与 [`static] 对象]]
+具有静态或线程存储期的对象的初始化顺序在 [#basic.start.init] 和 [#stmt.dcl] 中
+说明。
 [exit:note]

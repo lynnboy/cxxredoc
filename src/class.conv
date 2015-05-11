@@ -1,5 +1,6 @@
 ﻿[section#class.conv
     [:en] Conversions
+    [:zh_CN] 转换
 ]
 
 [para]
@@ -11,28 +12,47 @@
 [%conversion[!implicit]]
 Type conversions of class objects can be specified by constructors and
 by conversion functions.
+[:zh_CN]
+[%转换[!类]]
+[%转换[!用户定义～]]
+[%构造函数[!通过～转换][see 转换[!用户定义]]]
+[%转换函数[see 转换[!用户定义]]]
+[%转换[!隐式～]]
+可以通过构造函数和转换函数来指定对类对象进行的类型转换。
 
 [:en]
 These conversions are called [+user-defined conversions] and are used for
 implicit type conversions (Clause [#conv]), for initialization ([#dcl.init]),
 and for explicit type conversions ([#expr.cast], [#expr.static.cast]).
+[:zh_CN]
+这些转换被称为[+用户定义转换]，并且用于进行隐式类型转换（第 [#conv] 条）、初始化
+（[#dcl.init]）和显式类型转换（[#expr.cast]，[#expr.static.cast]）。
 
 [para]
 [:en]
 User-defined conversions are applied only where they are unambiguous
 ([#class.member.lookup], [#class.conv.fct]).
+[:zh_CN]
+用户定义转换只有在没有歧义时才能实施（[#class.member.lookup]，
+[#class.conv.fct]）。
 
 [:en]
 Conversions obey the access control rules (Clause [#class.access]).
+[:zh_CN]
+转换遵循访问控制规则（第 [#class.access] 条）。
 
 [:en]
 Access control is applied after ambiguity resolution ([#basic.lookup]).
+[:zh_CN]
+访问控制在歧义消解（[#basic.lookup]）之前实施。
 
 [para]
 [enter:note]
 [:en]
 See [#over.match] for a discussion of the use of conversions in function calls
 as well as examples below.
+[:zh_CN]
+对于在函数调用中使用转换的探讨，参见 [#over.match]，示例见下文。
 [exit:note]
 
 [para]
@@ -40,6 +60,9 @@ as well as examples below.
 [%conversion[!implicit user-defined]]
 At most one user-defined conversion (constructor or conversion function)
 is implicitly applied to a single value.
+[:zh_CN]
+[%转换[!隐式用户定义～]]
+对单个值最多能隐式实施一个用户定义转换（构造函数或转换函数）。
 
 [para:~]
 [enter:example]
@@ -54,23 +77,33 @@ struct Y {
 
 Y a;
 int b = a;          // [:en] error
+                    // [|:zh_CN] 错误
                     // [:en@~] [`a.operator X().operator int()] not tried
+                    // [|:zh_CN@~] [`a.operator X().operator int()] 未尝试
 int c = X(a);       // [:en] OK: [`a.operator X().operator int()]
+                    // [|:zh_CN] [`a.operator X().operator int()] 未尝试
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 User-defined conversions are used implicitly only if they are unambiguous.
+[:zh_CN]
+只有在用户定义转换无歧义时才能隐式使用它们。
 
 [:en]
 [%name hiding[!user-defined conversion and]]
 A conversion function in a derived class does not hide a conversion function
 in a base class unless the two functions convert to the same type.
+[:zh_CN]
+[%名字隐藏[!用户定义转换与～]]
+除非两个函数转换到相同类型，否则派生类中的转换函数并不隐藏基类中的转换函数。
 
 [:en]
 Function overload resolution ([#over.match.best]) selects the best conversion
 function to perform the conversion.
+[:zh_CN]
+函数重载决议（[#over.match.best]）选择最佳转换函数以实施转换。
 
 [enter:example]
 [codeblock]
@@ -84,7 +117,9 @@ struct Y : X {
 
 void f(Y& a) {
   if (a) {          // [:en] ill-formed:
-                    // [:en] [`X::operator int()] or [`Y::operator char()]
+                    // [|:zh_CN] 非良构：
+                    // [:en@~] [`X::operator int()] or [`Y::operator char()]
+                    // [|:zh_CN@~] [`X::operator int()] 还是 [`Y::operator char()]
   }
 }
 [codeblock:end]

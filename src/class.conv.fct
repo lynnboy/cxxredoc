@@ -1,5 +1,6 @@
 ﻿[section#class.conv.fct
     [:en] Conversion functions
+    [:zh_CN] 转换函数
 ]
 
 [:en]
@@ -7,21 +8,28 @@
 [%fundamental type conversion[see conversion[!user-defined]]]
 [%conversion[!user-defined]]
 [%conversion operator[see conversion[!user defined]]]
+[:zh_CN]
+[%函数[!转换～]]
+[%基础类型转换[see 转换[!用户定义～]]]
+[%转换[!用户定义～]]
+[%转换运算符[see 转换[!用户定义～]]]
 
 [para]
 [:en]
 A member function of a class [`X] having no parameters with a name of the form
+[:zh_CN]
+类 [`X] 中，没有形参且名字具有如下形式的成员函数
 
 [syntax]
-[rule conversion-function-id [:zh_CN] ]
+[rule conversion-function-id [:zh_CN] 转换函数标识 ]
     [| [`operator] conversion-type-id ]
 [rule:end]
 
-[rule conversion-type-id [:zh_CN] ]
+[rule conversion-type-id [:zh_CN] 转换类型标识 ]
     [| type-specifier-seq [~:opt conversion-declarator] ]
 [rule:end]
 
-[rule conversion-declarator [:zh_CN] ]
+[rule conversion-declarator [:zh_CN] 转换声明符 ]
     [| ptr-operator [~:opt conversion-declarator] ]
 [rule:end]
 [syntax:end]
@@ -29,39 +37,61 @@ A member function of a class [`X] having no parameters with a name of the form
 [:en@~]
 specifies a conversion from [`X] to the type specified by the
 [~conversion-type-id].
+[:zh_CN@~]
+指定了从 [`X] 向由[~转换类型标识]所指定的类型的转换。
 
 [:en]
 Such functions are called conversion functions.
+[:zh_CN]
+此种函数被称为转换函数。
 
 [:en]
 No return type can be specified.
+[:zh_CN]
+不能为其指定返回类型。
 
 [:en]
 [%conversion[!type of]]
 If a conversion function is a member function, the type of the conversion
 function ([#dcl.fct]) is ["function taking no parameter returning
 [~conversion-type-id]].
+[:zh_CN]
+[%转换[!～的类型]]
+若转换函数是成员函数，则转换函数的类型（[#dcl.fct]）为“[~转换类型标识]为返回类型
+的没有形参的函数”。
 
 [:en]
 A conversion function is never used to convert a (possibly cv-qualified) object
 to the (possibly cv-qualified) same object type (or a reference to it),
 to a (possibly cv-qualified) base class of that type (or a reference to it),
-or to (possibly cv-qualified) void.
+or to (possibly cv-qualified) [`void].
+[:zh_CN]
+转换函数不能用于把（可能被 cv-限定的）对象转换为（可能被 cv-限定的）相同对象类型
+（或其引用），转换为该类型的（可能被 cv-限定的）某个基类（或其引用），或转换为
+（可能被 cv-限定的）[`void]。
 
 [footnote]
 [:en]
 These conversions are considered as standard conversions for the purposes of
 overload resolution ([#over.best.ics], [#over.ics.ref]) and therefore
 initialization ([#dcl.init]) and explicit casts ([#expr.static.cast]).
+[:zh_CN]
+在进行重载决议（[#over.best.ics], [#over.ics.ref]）时，这些转换被当作标准转换，
+因此可用于初始化（[#dcl.init]）和显式强制转换（[#expr.static.cast]）。
 
 [:en]
 A conversion to [`void] does not invoke any conversion function
 ([#expr.static.cast]).
+[:zh_CN]
+向 [`void] 进行的转换不会调用任何转换函数（[#expr.static.cast]）。
 
 [:en]
 Even though never directly called to perform a conversion, such conversion
 functions can be declared and can potentially be reached through a call to a
 virtual conversion function in a base class.
+[:zh_CN]
+即使从来不直接调用这种转换函数来实施转换，也可以声明它们并且可以潜在地通过调用
+基类的虚转换函数而到达它们。
 [footnote:end]
 
 [para:~]
@@ -80,6 +110,8 @@ void f(X a) {
 
 [:en]
 In all three cases the value assigned will be converted by [`X::operator int()].
+[:zh_CN]
+所有三种情况中所赋的值均由 [`X::operator int()] 转换。
 [exit:example]
 
 [para]
@@ -87,10 +119,15 @@ In all three cases the value assigned will be converted by [`X::operator int()].
 A conversion function may be explicit ([#dcl.fct.spec]), in which case it is
 only considered as a user-defined conversion for direct-initialization
 ([#dcl.init]).
+[:zh_CN]
+转换函数可以是显式的（[#dcl.fct.spec]），这种情况下它只会被当作用于进行直接初始
+化的用户定义转换（[#dcl.init]）。
 
 [:en]
 Otherwise, user-defined conversions are not restricted to use in assignments and
 initializations.
+[:zh_CN]
+否则，用户定义转换并不限于在赋值和初始化中使用。
 
 [enter:example]
 [codeblock]
@@ -101,8 +138,11 @@ struct Z {
 
 void h(Z z) {
   Y y1(z);          // [:en] OK: direct-initialization
+                    // [|:zh_CN] OK：直接初始化
   Y y2 = z;         // [:en] ill-formed: copy-initialization
+                    // [|:zh_CN] 非良构：复制初始化
   Y y3 = (Y)z;      // [:en] OK: cast notation
+                    // [|:zh_CN] OK：强制转换记法
 }
 
 void g(X a, X b) {
@@ -117,25 +157,36 @@ void g(X a, X b) {
 [para]
 [:en]
 The [~conversion-type-id] shall not represent a function type nor an array type.
+[:zh_CN]
+[~转换类型标识]不能表示函数类型或数组类型。
 
 [:en]
 The [~conversion-type-id] in a [~conversion-function-id] is the longest possible
 sequence of [~conversion-declarator]s.
+[:zh_CN]
+[~转换函数标识]中的[~转换类型标识]是[~转换声明符]的最长可能序列。
 
 [enter:note]
 [:en]
-This prevents ambiguities between the declarator operator * and its expression
-counterparts.
+This prevents ambiguities between the declarator operator [`*] and its
+expression counterparts.
+[:zh_CN]
+这防止了在声明符运算符 [`*] 和其表达式对应物之间的歧义。
 [enter:example]
 
 [codeblock]
 &ac.operator int*i; // [:en] syntax error:
+                    // [|:zh_CN] 语法错误：
                     // [:en@~] parsed as: [`&(ac.operator int *)i]
+                    // [|:zh_CN@~] 被解析为：[`&(ac.operator int *)i]
                     // [:en@~] not as: [`&(ac.operator int)*i]
+                    // [|:zh_CN@~] 而不是：[`&(ac.operator int)*i]
 [codeblock:end]
 
 [:en]
 The [`*] is the pointer declarator and not the multiplication operator.
+[:zh_CN]
+其中的 [`*] 是指针声明符而不是乘法运算符。
 [exit:example]
 [exit:note]
 
@@ -143,20 +194,31 @@ The [`*] is the pointer declarator and not the multiplication operator.
 [:en]
 [%conversion[!inheritance of user-defined]]
 Conversion functions are inherited.
+[:zh_CN]
+[%转换[!用户定义～的继承]]
+转换函数可被继承。
 
 [para]
 [:en]
 [%conversion[!virtual user-defined]]
 Conversion functions can be virtual.
+[:zh_CN]
+[%转换[!虚用户定义～]]
+转换函数可为虚函数。
 
 [para]
 [:en]
 [%conversion[!static user-defined]]
-Conversion functions cannot be declared
-[`static].
+Conversion functions cannot be declared [`static].
+[:zh_CN]
+[%转换[!静态用户定义～]]
+转换函数不能被声明为 [`static]。
 
 [para]
 [:en]
 [%conversion[!deduced return type of user-defined]]
 A conversion function template shall not have a deduced return type
 ([#dcl.spec.auto]).
+[:zh_CN]
+[%转换[!用户定义～推断的返回类型]]
+转换函数模板不能具有推断的返回类型（[#dcl.spec.auto]）。

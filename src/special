@@ -1,5 +1,6 @@
 ﻿[section:chapter#special
     [:en] Special member functions
+    [:zh_CN] 特殊成员函数
 ]
 [/
 %gram: \rSec1[gram.special]{Special member functions}
@@ -7,61 +8,91 @@
 /]
 
 [:en]
-[%special member function[see constructor][see destructor][see inline function]
-    [see user-defined conversion][see virtual function]]
+[%special member function
+    [see constructor] [see destructor] [see inline function]
+    [see user-defined conversion] [see virtual function]]
 [%[`X(X&)][see copy constructor]]
 [%[`~][see destructor]]
 [%assignment[!copy][see assignment operator [!copy]]]
 [%assignment[!move][see assignment operator [!move]]]
 [%implicitly-declared default constructor[see constructor [!default]]]
+[:zh_CN]
+[%特殊成员函数
+    [see 构造函数] [see 析构函数] [see 内联函数]
+    [see 用户定义转换] [see 虚函数]]
+[%[`X(X&)][see 复制构造函数]]
+[%[`~][see 析构函数]]
+[%赋值[!复制～][see 赋值运算符[!复制～]]]
+[%赋值[!移动～][see 赋值运算符[!移动～]]]
+[%隐式声明的默认构造函数[see 构造函数[!默认～]]]
 
 [para]
 [:en]
-[%constructor[!default]]
-[%constructor[!copy]]
-[%constructor[!move]]
-[%assignment operator[!copy]]
-[%assignment operator[!move]]
+[%constructor[!default]] [%constructor[!copy]] [%constructor[!move]]
+[%assignment operator[!copy]] [%assignment operator[!move]]
 The default constructor ([#class.ctor]), copy constructor and copy assignment
 operator ([#class.copy]), move constructor and move assignment operator
 ([#class.copy]), and destructor ([#class.dtor]) are [+special member functions].
+[:zh_CN]
+[%构造函数[!默认～]] [%构造函数[!复制～]] [%构造函数[!移动～]]
+[%赋值运算符[!复制～]] [%赋值运算符[!移动～]]
+默认构造函数（[#class.ctor]），复制构造函数和复制赋值运算符（[#class.copy]），
+移动构造函数和移动赋值运算符（[#class.copy]），以及析构函数（[#class.dtor]）是
+[+特殊成员函数]。
 
 [enter:note]
 [:en]
 The implementation will implicitly declare these member functions for some class
 types when the program does not explicitly declare them.
+[:zh_CN]
+如果程序没有为类类型明确声明这些成员函数，实现将隐式声明它们。
 
 [:en]
 The implementation will implicitly define them if they are odr-used
 ([#basic.def.odr]).
+[:zh_CN]
+当它们被 ODR-式使用（[#basic.def.odr]）时，实现还将对它们进行隐式定义。
 
 [:en]
 See [#class.ctor], [#class.dtor] and [#class.copy].
+[:zh_CN]
+参见 [#class.ctor]，[#class.dtor] 和 [#class.copy]。
 [exit:note]
 
 [:en]
 An implicitly-declared special member function is declared at the closing [`}]
 of the [~class-specifier].
+[:zh_CN]
+隐式声明的特殊成员函数被声明于[~类说明符]的闭合 [`}] 处。
 
 [:en]
 Programs shall not define implicitly-declared special member functions.
+[:zh_CN]
+程序不能对隐式声明的特殊成员函数进行定义。
 
 [para]
 [:en]
 Programs may explicitly refer to implicitly-declared special member functions.
+[:zh_CN]
+程序可以明确地涉指隐式声明的特殊成员函数。
 
 [enter:example]
 [:en]
 a program may explicitly call, take the address of or form a pointer to member
 to an implicitly-declared special member function.
+[:zh_CN]
+程序可以对隐式声明的特殊成员函数进行显式调用，获取其地址，或者构成指向它的
+成员指针。
 
 [codeblock]
 struct A { };                   // [:en] implicitly declared [`A::operator=]
+                                // [|:zh_CN] 隐式声明了 [`A::opterator=]
 struct B : A {
   B& operator=(const B &);
 };
 B& B::operator=(const B& s) {
   this->A::operator=(s);        // [:en] well formed
+                                // [|:zh_CN] 良构
   return *this;
 }
 [codeblock:end]
@@ -73,20 +104,30 @@ B& B::operator=(const B& s) {
 The special member functions affect the way objects of class type are created,
 copied, moved, and destroyed, and how values can be converted to values of other
 types.
+[:zh_CN]
+特殊成员函数影响类类型的对象的创建、复制、移动和销毁方式，以及如何将值转换为其他
+类型的值。
 
 [:en]
 Often such special member functions are called implicitly.
+[:zh_CN]
+通常这些特殊成员函数是被隐式调用的。
 [exit:note]
 
 [para]
 [:en]
 [%access control[!member function and]]
 Special member functions obey the usual access rules (Clause [#class.access]).
+[:zh_CN]
+[%访问控制[!成员函数与～]]
+特殊成员函数遵循常规的访问规则（第 [#class.access] 条）。
 
 [enter:example]
 [:en]
 declaring a constructor [`protected] ensures that only derived classes and
 friends can create objects using it.
+[:zh_CN]
+将构造函数声明为 [`protected] 保证了只有派生类和友元可以用它创建对象。
 [exit:example]
 
 [para]
@@ -94,6 +135,9 @@ friends can create objects using it.
 For a class, its non-static data members, its non-virtual direct base classes,
 and, if the class is not abstract ([#class.abstract]), its virtual base classes
 are called its [+potentially constructed subobjects].
+[:zh_CN]
+对于一个类来说，其非静态数据成员，非虚直接基类，以及当该类不为抽象类
+（[#class.abstract]）时它的虚基类，被称为它的[+潜在构造的子对象]。
 
 [include class.ctor]
 

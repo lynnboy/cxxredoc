@@ -1,33 +1,40 @@
 ﻿[section#class.base.init
     [:en] Initializing bases and members
+    [:zh_CN] 初始化基类和成员
 ]
 
 [:en]
 [%initialization[!base class]]
 [%initialization[!member]]
+[:zh_CN]
+[%初始化[!基类]]
+[%初始化[!成员]]
 
 [para]
 [:en]
 In the definition of a constructor for a class, initializers for direct and
 virtual base subobjects and non-static data members can be specified by a
 [~ctor-initializer], which has the form
+[:zh_CN]
+在一个类的构造函数的定义式中，可以用一个[~构造函数初始化式]为其直接或虚基类
+子对象以及非静态数据成员指定初始化式，其形式为
 
 [syntax]
-[rule ctor-initializer [:zh_CN] ]
+[rule ctor-initializer [:zh_CN] 构造函数初始化式 ]
     [| [`:] mem-initializer-list ]
 [rule:end]
 
-[rule mem-initializer-list [:zh_CN] ]
+[rule mem-initializer-list [:zh_CN] 成员初始化式列表 ]
     [| mem-initializer [`:opt ...] ]
     [| mem-initializer-list [`,] mem-initializer [`:opt ...] ]
 [rule:end]
 
-[rule mem-initializer [:zh_CN] ]
+[rule mem-initializer [:zh_CN] 成员初始化式 ]
     [| mem-initializer-id [`(] [~:opt expression-list] [`)] ]
     [| mem-initializer-id braced-init-list ]
 [rule:end]
 
-[rule mem-initializer-id [:zh_CN] ]
+[rule mem-initializer-id [:zh_CN] 成员初始化式标识 ]
     [| class-or-decltype ]
     [| identifier ]
 [rule:end]
@@ -38,27 +45,41 @@ virtual base subobjects and non-static data members can be specified by a
 In a [~mem-initializer-id] an initial unqualified [~identifier] is looked up in
 the scope of the constructor[=']s class and, if not found in that scope, it is
 looked up in the scope containing the constructor[=']s definition.
+[:zh_CN]
+[~成员初始化式标识]中的开头没有限定的[~标识符]在构造函数的类的作用域中进行查找，
+若在该作用域中没找到，则在包含构造函数的定义式的作用域中进行查找。
 
 [enter:note]
 [:en]
 If the constructor[=']s class contains a member with the same name as a direct
 or virtual base class of the class, a [~mem-initializer-id] naming the member or
 base class and composed of a single identifier refers to the class member.
+[:zh_CN]
+如果构造函数的类中包含一个与该类的某个直接或虚基类名字相同的成员，则由单个标识符
+构成并指名这个成员或基类的[~成员初始化式标识]所涉指的是该类的这个成员。
 
 [:en]
 A [~mem-initializer-id] for the hidden base class may be specified using a
 qualified name.
+[:zh_CN]
+可以使用限定名来为这个被隐藏的基类指定[~成员初始化式标识]。
 [exit:note]
 
 [:en]
 Unless the [~mem-initializer-id] names the constructor[=']s class, a non-static
 data member of the constructor[=']s class, or a direct or virtual base of that
 class, the [~mem-initializer] is ill-formed.
+[:zh_CN]
+[~成员初始化式标识]应当指名构造函数的类，构造函数的类的非静态数据成员，或者该类
+的直接或虚基类，否则[~成员初始化式]就是非良构的。
 
 [para]
 [:en]
 A [~mem-initializer-list] can initialize a base class using any
 [~class-or-decltype] that denotes that base class type.
+[:zh_CN]
+[~成员初始化式列表]可以使用能够代表基类类型的任何[~类或-decltype] 对基类进行
+初始化。
 
 [enter:example]
 [codeblock]
@@ -67,6 +88,7 @@ struct A { A(); };
   struct B { };
   struct C: public A, public B { C(); };
   C::C(): global_A() { }        // [:en] [~mem-initializer] for base [`A]
+                                // [|:zh_CN] 基类 [`A] 的[~成员初始化式]
 [codeblock:end]
 [exit:example]
 
@@ -75,6 +97,9 @@ struct A { A(); };
 If a [~mem-initializer-id] is ambiguous because it designates both a direct
 non-virtual base class and an inherited virtual base class, the
 [~mem-initializer] is ill-formed.
+[:zh_CN]
+如果一个[~成员初始化式标识]由于同时代表一个直接非虚基类和一个继承而来的虚基类而
+有歧义，则该[~成员初始化式]非良构。
 
 [enter:example]
 [codeblock]
@@ -82,6 +107,7 @@ struct A { A(); };
 struct B: public virtual A { };
 struct C: public A, public B { C(); };
 C::C(): A() { }                 // [:en] ill-formed: which [`A]?
+                                // [|:zh_CN] 非良构：哪个 [`A]？
 [codeblock:end]
 [exit:example]
 
@@ -89,45 +115,70 @@ C::C(): A() { }                 // [:en] ill-formed: which [`A]?
 [:en]
 A [~ctor-initializer] may initialize a variant member of the constructor[=']s
 class.
+[:zh_CN]
+[~构造函数初始化式]可以对该构造函数所在类的可变成员进行初始化。
 
 [:en]
 If a [~ctor-initializer] specifies more than one [~mem-initializer] for the same
 member or for the same base class, the [~ctor-initializer] is ill-formed.
+[:zh_CN]
+如果一个[~构造函数初始化式]为同一个成员或同一个基类指定了多个[~成员初始化式]，则
+该[~构造函数初始化式]非良构。
 
 [para]
 [:en]
 A [~mem-initializer-list] can delegate to another constructor of the
 constructor[=']s class using any [~class-or-decltype] that denotes the
 constructor[=']s class itself.
+[:zh_CN]
+[~成员初始化式列表]可以使用任何代表该构造函数的类自身的[~类或-decltype]，来委派
+给该构造函数的类的另一个构造函数。
 
 [:en]
 If a [~mem-initializer-id] designates the constructor[=']s class, it shall be
 the only [~mem-initializer]; the constructor is a [+delegating constructor], and
 the constructor selected by the [~mem-initializer] is the [+target constructor].
+[:zh_CN]
+若某个[~成员初始化式标识]代表了该构造函数的类，则它应当是唯一的[~成员初始化式]；
+这个构造函数就是[~委派构造函数]，而根据[~成员初始化式]所选择的构造函数则是[+目标
+构造函数]。
 
 [:en]
 The [+principal constructor] is the first constructor invoked in the
 construction of an object (that is, not a target constructor for that
 object[=']s construction).
+[:zh_CN]
+[+主构造函数]是某个对象的构造过程中第一个被调用的构造函数（就是说，不是此对象的
+构造过程的目标构造函数）。
 
 [:en]
 The target constructor is selected by overload resolution.
+[:zh_CN]
+目标构造函数由重载决议所选择。
 
 [:en]
 Once the target constructor returns, the body of the delegating constructor
 is executed.
+[:zh_CN]
+一旦目标构造函数返回，就执行委派构造函数的函数体。
 
 [:en]
 If a constructor delegates to itself directly or indirectly, the program is
 ill-formed; no diagnostic is required.
+[:zh_CN]
+若某构造函数直接或间接地委派给其自身，则程序非良构；无须诊断。
 
 [enter:example]
 [codeblock]
 struct C {
   C( int ) { }                  // [:en] #1: non-delegating constructor
+                                // [|:zh_CN] #1：非委派构造函数
   C(): C(42) { }                // [:en] #2: delegates to #1
+                                // [|:zh_CN] #2：委派给 #1
   C( char c ) : C(42.0) { }     // [:en] #3: ill-formed due to recursion with #4
+                                // [|:zh_CN] #3：因为与 #4 相互递归而非良构
   C( double d ) : C('a') { }    // [:en] #4: ill-formed due to recursion with #3
+                                // [|:zh_CN] #4：因为与 #3 相互递归而非良构
 };
 [codeblock:end]
 [exit:example]
@@ -140,6 +191,12 @@ The [~expression-list] or [~braced-init-list] in a [~mem-initializer] is used to
 initialize the designated subobject (or, in the case of a delegating
 constructor, the complete class object) according to the initialization rules of
 [#dcl.init] for direct-initialization.
+[:zh_CN]
+[%初始化[!基类]]
+[%初始化[!成员对象]]
+根据 [#dcl.init] 中进行直接初始化的初始化规则，[~成员初始化式]中的[~表达式列表]
+或[~花括号初始化列表]，用于对所代表的子对象（或者委派构造函数的情况中，对整个
+类对象）进行初始化。
 
 [para:~]
 [enter:example]
@@ -161,25 +218,36 @@ D d(10);
 [:en]
 The initialization performed by each [~mem-initializer] constitutes a
 full-expression.
+[:zh_CN]
+每个[~成员初始化式]所实施的初始化都构成一个全表达式。
 
 [:en]
 Any expression in a [~mem-initializer] is evaluated as part of the
 full-expression that performs the initialization.
+[:zh_CN]
+[~成员初始化式]中的任何表达式，都是作为实施该初始化的全表达式的一部分进行求值的
+。
 
 [:en]
 A [~mem-initializer] where the [~mem-initializer-id] denotes a virtual base
 class is ignored during execution of a constructor of any class that is not the
 most derived class.
+[:zh_CN]
+若[~成员初始化式标识]代表某个虚基类，则任何并非全派生类的构造函数的执行过程中
+忽略其[~成员初始化式]。
 
 [para]
 [:en]
 A temporary expression bound to a reference member in a [~mem-initializer]
 is ill-formed.
+[:zh_CN]
+在[~成员初始化式]中绑定到引用成员的临时对象表达式非良构。
 
 [enter:example]
 [codeblock]
 struct A {
   A() : v(42) { }  // [:en] error
+                   // [|:zh_CN] 错误
   const int& v;
 };
 [codeblock:end]
@@ -191,35 +259,50 @@ In a non-delegating constructor, if a given potentially constructed subobject is
 not designated by a [~mem-initializer-id] (including the case where there is no
 [~mem-initializer-list] because the constructor has no [~ctor-initializer]),
 then
+[:zh_CN]
+在非委派构造函数中，若某个给定潜在构造的子对象未指定[~成员初始化式标识]（包括
+由于构造函数没有[~构造函数初始化式]因而没有[~成员初始化式列表]的情况），则
 
 [list]
 [item]
 [:en]
 if the entity is a non-static data member that has a
 [~brace-or-equal-initializer] and either
+[:zh_CN]
+若该实体是带有[~花括号或等号初始化式]的非静态数据成员，并且
 
 [list]
 [item]
 [:en@~] the constructor[=']s class is a union ([#class.union]), and no other
 variant member of that union is designated by a [~mem-initializer-id] or
+[:zh_CN@~] 构造函数的类是联合（[#class.union]），并且该联合没有其他可变成员被
+[~成员初始化式标识]所指定，或者
 
 [item]
 [:en@~] the constructor[=']s class is not a union, and, if the entity is a
 member of an anonymous union, no other member of that union is designated by a
 [~mem-initializer-id],
+[:zh_CN@~] 构造函数的类不是联合，且当该实体是匿名联合的成员时，该联合没有其他
+成员被[~成员初始化式标识]所指定，
 [list:end]
 
 [:en@~]
 the entity is initialized as specified in [#dcl.init];
+[:zh_CN@~]
+则该实体按照 [#dcl.init] 所述进行初始化；
 
 [item]
 [:en]
 otherwise, if the entity is an anonymous union or a variant member
 ([#class.union]), no initialization is performed;
+[:zh_CN]
+否则，若该实体是匿名联合或可变成员（[#class.union]），则不进行初始化；
 
 [item]
 [:en]
 otherwise, the entity is default-initialized ([#dcl.init]).
+[:zh_CN]
+否则，该实体进行默认初始化（[#dcl.init]）。
 [list:end]
 
 [enter:note]
@@ -227,11 +310,16 @@ otherwise, the entity is default-initialized ([#dcl.init]).
 An abstract class ([#class.abstract]) is never a most derived class, thus its
 constructors never initialize virtual base classes, therefore the corresponding
 [~mem-initializer]s may be omitted.
+[:zh_CN]
+由于抽象类（[#class.abstract]）永远不是全派生类，所以其构造函数从来不会对虚基类
+进行初始化，因此其对应的[~成员初始化式]可以被忽略。
 [exit:note]
 
 [:en]
 An attempt to initialize more than one non-static data member of a union renders
 the program ill-formed.
+[:zh_CN]
+试图为一个联合的多个非静态数据成员进行初始化，将导致程序非良构。
 
 [enter:note]
 [:en]
@@ -242,6 +330,12 @@ dynamic storage duration has completed, if the constructor was not invoked as
 part of value-initialization and a member of [`X] is neither initialized nor
 given a value during execution of the [~compound-statement] of the body of the
 constructor, the member has an indeterminate value.
+[:zh_CN]
+[%初始化[!const 成员]]
+[%初始化[!引用成员]]
+对具有自动或动态存储期的对象调用类 [`X] 的构造函数完成之后，若构造函数不是作为
+值初始化的一部分而被调用的，且 [`X] 的某个成员既未被初始化，也未在执行该构造函数
+的函数体的[~组合语句]的过程中被指定一个值，则该成员具有不确定的值。
 [exit:note]
 
 [enter:example]
@@ -256,10 +350,15 @@ struct B {
 
 struct C {
   C() { }               // [:en] initializes members as follows:
+                          // [|:zh_CN] 按如下对成员进行初始化：
   A a;                    // [:en] OK: calls [`A::A()]
+                          // [|:zh_CN] OK：调用了 [`A::A()]
   const B b;              // [:en] error: [`B] has no default constructor
+                          // [|:zh_CN] 错误：[`B] 没有默认构造函数
   int i;                  // [:en] OK: [`i] has indeterminate value
+                          // [|:zh_CN] OK：[`i] 具有不确定的值
   int j = 5;              // [:en] OK: [`j] has the value [`5]
+                          // [|:zh_CN] OK：[`j] 的值为 [`5]
 };
 [codeblock:end]
 [exit:example]
@@ -270,14 +369,21 @@ If a given non-static data member has both a [~brace-or-equal-initializer] and a
 [~mem-initializer], the initialization specified by the [~mem-initializer] is
 performed, and the non-static data member[=']s  [~brace-or-equal-initializer] is
 ignored.
+[:zh_CN]
+如果某个给定非静态数据成员同时具有[~花括号或等号初始化式]和[~成员初始化式]，则
+实施由[~成员初始化式]所指定的初始化，而忽略此非静态数据成员的[~花括号或等号初始
+化式]。
 
 [enter:example]
 [:en]
 Given
+[:zh_CN]
+给定
 
 [codeblock]
 struct A {
-  int i = /* [:en] some integer expression with side effects */ ;
+  int i = /* [:en] some integer expression with side effects
+             [:zh_CN] 某个带有副作用的整数表达式 */ ;
   A(int arg) : i(arg) { }
   // ...
 };
@@ -287,12 +393,17 @@ struct A {
 the [`A(int)] constructor will simply initialize [`i] to the value of [`arg],
 and the [%side effects] side effects in [`i][=']s [~brace-or-equal-initializer]
 will not take place.
+[:zh_CN@~]
+构造函数 [`A(int)] 只是把 [`i] 初始化为 [`arg] 的值，而 [`i] 的[~花括号或等号
+初始化式]中的[%副作用]副作用不会发生。
 [exit:example]
 
 [para]
 [:en]
 A temporary expression bound to a reference member from a
 [~brace-or-equal-initializer] is ill-formed.
+[:zh_CN]
+[~花括号或等号初始化式]中绑定到引用成员的临时表达式非良构。
 
 [enter:example]
 [codeblock]
@@ -302,7 +413,9 @@ struct A {
   const int& v = 42;      // OK
 };
 A a1;                     // [:en] error: ill-formed binding of temporary to reference
+                          // [|:zh_CN] 错误：非良构的对引用绑定临时对象
 A a2(1);                  // [:en] OK, unfortunately
+                          // [|:zh_CN] 遗憾的是这是 OK 的
 [codeblock:end]
 [exit:example]
 
@@ -310,16 +423,23 @@ A a2(1);                  // [:en] OK, unfortunately
 [:en]
 In a non-delegating constructor, the destructor for each potentially constructed
 subobject of class type is potentially invoked ([#class.dtor]).
+[:zh_CN]
+非委派构造函数中，每个类类型的潜在构造的子对象的析构函数都被潜在调用
+（[#class.dtor]）。
 
 [enter:note]
 [:en]
 This provision ensures that destructors can be called for fully-constructed
 sub-objects in case an exception is thrown ([#except.ctor]).
+[:zh_CN]
+本条规则保证在抛出异常（[#except.ctor]）时，可以为完全构造的子对象调用析构函数。
 [exit:note]
 
 [para]
 [:en]
 In a non-delegating constructor, initialization proceeds in the following order:
+[:zh_CN]
+非委派构造函数中，初始化按如下顺序进行：
 
 [list]
 [item]
@@ -330,28 +450,45 @@ virtual base classes are initialized in the order they appear on a depth-first
 left-to-right traversal of the directed acyclic graph of base classes, where
 ["left-to-right] is the order of appearance of the base classes in the derived
 class [~base-specifier-list].
+[:zh_CN]
+[%初始化[!虚基类～顺序]]
+首先，仅对于全派生类（[#intro.object]）的构造函数，对虚基类按照它们在基类的有向
+无环图中进行深度优先、从左向右遍历时的出现顺序来进行初始化，其中“从左向右”是指
+基类在派生类的[~基说明符列表]中出现的顺序。
 
 [item]
 [:en]
 [%initialization[!order of base class]]
 Then, direct base classes are initialized in declaration order as they appear in
 the [~base-specifier-list] (regardless of the order of the [~mem-initializers]).
+[:zh_CN]
+[%[!基类～顺序]]
+然后，直接基类按照它们在[~基说明符列表]中出现的声明顺序（与[~成员初始化式]的顺序
+无关）进行初始化。
 
 [item]
 [:en]
 [%initialization[!order of member]]
 Then, non-static data members are initialized in the order they were declared in
 the class definition (again regardless of the order of the [~mem-initializers]).
+[:zh_CN]
+[%初始化[!成员～顺序]]
+然后，非静态数据成员按照它们在类定义式中的声明顺序（仍然与[~成员初始化式]的顺序
+无关）进行初始化。
 
 [item]
 [:en]
-Finally, the [~compound-statement] of the constructor body  is executed.
+Finally, the [~compound-statement] of the constructor body is executed.
+[:zh_CN]
+最后，执行构造函数的函数体的[~组合语句]。
 [list:end]
 
 [enter:note]
 [:en]
 The declaration order is mandated to ensure that base and member subobjects are
 destroyed in the reverse order of initialization.
+[:zh_CN]
+掌握声明顺序，以确保基类和成员子对象按照初始化的相反顺序进行销毁。
 [exit:note]
 
 [para]
@@ -382,9 +519,13 @@ B::B(int i) { /* ... */ }
 C::C(int i) { /* ... */ }
 
 V v(1);             // [:en] use [`V(int)]
+                    // [|:zh_CN] 使用 [`V(int)]
 A a(2);             // [:en] use [`V(int)]
+                    // [|:zh_CN] 使用 [`V(int)]
 B b(3);             // [:en] use [`V()]
+                    // [|:zh_CN] 使用 [`V()]
 C c(4);             // [:en] use [`V()]
+                    // [|:zh_CN] 使用 [`V()]
 [codeblock:end]
 [exit:example]
 
@@ -394,6 +535,10 @@ C c(4);             // [:en] use [`V()]
 Names in the [~expression-list] or [~braced-init-list] of a [~mem-initializer]
 are evaluated in the scope of the constructor for which the [~mem-initializer]
 is specified.
+[:zh_CN]
+[%初始化式[!成员～的作用域]]
+[~成员初始化式]的[~表达式列表]或[~花括号初始化列表]中的名字，在指定了该[~成员
+初始化式]的构造函数的作用域中进行求值。
 
 [enter:example]
 [codeblock]
@@ -413,6 +558,10 @@ initializes [`X::r] to refer to [`X::a], initializes [`X::b] with the value of
 the constructor parameter [`i], initializes [`X::i] with the value of the
 constructor parameter [`i], and initializes [`X::j] with the value of [`X::i];
 this takes place each time an object of class [`X] is created.
+[:zh_CN]
+将 [`X::r] 初始化为指代 [`X::a]，以构造函数形参 [`i] 的值初始化 [`X::b]，以构造
+函数形参 [`i] 的值初始化 [`X::i]，并以 [`X::i] 的值初始化 [`X::j]；这发生于每当
+创建类 [`X] 的对象之时。
 [exit:example]
 
 [enter:note]
@@ -420,6 +569,9 @@ this takes place each time an object of class [`X] is created.
 Because the [~mem-initializer] are evaluated in the scope of the constructor,
 the [`this] pointer can be used in the [~expression-list] of a
 [~mem-initializer] to refer to the object being initialized.
+[:zh_CN]
+由于[~成员初始化式]在构造函数的作用域中求值，在[~成员初始化式]的[~表达式列表]中
+可以使用 [`this] 指针来指代被初始化的对象。
 [exit:note]
 
 [para]
@@ -427,16 +579,26 @@ the [`this] pointer can be used in the [~expression-list] of a
 [%initialization[!member function call during]]
 Member functions (including virtual member functions, [#class.virtual]) can be
 called for an object under construction.
+[:zh_CN]
+[%初始化[!～中调用成员函数]]
+可以为处于构造过程中的对象调用成员函数（包括虚成员函数，[#class.virtual]）。
 
 [:en]
 Similarly, an object under construction can be the operand of the [`typeid]
 operator ([#expr.typeid]) or of a [`dynamic_cast] ([#expr.dynamic.cast]).
+[:zh_CN]
+相似地，处于构造过程中的对象可以作为 [`typeid] 运算符（[#expr.typeid]）或
+[`dynamic_cast]（[#expr.dynamic.cast]）的操作数。
 
 [:en]
 However, if these operations are performed in a [~ctor-initializer] (or in a
 function called directly or indirectly from a [~ctor-initializer]) before all
 the [~mem-initializer]s for base classes have completed, the result of the
 operation is undefined.
+[:zh_CN]
+然而，如果在完成所有基类的[~成员初始化式]之前，在[~构造函数初始化式]中（或者在
+[~构造函数初始化式]中直接或间接调用的函数中）实施这些操作，则该操作的结果是
+未定义的。
 
 [enter:example]
 [codeblock]
@@ -450,8 +612,11 @@ class B : public A {
 public:
   int f();
   B() : A(f()),     // [:en] undefined: calls member function
+                    // [|:zh_CN] 未定义的：调用了成员函数
                     // [:en@~] but base [`A] not yet initialized
+                    // [|:zh_CN@~] 但基类 [`A] 还未被初始化
   j(f()) { }        // [:en] well-defined: bases are all initialized
+                    // [|:zh_CN] 良构：基类都已被初始化
 };
 
 class C {
@@ -463,8 +628,11 @@ class D : public B, C {
   int i;
 public:
   D() : C(f()),     // [:en] undefined: calls member function
+                    // [|:zh_CN] 未定义的：调用了成员函数
                     // [:en@~] but base [`C] not yet initialized
+                    // [|:zh_CN@~] 但基类 [`C] 还未被初始化
   i(f()) { }        // [:en] well-defined: bases are all initialized
+                    // [|:zh_CN] 良构：基类都已被初始化
 };
 [codeblock:end]
 [exit:example]
@@ -475,6 +643,9 @@ public:
 [#class.cdtor] describes the result of virtual function calls, [`typeid] and
 [`dynamic_cast]s during construction for the well-defined cases; that is,
 describes the [+polymorphic behavior] of an object under construction.
+[:zh_CN]
+[#class.cdtor] 说明虚函数调用的结果，在良构的情况下 [`typeid] 和 [`dynamic_cast]
+的结果；亦即说明了处于构造过程中的对象的[+多态行为]。
 [exit:note]
 
 [para]
@@ -483,6 +654,10 @@ describes the [+polymorphic behavior] of an object under construction.
 A [~mem-initializer] followed by an ellipsis is a pack expansion
 ([#temp.variadic]) that initializes the base classes specified by a pack
 expansion in the [~base-specifier-list] for the class.
+[:zh_CN]
+[%初始化式[!包组展开式]]
+[~成员初始化式]后面跟着省略号是包组展开式（[#temp.variadic]），并对该类的[~基
+说明符列表]中的包组展开式所指定的基类进行初始化。
 
 [enter:example]
 [codeblock]

@@ -1,20 +1,27 @@
 ﻿[section#class.conv.ctor
     [:en] Conversion by constructor
+    [:zh_CN] 由构造函数转换
 ]
 
-[%[:en] conversion[!user-defined]]
+[%[:en] conversion[!user-defined]
+  [:zh_CN] 转换[!用户定义～] ]
 
 [para]
 [:en]
 A constructor declared without the [~function-specifier] [`explicit] specifies a
 conversion from the types of its parameters to the type of its class.
+[:zh_CN]
+声明时不带[~函数说明符] [`explicit] 的构造函数，指定了从其形参的类型到其类的类型
+的转换。
 
 [:en]
-Such a constructor is called a [+converting constructor
+Such a constructor is called a [def converting constructor
 [%constructor [!converting]]].
+[:zh_CN]
+此种构造函数被称为[def 转换构造函数[%构造函数[!转换～]]]。
 
 [enter:example]
-[%Jessie]]
+[%Jessie]
 [codeblock]
 struct X {
     X(int);
@@ -37,10 +44,16 @@ void f(X arg) {
 An explicit constructor constructs objects just like non-explicit constructors,
 but does so only where the direct-initialization syntax ([#dcl.init]) or where
 casts ([#expr.static.cast], [#expr.cast]) are explicitly used.
+[:zh_CN]
+显式构造函数与非显式构造函数一样用于构造对象，但只用在直接初始化语法
+（[#dcl.init]），或显式使用的强制转换（[#expr.static.cast]，[#expr.cast]）时。
 
 [:en]
 A default constructor may be an explicit constructor; such a constructor will be
 used to perform default-initialization or value-initialization ([#dcl.init]).
+[:zh_CN]
+默认构造函数可以是显式构造函数；此种构造函数用于实施默认初始化或值初始化
+（[#dcl.init]）。
 
 [enter:example]
 [codeblock]
@@ -51,13 +64,21 @@ struct Z {
 };
 
 Z a;                            // [:en] OK: default-initialization performed
+                                // [|:zh_CN] OK：实施默认初始化
 Z a1 = 1;                       // [:en] error: no implicit conversion
+                                // [|:zh_CN] 错误：不能隐式转换
 Z a3 = Z(1);                    // [:en] OK: direct initialization syntax used
+                                // [|:zh_CN] OK：使用了直接初始化语法
 Z a2(1);                        // [:en] OK: direct initialization syntax used
+                                // [|:zh_CN] OK：使用了直接初始化语法
 Z* p = new Z(1);                // [:en] OK: direct initialization syntax used
+                                // [|:zh_CN] OK：使用了直接初始化语法
 Z a4 = (Z)1;                    // [:en] OK: explicit cast used
+                                // [|:zh_CN] OK：使用了显式强制转换
 Z a5 = static_cast<Z>(1);       // [:en] OK: explicit cast used
+                                // [|:zh_CN] OK：使用了显式强制转换
 Z a6 = { 3, 4 };                // [:en] error: no implicit conversion
+                                // [|:zh_CN] 错误：不能隐式转换
 [codeblock:end]
 [exit:example]
 
@@ -65,7 +86,11 @@ Z a6 = { 3, 4 };                // [:en] error: no implicit conversion
 [:en]
 A non-explicit copy/move constructor ([#class.copy]) is a converting
 constructor.
+[:zh_CN]
+非显式复制/移动构造函数（[#class.copy]）是转换构造函数。
 
 [:en]
 An implicitly-declared copy/move constructor is not an explicit constructor;
 it may be called for implicit type conversions.
+[:zh_CN]
+隐式声明的复制/移动构造函数不是显式构造函数；它可在隐式类型转换中调用。

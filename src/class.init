@@ -1,23 +1,33 @@
 ﻿[section#class.init
     [:en] Initialization
+    [:zh_CN] 初始化
 ]
 
 [%:begin#initialization.class.object
     [:en] initialization[!class object]
+    [:zh_CN] 初始化[!类对象]
 ]
-[%[:en] initialization[!default constructor and]]
-[%[:en] initialization[!constructor and]]
+[%[:en] initialization[!default constructor and]
+  [:zh_CN] 初始化[!默认构造函数与～] ]
+[%[:en] initialization[!constructor and]
+  [:zh_CN] 初始化[!构造函数与～] ]
 
 [para]
 [:en]
 When no initializer is specified for an object of (possibly cv-qualified) class
 type (or array thereof), or the initializer has the form [`()], the object is
 initialized as specified in [#dcl.init].
+[:zh_CN]
+当（可能被 cv-限定的）类类型（或其数组）的对象并未指定初始化式，或者其初始化式的
+形式为 [`()] 时，该对象按 [#dcl.init] 中所指定的来初始化。
 
 [para]
 [:en]
 An object of class type (or array thereof) can be explicitly initialized;
 see [#class.expl.init] and [#class.base.init].
+[:zh_CN]
+类类型（或其数组）的对象可以显式地进行初始化；参见 [#class.expl.init] 和
+[#class.base.init]。
 
 [para]
 [:en]
@@ -25,11 +35,17 @@ see [#class.expl.init] and [#class.base.init].
 When an array of class objects is initialized (either explicitly or implicitly)
 and the elements are initialized by constructor, the constructor shall be called
 for each element of the array, following the subscript order; see [#dcl.array].
+[:zh_CN]
+[%执行顺序[!构造函数～与数组]]
+当类对象的数组被（显式或隐式地）初始化，且各元素由构造函数初始化时，应当为每个
+元素按照下标顺序调用构造函数；参见 [#dcl.array]。
 
 [enter:note]
 [:en]
 Destructors for the array elements are called in reverse order of their
 construction.
+[:zh_CN]
+数组元素的析构函数以与它们的构造相反的顺序调用。
 [exit:note]
 
 [include class.expl.init]

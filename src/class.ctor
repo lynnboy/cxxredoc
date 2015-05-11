@@ -1,25 +1,35 @@
 ﻿[section#class.ctor
     [:en] Constructors
+    [:zh_CN] 构造函数
 ]
 
-[%  [:en] constructor]
+[%  [:en] constructor
+    [:zh_CN] 构造函数 ]
 
 [para]
 [:en]
 Constructors do not have names.
+[:zh_CN]
+构造函数没有名字。
 
 [:en]
-In a declaration of a constructor, the [~declarator] is a
-function declarator ([#dcl.fct]) of the form
+In a declaration of a constructor, the [~declarator] is a function declarator
+([#dcl.fct]) of the form
+[:zh_CN]
+在构造函数的声明式中，其[~声明符]是以下形式的函数声明符
 
 [syntax:explanation]
-[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)] [~:opt exception-specification] [~:opt attribute-specifier-seq]
+[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)]
+    [~:opt exception-specification] [~:opt attribute-specifier-seq]
 [syntax:end]
 
 [:en@~]
 where the [~ptr-declarator] consists solely of an [~id-expression], an optional
 [~attribute-specifier-seq], and optional surrounding parentheses, and the
 [~id-expression] has one of the following forms:
+[:zh_CN@~]
+其中的[~指针声明符]仅由一个[~标识表达式]，可选的[~特性说明符序列]，以及可选的
+外围括号构成，且其[~标识表达式]具有以下形式之一：
 
 [list]
 [item]
@@ -27,6 +37,9 @@ where the [~ptr-declarator] consists solely of an [~id-expression], an optional
 in a [~member-declaration] that belongs to the [~member-specification] of a
 class but is not a friend declaration ([#class.friend]), the [~id-expression] is
 the injected-class-name (Clause [#class]) of the immediately-enclosing class;
+[:zh_CN]
+处于某个[~成员声明式]中，它属于某个类的[~成员说明]且不是友元声明式
+（[#class.friend]），该[~标识表达式]是其直接外围类的注入类名（第 [#class] 条）；
 
 [item]
 [:en]
@@ -34,44 +47,64 @@ in a [~member-declaration] that belongs to the [~member-specification] of a
 class template but is not a friend declaration, the [~id-expression] is a
 [~class-name] that names the current instantiation ([#temp.dep.type]) of the
 immediately-enclosing class template; or
+[:zh_CN]
+处于某个[~成员声明式]中，它属于某个类模板的[~成员说明]且不是友元声明式，该[~标识
+表达式]是指名其直接外围类模板的当前实例（[#temp.dep.type]）的[~类名]；或者
 
 [item]
 [:en]
 in a declaration at namespace scope or in a friend declaration, the
 [~id-expression] is a [~qualified-id] that names a constructor ([#class.qual]).
+[:zh_CN]
+处于命名空间作用域的某个声明式中，或者处于某个友元声明式中，该[~标识表达式]是
+指名构造函数的[~限定标识]（[#class.qual]）。
 [list:end]
 
 [:en]
 The [~class-name] shall not be a [~typedef-name].
+[:zh_CN]
+其[~类名]不能为 [~typedef-名]。
 
 [:en]
 In a constructor declaration, each [~decl-specifier] in the optional
 [~decl-specifier-seq] shall be [`friend], [`inline], [`explicit], or
 [`constexpr].
+[:zh_CN]
+构造函数声明式中，可选的[~声明说明符序列]中的每个[~声明说明符]应当为 [`friend]，
+[`inline]，[`explicit]，或者 [`constexpr]。
 
 [enter:example]
 [codeblock]
 struct S {
   S();              // [:en] declares the constructor
+                    // [|:zh_CN] 声明构造函数
 };
 
 S::S() { }          // [:en] defines the constructor
+                    // [|:zh_CN] 定义构造函数
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 A constructor is used to initialize objects of its class type.
+[:zh_CN]
+构造函数用于初始化其类类型的对象。
 
 [:en]
 Because constructors do not have names, they are never found during name lookup;
 however an explicit type conversion using the functional notation
 ([#expr.type.conv]) will cause a constructor to be called to initialize an
 object.
+[:zh_CN]
+由于构造函数没有名字，故名字查找无法找到它们；然而使用函数式记法的显式类型转换
+（[#expr.type.conv]）将会导致对构造函数的调用以初始化某个对象。
 
 [enter:note]
 [:en]
 For initialization of objects of class type see [#class.init].
+[:zh_CN]
+关于类类型的对象的初始化，参见 [#class.init]。
 [exit:note]
 
 [para]
@@ -80,15 +113,24 @@ For initialization of objects of class type see [#class.init].
 [%[`volatile][!constructor and]]
 A constructor can be invoked for a [`const], [`volatile] or [`const volatile]
 object.
+[:zh_CN]
+[%[`const][!构造函数与～]]
+[%[`volatile][!构造函数与～]]
+可以为 [`const]，[`volatile] 或 [`const volatile] 对象调用构造函数。
 
 [:en]
 [%restriction[!constructor]]
 [`const] and [`volatile] semantics ([#dcl.type.cv]) are not applied on an object
 under construction.
+[:zh_CN]
+[%限制[!构造函数]]
+[`const] 和 [`volatile] 语义（[#dcl.type.cv]）对于正在构造中的对象不适用。
 
 [:en]
 They come into effect when the constructor for the most derived object
 ([#intro.object]) ends.
+[:zh_CN]
+当全派生对象（[#intro.object]）的构造函数结束时，它们才生效。
 
 [para]
 [:en]
@@ -98,40 +140,61 @@ They come into effect when the constructor for the most derived object
 A [+default] constructor for a class [`X] is a constructor of class [`X] that
 either has no parameters or else each parameter that is not a function parameter
 pack has a default argument.
+[:zh_CN]
+[%构造函数[!～的继承]]
+[%构造函数[!默认～]]
+[%构造函数[!非平凡～]]
+类 [`X] 的[+默认]构造函数，是类 [`X] 的没有形参的，或者每个不是函数形参包组的
+形参都带有默认实参的构造函数。
 
 [:en]
 [%implicitly-declared default constructor]
 If there is no user-declared constructor for class [`X], a constructor having no
 parameters is implicitly declared as defaulted ([#dcl.fct.def]).
+[:zh_CN]
+[%隐式声明的默认构造函数]
+如果类 [`X] 没有用户声明的构造函数，则一个没有形参的构造函数将被隐式声明为预置的
+（[#dcl.fct.def]）。
 
 [:en]
 An implicitly-declared default constructor is an [`inline public] member of its
 class.
+[:zh_CN]
+隐式声明的默认构造函数是其类的 [`inline public] 成员。
 
 [:en]
 A defaulted default constructor for class [`X] is defined as deleted if:
+[:zh_CN]
+如下情况下类 [`X] 的预置默认构造函数将被定义为弃置的：
 
 [list]
 [item]
 [:en] [`X] is a union-like class that has a variant member with a non-trivial
 default constructor,
+[:zh_CN] [`X] 为类似联合的类，并包含带有非平凡默认构造函数的可变成员，
 
 [item]
 [:en] any non-static data member with no [~brace-or-equal-initializer] is of
 reference type,
+[:zh_CN] 其中有任何不带有[~花括号或等号初始化式]的非静态数据成员具有引用类型，
 
 [item]
 [:en] any non-variant non-static data member of const-qualified type (or array
 thereof) with no [~brace-or-equal-initializer] does not have a user-provided
 default constructor,
+[:zh_CN] 其中有任何具有 const-限定的类型（或其数组），且不带有[~花括号或等号初始
+化式]的非可变的非静态数据成员，没有由用户提供的默认构造函数，
 
 [item]
 [:en] [`X] is a union and all of its variant members are of const-qualified
 type (or array thereof),
+[:zh_CN] [`X] 为联合，且其所有可变成员都具有 const-限定的类型（或其数组），
 
 [item]
 [:en] [`X] is a non-union class and all members of any anonymous union member
 are of const-qualified type (or array thereof),
+[:zh_CN] [`X] 为非联合类，且其中有任何匿名联合成员的所有成员都具有 const-限定的
+类型（或其数组），
 
 [item]
 [:en] any potentially constructed subobject, except for a non-static data member
@@ -140,37 +203,56 @@ either [`M] has no default constructor or overload resolution ([#over.match]) as
 applied to [`M][=']s default constructor results in an ambiguity or in a
 function that is deleted or inaccessible from the defaulted default constructor,
 or
+[:zh_CN] 其中有任何潜在构造的子对象（除了带有[~花括号或等号初始化式]的非静态数据
+成员外），具有类类型 [`M]（或其数组），而 [`M] 要么没有默认构造函数，要么对 [`M]
+的默认构造函数实施的重载决议（[#over.match]）的结果有歧义，或者结果是一个弃置的
+函数，或一个从这个预置默认构造函数中无法访问的函数，或者
 
 [item]
 [:en] any potentially constructed subobject has a type with a destructor that is
 deleted or inaccessible from the defaulted default constructor.
+[:zh_CN] 其中有任何潜在构造的子对象所具有的类型中，带有弃置的或从这个预置默认
+构造函数中无法访问的析构函数。
 [list:end]
 
 [:en]
 A default constructor is trivial if it is not user-provided and if:
+[:zh_CN]
+当默认构造函数不是由用户提供的，且满足如下条件时其即为平凡的：
 
 [list]
 [item]
 [:en]
 its class has no virtual functions ([#class.virtual]) and no virtual base
 classes ([#class.mi]), and
+[:zh_CN]
+该类没有虚函数（[#class.virtual]）且没有虚基类（[#class.mi]），并且
 
 [item]
 [:en]
 no non-static data member of its class has a [~brace-or-equal-initializer], and
+[:zh_CN]
+该类没有带有[~花括号或等号初始化式]的非静态数据成员，并且
 
 [item]
 [:en]
 all the direct base classes of its class have trivial default constructors, and
+[:zh_CN]
+该类的所有直接基类都具有平凡的默认构造函数，并且
 
 [item]
 [:en]
 for all the non-static data members of its class that are of class type (or
 array thereof), each such class has a trivial default constructor.
+[:zh_CN]
+对于该类的所有类类型（或其数组）的非静态数据成员，每个类都具有平凡的默认构造函数
+。
 [list:end]
 
 [:en]
-Otherwise, the default constructor is [~non-trivial].
+Otherwise, the default constructor is [+non-trivial].
+[:zh_CN]
+否则，该默认构造函数为[+非平凡的]。
 
 [para]
 [:en]
@@ -179,35 +261,55 @@ A default constructor that is defaulted and not defined as deleted is
 [+implicitly defined] when it is odr-used ([#basic.def.odr]) to create an object
 of its class type ([#intro.object]) or when it is explicitly defaulted after its
 first declaration.
+[:zh_CN]
+[%构造函数[!隐式定义的～]]
+当某个预置的且未被定义为弃置的默认构造函数被 ODR-式使用（[#basic.def.odr]）以
+创建该类类型的对象（[#intro.object]）时，或者在其首个声明式之后被显式预置时，
+它将被[+隐式定义]。
 
 [:en]
 The implicitly-defined default constructor performs the set of initializations
 of the class that would be performed by a user-written default constructor for
 that class with no [~ctor-initializer] ([#class.base.init]) and an empty
 [~compound-statement].
+[:zh_CN]
+隐式定义的默认构造函数对该类实施一组初始化，等同于由用户写出的没有[~构造函数初始
+化式]（[#class.base.init]）和空的[~组合语句]的默认构造函数所实施的初始化。
 
 [:en]
 If that user-written default constructor would be ill-formed, the program is
 ill-formed.
+[:zh_CN]
+若由用户写出的默认构造函数是非良构的，则程序是非良构的。
 
 [:en]
 If that user-written default constructor would satisfy the requirements of a
 [`constexpr] constructor ([#dcl.constexpr]), the implicitly-defined default
 constructor is [`constexpr].
+[:zh_CN]
+若由用户写出的默认构造函数能够满足 [`constexpr] 构造函数（[#dcl.constexpr]）的
+规定，则隐式定义的默认构造函数是 [`constexpr] 的。
 
 [:en]
 Before the defaulted default constructor for a class is implicitly defined, all
 the non-user-provided default constructors for its base classes and its
 non-static data members shall have been implicitly defined.
+[:zh_CN]
+在对某个类的预置默认构造函数进行隐式定义之前，它的所有基类和非静态数据成员的非
+用户提供的默认构造函数都应当是已经被隐式定义的。
 
 [enter:note]
 [:en]
 An implicitly-declared default constructor has an exception specification
 ([#except.spec]).
+[:zh_CN]
+隐式声明的默认构造函数带有异常说明（[#except.spec]）。
 
 [:en]
 An explicitly-defaulted definition might have an implicit exception
 specification, see [#dcl.fct.def].
+[:zh_CN]
+显式预置定义式可能有隐含的异常说明，参见 [#dcl.fct.def]。
 [exit:note]
 
 [para]
@@ -220,10 +322,20 @@ create class objects of dynamic storage duration ([#basic.stc.dynamic]) created
 by a [~new-expression] in which the [~new-initializer] is omitted ([#expr.new]),
 or are called when the explicit type conversion syntax ([#expr.type.conv]) is
 used.
+[:zh_CN]
+[%构造函数[!隐式调用～]]
+默认构造函数将被隐式调用以创建具有静态、线程或自动存储期（[#basic.stc.static]，
+[#basic.stc.thread]，[#basic.stc.auto]）且定义时没有初始化式（[#dcl.init]）的类
+对象，被调用以创建由省略了 [~new-初始化式]的 [~new-表达式]（[#expr.new]）所创建
+的具有动态存储期（[#basic.stc.dynamic]）的类对象，或者当使用显式类型转换语法
+（[#expr.type.conv]）时被调用。
 
 [:en]
 A program is ill-formed if the default constructor for an object is implicitly
 used and the constructor is not accessible (Clause [#class.access]).
+[:zh_CN]
+如果隐式使用了对象的默认构造函数但该构造函数不可访问，则程序非良构
+（第 [#class.access] 条）。
 
 [para]
 [enter:note]
@@ -233,6 +345,11 @@ used and the constructor is not accessible (Clause [#class.access]).
 [#class.base.init] describes the order in which constructors for base classes
 and non-static data members are called and describes how arguments can be
 specified for the calls to these constructors.
+[:zh_CN]
+[%执行顺序[!基类构造函数]]
+[%执行顺序[!成员构造函数]]
+[#class.base.init] 说明基类和非静态数据成员的构造函数的调用顺序，并说明如何指定
+这些构造函数调用的实参。
 [exit:note]
 
 [para]
@@ -240,10 +357,16 @@ specified for the calls to these constructors.
 [:en]
 A [`return] statement in the body of a constructor shall not specify a return
 value.
+[:zh_CN]
+[%限制[!构造函数]]
+构造函数体中的 [`return] 语句不能指定返回值。
 
 [:en]
 [%constructor[!address of]]
 The address of a constructor shall not be taken.
+[:zh_CN]
+[%构造函数[!～的地址]]
+不能获得构造函数的地址。
 
 [para]
 [:en]
@@ -251,14 +374,21 @@ The address of a constructor shall not be taken.
 [%constructor[!explicit call]]
 A functional notation type conversion ([#expr.type.conv]) can be used to create
 new objects of its type.
+[:zh_CN]
+[%对象[!无名]]
+[%构造函数[!显式调用～]]
+函数式记法的类型转换（[#expr.type.conv]）可被用于创建其类型的新对象。
 
 [enter:note]
 [:en]
 The syntax looks like an explicit call of the constructor.
+[:zh_CN]
+其语法看似对构造函数的显式调用。
 [exit:note]
 
 [enter:example]
-[%  [:en] example[!constructor]]
+[%  [:en] example[!constructor]
+    [:zh_CN] 示例[!构造函数] ]
 [codeblock]
 complex zz = complex(1,2.3);
 cprint( complex(7.8,1.2) );
@@ -268,15 +398,21 @@ cprint( complex(7.8,1.2) );
 [para]
 [:en]
 An object created in this way is unnamed.
+[:zh_CN]
+这种方式所创建的对象是无名的。
 
 [enter:note]
 [:en]
 [#class.temporary] describes the lifetime of temporary objects.
+[:zh_CN]
+[#class.temporary] 说明临时对象的生存期。
 [exit:note]
 
 [enter:note]
 [:en]
 Explicit constructor calls do not yield lvalues, see [#basic.lval].
+[:zh_CN]
+显式构造函数调用并不产生左值，参见 [#basic.lval]。
 [exit:note]
 
 [para]
@@ -285,6 +421,10 @@ Explicit constructor calls do not yield lvalues, see [#basic.lval].
 [%member function[!constructor and]]
 some language constructs have special semantics when used during construction;
 see [#class.base.init] and [#class.cdtor].
+[:zh_CN]
+[%成员函数[!构造函数与～]]
+某些语言构造，在构造过程中使用时将具有特殊语义；参见 [#class.base.init] 和
+[#class.cdtor]。
 [exit:note]
 
 [para]
@@ -293,6 +433,10 @@ During the construction of a [`const] object, if the value of the object or any
 of its subobjects is accessed through a glvalue that is not obtained, directly
 or indirectly, from the constructor[=']s [`this] pointer, the value of the
 object or subobject thus obtained is unspecified.
+[:zh_CN]
+在 [`const] 对象的构造过程中，若通过某个并不是从该构造函数的 [`this] 指针（直接
+或间接）获取的泛左值，来访问该对象的值或其任何子对象的值，则如此所获取的对象或子
+对象的值是未指明的。
 
 [enter:example]
 [codeblock]
@@ -308,8 +452,10 @@ const C cobj;
 
 void no_opt(C* cptr) {
   int i = cobj.c * 100;         // [:en] value of [`cobj.c] is unspecified
+                                // [|:zh_CN] [`cobj.c] 的值是未指明的
   cptr->c = 1;
   cout << cobj.c * 100          // [:en] value of [`cobj.c] is unspecified
+                                // [|:zh_CN] [`cobj.c] 的值是未指明的
        << '\n';
 }
 [codeblock:end]

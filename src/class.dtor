@@ -1,21 +1,29 @@
 ﻿[section#class.dtor
     [:en] Destructors
+    [:zh_CN] 析构函数
 ]
-[%[:en]destructor]
+[%[:en] destructor
+  [:zh_CN] 析构函数 ]
 
 [para]
 [:en]
 In a declaration of a destructor, the [~declarator] is a function declarator
 ([#dcl.fct]) of the form
+[:zh_CN]
+在析构函数的声明式中，其[~声明符]是以下形式的函数声明符
 
 [syntax:explanation]
-[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)] [~:opt exception-specification] [~:opt attribute-specifier-seq]
+[~ptr-declarator] [`(] [~parameter-declaration-clause] [`)]
+    [~:opt exception-specification] [~:opt attribute-specifier-seq]
 [syntax:end]
 
 [:en@~]
 where the [~ptr-declarator] consists solely of an [~id-expression], an optional
 [~attribute-specifier-seq], and optional surrounding parentheses, and the
 [~id-expression] has one of the following forms:
+[:zh_CN@~]
+其中的[~指针声明符]仅由一个[~标识表达式]，可选的[~特性说明符序列]，以及可选的
+外围括号构成，且其[~标识表达式]具有以下形式之一：
 
 [list]
 [item]
@@ -24,6 +32,10 @@ in a [~member-declaration] that belongs to the [~member-specification] of a
 class but is not a friend declaration ([#class.friend]), the [~id-expression] is
 [`~][~class-name] and the [~class-name] is the injected-class-name (Clause
 [#class]) of the immediately-enclosing class;
+[:zh_CN]
+处于某个[~成员声明式]中，它属于某个类的[~成员说明]且不是友元声明式
+（[#class.friend]），该[~标识表达式]为 [`~][~类名]，且该[~类名]是其直接外围类的
+注入类名（第 [#class] 条）；
 
 [item]
 [:en]
@@ -31,51 +43,81 @@ in a [~member-declaration] that belongs to the [~member-specification] of a
 class template but is not a friend declaration, the [~id-expression] is
 [`~][~class-name] and the [~class-name] names the current instantiation
 ([#temp.dep.type]) of the immediately-enclosing class template; or
+[:zh_CN]
+处于某个[~成员声明式]中，它属于某个类模板的[~成员说明]且不是友元声明式，该[~标识
+表达式]为 [`~][~类名]，且该[~类名]是指名其直接外围类模板的当前实例
+（[#temp.dep.type]）的[~类名]；或者
 
 [item]
 [:en]
 in a declaration at namespace scope or in a friend declaration, the
 [~id-expression] is [~nested-name-specifier] [`~][~class-name] and the
 [~class-name] names the same class as the [~nested-name-specifier].
+[:zh_CN]
+处于命名空间作用域的某个声明式中，或者处于某个友元声明式中，该[~标识表达式]为
+[~嵌套名说明符] [`~][~类名]，且该[~类名]与该[~嵌套名说明符]指名相同的类。
 [list:end]
 
 [:en]
 The [~class-name] shall not be a [~typedef-name].
+[:zh_CN]
+其[~类名]不能为 [~typedef-名]。
 
 [:en]
 A destructor shall take no arguments ([#dcl.fct]).
+[:zh_CN]
+析构函数不能获得实参（[#dcl.fct]）。
 
 [:en]
 In a destructor declaration, each [~decl-specifier] of the optional
 [~decl-specifier-seq] shall be [`friend], [`inline], or [`virtual].
+[:zh_CN]
+析构函数声明式中，可选的[~声明说明符序列]中的每个[~声明说明符]应当为 [`friend]，
+[`inline]，或者 [`constexpr]。
 
 [para]
 [:en]
 A destructor is used to destroy objects of its class type.
+[:zh_CN]
+析构函数用于销毁其类类型的对象。
 
 [:en]
 [%restriction[!destructor]]
 The address of a destructor shall not be taken.
+[:zh_CN]
+[%限制[!析构函数]]
+不能获取析构函数的地址。
 
 [:en]
 [%[`const][!destructor and]]
 [%[`volatile][!destructor and]]
 A destructor can be invoked for a [`const], [`volatile] or [`const volatile]
 object.
+[:zh_CN]
+[%[`const][!析构函数与～]]
+[%[`volatile][!析构函数与～]]
+可以为 [`const]，[`volatile] 或 [`const volatile] 对象调用析构函数。
 
 [:en]
 [`const] and [`volatile] semantics ([#dcl.type.cv]) are not applied on an object
 under destruction.
+[:zh_CN]
+[`const] 和 [`volatile] 语义（[#dcl.type.cv]）对于正在销毁中的对象不适用。
 
 [:en]
 They stop being in effect when the destructor for the most derived object
 ([#intro.object]) starts.
+[:zh_CN]
+当全派生对象（[#intro.object]）的析构函数开始时，它们就停止生效。
 
 [para]
 [:en]
 A declaration of a destructor that does not have an [~exception-specification]
 has the same exception specification as if had been implicitly declared
 ([#except.spec]).
+[:zh_CN]
+一个不带有[~异常说明]的析构函数声明式，被当作隐式地带有与一个隐式声明式相同的
+[~异常说明]（[#except.spec]）。
 
 [para]
 [:en]
@@ -84,48 +126,70 @@ has the same exception specification as if had been implicitly declared
 [%destructor[!non-trivial]]
 If a class has no user-declared destructor, a destructor is implicitly
 declared as defaulted ([#dcl.fct.def]).
+[:zh_CN]
+[%生成的析构函数[see 析构函数[!默认～]]]
+[%析构函数[!默认～]]
+[%析构函数[!非平凡～]]
+如果某个类没有用户声明的析构函数，则将隐式声明一个预置的析构函数
+（[#dcl.fct.def]）。
 
 [:en]
 An implicitly-declared destructor is an [`inline public] member of its class.
+[:zh_CN]
+隐式声明的析构函数是其类的 [`inline public] 成员。
 
 [para]
 [:en]
 A defaulted destructor for a class [`X] is defined as deleted if:
+[:zh_CN]
+如下情况下类 [`X] 的预置析构函数将被定义为弃置的：
 
 [list]
 [item]
-[:en@~] [`X] is a union-like class that has a variant member with a non-trivial
+[:en] [`X] is a union-like class that has a variant member with a non-trivial
 destructor,
+[:zh_CN] [`X] 为类似联合的类，并包含带有非平凡析构函数的可变成员，
 
 [item]
-[:en@~] any potentially constructed subobject has class type [`M] (or array
+[:en] any potentially constructed subobject has class type [`M] (or array
 thereof) and [`M] has a deleted destructor or a destructor that is inaccessible
 from the defaulted destructor,
+[:zh_CN] 其中有任何潜在构造的子对象具有类类型 [`M]（或其数组），而 [`M] 具有弃置
+的析构函数，或从这个预置析构函数中无法访问的析构函数，
 
 [item]
-[:en@~] or, for a virtual destructor, lookup of the non-array deallocation
+[:en] or, for a virtual destructor, lookup of the non-array deallocation
 function results in an ambiguity or in a function that is deleted or
 inaccessible from the defaulted destructor.
+[:zh_CN] 或者，对于虚析构函数，对非数组回收函数进行查找的结果有歧义，或者结果为
+弃置的，或在这个预置析构函数中无法访问的函数。
 [list:end]
 
 [:en]
 A destructor is trivial if it is not user-provided and if:
+[:zh_CN]
+当析构函数不是由用户提供的，且满足如下条件时其即为平凡的：
 
 [list]
 [item]
-[:en@~] the destructor is not [`virtual],
+[:en] the destructor is not [`virtual],
+[:zh_CN] 该析构函数不为 [`virtual]，
 
 [item]
-[:en@~] all of the direct base classes of its class have trivial destructors,
-and
+[:en] all of the direct base classes of its class have trivial destructors, and
+[:zh_CN] 该类的所有直接基类都具有平凡的析构函数，并且
 
 [item]
-[:en@~] for all of the non-static data members of its class that are of class
+[:en] for all of the non-static data members of its class that are of class
 type (or array thereof), each such class has a trivial destructor.
+[:zh_CN] 对于该类的所有类类型（或其数组）的非静态数据成员，每个类都具有平凡的
+析构函数。
 [list:end]
 
 [:en]
 Otherwise, the destructor is [+non-trivial].
+[:zh_CN]
+否则，该析构函数为[+非平凡的]。
 
 [para]
 [:en]
@@ -134,12 +198,20 @@ A destructor that is defaulted and not defined as deleted is [+implicitly
 defined] when it is odr-used ([#basic.def.odr]) to destroy an object of its
 class type ([#basic.stc]) or when it is explicitly defaulted after its first
 declaration.
+[:zh_CN]
+[%析构函数[!隐式定义的～]]
+当某个预置的且未被定义为弃置的析构函数被 ODR-式使用（[#basic.def.odr]）以销毁该
+类类型的对象（[#intro.object]）时，或者在其首个声明式之后被显式预置时，它将被
+[+隐式定义]。
 
 [para]
 [:en]
 Before the defaulted destructor for a class is implicitly defined, all the
 non-user-provided destructors for its base classes and its non-static data
 members shall have been implicitly defined.
+[:zh_CN]
+在对某个类的预置析构函数进行隐式定义之前，它的所有基类和非静态数据成员的非用户
+提供的析构函数都应当是已经被隐式定义的。
 
 [para]
 [:en]
@@ -152,25 +224,44 @@ allocated within the body, a destructor for class [`X] calls the destructors for
 [`X][=']s direct base classes and, if [`X] is the type of the most derived class
 ([#class.base.init]), its destructor calls the destructors for [`X][=']s virtual
 base classes.
+[:zh_CN]
+[%执行顺序[!析构函数～]]
+[%执行顺序[!基类析构函数]]
+[%执行顺序[!成员析构函数]]
+执行析构函数的函数体并销毁在该函数体中分配的任何自动对象之后，类 [`X] 的析构函数
+调用 [`X] 的直接非可变非静态数据成员的析构函数，[`X] 的直接基类的析构函数，以及
+当 [`X] 为全派生类（[#class.base.init]）的类型时，则其析构函数还调用 [`X] 的
+虚基类的析构函数。
 
 [:en]
 All destructors are called as if they were referenced with a qualified name,
 that is, ignoring any possible virtual overriding destructors in more derived
 classes.
+[:zh_CN]
+调用这些析构函数时应当如同它们是用限定名所指代的一样，就是说，忽略任何可能在
+进一步派生的类中覆盖的虚析构函数。
 
 [:en]
 Bases and members are destroyed in the reverse order of the completion of their
 constructor (see [#class.base.init]).
+[:zh_CN]
+基类和成员以与它们的构造函数完成的相反顺序被销毁（参见 [#class.base.init]）。
 
 [:en]
 A [`return] statement ([#stmt.return]) in a destructor might not directly return
 to the caller; before transferring control to the caller, the destructors for
 the members and bases are called.
+[:zh_CN]
+析构函数中的 [`return] 语句（[#stmt.return]）可能不会直接返回到调用方；在将控制
+传递给调用方之前，将调用成员和基类的析构函数。
 
 [:en]
 [%order of execution[!destructor and array]]
 Destructors for elements of an array are called in reverse order of their
 construction (see [#class.init]).
+[:zh_CN]
+[%执行顺序[!析构函数与数组]]
+数组元素的析构函数以与它们的构造相反的顺序调用（参见 [#class.init]）。
 
 [para]
 [:en]
@@ -179,10 +270,19 @@ construction (see [#class.init]).
 A destructor can be declared [`virtual] ([#class.virtual]) or pure [`virtual]
 ([#class.abstract]); if any objects of that class or any derived class are
 created in the program, the destructor shall be defined.
+[:zh_CN]
+[%析构函数[!虚～]]
+[%析构函数[!纯虚～]]
+析构函数可被声明为 [`virtual]（[#class.virtual]）或纯 [`virtual]
+（[#class.abstract]）；若在程序中创建了该类或其任何派生类的任意对象，则该析构
+函数应当进行定义。
 
 [:en]
 If a class has a base class with a virtual destructor, its destructor (whether
 user- or implicitly-declared) is virtual.
+[:zh_CN]
+若某个类带有具有虚析构函数的基类，则其析构函数（无论是用户声明的还是隐式声明的）
+也是虚函数。
 
 [para]
 [enter:note]
@@ -190,6 +290,9 @@ user- or implicitly-declared) is virtual.
 [%member function[!destructor and]]
 some language constructs have special semantics when used during destruction;
 see [#class.cdtor].
+[:zh_CN]
+[%成员函数[!析构函数与～]]
+某些语言构造在析构过程中使用时将具有特殊语义；参见 [#class.cdtor]。
 [exit:note]
 
 [para]
@@ -197,25 +300,34 @@ see [#class.cdtor].
 [%destructor[!implicit call]]
 [%destructor[!program termination and]]
 A destructor is invoked implicitly
+[:zh_CN]
+[%析构函数[!隐式调用～]]
+[%析构函数[!程序终止与～]]
+如下几种情况中，将隐式调用析构函数：
 
 [list]
-
 [item]
-[:en@~] for a constructed object with static storage duration
+[:en] for a constructed object with static storage duration
 ([#basic.stc.static]) at program termination ([#basic.start.term]),
+[:zh_CN] 在程序终止（[#basic.start.term]）时，对已构造的具有静态存储期
+（[#basic.stc.static]）的对象，
 
 [item]
-[:en@~] for a constructed object with thread storage duration
+[:en] for a constructed object with thread storage duration
 ([#basic.stc.thread]) at thread exit,
+[:zh_CN] 在线程退出时，对已构造的具有线程存储期（[#basic.stc.thread]）的对象，
 
 [item]
-[:en@~] for a constructed object with automatic storage duration
+[:en] for a constructed object with automatic storage duration
 ([#basic.stc.auto]) when the block in which an object is created exits
 ([#stmt.dcl]),
+[:zh_CN] 在创建了对象的语句块退出（[#stmt.dcl]）时，对已构造的具有自动存储期
+（[#basic.stc.auto]）的对象，
 
 [item]
-[:en@~] for a constructed temporary object when its lifetime ends
+[:en] for a constructed temporary object when its lifetime ends
 ([#class.temporary]).
+[:zh_CN] 在临时对象的生存期结束（[#class.temporary]）时，对已构造的临时对象。
 [list:end]
 
 [:en]
@@ -223,28 +335,45 @@ A destructor is invoked implicitly
 [%destructor[!explicit call]]
 In each case, the context of the invocation is the context of the construction
 of the object.
+[:zh_CN]
+[%[`delete][!析构函数与～]]
+[%析构函数[!显式调用～]]
+每种情况中，进行调用的语境是该对象进行构造的语境。
 
 [:en]
 A destructor is also invoked implicitly through use of a [~delete-expression]
 ([#expr.delete]) for a constructed object allocated by a [~new-expression]
 ([#expr.new]); the context of the invocation is the [~delete-expression].
+[:zh_CN]
+析构函数还可以通过对由 [~new-表达式]（[#expr.new]）所分配的已构造对象使用
+[~delete-表达式]（[#expr.delete]）来隐式调用；其调用的语境就是该
+[~delete-表达式]。
 
 [enter:note]
 [:en]
 An array of class type contains several subobjects for each of which the
 destructor is invoked.
+[:zh_CN]
+类类型的数组中包含多个子对象，每个都将调用析构函数。
 [exit:note]
 
 [:en]
 A destructor can also be invoked explicitly.
+[:zh_CN]
+析构函数也能显式调用。
 
 [:en]
 A destructor is [+potentially invoked] if it is invoked or as specified in
 [#expr.new] and [#class.base.init].
+[:zh_CN]
+当析构函数被调用时，或者根据 [#expr.new] 和 [#class.base.init]，称其被[+潜在
+调用]。
 
 [:en]
 A program is ill-formed if a destructor that is potentially invoked is deleted
 or not accessible from the context of the invocation.
+[:zh_CN]
+如果被潜在调用的析构函数是弃置的，或在调用的语境中不可访问，则程序非良构。
 
 [para]
 [:en]
@@ -252,15 +381,24 @@ At the point of definition of a virtual destructor (including an implicit
 definition ([#class.copy])), the non-array deallocation function is determined
 as if for the expression [`delete this] appearing in a non-virtual destructor of
 the destructor[=']s class (see [#expr.delete]).
+[:zh_CN]
+在虚析构函数的定义点（包括隐式定义（[#class.copy]）），以如同该析构函数的类的
+非虚析构函数中出现表达式 [`delete this] 一样确定其非数组回收函数（参见
+[#expr.delete]）。
 
 [:en]
 If the lookup fails or if the deallocation function has a deleted definition
 ([#dcl.fct.def]), the program is ill-formed.
+[:zh_CN]
+若查找失败，或者若该回收函数具有弃置定义式（[#dcl.fct.def]），则程序非良构。
 
 [enter:note]
 [:en]
 This assures that a deallocation function corresponding to the dynamic type of
 an object is available for the [~delete-expression] ([#class.free]).
+[:zh_CN]
+这保证了对于 [~delete-表达式]，存在对应于对象的动态类型的回收函数
+（[#class.free]）。
 [exit:note]
 
 [para]
@@ -269,6 +407,10 @@ an object is available for the [~delete-expression] ([#class.free]).
 In an explicit destructor call, the destructor name appears as a [`~] followed
 by a [~type-name] or [~decltype-specifier] that denotes the destructor[=']s
 class type.
+[:zh_CN]
+[%析构函数[!显式调用～]]
+在显式析构函数调用中，析构函数的名字表示为一个 [`~] 跟着一个代表该析构函数的类
+类型的[~类型名]或 [~decltype-说明符]。
 
 [:en]
 The invocation of a destructor is subject to the usual rules for member
@@ -276,11 +418,17 @@ functions ([#class.mfct]); that is, if the object is not of the destructor[=']s
 class type and not of a class derived from the destructor[=']s class type
 (including when the destructor is invoked via a null pointer value), the program
 has undefined behavior.
+[:zh_CN]
+对析构函数的调用遵循成员函数的一般规则（[#class.mfct]）；就是说，若对象不具有该
+析构函数的类类型，且不具有该析构函数的类类型的派生类（这包括通过空指针值调用析构
+函数的情况），则程序具有未定义行为。
 
 [enter:note]
 [:en]
 invoking [`delete] on a null pointer does not call the destructor; see
 [#expr.delete].
+[:zh_CN]
+对空指针执行 [`delete] 并不调用析构函数；参见 [#expr.delete]。
 [exit:note]
 
 [enter:example]
@@ -298,10 +446,15 @@ B* B_ptr = &D_object;
 
 void f() {
   D_object.B::~B();             // [:en] calls [`B][=']s destructor
+                                // [|:zh_CN] 调用 [`B] 的析构函数
   B_ptr->~B();                  // [:en] calls [`D][=']s destructor
+                                // [|:zh_CN] 调用 [`D] 的析构函数
   B_ptr->~B_alias();            // [:en] calls [`D][=']s destructor
+                                // [|:zh_CN] 调用 [`D] 的析构函数
   B_ptr->B_alias::~B();         // [:en] calls [`B][=']s destructor
+                                // [|:zh_CN] 调用 [`B] 的析构函数
   B_ptr->B_alias::~B_alias();   // [:en] calls [`B][=']s destructor
+                                // [|:zh_CN] 调用 [`B] 的析构函数
 }
 [codeblock:end]
 [exit:example]
@@ -309,9 +462,13 @@ void f() {
 [enter:note]
 [:en]
 An explicit destructor call must always be written using a member access
-operator ([#expr.ref]) or a qualified-id ([#expr.prim]); in particular, the
+operator ([#expr.ref]) or a [~qualified-id] ([#expr.prim]); in particular, the
 [~unary-expression] [`~X()] in a member function is not an explicit destructor
 call ([#expr.unary.op]).
+[:zh_CN]
+显式析构函数调用必须总是用成员访问运算符（[#expr.ref]）或者[~限定标识]
+（[#expr.prim]）写出；特别地，成员函数中的[~一元表达式] [`~X()] 不是显式析构函数
+调用（[#expr.unary.op]）。
 [exit:note]
 
 [para]
@@ -319,19 +476,31 @@ call ([#expr.unary.op]).
 [:en]
 [%object[!destructor and placement of]]
 explicit calls of destructors are rarely needed.
+[:zh_CN]
+[%对象[!析构函数与～的放置]]
+很少需要对析构函数进行显式调用。
 
 [:en]
 One use of such calls is for objects placed at specific addresses using a
 placement [~new-expression].
+[:zh_CN]
+此种调用的一个用途是用于通过放置式 [~new-表达式]放置在特定地址的对象。
 
 [:en]
 Such use of explicit placement and destruction of objects can be necessary
 to cope with dedicated hardware resources and for writing memory management
 facilities.
+[:zh_CN]
+当应付专门的硬件资源以及编写内存管理设施时，需要这种对对象进行显式放置和销毁的
+用法。
 
 [:en]
 For example,
-[%[:en]example[!explicit destructor call]]
+[:zh_CN]
+例如，
+
+[%[:en] example[!explicit destructor call]
+  [:zh_CN] 示例[!显式析构函数调用] ]
 
 [codeblock]
 void* operator new(std::size_t, void* p) { return p; }
@@ -342,10 +511,13 @@ struct X {
 void f(X* p);
 
 void g() {                      // [:en] rare, specialized use:
+                                // [|:zh_CN] 少见，特殊用法：
   char* buf = new char[sizeof(X)];
   X* p = new(buf) X(222);       // [:en] use [`buf[`]] and initialize
+                                // [|:zh_CN] 使用 [`buf[`]] 并初始化
   f(p);
   p->X::~X();                   // [:en] cleanup
+                                // [|:zh_CN] 清理
 }
 [codeblock:end]
 [exit:note]
@@ -355,12 +527,18 @@ void g() {                      // [:en] rare, specialized use:
 Once a destructor is invoked for an object, the object no longer exists;
 the behavior is undefined if the destructor is invoked for an object whose
 lifetime has ended ([#basic.life]).
+[:zh_CN]
+一旦对某个对象调用析构函数，该对象就不再存在；对生存期已结束（[#basic.life]）的
+对象调用析构函数的行为是未定义的。
 
 [enter:example]
 [:en]
 if the destructor for an automatic object is explicitly invoked, and the block
 is subsequently left in a manner that would ordinarily invoke implicit
 destruction of the object, the behavior is undefined.
+[:zh_CN]
+如果显式调用某个自动对象的析构函数，而代码块随即将以通常方式调用该对象的隐式销毁
+，则其行为是未定义的。
 [exit:example]
 
 [para]
@@ -369,13 +547,20 @@ destruction of the object, the behavior is undefined.
 [%fundamental type[!destructor and]]
 the notation for explicit call of a destructor can be used for any scalar type
 name ([#expr.pseudo]).
+[:zh_CN]
+[%基础类型[!析构函数与～]]
+显式调用析构函数的记法也可用于任意标量类型的名字（[#expr.pseudo]）。
 
 [:en]
 Allowing this makes it possible to write code without having to know if a
 destructor exists for a given type.
+[:zh_CN]
+允许这种记法，使得编写代码时可以不必知道某个给定类型是否存在析构函数。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 typedef int I;

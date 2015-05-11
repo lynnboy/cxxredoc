@@ -1,14 +1,19 @@
 ﻿[section#class.free
     [:en] Free store
+    [:zh_CN]
 ]
 
-[% [:en] free store]
+[% [:en] free store
+   [:zh_CN] 自由存储 ]
 
 [para]
 [:en]
 [%[`new][!type of]]
 Any allocation function for a class [`T] is a static member (even if not
 explicitly declared [`static]).
+[:zh_CN]
+[%[`new][!～的类型]]
+类 [`T] 的任何分配函数都是静态成员（即使并未明确声明为 [`static]）。
 
 [para]
 [enter:example]
@@ -23,37 +28,54 @@ struct D1 : B {
 Arena*  ap;
 void foo(int i) {
   new (ap) D1;      // [:en] calls [`B::operator new(std::size_t, Arena*)]
+                    // [|:zh_CN] 调用 [`B::operator new(std::size_t, Arena*)]
   new D1[i];        // [:en] calls [`::operator new[`](std::size_t)]
+                    // [|:zh_CN] 调用 [`::operator new[`](std::size_t)]
   new D1;           // [:en] ill-formed: [`::operator new(std::size_t)] hidden
+                    // [|:zh_CN] 非良构：[`::operator new(std::size_t)] 被隐藏
 }
 [codeblock:end]
 [exit:example]
 
 [para]
-[:en]
 [%[`delete]]
+[:en]
 When an object is deleted with a [~delete-expression] ([#expr.delete]),
 a [+deallocation function] [%function[!deallocation]] ([`operator delete()]
 [%[`operator delete]] for non-array objects or [`operator delete[`]()]
 [%[`operator delete]] for arrays) is (implicitly) called to reclaim the storage
 occupied by the object ([#basic.stc.dynamic.deallocation]).
+[:zh_CN]
+当对象被 [~delete-表达式]（[#expr.delete]）删除时，将（隐式）调用[+回收函数]
+[%函数[!回收～]]（非数组对象为 [%[`operator delete]][`operator delete()] 或者
+数组的 [%[`operator delete]][`operator delete</span>[`]()]）来回收对象所占据的
+存储（[#basic.stc.dynamic.deallocation]）。
 
 [para]
 [:en]
 Class-specific deallocation function lookup is a part of general deallocation
 function lookup ([#expr.delete]) and occurs as follows.
+[:zh_CN]
+对特定于类的回收函数的查找是一般的回收函数查找（[#expr.delete]）的一部分，并按
+如下方式进行。
 
 [:en]
 If the [~delete-expression] is used to deallocate a class object whose static
 type has a virtual destructor, the deallocation function is the one selected at
 the point of definition of the dynamic type[=']s virtual destructor
 ([#class.dtor]).
+[:zh_CN]
+若 [~delete-表达式]用于回收其静态类型具有虚析构函数的类对象，则该回收函数是在其
+动态类型的虚析构函数（[#class.dtor]）的定义点处所选择的那个。
 
 [footnote]
 [:en]
 A similar provision is not needed for the array version of [`operator delete]
 because [#expr.delete] requires that in this situation, the static type of the
 object to be deleted be the same as its dynamic type.
+[:zh_CN]
+并不需要对 [`operator delete] 的数组版本提供相似的支持，这是因为 [#expr.delete]
+要求在这种情况下，所要删除的对象的静态类型与其动态类型相同。
 [footnote:end]
 
 [:en]
@@ -61,22 +83,34 @@ Otherwise, if the [~delete-expression] is used to deallocate an object of class
 [`T] or array thereof, the static and dynamic types of the object shall be
 identical and the deallocation function[=']s name is looked up in the scope of
 [`T].
+[:zh_CN]
+否则，若 [~delete-表达式]用于回收类 [`T] 或其数组的对象，则该对象的静态和动态
+类型应该一致，且该回收函数的名字在 [`T] 的作用域中查找。
 
 [:en]
 If this lookup fails to find the name, general deallocation function
 lookup ([#expr.delete]) continues.
+[:zh_CN]
+如果对该名字的查找失败，则继续进行一般回收函数查找（[#expr.delete]）。
 
 [:en]
 If the result of the lookup is ambiguous or inaccessible, or if the lookup
 selects a placement deallocation function, the program is ill-formed.
+[:zh_CN]
+若该查找的结果有歧义或者不可访问，或者若该查找选择了某个放置回收函数，则程序
+非良构。
 
 [para]
 [:en]
 [%[`delete][!type of]]
 Any deallocation function for a class [`X] is a static member (even if not
 explicitly declared [`static]).
+[:zh_CN]
+[%[`delete][!～的类型]]
+类 [`X] 的任何回收函数都是静态成员（即使并未明确声明为 [`static]）。
 
-[%[:en] example[![`delete]]]
+[%[:en] example[![`delete]]
+  [:zh_CN] 示例[![`delete]] ]
 [enter:example]
 [codeblock]
 class X {
@@ -95,19 +129,29 @@ class Y {
 [:en]
 Since member allocation and deallocation functions are [`static] they cannot be
 virtual.
+[:zh_CN]
+由于成员分配和回收函数都为 [`static]，故它们不能为虚函数。
 
 [enter:note]
 [:en]
-[%examplep[!destructor and [`delete]]]
-[%examplep[!scope of [`delete]]]
 however, when the [~cast-expression] of a [~delete-expression] refers to an
 object of class type, because the deallocation function actually called is
 looked up in the scope of the class that is the dynamic type of the object,
 if the destructor is virtual, the effect is the same.
+[:zh_CN]
+然而，当 [~delete-表达式]的[~强制转换表达式]指代某个类类型的对象时，由于实际上所
+调用的回收函数是在该对象的动态类型的类作用域中查找的，如果其析构函数是虚函数，则
+其效果实际上是相同的。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
+[%[:en] example[!destructor and [`delete]]
+  [:zh_CN] 示例[!析构函数与 [`delete]] ]
+[%[:en] example[!scope of [`delete]]
+  [:zh_CN] 示例[!作用域与 [`delete]] ]
 [codeblock]
 struct B {
   virtual ~B();
@@ -120,13 +164,17 @@ struct D : B {
 
 void f() {
   B* bp = new D;
-  delete bp;        //[:en]1: uses [`D::operator delete(void*)]
+  delete bp;        // [:en] 1: uses [`D::operator delete(void*)]
+                    // [|:zh_CN] 1：使用 [`D::operator delete(void*)]
 }
 [codeblock:end]
 
 [:en]
 Here, storage for the non-array object of class [`D] is deallocated by
 [`D::operator delete()], due to the virtual destructor.
+[:zh_CN]
+此处，类 [`D] 的非数组对象的存储，根据其虚析构函数，是由 [`D::operator delete()]
+进行回收的。
 [exit:note]
 
 [enter:note]
@@ -134,9 +182,14 @@ Here, storage for the non-array object of class [`D] is deallocated by
 Virtual destructors have no effect on the deallocation function actually called
 when the [~cast-expression] of a [~delete-expression] refers to an array of
 objects of class type.
+[:zh_CN]
+当 [~delete-表达式]的[~强制转换表达式]指代类类型的对象的数组时，虚析构函数对实际
+调用的回收函数没有影响。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 struct B {
@@ -151,8 +204,10 @@ struct D : B {
 void f(int i) {
   D* dp = new D[i];
   delete [] dp;     // [:en] uses [`D::operator delete[`](void*, std::size_t)]
+                    // [|:zh_CN] 使用 [`D::operator delete[`](void*, std::size_t)]
   B* bp = new D[i];
   delete[] bp;      // [:en] undefined behavior
+                    // [|:zh_CN] 未定义行为
 }
 [codeblock:end]
 [exit:note]
@@ -160,15 +215,22 @@ void f(int i) {
 [para]
 [:en]
 Access to the deallocation function is checked statically.
+[:zh_CN]
+对回收函数的访问检查是静态进行的。
 
 [:en]
 Hence, even though a different one might actually be executed, the statically
 visible deallocation function is required to be accessible.
+[:zh_CN]
+因此，即使实际上执行的可能是另一个，仍然需要静态可见的回收函数是可访问的。
 
 [enter:example]
 [:en]
 for the call on line //1 above, if [`B::operator delete()] had been [`private],
 the delete expression would have been ill-formed.
+[:zh_CN]
+对于上面行 //1 中的调用，若 [`B::operator delete()] 为 [`private]，则该 delete
+表达式将为非良构的。
 [exit:example]
 
 [para]
@@ -176,4 +238,6 @@ the delete expression would have been ill-formed.
 [:en]
 If a deallocation function has no explicit [~exception-specification], it
 has a non-throwing exception specification ([#except.spec]).
+[:zh_CN]
+如果回收函数不带有显式的[~异常说明]，则它带有无抛出异常说明（[#except.spec]）。
 [exit:note]

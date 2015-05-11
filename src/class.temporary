@@ -1,5 +1,6 @@
 ﻿[section#class.temporary
     [:en] Temporary objects
+    [:zh_CN] 临时对象
 ]
 
 [para]
@@ -14,32 +15,55 @@ to a prvalue ([#dcl.init.ref]), returning a prvalue ([#stmt.return]), a
 conversion that creates a prvalue ([#conv.lval], [#expr.static.cast],
 [#expr.const.cast], [#expr.cast]), throwing an exception ([#except.throw]), and
 in some initializations ([#dcl.init]).
+[:zh_CN]
+[%对象[!临时～][see 临时对象]]
+[%临时对象]
+[%临时对象的优化[see 临时对象的消除]]
+[%临时对象[!～的消除]]
+[%临时对象[!由实现定义的～生成]]
+在许多语境中将创建类类型的临时对象：向引用绑定纯右值（[#dcl.init.ref]），返回
+纯右值（[#stmt.return]），创建纯右值的转换（[#conv.lval]，[#expr.static.cast]，
+[#expr.const.cast]，[#expr.cast]），抛出异常（[#except.throw]），以及在某些
+初始化中（[#dcl.init]）。
 
 [enter:note]
 [:en]
 The lifetime of exception objects is described in [#except.throw].
+[:zh_CN]
+异常对象的生存期在 [#except.throw] 中说明。
 [exit:note]
 
 [:en]
 Even when the creation of the temporary object is unevaluated (Clause [#expr])
 or otherwise avoided ([#class.copy]), all the semantic restrictions shall be
 respected as if the temporary object had been created and later destroyed.
+[:zh_CN]
+即使临时对象的创建是免求值的（第 [#expr] 条）或者已经被避免了（[#class.copy]），
+其所有语义限制也要按照如同该临时对象被创建随后被销毁一样被遵守。
 
 [enter:note]
 [:en]
 This includes accessibility ([#class.access]) and whether it is deleted, for the
 constructor selected and for the destructor.
+[:zh_CN]
+这包括所选择的构造函数和析构函数的可访问性（第 [#class.access] 条）和是否被弃置
+（[#dcl.fct.def.delete]）。
 
 [:en]
 However, in the special case of a function call used as the operand of a
 [~decltype-specifier] ([#expr.call]), no temporary is introduced, so the
 foregoing does not apply to the prvalue of any such function call.
+[:zh_CN]
+但是，对于将函数调用用作 [~decltype-说明符]的操作数的特殊情况下（[#expr.call]）
+，并未引入临时对象，因此前面所提到的并不适用于任何这种函数调用的纯右值。
 [exit:note]
 
 [para]
 [enter:example]
 [:en]
 Consider the following code:
+[:zh_CN]
+考虑如下代码：
 
 [codeblock]
 class X {
@@ -74,25 +98,42 @@ void h() {
 An implementation might use a temporary in which to construct [`X(2)] before
 passing it to [`f()] using [`X][=']s copy constructor; alternatively, [`X(2)]
 might be constructed in the space used to hold the argument.
+[:zh_CN]
+[%类对象复制[see 复制构造函数]]
+[%构造函数[!复制～]]
+实现可以把 [`X(2)] 构造到一个临时对象中，再使用 [`X] 的复制构造函数将它传递给
+[`f()]；或者，可以将 [`X(2)] 构造于持有这个实参的空间之中。
 
 [:en]
 Likewise, an implementation might use a temporary in which to construct [`Y(3)]
 before passing it to [`g()] using [`Y][=']s move constructor; alternatively,
 [`Y(3)] might be constructed in the space used to hold the argument.
+[:zh_CN]
+相似地，实现可以把 [`Y(3)] 构造到一个临时对象中，再使用 [`Y] 的移动构造函数将它
+传递给 [`g()]；或者，可以将 [`Y(3)] 构造于持有这个实参的空间之中。
 
 [:en]
 Also, a temporary might be used to hold the result of [`f(X(2))] before copying
 it to [`b] using [`X][=']s copy constructor; alternatively, [`f()][=']s result
 might be constructed in [`b].
+[:zh_CN]
+另外，可以用一个临时对象持有 [`f(X(2))] 的结果，再使用 [`X] 的复制构造函数将它
+复制给 [`b]；或者，[`f()] 的结果可以在 [`b] 中进行构造。
 
 [:en]
 Likewise, a temporary might be used to hold the result of [`g(Y(3))] before
 moving it to [`c] using [`Y][=']s move constructor; alternatively, [`g()][=']s
 result might be constructed in [`c].
+[:zh_CN]
+相似地，可以用一个临时对象持有 [`g(Y(3))] 的结果，再使用 [`Y] 的移动构造函数将它
+移动给 [`c]；或者，[`g()] 的结果可以在 [`c] 中进行构造。
 
 [:en]
 On the other hand, the expression [`a=f(a)] requires a temporary for the result
 of [`f(a)], which is then assigned to [`a].
+[:zh_CN]
+另一方面，表达式 [`a=f(a)] 需要为 [`f(a)] 的结果提供一个临时对象，然后将其赋值给
+[`a]。
 [exit:example]
 
 [para]
@@ -103,23 +144,39 @@ of [`f(a)], which is then assigned to [`a].
 When an implementation introduces a temporary object of a class that has a
 non-trivial constructor ([#class.ctor], [#class.copy]), it shall ensure that
 a constructor is called for the temporary object.
+[:zh_CN]
+[%临时对象[!～的构造函数]]
+[%临时对象[!～的析构函数]]
+[%临时对象[!～的销毁]]
+当实现引入了带有非平凡构造函数（[#class.ctor]，[#class.copy]）的类的临时对象时，
+它应当保证为该临时对象调用构造函数。
 
 [:en]
 Similarly, the destructor shall be called for a temporary with a non-trivial
 destructor ([#class.dtor]).
+[:zh_CN]
+相似地，应当为带有非平凡析构函数（[#class.dtor]）的临时对象调用其析构函数。
 
 [:en]
 Temporary objects are destroyed as the last step in evaluating the
 full-expression ([#intro.execution]) that (lexically) contains the point where
 they were created.
+[:zh_CN]
+临时对象的销毁是作为（在词法上）包含它们的创建点的全表达式（[#intro.execution]）
+求值的最后一步进行的。
 
 [:en]
 This is true even if that evaluation ends in throwing an exception.
+[:zh_CN]
+即使其求值过程以抛出异常来结束时也应如此。
 
 [:en]
 The [%value computation] value computations and [%side effects] side effects of
 destroying a temporary object are associated only with the full-expression, not
 with any specific subexpression.
+[:zh_CN]
+销毁临时对象时的[%值计算]值计算和[%副作用]副作用，仅与全表达式而不是其任何特定的
+子表达式相关联。
 
 [para]
 [:en]
@@ -127,30 +184,47 @@ with any specific subexpression.
 [%temporary[!order of destruction of]]
 There are two contexts in which temporaries are destroyed at a different point
 than the end of the full-expression.
+[:zh_CN]
+[%初始化式[!临时对象和声明符]]
+[%临时对象[!～的销毁顺序]]
+在两种语境中临时对象并不在全表达式的结尾处销毁。
 
 [:en]
 The first context is when a default constructor is called to initialize an
 element of an array.
+[:zh_CN]
+第一种语境是当调用默认构造函数以初始化数组的元素时。
 
 [:en]
 If the constructor has one or more default arguments, the destruction of every
 temporary created in a default argument is sequenced before the construction of
 the next array element, if any.
+[:zh_CN]
+若该构造函数带有一个或多个默认实参，则每个在默认实参中创建的临时对象的销毁都将按
+顺序早于下一个数组元素的构造（如果有）。
 
 [para]
 [:en]
 The second context is when a reference is bound to a temporary.
+[:zh_CN]
+第二种语境是当把引用绑定到临时对象时。
 
 [footnote]
 [:en]
 The same rules apply to initialization of an [`initializer_list] object
 ([#dcl.init.list]) with its underlying temporary array
+[:zh_CN]
+同样的规则适用于以其底层临时数组对 [`initializer_list] 对象进行初始化时
+（[#dcl.init.list]）。
 [footnote:end]
 
 [:en]
 The temporary to which the reference is bound or the temporary that is the
 complete object of a subobject to which the reference is bound persists for the
 lifetime of the reference except:
+[:zh_CN]
+由该引用所绑定的临时对象，或者作为由该引用所绑定的子对象的完整对象的临时对象，
+除了如下指出之外，将持续到该引用的生存期：
 
 [list]
 [item]
@@ -158,23 +232,33 @@ lifetime of the reference except:
 A temporary object bound to a reference parameter in a function call
 ([#expr.call]) persists until the completion of the full-expression containing
 the call.
+[:zh_CN]
+在函数调用（[#expr.call]）中绑定到引用形参的临时对象，持续到包含该调用的全表达式
+完成时。
 
 [item]
 [:en]
 The lifetime of a temporary bound to the returned value in a function return
 statement ([#stmt.return]) is not extended; the temporary is destroyed at the
 end of the full-expression in the return statement.
+[:zh_CN]
+在函数返回语句（[#stmt.return]）中绑定到返回值的临时对象的生存期并未扩展，这个
+临时对象将在该返回语句中的全表达式结尾处被销毁。
 
 [item]
 [:en]
 A temporary bound to a reference in a [~new-initializer] ([#expr.new]) persists
 until the completion of the full-expression containing the [~new-initializer].
+[:zh_CN]
+在 [~new-初始化式]（[#expr.new]）中绑定到引用上的临时对象，持续到包含该
+[~new-初始化式]的全表达式完成时。
 
 [enter:example]
 [codeblock]
 struct S { int mi; const std::pair<int,int>& mp; };
 S a { 1, {2,3} };
 S* p = new S{ 1, {2,3} };   // [:en] Creates dangling reference
+                            // [|:zh_CN] 创建了悬挂的引用
 [codeblock:end]
 [exit:example]
 
@@ -182,6 +266,8 @@ S* p = new S{ 1, {2,3} };   // [:en] Creates dangling reference
 [:en]
 This may introduce a dangling reference, and implementations are encouraged to
 issue a warning in such a case.
+[:zh_CN]
+这样可能会引入悬挂的引用，鼓励实现在这种情况下给出警告。
 [exit:note]
 [list:end]
 
@@ -189,11 +275,17 @@ issue a warning in such a case.
 The destruction of a temporary whose lifetime is not extended by being bound to
 a reference is sequenced before the destruction of every temporary which is
 constructed earlier in the same full-expression.
+[:zh_CN]
+生存期没有因为被绑定到引用上而被扩展的临时对象的销毁，按顺序早于在相同的全表达式
+中更早被构造的所有临时对象的销毁。
 
 [:en]
 If the lifetime of two or more temporaries to which references are bound ends
 at the same point, these temporaries are destroyed at that point in the reverse
 order of the completion of their construction.
+[:zh_CN]
+如果两个或多个绑定到引用的临时对象的生存期在同一处结束，则这些临时对象在该处以与
+它们构造完成相反的顺序销毁。
 
 [:en]
 In addition, the destruction of temporaries bound to references shall take into
@@ -204,6 +296,13 @@ and created before the temporary is created the temporary shall be destroyed
 before [`obj1] is destroyed; if [`obj2] is an object with the same storage
 duration as the temporary and created after the temporary is created the
 temporary shall be destroyed after [`obj2] is destroyed.
+[:zh_CN]
+此外，绑定到引用的临时对象的销毁，应当与具有静态、线程或自动存储期
+（[#basic.stc.static]，[#basic.stc.thread]，[#basic.stc.auto]）的对象的销毁顺序
+一同考虑；就是说，如果 [`obj1] 是具有与临时对象相同存储期的，创建于临时对象创建
+之前的对象，那么该临时对象应当在 [`obj1] 被销毁之前销毁；如果 [`obj2] 是与临时
+对象相同存储期的，创建于临时对象创建之后的具有对象，那么该临时对象应当在 [`obj2]
+被销毁之后销毁。
 
 [enter:example]
 [codeblock]
@@ -223,32 +322,53 @@ the expression [`S(16) + S(23)] creates three temporaries: a first temporary
 [`T1] to hold the result of the expression [`S(16)], a second temporary [`T2]
 to hold the result of the expression [`S(23)], and a third temporary [`T3] to
 hold the result of the addition of these two expressions.
+[:zh_CN]
+表达式 [`S(16) + S(23)] 创建了三个临时对象：第一个临时对象 [`T1] 用以持有表达式
+[`S(16)] 的结果，第二个临时对象 [`T2] 用以持有表达式 [`S(23)] 的结果，而第三个
+临时对象 [`T3] 用以持有这两个表达式相加的结果。
 
 [:en]
 The temporary [`T3] is then bound to the reference [`cr].
+[:zh_CN]
+临时对象 [`T3] 随即被绑定到引用 [`cr] 上。
 
 [:en]
 It is unspecified whether [`T1] or [`T2] is created first.
+[:zh_CN]
+[`T1] 和 [`T2] 哪个先创建是未指明的。
 
 [:en]
 On an implementation where [`T1] is created before [`T2], [`T2] shall be
 destroyed before [`T1].
+[:zh_CN]
+在 [`T1] 比 [`T2] 先创建的实现中，保证 [`T2] 比 [`T1] 先销毁。
 
 [:en]
 The temporaries [`T1] and [`T2] are bound to the reference parameters of
 [`operator+]; these temporaries are destroyed at the end of the full-expression
 containing the call to [`operator+].
+[:zh_CN]
+临时对象 [`T1] 和 [`T2] 被绑定到 [`operator+] 的引用形参上；这些临时对象在包含对
+[`operator+] 的调用的全表达式的结尾处被销毁。
 
 [:en]
 The temporary [`T3] bound to the reference [`cr] is destroyed at the end of
 [`cr][=']s lifetime, that is, at the end of the program.
+[:zh_CN]
+被绑定到引用 [`cr] 上的临时对象 [`T3] 在 [`cr] 的生存期结束时，也就是在程序的
+末尾被销毁。
 
 [:en]
 In addition, the order in which [`T3] is destroyed takes into account the
 destruction order of other objects with static storage duration.
+[:zh_CN]
+此外，[`T3] 的销毁顺序与其他具有静态存储期的对象的析构顺序一同考虑。
 
 [:en]
 That is, because [`obj1] is constructed before [`T3], and [`T3] is constructed
 before [`obj2], [`obj2] shall be destroyed before [`T3], and [`T3] shall be
 destroyed before [`obj1].
+[:zh_CN]
+就是说，因为 [`obj1] 在 [`T3] 之前构造，且 [`T3] 在 [`obj2] 之前构造，所以保证
+[`obj2] 在 [`T3] 之前销毁，且 [`T3] 在 [`obj1] 之前销毁。
 [exit:example]
