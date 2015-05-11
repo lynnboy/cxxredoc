@@ -249,8 +249,8 @@ TT<>
 [codeblock:end]
 
 [:en@~]
-where [`(T)] represents a [~parameter-type-list] where at least one parameter
-type contains a [`T], and [`()] represents a [~parameter-type-list] where no
+where [`(T)] represents a [+parameter-type-list] where at least one parameter
+type contains a [`T], and [`()] represents a [+parameter-type-list] where no
 parameter type contains a [`T].
 
 [:en]
@@ -310,16 +310,16 @@ template struct A<int, int*>; // [:en] selects #2
 [para]
 [:en]
 Similarly, if [`P] has a form that contains [`(T)], then each parameter type
-[$[`P][_i]] of the respective [~parameter-type-list] of [`P] is compared with
+[$[`P][_i]] of the respective [+parameter-type-list] of [`P] is compared with
 the corresponding parameter type [$[`A][_i]] of the corresponding
-[~parameter-type-list] of [`A].
+[+parameter-type-list] of [`A].
 
 [:en]
 If [`P] and [`A] are function types that originated from deduction when taking
 the address of a function template ([#temp.deduct.funcaddr]) or when deducing
 template arguments from a function declaration ([#temp.deduct.decl]) and
 [$[`P][_i]] and [$[`A][_i]] are parameters of the top-level
-[~parameter-type-list] of [`P] and [`A], respectively, [$[`P][_i]] is adjusted
+[+parameter-type-list] of [`P] and [`A], respectively, [$[`P][_i]] is adjusted
 if it is a forwarding reference ([#temp.deduct.call]) and [$[`A][_i]] is an
 lvalue reference, in which case the type of [$[`P][_i]] is changed to be the
 template parameter type (i.e., [`T&&] is changed to simply [`T]).
@@ -346,7 +346,7 @@ void g(int i) {
 [:en]
 If the [~parameter-declaration] corresponding to [$[`P][_i]] is a function
 parameter pack, then the type of its [~declarator-id] is compared with each
-remaining parameter type in the [~parameter-type-list] of [`A].
+remaining parameter type in the [+parameter-type-list] of [`A].
 
 [:en]
 Each comparison deduces template arguments for subsequent positions in the

@@ -1,78 +1,119 @@
 ﻿[section#over.load
     [:en] Overloadable declarations
+    [:zh_CN] 可重载的声明式
 ]
-[%[:en] overloading[!declarations]]
+[%[:en] overloading[!declarations]
+  [:zh_CN] 重载[!声明式] ]
 
 [para]
 [:en]
 [%overloading[!prohibited]]
 Not all function declarations can be overloaded.
+[:zh_CN]
+[%重载[!不允许的～]]
+并不是所有函数声明式都能被重载。
 
 [:en]
 Those that cannot be overloaded are specified here.
+[:zh_CN]
+这里指出哪些函数不能被重载。
 
 [:en]
 A program is ill-formed if it contains two such non-overloadable declarations in
 the same scope.
+[:zh_CN]
+如果程序中在同一个作用域中包含两个这样的不可重载的声明式，则它是非良构的。
 
 [enter:note]
 [:en]
 This restriction applies to explicit declarations in a scope, and between such
 declarations and declarations made through a [~using-declaration]
 ([#namespace.udecl]).
+[:zh_CN]
+这些限制适用于作用域中的显式声明式，也适用于这种声明式和通过 [~using-声明式]
+（[#namespace.udecl]）所作出的声明式之间。
 
 [:en]
 It does not apply to sets of functions fabricated as a result of name lookup
 (e.g., because of [~using-directive]s) or overload resolution (e.g., for
 operator functions).
+[:zh_CN]
+它并不适用于由名字查找（比如，因为 [~using-指令]）或者重载决议（比如，对于运算符
+函数）的结果所组成的函数集合。
 [exit:note]
 
 [para]
 [:en]
 Certain function declarations cannot be overloaded:
+[:zh_CN]
+特定的函数声明式不能被重载：
 
 [list]
 [item]
 [:en]
 [%return type[!overloading and]]
 Function declarations that differ only in the return type cannot be overloaded.
+[:zh_CN]
+[%返回类型[!重载与～]]
+仅返回类型不同的函数声明式不能被重载。
 
 [item]
 [:en]
 [%[`static][!overloading and]]
 Member function declarations with the same name and the same
-[~parameter-type-list] cannot be overloaded if any of them is a [`static] member
+[+parameter-type-list] cannot be overloaded if any of them is a [`static] member
 function declaration ([#class.static]).
+[:zh_CN]
+[%[`static][!重载与～]]
+如果带有相同名字和相同[+形参类型列表]的成员函数声明式之中，有任何一个是
+[`static] 成员函数声明式（[#class.static]），则它们不能被重载。
 
 [:en]
 Likewise, member function template declarations with the same name, the same
-[~parameter-type-list], and the same template parameter lists cannot be
+[+parameter-type-list], and the same template parameter lists cannot be
 overloaded if any of them is a [`static] member function template declaration.
+[:zh_CN]
+相似地，如果带有相同名字、相同[+形参类型列表]以及相同模板形参列表的成员函数模板
+声明式之中，有任何一个是 [`static] 成员函数模板声明式，则它们不能被重载。
 
 [:en]
 The types of the implicit object parameters constructed for the member functions
 for the purpose of overload resolution ([#over.match.funcs]) are not considered
 when comparing parameter-type-lists for enforcement of this rule.
+[:zh_CN]
+在为实施这条规则而进行形参类型列表的比较时，并不考虑在进行重载决议
+（[#over.match.funcs]）中为成员函数所构造出来的隐含的对象形参的类型。
 
 [:en]
 In contrast, if there is no [`static] member function declaration among a set of
 member function declarations with the same name and the same
 parameter-type-list, then these member function declarations can be overloaded
 if they differ in the type of their implicit object parameter.
+[:zh_CN]
+反之，若在带有相同名字和相同形参类型列表的成员函数声明式的集合之中没有
+[`static] 成员函数声明式，则当它们隐含的对象形参的类型不同时，这些成员函数的
+声明式就可以被重载。
 
 [enter:example]
 [:en]
 the following illustrates this distinction:
+[:zh_CN]
+如下示例演示了这个区别：
 
 [codeblock]
 class X {
   static void f();
   void f();                     // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   void f() const;               // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   void f() const volatile;      // [:en] ill-formed
+                                // [|:zh_CN] 非良构
   void g();
   void g() const;               // [:en] OK: no static [`g]
+                                // [|:zh_CN] OK：没有静态的 [`g]
   void g() const volatile;      // [:en] OK: no static [`g]
+                                // [|:zh_CN] OK：没有静态的 [`g]
 };
 [codeblock:end]
 [exit:example]
@@ -80,20 +121,27 @@ class X {
 [item]
 [:en]
 Member function declarations with the same name and the same
-[~parameter-type-list] as well as member function template declarations with the
-same name, the same [~parameter-type-list], and the same template parameter
+[+parameter-type-list] as well as member function template declarations with the
+same name, the same [+parameter-type-list], and the same template parameter
 lists cannot be overloaded if any of them, but not all, have a [~ref-qualifier]
 ([#dcl.fct]).
+[:zh_CN]
+带有相同名字和相同[+形参类型列表]的成员函数声明式之中，以及带有相同名字、相同
+[+形参类型列表]和相同模板形参列表的成员函数模板声明式之中，如果有任何一个，但
+不是全部，带有[~引用限定符]（[#dcl.fct]），则它们不能被重载。
 
 [enter:example]
 [codeblock]
 class Y {
   void h() &;
   void h() const &;             // OK
-  void h() &&;                  // [:en] OK, all declarations have a ref-qualifier
+  void h() &&;                  // [:en] OK, all declarations have a [~ref-qualifier]
+                                // [|:zh_CN] OK，所有声明式都带有[~引用限定符]
   void i() &;
   void i() const;               // [:en] ill-formed, prior declaration of [`i]
-                                // [:en@~] has a ref-qualifier
+                                // [|:zh_CN] 非良构，前面的 [`i] 的声明式
+                                // [:en@~] has a [~ref-qualifier]
+                                // [|:zh_CN@~] 带有[~引用限定符]
 };
 [codeblock:end]
 [exit:example]
@@ -107,6 +155,11 @@ class Y {
 [%equivalent parameter declarations[!overloading and]]
 As specified in [#dcl.fct], function declarations that have equivalent parameter
 declarations declare the same function and therefore cannot be overloaded:
+[:zh_CN]
+[%等价形参声明式]
+[%等价形参声明式[!重载与～]]
+如同 [#dcl.fct] 中所指出的，带有等价的形参声明式的函数声明式所声明的是相同的函数
+，因此不能被重载：
 
 [list]
 [item]
@@ -114,10 +167,15 @@ declarations declare the same function and therefore cannot be overloaded:
 [%[`typedef][!overloading and]]
 Parameter declarations that differ only in the use of equivalent typedef
 ["types] are equivalent.
+[:zh_CN]
+[%[`typedef][!重载与～]]
+仅仅由于使用了等价的 typedef“类型”而不同的形参声明式是等价的。
 
 [:en]
 A [`typedef] is not a separate type, but only a synonym for another type
 ([#dcl.typedef]).
+[:zh_CN]
+[`typedef] 并不是独立的类型，而只是其它类型的同义词（[#dcl.typedef]）。
 
 [enter:example]
 [codeblock]
@@ -125,8 +183,10 @@ typedef int Int;
 
 void f(int i);
 void f(Int i);                  // [:en] OK: redeclaration of [`f(int)]
+                                // [|:zh_CN] OK：[`f(int)] 的重新声明
 void f(int i) { /* ... */ }
 void f(Int i) { /* ... */ }     // [:en] error: redefinition of [`f(int)]
+                                // [|:zh_CN] 错误：[`f(int)] 的重新定义
 
 [codeblock:end]
 [exit:example]
@@ -136,6 +196,9 @@ void f(Int i) { /* ... */ }     // [:en] error: redefinition of [`f(int)]
 [%[`enum][!overloading and]]
 Enumerations, on the other hand, are distinct types and can be used to
 distinguish overloaded function declarations.
+[:zh_CN]
+[%[`enum][!重载与～]]
+另一方面，枚举是独立的类型，并且可被用于区别重载的函数声明式。
 
 [enter:example]
 [codeblock]
@@ -151,26 +214,39 @@ void f(E i)   { /* ... */ }
 [%array[!overloading and pointer versus]]
 Parameter declarations that differ only in a pointer [`*] versus an array [`[`]]
 are equivalent.
+[:zh_CN]
+[%数组[!重载与指针和～]]
+仅以指针 [`*] 与数组 [`[`]] 而不同的形参声明式是等价的。
 
 [:en]
 That is, the array declaration is adjusted to become a pointer declaration
 ([#dcl.fct]).
+[:zh_CN]
+就是说，数组声明式将被调整为指针声明式（[#dcl.fct]）。
 
 [:en]
 Only the second and subsequent array dimensions are significant in parameter
 types ([#dcl.array]).
+[:zh_CN]
+形参类型中只有第二个及其后的数组维度（[#dcl.array]）才有意义。
 
 [enter:example]
 [codeblock]
 int f(char*);
 int f(char[]);                  // [:en] same as [`f(char*);]
+                                // [|:zh_CN] 与 [`f(char*);] 相同
 int f(char[7]);                 // [:en] same as [`f(char*);]
+                                // [|:zh_CN] 与 [`f(char*);] 相同
 int f(char[9]);                 // [:en] same as [`f(char*);]
+                                // [|:zh_CN] 与 [`f(char*);] 相同
 
 int g(char(*)[10]);
 int g(char[5][10]);             // [:en] same as [`g(char(*)[10`]);]
+                                // [|:zh_CN] 与 [`g(char(*)[10`]);] 相同
 int g(char[7][10]);             // [:en] same as [`g(char(*)[10`]);]
+                                // [|:zh_CN] 与 [`g(char(*)[10`]);] 相同
 int g(char(*)[20]);             // [:en] different from [`g(char(*)[10`]);]
+                                // [|:zh_CN] 与 [`g(char(*)[10`]);] 不同
 [codeblock:end]
 [exit:example]
 
@@ -178,17 +254,24 @@ int g(char(*)[20]);             // [:en] different from [`g(char(*)[10`]);]
 [:en]
 Parameter declarations that differ only in that one is a function type and the
 other is a pointer to the same function type are equivalent.
+[:zh_CN]
+仅以其中一个为函数类型而另一个为相同函数类型的指针而不同的形参声明式是等价的。
 
 [:en]
 That is, the function type is adjusted to become a pointer to function type
 ([#dcl.fct]).
+[:zh_CN]
+就是说，函数类型将被调整为函数指针类型（[#dcl.fct]）。
 
 [enter:example]
 [codeblock]
 void h(int());
 void h(int (*)());              // [:en] redeclaration of [`h(int())]
+                                // [|:zh_CN] [`h(int())] 的重新声明
 void h(int x()) { }             // [:en] definition of [`h(int())]
+                                // [|:zh_CN] [`h(int())] 的定义式
 void h(int (*x)()) { }          // [:en] ill-formed: redefinition of [`h(int())]
+                                // [|:zh_CN] 非良构：[`h(int())] 的重新定义
 [codeblock:end]
 [exit:example]
 
@@ -198,11 +281,18 @@ void h(int (*x)()) { }          // [:en] ill-formed: redefinition of [`h(int())]
 [%[`volatile][!overloading and]]
 Parameter declarations that differ only in the presence or absence of [`const]
 and/or [`volatile] are equivalent.
+[:zh_CN]
+[%[`const][!重载与～]]
+[%[`volatile][!重载与～]]
+仅以带有或不带有 [`const] 和/或 [`volatile] 而不同的形参声明式是等价的。
 
 [:en]
 That is, the [`const] and [`volatile] type-specifiers for each parameter type
 are ignored when determining which function is being declared, defined, or
 called.
+[:zh_CN]
+就是说，当对所要声明、定义或调用的函数进行确定时，每个形参类型的 [`const] 和
+[`volatile] 类型说明符都是被忽略的。
 
 [enter:example]
 [codeblock]
@@ -210,8 +300,11 @@ typedef const int cInt;
 
 int f (int);
 int f (const int);              // [:en] redeclaration of [`f(int)]
+                                // [|:zh_CN] [`f(int)] 的重新声明
 int f (int) { /* ... */ }       // [:en] definition of [`f(int)]
+                                // [|:zh_CN] [`f(int)] 的定义式
 int f (cInt) { /* ... */ }      // [:en] error: redefinition of [`f(int)]
+                                // [|:zh_CN] 错误：[`f(int)] 的重新定义
 [codeblock:end]
 [exit:example]
 
@@ -221,6 +314,10 @@ Only the [`const] and [`volatile] type-specifiers at the outermost level of the
 parameter type specification are ignored in this fashion; [`const] and
 [`volatile] type-specifiers buried within a parameter type specification are
 significant and can be used to distinguish overloaded function declarations.
+[:zh_CN]
+只有形参类型说明中最外层的 [`const] 和 [`volatile] 类型说明符才会按此种方式被
+忽略；形参类型说明内部的 [`const] 和 [`volatile] 类型说明符是有意义的，并且可以
+用于区别重载的函数声明式。
 
 [footnote]
 [:en]
@@ -228,6 +325,9 @@ When a parameter type includes a function type, such as in the case of a
 parameter type that is a pointer to function, the [`const] and [`volatile]
 type-specifiers at the outermost level of the parameter type specifications for
 the inner function type are also ignored.
+[:zh_CN]
+当形参类型包括函数类型时，比如形参类型为函数指针的情况下，其内部的函数类型的形参
+类型说明中的最外层的类型说明符 [`const] 和 [`volatile] 也都被忽略。
 [footnote:end]
 
 [:en]
@@ -235,27 +335,42 @@ In particular, for any type [`T], ["pointer to [`T],] ["pointer to [`const T],]
 and ["pointer to [`volatile T]] are considered distinct parameter types, as are
 ["reference to [`T],] ["reference to [`const T],] and ["reference to [`volatile
 T].]
+[:zh_CN]
+特别地，对于任意类型 [`T]，“[`T] 的指针”，“[`const T] 的指针”和“[`volatile T] 的
+指针”被当作不同的形参类型，“[`T] 的引用”，“[`const T] 的引用”和“[`volatile T] 的
+引用”也是如此。
 
 [item]
 [:en]
 [%default initializers[!overloading and]]
 Two parameter declarations that differ only in their default arguments
 are equivalent.
+[:zh_CN]
+[%默认初始化式[!重载与～]]
+仅以其默认实参而不同的形参声明式是等价的。
 
 [enter:example]
 [:en]
 consider the following:
+[:zh_CN]
+考虑下例：
 
 [codeblock]
 void f (int i, int j);
 void f (int i, int j = 99);     // [:en] OK: redeclaration of [`f(int, int)]
+                                // [|:zh_CN] OK：[`f(int, int)] 的重新声明
 void f (int i = 88, int j);     // [:en] OK: redeclaration of [`f(int, int)]
+                                // [|:zh_CN] OK：[`f(int, int)] 的重新声明
 void f ();                      // [:en] OK: overloaded declaration of [`f]
+                                // [|:zh_CN] OK：[`f] 的重载声明式
 
 void prog () {
     f (1, 2);                   // [:en] OK: call [`f(int, int)]
+                                // [|:zh_CN] OK：调用 [`f(int, int)]
     f (1);                      // [:en] OK: call [`f(int, int)]
+                                // [|:zh_CN] OK：调用 [`f(int, int)]
     f ();                       // [:en] Error: [`f(int, int)] or [`f()]?
+                                // [|:zh_CN] 错误：[`f(int, int)] 还是 [`f()]？
 }
 [codeblock:end]
 [exit:example]

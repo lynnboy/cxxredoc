@@ -257,14 +257,14 @@ template parameter pack, it shall be the last [~template-parameter].
 [:en]
 A template parameter pack of a function template shall not be followed by
 another template parameter unless that template parameter can be deduced from
-the [~parameter-type-list] of the function template or has a default argument
+the [+parameter-type-list] of the function template or has a default argument
 ([#temp.deduct]).
 
 [enter:example]
 [codeblock]
 template<class T1 = int, class T2> class B;   // [:en] error
 
-// [:en] [`U] can be neither deduced from the [~parameter-type-list] nor specified
+// [:en] [`U] can be neither deduced from the [+parameter-type-list] nor specified
 template<class... T, class... U> void f() { } // [:en] error
 template<class... T, class U> void g() { }    // [:en] error
 [codeblock:end]

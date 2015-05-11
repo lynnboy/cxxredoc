@@ -277,13 +277,13 @@ extern "C" {
 [para]
 [:en]
 If two declarations declare functions with the same name and
-[~parameter-type-list] ([#dcl.fct]) to be members of the same namespace or
+[+parameter-type-list] ([#dcl.fct]) to be members of the same namespace or
 declare objects with the same name to be members of the same namespace and the
 declarations give the names different language linkages, the program is
 ill-formed; no diagnostic is required if the declarations appear in different
 translation units.
 [:zh_CN]
-若两个声明式以相同的名字和[~形参类型列表]（[#dcl.fct]）将两个函数声明为相同命名
+若两个声明式以相同的名字和[+形参类型列表]（[#dcl.fct]）将两个函数声明为相同命名
 空间的成员，或者若它们以相同的名字将两个对象声明为相同命名空间的成员，但这两个
 声明式为这些名字给出不同的语言连接，则程序非良构；如果这些声明式出现于不同翻译
 单元中，则无须进行诊断。
