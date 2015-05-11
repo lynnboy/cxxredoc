@@ -1,5 +1,6 @@
 ﻿[section#over.call.func
     [:en] Call to named function
+    [:zh_CN] 调用具名函数
 ]
 
 [para]
@@ -7,10 +8,15 @@
 Of interest in [#over.call.func] are only those function calls in which the
 [~postfix-expression] ultimately contains a name that denotes one or more
 functions that might be called.
+[:zh_CN]
+[#over.call.func] 只关心其[~后缀表达式]最终包含代表了可能被调用的一个或多个函数
+的名字的函数调用。
 
 [:en]
 Such a [~postfix-expression], perhaps nested arbitrarily deep in parentheses,
 has one of the following forms:
+[:zh_CN]
+此种[~后缀表达式]，可能被嵌套在任意深度的括号中，并具有如下形式之一：
 
 [syntax:explanation]
 [rule [~postfix-expression] ]
@@ -23,96 +29,154 @@ has one of the following forms:
 [:en]
 These represent two syntactic subcategories of function calls: qualified
 function calls and unqualified function calls.
+[:zh_CN]
+此处表示了函数调用的两个语法子范畴：限定的函数调用和未限定的函数调用。
 
 [para]
 [:en]
 In qualified function calls, the name to be resolved is an [~id-expression] and
 is preceded by an [`->] or [`.] operator.
+[:zh_CN]
+在限定的函数调用中，待决议的名字是[~标识表达式]并且前面带有 [`->] 或 [`.] 运算符
+。
 
 [:en]
 Since the construct [`A->B] is generally equivalent to [`(*A).B], the rest of
 Clause [#over] assumes, without loss of generality, that all member function
 calls have been normalized to the form that uses an object and the [`.]
 operator.
+[:zh_CN]
+由于语言构造 [`A->B] 通常等价于 [`(*A).B]，在第 [#over] 条的余下部分中，（不失
+一般性地）假设，所有成员函数调用均被规范化为使用某个对象与 [`.] 运算符的形式。
 
 [:en]
 Furthermore, Clause [#over] assumes that the [~postfix-expression] that is the
 left operand of the [`.] operator has type ["[$cv] [`T]] where [`T] denotes a
 class
+[:zh_CN]
+而且，第 [#over] 条还假设作为 [`.] 运算符的左操作数的[~后缀表达式]的类型为“[$cv]
+[`T]”，其中 [`T] 代表某个类
 
 [footnote]
 [:en]
 Note that cv-qualifiers on the type of objects are significant in overload
 resolution for both glvalue and class prvalue objects.
+[:zh_CN]
+注意，对象的类型中的 cv-限定符在对泛左值和类的纯右值对象进行重载决议时都是有意义
+的。
 [footnote:end]
 
 [:en@~]
 .
+[:zh_CN@~]
+。
 
 [:en]
 Under this assumption, the [~id-expression] in the call is looked up as a
 member function of [`T] following the rules for looking up names in classes
 ([#class.member.lookup]).
+[:zh_CN]
+基于此种假设，调用中的[~标识表达式]作为 [`T] 的成员函数，根据在类中查找名字的
+规则进行查找（[#class.member.lookup]）。
 
 [:en]
 The function declarations found by that lookup constitute the set of candidate
 functions.
+[:zh_CN]
+该查找所找到的函数声明式构成了候选函数的集合。
 
 [:en]
 The argument list is the [~expression-list] in the call augmented by the
 addition of the left operand of the [`.] operator in the normalized member
 function call as the implied object argument ([#over.match.funcs]).
+[:zh_CN]
+其实参列表是这个调用中的[~表达式列表]扩张后的结果，其中，规范化后的成员函数调用
+中的 [`.] 运算符的左操作数，作为隐含对象实参（[#over.match.funcs]）而添加进来。
 
 [para]
 [:en]
 In unqualified function calls, the name is not qualified by an [`->] or [`.]
 operator and has the more general form of a [~primary-expression].
+[:zh_CN]
+在未限定的函数调用中，其名字并未被 [`->] 或 [`.] 运算符所限定，并且具有更一般的
+[~初等表达式]形式。
 
 [:en]
 The name is looked up in the context of the function call following the normal
 rules for name lookup in function calls ([#basic.lookup]).
+[:zh_CN]
+该名字在这个函数调用的语境中根据查找函数调用中的名字的一般规则
+（[#basic.lookup]）进行查找。
 
 [:en]
 The function declarations found by that lookup constitute the set of candidate
 functions.
+[:zh_CN]
+该查找所找到的函数声明式构成了候选函数的集合。
 
 [:en]
 Because of the rules for name lookup, the set of candidate functions consists
 (1) entirely of non-member functions or (2) entirely of member functions of some
 class [`T].
+[:zh_CN]
+根据名字查找的规则，候选函数的集合（1）完全由非成员函数构成，或者（2）完全由某个
+类 [`T] 的成员函数构成。
 
 [:en]
 In case (1), the argument list is the same as the [~expression-list] in the
 call.
+[:zh_CN]
+在情况（1）中，实参列表与该调用中的[~表达式列表]相同。
 
 [:en]
 In case (2), the argument list is the [~expression-list] in the call augmented
 by the addition of an implied object argument as in a qualified function call.
+[:zh_CN]
+在情况（2）中，实参列表是该调用中的[~表达式列表]，并添加了如同在限定的函数调用中
+那样的隐含对象实参。
 
 [:en]
 If the keyword [`this] ([#class.this]) is in scope and refers to class [`T],
 or a derived class of [`T], then the implied object argument is [`(*this)].
+[:zh_CN]
+若关键字 [`this]（[#class.this]）处于作用域之中并且指代类 [`T] 或 [`T] 的派生类
+，则隐含对象实参为 [`(*this)]。
 
 [:en]
 If the keyword [`this] is not in scope or refers to another class, then a
 contrived object of type [`T] becomes the implied object argument
+[:zh_CN]
+若关键字 [`this] 并不在作用域中或者指代了其它的类，则类型 [`T] 的某个虚构的对象
+成为隐含对象实参
 
 [footnote]
 [:en]
 An implied object argument must be contrived to correspond to the implicit
 object parameter attributed to member functions during overload resolution.
+[:zh_CN]
+在重载决议过程中，隐含对象实参必须与为成员函数所设的隐含对象形参相对应。
 
 [:en]
 It is not used in the call to the selected function.
+[:zh_CN]
+调用被选择的函数时并不使用它。
 
 [:en]
 Since the member functions all have the same implicit object parameter, the
 contrived object will not be the cause to select or reject a function.
+[:zh_CN]
+由于所有成员函数都带有相同的隐含对象形参，故这个假对象不会成为选择或拒绝某函数的
+原因。
 [footnote:end]
 
 [:en@~]
 .
+[:zh_CN@~]
+。
 
 [:en]
 If the argument list is augmented by a contrived object and overload resolution
 selects one of the non-static member functions of [`T], the call is ill-formed.
+[:zh_CN]
+若实参列表中扩充了虚构的对象，而重载决议选择了 [`T] 的非静态成员函数之一，则该
+调用是非良构的。

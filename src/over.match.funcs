@@ -1,26 +1,34 @@
 ﻿[section#over.match.funcs
     [:en] Candidate functions and argument lists
+    [:zh_CN] 候选函数与实参列表
 ]
 
 [%:begin#overloading.candidate.functions
     [:en] overloading[!candidate functions]
-]
+    [:zh_CN] 重载[!候选函数] ]
 [%:begin#overloading.argument.lists
     [:en] overloading[!argument lists]
-]
+    [:zh_CN] 重载[!实参列表] ]
 
 [para]
 [:en]
 The subclauses of [#over.match.funcs] describe the set of candidate functions
 and the argument list submitted to overload resolution in each of the seven
 contexts in which overload resolution is used.
+[:zh_CN]
+[#over.match.funcs] 的各子条款分别描述了在使用重载决议的七种语境中，提交给重载
+决议的候选函数集合和实参列表。
 
 [:en]
 The source transformations and constructions defined in these subclauses are
 only for the purpose of describing the overload resolution process.
+[:zh_CN]
+这些子条款中所定义的源代码的变形和构造仅用于描述重载决议过程。
 
 [:en]
 An implementation is not required to use such transformations and constructions.
+[:zh_CN]
+实现并不需要使用这些变形和构造。
 
 [para]
 [:en]
@@ -28,71 +36,106 @@ An implementation is not required to use such transformations and constructions.
 [%function[!overload resolution and]]
 The set of candidate functions can contain both member and non-member functions
 to be resolved against the same argument list.
+[:zh_CN]
+[%成员函数[!重载决议与～]]
+[%函数[!重载决议与～]]
+候选函数的集合可以同时包含依照相同的实参列表进行决议的成员和非成员函数。
 
 [:en]
 So that argument and parameter lists are comparable within this heterogeneous
 set, a member function is considered to have an extra parameter, called the
 [def implicit object parameter], which represents the object for which the
 member function has been called.
+[:zh_CN]
+为使在这种异质集合之中可以对实参和形参列表进行比较，成员函数被当作带有一个额外的
+形参，称为[def 隐含对象形参]，它用以表示调用了该成员函数的对象。
 
 [:en]
 For the purposes of overload resolution, both static and non-static member
 functions have an implicit object parameter, but constructors do not.
+[:zh_CN]
+进行重载决议时，静态和非静态成员函数都带有隐含的对象形参，但构造函数没有。
 
 [para]
 [:en]
 Similarly, when appropriate, the context can construct an argument list that
 contains an [def implied object argument] to denote the object to be operated
 on.
+[:zh_CN]
+相似地，如果需要，语境中可以构造一个实参列表，其中包含一个用以代表要操作的对象的
+[def 隐含对象实参]。
 
 [:en]
 Since arguments and parameters are associated by position within their
 respective lists, the convention is that the implicit object parameter, if
 present, is always the first parameter and the implied object argument, if
 present, is always the first argument.
+[:zh_CN]
+由于实参和形参以其在相应列表中的位置相互关联，因此约定隐含对象形参（如果存在）
+总是第一个形参，而隐含对象实参（如果存在）总是第一个实参。
 
 [para]
 [:en]
 For non-static member functions, the type of the implicit object parameter is
+[:zh_CN]
+对于非静态成员函数，隐含对象形参的类型，
 
 [list]
 [item]
 [:en@~] ["lvalue reference to [$cv] [`X]] for functions declared without a
 [~ref-qualifier] or with the [`&] [~ref-qualifier]
+[:zh_CN@~] 对于声明时没有[~引用限定符]或带有[~引用限定符] [`&] 的函数，为“[$cv]
+[`X] 的左值引用”
 [item]
 [:en@~] ["rvalue reference to [$cv] [`X]] for functions declared with the [`&&]
 [~ref-qualifier]
+[:zh_CN@~] 对于声明时带有[~引用限定符] [`&&] 的函数，为“[$cv] [`X] 的右值引用”
 [list:end]
 
 [:en@~]
 where [`X] is the class of which the function is a member and [$cv] is the
 cv-qualification on the member function declaration.
+[:zh_CN@~]
+其中 [`X] 为以该函数作为成员的类而 [$cv] 为该成员函数的声明式上的 cv-限定性。
 
 [enter:example]
 [:en]
 for a [`const] member function of class [`X], the extra parameter is assumed to
 have type ["reference to [`const X]].
+[:zh_CN]
+对于类 [`X] 的 [`const] 成员函数，假定它的额外形参具有类型“[`const X] 的引用”。
 [exit:example]
 
 [:en]
 For conversion functions, the function is considered to be a member of the class
 of the implied object argument for the purpose of defining the type of the
 implicit object parameter.
+[:zh_CN]
+对于转换函数，为定义隐含对象形参的类型，该函数被当作是其隐含对象实参的类的成员。
 
 [:en]
 For non-conversion functions introduced by a [~using-declaration] into a derived
 class, the function is considered to be a member of the derived class for the
 purpose of defining the type of the implicit object parameter.
+[:zh_CN]
+对于由 [~using-声明式]引入到派生类中的非转换函数，为定义隐含对象形参的类型，该
+函数被当作是派生类的成员。
 
 [:en]
 For static member functions, the implicit object parameter is considered to
 match any object (since if the function is selected, the object is discarded).
+[:zh_CN]
+对于静态成员函数，隐含对象形参被认为与任意对象相匹配（因为一旦选择了这个函数，
+对象即被丢弃）。
 
 [enter:note]
 [:en]
 No actual type is established for the implicit object parameter of a static
 member function, and no attempt will be made to determine a conversion sequence
 for that parameter ([#over.match.best]).
+[:zh_CN]
+不会为静态成员函数的隐含对象形参实际建立类型，也不会试图为该形参确定转换序列
+（[#over.match.best]）。
 [exit:note]
 
 [para]
@@ -100,25 +143,39 @@ for that parameter ([#over.match.best]).
 [%implied object argument[!implicit conversion sequences]]
 During overload resolution, the implied object argument is indistinguishable
 from other arguments.
+[:zh_CN]
+[%隐含对象实参[!隐式转换序列]]
+在重载决议过程中，隐含对象实参与其它实参没有区别。
 
 [:en]
 The implicit object parameter, however, retains its identity since conversions
 on the corresponding argument shall obey these additional rules:
+[:zh_CN]
+然而隐含对象形参仍会保持其特殊性，这是由于在其对应的实参上所进行的转换还要遵循
+以下附加规则：
 
 [list]
 [item]
 [:en@~]
 no temporary object can be introduced to hold the argument for the implicit
 object parameter; and
+[:zh_CN@~]
+不能为隐含对象形参引入用以持有实参的临时对象；并且
+
 [item]
 [:en@~]
 no user-defined conversions can be applied to achieve a type match with it.
+[:zh_CN@~]
+不能应用用户定义的转换来获得与其匹配的类型。
 [list:end]
 
 [:en]
 [%implied object argument[!non-static member function and]]
 For non-static member functions declared without a [~ref-qualifier], an
 additional rule applies:
+[:zh_CN]
+[%隐含对象实参[!非静态成员函数与～]]
+对于声明时没有[~引用限定符]的非静态成员函数，还要实施附加的规则：
 
 [list]
 [item]
@@ -126,11 +183,16 @@ additional rule applies:
 even if the implicit object parameter is not [`const]-qualified, an rvalue can
 be bound to the parameter as long as in all other respects the argument can be
 converted to the type of the implicit object parameter.
+[:zh_CN]
+即使隐含对象形参并未被 [`const]-限定，仍可以将一个右值绑定到该形参上，同时在其它
+各个方面该实参仍可以转换为隐含对象形参的类型。
 
 [enter:note]
 [:en]
 The fact that such an argument is an rvalue does not affect the ranking of
 implicit conversion sequences ([#over.ics.rank]).
+[:zh_CN]
+这个实参是右值的事实并不会影响隐式转换序列的分级（[#over.ics.rank]）。
 [exit:note]
 [list:end]
 
@@ -139,6 +201,9 @@ implicit conversion sequences ([#over.ics.rank]).
 Because other than in list-initialization only one user-defined conversion is
 allowed in an implicit conversion sequence, special rules apply when selecting
 the best user-defined conversion ([#over.match.best], [#over.best.ics]).
+[:zh_CN]
+由于除了列表初始化之外，隐式转换序列中只允许一个用户定义转换，所以当选择最佳的
+用户定义转换时将采用特殊的规则（[#over.match.best]，[#over.best.ics]）。
 
 [enter:example]
 [codeblock]
@@ -152,6 +217,7 @@ public:
   C(int);
 };
 T a = 1;            // [:en] ill-formed: [`T(C(1))] not tried
+                    // [|:zh_CN] 非良构：并未尝试 [`T(C(1))]
 [codeblock:end]
 [exit:example]
 
@@ -160,35 +226,53 @@ T a = 1;            // [:en] ill-formed: [`T(C(1))] not tried
 In each case where a candidate is a function template, candidate function
 template specializations are generated using template argument deduction
 ([#temp.over], [#temp.deduct]).
+[:zh_CN]
+一旦候选函数是函数模板，就使用模板实参推断（[#temp.over]，[#temp.deduct]）生成
+候选的函数模板特例。
 
 [:en]
 Those candidates are then handled as candidate functions in the usual way.
+[:zh_CN]
+随后按照常规方式将它们当作候选函数来处理。
 
 [footnote]
 [:en]
 The process of argument deduction fully determines the parameter types of the
 function template specializations, i.e., the parameters of function template
 specializations contain no template parameter types.
+[:zh_CN]
+实参推断的过程完全确定了函数模板特例的形参类型，就是说，函数模板特例的形参不包含
+模板形参类型。
 
 [:en]
 Therefore, except where specified otherwise, function template specializations
 and non-template functions ([#dcl.fct]) are treated equivalently for the
 remainder of overload resolution.
+[:zh_CN]
+因此除非明确说明，函数模板特例和非模板函数（[#dcl.fct]）在余下的重载决议中将以
+相同方式对待。
 [footnote:end]
 
 [:en]
 A given name can refer to one or more function templates and also to a set of
 overloaded non-template functions.
+[:zh_CN]
+某个给定名字可以涉指一个或多个函数模板，同时可以涉指一组重载的非模板函数。
 
 [:en]
 In such a case, the candidate functions generated from each function template
 are combined with the set of non-template candidate functions.
+[:zh_CN]
+在这种情况下，从每个函数模板生成的候选函数将与非模板候选函数的集合组合起来。
 
 [para]
 [:en]
 A defaulted move constructor or assignment operator ([#class.copy]) that is
 defined as deleted is excluded from the set of candidate functions in all
 contexts.
+[:zh_CN]
+被定义为弃置的预置移动构造函数或赋值运算符（[#class.copy]），在所有语境中都从
+候选函数的集合中排除。
 
 [include over.match.call]
 

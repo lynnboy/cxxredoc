@@ -1,35 +1,48 @@
 ﻿[section#over.match
     [:en] Overload resolution
+    [:zh_CN] 重载决议
 ]
 
 [%:begin#overloading.resolution
     [:en] overloading [!resolution]
+    [:zh_CN] 重载[!～决议]
 ]
 [%[:en] resolution[see overloading[!resolution]]
-]
+  [:zh_CN] 决议[see 重载[!～决议]] ]
 [%[:en] ambiguity[!overloaded function]
-]
+  [:zh_CN] 歧义[!重载函数] ]
 
 [para]
 [:en]
 Overload resolution is a mechanism for selecting the best function to call given
 a list of expressions that are to be the arguments of the call and a set of
 [+candidate functions] that can be called based on the context of the call.
+[:zh_CN]
+重载决议，是给定一个表达式的列表作为函数调用的实参，并给定基于函数调用的语境可以
+被调用的一个[+候选函数]的集合时，用以选择所要调用的最佳函数的机制。
 
 [:en]
 The selection criteria for the best function are the number of arguments, how
 well the arguments match the parameter-type-list of the candidate function, how
 well (for non-static member functions) the object matches the implicit object
 parameter, and certain other properties of the candidate function.
+[:zh_CN]
+最佳函数的选择标准包括其实参的数量，实参与候选函数的形参类型列表之间匹配的优劣，
+（对于非静态成员函数）对象与隐含的对象形参之间匹配的优劣，以及候选函数的其它的
+特定性质。
 
 [enter:note]
 [:en]
 The function selected by overload resolution is not guaranteed to be appropriate
 for the context.
+[:zh_CN]
+由重载决议所选择的函数并不保证就是对语境合适的。
 
 [:en]
 Other restrictions, such as the accessibility of the function, can make its use
 in the calling context ill-formed.
+[:zh_CN]
+其它限制条件，比如该函数的访问性，可能会使它在调用语境中的使用非良构。
 [exit:note]
 
 [para]
@@ -37,46 +50,77 @@ in the calling context ill-formed.
 [%overloading[!resolution[!contexts]]]
 Overload resolution selects the function to call in seven distinct contexts
 within the language:
+[:zh_CN]
+[%重载[!～决议[!语境]]]
+在语言的七种不同的语境中，由重载决议选择所要调用的函数：
 
 [list]
 [item]
 [:en]
 invocation of a function named in the function call syntax ([#over.call.func]);
+[:zh_CN]
+对函数调用语法中所指名的函数的调用（[#over.call.func]）；
+
 [item]
 [:en]
 invocation of a function call operator, a pointer-to-function conversion
 function, a reference-to-pointer-to-function conversion function, or a
 reference-to-function conversion function on a class object named in the
 function call syntax ([#over.call.object]);
+[:zh_CN]
+对函数调用语法中所指名的类对象的函数调用运算符，函数指针转换函数，函数指针的引用
+的转换函数，或者函数的引用的转换函数的调用（[#over.call.object]）；
+
 [item]
 [:en]
 invocation of the operator referenced in an expression ([#over.match.oper]);
+[:zh_CN]
+对表达式中所涉及的运算符的调用（[#over.match.oper]）；
+
 [item]
 [:en]
 invocation of a constructor for default- or direct-initialization ([#dcl.init])
 of a class object ([#over.match.ctor]);
+[:zh_CN]
+类对象的默认或直接初始化（[#dcl.init]）中对构造函数的调用（[#over.match.ctor]）
+；
+
 [item]
 [:en]
 invocation of a user-defined conversion for copy-initialization ([#dcl.init]) of
 a class object ([#over.match.copy]);
+[:zh_CN]
+类对象的复制初始化（[#dcl.init]）中对用户定义转换的调用（[#over.match.copy]）；
+
 [item]
 [:en]
 invocation of a conversion function for initialization of an object of a
 nonclass type from an expression of class type ([#over.match.conv]); and
+[:zh_CN]
+以类类型的表达式初始化非类类型的对象中，对转换函数的调用（[#over.match.conv]）；
+以及
+
 [item]
 [:en]
 invocation of a conversion function for conversion to a glvalue or class prvalue
 to which a reference ([#dcl.init.ref]) will be directly bound
 ([#over.match.ref]).
+[:zh_CN]
+向将要直接绑定到某个引用（[#dcl.init.ref]）的泛左值或类的纯右值所进行的转换中，
+对转换函数的调用（[#over.match.ref]）。
 [list:end]
 
 [:en]
 Each of these contexts defines the set of candidate functions and the list of
 arguments in its own unique way.
+[:zh_CN]
+以上每种语境都以其各自的特定方式定义了候选函数的集合和实参的列表。
 
 [:en]
 But, once the candidate functions and argument lists have been identified, the
 selection of the best function is the same in all cases:
+[:zh_CN]
+但是，一旦明确了候选函数和实参列表，在所有情况中对最佳函数的选择过程都是一样的：
 
 [list]
 [item]
@@ -84,26 +128,39 @@ selection of the best function is the same in all cases:
 First, a subset of the candidate functions (those that have the proper number of
 arguments and meet certain other conditions) is selected to form a set of
 [%function[!viable]] viable functions ([#over.match.viable]).
+[:zh_CN]
+首先，选择候选函数的一个子集（它们带有适当数量的实参并且满足其它特定条件）以构成
+[%函数[!可行～]]可行函数集合（[#over.match.viable]）。
 
 [item]
 [:en]
 Then the best viable function is selected based on the implicit conversion
 sequences ([#over.best.ics]) needed to match each argument to the corresponding
 parameter of each viable function.
+[:zh_CN]
+然后基于将每个实参与每个可行函数的对应形参进行匹配所需的隐式转换序列
+（[#over.best.ics]）来选择最佳可行函数。
 [list:end]
 
 [para]
 [:en]
 If a best viable function exists and is unique, overload resolution succeeds and
 produces it as the result.
+[:zh_CN]
+若最佳可行函数存在且唯一，则重载决议成功完成并以它为结果。
 
 [:en]
 Otherwise overload resolution fails and the invocation is ill-formed.
+[:zh_CN]
+否则重载决议失败且此调用非良构。
 
 [:en]
 When overload resolution succeeds, and the best viable function is not
 accessible (Clause [#class.access]) in the context in which it is used, the
 program is ill-formed.
+[:zh_CN]
+若重载决议成功，但最佳可行函数在使用它的语境中不可访问（第 [#class.access] 条）
+，则程序非良构。
 
 [include over.match.funcs]
 

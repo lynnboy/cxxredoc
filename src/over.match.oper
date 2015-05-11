@@ -1,24 +1,36 @@
 ﻿[section#over.match.oper
     [:en] Operators in expressions
+    [:zh_CN] 表达式中的运算符
 ]
 
-[%[:en] overloading[!resolution[!operators]]]
+[%[:en] overloading[!resolution[!operators]]
+  [:zh_CN] 重载[!～决议[!运算符]]
+]
 
 [para]
 [:en]
 If no operand of an operator in an expression has a type that is a class or an
 enumeration, the operator is assumed to be a built-in operator and interpreted
 according to Clause [#expr].
+[:zh_CN]
+若表达式中运算符的操作数的类型均不为类或枚举，则假定该运算符为内建运算符且按照第
+[#expr] 条对其进行解释。
 
 [enter:note]
 [:en]
 Because [`.], [`.*], and [`::] cannot be overloaded, these operators are always
 built-in operators interpreted according to Clause [#expr].
+[:zh_CN]
+由于 [`.]、[`.*] 和 [`::] 不能被重载，故这些运算符总是按照第 [#expr] 条解释的
+内建运算符。
 
 [:en]
 [`?:] cannot be overloaded, but the rules in this subclause are used to
 determine the conversions to be applied to the second and third operands when
 they have class or enumeration type ([#expr.cond]).
+[:zh_CN]
+虽然 [`?:] 不能被重载，但还要应用本子条款中的规则以确定当其第二和第三个操作数
+具有类或枚举类型（[#expr.cond]）时要在它们之上实施的转换。
 [exit:note]
 
 [enter:example]
@@ -32,10 +44,15 @@ String operator + (const String&, const String&);
 
 void f(void) {
  const char* p= "one" + "two";  // [:en] ill-formed because neither
+                                // [|:zh_CN] 由于其操作数都不是
                                 // [:en@~] operand has class or enumeration type
+                                // [|:zh_CN@~] 用户定义的类型而是非良构的
  int I = 1 + 1;                 // [:en] Always evaluates to [`2] even if
+                                // [|:zh_CN] 即使存在可以实施该
                                 // [:en@~] class or enumeration types exist that
+                                // [|:zh_CN@~] 操作的用户定义的类型，
                                 // [:en@~] would perform the operation.
+                                // [|:zh_CN@~] 也总是被求值为 [`2]。
 }
 [codeblock:end]
 [exit:example]
@@ -46,30 +63,45 @@ If either operand has a type that is a class or an enumeration, a user-defined
 operator function might be declared that implements this operator or a
 user-defined conversion can be necessary to convert the operand to a type that
 is appropriate for a built-in operator.
+[:zh_CN]
+如果其中有操作数的类型为类或枚举，则可能声明了某个用以实现该运算符的用户定义的
+运算符函数，或这可能声明了用于将其操作数转换为适用于内建运算符的类型的用户定义
+转换。
 
 [:en]
 In this case, overload resolution is used to determine which operator function
 or built-in operator is to be invoked to implement the operator.
+[:zh_CN]
+在这种情况下，要用重载决议来确定需要调用哪个运算符函数或内建运算符以实现这个
+运算符。
 
 [:en]
 Therefore, the operator notation is first transformed to the equivalent
 function-call notation as summarized in Table [#tab:over.rel.op.func]
 (where [`@] denotes one of the operators covered in the specified subclause).
+[:zh_CN]
+因此，运算符的记法先要按照表 [#tab:over.rel.op.func] 中所总结的规则变形为其等价
+的函数调用记法（其中 [`@] 代表在指定的子条款中涵盖的运算符之一）。
 
 [table:grid#tab.over.rel.op.func
     [:en] Relationship between operator and function call notation
+    [:zh_CN]
     [columns
         [column
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@code
             [:en] As member function
+            [:zh_CN] 作为成员函数
         ]
         [column@code
             [:en] As non-member function
+            [:zh_CN] 作为非成员函数
         ]
     ]
 ]
@@ -89,6 +121,11 @@ cv-unqualified version is [`T1] and a right operand of a type whose
 cv-unqualified version is [`T2], three sets of candidate functions, designated
 [+member candidates], [+non-member candidates] and [+built-in candidates], are
 constructed as follows:
+[:zh_CN]
+对于操作数类型的 cv-未限定版本为 [`T1] 的一元运算符 [`@]，以及对于左操作数类型的
+cv-未限定版本为 [`T1]，而右操作数类型的 cv-未限定版本为 [`T2] 的二元运算符 [`@]
+，按照如下规则构造代表[+成员候选函数]、[+非成员候选函数]和[+内建候选函数]的三个
+候选函数集合：
 
 [list]
 [item]
@@ -96,6 +133,10 @@ constructed as follows:
 If [`T1] is a complete class type or a class currently being defined, the set of
 member candidates is the result of the qualified lookup of [`T1::operator@]
 ([#over.call.func]); otherwise, the set of member candidates is empty.
+[:zh_CN]
+若 [`T1] 是完整的类类型或者正在进行定义的类，则成员候选函数集合是对
+[`T1::operator@] 进行限定查找的结果（[#over.call.func]）；否则，成员候选函数集合
+为空。
 
 [item]
 [:en]
@@ -103,6 +144,10 @@ The set of non-member candidates is the result of the unqualified lookup of
 [`operator@] in the context of the expression according to the usual rules for
 name lookup in unqualified function calls ([#basic.lookup.argdep]) except that
 all member functions are ignored.
+[:zh_CN]
+非成员候选函数的集合，是在表达式的语境中根据常规的对未限定的函数调用的名字查找
+规则（[#basic.lookup.argdep]），对 [`operator@] 进行未限定查找的结果，其中忽略
+所有成员函数。
 
 [:en]
 However, if no operand has a class type, only those non-member functions in the
@@ -111,28 +156,42 @@ cv-qualified) [`T1]], when [`T1] is an enumeration type, or (if there is a right
 operand) a second parameter of type [`T2] or ["reference to (possibly
 cv-qualified) [`T2]], when [`T2] is an enumeration type, are candidate
 functions.
+[:zh_CN]
+然而，若操作数均不为类类型，则在查找集合之中，当 [`T1] 为枚举类型时，第一个形参
+的类型为 [`T1] 或“（可能被 cv-限定的）[`T1] 的引用”，或者（若有右操作数）
+当 [`T2] 为枚举类型时，第二个形参的类型为 [`T2] 或“（可能被 cv-限定的）[`T2] 的
+引用”，只有这样的非成员函数才是候选函数。
 
 [item]
 [:en]
 For the operator [`,], the unary operator [`&], or the operator [`->], the
 built-in candidates set is empty.
+[:zh_CN]
+对于运算符 [`,]、一元运算符 [`&] 或者运算符 [`->]，内建候选函数集合为空。
 
 [:en]
 For all other operators, the built-in candidates include all of the candidate
 operator functions defined in [#over.built] that, compared to the given
 operator,
+[:zh_CN]
+对于所有其它运算符，内建候选函数包括 [#over.built] 中所定义的所有候选运算符函数
+，当其与给定运算符比较时，将
 
 [list]
 [item]
 [:en@~] have the same operator name, and
+[:zh_CN@~] 带有相同运算符名，并且
 [item]
 [:en@~] accept the same number of operands, and
+[:zh_CN@~] 接受相同数量的操作数，并且
 [item]
 [:en@~] accept operand types to which the given operand or operands can be
 converted according to [#over.best.ics], and
+[:zh_CN@~] 给定的操作数可以根据 [#over.best.ics] 转换为所接受的操作数类型，并且
 [item]
 [:en@~] do not have the same parameter-type-list as any non-member candidate
 that is not a function template specialization.
+[:zh_CN@~] 不与任何不是函数模板特例的非成员候选函数带有相同的形参类型列表。
 [list:end]
 [list:end]
 
@@ -140,36 +199,50 @@ that is not a function template specialization.
 [:en]
 For the built-in assignment operators, conversions of the left operand are
 restricted as follows:
+[:zh_CN]
+对于内建赋值运算符，其左操作数的转换有如下限制：
 
 [list]
 [item]
-[:en@~]
-no temporaries are introduced to hold the left operand, and
+[:en@~] no temporaries are introduced to hold the left operand, and
+[:zh_CN@~] 不能引入用以持有该左操作数的临时对象，并且
 [item]
-[:en@~]
-no user-defined conversions are applied to the left operand to achieve a type
-match with the left-most parameter of a built-in candidate.
+[:en@~] no user-defined conversions are applied to the left operand to achieve
+a type match with the left-most parameter of a built-in candidate.
+[:zh_CN@~] 不能对该左操作数实施用户定义的转换以获取与某个内建候选函数的最左形参
+相匹配的类型。
 [list:end]
 
 [para]
 [:en]
 For all other operators, no such restrictions apply.
+[:zh_CN]
+对所有其它运算符，不适用这种限制。
 
 [para]
 [:en]
 The set of candidate functions for overload resolution is the union of the
 member candidates, the non-member candidates, and the built-in candidates.
+[:zh_CN]
+重载决议的候选函数集合是成员候选函数、非成员候选函数和内建候选函数的并集。
 
 [:en]
 The argument list contains all of the operands of the operator.
+[:zh_CN]
+实参列表包含该运算符的所有操作数。
 
 [:en]
 The best function from the set of candidate functions is selected according to
 [#over.match.viable] and [#over.match.best].
+[:zh_CN]
+候选函数集合中的最佳函数是根据 [#over.match.viable] 和 [#over.match.best] 来选择
+的。
 
 [footnote]
 [:en]
 If the set of candidate functions is empty, overload resolution is unsuccessful.
+[:zh_CN]
+若候选函数的集合为空，则重载决议是不成功的。
 [footnote:end]
 
 [enter:example]
@@ -181,6 +254,7 @@ A operator+(const A&, const A&);
 void m() {
   A a, b;
   a + b;            // [:en] [`operator+(a,b)] chosen over [`int(a) + int(b)]
+                    // [|:zh_CN] [`operator+(a,b)] 被选择而不是 [`int(a) + int(b)]
 }
 [codeblock:end]
 [exit:example]
@@ -192,10 +266,16 @@ If a built-in candidate is selected by overload resolution, the operands of
 class type are converted to the types of the corresponding parameters of the
 selected operation function, except that the second standard conversion sequence
 of a user-defined conversion sequence ([#over.ics.user]) is not applied.
+[:zh_CN]
+若重载决议选择了某个内建候选函数，则类类型的操作数被转换为所选择的运算函数中的
+对应形参的类型，但不实施用户定义的转换序列（[#over.ics.user]）中的第二个标准转换
+序列。
 
 [:en]
 Then the operator is treated as the corresponding built-in operator and
 interpreted according to Clause [#expr].
+[:zh_CN]
+然后该运算符就被当作其对应的内建运算符并按照第 [#expr] 条对其进行解释。
 
 [enter:example]
 [codeblock]
@@ -208,7 +288,9 @@ struct Y {
 };
 
 int *a = Y() + 100.0;      // [:en] error: pointer arithmetic requires integral operand
+                           // [|:zh_CN] 错误：指针算术需要整型操作数
 int *b = Y() + X();        // [:en] error: pointer arithmetic requires integral operand
+                           // [|:zh_CN] 错误：指针算术需要整型操作数
 [codeblock:end]
 [exit:example]
 
@@ -216,19 +298,29 @@ int *b = Y() + X();        // [:en] error: pointer arithmetic requires integral 
 [:en]
 The second operand of operator [`->] is ignored in selecting an [`operator->]
 function, and is not an argument when the [`operator->] function is called.
+[:zh_CN]
+[`->] 运算符的第二个操作数在选择 [`operator->] 函数时是被忽略的，并且当调用
+[`operator->] 函数时它并不是实参。
 
 [:en]
 When [`operator->] returns, the operator [`->] is applied to the value returned,
 with the original second operand.
+[:zh_CN]
+当 [`operator->] 返回时，以原来的第二个操作数对所返回的值应用 [`->] 运算符。
 
 [footnote]
 [:en]
 If the value returned by the [`operator->] function has class type, this may
 result in selecting and calling another [`operator->] function.
+[:zh_CN]
+若 [`operator->] 函数返回的值具有类类型，这将造成对另一个 [`operator->] 函数的
+选择和调用。
 
 [:en]
 The process repeats until an [`operator->] function returns a value of non-class
 type.
+[:zh_CN]
+该过程重复直到某个 [`operator->] 函数返回非类类型的值。
 [footnote:end]
 
 [para]
@@ -236,6 +328,9 @@ type.
 If the operator is the operator [`,], the unary operator [`&], or the operator
 [`->], and there are no viable functions, then the operator is assumed to be the
 built-in operator and interpreted according to Clause [#expr].
+[:zh_CN]
+若该运算符是 [`,] 运算符、一元 [`&] 运算符或 [`->] 运算符，并且没有可行函数，则
+该运算符被假定为内建运算符并按照第 [#expr] 条对其进行解释。
 
 [para]
 [enter:note]
@@ -243,6 +338,8 @@ built-in operator and interpreted according to Clause [#expr].
 The lookup rules for operators in expressions are different than the lookup
 rules for operator function names in a function call, as shown in the following
 example:
+[:zh_CN]
+表达式中的运算符的查找规则与函数调用中的运算符函数名的查找规则不同，见如下示例：
 
 [codeblock]
 struct A { };
@@ -257,7 +354,9 @@ A a;
 
 void B::f() {
   operator+ (a,a);              // [:en] error: global operator hidden by member
+                                // [|:zh_CN] 错误：全局运算符被成员隐藏
   a + a;                        // [:en] OK: calls global [`operator+]
+                                // [|:zh_CN] OK：调用全局的 [`operator+]
 }
 [codeblock:end]
 [exit:note]

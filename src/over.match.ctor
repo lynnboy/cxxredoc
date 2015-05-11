@@ -1,8 +1,10 @@
 ﻿[section#over.match.ctor
     [:en] Initialization by constructor
+    [:zh_CN] 通过构造函数进行初始化
 ]
 
 [%[:en] overloading[!resolution[!initialization]]
+  [:zh_CN] 重载[!～决议[!初始化]]
 ]
 
 [para]
@@ -11,15 +13,25 @@ When objects of class type are direct-initialized ([#dcl.init]),
 copy-initialized from an expression of the same or a derived class type
 ([#dcl.init]), or default-initialized ([#dcl.init]), overload resolution selects
 the constructor.
+[:zh_CN]
+当类类型的对象进行直接初始化（[#dcl.init]），或以相同类型或派生类类型的表达式
+进行复制初始化（[#dcl.init]），或者进行默认初始化（[#dcl.init]）时，通过重载决议
+选择构造函数。
 
 [:en]
 For direct-initialization or default-initialization, the candidate functions are
 all the constructors of the class of the object being initialized.
+[:zh_CN]
+对于直接初始化或默认初始化，候选函数是所初始化的对象的类的所有构造函数。
 
 [:en]
 For copy-initialization, the candidate functions are all the converting
 constructors ([#class.conv.ctor]) of that class.
+[:zh_CN]
+对于复制初始化，候选函数是该类的所有转换构造函数（[#class.conv.ctor]）。
 
 [:en]
 The argument list is the [~expression-list] or [~assignment-expression] of the
 [~initializer].
+[:zh_CN]
+实参列表为其[~初始化式]中的[~表达式列表]或[~赋值表达式]。

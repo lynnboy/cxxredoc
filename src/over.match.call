@@ -1,14 +1,18 @@
 ﻿[section#over.match.call
     [:en] Function call syntax
+    [:zh_CN] 函数调用语法
 ]
 
 [%:begin#overloading.resolution.function.call.syntax
     [:en] overloading[!resolution[!function call syntax]]
+    [:zh_CN] 重载[!～决议[!函数调用语法]]
 ]
 
 [para]
 [:en]
 In a function call ([#expr.call])
+[:zh_CN]
+在函数调用（[#expr.call]）
 
 [syntax:explanation]
 [~postfix-expression] [`(] [~:opt expression-list] [`)]
@@ -18,25 +22,38 @@ In a function call ([#expr.call])
 if the [~postfix-expression] denotes a set of overloaded functions and/or
 function templates, overload resolution is applied as specified in
 [#over.call.func].
+[:zh_CN@~]
+中，若[~后缀表达式]代表重载的函数和/或函数模板的集合，则根据 [#over.call.func]
+所述进行重载决议。
 
 [:en]
 If the [~postfix-expression] denotes an object of class type, overload
 resolution is applied as specified in [#over.call.object].
+[:zh_CN]
+若[~后缀表达式]代表一个类类型的对象，则根据 [#over.call.object] 所述进行重载决议
+。
 
 [para]
 [:en]
 If the [~postfix-expression] denotes the address of a set of overloaded
 functions and/or function templates, overload resolution is applied using that
 set as described above.
+[:zh_CN]
+若[~后缀表达式]代表重载的函数/或函数模板的集合的地址，则如上所述对这个集合进行
+重载决议。
 
 [:en]
 If the function selected by overload resolution is a non-static member function,
 the program is ill-formed.
+[:zh_CN]
+若重载决议所选择的函数是一个非静态成员函数，则程序非良构。
 
 [enter:note]
 [:en]
 The resolution of the address of an overload set in other contexts is described
 in [#over.over].
+[:zh_CN]
+其它语境中对重载集合的地址所进行的决议在 [#over.over] 中说明。
 [exit:note]
 
 [include over.call.func]

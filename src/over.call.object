@@ -1,5 +1,6 @@
 ﻿[section#over.call.object
     [:en] Call to object of class type
+    [:zh_CN] 调用类类型的对象
 ]
 
 [para]
@@ -7,27 +8,43 @@
 If the [~primary-expression] [`E] in the function call syntax evaluates to a
 class object of type ["[$cv] [`T]], then the set of candidate functions includes
 at least the function call operators of [`T].
+[:zh_CN]
+若函数调用语法中的[~初等表达式] [`E] 求值为某个类型为“[$cv] [`T]”的类对象，则
+候选函数的集合将至少包括 [`T] 的函数调用运算符。
 
 [:en]
 The function call operators of [`T] are obtained by ordinary lookup of the name
 [`operator()] in the context of [`(E).operator()].
+[:zh_CN]
+[`T] 的函数调用运算符是通过在 [`(E).operator()] 的语境中对名字 [`operator()]
+进行常规名字查找所获得的。
 
 [para]
 [:en]
 In addition, for each non-explicit conversion function declared in [`T] of the
 form
+[:zh_CN]
+此外，对于每个在 [`T] 中声明的如下形式的非显式转换函数
 
 [syntax:explanation]
-[`operator] [~conversion-type-id] [`(] [`)] [~cv-qualifier] [~:opt ref-qualifier] [~:opt exception-specification] [~:opt attribute-specifier-seq] [`;]
+[`operator] [~conversion-type-id] [`(] [`)] [~cv-qualifier]
+    [~:opt ref-qualifier] [~:opt exception-specification]
+    [~:opt attribute-specifier-seq] [`;]
 [syntax:end]
 
 [:en@~]
 where [~cv-qualifier] is the same cv-qualification as, or a greater
 cv-qualification than, [$cv], and where [~conversion-type-id] denotes the type
-["pointer to function of ([`P1],...,[`Pn)] returning [`R]], or the type
-["reference to pointer to function of ([`P1],...,[`Pn)] returning [`R]], or the
-type ["reference to function of ([`P1],...,[`Pn)] returning [`R]], a [+surrogate
+["pointer to function of [`(P1],...,[`Pn)] returning [`R]], or the type
+["reference to pointer to function of [`(P1],...,[`Pn)] returning [`R]], or the
+type ["reference to function of [`(P1],...,[`Pn)] returning [`R]], a [+surrogate
 call function] with the unique name [$call-function] and having the form
+[:zh_CN@~]
+其中 [~cv-限定符]带有与 [$cv] 相同的 cv-限定性，或更强的 cv-限定性，而其中的
+[~转换类型标识]代表类型“[`R] 为返回类型的 [`(P1],...,[`Pn)] 函数的指针”，或者
+类型“[`R] 为返回类型的 [`(P1],...,[`Pn)] 函数的指针的引用”，或者类型“[`R] 为返回
+类型的 [`(P1],...,[`Pn)] 函数的引用”，那么，一个带有唯一名字 [$call-function]
+且形式为
 
 [codeblock:notation]
 R [$call-function] ( [~conversion-type-id] F, P1 a1, ... ,Pn an) { return F (a1,... ,an); }
@@ -35,26 +52,39 @@ R [$call-function] ( [~conversion-type-id] F, P1 a1, ... ,Pn an) { return F (a1,
 
 [:en@~]
 is also considered as a candidate function.
+[:zh_CN@~]
+的[+代用调用函数]也被当作候选函数。
 
 [:en]
 Similarly, surrogate call functions are added to the set of candidate functions
 for each non-explicit conversion function declared in a base class of [`T]
 provided the function is not hidden within [`T] by another intervening
 declaration
+[:zh_CN]
+相似地，对于每个在 [`T] 的某个基类中声明的非显式转换函数，只要该函数在 [`T] 中
+未被其它介入的声明式所隐藏，就都要为它向候选函数的集合中添加代用调用函数
 
 [footnote]
 [:en]
 Note that this construction can yield candidate call functions that cannot be
 differentiated one from the other by overload resolution because they have
 identical declarations or differ only in their return type.
+[:zh_CN]
+注意，这个构造可能会产生不能以重载决议区别开的候选调用函数，它们带有相同的声明式
+，或者仅以它们的返回类型而不同。
 
 [:en]
 The call will be ambiguous if overload resolution cannot select a match to the
 call that is uniquely better than such undifferentiable functions.
+[:zh_CN]
+若重载决议不能为该调用选择出比这些无法区分的函数更好的唯一匹配，则该调用是有歧义
+的。
 [footnote:end]
 
 [:en@~]
 .
+[:zh_CN@~]
+。
 
 [para]
 [:en]
@@ -62,32 +92,49 @@ If such a surrogate call function is selected by overload resolution, the
 corresponding conversion function will be called to convert [`E] to the
 appropriate function pointer or reference, and the function will then be invoked
 with the arguments of the call.
+[:zh_CN]
+若重载决议选择了此种代用调用函数，则其对应的转换函数将被调用以将 [`E] 转换为合适
+的函数指针或引用，而随即将以该调用的实参来调用这个函数。
 
 [:en]
 If the conversion function cannot be called (e.g., because of an ambiguity),
 the program is ill-formed.
+[:zh_CN]
+若不能调用这个转换函数（比如由于歧义），则程序非良构。
 
 [para]
 [:en]
 The argument list submitted to overload resolution consists of the argument
 expressions present in the function call syntax preceded by the implied object
 argument [`(E)].
+[:zh_CN]
+提交给重载决议的实参列表，由函数调用语法中出现的实参表达式，前面加上隐含对象实参
+[`(E)] 构成。
 
 [enter:note]
 [:en]
 When comparing the call against the function call operators, the implied object
 argument is compared against the implicit object parameter of the function call
 operator.
+[:zh_CN]
+当将该调用与函数调用运算符进行比较时，隐含对象实参与该函数调用运算符的隐含对象
+形参间进行比较。
 
 [:en]
 When comparing the call against a surrogate call function, the implied object
 argument is compared against the first parameter of the surrogate call function.
+[:zh_CN]
+当将该调用与代用调用函数进行比较时，隐含对象实参与该代用调用函数的第一个形参间
+进行比较。
 
 [:en]
 The conversion function from which the surrogate call function was derived will
 be used in the conversion sequence for that parameter since it converts the
 implied object argument to the appropriate function pointer or reference
 required by that first parameter.
+[:zh_CN]
+由于用以导出代用调用函数的转换函数，被用于将隐含对象实参转换为第一个形参所需的
+适当的函数指针或引用，所以它将被用在该形参的转换序列中。
 [exit:note]
 
 [enter:example]
@@ -101,6 +148,8 @@ struct A {
   operator fp2() { return f2; }
 } a;
 int i = a(1);       // [:en] calls [`f1] via pointer returned from
+                    // [|:zh_CN] 通过从转换函数返回的
                     // [:en@~] conversion function
+                    // [|:zh_CN@~] 指针调用 [`f1]
 [codeblock:end]
 [exit:example]

@@ -1,7 +1,9 @@
 ﻿[section#over.match.copy
     [:en] Copy-initialization of class by user-defined conversion
+    [:zh_CN] 通过用户定义的转换进行类的复制初始化
 ]
 [%[:en] overloading[!resolution[!initialization]]
+  [:zh_CN] 重载[!～决议[!初始化]]
 ]
 
 [para]
@@ -9,31 +11,47 @@
 Under the conditions specified in [#dcl.init], as part of a copy-initialization
 of an object of class type, a user-defined conversion can be invoked to convert
 an initializer expression to the type of the object being initialized.
+[:zh_CN]
+在 [#dcl.init] 中指定的条件下，作为类类型对象的复制初始化的一部分，可以调用用户
+定义的转换以将初始化式表达式转换为所初始化的对象的类型。
 
 [:en]
 Overload resolution is used to select the user-defined conversion to be invoked.
+[:zh_CN]
+使用重载决议来选择所要调用的用户定义的转换。
 
 [enter:note]
 [:en]
 The conversion performed for indirect binding to a reference to a possibly
 cv-qualified class type is determined in terms of a corresponding non-reference
 copy-initialization.
+[:zh_CN]
+将引用间接绑定到可能被 cv-限定的类类型中所实施的转换，被确定为与之对应的非引用
+复制初始化。
 [exit:note]
 
 [:en]
 Assuming that ["[$cv1] [`T]] is the type of the object being initialized, with
 [`T] a class type, the candidate functions are selected as follows:
+[:zh_CN]
+假定“[$cv1] [`T]”为所初始化的对象的类型，其中 [`T] 为类类型，其候选函数选择如下
+：
 
 [list]
 [item]
 [:en]
 The converting constructors ([#class.conv.ctor]) of [`T] are candidate
 functions.
+[:zh_CN]
+[`T] 的转换构造函数（[#class.conv.ctor]）是候选函数。
 
 [item]
 [:en]
 When the type of the initializer expression is a class type ["[$cv] [`S]], the
 non-explicit conversion functions of [`S] and its base classes are considered.
+[:zh_CN]
+当初始化式表达式的类型为类类型“[$cv] [`S]”时，考虑 [`S] 及其基类的非显式的转换
+函数。
 
 [:en]
 When initializing a temporary to be bound to the first parameter of a
@@ -41,25 +59,39 @@ constructor where the parameter is of type ["reference to possibly
 [$cv]-qualified [`T]] and the constructor is called with a single argument in
 the context of direct-initialization of an object of type ["[$cv2] [`T]],
 explicit conversion functions are also considered.
+[:zh_CN]
+当初始化用以绑定到构造函数的第一个形参的临时对象，而形参类型为“可能被 [$cv] 限定
+的 [`T] 的引用”，且构造函数是在对类型“[$cv2] [`T]”的对象进行直接初始化的语境中被
+调用时，还要考虑显式转换函数。
 
 [:en]
 Those that are not hidden within [`S] and yield a type whose cv-unqualified
 version is the same type as [`T] or is a derived class thereof are candidate
 functions.
+[:zh_CN]
+其中在 [`S] 之中未被隐藏，且所产生的类型的 cv-未限定版本与 [`T] 相同或为其派生类
+，这样的转换函数是候选函数。
 
 [:en]
 Conversion functions that return ["reference to [`X]] return lvalues or xvalues,
 depending on the type of reference, of type [`X] and are therefore considered to
 yield [`X] for this process of selecting candidate functions.
+[:zh_CN]
+返回“[`X] 的引用”的转换函数（根据引用的类型）返回 [`X] 类型的左值或临限值，并
+因此在选择候选函数过程中被当作产生 [`X]。
 [list:end]
 
 [para]
 [:en]
 In both cases, the argument list has one argument, which is the initializer
 expression.
+[:zh_CN]
+在两种情况下，实参列表都有一个实参，就是其初始化式表达式。
 
 [enter:note]
 [:en]
 This argument will be compared against the first parameter of the constructors
 and against the implicit object parameter of the conversion functions.
+[:zh_CN]
+此实参将与构造函数的第一个形参以及转换函数的隐含对象形参进行比较。
 [exit:note]
