@@ -1,27 +1,37 @@
 ﻿[section#class.inhctor
     [:en] Inheriting constructors
+    [:zh_CN] 继承构造函数
 ]
 
 [%:begin#constructor.inheriting
     [:en] constructor [!inheriting]
+    [:zh_CN] 构造函数[!继承～]
 ]
 
 [para]
 [:en]
 A [~using-declaration] ([#namespace.udecl]) that names a constructor implicitly
 declares a set of [+inheriting constructors].
+[:zh_CN]
+指名构造函数的 [~using-声明式]（[#namespace.udecl]）隐式地声明了[+继承构造函数]
+的集合。
 
 [:en]
 The [+candidate set of inherited constructors] from the class [`X] named in the
 [~using-declaration] consists of actual constructors and notional constructors
 that result from the transformation of defaulted parameters and ellipsis
 parameter specifications as follows:
+[:zh_CN]
+来自由 [~using-声明式]所指名的类 [`X] 的[+继承构造函数候选集合]，包括如下所述的
+实际的构造函数和对默认形参和省略号形参进行变换所产生的虚构的构造函数：
 
 [list]
 [item]
 [:en]
 for each non-template constructor of [`X], the constructor that results from
 omitting any ellipsis parameter specification, and
+[:zh_CN]
+对于 [`X] 的每个非模板构造函数，通过忽略任何省略号形参说明所产生的构造函数，以及
 
 [item]
 [:en]
@@ -29,11 +39,18 @@ for each non-template constructor of [`X] that has at least one parameter with
 a default argument, the set of constructors that results from omitting any
 ellipsis parameter specification and successively omitting parameters with a
 default argument from the end of the parameter-type-list, and
+[:zh_CN]
+对于 [`X] 的每个至少带有一个具有默认实参的形参的非模板构造函数，通过忽略任何省略
+号形参说明，并从形参类型列表的末尾开始依次忽略具有默认实参的形参所产生的构造函数
+的集合，以及
 
 [item]
 [:en]
 for each constructor template of [`X], the constructor template that results
 from omitting any ellipsis parameter specification, and
+[:zh_CN]
+对于 [`X] 的每个构造函数模板，通过忽略任何省略号形参说明所产生的构造函数模板，
+以及
 
 [item]
 [:en]
@@ -41,19 +58,28 @@ for each constructor template of [`X] that has at least one parameter with a
 default argument, the set of constructor templates that results from omitting
 any ellipsis parameter specification and successively omitting parameters with a
 default argument from the end of the parameter-type-list.
+[:zh_CN]
+对于 [`X] 的每个至少带有一个具有默认实参的形参的构造函数模板，通过忽略任何省略号
+形参说明，并从形参类型列表的末尾开始依次忽略具有默认实参的形参所产生的构造函数
+模板的集合。
 [list:end]
 
 [para]
 [:en]
 The [+constructor characteristics] of a constructor or constructor template are
+[:zh_CN]
+构造函数或构造函数模板的[+构造函数特征]为
 
 [list]
 [item]
 [:en@~] the template parameter list ([#temp.param]), if any,
+[:zh_CN@~] 其模板形参列表（[#temp.param]），如果有，
 [item]
 [:en@~] the parameter-type-list ([#dcl.fct]), and
+[:zh_CN@~] 其形参类型列表（[#dcl.fct]），以及
 [item]
 [:en@~] absence or presence of [`explicit] ([#class.conv.ctor]).
+[:zh_CN@~] 有或没有 [`explicit]（[#class.conv.ctor]）。
 [list:end]
 
 [para]
@@ -64,6 +90,11 @@ a single parameter, a constructor is implicitly declared with the same
 constructor characteristics unless there is a user-declared constructor with the
 same signature in the complete class where the [~using-declaration] appears or
 the constructor would be a default, copy, or move constructor for that class.
+[:zh_CN]
+继承构造函数候选集合中，对于除了没有形参的构造函数或带有单个形参的复制/移动构造
+函数外的每个非模板构造函数，除非于包含 [~using-声明式]的完整类中已经存在带有相同
+签名的用户声明的构造函数，否则就以其相同的构造函数特征隐式声明一个构造函数，该
+构造函数不会成为这个类的默认、复制或移动构造函数。
 
 [:en]
 Similarly, for each constructor template in the candidate set of inherited
@@ -71,39 +102,62 @@ constructors, a constructor template is implicitly declared with the same
 constructor characteristics unless there is an equivalent user-declared
 constructor template ([#temp.over.link]) in the complete class where the
 [~using-declaration] appears.
+[:zh_CN]
+相似地，对于继承构造函数候选集合中的每个构造函数模板，除非于包含该 [~using-声明
+式]的类中已经存在等价的用户声明的构造函数模板（[#temp.over.link]），否则就以其
+相同的构造函数特征隐式声明一个构造函数模板。
 
 [enter:note]
 [:en]
 Default arguments are not inherited.
+[:zh_CN]
+默认实参不被继承。
 
 [:en]
 An exception specification is implied as specified in [#except.spec].
+[:zh_CN]
+根据 [#except.spec] 指定隐含的异常说明。
 [exit:note]
 
 [para]
 [:en]
 A constructor so declared has the same access as the corresponding constructor
 in [`X].
+[:zh_CN]
+这样声明的构造函数具有与 [`X] 中的对应构造函数相同的访问性。
 
 [:en]
 It is [`constexpr] if the user-written constructor (see below) would satisfy the
 requirements of a [`constexpr] constructor ([#dcl.constexpr]).
+[:zh_CN]
+若由用户写出的构造函数（见下文）能够满足 [`constexpr] 构造函数
+（[#dcl.constexpr]）的规定，则它是 [`constexpr] 的。
 
 [:en]
 It is deleted if the corresponding constructor in [`X] is deleted
 ([#dcl.fct.def.delete]) or if a defaulted default constructor ([#class.ctor])
 would be deleted, except that the construction of the direct base class [`X] is
 not considered in the determination.
+[:zh_CN]
+若 [`X] 中的对应构造函数是弃置的（[#dcl.fct.def.delete]），或者若预置的默认构造
+函数（[#class.ctor]）本应是弃置的（在其确定过程中不考虑直接基类 [`X] 的构造），
+则它也是弃置的。
 
 [:en]
 An inheriting constructor shall not be explicitly instantiated
 ([#temp.explicit]) or explicitly specialized ([#temp.expl.spec]).
+[:zh_CN]
+继承构造函数不能被显式实例化（[#temp.explicit]）或显式特化（[#temp.expl.spec]）
+。
 
 [para]
 [enter:note]
 [:en]
 Default and copy/move constructors may be implicitly declared as specified in
 [#class.ctor] and [#class.copy].
+[:zh_CN]
+默认和复制/移动构造函数可能会根据 [#class.ctor] 和 [#class.copy] 中所述被隐式
+声明。
 [exit:note]
 
 [para]
@@ -128,60 +182,85 @@ struct D2 : B2 {
 
 [:en]
 The candidate set of inherited constructors in [`D1] for [`B1] is
+[:zh_CN]
+[`D1] 中 [`B1] 的继承构造函数候选集合为
 
 [list]
 [item]
 [:en@~] [`B1(const B1&)]
+[:zh_CN@~] [`B1(const B1&)]
 [item]
 [:en@~] [`B1(B1&&)]
+[:zh_CN@~] [`B1(B1&&)]
 [item]
 [:en@~] [`B1(int)]
+[:zh_CN@~] [`B1(int)]
 [list:end]
 
 [:en]
 The set of constructors present in [`D1] is
+[:zh_CN]
+[`D1] 中出现的构造函数的集合为
 
 [list]
 [item]
 [:en@~] [`D1()], implicitly-declared default constructor, ill-formed if odr-used
+[:zh_CN@~] [`D1()]，隐式声明的默认构造函数，如果 ODR-式使用就非良构
 [item]
 [:en@~] [`D1(const D1&)], implicitly-declared copy constructor, not inherited
+[:zh_CN@~] [`D1(const D1&)]，隐式声明的复制构造函数，不是继承的
 [item]
 [:en@~] [`D1(D1&&)], implicitly-declared move constructor, not inherited
+[:zh_CN@~] [`D1(D1&&)]，隐式声明的移动构造函数，不是继承的
 [item]
 [:en@~] [`D1(int)], implicitly-declared inheriting constructor
+[:zh_CN@~] [`D1(int)]，隐式声明的继承构造函数
 [list:end]
 
 [:en]
 The candidate set of inherited constructors in [`D2] for [`B2] is
+[:zh_CN]
+[`D2] 中 [`B2] 的继承构造函数候选集合为
 
 [list]
 [item]
 [:en@~] [`B2(const B2&)]
+[:zh_CN@~] [`B2(const B2&)]
 [item]
 [:en@~] [`B2(B2&&)]
+[:zh_CN@~] [`B2(B2&&)]
 [item]
 [:en@~] [`B2(int = 13, int = 42)]
+[:zh_CN@~] [`B2(int = 13, int = 42)]
 [item]
 [:en@~] [`B2(int = 13)]
+[:zh_CN@~] [`B2(int = 13)]
 [item]
 [:en@~] [`B2()]
+[:zh_CN@~] [`B2()]
 [list:end]
 
 [:en]
 The set of constructors present in [`D2] is
+[:zh_CN]
+[`D2] 中出现的构造函数的集合为
 
 [list]
 [item]
 [:en@~] [`D2()], implicitly-declared default constructor, not inherited
+[:zh_CN@~] [`D2()]，隐式声明的默认构造函数，不是继承的
 [item]
 [:en@~] [`D2(const D2&)], implicitly-declared copy constructor, not inherited
+[:zh_CN@~] [`D2(const D2&)]，隐式声明的复制构造函数，不是继承的
 [item]
 [:en@~] [`D2(D2&&)], implicitly-declared move constructor, not inherited
+[:zh_CN@~] [`D2(D2&&)]，隐式声明的移动构造函数，不是继承的
 [item]
 [:en@~] [`D2(int, int)], implicitly-declared inheriting constructor
+[:zh_CN@~] [`D2(int, int)]，隐式声明的继承构造函数
 [item]
 [:en@~] [`D2(int)], implicitly-declared inheriting constructor
+[:zh_CN@~] [`D2(int)]，隐式声明的继承构造函数
 [list:end]
 [exit:example]
 
@@ -193,6 +272,11 @@ signatures, the program is ill-formed ([#class.mem], [#over.load]), because an
 implicitly-declared constructor introduced by the first [~using-declaration] is
 not a user-declared constructor and thus does not preclude another declaration
 of a constructor with the same signature by a subsequent [~using-declaration].
+[:zh_CN]
+如果两个 [~using-声明式]声明了相同签名的继承构造函数，则程序非良构（[#class.mem]
+，[#over.load]），这是由于由第一个 [~using-声明式]所引入的隐式声明的构造函数不是
+用户声明的构造函数，并因此不能防止后面的 [~using-声明式]引入相同签名的构造函数的
+其他声明式。
 
 [enter:example]
 [codeblock]
@@ -207,12 +291,14 @@ struct B2 {
 struct D1 : B1, B2 {
   using B1::B1;
   using B2::B2;     
-};                  // [:en] ill-formed: attempts to declare D1(int) twice
+};                  // [:en] ill-formed: attempts to declare [`D1(int)] twice
+                    // [|:zh_CN] 非良构：试图两次声明 [`D1(int)]
 
 struct D2 : B1, B2 {
   using B1::B1;
   using B2::B2;
   D2(int);          // [:en] OK: user declaration supersedes both implicit declarations
+                    // [|:zh_CN] OK：用户的声明式同时抑制两个隐式声明式
 };
 [codeblock:end]
 [exit:example]
@@ -222,6 +308,9 @@ struct D2 : B1, B2 {
 [:en]
 An inheriting constructor for a class is implicitly defined when it is odr-used
 ([#basic.def.odr]) to create an object of its class type ([#intro.object]).
+[:zh_CN]
+当某个类的继承构造函数被 ODR-式使用（[#basic.def.odr]）以创建该类类型的对象
+（[#intro.object]）时，它将被隐式定义。
 
 [:en]
 An implicitly-defined inheriting constructor performs the set of initializations
@@ -231,14 +320,24 @@ that class with a [~mem-initializer-list] whose only [~mem-initializer] has a
 [~nested-name-specifier] of the [~using-declaration] and an [~expression-list]
 as specified below, and where the [~compound-statement] in its function body is
 empty ([#class.base.init]).
+[:zh_CN]
+隐式定义的继承构造函数对该类实施一组初始化，等同于由用户为该类写出的 [`inline]
+构造函数，其[~成员初始化式列表]的唯一[~成员初始化式]带有一个指名了该
+[~using-声明式]的[~嵌套名说明符]所代表的基类的[~成员初始化式标识]，以及一个如下
+所述的[~表达式列表]，并且它的函数体中的[~组合语句]为空（[#class.base.init]）。
 
 [:en]
 If that user-written constructor would be ill-formed, the program is ill-formed.
+[:zh_CN]
+若由用户写出的构造函数是非良构的，则程序非良构。
 
 [:en]
 Each [~expression] in the [~expression-list] is of the form
 [`static_cast<T&&>(p)], where [`p] is the name of the corresponding constructor
 parameter and [`T] is the declared type of [`p].
+[:zh_CN]
+[~表达式列表]中的每个[~表达式]的形式都为 [`static_cast<T&&>(p)]，其中 [`p] 为
+对应构造函数形参的名字，且 [`T] 为 [`p] 的声明类型。
 
 [para]
 [enter:example]
@@ -253,24 +352,30 @@ struct B2 {
 
 struct D1 : B1 {
   using B1::B1;     // [:en] implicitly declares [`D1(int)]
+                    // [|:zh_CN] 隐式声明了 [`D1(int)]
   int x;
 };
 
 void test() {
   D1 d(6);          // [:en] OK: [`d.x] is not initialized
+                    // [|:zh_CN] OK：[`d.x] 未被初始化
   D1 e;             // [:en] error: [`D1] has no default constructor
+                    // [|:zh_CN] 错误：[`D1] 没有默认构造函数
 }
 
 struct D2 : B2 {
   using B2::B2;     // [:en] OK: implicitly declares [`D2(double)]
+                    // [|:zh_CN] OK：隐式声明了 [`D2(double)]
   B1 b;
 };
 
-D2 f(1.0);          // [:en] error: B1 has no default constructor
+D2 f(1.0);          // [:en] error: [`B1] has no default constructor
+                    // [|:zh_CN] 错误：[`B1] 没有默认构造函数
 
 template< class T >
 struct D : T {
-  using T::T;       // [:en] declares all constructors from class T
+  using T::T;       // [:en] declares all constructors from class [`T]
+                    // [|:zh_CN] 声明了来自类 [`T] 的所有构造函数
   ~D() { std::clog << "Destroying wrapper" << std::endl; }
 };
 [codeblock:end]
@@ -279,6 +384,9 @@ struct D : T {
 Class template [`D] wraps any class and forwards all of its constructors, while
 writing a message to the standard log whenever an object of class [`D] is
 destroyed.
+[:zh_CN]
+类模板 [`D] 包装了任意类，并转发了它的所有构造函数，并且一旦有类 [`D] 的对象被
+销毁就向标准日志中写入一条消息。
 [exit:example]
 
 [%:end#constructor.inheriting]

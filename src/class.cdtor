@@ -1,12 +1,15 @@
 ﻿[section#class.cdtor
     [:en] Construction and destruction
+    [:zh_CN] 构造与销毁
 ]
 
 [%:begin#construction
     [:en] construction
+    [:zh_CN] 构造
 ]
 [%:begin#destruction
     [:en] destruction
+    [:zh_CN] 销毁
 ]
 
 [para]
@@ -16,35 +19,52 @@
 For an object with a non-trivial constructor, referring to any non-static member
 or base class of the object before the constructor begins execution results in
 undefined behavior.
+[:zh_CN]
+[%构造[!成员访问]]
+[%销毁[!成员访问]]
+对于带有非平凡构造函数的对象，在构造函数开始执行之前指代该对象的任何非静态成员或
+基类将造成未定义行为。
 
 [:en]
 For an object with a non-trivial destructor, referring to any non-static member
 or base class of the object after the destructor finishes execution results in
 undefined behavior.
+[:zh_CN]
+对于带有非平凡析构函数的对象，在析构函数结束执行之后指代该对象的任何非静态成员或
+基类将造成未定义行为。
 
 [enter:example]
 [codeblock]
 struct X { int i; };
 struct Y : X { Y(); };                  // [:en] non-trivial
+                                        // [|:zh_CN] 非平凡的
 struct A { int a; };
 struct B : public A { int j; Y y; };    // [:en] non-trivial
+                                        // [|:zh_CN] 非平凡的
 
 extern B bobj;
 B* pb = &bobj;                          // OK
 int* p1 = &bobj.a;                      // [:en] undefined, refers to base class member
+                                        // [|:zh_CN] 未定义的，指代基类成员
 int* p2 = &bobj.y.i;                    // [:en] undefined, refers to member[=']s member
+                                        // [|:zh_CN] 未定义的，指代成员的成员
 
 A* pa = &bobj;                          // [:en] undefined, upcast to a base class type
+                                        // [|:zh_CN] 未定义的，向基类类型的向上强制转换
 B bobj;                                 // [:en] definition of [`bobj]
+                                        // [|:zh_CN] [`bobj] 的定义式
 
 extern X xobj;
 int* p3 = &xobj.i;                      // [:en] OK, [`X] is a trivial class
+                                        // [|:zh_CN] OK，[`X] 是平凡类
 X xobj;
 [codeblock:end]
 
 [para]
 [:en]
 For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 struct W { int j; };
@@ -53,6 +73,7 @@ struct Y {
   int* p;
   X x;
   Y() : p(&x.j) {   // [:en] undefined, [`x] is not yet constructed
+                    // [|:zh_CN] 未定义的，[`x] 还未被构造
     }
 };
 [codeblock:end]
@@ -68,12 +89,23 @@ of [`X], the construction of [`X] and the construction of all of its direct or
 indirect bases that directly or indirectly derive from [`B] shall have started
 and the destruction of these classes shall not have completed, otherwise the
 conversion results in undefined behavior.
+[:zh_CN]
+[%构造[!成员指针和基类指针]]
+[%销毁[!成员指针和基类指针]]
+要将指向类 [`X] 的对象的指针（泛左值）显式或隐式地转换为指向 [`X] 的直接或间接
+基类 [`B] 的指针（引用）时，[`X] 的构造过程，以及它的直接或间接派生自 [`B] 的
+所有直接或间接基类的构造过程，都应当已经开始，并且这些类的销毁过程应当还未结束，
+否则该转换将造成未定义行为。
 
 [:en]
 To form a pointer to (or access the value of) a direct non-static member of
 an object [`obj], the construction of [`obj] shall have started and its
 destruction shall not have completed, otherwise the computation of the pointer
 value (or accessing the member value) results in undefined behavior.
+[:zh_CN]
+要构成指向对象 [`obj] 的直接非静态成员的指针（或访问其值），[`obj] 的构造过程
+应当已经开始，并且其销毁过程应当还未结束，否则对指针值的计算（或对成员值的访问）
+将造成未定义行为。
 
 [enter:example]
 [codeblock]
@@ -85,14 +117,23 @@ struct X { X(A*); };
 
 struct E : C, D, X {
   E() : D(this),    // [:en] undefined: upcast from [`E*] to [`A*]
+                    // [|:zh_CN] 未定义的：从 [`E*] 到 [`A*] 的向上强制转换
                     // [:en@~] might use path [`E*] [=to] [`D*] [=to] [`A*]
+                    // [|:zh_CN@~] 可能通过路径 [`E*] [=to] [`D*] [=to] [`A*]
                     // [:en@~] but [`D] is not constructed
+                    // [|:zh_CN@~] 但 [`D] 还未被构造
                     // [`D((C*)this)], // [:en] defined:
+                                       // [|:zh_CN] 有定义的：
                     // [:en@~] [`E*] [=to] [`C*] defined because [`E()] has started
+                    // [|:zh_CN@~] [`E*] [=to] [`C*] 是有定义的，因为 [`E()] 已经开始
                     // [:en@~] and [`C*] [=to] [`A*] defined because
+                    // [|:zh_CN@~] 且 [`C*] [=to] [`A*] 是有定义的，因为
                     // [:en@~] [`C] fully constructed
+                    // [|:zh_CN@~] [`C] 已被完全构造
   X(this) {         // [:en] defined: upon construction of [`X],
+                    // [|:zh_CN] 有定义的：在 [`X] 的构造之时
                     // [:en@~] [`C/B/D/A] sublattice is fully constructed
+                    // [|:zh_CN@~] [`C/B/D/A] 子晶格已被完全构造
   }
 };
 [codeblock:end]
@@ -106,6 +147,13 @@ struct E : C, D, X {
 [%destruction[!virtual function call]]
 Member functions, including virtual functions ([#class.virtual]), can be called
 during construction or destruction ([#class.base.init]).
+[:zh_CN]
+[%虚函数调用[!构造函数与～]]
+[%虚函数调用[!析构函数与～]]
+[%构造[!需函数调用]]
+[%销毁[!虚函数调用]]
+成员函数，包括虚函数（[#class.virtual]），可以在构造或销毁过程中进行调用
+（[#class.base.init]）。
 
 [:en]
 When a virtual function is called directly or indirectly from a constructor
@@ -114,12 +162,21 @@ class[=']s non-static data members, and the object to which the call applies is
 the object (call it [`x]) under construction or destruction, the function called
 is the final overrider in the constructor[=']s or destructor[=']s class and not
 one overriding it in a more-derived class.
+[:zh_CN]
+当从构造函数或者析构函数中（包括该类的非静态数据成员的构造或销毁过程中）直接或
+间接调用虚函数，且实施了该调用的对象（称之为 [`x]）是处于构造或销毁过程之中的
+对象时，被调用的函数是该构造函数或析构函数的类中的最终覆盖函数，而不是在某个
+进一步派生的类中覆盖它的函数。
 
 [:en]
 If the virtual function call uses an explicit class member access ([#expr.ref])
 and the object expression refers to the complete object of [`x] or one of that
 object[=']s base class subobjects but not [`x] or one of its base class
 subobjects, the behavior is undefined.
+[:zh_CN]
+若该虚函数调用明确使用了类成员访问（[#expr.ref]），而其对象表达式指代 [`x] 的
+完整对象或这个对象的基类子对象之一，但又并非是 [`x] 或其基类子对象之一，则其行为
+是未定义的。
 
 [enter:example]
 [codeblock]
@@ -145,9 +202,13 @@ struct D : A, B {
 
 B::B(V* v, A* a) {
   f();              // [:en] calls [`V::f], not [`A::f]
+                    // [|:zh_CN] 调用 [`V::f]，而不是 [`A::f]
   g();              // [:en] calls [`B::g], not [`D::g]
+                    // [|:zh_CN] 调用 [`B::g]，而不是 [`D::g]
   v->g();           // [:en] [`v] is base of [`B], the call is well-defined, calls [`B::g]
+                    // [|:zh_CN] [`v] 是 [`B] 的基类，该调用是良构的，调用了 [`B::g]
   a->f();           // [:en] undefined behavior, [`a][=']s type not a base of [`B]
+                    // [|:zh_CN] 未定义的行为，[`a] 的类型不是 [`B] 的基类
 }
 [codeblock:end]
 [exit:example]
@@ -160,6 +221,13 @@ B::B(V* v, A* a) {
 [%[`typeid][!destruction and]]
 The [`typeid] operator ([#expr.typeid]) can be used during construction or
 destruction ([#class.base.init]).
+[:zh_CN]
+[%构造[![`typeid] 运算符]]
+[%销毁[![`typeid] 运算符]]
+[%[`typeid][!构造与～]]
+[%[`typeid][!销毁与～]]
+可以在构造或销毁过程中（[#class.base.init]）使用 [`typeid] 运算符
+（[#expr.typeid]）。
 
 [:en]
 When [`typeid] is used in a constructor (including the [~mem-initializer] or
@@ -168,12 +236,20 @@ or used in a function called (directly or indirectly) from a constructor or
 destructor, if the operand of [`typeid] refers to the object under construction
 or destruction, [`typeid] yields the [`std::type_info] object representing the
 constructor or destructor[=']s class.
+[:zh_CN]
+当从构造函数（包括针对某个非静态数据成员的[~成员初始化式]或[~花括号或等号初始化
+式]）或析构函数中，或者从由构造函数或析构函数（直接或间接地）调用的函数中使用
+[`typeid] 时，若 [`typeid] 的操作数指代处于构造或销毁过程中的对象，则 [`typeid]
+产生代表该构造函数或析构函数的类的 [`std::type_info] 对象。
 
 [:en]
 If the operand of [`typeid] refers to the object under construction or
 destruction and the static type of the operand is neither the constructor or
 destructor[=']s class nor one of its bases, the result of [`typeid] is
 undefined.
+[:zh_CN]
+若 [`typeid] 的操作数指代处于构造或销毁过程中的对象，并且该操作数的静态类型既
+不是该构造函数或析构函数的类也不是其基类之一，则该 [`typeid] 的结果是未定义的。
 
 [para]
 [:en]
@@ -183,6 +259,13 @@ undefined.
 [%cast[!dynamic[!destruction and]]]
 [`dynamic_cast]s ([#expr.dynamic.cast]) can be used during construction
 or destruction ([#class.base.init]).
+[:zh_CN]
+[%构造[!动态强制转换与～]]
+[%销毁[!动态强制转换与～]]
+[%强制转换[!动态～[!构造与～]]]
+[%强制转换[!动态～[!销毁与～]]]
+可以在构造或销毁过程中（[#class.base.init]）使用 [`dynamic_cast]
+（[#expr.dynamic.cast]）。
 
 [:en]
 When a [`dynamic_cast] is used in a constructor (including the
@@ -192,12 +275,21 @@ indirectly) from a constructor or destructor, if the operand of the
 [`dynamic_cast] refers to the object under construction or destruction, this
 object is considered to be a most derived object that has the type of the
 constructor or destructor[=']s class.
+[:zh_CN]
+当从构造函数（包括针对某个非静态数据成员的[~成员初始化式]或[~花括号或等号初始化
+式]）或析构函数中，或者从由构造函数或析构函数（直接或间接地）调用的函数中使用
+[`dynamic_cast] 时，若 [`dynamic_cast] 的操作数指代处于构造或销毁过程中的对象，
+则该对象被当作是具有该构造函数或析构函数的类型的全派生对象。
 
 [:en]
 If the operand of the [`dynamic_cast] refers to the object under construction or
 destruction and the static type of the operand is not a pointer to or object of
 the constructor or destructor[=']s own class or one of its bases, the
 [`dynamic_cast] results in undefined behavior.
+[:zh_CN]
+若 [`dynamic_cast] 的操作数指代处于构造或销毁过程中的对象，并且该操作数的静态
+类型并不是该构造函数或析构函数自身的类或其基类之一的指针或者对象，则该
+[`dynamic_cast] 将造成未定义的行为。
 
 [para:~]
 [enter:example]
@@ -218,13 +310,21 @@ struct D : A, B {
 
 B::B(V* v, A* a) {
   typeid(*this);                // [:en] [`type_info] for [`B]
+                                // [|:zh_CN] [`B] 的 [`type_info]
   typeid(*v);                   // [:en] well-defined: [`*v] has type [`V], a base of [`B]
+                                // [|:zh_CN] 良构：[`*v] 的类型为 [`V]，是 [`B] 的基类
                                 // [:en@~] yields [`type_info] for [`B]
+                                // [|:zh_CN@~] 产生代表 [`B] 的 [`type_info]
   typeid(*a);                   // [:en] undefined behavior: type [`A] not a base of [`B]
+                                // [|:zh_CN] 未定义的行为：类型 [`A] 不是 [`B] 的基类
   dynamic_cast<B*>(v);          // [:en] well-defined: [`v] of type [`V*], [`V] base of [`B]
+                                // [|:zh_CN] 良构：[`*v] 的类型为 [`V*]，[`V] 是 [`B] 的基类
                                 // [:en@~] results in [`B*]
+                                // [|:zh_CN@~] 结果为 [`B*]
   dynamic_cast<B*>(a);          // [:en] undefined behavior,
+                                // [|:zh_CN] 未定义的行为，
                                 // [:en@~] [`a] has type [`A*], [`A] not a base of [`B]
+                                // [|:zh_CN@~] [`a] 的类型为 [`A*]，[`A] 不是 [`B] 的基类
 }
 [codeblock:end]
 [exit:example]
