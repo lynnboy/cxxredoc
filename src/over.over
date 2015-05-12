@@ -1,65 +1,95 @@
 ﻿[section#over.over
     [:en] Address of overloaded function
+    [:zh_CN] 重载函数的地址
 ]
 
 [:en]
 [%overloading[!address of overloaded function]]
-[%overloadedfunction[!address of]]
+[%overloaded function[!address of]]
+[:zh_CN]
+[%重载[!重载函数的地址]]
+[%重载函数[!～的地址]]
 
 [para]
 [:en]
 A use of an overloaded function name without arguments is resolved in certain
 contexts to a function, a pointer to function or a pointer to member function
 for a specific function from the overload set.
+[:zh_CN]
+在特定语境中，使用一个不带实参的重载的函数名，将会把重载集合中的某个特定函数决议
+为一个函数、一个指向函数的指针，或者一个指向成员函数的指针。
 
 [:en]
 A function template name is considered to name a set of overloaded functions
 in such contexts.
+[:zh_CN]
+函数模板名在这些语境中将被当作指名一个重载函数的集合。
 
 [:en]
 The function selected is the one whose type is identical to the function type of
 the target type required in the context.
+[:zh_CN]
+所选择的函数是其类型与在语境中所需的目标类型等同的那个函数。
 
 [enter:note]
 [:en]
 That is, the class of which the function is a member is ignored when matching a
 pointer-to-member-function type.
+[:zh_CN]
+就是说，对成员函数指针的类型进行匹配时，包含成员函数的类是被忽略的。
 [exit:note]
 
 [:en]
 The target can be
+[:zh_CN]
+该目标可以为
 
 [list]
 [item]
 [:en@~] an object or reference being initialized ([#dcl.init], [#dcl.init.ref],
 [#dcl.init.list]),
+[:zh_CN@~] 被初始化的对象或引用（[#dcl.init]，[#dcl.init.ref]，
+[#dcl.init.list]），
 [item]
 [:en@~] the left side of an assignment ([#expr.ass]),
+[:zh_CN@~] 赋值的左边（[#expr.ass]），
 [item]
 [:en@~] a parameter of a function ([#expr.call]),
+[:zh_CN@~] 函数的形参（[#expr.call]），
 [item]
 [:en@~] a parameter of a user-defined operator ([#over.oper]),
+[:zh_CN@~] 用户定义的运算符的形参（[#over.oper]），
 [item]
 [:en@~] the return value of a function, operator function, or conversion
 ([#stmt.return]),
+[:zh_CN@~] 函数、运算符函数或转换的返回值（[#stmt.return]），
 [item]
 [:en@~] an explicit type conversion ([#expr.type.conv], [#expr.static.cast],
 [#expr.cast]), or
+[:zh_CN@~] 显式类型转换（[#expr.type.conv]，[#expr.static.cast]，[#expr.cast]）
+，或者
 [item]
 [:en@~] a non-type [~template-parameter] ([#temp.arg.nontype]).
+[:zh_CN@~] 非类型[~模板形参]（[#temp.arg.nontype]）。
 [list:end]
 
 [:en]
 The overloaded function name can be preceded by the [`&] operator.
+[:zh_CN]
+重载的函数名可以带有 [`&] 运算符前缀。
 
 [:en]
 An overloaded function name shall not be used without arguments in contexts
 other than those listed.
+[:zh_CN]
+除了以上列出的语境之外，使用重载的函数名时不能没有实参。
 
 [enter:note]
 [:en]
 Any redundant set of parentheses surrounding the overloaded function name is
 ignored ([#expr.prim]).
+[:zh_CN]
+任何包围重载函数名的冗余的括号组都是被忽略的（[#expr.prim]）。
 [exit:note]
 
 [para]
@@ -68,6 +98,10 @@ If the name is a function template, template argument deduction is done
 ([#temp.deduct.funcaddr]), and if the argument deduction succeeds, the resulting
 template argument list is used to generate a single function template
 specialization, which is added to the set of overloaded functions considered.
+[:zh_CN]
+若这个名字是函数模板，则实施模板实参推断（[#temp.deduct.funcaddr]），且若模板
+实参推断成功，则用其所产生的模板实参列表生成单个函数模板特例，它将被添加到所要
+考察的重载函数集合之中。
 
 [enter:note]
 [:en]
@@ -75,27 +109,41 @@ As described in [#temp.arg.explicit], if deduction fails and the function
 template name is followed by an explicit template argument list, the
 [~template-id] is then examined to see whether it identifies a single function
 template specialization.
+[:zh_CN]
+如 [#temp.arg.explicit] 所述，若其推断失败且函数模板名后面跟着显式模板实参列表，
+则随即应检查其[~模板标识]来查看它是否标识了一个函数模板特例。
 
 [:en]
 If it does, the [~template-id] is considered to be an lvalue for that function
 template specialization.
+[:zh_CN]
+若是如此，则其[~模板标识]就被当作该函数模板特例的左值。
 
 [:en]
 The target type is not used in that determination.
+[:zh_CN]
+在这个确定过程中并未用到其目标类型。
 [exit:note]
 
 [para]
 [:en]
 Non-member functions and static member functions match targets of type
 ["pointer-to-function] or ["reference-to-function.]
+[:zh_CN]
+非成员函数和静态成员函数匹配类型为“函数指针”或“函数引用”的目标。
 
 [:en]
 Nonstatic member functions match targets of type ["pointer-to-member-function].
+[:zh_CN]
+非静态成员函数匹配类型为“成员函数指针”的目标。
 
 [:en]
 If a non-static member function is selected, the reference to the overloaded
 function name is required to have the form of a pointer to member as described
 in [#expr.unary.op].
+[:zh_CN]
+若选择了某个非静态成员函数，则对重载函数所进行的涉指需要具有 [#expr.unary.op] 中
+所描述的指向成员的指针的形式。
 
 [para]
 [:en]
@@ -105,10 +153,17 @@ function template specialization, and any given function template specialization
 [`F1] is eliminated if the set contains a second function template
 specialization whose function template is more specialized than the function
 template of [`F1] according to the partial ordering rules of [#temp.func.order].
+[:zh_CN]
+若选择了多于一个函数，则如果集合中还包含并非函数模板特例的函数，就消除集合中的
+所有函数模板特例，并且对于任意给定的函数模板特例 [`F1]，如果该集合包含另一个函数
+模板特例，根据 [#temp.func.order] 中的部分顺序规则，其函数模板比 [`F1] 的函数
+模板更加特定，则也要消除 [`F1]。
 
 [:en]
 After such eliminations, if any, there shall remain exactly one selected
 function.
+[:zh_CN]
+在此种消除（如果有）之后，应当正好保留一个被选择的函数。
 
 [para]
 [enter:example]
@@ -116,21 +171,32 @@ function.
 int f(double);
 int f(int);
 int (*pfd)(double) = &f;        // [:en] selects [`f(double)]
+                                // [|:zh_CN] 选择了 [`f(double)]
 int (*pfi)(int) = &f;           // [:en] selects [`f(int)]
+                                // [|:zh_CN] 选择了 [`f(int)]
 int (*pfe)(...) = &f;           // [:en] error: type mismatch
+                                // [|:zh_CN] 错误：类型不匹配
 int (&rfi)(int) = f;            // [:en] selects [`f(int)]
+                                // [|:zh_CN] 选择了 [`f(int)]
 int (&rfd)(double) = f;         // [:en] selects [`f(double)]
+                                // [|:zh_CN] 选择了 [`f(double)]
 void g() {
   (int (*)(int))&f;             // [:en] cast expression as selector
+                                // [|:zh_CN] 强制转换表达式作为选择器
 }
 [codeblock:end]
 
 [:en]
 The initialization of [`pfe] is ill-formed because no [`f()] with type
 [`int(...)] has been declared, and not because of any ambiguity.
+[:zh_CN]
+[`pfe] 的初始化是非良构的，因为没有声明类型 [`int(...)] 的 [`f()]，而不是因为
+任何歧义。
 
 [:en]
 For another example,
+[:zh_CN]
+又例如，
 
 [codeblock]
 struct X {
@@ -140,10 +206,14 @@ struct X {
 
 int (X::*p1)(int)  = &X::f;     // OK
 int    (*p2)(int)  = &X::f;     // [:en] error: mismatch
+                                // [|:zh_CN] 错误：不匹配
 int    (*p3)(long) = &X::f;     // OK
 int (X::*p4)(long) = &X::f;     // [:en] error: mismatch
+                                // [|:zh_CN] 错误：不匹配
 int (X::*p5)(int)  = &(X::f);   // [:en] error: wrong syntax for
+                                // [|:zh_CN] 错误：成员指针的
                                 // [:en@~] pointer to member
+                                // [|:zh_CN@~] 语法错误
 int    (*p6)(long) = &(X::f);   // OK
 [codeblock:end]
 [exit:example]
@@ -154,24 +224,33 @@ int    (*p6)(long) = &(X::f);   // OK
 If [`f()] and [`g()] are both overloaded functions, the cross product of
 possibilities must be considered to resolve [`f(&g)], or the equivalent
 expression [`f(g)].
+[:zh_CN]
+若 [`f()] 和 [`g()] 都是重载的函数，则当决议 [`f(&g)] 或其等价表达式 [`f(g)] 时
+，必须考察其可能情况的外积。
 [exit:note]
 
 [para]
-[:en]
-[%conversion[!overload resolution and pointer]]
 [enter:note]
 [:en]
+[%conversion[!overload resolution and pointer]]
 There are no standard conversions (Clause [#conv]) of one pointer-to-function
 type into another.
+[:zh_CN]
+[%转换[!重载决议和指针～]]
+不存在从一个函数指针类型向另一个进行的标准转换（第 [#conv] 条）。
 
 [:en]
 In particular, even if [`B] is a public base of [`D], we have
+[:zh_CN]
+特别地，即使 [`B] 是 [`D] 的公用基类，我们仍有
 
 [codeblock]
 D* f();
 B* (*p1)() = &f;                // [:en] error
+                                // [|:zh_CN] 错误
 
 void g(D*);
 void (*p2)(B*) = &g;            // [:en] error
+                                // [|:zh_CN] 错误
 [codeblock:end]
 [exit:note]
