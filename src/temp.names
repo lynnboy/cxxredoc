@@ -1,32 +1,35 @@
 ﻿[section#temp.names
     [:en] Names of template specializations
+    [:zh_CN] 模板特例的名字
 ]
 
 [para]
-A template specialization ([#temp.spec]) can be referred to by a
-[~template-id]:
+[:en]
+A template specialization ([#temp.spec]) can be referred to by a [~template-id]:
+[:zh_CN]
+模板特例（[#temp.spec]）可由[~模板标识]来涉指：
 
 [syntax]
-[rule simple-template-id [:zh_CN] ]
+[rule simple-template-id [:zh_CN] 简单模板标识 ]
     [| template-name [`<] [~:opt template-argument-list] [`>] ]
 [rule:end]
 
-[rule template-id [:zh_CN] ]
+[rule template-id [:zh_CN] 模板标识 ]
     [| simple-template-id ]
     [| operator-function-id [`<] [~:opt template-argument-list] [`>] ]
     [| literal-operator-id [`<] [~:opt template-argument-list] [`>] ]
 [rule:end]
 
-[rule template-name [:zh_CN] ]
+[rule template-name [:zh_CN] 模板名 ]
     [| identifier ]
 [rule:end]
 
-[rule template-argument-list [:zh_CN] ]
+[rule template-argument-list [:zh_CN] 模板实参列表 ]
     [| template-argument [`:opt ...] ]
     [| template-argument-list [`,] template-argument [`:opt ...] ]
 [rule:end]
 
-[rule template-argument [:zh_CN] ]
+[rule template-argument [:zh_CN] 模板实参 ]
     [| constant-expression ]
     [| type-id ]
     [| id-expression ]
@@ -37,12 +40,17 @@ A template specialization ([#temp.spec]) can be referred to by a
 [:en]
 The name lookup rules ([#basic.lookup]) are used to associate the use of a name
 with a template declaration; that is, to identify a name as a [~template-name].
+[:zh_CN]
+使用名字查找规则（[#basic.lookup]）来将所使用的名字与模板声明式关联起来；也就是
+把名字识别为[~模板名]。
 [exit:note]
 
 [para]
 [:en]
 For a [~template-name] to be explicitly qualified by the template arguments,
 the name must be known to refer to a template.
+[:zh_CN]
+对于用模板实参所明确限定的[~模板名]，该名字必须已知涉指某个模板。
 
 [para]
 [:en]
@@ -52,9 +60,17 @@ that an [~operator-function-id] or a [~literal-operator-id] refers to a set of
 overloaded functions any member of which is a function template, if this is
 followed by a [`<], the [`<] is always taken as the delimiter of a
 [~template-argument-list] and never as the less-than operator.
+[:zh_CN]
+[%[`<][!模板与～]]
+当名字查找（[#basic.lookup]）发现某个名字是一个[~模板名]，或者发现某个[~运算符
+函数标识]或[~字面量运算符标识]所指代的重载函数集合中，有任意成员是函数模板，那么
+若其后面跟着 [`<]，则这个 [`<] 总是被当作[~模板实参列表]的分隔符，而从来不是小于
+运算符。
 
 [:en]
 When parsing a [~template-argument-list], the first non-nested [`>]
+[:zh_CN]
+当解析[~模板实参列表]时，第一个非嵌套的 [`>]
 
 [footnote]
 [:en]
@@ -62,21 +78,33 @@ A [`>] that encloses the [~type-id] of a [`dynamic_cast], [`static_cast],
 [`reinterpret_cast] or [`const_cast], or which encloses the
 [~template-argument]s of a subsequent [~template-id], is considered nested for
 the purpose of this description.
+[:zh_CN]
+包围 [`dynamic_cast]、[`static_cast]、[`reinterpret_cast] 或 [`const_cast] 的
+[~类型标识]，或者包围后续[~模板标识]的[~模板实参]的 [`>]，对此说法来说被认为是
+嵌套的。
 [footnote:end]
 
 [:en@~]
 is taken as the ending delimiter rather than a greater-than operator.
+[:zh_CN@~]
+被当作结尾分隔符而不是大于运算符。
 
 [:en]
 Similarly, the first non-nested [`>>] is treated as two consecutive but distinct
 [`>] tokens, the first of which is taken as the end of the
 [~template-argument-list] and completes the [~template-id].
+[:zh_CN]
+相似地，第一个非嵌套的 [`>>] 被当作两个连续但独立的 [`>] 记号，其中的第一个被
+当作[~模板实参列表]的结尾并结束这个[~模板标识]。
 
 [enter:note]
 [:en]
 The second [`>] token produced by this replacement rule may terminate an
 enclosing [~template-id] construct or it may be part of a different construct
 (e.g. a cast).
+[:zh_CN]
+这个替换规则所产生的第二个 [`>] 记号可能结束了某个外围的[~模板标识]构造，或者
+可能是某个不同的构造的一部分（例如一个强制转换）。
 [exit:note]
 
 [enter:example]
@@ -84,11 +112,14 @@ enclosing [~template-id] construct or it may be part of a different construct
 template<int i> class X { /* ... */ }
 
 X< 1>2 > x1;                        // [:en] syntax error
+                                    // [|:zh_CN] 语法错误
 X<(1>2)> x2;                        // OK
 
 template<class T> class Y { /* ... */ }
 Y<X<1>> x3;                         // [:en] OK, same as [`Y<X<1> > x3;]
+                                    // [|:zh_CN] OK，与 [`Y<X<1> > x3;] 相同
 Y<X<6>>1>> x4;                      // [:en] syntax error
+                                    // [|:zh_CN] 语法错误
 Y<X<(6>>1)>> x5;                    // OK
 [codeblock:end]
 [exit:example]
@@ -102,9 +133,17 @@ type-dependent or the [~nested-name-specifier] in the [~qualified-id] refers to
 a dependent type, but the name is not a member of the current instantiation
 ([#temp.dep.type]), the member template name must be prefixed by the keyword
 [`template].
+[:zh_CN]
+如果一个成员模板特例的名字出现于某个[~后缀表达式]中的 [`.] 或 [`->] 之后，或者
+某个[~限定标识]中的[~嵌套名说明符]之后，且该[~后缀表达式]的对象表达式是类型待决
+的，或者该[~限定标识]中的[~嵌套名说明符]涉指某个待决的类型，但这个名字并非当前
+实例的成员（[#temp.dep.type]），那么这个成员模板名必须带有 [`template] 关键字
+前缀。
 
 [:en]
 Otherwise the name is assumed to name a non-template.
+[:zh_CN]
+否则假定该名字指名非模板。
 
 [enter:example]
 [codeblock]
@@ -114,9 +153,13 @@ struct X {
 };
 template<class T> void f(T* p) {
   T* p1 = p->alloc<200>();          // [:en] ill-formed: [`<] means less than
+                                    // [|:zh_CN] 非良构：[`<] 表示小于
   T* p2 = p->template alloc<200>(); // [:en] OK: [`<] starts template argument list
+                                    // [|:zh_CN] 开始了模板实参列表
   T::adjust<100>();                 // [:en] ill-formed: [`<] means less than
+                                    // [|:zh_CN] 非良构：[`<] 表示小于
   T::template adjust<100>();        // [:en] OK: [`<] starts template argument list
+                                    // [|:zh_CN] 开始了模板实参列表
 }
 [codeblock:end]
 [exit:example]
@@ -125,11 +168,16 @@ template<class T> void f(T* p) {
 [:en]
 A name prefixed by the keyword [`template] shall be a [~template-id] or the name
 shall refer to a class template.
+[:zh_CN]
+带有 [`template] 关键字前缀的名字应当是一个[~模板标识]，或者这个名字应当涉指某个
+类模板。
 
 [enter:note]
 [:en]
 The keyword [`template] may not be applied to non-template members of class
 templates.
+[:zh_CN]
+关键字 [`template] 不能应用于类模板的非模板成员。
 [exit:note]
 
 [enter:note]
@@ -139,6 +187,10 @@ cases where it is not strictly necessary; i.e., when the
 [~nested-name-specifier] or the expression on the left of the [`->] or [`.] is
 not dependent on a [~template-parameter], or the use does not appear in the
 scope of a template.
+[:zh_CN]
+与 [`typename] 前缀的情况相似，允许 [`template] 前缀出现在一些并非严格必要的情况
+中；就是说，当[~嵌套名说明符]或者 [->] 或 [`.] 左边的表达式并不依存于[~模板形参]
+之时，或者其使用并不在模板的作用域之中出现时。
 [exit:note]
 
 [enter:example]
@@ -151,7 +203,9 @@ template <class T> struct A {
 template <class T> void f(T t) {
   A<T> a;
   a.template f<>(t);                // [:en] OK: calls template
+                                    // [|:zh_CN] OK：调用模板函数
   a.template f(t);                  // [:en] error: not a [~template-id]
+                                    // [|:zh_CN] 错误：不是[~模板标识]
 }
 
 template <class T> struct B {
@@ -159,6 +213,7 @@ template <class T> struct B {
 };
 
 // [:en] OK: [`T::template C] names a class template:
+// [|:zh_CN] OK：[`T::template C] 指名类模板：
 template <class T, template <class X> class TT = T::template C> struct D { };
 D<B<int> > db;
 [codeblock:end]
@@ -169,7 +224,12 @@ D<B<int> > db;
 [%specialization[!class template]]
 A [~simple-template-id] that names a class template specialization is a
 [~class-name] (Clause [#class]).
+[:zh_CN]
+[%特例[!类模板～]]
+指名类模板特例的[~简单模板标识]是[~类名]（第 [#class] 条）。
 
 [para]
 [:en]
 A [~template-id] that names an alias template specialization is a [~type-name].
+[:zh_CN]
+指名别名模板特例的[~模板标识]是[~类型名]。
