@@ -1,5 +1,6 @@
 ﻿[section#over.ics.ref
     [:en] Reference binding
+    [:zh_CN] 引用绑定
 ]
 
 [para]
@@ -9,6 +10,10 @@ argument expression, the implicit conversion sequence is the identity
 conversion, unless the argument expression has a type that is a derived class of
 the parameter type, in which case the implicit conversion sequence is a
 derived-to-base Conversion ([#over.best.ics]).
+[:zh_CN]
+当将引用类型的形参直接绑定（[#dcl.init.ref]）到实参表达式时，其隐式转换序列是
+恒等转换，除非该实参表达式的类型是该形参类型的派生类，这种情况下其隐式转换序列为
+派生类向基类转换（[#over.best.ics]）。
 
 [enter:example]
 [codeblock]
@@ -17,7 +22,9 @@ struct B : public A {} b;
 int f(A&);
 int f(B&);
 int i = f(b);                   // [:en] calls [`f(B&)], an exact match, rather than
+                                // [|:zh_CN]  调用了 [`f(B&)]，此为精确匹配，而不是
                                 // [:en@~] [`f(A&)], a conversion
+                                // [|:zh_CN@~] [`f(A&)]，此为转换
 [codeblock:end]
 [exit:example]
 
@@ -28,6 +35,10 @@ conversion sequence ([#over.ics.user]), with the second standard conversion
 sequence either an identity conversion or, if the conversion function returns an
 entity of a type that is a derived class of the parameter type, a
 derived-to-base Conversion.
+[:zh_CN]
+当形参被直接绑定到对实参表达式应用转换函数的结果上时，其隐式转换序列是用户定义的
+转换序列（[#over.ics.user]），其第二个标准转换序列要么是恒等转换，要么当该转换
+函数返回类型为形参类型的派生类的实体时，是派生类到基类转换。
 
 [para]
 [:en]
@@ -35,14 +46,21 @@ When a parameter of reference type is not bound directly to an argument
 expression, the conversion sequence is the one required to convert the argument
 expression to the underlying type of the reference according to
 [#over.best.ics].
+[:zh_CN]
+当引用类型的形参并未直接绑定到实参表达式时，其转换序列是根据 [#over.best.ics]
+将实参表达式转换为引用的底层类型所需要的转换序列。
 
 [:en]
 Conceptually, this conversion sequence corresponds to copy-initializing a
 temporary of the underlying type with the argument expression.
+[:zh_CN]
+概念上来说，此转换序列对应于以该实参表达式复制初始化一个其底层类型的临时对象。
 
 [:en]
 Any difference in top-level cv-qualification is subsumed by the initialization
 itself and does not constitute a conversion.
+[:zh_CN]
+顶层的 cv-限定性中的任何区别均被该初始化自身所涵盖且并不构成一个转换。
 
 [para]
 [:en]
@@ -50,6 +68,10 @@ Except for an implicit object parameter, for which see [#over.match.funcs], a
 standard conversion sequence cannot be formed if it requires binding an lvalue
 reference other than a reference to a non-volatile [`const] type to an rvalue
 or binding an rvalue reference to an lvalue other than a function lvalue.
+[:zh_CN]
+除了隐式对象形参的情况（参见 [#over.match.funcs]），若需要将并非指代非-volatile
+[`const] 类型的引用的左值引用绑定到右值，或者需要将右值引用绑定到除函数左值外的
+左值，则不能构成标准转换序列。
 
 [enter:note]
 [:en]
@@ -57,6 +79,10 @@ This means, for example, that a candidate function cannot be a viable function
 if it has a non-[`const] lvalue reference parameter (other than the implicit
 object parameter) and the corresponding argument is a temporary or would require
 one to be created to initialize the lvalue reference (see [#dcl.init.ref]).
+[:zh_CN]
+这意味着，例如说，当候选函数带有（除隐式对象形参之外的）非-[`const] 左值引用形参
+且其对应实参是临时对象，或者当它需要创建临时对象以初始化该左值引用（参见
+[#dcl.init.ref]）时，它不能作为可行函数。
 [exit:note]
 
 [para]
@@ -64,18 +90,29 @@ one to be created to initialize the lvalue reference (see [#dcl.init.ref]).
 Other restrictions on binding a reference to a particular argument that are not
 based on the types of the reference and the argument do not affect the formation
 of a standard conversion sequence, however.
+[:zh_CN]
+然而，将引用绑定到某个特定实参的并非基于引用和实参的类型的其他限制，并不影响标准
+转换的构成。
 
 [enter:example]
 [:en]
 a function with an ["lvalue reference to [`int]] parameter can be a viable
 candidate even if the corresponding argument is an [`int] bit-field.
+[:zh_CN]
+带有“[`int] 的左值引用”形参的函数，即使当其对应实参为 [`int] 位字段时也可以是
+可行的候选函数。
 
 [:en]
 The formation of implicit conversion sequences treats the [`int] bit-field as an
 [`int] lvalue and finds an exact match with the parameter.
+[:zh_CN]
+隐式转换序列的构成将 [`int] 位字段当作 [`int] 左值并将它与该形参当作精确匹配。
 
 [:en]
 If the function is selected by overload resolution, the call will nonetheless be
 ill-formed because of the prohibition on binding a non-[`const] lvalue reference
 to a bit-field ([#dcl.init.ref]).
+[:zh_CN]
+若该函数被重载决议所选择，则因为禁止将非-[`const] 左值引用绑定到位字段上
+（[#dcl.init.ref]），该调用无论如何仍然是非良构的。
 [exit:example]

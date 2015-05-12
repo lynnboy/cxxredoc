@@ -1,5 +1,6 @@
 ﻿[section#over.ics.rank
     [:en] Ranking implicit conversion sequences
+    [:zh_CN] 隐式转换序列的分级
 ]
 
 [para]
@@ -7,67 +8,98 @@
 [#over.ics.rank] defines a partial ordering of implicit conversion sequences
 based on the relationships [+better conversion sequence] and [+better
 conversion].
+[:zh_CN]
+[#over.ics.rank] 基于[+更好的转换序列]和[+更好的转换]关系定义了隐式转换序列的
+部分顺序。
 
 [:en]
 If an implicit conversion sequence S1 is defined by these rules to be a better
 conversion sequence than S2, then it is also the case that S2 is a [+worse
 conversion sequence] than S1.
+[:zh_CN]
+若这些规则将隐式转换序列 S1 定义为比 S2 更好的转换序列，则同时也称 S2 为比 S1
+[+更差的转换序列]。
 
 [:en]
 If conversion sequence S1 is neither better than nor worse than conversion
 sequence S2, S1 and S2 are said to be [+indistinguishable conversion sequences].
+[:zh_CN]
+若转换序列 S1 比转换序列 S2 既不更好也不更差，则称 S1 和 S2 是[+不可区分的转换
+序列]。
 
 [para]
 [:en]
 When comparing the basic forms of implicit conversion sequences (as defined in
 [#over.best.ics])
+[:zh_CN]
+当比较隐式转换序列的基本形式（如 [#over.best.ics] 中所定义）时
 
 [list]
 [item]
 [:en@~]
 a standard conversion sequence ([#over.ics.scs]) is a better conversion sequence
 than a user-defined conversion sequence or an ellipsis conversion sequence, and
+[:zh_CN@~]
+标准转换序列（[#over.ics.scs]）是比用户定义的转换序列或省略号转换序列更好的转换
+序列，而
 [item]
 [:en@~]
 a user-defined conversion sequence ([#over.ics.user]) is a better conversion
 sequence than an ellipsis conversion sequence ([#over.ics.ellipsis]).
+[:zh_CN@~]
+用户定义的转换序列（[#over.ics.user]）是比省略号转换序列（[#over.ics.ellipsis]）
+更好的转换序列。
 [list:end]
 
 [para]
 [:en]
 Two implicit conversion sequences of the same form are indistinguishable
 conversion sequences unless one of the following rules applies:
+[:zh_CN]
+相同形式的两个隐式转换序列除非适用如下规则之一，否则就是不可区分的：
 
 [list]
 [item]
 [:en]
 List-initialization sequence [`L1] is a better conversion sequence than
 list-initialization sequence [`L2] if
+[:zh_CN]
+列表初始化序列 [`L1] 是比列表初始化序列 [`L2] 更好的转换序列，条件是
 
 [list]
 [item]
 [:en@~]
 [`L1] converts to [`std::initializer_list<X>] for some [`X] and [`L2] does not,
 or, if not that,
+[:zh_CN@~]
+[`L1] 从某个 [`X] 转换为 [`std::initializer_list<X>]，而 [`L2] 不会，或者，若非
+如此，
 
 [item]
 [:en@~]
 [`L1] converts to type ["array of [`N1 T]], [`L2] converts to type ["array of
 [`N2 T]], and [`N1] is smaller than [`N2],
+[:zh_CN@~]
+[`L1] 转换为类型“[`T] 的 [`N1] 个元素的数组”，[`L2] 转换为类型“[`T] 的 [`N2] 个
+元素的数组”，且 [`N1] 小于 [`N2]，
 [list:end]
 
 [:en@~]
 even if one of the other rules in this paragraph would otherwise apply.
+[:zh_CN@~]
+无论是否本段落中的其他规则也适用。
 
 [enter:example]
 [codeblock]
   void f1(int);                                 // #1
   void f1(std::initializer_list<long>);         // #2
   void g1() { f1({42}); }                       // [:en] chooses #2
+                                                // [|:zh_CN] 选择 #2
 
   void f2(std::pair<const char*, const char*>); // #3
   void f2(std::initializer_list<std::string>);  // #4
   void g2() { f2({"foo","bar"}); }              // [:en] chooses #4
+                                                // [|:zh_CN] 选择 #4
 [codeblock:end]
 [exit:example]
 
@@ -75,6 +107,8 @@ even if one of the other rules in this paragraph would otherwise apply.
 [:en]
 Standard conversion sequence [`S1] is a better conversion sequence than standard
 conversion sequence [`S2] if
+[:zh_CN]
+标准转换序列 [`S1] 是比标准转换序列 [`S2] 更好的转换序列，条件是
 
 [list]
 [item]
@@ -84,12 +118,20 @@ conversion sequence [`S2] if
 the canonical form defined by [#over.ics.scs], excluding any Lvalue
 Transformation; the identity conversion sequence is considered to be a
 subsequence of any non-identity conversion sequence) or, if not that,
+[:zh_CN]
+[%子序列规则[!重载]]
+[`S1] 是 [`S2] 的真子序列（按照在 [#over.ics.scs] 中定义的标准转换的规范形式进行
+比较，并排除任何左值变换；恒等转换序列被认为是任意非恒等转换序列的子序列）或者，
+若非如此，
 
 [item]
 [:en]
 the rank of [`S1] is better than the rank of [`S2], or [`S1] and [`S2] have the
 same rank and are distinguishable by the rules in the paragraph below, or, if
 not that,
+[:zh_CN]
+[`S1] 的等级优于 [`S2] 的等级，或者 [`S1] 和 [`S2] 具有相同等级且根据下一段落
+中的规则是不可区分的，或者，若非如此，
 
 [item]
 [:en]
@@ -97,6 +139,10 @@ not that,
 an implicit object parameter of a non-static member function declared without a
 [~ref-qualifier], and [`S1] binds an rvalue reference to an rvalue and [`S2]
 binds an lvalue reference.
+[:zh_CN]
+[`S1] 和 [`S2] 均为引用绑定（[#dcl.init.ref]）且均不指代声明时没有[~引用限定符]
+的非静态成员函数的隐含对象形参，并且 [`S1] 将右值引用绑定到右值而 [`S2] 绑定左值
+引用。
 
 [para:~]
 [enter:example]
@@ -107,8 +153,11 @@ int&& f2();
 int g(const int&);
 int g(const int&&);
 int j = g(i);                   // [:en] calls [`g(const int&)]
+                                // [|:zh_CN] 调用 [`g(const int&)]
 int k = g(f1());                // [:en] calls [`g(const int&&)]
+                                // [|:zh_CN] 调用 [`g(const int&&)]
 int l = g(f2());                // [:en] calls [`g(const int&&)]
+                                // [|:zh_CN] 调用 [`g(const int&&)]
 
 struct A {
   A& operator<<(int);
@@ -117,23 +166,34 @@ struct A {
 };
 A& operator<<(A&&, char);
 A() << 1;                       // [:en] calls [`A::operator<<(int)]
+                                // [|:zh_CN] 调用 [`A::operator<<(int)]
 A() << 'c';                     // [:en] calls [`operator<<(A&&, char)]
+                                // [|:zh_CN] 调用 [`operator<<(A&&, char)]
 A a;
 a << 1;                         // [:en] calls [`A::operator<<(int)]
+                                // [|:zh_CN] 调用 [`A::operator<<(int)]
 a << 'c';                       // [:en] calls [`A::operator<<(int)]
+                                // [|:zh_CN] 调用 [`A::operator<<(int)]
 A().p();                        // [:en] calls [`A::p()&&]
+                                // [|:zh_CN] 调用 [`A::p()&&]
 a.p();                          // [:en] calls [`A::p()&]
+                                // [|:zh_CN] 调用 [`A::p()&]
 [codeblock:end]
 [exit:example]
 
 [:en@~]
 or, if not that,
+[:zh_CN@~]
+或者，若非如此，
 
 [item]
 [:en]
 [`S1] and [`S2] are reference bindings ([#dcl.init.ref]) and [`S1] binds an
 lvalue reference to a function lvalue and [`S2] binds an rvalue reference to a
 function lvalue.
+[:zh_CN]
+[`S1] 和 [`S2] 均为引用绑定（[#dcl.init.ref]），并且 [`S1] 将左值引用绑定到函数
+左值而 [`S2] 将右值引用绑定到函数左值。
 
 [enter:example]
 [codeblock]
@@ -141,11 +201,14 @@ int f(void(&)());               // #1
 int f(void(&&)());              // #2
 void g();
 int i1 = f(g);                  // [:en] calls #1
+                                // [|:zh_CN] 调用 #1
 [codeblock:end]
 [exit:example]
 
 [:en@~]
 or, if not that,
+[:zh_CN@~]
+或者，若非如此，
 
 [item]
 [:en]
@@ -153,6 +216,10 @@ or, if not that,
 types [`T1] and [`T2] ([#conv.qual]), respectively, and the cv-qualification
 signature of type [`T1] is a proper subset of the cv-qualification signature of
 type [`T2].
+[:zh_CN]
+[`S1] 和 [`S2] 仅以其限定性转换而不同，并分别产生相似的类型 [`T1] 和 [`T2]
+（[#conv.qual]），且类型 [`T1] 的 cv-限定性签名是类型 [`T2] 的 cv-限定性签名的
+真子集。
 
 [enter:example]
 [codeblock]
@@ -160,11 +227,14 @@ int f(const volatile int *);
 int f(const int *);
 int i;
 int j = f(&i);                  // [:en] calls [`f(const int*)]
+                                // [|:zh_CN] 调用 [`f(const int*)]
 [codeblock:end]
 [exit:example]
 
 [:en@~]
 or, if not that,
+[:zh_CN@~]
+否则，若非如此，
 
 [item]
 [:en]
@@ -172,6 +242,10 @@ or, if not that,
 the references refer are the same type except for top-level cv-qualifiers, and
 the type to which the reference initialized by [`S2] refers is more cv-qualified
 than the type to which the reference initialized by [`S1] refers.
+[:zh_CN]
+[`S1] 和 [`S2] 是引用绑定（[#dcl.init.ref]），并且引用所指代的类型除了顶层
+cv-限定符外是相同的类型，且被 [`S2] 所初始化的引用所指代的类型是比被 [`S1] 所
+初始化的引用所指代的类型更加被 cv-限定的。
 
 [enter:example]
 [codeblock]
@@ -182,7 +256,9 @@ int g(int);
 
 int i;
 int j = f(i);                   // [:en] calls [`f(int &)]
+                                // [|:zh_CN] 调用 [`f(int &)]
 int k = g(i);                   // [:en] ambiguous
+                                // [|:zh_CN] 有歧义
 
 struct X {
   void f() const;
@@ -190,7 +266,9 @@ struct X {
 };
 void g(const X& a, X b) {
   a.f();                        // [:en] calls [`X::f() const]
+                                // [|:zh_CN] 调用 [`X::f() const]
   b.f();                        // [:en] calls [`X::f()]
+                                // [|:zh_CN] 调用 [`X::f()]
 }
 [codeblock:end]
 [exit:example]
@@ -204,6 +282,11 @@ user-defined conversion function or constructor or they initialize the same
 class in an aggregate initialization and in either case the second standard
 conversion sequence of [`U1] is better than the second standard conversion
 sequence of [`U2].
+[:zh_CN]
+如果用户定义的转换序列 [`U1] 与另一个用户定义的转换序列 [`U2] 包含相同的用户定义
+的转换函数或构造函数，或者它们在聚合初始化中对相同的类进行初始化，并且每种情况中
+[`U1] 的第二个标准转换序列比 [`U2] 的第二个标准转换序列更好，则 [`U1] 是比 [`U2]
+更好的转换序列。
 
 [enter:example]
 [codeblock]
@@ -213,7 +296,9 @@ struct A {
 int f(int);
 int f(float);
 int i = f(a);                   // [:en] calls [`f(int)], because [`short] [=to] [`int] is
+                                // [|:zh_CN] 调用 [`f(int)]，由于 [`short] [=to] [`int] 比
                                 // [:en@~] better than [`short] [=to] [`float].
+                                // [|:zh_CN@~] [`short] [=to] [`float] 更好。
 [codeblock:end]
 [exit:example]
 
@@ -224,38 +309,57 @@ int i = f(a);                   // [:en] calls [`f(int)], because [`short] [=to]
 Standard conversion sequences are ordered by their ranks: an Exact Match is a
 better conversion than a Promotion, which is a better conversion than a
 Conversion.
+[:zh_CN]
+标准转换序列按照它们的等级排序：精确匹配级是比提升级更好的转换，而提升级比转换级
+更好。
 
 [:en]
 Two conversion sequences with the same rank are indistinguishable unless one of
 the following rules applies:
+[:zh_CN]
+两个具有相同等级的转换序列，除非适用下列规则之一否则是不可区分的：
 
 [list]
 [item]
 [:en]
 A conversion that does not convert a pointer, a pointer to member, or
 [`std::nullptr_t] to [`bool] is better than one that does.
+[:zh_CN]
+一个不会将指针、成员指针或 [`std::nullptr_t] 转换为 [`bool] 的转换，比一个这样做
+的转换更好。
 
 [item]
 [:en]
 A conversion that promotes an enumeration whose underlying type is fixed to its
 underlying type is better than one that promotes to the promoted underlying
 type, if the two are different.
+[:zh_CN]
+从底层类型固定的枚举提升为其底层类型的转换，比提升为其提升后的底层类型的转换更好
+（当两个类型不同时）。
 
 [item]
 [:en]
 If class [`B] is derived directly or indirectly from class [`A], conversion of
 [`B*] to [`A*] is better than conversion of [`B*] to [`void*], and conversion of
 [`A*] to [`void*] is better than conversion of [`B*] to [`void*].
+[:zh_CN]
+若类 [`B] 直接或间接派生自类 [`A]，则从 [`B*] 到 [`A*] 的转换比从 [`B*] 到
+[`void*] 的转换更好，且从 [`A*] 到 [`void*] 的转换比从 [`B*] 到 [`void*] 的转换
+更好。
 
 [item]
 [:en]
 If class [`B] is derived directly or indirectly from class [`A] and class [`C]
 is derived directly or indirectly from [`B],
+[:zh_CN]
+若类 [`B] 直接或间接派生自类 [`A] 而类 [`C] 直接或间接派生自 [`B]，则
 
 [list]
 [item]
 [:en]
 conversion of [`C*] to [`B*] is better than conversion of [`C*] to [`A*],
+[:zh_CN]
+从 [`C*] 到 [`B*] 的转换比从 [`C*] 到 [`A*] 的转换更好的。
 
 [enter:example]
 [codeblock]
@@ -266,6 +370,7 @@ C* pc;
 int f(A*);
 int f(B*);
 int i = f(pc);                  // [:en] calls [`f(B*)]
+                                // [|:zh_CN] 调用 [`f(B*)]
 [codeblock:end]
 [exit:example]
 
@@ -273,33 +378,49 @@ int i = f(pc);                  // [:en] calls [`f(B*)]
 [:en]
 binding of an expression of type [`C] to a reference to type [`B] is better than
 binding an expression of type [`C] to a reference to type [`A],
+[:zh_CN]
+将 [`C] 类型的表达式绑定到 [`B] 类型的引用比将 [`C] 类型的表达式绑定到 [`A] 类型
+的引用更好，
 
 [item]
 [:en]
 conversion of [`A::*] to [`B::*] is better than conversion of [`A::*] to
 [`C::*],
+[:zh_CN]
+从 [`A::*] 到 [`B::*] 的转换比从 [`A::*] 到 [`C::*] 的转换更好，
 
 [item]
 [:en]
 conversion of [`C] to [`B] is better than conversion of [`C] to [`A],
+[:zh_CN]
+从 [`C] 到 [`B] 的转换比从 [`C] 到 [`A] 的转换更好，
 
 [item]
 [:en]
 conversion of [`B*] to [`A*] is better than conversion of [`C*] to [`A*],
+[:zh_CN]
+从 [`B*] 到 [`A*] 的转换比从 [`C*] 到 [`A*] 的转换更好，
 
 [item]
 [:en]
 binding of an expression of type [`B] to a reference to type [`A] is better than
 binding an expression of type [`C] to a reference to type [`A],
+[:zh_CN]
+将 [`B] 类型的表达式绑定到 [`A] 类型的引用比将 [`C] 类型的表达式绑定到 [`A] 类型
+的引用更好，
 
 [item]
 [:en]
 conversion of [`B::*] to [`C::*] is better than conversion of [`A::*] to
 [`C::*], and
+[:zh_CN]
+从 [`B::*] 到 [`C::*] 的转换比从 [`A::*] 到 [`C::*] 的转换更好，并且
 
 [item]
 [:en]
 conversion of [`B] to [`A] is better than conversion of [`C] to [`A].
+[:zh_CN]
+从 [`B] 到 [`A] 的转换比从 [`C] 到 [`A] 的转换更好。
 [list:end]
 
 [enter:note]
@@ -309,6 +430,10 @@ context of comparing the second standard conversion sequence of an
 initialization by user-defined conversion (see [#over.match.best]); in all other
 contexts, the source types will be the same and the target types will be
 different.
+[:zh_CN]
+仅在对某个通过用户定义的转换进行的初始化中的第二个标准转换序列进行比较的语境中，
+所比较的转换序列才会具有不同的源类型（参见 [#over.match.best]）；在所有其他语境
+中，源类型相同而目标类型不同。
 [exit:note]
 
 [list:end]

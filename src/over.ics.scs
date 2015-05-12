@@ -1,5 +1,6 @@
 ﻿[section#over.ics.scs
     [:en] Standard conversion sequences
+    [:zh_CN] 标准转换序列
 ]
 
 [para]
@@ -7,6 +8,9 @@
 Table [#tab:over.conversions] summarizes the conversions defined in Clause
 [#conv] and partitions them into four disjoint categories: Lvalue
 Transformation, Qualification Adjustment, Promotion, and Conversion.
+[:zh_CN]
+表 [#tab:over.conversions] 总结了第 [#conv] 条中定义的转换并将它们分为四个独立的
+类别：左值变换、限定性调整、提升和转换。
 
 [enter:note]
 [:en]
@@ -16,6 +20,10 @@ change the cv-qualification or data representation of the type; the
 Qualification Adjustments do not change the value category or data
 representation of the type; and the Promotions and Conversions do not change the
 value category or cv-qualification of the type.
+[:zh_CN]
+这些类别与值类别、cv-限定性和数据表示之间是正交的：左值变换并不改变类型的
+cv-限定性或数据表示；限定性调整并不改变类型的值类别或数据表示；而提升和转换并不
+改变类型的值类别或 cv-限定性。
 [exit:note]
 
 [para]
@@ -24,15 +32,23 @@ value category or cv-qualification of the type.
 As described in Clause [#conv], a standard conversion sequence is either the
 Identity conversion by itself (that is, no conversion) or consists of one to
 three conversions from the other four categories.
+[:zh_CN]
+如在第 [#conv] 条中所描述，标准转换序列要么是恒等转换（就是说，没有转换），要么
+是以其他四种类别中的一到三种转换所组成的。
 
 [:en]
 At most one conversion from each category is allowed in a single standard
 conversion sequence.
+[:zh_CN]
+单个标准转换序列中每个类别至多允许一个转换。
 
 [:en]
 If there are two or more conversions in the sequence, the conversions are
 applied in the canonical order: [em:bf Lvalue Transformation], [em:bf Promotion]
 or [em:bf Conversion], [em:bf Qualification Adjustment].
+[:zh_CN]
+若序列中有两个或多个转换，这些转换将按照规范的顺序应用：[em:bf 左值变换]，
+[em:bf 提升]或[em:bf 转换]，[em:bf 限定性调整]。
 [exit:note]
 
 [para]
@@ -40,70 +56,108 @@ or [em:bf Conversion], [em:bf Qualification Adjustment].
 [%conversion rank]
 Each conversion in Table [#tab:over.conversions] also has an associated rank
 (Exact Match, Promotion, or Conversion).
+[:zh_CN]
+[%转换等级]
+表 [#tab:over.conversions] 中的每个转换也带有一个相关的等级（精确匹配、提升或
+转换）。
 
 [:en]
 These are used to rank standard conversion sequences ([#over.ics.rank]).
+[:zh_CN]
+它们用于对标准转换序列进行分级（[#over.ics.rank]）。
 
 [:en]
 The rank of a conversion sequence is determined by considering the rank of each
 conversion in the sequence and the rank of any reference binding
 ([#over.ics.ref]).
+[:zh_CN]
+转换序列的等级通过考察序列中的每个转换的等级，以及任何引用绑定的等级
+（[#over.ics.ref]）来确定。
 
 [:en]
 If any of those has Conversion rank, the sequence has Conversion rank;
 otherwise, if any of those has Promotion rank, the sequence has Promotion rank;
 otherwise, the sequence has Exact Match rank.
+[:zh_CN]
+若其中有任意具有转换级等级的，则该序列具有转换级等级；否则，若其中有任意具有提升
+级等级的，则该序列具有提升级等级；否则，该序列具有精确匹配级等级。
 
 [table:grid#tab:over.conversions
     [:en] Conversions
+    [:zh_CN] 转换
     [columns
         [column
             [:en] Conversion
+            [:zh_CN] 转换
         ]
         [column@center@vcenter
             [:en] Category
+            [:zh_CN] 类别
         ]
         [column@center@vcenter
             [:en] Rank
+            [:zh_CN] 等级
         ]
         [column@center
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
     ]
 ]
 [|] [:en] No conversions required
+    [:zh_CN] 无需转换
         [|] [:en] Identity
+            [:zh_CN] 恒等
                 [|@rowspan=5 ] [:en] Exact Match
+                               [:zh_CN] 精确匹配级
                         [|]
 [|] [:en] Lvalue-to-rvalue conversion
+    [:zh_CN] 左值向右值转换
         [|@rowspan=3 ] [:en] Lvalue Transformation
+                       [:zh_CN] 左值变换
                         [|] [#conv.lval]
 
 [|] [:en] Array-to-pointer conversion
+    [:zh_CN] 数组向指针转换
                         [|] [#conv.array]
 [|] [:en] Function-to-pointer conversion
+    [:zh_CN] 函数向指针转换
                         [|] [#conv.func]
 [|] [:en] Qualification conversions
+    [:zh_CN] 限定性转换
         [|] [:en] Qualification Adjustment
+            [:zh_CN] 限定性调整
                         [|] [#conv.qual]
 [|] [:en] Integral promotions
+    [:zh_CN] 整型提升
         [|@rowspan=2 ] [:en] Promotion
+                       [:zh_CN] 提升
                 [|@rowspan=2 ] [:en] Promotion
+                               [:zh_CN] 提升级
                         [|] [#conv.prom]
 [|] [:en] Floating point promotion
+    [:zh_CN] 浮点提升
                         [|] [#conv.fpprom]
 [|] [:en] Integral conversions
+    [:zh_CN] 整型转换
         [|@rowspan=6 ] [:en] Conversion
+                       [:zh_CN] 转换
                 [|@rowspan=6 ] [:en] Conversion
+                               [:zh_CN] 转换级
                         [|] [#conv.conv.integral]
 [|] [:en] Floating point conversions
+    [:zh_CN] 浮点转换
                         [|] [#conv.double]
 [|] [:en] Floating-integral conversions
+    [:zh_CN] 浮点整型转换
                         [|] [#conv.fpint]
 [|] [:en] Pointer conversions
+    [:zh_CN] 指针转换
                         [|] [#conv.ptr]
 [|] [:en] Pointer to member conversions
+    [:zh_CN] 成员指针转换
                         [|] [#conv.mem]
 [|] [:en] Boolean conversions
+    [:zh_CN] 布尔转换
                         [|] [#conv.bool]
 [table:end]

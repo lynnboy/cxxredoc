@@ -1,14 +1,20 @@
 ﻿[section#over.match.best
     [:en] Best viable function
+    [:zh_CN] 最佳可行函数
 ]
+
 [%:begin#overloading.resolution.best.viable.function
     [:en] overloading[!resolution[!best viable function]]
+    [:zh_CN] 重载[!～决议[!最佳可行函数]]
 ]
 
 [para]
 [:en]
 [%conversion[!overload resolution and]]
 Define ICS[$i]([`F]) as follows:
+[:zh_CN]
+[%转换[!重载决议与～]]
+ICS[$i]([`F]) 定义如下；
 
 [list]
 [item]
@@ -17,39 +23,61 @@ if [`F] is a static member function, ICS[$@it 1]([`F]) is defined such that
 ICS[$@it 1]([`F]) is neither better nor worse than ICS[$@it 1]([`G]) for any
 function [`G], and, symmetrically, ICS[$@it 1]([`G]) is neither better nor worse
 than ICS[$@it 1]([`F])
+[:zh_CN]
+若 [`F] 是静态成员函数，则 ICS[$@it 1]([`F]) 被定义为，对于任意函数 [`G]，
+ICS[$@it 1]([`F]) 比 ICS[$@it 1]([`G]) 既不更好也不更差，并且，对称地，
+ICS[$@it 1]([`G]) 比 ICS[$@it 1]([`F]) 既不更好也不更差
 
 [footnote]
 [:en]
 If a function is a static member function, this definition means that the first
 argument, the implied object argument, has no effect in the determination of
 whether the function is better or worse than any other function.
+[:zh_CN]
+若某个函数是静态成员函数，则此定义表明其第一个实参（即隐含对象实参）对确定该函数
+比任意其他函数更好还是更差没有影响。
 [footnote:end]
 
 [:en@~]
 ; otherwise,
+[:zh_CN@~]
+；否则，
 
 [item]
 [:en]
 let ICS[$i]([`F]) denote the implicit conversion sequence that converts the
 [$i]-th argument in the list to the type of the [$i]-th parameter of viable
 function [`F].
+[:zh_CN]
+设 ICS[$i]([`F]) 代表将列表中的第 [$i] 个实参转换为可行函数 [`F] 的第 [$i] 个
+形参的类型的隐式转换序列。
 
 [:en]
 [#over.best.ics] defines the implicit conversion sequences and [#over.ics.rank]
 defines what it means for one implicit conversion sequence to be a better
 conversion sequence or worse conversion sequence than another.
+[:zh_CN]
+[#over.best.ics] 定义了隐式转换序列，而 [#over.ics.rank] 定义了当一个隐式转换
+序列是比另一个更好或更差的转换序列时意味着什么。
 [list:end]
 
 [:en]
 Given these definitions, a viable function [`F1] is defined to be a [+better]
 function than another viable function [`F2] if for all arguments [$i],
 ICS[$i]([`F1]) is not a worse conversion sequence than ICS[$i]([`F2]), and then
+[:zh_CN]
+给定这些定义，若对于所有实参 [$i]，ICS[$i]([`F1]) 是不比 ICS[$i]([`F2]) 更差的
+转换序列，并且满足如下条件，则可行函数 [`F1] 被定义为是比另一个可行函数 [`F2]
+[+更好]的函数。
 
 [list]
 [item]
 [:en]
 for some argument [$j], ICS[$j]([`F1]) is a better conversion sequence than
 ICS[$j]([`F2]), or, if not that,
+[:zh_CN]
+对于某个实参 [$j]，ICS[$j]([`F1]) 是比 ICS[$j]([`F2]) 更好的转换序列，或者，若非
+如此，
 
 [item]
 [:en]
@@ -58,6 +86,11 @@ the context is an initialization by user-defined conversion (see [#dcl.init],
 from the return type of [`F1] to the destination type (i.e., the type of the
 entity being initialized) is a better conversion sequence than the standard
 conversion sequence from the return type of [`F2] to the destination type.
+[:zh_CN]
+其语境是通过用户定义的转换进行的初始化（参见 [#dcl.init]，[#over.match.conv] 和
+[#over.match.ref]），且从 [`F1] 的返回类型到其目标类型（也就是被初始化的实体的
+类型）的标准转换序列，是比从 [`F2] 的返回类型到目标类型的标准转换序列更好的转换
+序列。
 
 [enter:example]
 [codeblock]
@@ -67,15 +100,22 @@ struct A {
   operator double();
 } a;
 int i = a;                      // [:en] [`a.operator int()] followed by no conversion
+                                // [|:zh_CN] [`a.operator int()] 之后没有转换
                                 // [:en@~] is better than [`a.operator double()] followed by
+                                // [|:zh_CN@~] 比 [`a.operator double()] 之后跟着向
                                 // [:en@~] a conversion to [`int]
+                                // [|:zh_CN@~] [`int] 的转换更好
 float x = a;                    // [:en] ambiguous: both possibilities require conversions,
+                                // [|:zh_CN] 歧义：两种可能性都需要转换，
                                 // [:en@~] and neither is better than the other
+                                // [|:zh_CN@~] 而其中没有比另一个更好的
 [codeblock:end]
 [exit:example]
 
 [:en@~]
 or, if not that,
+[:zh_CN@~]
+或者，若非如此，
 
 [item]
 [:en]
@@ -83,6 +123,10 @@ the context is an initialization by conversion function for direct reference
 binding ([#over.match.ref]) of a reference to function type, the return type of
 [`F1] is the same kind of reference (i.e. lvalue or rvalue) as the reference
 being initialized, and the return type of [`F2] is not
+[:zh_CN]
+其语境是为函数类型的引用进行直接引用绑定时通过转换函数所进行的初始化
+（[#over.match.ref]），且 [`F1] 的返回类型是与被初始化的引用相同种类（亦即左值或
+右值）的引用，而 [`F2] 的返回类型并非如此
 
 [enter:example]
 [codeblock]
@@ -93,23 +137,32 @@ template <class T> struct A {
 typedef int Fn();
 A<Fn> a;
 Fn& lf = a;             // [:en] calls #1
+                        // [|:zh_CN] 调用 #1
 Fn&& rf = a;            // [:en] calls #2
+                        // [|:zh_CN] 调用 #2
 [codeblock:end]
 
 [exit:example]
 [:en@~]
 or, if not that,
+[:zh_CN@~]
+或者，若非如此，
 
 [item]
 [:en]
 [`F1] is not a function template specialization and [`F2] is a function template
 specialization, or, if not that,
+[:zh_CN]
+[`F1] 不是函数模板特例而 [`F2] 是函数模板特例，或者，若非如此，
 
 [item]
 [:en]
 [`F1] and [`F2] are function template specializations, and the function template
 for [`F1] is more specialized than the template for [`F2] according to the
 partial ordering rules described in [#temp.func.order].
+[:zh_CN]
+[`F1] 和 [`F2] 都是函数模板特例，且按照 [#temp.func.order] 中描述的偏序规则，
+[`F1] 的函数模板比 [`F2] 的模板更加特定。
 [list:end]
 
 [para]
@@ -117,32 +170,49 @@ partial ordering rules described in [#temp.func.order].
 If there is exactly one viable function that is a better function than all other
 viable functions, then it is the one selected by overload resolution; otherwise
 the call is ill-formed
+[:zh_CN]
+若恰好有一个比其他所有可行函数更好的可行函数，则它就是被重载决议所选择的函数，
+否则该调用就是非良构的
 
 [footnote]
 [:en]
 The algorithm for selecting the best viable function is linear in the number
 of viable functions.
+[:zh_CN]
+选择最佳可行函数的算法对可行函数的数量是线性的。
 
 [:en]
 Run a simple tournament to find a function [`W] that is not worse than any
 opponent it faced.
+[:zh_CN]
+进行一个简单的竞赛已找到某个函数 [`W] 使其不比其所面对的任意对手更差。
 
 [:en]
 Although another function [`F] that [`W] did not face might be at least as good
 as [`W], [`F] cannot be the best function because at some point in the
 tournament [`F] encountered another function [`G] such that [`F] was not better
 than [`G].
+[:zh_CN]
+虽然 [`W] 并未面对的另一个函数 [`F] 可能至少和 [`W] 一样好，但因为在竞赛的某些点
+[`F] 所遭遇到的另一个函数 [`G] 使得 [`F] 不比 [`G] 更好，所以 [`F] 不能为最佳
+函数。
 
 [:en]
 Hence, [`W] is either the best function or there is no best function.
+[:zh_CN]
+这样，[`W] 要么是最佳函数要么不存在最佳函数。
 
 [:en]
 So, make a second pass over the viable functions to verify that [`W] is better
 than all other functions.
+[:zh_CN]
+故此，要对可行函数进行第二次遍历以验证 [`W] 比所有其他函数都更好。
 [footnote:end]
 
 [:en@~]
 .
+[:zh_CN@~]
+。
 
 [para:~]
 [enter:example]
@@ -155,16 +225,25 @@ short s = 0;
 
 void f() {
   Fcn(&i, s);                   // [:en] is ambiguous because
+                                // [|:zh_CN] 有歧义，因为
                                 // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [|:zh_CN@~] [`&i] [=to] [`int*] 比 [`&i] [=to] [`const int*] 更好
                                 // [:en@~] but [`s] [=to] [`short] is also better than [`s] [=to] [`int]
+                                // [|:zh_CN@~] 但 [`s] [=to] [`short] 也比 [`s] [=to] [`int] 更好
 
   Fcn(&i, 1L);                  // [:en] calls [`Fcn(int*, int)], because
+                                // [|:zh_CN] 调用了 [`Fcn(int*, int)]，因为
                                 // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [|:zh_CN@~] [`&i] [=to] [`int*] 比 [`&i] [=to] [`const int*] 更好
                                 // [:en@~] and [`1L] [=to] [`short] and [`1L] [=to] [`int] are indistinguishable
+                                // [|:zh_CN@~] 而 [`1L] [=to] [`short] 和 [`1L] [=to] [`int] 无法区分
 
   Fcn(&i,'c');                  // [:en] calls [`Fcn(int*, int)], because
+                                // [|:zh_CN] 调用了 [`Fcn(int*, int)]，因为
                                 // [:en@~] [`&i] [=to] [`int*] is better than [`&i] [=to] [`const int*]
+                                // [|:zh_CN@~] [`&i] [=to] [`int*] 比 [`&i] [=to] [`const int*] 更好
                                 // [:en@~] and [`c] [=to] [`int] is better than [`c] [=to] [`short]
+                                // [|:zh_CN@~] 而 [`c] [=to] [`int] 比 [`c] [=to] [`short] 更好
 }
 [codeblock:end]
 [exit:example]
@@ -175,6 +254,10 @@ If the best viable function resolves to a function for which multiple
 declarations were found, and if at least two of these declarations [=--] or the
 declarations they refer to in the case of [~using-declaration]s [=--] specify a
 default argument that made the function viable, the program is ill-formed.
+[:zh_CN]
+若最佳可行函数被决议为某个找到了多个声明式的函数，且若其声明式（或者在
+[~using-声明式]的情况中它们所涉指的声明式）中至少有两个指定了使该函数可行的默认
+实参，则程序非良构。
 
 [enter:example]
 [codeblock]
@@ -190,13 +273,16 @@ using B::f;
 
 void use() {
   f(3);                         // [:en] OK, default argument was not used for viability
+                                // [|:zh_CN] OK，默认实参并未参与可行性
   f();                          // [:en] Error: found default argument twice
+                                // [|:zh_CN] 错误：两次找到了默认实参
 }
 [codeblock:end]
 [exit:example]
 
 [%:begin#overloading.resolution.implicit.conversions.and
     [:en] overloading[!resolution[!implicit conversions and]]
+    [:zh_CN] 重载[!～决议[!隐式转换与～]]
 ]
 
 [include over.best.ics]

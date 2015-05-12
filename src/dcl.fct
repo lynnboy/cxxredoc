@@ -360,7 +360,7 @@ are no cv-qualified function types.
 typedef void F();
 struct S {
   const F f;        // [:en] OK: equivalent to: [`void f();]
-                    // [:zh_CN] OK：等价于：[`void f();]
+                    // [|:zh_CN] OK：等价于：[`void f();]
 };
 [codeblock:end]
 [exit:example]

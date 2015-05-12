@@ -266,7 +266,7 @@ a [~throw-expression] ([#expr.throw]).
 [enter:example]
 [codeblock]
 int x;                              // [:en] not constant
-                                    // [:zh_CN] 不是常量
+                                    // [|:zh_CN] 不是常量
 struct A {
   constexpr A(bool b) : m(b?42:x) { }
   int m;

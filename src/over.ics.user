@@ -1,5 +1,6 @@
 ﻿[section#over.ics.user
     [:en] User-defined conversion sequences
+    [:zh_CN] 用户定义的转换序列
 ]
 
 [para]
@@ -7,33 +8,51 @@
 A user-defined conversion sequence consists of an initial standard conversion
 sequence followed by a user-defined conversion ([#class.conv]) followed by a
 second standard conversion sequence.
+[:zh_CN]
+用户定义的转换序列由一个起始标准转换序列跟着一个用户定义的转换（[#class.conv]）
+再跟着第二个标准转换序列构成。
 
 [:en]
 If the user-defined conversion is specified by a constructor
 ([#class.conv.ctor]), the initial standard conversion sequence converts the
 source type to the type required by the argument of the constructor.
+[:zh_CN]
+若用户定义的转换是由构造函数指定的（[#class.conv.ctor]），则其起始标准转换序列
+将源类型转换为该构造函数的实参所需的类型。
 
 [:en]
 If the user-defined conversion is specified by a conversion function
 ([#class.conv.fct]), the initial standard conversion sequence converts the
 source type to the implicit object parameter of the conversion function.
+[:zh_CN]
+若用户定义的转换是由转换函数指定的（[#class.conv.fct]），则其起始标准转换序列将
+源类型转换为该转换函数的隐含对象形参。
 
 [para]
 [:en]
 The second standard conversion sequence converts the result of the user-defined
 conversion to the target type for the sequence.
+[:zh_CN]
+第二个标准转换序列将用户定义的转换的结果转换为该序列的目标类型。
 
 [:en]
 Since an implicit conversion sequence is an initialization, the special rules
 for initialization by user-defined conversion apply when selecting the best
 user-defined conversion for a user-defined conversion sequence (see
 [#over.match.best] and [#over.best.ics]).
+[:zh_CN]
+由于隐式转换序列是初始化，故当为用户定义的转换序列选择最佳的用户定义的转换时，
+要实施通过用户定义的转换进行初始化的特定规则（参见 [#over.match.best] 和
+[#over.best.ics]）。
 
 [para]
 [:en]
 If the user-defined conversion is specified by a specialization of a conversion
 function template, the second standard conversion sequence shall have exact
 match rank.
+[:zh_CN]
+若用户定义的转换是由某个转换函数模板的特例所指定的，则其第二个标准转换序列必须
+具有精确匹配级的等级。
 
 [para]
 [:en]
@@ -42,3 +61,7 @@ Exact Match rank, and a conversion of an expression of class type to a base
 class of that type is given Conversion rank, in spite of the fact that a
 constructor (i.e., a user-defined conversion function) is called for those
 cases.
+[:zh_CN]
+从类类型的表达式向相同类类型的转换具有精确匹配级的等级，从类类型的表达式向该类型
+的基类的转换具有转换级的等级，而不管在这些情况下实际上调用了一个复制/移动构造
+函数（也就是用户定义的转换函数）。

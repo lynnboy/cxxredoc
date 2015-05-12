@@ -1,5 +1,6 @@
 ﻿[section#over.best.ics
     [:en] Implicit conversion sequences
+    [:zh_CN] 隐式转换序列
 ]
 
 [para]
@@ -7,71 +8,105 @@
 An [+implicit conversion sequence] [%sequence[!implicit conversion]]
 is a sequence of conversions used to convert an argument in a function call to
 the type of the corresponding parameter of the function being called.
+[:zh_CN]
+[+隐式转换序列][%序列[!隐式转换～]]是将函数调用中的实参转换为被调用的函数的对应
+形参的类型的转换序列。
 
 [:en]
 The sequence of conversions is an implicit conversion as defined in Clause
 [#conv], which means it is governed by the rules for initialization of an object
 or reference by a single expression ([#dcl.init], [#dcl.init.ref]).
+[:zh_CN]
+转换的序列是第 [#conv] 条中定义的隐式转换，这意味着它要遵循以单个表达式对对象或
+引用进行初始化的规则（[#dcl.init]，[#dcl.init.ref]）。
 
 [para]
 [:en]
 Implicit conversion sequences are concerned only with the type,
 cv-qualification, and value category of the argument and how these are converted
 to match the corresponding properties of the parameter.
+[:zh_CN]
+隐式转换序列只涉及实参的类型、cv-限定性和值类别，以及如何转换它们以匹配形参的
+对应性质的方式。
 
 [:en]
 Other properties, such as the lifetime, storage class, alignment, accessibility
 of the argument, whether the argument is a bit-field, and whether a function is
 deleted ([#dcl.fct.def.delete]), are ignored.
+[:zh_CN]
+其他性质，比如实参的生存期，存储类，对齐，可访问性，实参是否是位字段，以及函数
+是否被弃置（[#dcl.fct.def.delete]），是被忽略的。
 
 [:en]
 So, although an implicit conversion sequence can be defined for a given
 argument-parameter pair, the conversion from the argument to the parameter might
 still be ill-formed in the final analysis.
+[:zh_CN]
+因此，即使对给定实参-形参对可以定义一个隐式转换序列，在最终的分析中从该实参到该
+形参的转换仍可能是非良构的。
 
 [para]
 [:en]
 A well-formed implicit conversion sequence is one of the following forms:
+[:zh_CN]
+良构的隐式转换序列具有如下形式之一：
 
 [list]
 [item]
 [:en@~] a [+standard conversion sequence] ([#over.ics.scs]),
+[:zh_CN@~] [+标准转换序列]（[#over.ics.scs]），
 [item]
 [:en@~] a [+user-defined conversion sequence] ([#over.ics.user]), or
+[:zh_CN@~] [+用户定义的转换序列]（[#over.ics.user]），或者
 [item]
 [:en@~] an [+ellipsis conversion sequence] ([#over.ics.ellipsis]).
+[:zh_CN@~] [+省略号转换序列]（[#over.ics.ellipsis]）。
 [list:end]
 
 [para]
 [:en]
 However, if the target is
+[:zh_CN]
+然而，若其目标是
 
 [list]
 [item]
 [:en@~] the first parameter of a constructor or
+[:zh_CN@~] 构造函数的第一个形参，或
 [item]
 [:en@~] the implicit object parameter of a user-defined conversion function
+[:zh_CN@~] 用户定义的转换函数的隐含对象形参
 [list:end]
 
 [:en@~]
 and the constructor or user-defined conversion function is a candidate by
+[:zh_CN@~]
+且该构造函数或用户定义的转换函数，
 
 [list]
 [item]
 [:en@~] [#over.match.ctor], when the argument is the temporary in the second
 step of a class copy-initialization, or
+[:zh_CN@~] 当其实参是类的复制初始化的第二阶段中的临时对象时，根据
+[#over.match.ctor] 成为候选函数，或者
 [item]
 [:en@~] [#over.match.copy], [#over.match.conv], or [#over.match.ref] (in all
 cases),
+[:zh_CN@~] 根据 [#over.match.copy]，[#over.match.conv]，或 [#over.match.ref]
+（在所有情况下）成为候选函数，
 [list:end]
 
 [:en@~]
 user-defined conversion sequences are not considered.
+[:zh_CN@~]
+则不考虑用户定义的转换序列。
 
 [enter:note]
 [:en]
 These rules prevent more than one user-defined conversion from being applied
 during overload resolution, thereby avoiding infinite recursion.
+[:zh_CN]
+这些规则防止了在重载决议中应用多个用户定义转换，以此避免无限递归。
 [exit:note]
 
 [enter:example]
@@ -79,82 +114,116 @@ during overload resolution, thereby avoiding infinite recursion.
   struct Y { Y(int); };
   struct A { operator int(); };
   Y y1 = A();  // [:en] error: [`A::operator int()] is not a candidate
+               // [|:zh_CN] 错误：[`A::operator int()] 不是候选函数
 
   struct X { };
   struct B { operator X(); };
   B b;
   X x({b});    // [:en] error: [`B::operator X()] is not a candidate
+               // [|:zh_CN] 错误：[`B::operator X()] 不是候选函数
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 For the case where the parameter type is a reference, see [#over.ics.ref].
+[:zh_CN]
+对于形参类型为引用的情况，参见 [#over.ics.ref]。
 
 [para]
 [:en]
 When the parameter type is not a reference, the implicit conversion sequence
 models a copy-initialization of the parameter from the argument expression.
+[:zh_CN]
+当形参类型不是引用时，隐式转换序列模仿从实参表达式对该形参的复制初始化。
 
 [:en]
 The implicit conversion sequence is the one required to convert the argument
 expression to a prvalue of the type of the parameter.
+[:zh_CN]
+其隐式转换序列是将实参表达式转换为形参类型的纯右值所需的转换序列。
 
 [enter:note]
 [:en]
 When the parameter has a class type, this is a conceptual conversion defined for
 the purposes of Clause [#over]; the actual initialization is defined in terms of
 constructors and is not a conversion.
+[:zh_CN]
+当形参为类类型时，它是第 [#over] 条所要求的概念上的转换；而其实际初始化是以构造
+函数定义的，并且它并不是转换。
 [exit:note]
 
 [:en]
 Any difference in top-level cv-qualification is subsumed by the initialization
 itself and does not constitute a conversion.
+[:zh_CN]
+顶层 cv-限定性中的任何区别均被该初始化自身所涵盖且并不构成一个转换。
 
 [enter:example]
 [:en]
 a parameter of type [`A] can be initialized from an argument of type [`const A].
+[:zh_CN]
+类型 [`A] 的形参可以从类型 [`const A] 的实参初始化。
 
 [:en]
 The implicit conversion sequence for that case is the identity sequence; it
 contains no ["conversion] from [`const A] to [`A].
+[:zh_CN]
+此种情况下的隐式转换序列是个恒等序列；它并不包含从 [`const A] 到 [`A] 的“转换”。
 [exit:example]
 
 [:en]
 When the parameter has a class type and the argument expression has the same
 type, the implicit conversion sequence is an identity conversion.
+[:zh_CN]
+当形参为类类型且实参表达式具有相同的类型时，隐式转换序列是恒等转换。
 
 [:en]
 When the parameter has a class type and the argument expression has a derived
 class type, the implicit conversion sequence is a derived-to-base
 [%conversion[!derived-to-base]] Conversion from the derived class to the base
 class.
+[:zh_CN]
+当形参为类类型且实参表达式具有派生类类型时，隐式转换序列为从这个派生类到这个基类
+的[%转换[!派生类到基类～]]派生类到基类转换。
 
 [enter:note]
 [:en]
 There is no such standard conversion; this derived-to-base Conversion exists
 only in the description of implicit conversion sequences.
+[:zh_CN]
+没有这个标准转换；派生类到基类转换只存在于对隐式转换序列的描述中。
 [exit:note]
 
 [:en]
 A derived-to-base Conversion has Conversion rank ([#over.ics.scs]).
+[:zh_CN]
+派生类到基类转换具有转换级等级（[#over.ics.scs]）。
 
 [para]
 [:en]
 In all contexts, when converting to the implicit object parameter or when
 converting to the left operand of an assignment operation only standard
 conversion sequences that create no temporary object for the result are allowed.
+[:zh_CN]
+在所有语境中，当转换到隐含对象形参，或当转换到赋值操作的左操作数时，只允许不为其
+结果创建临时对象的标准转换序列。
 
 [para]
 [:en]
 If no conversions are required to match an argument to a parameter type, the
 implicit conversion sequence is the standard conversion sequence consisting of
 the identity conversion ([#over.ics.scs]).
+[:zh_CN]
+若无需为实参与形参类型的匹配进行转换，则隐式转换序列为由恒等转换构成的标准转换
+序列（[#over.ics.scs]）。
 
 [para]
 [:en]
 If no sequence of conversions can be found to convert an argument to a parameter
 type, an implicit conversion sequence cannot be formed.
+[:zh_CN]
+若无法找到将实参转换为形参类型的转换的序列，则不能构成隐式转换序列。
 
 [para]
 [:en]
@@ -162,18 +231,27 @@ If several different sequences of conversions exist that each convert the
 argument to the parameter type, the implicit conversion sequence associated with
 the parameter is defined to be the unique conversion sequence designated the
 [%sequence[!ambiguous conversion]] [+ambiguous conversion sequence].
+[:zh_CN]
+若存在几个不同的转换的序列都能将实参转换为形参类型，则与该形参相关联的隐式转换
+序列被定义为唯一代表[%序列[!有歧义的转换～]][+有歧义的转换序列]的转换序列。
 
 [:en]
 For the purpose of ranking implicit conversion sequences as described in
 [#over.ics.rank], the ambiguous conversion sequence is treated as a user-defined
 sequence that is indistinguishable from any other user-defined conversion
 sequence
+[:zh_CN]
+为根据 [#over.ics.rank] 所述进行隐式转换序列的分级，有歧义的转换序列被当作一个与
+其他任何用户定义的转换序列均无法区分的用户定义的序列
 
 [footnote]
 [:en]
 The ambiguous conversion sequence is ranked with user-defined conversion
 sequences because multiple conversion sequences for an argument can exist only
 if they involve different user-defined conversions.
+[:zh_CN]
+由于对某个实参只有当涉及了不同的用户定义的转换时，才能存在多个转换序列，因此
+有歧义的转换序列被分级为用户定义的转换序列。
 
 [:en]
 The ambiguous conversion sequence is indistinguishable from any other
@@ -181,14 +259,22 @@ user-defined conversion sequence because it represents at least two user-defined
 conversion sequences, each with a different user-defined conversion, and any
 other user-defined conversion sequence must be indistinguishable from at least
 one of them.
+[:zh_CN]
+由于有歧义的转换序列表示至少两个用户定义的转换序列，每个都带有不同的用户定义的
+转换，而任意其他的用户定义的转换序列必然与其中至少一个不可区分，故它与任意其他
+用户定义的转换序列不可区分。
 
 [para:~]
 [:en]
 This rule prevents a function from becoming non-viable because of an ambiguous
 conversion sequence for one of its parameters.
+[:zh_CN]
+这条规则防止了由于函数的形参之一的有歧义的转换序列而使它成为非可行函数。
 
 [:en]
 Consider this example,
+[:zh_CN]
+考虑这个示例，
 
 [codeblock]
 class B;
@@ -199,7 +285,9 @@ void f(A) { }
 void f(C) { }
 B b;
 f(b);                           // [:en] ambiguous because [`b] [=to] [`C] via constructor and
+                                // [|:zh_CN] 有歧义的，由于 [`b] [=to] [`C] 经过构造函数而
                                 // [:en@~] [`b] [=to] [`A] via constructor or conversion function.
+                                // [|:zh_CN@~] [`b] [=to] [`A] 经过构造函数或转换函数。
 [codeblock:end]
 
 [para:~]
@@ -207,25 +295,38 @@ f(b);                           // [:en] ambiguous because [`b] [=to] [`C] via c
 If it were not for this rule, [`f(A)] would be eliminated as a viable function
 for the call [`f(b)] causing overload resolution to select [`f(C)] as the
 function to call even though it is not clearly the best choice.
+[:zh_CN]
+若没有这条规则，[`f(A)] 将从对调用 [`f(b)] 的可行函数中清除，而造成重载决议选择
+[`f(C)] 作为被调用的函数，即使它并不是清楚无疑的最佳选择。
 
 [:en]
 On the other hand, if an [`f(B)] were to be declared then [`f(b)] would resolve
 to that [`f(B)] because the exact match with [`f(B)] is better than any of the
 sequences required to match [`f(A)].
+[:zh_CN]
+另一方面，若声明了某个 [`f(B)]，则因为与 [`f(B)] 的精确匹配比任何与 [`f(A)] 匹配
+所需的任何序列都更好，故 [`f(b)] 将被决议为此 [`f(B)]。
 [footnote:end]
 
 [:en@~]
 .
+[:zh_CN@~]
+。
 
 [:en]
 If a function that uses the ambiguous conversion sequence is selected
 as the best viable function, the call will be ill-formed because the conversion
 of one of the arguments in the call is ambiguous.
+[:zh_CN]
+若使用了有歧义的转换序列的函数被选择为最佳可行函数，则其调用将因为在调用中的实参
+之一的转换有歧义而是非良构的。
 
 [para]
 [:en]
 The three forms of implicit conversion sequences mentioned above are defined in
 the following subclauses.
+[:zh_CN]
+上述隐式转换序列的三种形式在如下子条款中定义。
 
 [include over.ics.scs]
 

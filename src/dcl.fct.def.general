@@ -192,6 +192,6 @@ struct S {
   const char* s;
 };
 void f(const char* s = __func__);  // [:en] error: [`__func__] is undeclared
-                                   // [:zh_CN] 错误：[`__func__] 未声明
+                                   // [|:zh_CN] 错误：[`__func__] 未声明
 [codeblock:end]
 [exit:example]

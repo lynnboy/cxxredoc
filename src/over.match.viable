@@ -1,8 +1,11 @@
 ﻿[section#over.match.viable
     [:en] Viable functions
+    [:zh_CN] 可行函数
 ]
+
 [%:begin#overloading.resolution.viable.functions
     [:en] overloading[!resolution[!viable functions]]
+    [:zh_CN] 重载[!～决议[!可行函数]]
 ]
 
 [para]
@@ -11,10 +14,15 @@ From the set of candidate functions constructed for a given context
 ([#over.match.funcs]), a set of viable functions is chosen, from which the best
 function will be selected by comparing argument conversion sequences for the
 best fit ([#over.match.best]).
+[:zh_CN]
+从为给定语境构造的候选函数集合（[#over.match.funcs]）中，选择可行函数的集合，并
+通过比较出最合适的实参转换序列（[#over.match.best]），在其中选择出最佳的函数。
 
 [:en]
 The selection of viable functions considers relationships between arguments and
 function parameters other than the ranking of conversion sequences.
+[:zh_CN]
+选择可行函数时将考察实参和函数形参之间的关系而不是转换序列的等级。
 
 [para]
 [:en]
@@ -22,37 +30,56 @@ function parameters other than the ranking of conversion sequences.
 [%default argument[!overload resolution and]]
 First, to be a viable function, a candidate function shall have enough
 parameters to agree in number with the arguments in the list.
+[:zh_CN]
+[%省略号[!重载决议与～]]
+[%默认实参[!重载决议与～]]
+首先，作为可行函数，候选函数应当带有足够数量的形参来与列表中的实参相配。
 
 [list]
 [item]
 [:en]
 If there are [$m] arguments in the list, all candidate functions having exactly
 [$m] parameters are viable.
+[:zh_CN]
+若列表中有 [$m] 个实参，则所有恰好带有 [$m] 个形参的候选函数是可行的。
 
 [item]
 [:en]
 A candidate function having fewer than [$m] parameters is viable only if it has
 an ellipsis in its parameter list ([#dcl.fct]).
+[:zh_CN]
+带有少于 [$m] 个形参的候选函数只有当其形参列表中带有省略号（[#dcl.fct]）时才是
+可行的。
 
 [:en]
 For the purposes of overload resolution, any argument for which there is no
 corresponding parameter is considered to ["match the ellipsis]
 ([#over.ics.ellipsis]) .
+[:zh_CN]
+进行重载决议时，任何没有对应形参的实参被当作“与省略号匹配”
+（[#over.ics.ellipsis]）。
 
 [item]
 [:en]
 A candidate function having more than [$m] parameters is viable only if the
 [$(m+1)]-st parameter has a default argument ([#dcl.fct.default]).
+[:zh_CN]
+带有多于 [$m] 个形参的候选函数只有当其第 [$m+1] 个形参带有默认实参
+（[#dcl.fct.default]）时才是可行的。
 
 [footnote]
 [:en]
 According to [#dcl.fct.default], parameters following the [$(m+1)]-st parameter
 must also have default arguments.
+[:zh_CN]
+根据 [#dcl.fct.default]，跟在第 [$m+1] 个形参后面的形参必须也带有默认实参。
 [footnote:end]
 
 [:en]
 For the purposes of overload resolution, the parameter list is truncated on the
 right, so that there are exactly [$m] parameters.
+[:zh_CN]
+进行重载决议时，其形参列表的右边被截断，使得其恰有 [$m] 个形参。
 [list:end]
 
 [para]
@@ -60,6 +87,9 @@ right, so that there are exactly [$m] parameters.
 Second, for [`F] to be a viable function, there shall exist for each argument an
 [+implicit conversion sequence] ([#over.best.ics]) that converts that argument
 to the corresponding parameter of [`F].
+[:zh_CN]
+其次，若 [`F] 为可行函数，对其每个实参应当存在一个将该实参转换为 [`F] 的对应形参
+的[+隐式转换序列]（[#over.best.ics]）。
 
 [:en]
 If the parameter has reference type, the implicit conversion sequence includes
@@ -67,3 +97,7 @@ the operation of binding the reference, and the fact that an lvalue reference to
 non-[`const] cannot be bound to an rvalue and that an rvalue reference cannot be
 bound to an lvalue can affect the viability of the function (see
 [#over.ics.ref]).
+[:zh_CN]
+若形参为引用类型，则其隐式转换序列还包括对该引用的绑定操作，并且指代非-[`const]
+对象的左值引用不能绑定到右值，以及右值引用不能绑定到左值的事实也会影响函数的
+可行性（参见 [#over.ics.ref]）。

@@ -1,32 +1,48 @@
 ﻿[section#over.ics.list
     [:en] List-initialization sequence
+    [:zh_CN] 列表初始化序列
 ]
 
 [para]
 [:en]
 When an argument is an initializer list ([#dcl.init.list]), it is not an
 expression and special rules apply for converting it to a parameter type.
+[:zh_CN]
+当实参是初始化式列表（[#dcl.init.list]）时，它不是表达式，并且对它实施特殊的规则
+以将其转换为形参类型。
 
 [para]
+[:en]
 If the parameter type is a class [`X] and the initializer list has a single
 element of type [$cv] [`U], where [`U] is [`X] or a class derived from [`X], the
 implicit conversion sequence is the one required to convert the element to the
 parameter type.
+[:zh_CN]
+如果形参类型为类 [`X] 且其初始化式列表具有类型 [$cv] [`U] 的单个元素，其中 [`U]
+为 [`X] 或派生自 [`X] 的类，则隐式转换序列是将该元素转换为形参类型所需的一个转换
+。
 
 [para]
 [:en]
 Otherwise, if the parameter type is a character array
+[:zh_CN]
+否则，若形参类型为字符数组
 
 [footnote]
 [:en]
 Since there are no parameters of array type, this will only occur as the
 underlying type of a reference parameter.
+[:zh_CN]
+并不存在数组类型的形参，因此它只会作为某个引用形参的底层类型而出现。
 [footnote:end]
 
 [:en@~]
 and the initializer list has a single element that is an appropriately-typed
 string literal ([#dcl.init.string]), the implicit conversion sequence is the
 identity conversion.
+[:zh_CN@~]
+且初始化式列表包含单个元素，并且是适当类型的字符串字面量（[#dcl.init.string]）,
+则隐式转换序列是恒等转换。
 
 [para]
 [:en]
@@ -34,16 +50,30 @@ Otherwise, if the parameter type is [`std::initializer_list<X>] and all the
 elements of the initializer list can be implicitly converted to [`X], the
 implicit conversion sequence is the worst conversion necessary to convert an
 element of the list to [`X], or if the initializer list has no elements, the
-identity conversion. This conversion can be a user-defined conversion even in
-the context of a call to an initializer-list constructor.
+identity conversion.
+
+[:zh_CN]
+否则，如果形参类型为 [`std::initializer_list<X>]，并且初始化式列表中的所有元素
+都能隐式转换为 [`X]，则隐式转换序列为将该列表中的某个元素转换为 [`X] 所需的最差
+的转换，或者当初始化式列表没有元素时为恒等转换。
+
+[:en]
+This conversion can be a user-defined conversion even in the context of a call
+to an initializer-list constructor.
+[:zh_CN]
+即使在调用初始化式列表构造函数的语境中，这个转换也可以是用户定义的转换。
 
 [enter:example]
 [codeblock]
 void f(std::initializer_list<int>);
 f( {} );                    // [:en] OK: [`f(initializer_list<int>)] identity conversion
+                            // [|:zh_CN] OK：[`f(initializer_list<int>)] 恒等转换
 f( {1,2,3} );               // [:en] OK: [`f(initializer_list<int>)] identity conversion
+                            // [|:zh_CN] OK：[`f(initializer_list<int>)] 恒等转换
 f( {'a','b'} );             // [:en] OK: [`f(initializer_list<int>)] integral promotion
+                            // [|:zh_CN] OK：[`f(initializer_list<int>)] 整型提升
 f( {1.0} );                 // [:en] error: narrowing
+                            // [|:zh_CN] 错误：窄化
 
 struct A {
   A(std::initializer_list<double>);           // #1
@@ -51,13 +81,16 @@ struct A {
   A(std::initializer_list<std::string>);      // #3
 };
 A a{ 1.0,2.0 };             // [:en] OK, uses #1
+                            // [|:zh_CN] OK：使用 #1
 
 void g(A);
 g({ "foo", "bar" });        // [:en] OK, uses #3
+                            // [|:zh_CN] OK：使用 #3
 
 typedef int IA[3];
 void h(const IA&);
 h({ 1, 2, 3 });             // [:en] OK: identity conversion
+                            // [|:zh_CN] OK：恒等转换
 [codeblock:end]
 [exit:example]
 
@@ -68,6 +101,11 @@ has exactly [`N] elements or if it has fewer than [`N] elements and [`X] is
 default-constructible, and if all the elements of the initializer list can be
 implicitly converted to [`X], the implicit conversion sequence is the worst
 conversion necessary to convert an element of the list to [`X].
+[:zh_CN]
+否则，如果形参类型为“[`X] 的 [`N] 元素数组”，当初始化式列表恰好有 [`N] 个元素，
+或者当它具有少于 [`N] 个元素且 [`X] 可默认构造时，并且若初始化式列表的所有元素
+都可以隐式转换为 [`X]，则隐式转换序列是将列表的元素转换为 [`X] 所需的最差的转换
+。
 
 [para]
 [:en]
@@ -76,14 +114,23 @@ resolution per [#over.match.list] chooses a single best constructor of [`X] to
 perform the initialization of an object of type [`X] from the argument
 initializer list, the implicit conversion sequence is a user-defined conversion
 sequence with the second standard conversion sequence an identity conversion.
+[:zh_CN]
+否则，如果形参是非聚合类 [`X] 且重载决议根据 [#over.match.list] 选择了 [`X] 的
+单个最佳构造函数以从实参初始化式列表对类型 [`X] 的对象进行初始化，则隐式转换序列
+为第二个标准转换序列为恒等转换的用户定义的转换序列。
 
 [:en]
 If multiple constructors are viable but none is better than the others, the
 implicit conversion sequence is the ambiguous conversion sequence.
+[:zh_CN]
+如果多个构造函数都可行，旦其中没有更好的，则隐式转换序列为有歧义的转换序列。
 
 [:en]
 User-defined conversions are allowed for conversion of the initializer list
 elements to the constructor parameter types except as noted in [#over.best.ics].
+[:zh_CN]
+除了 [#over.best.ics] 中注明的情况外，允许对初始化式列表的元素向构造函数形参类型
+进行用户定义的转换。
 
 [enter:example]
 [codeblock]
@@ -92,16 +139,20 @@ struct A {
 };
 void f(A);
 f( {'a', 'b'} );            // [:en] OK: [`f(A(std::initializer_list<int>))] user-defined conversion
+                            // [|:zh_CN] OK：[`f(A(std::initializer_list<int>))] 用户定义的转换
 
 struct B {
   B(int, double);
 };
 void g(B);
 g( {'a', 'b'} );            // [:en] OK: [`g(B(int,double))] user-defined conversion
+                            // [|:zh_CN] OK：[`g(B(int,double))] 用户定义的转换
 g( {1.0, 1.0} );            // [:en] error: narrowing
+                            // [|:zh_CN] 错误：窄化
 
 void f(B);
 f( {'a', 'b'} );            // [:en] error: ambiguous [`f(A)] or [`f(B)]
+                            // [|:zh_CN] 错误：有歧义
 
 struct C {
   C(std::string);
@@ -124,6 +175,10 @@ the initializer list according to the rules for aggregate initialization
 ([#dcl.init.aggr]), the implicit conversion sequence is a user-defined
 conversion sequence with the second standard conversion sequence an identity
 conversion.
+[:zh_CN]
+否则，如果形参具有聚合类型，并能够根据聚合初始化的规则从初始化式列表进行初始化
+（[#dcl.init.aggr]），则隐式转换序列为其第二个标准转换序列是恒等转换的用户定义的
+转换序列。
 
 [enter:example]
 [codeblock]
@@ -133,19 +188,25 @@ struct A {
 };
 
 void f(A);
-f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion 
+f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion
+                            // [|:zh_CN] OK：[`f(A(int,double))] 用户定义的转换
 f( {1.0} );                 // [:en] error: narrowing
+                            // [|:zh_CN] 错误：窄化
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 Otherwise, if the parameter is a reference, see [#over.ics.ref].
+[:zh_CN]
+否则，如果形参是一个引用，参见 [#over.ics.ref]。
 
 [enter:note]
 [:en]
 The rules in this section will apply for initializing the underlying temporary
 for the reference.
+[:zh_CN]
+本节中的规则适用于对该引用底层的临时对象进行的初始化。
 [exit:note]
 
 [enter:example]
@@ -156,40 +217,51 @@ struct A {
 };
 
 void f(const A&);
-f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion 
+f( {'a', 'b'} );            // [:en] OK: [`f(A(int,double))] user-defined conversion
+                            // [|:zh_CN] OK：[`f(A(int,double))] 用户定义的转换
 f( {1.0} );                 // [:en] error: narrowing
+                            // [|:zh_CN] 错误：窄化
 
 void g(const double &);
 g({1});                     // [:en] same conversion as [`int] to [`double]
+                            // [|:zh_CN] 与从 [`int] 到 [`double] 相同的转换
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 Otherwise, if the parameter type is not a class:
+[:zh_CN]
+否则，如果形参类型不是类：
 
 [list]
 [item]
 [:en] if the initializer list has one element that is not itself an initializer
 list, the implicit conversion sequence is the one required to convert the
 element to the parameter type;
+[:zh_CN] 如果初始化式列表带有一个并非初始化式列表的元素，隐式转换序列为将该元素
+转换为形参类型所需的转换；
 
 [enter:example]
 [codeblock]
 void f(int);
 f( {'a'} );                 // [:en] OK: same conversion as [`char] to [`int]
+                            // [|:zh_CN] OK：与从 [`char] 到 [`int] 相同的转换
 f( {1.0} );                 // [:en] error: narrowing
+                            // [|:zh_CN] 错误：窄化
 [codeblock:end]
 [exit:example]
 
 [item]
 [:en] if the initializer list has no elements, the implicit conversion sequence
 is the identity conversion.
+[:zh_CN] 如果初始化式列表没有元素，则隐式转换序列为恒等转换。
 
 [enter:example]
 [codeblock]
 void f(int);
 f( { } );                   // [:en] OK: identity conversion 
+                            // [|:zh_CN] OK：恒等转换
 [codeblock:end]
 [exit:example]
 [list:end]
@@ -197,3 +269,5 @@ f( { } );                   // [:en] OK: identity conversion
 [para]
 [:en]
 In all cases other than those enumerated above, no conversion is possible.
+[:zh_CN]
+除了上面列举的情况之外的所有情况下，没有可能的转换存在。
