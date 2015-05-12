@@ -1,8 +1,10 @@
 ﻿[section:chapter#temp
     [:en] Templates
+    [:zh_CN] 模板
 ]
 [%:begin#template
     [:en] template
+    [:zh_CN] 模板
 ]
 
 [/
@@ -10,22 +12,28 @@
 %gram:
 /]
 
-[%parameterized type[see atemplate]]
-[%type generator[see atemplate]]
+[:en]
+[%parameterized type[see template]]
+[%type generator[see template]]
+[:zh_CN]
+[%参数化类型[see 模板]]
+[%类型生成器[see 模板]]
 
 [para]
 [:en]
 A [+template] defines a family of classes or functions or an alias for a
 family of types.
+[:zh_CN]
+[+模板]定义了一族类或函数，或者为一族类型定义别名。
 
 [%[`template]]
 
 [syntax]
-[rule template-declaration [:zh_CN] ]
+[rule template-declaration [:zh_CN] 模板声明式 ]
     [| [`template] [`<] template-parameter-list [`>] declaration ]
 [rule:end]
 
-[rule template-parameter-list [:zh_CN] ]
+[rule template-parameter-list [:zh_CN] 模板形参列表 ]
     [| template-parameter ]
     [| template-parameter-list [`,] template-parameter ]
 [rule:end]
@@ -36,45 +44,65 @@ family of types.
 The [`>] token following the [~template-parameter-list] of a
 [~template-declaration] may be the product of replacing a [`>>] token by two
 consecutive [`>] tokens ([#temp.names]).
+[:zh_CN]
+[~模板声明式]的[~模板形参列表]后面跟着的 [`>] 记号，可能是通过把 [`>>] 记号替换
+为两个连续的 [`>] 记号（[#temp.names]）而产生的。
 [exit:note]
 
 [para:~]
 [:en]
 The [~declaration] in a [~template-declaration] shall
+[:zh_CN]
+[~模板声明式]中的[~声明式]应当
 
 [list]
 [item]
 [:en@~] declare or define a function, a class, or a variable, or
+[:zh_CN@~] 声明或定义函数，类，或变量，或者
 
 [item]
 [:en@~] define a member function, a member class, a member enumeration, or a
 static data member of a class template or of a class nested within a class
 template, or
+[:zh_CN@~] 定义某个类模板或嵌套于某个类模板中的类的成员函数、成员类、成员枚举或
+静态数据成员，或者
 
 [item]
 [:en@~] define a member template of a class or class template, or
+[:zh_CN@~] 定义某个类或类模板的成员模板，或者
 
 [item]
 [:en@~] be an [~alias-declaration].
+[:zh_CN@~] 是一个[~别名声明式]。
 [list:end]
 
 [:en]
 A [~template-declaration] is a [~declaration].
+[:zh_CN]
+[~模板声明式]是[~声明式]。
 
 [:en]
 [%template[!definition of]]
 A [~template-declaration] is also a definition if its [~declaration] defines a
 function, a class, a variable, or a static data member.
+[:zh_CN]
+[%模板[!～定义式]]
+若[~模板声明式]的[~声明式]定义了函数、类、变量或静态数据成员，则它也是定义式。
 
 [:en]
-A declaration introduced by a template declaration of a
-[%variable template[!definition of]]
-[%template[!variable]]
+[%variable template[!definition of]] [%template[!variable]]
+A declaration introduced by a template declaration of a variable is a
+[+variable template].
+[:zh_CN]
+[%变量模板[!～定义式]] [%模板[!变量～]]
+由变量的模板声明式所引入的声明式是[+变量模板]。
+
+[:en]
 [%template[!static data member]]
-variable is a [+variable template].
-
-[:en]
 A variable template at class scope is a [+static data member template].
+[:zh_CN]
+[%模板[!静态数据成员～]]
+类作用域的变量模板是[+静态数据成员模板]。
 
 [para:~]
 [enter:example]
@@ -102,20 +130,30 @@ struct matrix_constants {
 [:en]
 A [~template-declaration] can appear only as a namespace scope or class scope
 declaration.
+[:zh_CN]
+[~模板声明式]只能作为命名空间作用域或类作用域的声明式。
 
 [:en]
 In a function template declaration, the last component of the [~declarator-id]
 shall not be a [~template-id].
+[:zh_CN]
+在函数模板声明式中，其[~声明符标识]的最后一部分不能是[~模板标识]。
 
 [enter:note]
 [:en]
 That last component may be an [~identifier], an [~operator-function-id],
 a [~conversion-function-id], or a [~literal-operator-id].
+[:zh_CN]
+这个最后部分可以是[~标识符]，[~运算符函数标识]，[~转换函数标识]，或者[~字面量
+运算符标识]。
 
 [:en]
 In a class template declaration, if the class name is a [~simple-template-id],
 the declaration declares a class template partial specialization
 ([#temp.class.spec]).
+[:zh_CN]
+在类模板声明式中，若其类名是个[~简单模板标识]，则该声明式声明了一个类模板部分
+特化（[#temp.class.spec]）。
 [exit:note]
 
 [para]
@@ -123,37 +161,57 @@ the declaration declares a class template partial specialization
 In a [~template-declaration], explicit specialization, or explicit instantiation
 the [~init-declarator-list] in the declaration shall contain at most one
 declarator.
+[:zh_CN]
+在[~模板声明式]、显式特化式或显式实例化式中，声明式中的[~初始化声明符列表]应当
+最多包含一个声明符。
 
 [:en]
 When such a declaration is used to declare a class template, no declarator is
 permitted.
+[:zh_CN]
+当使用这样的声明式来声明类模板时，不允许出现声明符。
 
 [para]
 [:en]
 [%template name[!linkage of]]
 A template name has linkage ([#basic.link]).
+[:zh_CN]
+[%模板名[!～的连接]]
+模板名具有连接（[#basic.link]）。
 
 [:en]
 Specializations (explicit or implicit) of a template that has internal linkage
 are distinct from all specializations in other translation units.
+[:zh_CN]
+具有内部连接的模板的（隐式或显式的）特例区别于任何其他翻译单元中的特例。
 
 [:en]
 A template, a template explicit specialization ([#temp.expl.spec]), and a class
 template partial specialization shall not have C linkage.
+[:zh_CN]
+模板、模板显式特化式（[#temp.expl.spec]）和类模板部分特化式不能具有 C 连接。
 
 [:en]
-Use of a linkage specification other than C or C++ with any of these constructs
-is conditionally-supported, with [%@impldef semantics of linkage specification
-on templates] implementation-defined semantics.
+Use of a linkage specification other than C or [=Cpp] with any of these
+constructs is conditionally-supported, with [%@impldef semantics of linkage
+specification on templates] implementation-defined semantics.
+[:zh_CN]
+在这些构造中的任何一个上使用除了 C 或 [=Cpp] 之外的连接说明是有条件支持的，并
+带有[%@impldef 模板的连接说明的语义]由实现定义的语义。
 
 [:en]
 Template definitions shall obey the one definition rule ([#basic.def.odr]).
+[:zh_CN]
+模板定义式应当遵循唯一定义原则（[#basic.def.odr]）。
 
 [enter:note]
 [:en]
 Default arguments for function templates and for member functions of class
 templates are considered definitions for the purpose of template instantiation
 ([#temp.decls]) and must also obey the one definition rule.
+[:zh_CN]
+在进行模板实例化（[#temp.decls]）时，函数模板或类模板的成员函数的默认实参被当作
+是定义式，且必须遵循唯一定义原则。
 [exit:note]
 
 [para]
@@ -161,12 +219,20 @@ templates are considered definitions for the purpose of template instantiation
 A class template shall not have the same name as any other template, class,
 function, variable, enumeration, enumerator, namespace, or type in the same
 scope ([#basic.scope]), except as specified in ([#temp.class.spec]).
+[:zh_CN]
+除了在（[#temp.class.spec]）中所指出的之外，类模板不能与相同作用域
+（[#basic.scope]）中的任何其他模板、类、函数、变量、枚举、枚举符、命名空间或类型
+具有相同的名字。
 
 [:en]
 Except that a function template can be overloaded either by non-template
 functions ([#dcl.fct]) with the same name or by other function templates with
 the same name ([#temp.over]), a template name declared in namespace scope or in
 class scope shall be unique in that scope.
+[:zh_CN]
+除了函数模板可以被具有相同名字的（非模板）函数（[#dcl.fct]）或者具有相同名字的
+函数模板所重载（[#temp.over]）之外，命名空间作用域或类作用域中声明的模板名在该
+作用域中应当是唯一的。
 
 [para]
 [:en]
@@ -175,6 +241,10 @@ static data member of a class template shall be defined in every translation
 unit in which it is implicitly instantiated ([#temp.inst]) unless the
 corresponding specialization is explicitly instantiated ([#temp.explicit])
 in some translation unit; no diagnostic is required.
+[:zh_CN]
+函数模板，类模板的成员函数，变量模板，或者类模板的静态数据成员应当在它被隐式
+实例化（[#temp.inst]）的每个翻译单元中进行定义，除非其对应特例在某个翻译单元中
+被显式实例化（[#temp.explicit]）；无须诊断。
 
 [include temp.param]
 
