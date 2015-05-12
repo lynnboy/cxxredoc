@@ -1,17 +1,24 @@
 ﻿[section#over.built
     [:en] Built-in operators
+    [:zh_CN] 内建运算符
 ]
 
-[%  [:en] overloading[!built-in operators and]]
+[%  [:en] overloading[!built-in operators and]
+    [:zh_CN] 重载[!内建运算符与～] ]
 
 [para]
 [:en]
 The candidate operator functions that represent the built-in operators defined
 in Clause [#expr] are specified in this subclause.
+[:zh_CN]
+本子条款中指定了用于代表第 [#expr] 条中定义的内建运算符的候选运算符函数。
 
 [:en]
 These candidate functions participate in the operator overload resolution
 process as described in [#over.match.oper] and are used for no other purpose.
+[:zh_CN]
+这些候选函数参与在 [#over.match.oper] 中所描述的运算符重载决议过程，而并不用于
+其它目的。
 
 [enter:note]
 [:en]
@@ -22,37 +29,59 @@ operator only when an operand has a class type that has a user-defined
 conversion to a non-class type appropriate for the operator, or when an operand
 has an enumeration type that can be converted to a type appropriate for the
 operator.
+[:zh_CN]
+因为内建运算符只接受非类类型的操作数，并且运算符重载决议仅当某个操作数表达式本来
+具有类或枚举类型时才会发生，所以仅当某个操作数具有类类型，并带有转换为适用于该
+运算符的非类类型的用户定义的转换时，或者当某个操作数具有枚举类型，并可被转换为
+适用于该运算符的类型时，重载决议才能决议为内建运算符。
 
 [:en]
 Also note that some of the candidate operator functions given in this subclause
 are more permissive than the built-in operators themselves.
+[:zh_CN]
+还要注意，本子条款中给定的某些候选运算符函数比内建运算符自身具有更少限制。
 
 [:en]
 As described in [#over.match.oper], after a built-in operator is selected by
 overload resolution the expression is subject to the requirements for the
 built-in operator given in Clause [#expr], and therefore to any additional
 semantic constraints given there.
+[:zh_CN]
+如同 [#over.match.oper] 中所述，重载决议选择内建运算符之后，其表达式需要满足第
+[#expr] 条中给出的对内建运算符的规定，因而要满足在该处给出的任何附加的语义约束。
 
 [:en]
 If there is a user-written candidate with the same name and parameter types as a
 built-in candidate operator function, the built-in operator function is hidden
 and is not included in the set of candidate functions.
+[:zh_CN]
+若存在带有与内建候选运算符函数相同名字和形参类型的某个由用户写出的候选函数，则
+该内建运算符函数被隐藏且并不被包含进候选函数集合之内。
 [exit:note]
 
 [para]
+[:en]
 In this subclause, the term [+promoted integral type] is used to refer to those
 integral types which are preserved by integral promotion (including e.g. [`int]
 and [`long] but excluding e.g. [`char]).
+[:zh_CN]
+在本子条款中，术语[+已提升整型类型]用于表示被整型提升所保持的整型类型（比如说，
+包括 [`int] 和 [`long] 但排除 [`char]）。
 
 [:en]
 Similarly, the term [+promoted arithmetic type] refers to floating types plus
 promoted integral types.
+[:zh_CN]
+相似地，术语[+已提升算术类型]表示浮点类型加上已提升整型类型。
 
 [enter:note]
 [:en]
 In all cases where a promoted integral type or promoted arithmetic type is
 required, an operand of enumeration type will be acceptable by way of the
 integral promotions.
+[:zh_CN]
+在所有需要已提升整型类型或已提升算术类型的情况下，可以通过整型提升来接受枚举类型
+的操作数。
 [exit:note]
 
 [para]
@@ -60,6 +89,9 @@ integral promotions.
 For every pair ([$T], [$VQ]), where [$T] is an arithmetic type, and [$VQ] is
 either [`volatile] or empty, there exist candidate operator functions of the
 form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为算术类型，而 [$VQ] 为 [`volatile] 或为空，
+存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 VQ T& operator++(VQ T&);
@@ -69,8 +101,11 @@ T operator++(VQ T&, int);
 [para]
 [:en]
 For every pair ([$T], [$VQ]), where [$T] is an arithmetic type other than
-[$bool], and [$VQ] is either [`volatile] or empty, there exist candidate
+[`bool], and [$VQ] is either [`volatile] or empty, there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为除 [`bool] 之外的算术类型，而 [$VQ] 为
+[`volatile] 或为空，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 VQ T& operator--(VQ T&);
@@ -82,6 +117,9 @@ T operator--(VQ T&, int);
 For every pair ([$T], [$VQ]), where [$T] is a cv-qualified or cv-unqualified
 object type, and [$VQ] is either [`volatile] or empty, there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为被 cv-限定或未被 cv-限定的对象类型，而 [$VQ]
+为 [`volatile] 或为空，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 T*VQ& operator++(T*VQ&);
@@ -94,6 +132,8 @@ T*    operator--(T*VQ&, int);
 [:en]
 For every cv-qualified or cv-unqualified object type [$T], there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每个被 cv-限定或未被 cv-限定的对象类型 [$T]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 T&    operator*(T*);
@@ -103,6 +143,9 @@ T&    operator*(T*);
 [:en]
 For every function type [$T] that does not have cv-qualifiers or a
 [~ref-qualifier], there exist candidate operator functions of the form
+[:zh_CN]
+对于每个不带有 cv-限定符或[~引用限定符]的函数类型 [$T]，存在如下形式的候选运算符
+函数
 
 [codeblock:notation [special T] ]
 T&    operator*(T*);
@@ -111,6 +154,8 @@ T&    operator*(T*);
 [para]
 [:en]
 For every type [$T] there exist candidate operator functions of the form
+[:zh_CN]
+对于每个类型 [$T]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 T*    operator+(T*);
@@ -120,6 +165,8 @@ T*    operator+(T*);
 [:en]
 For every promoted arithmetic type [$T], there exist candidate operator
 functions of the form
+[:zh_CN]
+对于每个已提升算术类型 [$T]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 T operator+(T);
@@ -130,6 +177,8 @@ T operator-(T);
 [:en]
 For every promoted integral type [$T], there exist candidate operator functions
 of the form
+[:zh_CN]
+对于每个已提升整型类型 [$T]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 T operator~(T);
@@ -138,9 +187,13 @@ T operator~(T);
 [para]
 [:en]
 For every quintuple ([$C1], [$C2], [$T], [$CV1], [$CV2]), where [$C2] is a class
-type, [$C1] is the same type as C2 or is a derived class of C2, [$T] is an
+type, [$C1] is the same type as [$C2] or is a derived class of [$C2], [$T] is an
 object type or a function type, and [$CV1] and [$CV2] are [~cv-qualifier-seq]s,
 there exist candidate operator functions of the form
+[:zh_CN]
+对于每个五元组 ([$C1], [$C2], [$T], [$CV1], [$CV2])，其中 [$C2] 为类类型，[$C1]
+为与 [$C2] 相同的类类型或 [$C2] 的派生类，[$T] 为对象类型或函数类型，而 [$CV1]
+和 [$CV2] 为 [~cv-限定符序列]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special CV12 CV1 CV2 C1 C2 T] ]
 CV12 T& operator->*(CV1 C1*, CV2 T C2::*);
@@ -148,15 +201,21 @@ CV12 T& operator->*(CV1 C1*, CV2 T C2::*);
 
 [:en@~]
 where [$CV12] is the union of [$CV1] and [$CV2].
+[:zh_CN@~]
+其中 [$CV12] 为 [$CV1] 和 [$CV2] 的并集。
 
 [:en]
 The return type is shown for exposition only; see [#expr.mptr.oper] for the
 determination of the operator[=']s result type.
+[:zh_CN]
+所示返回类型仅用于解释目的；关于确定运算符的返回类型，参见 [#expr.mptr.oper]。
 
 [para]
 [:en]
 For every pair of promoted arithmetic types [$L] and [$R], there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对已提升算术类型 [$L] 和 [$R]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special L R LR] ]
 LR      operator*(L, R);
@@ -174,11 +233,15 @@ bool    operator!=(L, R);
 [:en@~]
 where [$LR] is the result of the usual arithmetic conversions between types [$L]
 and [$R].
+[:zh_CN@~]
+其中 [$LR] 为 [$L] 和 [$R] 之间的一般算术转换的结果。
 
 [para]
 [:en]
 For every cv-qualified or cv-unqualified object type [$T] there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每个被 cv-限定或未被 cv-限定的对象类型 [$T]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 T*      operator+(T*, std::ptrdiff_t);
@@ -192,6 +255,8 @@ T&      operator[](std::ptrdiff_t, T*);
 [:en]
 For every [$T], where [$T] is a pointer to object type, there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每个 [$T]，其中 [$T] 为指向对象类型的指针，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 std::ptrdiff_t   operator-(T, T);
@@ -201,6 +266,8 @@ std::ptrdiff_t   operator-(T, T);
 [:en]
 For every [$T], where [$T] is an enumeration type or a pointer type, there exist
 candidate operator functions of the form
+[:zh_CN]
+对于每个 [$T]，其中 [$T] 为枚举类型或指针类型，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 bool    operator<(T, T);
@@ -215,6 +282,8 @@ bool    operator!=(T, T);
 [:en]
 For every pointer to member type [$T] or type [`std::nullptr_t] there exist
 candidate operator functions of the form
+[:zh_CN]
+对于每个成员指针类型 [$T] 或类型 [`std::nullptr_t]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special T] ]
 bool    operator==(T, T);
@@ -225,6 +294,8 @@ bool    operator!=(T, T);
 [:en]
 For every pair of promoted integral types [$L] and [$R], there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对已提升整型类型 [$L] 和 [$R]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special L R LR] ]
 LR      operator%(L, R);
@@ -238,12 +309,17 @@ L       operator>>(L, R);
 [:en@~]
 where [$LR] is the result of the usual arithmetic conversions between types [$L]
 and [$R].
+[:zh_CN@~]
+其中 [$LR] 为 [$L] 和 [$R] 之间的一般算术转换的结果。
 
 [para]
 [:en]
 For every triple ([$L], [$VQ], [$R]), where [$L] is an arithmetic type, [$VQ]
 is either [`volatile] or empty, and [$R] is a promoted arithmetic type, there
 exist candidate operator functions of the form
+[:zh_CN]
+对于每个三元组 ([$L], [$VQ], [$R])，其中 [$L] 为算术类型，[$VQ] 为 [`volatile]
+或为空，而 [$R] 为已提升算术类型，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ L R] ]
 VQ L&   operator=(VQ L&, R);
@@ -257,6 +333,9 @@ VQ L&   operator-=(VQ L&, R);
 [:en]
 For every pair ([$T], [$VQ]), where [$T] is any type and [$VQ] is either
 [`volatile] or empty, there exist candidate operator functions of the form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为任意类型，而 [$VQ] 为 [`volatile] 或为空，
+存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 T*VQ&   operator=(T*VQ&, T*);
@@ -267,6 +346,9 @@ T*VQ&   operator=(T*VQ&, T*);
 For every pair ([$T], [$VQ]), where [$T] is an enumeration or pointer to member
 type and [$VQ] is either [`volatile] or empty, there exist candidate operator
 functions of the form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为枚举或成员指针类型，而 [$VQ] 为 [`volatile]
+或为空，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 VQ T&   operator=(VQ T&, T);
@@ -277,6 +359,9 @@ VQ T&   operator=(VQ T&, T);
 For every pair ([$T], [$VQ]), where [$T] is a cv-qualified or cv-unqualified
 object type and [$VQ] is either [`volatile] or empty, there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对 ([$T], [$VQ])，其中 [$T] 为被 cv-限定或未被 cv-限定的对象类型，而 [$VQ]
+为 [`volatile] 或为空，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ T] ]
 T*VQ&   operator+=(T*VQ&, std::ptrdiff_t);
@@ -288,6 +373,9 @@ T*VQ&   operator-=(T*VQ&, std::ptrdiff_t);
 For every triple ([$L], [$VQ], [$R]), where [$L] is an integral type, [$VQ]
 is either [`volatile] or empty, and [$R] is a promoted integral type, there
 exist candidate operator functions of the form
+[:zh_CN]
+对于每个三元组 ([$L], [$VQ], [$R])，其中 [$L] 为整型类型，[$VQ] 为 [`volatile]
+或为空，而 [$R] 为已提升整型类型，存在如下形式的候选运算符函数
 
 [codeblock:notation [special VQ L R] ]
 VQ L&   operator%=(VQ L&, R);
@@ -301,6 +389,8 @@ VQ L&   operator|=(VQ L&, R);
 [para]
 [:en]
 There also exist candidate operator functions of the form
+[:zh_CN]
+还存在如下形式的候选运算符函数
 
 [codeblock:notation]
 bool    operator!(bool);
@@ -312,6 +402,8 @@ bool    operator||(bool, bool);
 [:en]
 For every pair of promoted arithmetic types [$L] and [$R], there exist candidate
 operator functions of the form
+[:zh_CN]
+对于每对已提升算术类型 [$L] 和 [$R]，存在如下形式的候选运算符函数
 
 [codeblock:notation [special L R LR] ]
 LR      operator?:(bool, L, R);
@@ -320,20 +412,29 @@ LR      operator?:(bool, L, R);
 [:en@~]
 where [$LR] is the result of the usual arithmetic conversions between types [$L]
 and [$R].
+[:zh_CN@~]
+其中 [$LR] 为 [$L] 和 [$R] 之间的一般算术转换的结果。
 
 [enter:note]
 [:en]
 As with all these descriptions of candidate functions, this declaration serves
 only to describe the built-in operator for purposes of overload resolution.
+[:zh_CN]
+如同所有这些候选函数的说明，此声明式仅用于为进行重载决议而描述内建运算符。
 
 [:en]
 The operator ["[`?:]] cannot be overloaded.
+[:zh_CN]
+运算符“[`?:]”不能被重载。
 [exit:note]
 
 [para]
 [:en]
 For every type [$T], where [$T] is a pointer, pointer-to-member, or scoped
 enumeration type, there exist candidate operator functions of the form
+[:zh_CN]
+对于每个类型 [$T]，其中 [$T] 为指针、成员指针或有作用域枚举类型，存在如下形式的
+候选运算符函数
 
 [codeblock:notation [special T] ]
 T       operator?:(bool, T, T);
