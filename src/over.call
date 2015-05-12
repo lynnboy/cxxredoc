@@ -1,21 +1,31 @@
 ﻿[section#over.call
     [:en] Function call
+    [:zh_CN] 函数调用
 ]
 
 [:en]
 [%function call operator[!overloaded]]
 [%overloading[!function call operator]]
+[:zh_CN]
+[%函数调用运算符[!重载～]]
+[%重载[!～函数调用运算符]]
 
 [para]
 [:en]
 [`operator()] shall be a non-static member function with an arbitrary number of
 parameters.
+[:zh_CN]
+[`operator()] 应当为带有任意数量的形参的非静态成员函数。
 
 [:en]
 It can have default arguments.
+[:zh_CN]
+它可以带有默认实参。
 
 [:en]
 It implements the function call syntax
+[:zh_CN]
+它实现了函数调用语法
 
 [syntax:explanation]
 [~postfix-expression] [`(] [~:opt expression-list] [`)]
@@ -25,9 +35,16 @@ It implements the function call syntax
 where the [~postfix-expression] evaluates to a class object and the possibly
 empty [~expression-list] matches the parameter list of an [`operator()] member
 function of the class.
+[:zh_CN@~]
+其中的[~后缀表达式]被求值为某个类对象，而可能为空的[~表达式列表]与该类的某个
+[`operator()] 的形参列表相匹配。
 
 [:en]
 Thus, a call [`x(arg1,...)] is interpreted as [`x.operator()(arg1, ...)] for a
 class object [`x] of type [`T] if [`T::operator()(T1, T2, T3)] exists and if the
 operator is selected as the best match function by the overload resolution
 mechanism ([#over.match.best]).
+[:zh_CN]
+因此，对于类型 [`T] 的某个类对象 [`x]，若存在 [`T::operator()(T1, T2, T3)]，且若
+该运算符被重载决议机制选择为最佳匹配函数（[#over.match.best]），则调用
+[`x(arg1,...)] 被解释作 [`x.operator()(arg1, ...)]。

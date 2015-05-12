@@ -1,22 +1,36 @@
 ﻿[section#over.binary
     [:en] Binary operators
+    [:zh_CN] 二元运算符
 ]
 
 [:en]
 [%binary operator[!overloaded]]
 [%overloading[!binary operator]]
+[:zh_CN]
+[%二元运算符[!重载～]]
+[%重载[!～二元运算符]]
 
 [para]
 [:en]
 A binary operator shall be implemented either by a non-static member function
 ([#class.mfct]) with one parameter or by a non-member function with two
 parameters.
+[:zh_CN]
+二元运算符应当实现为带有一个形参的非静态成员函数（[#class.mfct]），或者带有两个
+形参的非成员函数。
 
 [:en]
 [%binary operator[!interpretation of]]
 Thus, for any binary operator [`@], [`x@y] can be interpreted as either
 [`x.operator@(y)] or [`operator@(x,y)].
+[:zh_CN]
+[%二元运算符[!～的解释]]
+因此，对于任意二元运算符 [`@]，[`x@y] 可被解释为 [`x.operator@(y)] 或者
+[`operator@(x,y)]。
 
 [:en]
 If both forms of the operator function have been declared, the rules in
 [#over.match.oper] determine which, if any, interpretation is used.
+[:zh_CN]
+若运算符函数的两种形式均有所声明，则 [#over.match.oper] 中的规则用于确定所使用的
+是哪一个解释。

@@ -1,17 +1,25 @@
 ﻿[section#over.ref
     [:en] Class member access
+    [:zh_CN] 类成员访问
 ]
 
 [:en]
 [%member access operator[!overloaded]]
 [%overloading[!member access operator]]
+[:zh_CN]
+[%成员访问运算符[!重载～]]
+[%重载[!～成员访问运算符]]
 
 [para]
 [:en]
-[`operator->]
-shall be a non-static member function taking no parameters.
-It implements the class member access syntax that
-uses [`->].
+[`operator->] shall be a non-static member function taking no parameters.
+[:zh_CN]
+[`operator->] 应当为不带形参的非静态成员函数。
+
+[:en]
+It implements the class member access syntax that uses [`->].
+[:zh_CN]
+它实现了使用 [`->] 的类成员访问语法。
 
 [syntax:explanation]
 [rule ]
@@ -25,3 +33,7 @@ An expression [`x->m] is interpreted as [`(x.operator->())->m] for a class
 object [`x] of type [`T] if [`T::operator->()] exists and if the operator is
 selected as the best match function by the overload resolution mechanism
 ([#over.match]).
+[:zh_CN]
+对于类型 [`T] 的某个类对象 [`x]，若存在 [`T::operator->()]，且若该运算符被重载
+决议机制选择为最佳匹配函数（[#over.match]），表达式 [`x->m] 被解释作
+[`(x.operator->())->m]。

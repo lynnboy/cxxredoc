@@ -1,31 +1,45 @@
 ﻿[section#over.ass
     [:en] Assignment
+    [:zh_CN] 赋值
 ]
 
 [:en]
 [%assignment operator[!overloaded]]
 [%overloading[!assignment operator]]
+[:zh_CN]
+[%赋值运算符[!重载～]]
+[%重载[!～赋值运算符]]
 
 [para]
 [:en]
 An assignment operator shall be implemented by a non-static member function with
 exactly one parameter.
+[:zh_CN]
+赋值运算符应当实现为恰好带有一个形参的非静态成员函数。
 
 [:en]
 Because a copy assignment operator [`operator=] is implicitly declared for a
 class if not declared by the user ([#class.copy]), a base class assignment
 operator is always hidden by the copy assignment operator of the derived class.
+[:zh_CN]
+因为类的复制赋值运算符 [`operator=] 若未被用户所声明就会被隐式声明
+（[#class.copy]），所以基类的赋值运算符总是被派生类的复制赋值运算符所隐藏。
 
 [para]
 [:en]
 Any assignment operator, even the copy and move assignment operators, can be
 virtual.
+[:zh_CN]
+任何赋值运算符，甚至是复制和移动赋值运算符，均可为虚函数。
 
 [enter:note]
 [:en]
 For a derived class [`D] with a base class [`B] for which a virtual copy/move
 assignment has been declared, the copy/move assignment operator in [`D] does not
 override [`B][=']s virtual copy/move assignment operator.
+[:zh_CN]
+对于声明了虚复制/移动赋值的基类 [`B] 的派生类 [`D]，[`D] 中的复制/移动赋值运算符
+并不会覆盖 [`B] 的虚复制/移动赋值运算符。
 
 [enter:example]
 [codeblock]
@@ -43,11 +57,17 @@ D dobj2;
 B* bptr = &dobj1;
 void f() {
   bptr->operator=(99);          // [:en] calls [`D::operator=(int)]
+                                // [|:zh_CN] 调用了 [`D::operator=(int)]
   *bptr = 99;                   // [:en] ditto
+                                // [|:zh_CN] 同上
   bptr->operator=(dobj2);       // [:en] calls [`D::operator=(const B&)]
+                                // [|:zh_CN] 调用了 [`D::operator=(const B&)]
   *bptr = dobj2;                // [:en] ditto
+                                // [|:zh_CN] 同上
   dobj1 = dobj2;                // [:en] calls implicitly-declared
-                                // [`D::operator=(const D&)]
+                                // [|:zh_CN] 调用了隐式声明的
+                                // [:en@~] [`D::operator=(const D&)]
+                                // [|:zh_CN@~] [`D::operator=(const D&)]
 }
 [codeblock:end]
 [exit:example]

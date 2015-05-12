@@ -1,17 +1,25 @@
 ﻿[section#over.sub
     [:en] Subscripting
+    [:zh_CN] 下标
 ]
 
 [:en]
 [%subscripting operator[!overloaded]]
 [%overloading[!subscripting operator]]
+[:zh_CN]
+[%下标运算符[!重载～]]
+[%重载[!～下标运算符]]
 
 [para]
 [:en]
 [`operator[`]] shall be a non-static member function with exactly one parameter.
+[:zh_CN]
+[`operator[`]] 应当为恰好带有一个形参的非静态成员函数。
 
 [:en]
 It implements the subscripting syntax
+[:zh_CN]
+它实现了下标语法
 
 [syntax:explanation]
 [~postfix-expression] [`[] [~expression] [``]]
@@ -19,6 +27,8 @@ It implements the subscripting syntax
 
 [:en@~]
 or
+[:zh_CN@~]
+或
 
 [syntax:explanation]
 [~postfix-expression] [`[] [~braced-init-list] [``]]
@@ -29,6 +39,10 @@ Thus, a subscripting expression [`x[y`]] is interpreted as [`x.operator[`](y)]
 for a class object [`x] of type [`T] if [`T::operator[`](T1)] exists and if the
 operator is selected as the best match function by the overload resolution
 mechanism ([#over.match.best]).
+[:zh_CN]
+因此，对于类型 [`T] 的某个类对象 [`x]，若存在 [`T::operator[`](T1)]，且若该运算
+符被重载决议机制选择为最佳匹配函数（[#over.match.best]），则下标表达式 [`x[y`]]
+被解释作 [`x.operator[`](y)]。
 
 [enter:example]
 [codeblock]
@@ -37,7 +51,9 @@ struct X {
 };
 X x;
 x[{1,2,3}] = 7;           // [:en] OK: meaning [`x.operator[`]({1,2,3})]
+                          // [|:zh_CN] OK：涵义为 [`x.operator[`]({1,2,3})]
 int a[10];
 a[{1,2,3}] = 7;           // [:en] error: built-in subscript operator
+                          // [|:zh_CN] 错误：内建下标运算符
 [codeblock:end]
 [exit:example]

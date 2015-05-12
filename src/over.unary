@@ -1,35 +1,56 @@
 ﻿[section#over.unary
     [:en] Unary operators
+    [:zh_CN] 一元运算符
 ]
 
 [:en]
 [%unary operator[!overloaded]]
 [%overloading[!unary operator]]
+[:zh_CN]
+[%一元运算符[!重载～]]
+[%重载[!～一元运算符]]
 
 [para]
 [:en]
 A prefix unary operator shall be implemented by a non-static member function
 ([#class.mfct]) with no parameters or a non-member function with one parameter.
+[:zh_CN]
+前置一元运算符应当实现为不带形参的非静态成员函数（[#class.mfct]），或者带有一个
+形参的非成员函数。
 
+[:en]
 [%unary operator[!interpretation of]]
 Thus, for any prefix unary operator [`@], [`@x] can be interpreted as either
 [`x.operator@()] or [`operator@(x)].
+[:zh_CN]
+[%一元运算符[!～的解释]]
+因此，对于任意前置一元运算符 [`@]，[`@x] 可被解释为 [`x.operator@()] 或者
+[`operator@(x)]。
 
 [:en]
 If both forms of the operator function have been declared, the rules in
 [#over.match.oper] determine which, if any, interpretation is used.
+[:zh_CN]
+若运算符函数的两种形式均有所声明，则 [#over.match.oper] 中的规则用于确定所使用的
+是哪一个解释。
 
 [:en]
 See [#over.inc] for an explanation of the postfix unary operators [`++] and
 [`--].
+[:zh_CN]
+关于对后置一元运算符 [`++] 和 [`--] 的解释参见 [#over.inc]。
 
 [para]
 [:en]
 The unary and binary forms of the same operator are considered to have the same
 name.
+[:zh_CN]
+相同运算符的一元和二元形式被认为具有相同的名字。
 
 [enter:note]
 [:en]
 Consequently, a unary operator can hide a binary operator from an enclosing
 scope, and vice versa.
+[:zh_CN]
+因此，一元运算符可以隐藏外围作用域中的二元运算符，反之亦然。
 [exit:note]

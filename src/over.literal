@@ -1,13 +1,17 @@
 ﻿[section#over.literal
     [:en] User-defined literals
+    [:zh_CN] 用户定义的字面量
 ]
 
 [:en]
 [%user-defined literal[!overloaded]]
 [%overloading[!user-defined literal]]
+[:zh_CN]
+[%用户定义的字面量[!重载～]]
+[%重载[!用户定义的字面量]]
 
 [syntax]
-[rule literal-operator-id [:zh_CN] ]
+[rule literal-operator-id [:zh_CN] 字面量运算符标识 ]
     [| [`operator] string-literal identifier ]
     [| [`operator] user-defined-string-literal ]
 [rule:end]
@@ -18,18 +22,27 @@
 The [~string-literal] or [~user-defined-string-literal] in a
 [~literal-operator-id] shall have no [~encoding-prefix] and shall contain no
 characters other than the implicit terminating [`'\0'].
+[:zh_CN]
+[~字面量运算符标识]中的[~字符串字面量]或[~用户定义字符串字面量]，不应带有[~编码
+前缀]且不能包含除隐含的终结 [`'\0'] 之外的字符。
 
 [:en]
 The [~ud-suffix] of the [~user-defined-string-literal] or the [~identifier] in a
 [~literal-operator-id] is called a [+literal suffix identifier].
+[:zh_CN]
+[~字面量运算符标识]中的[~用户定义字符串字面量]的 [~ud-后缀]，或者[~标识符]，被
+称为[+字面量后缀标识符]。
 
 [:en]
 Some literal suffix identifiers are reserved for future standardization; see
 [#usrlit.suffix].
+[:zh_CN]
+一些字面量后缀标识符为未来的标准化所保留；参见 [#usrlit.suffix]。
 
 [:en]
 A declaration whose [~literal-operator-id] uses such a literal suffix identifier
 is ill-formed; no diagnostic required.
+[:zh_CN]
 
 [para]
 [:en]
@@ -37,18 +50,28 @@ A declaration whose [~declarator-id] is a [~literal-operator-id] shall be a
 declaration of a namespace-scope function or function template (it could be a
 friend function ([#class.friend])), an explicit instantiation or specialization
 of a function template, or a [~using-declaration] ([#namespace.udecl]).
+[:zh_CN]
+[~声明符标识]为[~字面量运算符标识]的声明式，应当是命名空间作用域的函数或函数模板
+的声明式（它可以为友元函数（[#class.friend]）），函数模板的显式实例化式或特化式
+，或者 [~using-声明式]（[#namespace.udecl]）。
 
 [:en]
 A function declared with a [~literal-operator-id] is a [+literal operator].
+[:zh_CN]
+以[~字面量运算符标识]声明的函数是[+字面量运算符]。
 
 [:en]
 A function template declared with a [~literal-operator-id] is a [+literal
 operator template].
+[:zh_CN]
+以[~字面量运算符标识]声明的函数模板是[+字面量运算符模板]。
 
 [para]
 [:en]
 The declaration of a literal operator shall have a
 [~parameter-declaration-clause] equivalent to one of the following:
+[:zh_CN]
+字面量运算符的声明式应当带有与下列之一等价的[~形参声明子句]：
 
 [codeblock:notation]
 const char*
@@ -67,11 +90,15 @@ const char32_t*, std::size_t
 [:en]
 If a parameter has a default argument ([#dcl.fct.default]), the program is
 ill-formed.
+[:zh_CN]
+如果其形参带有默认实参（[#dcl.fct.default]），则程序非良构。
 
 [para]
 [:en]
 A [+raw literal operator] is a literal operator with a single parameter whose
 type is [`const char*].
+[:zh_CN]
+[+原始字面量运算符]是带有 [`const char*] 类型的单个形参的字面量运算符。
 
 [para]
 [:en]
@@ -79,30 +106,45 @@ The declaration of a literal operator template shall have an empty
 [~parameter-declaration-clause] and its [~template-parameter-list] shall have a
 single [~template-parameter] that is a non-type template parameter pack
 ([#temp.variadic]) with element type [`char].
+[:zh_CN]
+字面量运算符模板的声明式应当带有空的[~形参声明子句]，且其[~模板形参列表]应当具有
+单个[~模板形参]，它是元素类型为 [`char] 的非类型模板形参包组（[#temp.variadic]）
+。
 
 [para]
 [:en]
 Literal operators and literal operator templates shall not have C language
 linkage.
+[:zh_CN]
+字面量运算符和字面量运算符模板不能具有 C 语言连接。
 
 [para]
 [enter:note]
 [:en]
 Literal operators and literal operator templates are usually invoked implicitly
 through user-defined literals ([#lex.ext]).
+[:zh_CN]
+通常通过用户定义的字面量（[#lex.ext]）来隐式调用字面量运算符和字面量运算符模板。
 
 [:en]
 However, except for the constraints described above, they are ordinary
 namespace-scope functions and function templates.
+[:zh_CN]
+然而，除了上述限制之外，它们就是普通的命名空间作用域函数和函数模板。
 
 [:en]
 In particular, they are looked up like ordinary functions and function templates
 and they follow the same overload resolution rules.
+[:zh_CN]
+特别地，它们与普通函数和函数模板相同的方式进行查找，并遵循相同的重载决议规则。
 
 [:en]
 Also, they can be declared [`inline] or [`constexpr], they may have internal or
 external linkage, they can be called explicitly, their addresses can be taken,
 etc.
+[:zh_CN]
+同样地，它们可以声明为 [`inline] 或 [`constexpr]，它们可以具有内部或外部连接，
+它们可以被显式调用，可以获取它们的地址，等等。
 [exit:note]
 
 [para]
@@ -111,14 +153,23 @@ etc.
 void operator "" _km(long double);                  // OK
 string operator "" _i18n(const char*, std::size_t); // OK
 template <char...> double operator "" _\u03C0();    // [:en] OK: UCN for lowercase pi
+                                                    // [|:zh_CN] OK：小写 pi 的 UCN
 float operator ""_e(const char*);                   // OK
 float operator ""E(const char*);                    // [:en] error: reserved literal suffix ([#usrlit.suffix], [#lex.ext])
+                                                    // [|:zh_CN] 错误：保留的字面量后缀（[#usrlit.suffix]，[#lex.ext]）
 double operator""_Bq(long double);                  // [:en] OK: does not use the reserved identifier [`_Bq] ([#lex.name])
+                                                    // [|:zh_CN] OK：未使用保留的标识符 [`_Bq]（[#lex.name]）
 double operator"" _Bq(long double);                 // [:en] uses the reserved identifier [`_Bq] ([#lex.name])
+                                                    // [|:zh_CN] 使用了保留的标识符 [`_Bq]（[#lex.name]）
 float operator " " B(const char*);                  // [:en] error: non-empty [~string-literal]
+                                                    // [|:zh_CN] 错误：非空的[~字符串字面量]
 string operator "" 5X(const char*, std::size_t);    // [:en] error: invalid literal suffix identifier
+                                                    // [|:zh_CN] 错误：无效的字面量后缀标识符
 double operator "" _miles(double);                  // [:en] error: invalid [~parameter-declaration-clause]
+                                                    // [|:zh_CN] 错误：无效的[~形参声明子句]
 template <char...> int operator "" _j(const char*); // [:en] error: invalid [~parameter-declaration-clause]
+                                                    // [|:zh_CN] 错误：无效的[~形参声明子句]
 extern "C" void operator "" _m(long double);        // [:en] error: C language linkage
+                                                    // [|:zh_CN] 错误：C 语言连接
 [codeblock:end]
 [exit:example]
