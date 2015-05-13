@@ -1,5 +1,6 @@
 ﻿[section#temp.friend
     [:en] Friends
+    [:zh_CN] 友元
 ]
 
 [para]
@@ -8,32 +9,50 @@
 A friend of a class or class template can be a function template or class
 template, a specialization of a function template or class template, or a
 non-template function or class.
+[:zh_CN]
+[%友元[!模板与～]]
+类或类模板的友元可以是函数模板或类模板，函数模板或类模板的特例，或者非模板函数或
+类。
 
 [:en]
 For a friend function declaration that is not a template declaration:
+[:zh_CN]
+对于不是模板声明式的友元函数声明式：
 
 [list]
 [item]
 [:en]
 if the name of the friend is a qualified or unqualified [~template-id], the
 friend declaration refers to a specialization of a function template, otherwise,
+[:zh_CN]
+若该友元的名字是被限定或未被限定的[~模板标识]，则该友元声明式指代某个函数模板的
+特例，否则
 
 [item]
 [:en]
 if the name of the friend is a [~qualified-id] and a matching non-template
 function is found in the specified class or namespace, the friend declaration
 refers to that function, otherwise,
+[:zh_CN]
+若该友元的名字是[~限定标识]，且在所指定的类或命名空间中找到了匹配的非模板函数，
+则该友元声明式指代这个函数，否则，
 
 [item]
 [:en]
 if the name of the friend is a [~qualified-id] and a matching function template
 is found in the specified class or namespace, the friend declaration refers to
-the deduced specialization of that function template ([#temp.deduct.decl]), otherwise,
+the deduced specialization of that function template ([#temp.deduct.decl]),
+otherwise,
+[:zh_CN]
+若该友元的名字是[~限定标识]，且在所指定的类或命名空间中找到了匹配的函数模板，则
+该友元声明式指代以这个函数模板所推断的特例（[#temp.deduct.decl]），否则，
 
 [item]
 [:en]
 the name shall be an [~unqualified-id] that declares (or redeclares) a
 non-template function.
+[:zh_CN]
+该名字应当是声明（或重复声明）某个非模板函数的[~未限定标识]。
 [list:end]
 
 [enter:example]
@@ -62,24 +81,40 @@ function template specialization; because the friend [`preempt] has an explicit
 the appropriate specialization of the function template [`preempt] as a friend;
 and each specialization of the [`task] class template has all specializations of
 the function template [`func] as friends.
+[:zh_CN]
+此处，[`task] 类模板的每个特例都把 [`next_time] 函数当作友元；由于 [`process] 并
+不具有显式[~模板实参]，故 [`task] 类模板的每个特例均以一个适当类型的 [`process]
+函数当作友元，而这个友元并不是函数模板特例；由于友元 [`preempt] 带有显式[~模板
+实参] [`<T>]，故 [`task] 类模板的每个特例均以一个经适当特化的 [`preempt] 函数
+模板当作友元；而且 [`task] 类模板的每个特例都把 [`func] 函数模板的所有特例当作
+友元。
 
 [:en]
 Similarly, each specialization of the [`task] class template has the class
 template specialization [`task<int>] as a friend, and has all specializations of
 the class template [`frd] as friends.
+[:zh_CN]
+相似地，[`task] 类模板的每个特例都把类模板特例 [`task<int>] 当作友元，并把类模板
+[`frd] 的所有特例都当作友元。
 [exit:example]
 
 [para]
 [:en]
 A friend template may be declared within a class or class template.
+[:zh_CN]
+可以在类或类模板中声明友元模板。
 
 [:en]
 A friend function template may be defined within a class or class template, but
 a friend class template may not be defined in a class or class template.
+[:zh_CN]
+可以在类或类模板中对友元函数模板进行定义，但不能在类或类模板中定义友元类模板。
 
 [:en]
 In these cases, all specializations of the friend class or friend function
 template are friends of the class or class template granting friendship.
+[:zh_CN]
+在这些情况下，友元类或友元函数模板的所有特例都是授予友元关系的类或类模板的友元。
 
 [enter:example]
 [codeblock]
@@ -96,6 +131,10 @@ A template friend declaration specifies that all specializations of that
 template, whether they are implicitly instantiated ([#temp.inst]), partially
 specialized ([#temp.class.spec]) or explicitly specialized ([#temp.expl.spec]),
 are friends of the class containing the template friend declaration.
+[:zh_CN]
+模板友元声明式指定该模板的所有特例，无论是隐式实例化的（[#temp.inst]），部分特化
+的（[#temp.class.spec]）还是显式特化的（[#temp.expl.spec]），都是包含该模板友元
+声明式的类的友元。
 
 [enter:example]
 [codeblock]
@@ -113,21 +152,32 @@ template<class T> struct A<T*> { X::Y ab; };        // OK
 [:en]
 When a function is defined in a friend function declaration in a class template,
 the function is instantiated when the function is odr-used ([#basic.def.odr]).
+[:zh_CN]
+当在类模板中的友元函数声明式中定义某个函数时，一旦 ODR-式使用该函数就对它进行
+实例化。
 
 [:en]
 The same restrictions on multiple declarations and definitions that apply to
 non-template function declarations and definitions also apply to these implicit
 definitions.
+[:zh_CN]
+适用于非模板函数的声明式和定义式的有关多个声明式和定义式的限制，同样适用于这些
+隐式定义式。
 
 [para]
 [:en]
 A member of a class template may be declared to be a friend of a non-template
 class.
+[:zh_CN]
+可以把类模板的成员声明为非模板类的友元。
 
 [:en]
 In this case, the corresponding member of every specialization of the primary
 class template and class template partial specializations thereof is a friend of
 the class granting friendship.
+[:zh_CN]
+在这种情况下，主类模板及其类模板部分特化式的每个特例的对应成员都是授予友元关系的
+类的友元。
 
 [:en]
 For explicit specializations and specializations of partial specializations, the
@@ -135,6 +185,10 @@ corresponding member is the member (if any) that has the same name, kind (type,
 function, class template, or function template), template parameters, and
 signature as the member of the class template instantiation that would otherwise
 have been generated.
+[:zh_CN]
+对于显式特化式和部分特化式的特例，其对应成员（如果有），为与该类模板进行实例化时
+所生成的成员具有相同名字，种类（类型、函数、类模板或函数模板），模板形参和签名的
+成员。
 
 [enter:example]
 [codeblock]
@@ -155,11 +209,17 @@ template<> struct A<int> {
 
 class C {
   template<class T> friend struct A<T>::B;    // [:en] grants friendship to [`A<int>::B] even though
+                                              // [|:zh_CN] 授予 [`A<int>::B] 友元关系，
                                               // [:en@~] it is not a specialization of [`A<T>::B]
+                                              // [|:zh_CN@~] 即使它并非 [`A<T>::B] 的特例
   template<class T> friend void A<T>::f();    // [:en] does not grant friendship to [`A<int>::f()]
+                                              // [|:zh_CN] 未授予 [`A<int>::f()] 友元关系，
                                               // [:en@~] because its return type does not match
+                                              // [|:zh_CN@~] 因为其返回类型不匹配
   template<class T> friend void A<T>::D::g(); // [:en] does not grant friendship to [`A<int>::D::g()]
+                                              // [|:zh_CN] 未授予 [`A<int>::D::g()] 友元关系，
                                               // [:en@~] because [`A<int>::D] is not a specialization of [`A<T>::D]
+                                              // [|:zh_CN@~] 因为 [`A<int>::D] 不是 [`A<T>::D] 的特例
 };
 [codeblock:end]
 [exit:example]
@@ -169,21 +229,28 @@ class C {
 [:en]
 A friend declaration may first declare a member of an enclosing namespace scope
 ([#temp.inject]).
+[:zh_CN]
+友元声明式可以用于首次声明外围命名空间作用域的成员（[#temp.inject]）。
 [exit:note]
 
 [para]
 [:en]
 A friend template shall not be declared in a local class.
+[:zh_CN]
+不能在局部类中声明友元模板。
 
 [para]
 [:en]
 Friend declarations shall not declare partial specializations.
+[:zh_CN]
+友元声明式不能声明部分特化。
 
 [enter:example]
 [codeblock]
 template<class T> class A { };
 class X {
   template<class T> friend class A<T*>; // [:en] error
+                                        // [|:zh_CN] 错误
 };
 [codeblock:end]
 [exit:example]
@@ -193,3 +260,6 @@ class X {
 When a friend declaration refers to a specialization of a function template, the
 function parameter declarations shall not include default arguments, nor shall
 the inline specifier be used in such a declaration.
+[:zh_CN]
+当友元声明式指代某个函数模板的特例时，其函数形参声明式不能包含默认实参，也不能在
+这种声明式中使用内联说明符。
