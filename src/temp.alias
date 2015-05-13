@@ -1,17 +1,25 @@
 ﻿[section#temp.alias
     [:en] Alias templates
+    [:zh_CN] 别名模板
 ]
 
 [para]
 [:en]
 A [~template-declaration] in which the [~declaration] is an [~alias-declaration]
 (Clause [#dcl.dcl]) declares the [~identifier] to be a [def alias template].
+[:zh_CN]
+[~模板声明式]，若其中的[~声明式]为[~别名声明式]（第 [#dcl.dcl] 条），则将其
+[~标识符]声明为一个[def 别名模板]。
 
 [:en]
 An alias template is a name for a family of types.
+[:zh_CN]
+别名模板是一族类型的名字。
 
 [:en]
 The name of the alias template is a [~template-name].
+[:zh_CN]
+别名模板的名字是[~模板名]。
 
 [para]
 [:en]
@@ -19,10 +27,15 @@ When a [~template-id] refers to the specialization of an alias template, it is
 equivalent to the associated type obtained by substitution of its
 [~template-argument]s for the [~template-parameter]s in the [~type-id] of the
 alias template.
+[:zh_CN]
+当某个[~模板标识]指代某个别名模板的特例时，它等价于通过将该别名模板的[~类型标识]
+中的[~模板形参]替换为其[~模板实参]所获得的关联类型。
 
 [enter:note]
 [:en]
 An alias template name is never deduced.
+[:zh_CN]
+别名模板的名字不会被推断。
 [exit:note]
 
 [enter:example]
@@ -30,6 +43,7 @@ An alias template name is never deduced.
 template<class T> struct Alloc { /* ... */ };
 template<class T> using Vec = vector<T, Alloc<T>>;
 Vec<int> v;         // [:en] same as [`vector<int, Alloc<int>> v;]
+                    // [|:zh_CN] 等同于 [`vector<int, Alloc<int>> v;]
 
 template<class T>
   void process(Vec<T>& v)
@@ -38,11 +52,13 @@ template<class T>
 template<class T>
   void process(vector<T, Alloc<T>>& w)
   { /* ... */ }     // [:en] error: redefinition
+                    // [|:zh_CN] 错误：重复定义
 
 template<template<class> class TT>
   void f(TT<int>);
 
 f(v);               // [:en] error: [`Vec] not deduced
+                    // [|:zh_CN] 错误：[`Vec] 无法推断
 
 template<template<class,class> class TT>
   void g(TT<int, Alloc<int>>);
@@ -55,12 +71,15 @@ g(v);               // OK: [`TT] = [`vector]
 [:en]
 However, if the [~template-id] is dependent, subsequent template argument
 substitution still applies to the [~template-id].
+[:zh_CN]
+然而，若其[~模板标识]是待决的，随后的模板实参代换仍然适用于其[~模板标识]。
 
 [enter:example]
 [codeblock]
 template<typename...> using void_t = void;
 template<typename T> void_t<typename T::foo> f();
 f<int>(); // [:en] error, [`int] does not have a nested type [`foo]
+          // [|:zh_CN] 错误，[`int] 没有嵌套的类型 [`foo]
 [codeblock:end]
 [exit:example]
 
@@ -68,10 +87,14 @@ f<int>(); // [:en] error, [`int] does not have a nested type [`foo]
 [:en]
 The [~type-id] in an alias template declaration shall not refer to the alias
 template being declared.
+[:zh_CN]
+别名模板声明式中的[~类型标识]不能涉指正在声明的别名模板。
 
 [:en]
 The type produced by an alias template specialization shall not directly or
 indirectly make use of that specialization.
+[:zh_CN]
+由一个别名模板特例所生成的类型不能直接或间接使用这个特例。
 
 [enter:example]
 [codeblock]
@@ -81,5 +104,6 @@ template <class T> struct A {
   typedef B<T> U;
 };
 B<short> b;         // [:en] error: instantiation of [`B<short>] uses own type via [`A<short>::U]
+                    // [|:zh_CN] 错误：[`B<short>] 的实例中通过 [`A<short>::U] 使用了其自身的类型
 [codeblock:end]
 [exit:example]
