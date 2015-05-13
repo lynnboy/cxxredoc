@@ -1,20 +1,31 @@
 ﻿[section#temp.arg
     [:en] Template arguments
+    [:zh_CN] 模板实参
 ]
 
 [para]
+[:en]
 [%argument[!template]]
 There are three forms of [~template-argument], corresponding to the three forms
 of [~template-parameter]: type, non-type and template.
+[:zh_CN]
+[%实参[!模板～]]
+有三种形式的[~模板实参]，对应于[~模板形参]的三种形式：类型、非类型和模板。
 
 [:en]
 The type and form of each [~template-argument] specified in a [~template-id]
 shall match the type and form specified for the corresponding parameter declared
 by the template in its [~template-parameter-list].
+[:zh_CN]
+[~模板标识]中指定的每个[~模板实参]的类型与形式应当与该模板在其[~模板形参列表]中
+所声明的对应形参的类型和形式相匹配。
 
 [:en]
 When the parameter declared by the template is a template parameter pack
 ([#temp.variadic]), it will correspond to zero or more [~template-argument]s.
+[:zh_CN]
+当模板所声明的形参是一个模板形参包组（[#temp.variadic]）时，它将对应于零个或多个
+[~模板实参]。
 
 [enter:example]
 [codeblock]
@@ -29,7 +40,9 @@ public:
 
 Array<int> v1(20);
 typedef std::complex<double> dcomplex;  // [:en] [`std::complex] is a standard
+                                        // [|:zh_CN] [`std::complex] 标准
                                         // [:en@~] library template
+                                        // [|:zh_CN@~] 程序库中的模板
 Array<dcomplex> v2(30);
 Array<dcomplex> v3(40);
 
@@ -45,12 +58,18 @@ void bar() {
 In a [~template-argument], an ambiguity between a [~type-id] and an expression
 is resolved to a [~type-id], regardless of the form of the corresponding
 [~template-parameter].
+[:zh_CN]
+在[~模板实参]中，[~类型标识]与表达式之间的歧义被决议为[~类型标识]，无论其对应
+[~模板形参]是何种形式。
 
 [footnote]
 [:en]
 There is no such ambiguity in a default [~template-argument] because the form of
 the [~template-parameter] determines the allowable forms of the
 [~template-argument].
+[:zh_CN]
+在默认[~模板实参]中没有此种歧义，因为[~模板形参]的形式决定了可接受的[~模板实参]
+的形式。
 [footnote:end]
 
 [enter:example]
@@ -59,14 +78,18 @@ template<class T> void f();
 template<int I> void f();
 
 void g() {
-  f<int()>();       // [:en] [`int()] is a type-id: call the first [`f()]
+  f<int()>();       // [:en] [`int()] is a [~type-id]: call the first [`f()]
+                    // [|:zh_CN] [`int()] 是[~类型标识]：调用第一个 [`f()]
 }
 [codeblock:end]
 [exit:example]
 
 [para]
+[:en]
 The name of a [~template-argument] shall be accessible at the point where it is
 used as a [~template-argument].
+[:zh_CN]
+[~模板实参]的名字在其被用作[~模板实参]之处应当是可访问的。
 
 [enter:note]
 [:en]
@@ -74,6 +97,9 @@ If the name of the [~template-argument] is accessible at the point where it is
 used as a [~template-argument], there is no further access restriction in the
 resulting instantiation where the corresponding [~template-parameter] name is
 used.
+[:zh_CN]
+若[~模板实参]的名字在其被用作[~模板实参]之处是可访问的，则在所产生的实例中（其中
+使用了对应的[~模板形参]名）不会再有进一步的访问性限制。
 [exit:note]
 
 [enter:example]
@@ -86,11 +112,15 @@ class Y {
 private:
   struct S { /* ... */ };
   X<S> x;           // [:en] OK: [`S] is accessible
+                    // [|:zh_CN] OK：[`S] 是可访问的
                     // [:en] [`X<Y::S>] has a static member of type [`Y::S]
+                    // [|:zh_CN] [`X<Y::S>] 带有类型为 [`Y::S] 的静态成员
                     // [:en] OK: even though [`Y::S] is private
+                    // [|:zh_CN] OK：即使 [`Y::S] 是私有的
 };
 
 X<Y::S> y;          // [:en] error: [`S] not accessible
+                    // [|:zh_CN] 错误：[`S] 不可访问
 [codeblock:end]
 [exit:example]
 
@@ -98,6 +128,9 @@ X<Y::S> y;          // [:en] error: [`S] not accessible
 For a [~template-argument] that is a class type or a class template, the
 template definition has no special access rights to the members of the
 [~template-argument].
+[:zh_CN]
+对于类类型或类模板的[~模板实参]，模板的定义式对[~模板实参]的成员没有特殊的访问权
+。
 
 [enter:example]
 [codeblock]
@@ -111,6 +144,7 @@ private:
 };
 
 A<B> b;             // [:en] ill-formed: [`A] has no access to [`B::S]
+                    // [|:zh_CN] 非良构：[`A] 不能访问 [`B::S]
 [codeblock:end]
 [exit:example]
 
@@ -118,19 +152,26 @@ A<B> b;             // [:en] ill-formed: [`A] has no access to [`B::S]
 [:en]
 When template argument packs or default [~template-argument]s are used, a
 [~template-argument] list can be empty.
+[:zh_CN]
+如果使用了模板实参包组或默认[~模板实参]，[~模板实参]列表可以为空。
 
 [:en]
 In that case the empty [`<>] brackets shall still be used as the
 [~template-argument-list].
+[:zh_CN]
+在这种情况下仍需要使用空的 [`<>] 括号以用作[~模板实参列表]。
 
 [enter:example]
 [codeblock]
 template<class T = char> class String;
 String<>* p;                    // OK: [`String<char>]
 String* q;                      // [:en] syntax error
+                                // [|:zh_CN] 语法错误
 template<class ... Elements> class Tuple;
 Tuple<>* t;                     // [:en] OK: [`Elements] is empty
+                                // [|:zh_CN] OK：[`Elements] 为空
 Tuple* u;                       // [:en] syntax error
+                                // [|:zh_CN] 语法错误
 [codeblock:end]
 [exit:example]
 
@@ -139,6 +180,9 @@ Tuple* u;                       // [:en] syntax error
 An explicit destructor call ([#class.dtor]) for an object that has a type
 that is a class template specialization may explicitly specify the
 [~template-argument]s.
+[:zh_CN]
+对类型为类模板特例的对象进行显式析构函数调用（[#class.dtor]）时，可以显式指定其
+[~模板实参]。
 
 [enter:example]
 [codeblock]
@@ -147,7 +191,9 @@ template<class T> struct A {
 };
 void f(A<int>* p, A<int>* q) {
   p->A<int>::~A();              // [:en] OK: destructor call
+                                // [|:zh_CN] OK：析构函数调用
   q->A<int>::~A<int>();         // [:en] OK: destructor call
+                                // [|:zh_CN] OK：析构函数调用
 }
 [codeblock:end]
 [exit:example]
@@ -156,6 +202,8 @@ void f(A<int>* p, A<int>* q) {
 [:en]
 If the use of a [~template-argument] gives rise to an ill-formed construct in
 the instantiation of a template specialization, the program is ill-formed.
+[:zh_CN]
+若所使用的[~模板实参]在模板特例的实例中造成了非良构的构造，则程序非良构。
 
 [para]
 [:en]
@@ -163,15 +211,22 @@ When the template in a [~template-id] is an overloaded function template, both
 non-template functions in the overload set and function templates in the
 overload set for which the [~template-argument]s do not match the
 [~template-parameter]s are ignored.
+[:zh_CN]
+当[~模板标识]中的模板是被重载的函数模板时，重载集中的非模板函数和重载集中[~模板
+实参]与[~模板形参]并不匹配的函数模板都被忽略。
 
 [:en]
 If none of the function templates have matching [~template-parameter]s, the
 program is ill-formed.
+[:zh_CN]
+若不存在带有与之匹配的[~模板形参]的函数模板，则程序非良构。
 
 [para]
 [:en]
 A [~template-argument] followed by an ellipsis is a pack expansion
 ([#temp.variadic]).
+[:zh_CN]
+[~模板实参]后面跟着省略号是包组展开式（[#temp.variadic]）。
 
 [include temp.arg.type]
 
