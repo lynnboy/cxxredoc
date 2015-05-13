@@ -1,5 +1,6 @@
 ﻿[section#temp.static
     [:en] Static data members of class templates
+    [:zh_CN] 类模板的静态数据成员
 ]
 
 [para]
@@ -8,6 +9,10 @@
 A definition for a static data member or static data member template may be
 provided in a namespace scope enclosing the definition of the static member[=']s
 class template.
+[:zh_CN]
+[%成员[!模板和 [`static]～]]
+静态数据成员或静态数据成员模板的定义式，可以在包围该静态成员所属类模板的定义式的
+某个命名空间作用域中给出。
 
 [enter:example]
 [codeblock]
@@ -19,10 +24,12 @@ template<class T> T X<T>::s = 0;
 struct limits {
   template<class T>
     static const T min;           // [:en] declaration
+                                  // [|:zh_CN] 声明式
 };
 
 template<class T>
   const T limits::min = { };      // [:en] definition
+                                  // [|:zh_CN] 定义式
 [codeblock:end]
 [exit:example]
 
@@ -30,6 +37,9 @@ template<class T>
 [:en]
 An explicit specialization of a static data member declared as an array of
 unknown bound can have a different bound from its definition, if any.
+[:zh_CN]
+对声明为未知边界数组的静态数据成员的显式特化式，可以具有与其定义式不同的边界
+（如果有）。
 
 [enter:example]
 [codeblock]
@@ -37,6 +47,8 @@ template <class T> struct A {
   static int i[];
 };
 template <class T> int A<T>::i[4];    // [:en] 4 elements
+                                      // [|:zh_CN] 4 个元素
 template <> int A<int>::i[] = { 1 };  // [:en] OK: 1 element
+                                      // [|:zh_CN] OK：一个元素
 [codeblock:end]
 [exit:example]

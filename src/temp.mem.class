@@ -1,26 +1,35 @@
 ﻿[section#temp.mem.class
     [:en] Member classes of class templates
+    [:zh_CN] 类模板的成员类
 ]
 
 [para]
 [:en]
 A member class of a class template may be defined outside the class template
 definition in which it is declared.
+[:zh_CN]
+类模板的成员类可以在声明了它的类模板定义式之外进行定义。
 
 [enter:note]
 [:en]
 The member class must be defined before its first use that requires an
 instantiation ([#temp.inst]).
+[:zh_CN]
+成员类必须在其首次需要进行实例化（[#temp.inst]）的使用之前进行定义。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 template<class T> struct A {
   class B;
 };
 A<int>::B* b1;                  // [:en] OK: requires [`A] to be defined but not [`A::B]
+                                // [|:zh_CN] OK：需要 [`A] 而不是 [`A::B] 已经定义
 template<class T> class A<T>::B { };
 A<int>::B  b2;                  // [:en] OK: requires [`A::B] to be defined
+                                // [|:zh_CN] OK：需要 [`A::B] 已经定义
 [codeblock:end]
 [exit:note]

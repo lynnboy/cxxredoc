@@ -1,22 +1,30 @@
 ﻿[section#temp.class
     [:en] Class templates
+    [:zh_CN] 类模板
 ]
 
 [para]
 [:en]
 A class [+template] defines the layout and operations for an unbounded set of
 related types.
+[:zh_CN]
+类[+模板]为相关类型的无界集合定义它们的布局和操作。
 
 [enter:example]
 [:en]
 a single class template [`List] might provide a common definition for list of
 [`int], list of [`float], and list of pointers to [`Shape]s.
+[:zh_CN]
+单个类模板 [`List]，可以为 [`int] 的列表，[`float] 的列表和指向 [`Shape] 的指针
+的列表提供共同的定义式。
 [exit:example]
 
 [para:~]
 [enter:example]
 [:en]
 An array class template might be declared like this:
+[:zh_CN]
+某个数组类模板可以声明如下：
 
 [codeblock]
 template<class T> class Array {
@@ -33,9 +41,14 @@ public:
 [:en]
 The prefix [`template <class T>] specifies that a template is being declared and
 that a [~type-name] [`T] will be used in the declaration.
+[:zh_CN]
+前缀 [`template <class T>] 指定其声明了一个模板，且[~类型名] [`T] 将被用在这个
+声明式中。
 
 [:en]
 In other words, [`Array] is a parameterized type with [`T] as its parameter.
+[:zh_CN]
+换句话说，[`Array] 是个以 [`T] 作为形参的参数化类型。
 [exit:example]
 
 [para]
@@ -44,20 +57,30 @@ When a member function, a member class, a member enumeration, a static data
 member or a member template of a class template is defined outside of the class
 template definition, the member definition is defined as a template definition
 in which the [~template-parameter]s are those of the class template.
+[:zh_CN]
+当一个类模板的成员函数、成员类、成员枚举、静态数据成员或成员模板在类模板定义式
+之外进行定义时，该成员定义式被定义为模板定义式，并采用这个类模板的[~模板形参]。
 
 [:en]
 The names of the template parameters used in the definition of the member may
 be different from the template parameter names used in the class template
 definition.
+[:zh_CN]
+该成员的定义式中所使用的模板形参名可以与类模板定义式中所使用的模板形参名不同。
 
 [:en]
 The template argument list following the class template name in the member
 definition shall name the parameters in the same order as the one used in the
 template parameter list of the member.
+[:zh_CN]
+成员定义式中跟在类模板名后面的模板实参列表，应当按照该成员的模板形参列表中所用的
+相同顺序来指名形参。
 
 [:en]
 Each template parameter pack shall be expanded with an ellipsis in the template
 argument list.
+[:zh_CN]
+每个模板形参包组都应该由模板实参列表中的某个省略号所展开。
 
 [enter:example]
 [codeblock]
@@ -68,6 +91,7 @@ template<class T1, class T2> struct A {
 
 template<class T2, class T1> void A<T2,T1>::f1() { }    // OK
 template<class T2, class T1> void A<T1,T2>::f2() { }    // [:en] error
+                                                        // [|:zh_CN] 错误
 [codeblock:end]
 
 [codeblock]
@@ -77,7 +101,8 @@ template<class ... Types> struct B {
 };
 
 template<class ... Types> void B<Types ...>::f3() { }    // OK
-template<class ... Types> void B<Types>::f4() { }        // error
+template<class ... Types> void B<Types>::f4() { }        // [:en] error
+                                                         // [|:zh_CN] 错误
 [codeblock:end]
 
 [exit:example]
@@ -87,6 +112,9 @@ template<class ... Types> void B<Types>::f4() { }        // error
 In a redeclaration, partial specialization, explicit specialization or explicit
 instantiation of a class template, the [~class-key] shall agree in kind with the
 original class template declaration ([#dcl.type.elab]).
+[:zh_CN]
+在类模板的重复声明式、部分特化式、显式特化式或显式实例化式中，其[~类关键字]应当
+与其原来的类模板声明式中的种类相同（[#dcl.type.elab]）。
 
 [include temp.mem.func]
 
