@@ -1,20 +1,28 @@
 ﻿[section#temp.mem
     [:en] Member templates
+    [:zh_CN] 成员模板
 ]
 
 [para]
 [:en]
 A template can be declared within a class or class template; such a template
 is called a member template.
+[:zh_CN]
+类或类模板之中可以声明模板；这样的模板称为成员模板。
 
 [:en]
 A member template can be defined within or outside its class definition or
 class template definition.
+[:zh_CN]
+成员模板可以在其类定义式或类模板定义式之中或之外进行定义。
 
 [:en]
 A member template of a class template that is defined outside of its class
 template definition shall be specified with the [~template-parameter]s of the
 class template followed by the [~template-parameter]s of the member template.
+[:zh_CN]
+定义于类模板定义式之外的类模板的成员模板，应该指定该类模板的[~模板形参]跟着该
+成员模板的[~模板形参]。
 
 [enter:example]
 [codeblock]
@@ -31,21 +39,33 @@ template<class T> template<class T2> int string<T>::compare(const T2& s) {
 [para]
 [:en]
 A local class of non-closure type shall not have member templates.
+[:zh_CN]
+非闭包类型的局部类不能带有成员模板。
 
 [:en]
 Access control rules (Clause [#class.access]) apply to member template names.
+[:zh_CN]
+对成员模板名实施访问控制规则（第 [#class.access] 条）。
 
 [:en]
 A destructor shall not be a member template.
+[:zh_CN]
+析构函数不能是成员模板。
 
 [:en]
 A non-template member function ([#dcl.fct]) with a given name and type and a
 member function template of the same name, which could be used to generate a
 specialization of the same type, can both be declared in a class.
+[:zh_CN]
+一个具有给定名字和类型的非模板成员函数，和一个可用以生成相同类型的特例的相同名字
+的成员函数模板，可以在类中同时进行声明。
 
 [:en]
 When both exist, a use of that name and type refers to the non-template member
 unless an explicit template argument list is supplied.
+[:zh_CN]
+若它们同时存在，使用这个名字和类型时，除非提供显式模板实参列表，否则将涉指非模板
+成员函数。
 
 [enter:example]
 [codeblock]
@@ -55,13 +75,18 @@ template <class T> struct A {
 };
 
 template <> void A<int>::f(int) { }                     // [:en] non-template member function
+                                                        // [|:zh_CN] 非模板成员函数
 template <> template <> void A<int>::f<>(int) { }       // [:en] member function template specialization
+                                                        // [|:zh_CN] 成员函数模板的特例
 
 int main() {
   A<char> ac;
   ac.f(1);          // [:en] non-template
+                    // [|:zh_CN] 非模板
   ac.f('c');        // [:en] template
+                    // [|:zh_CN] 模板
   ac.f<>(1);        // [:en] template
+                    // [|:zh_CN] 模板
 }
 [codeblock:end]
 [exit:example]
@@ -69,11 +94,14 @@ int main() {
 [para]
 [:en]
 A member function template shall not be virtual.
+[:zh_CN]
+成员函数模板不能是虚函数。
 
 [enter:example]
 [codeblock]
 template <class T> struct AA {
   template <class C> virtual void g(C);   // [:en] error
+                                          // [|:zh_CN] 错误
   virtual void f();                       // OK
 };
 [codeblock:end]
@@ -83,6 +111,8 @@ template <class T> struct AA {
 [:en]
 A specialization of a member function template does not override a virtual
 function from a base class.
+[:zh_CN]
+成员函数模板的特例不会覆盖基类中的虚函数。
 
 [enter:example]
 [codeblock]
@@ -92,8 +122,11 @@ class B {
 
 class D : public B {
   template <class T> void f(T); // [:en] does not override [`B::f(int)]
+                                // [|:zh_CN] 并不覆盖 [`B::f(int)]
   void f(int i) { f<>(i); }     // [:en] overriding function that calls
+                                // [|:zh_CN] 调用了模板实例
                                 // [:en@~] the template instantiation
+                                // [|:zh_CN@~] 的覆盖函数
 };
 [codeblock:end]
 [exit:example]
@@ -102,6 +135,8 @@ class D : public B {
 [:en]
 A specialization of a conversion function template is referenced in the same way
 as a non-template conversion function that converts to the same type.
+[:zh_CN]
+转换函数模板的特例是与转换到同一个类型的非模板转换函数以相同方式进行涉指的。
 
 [enter:example]
 [codeblock]
@@ -110,13 +145,17 @@ struct A {
 };
 template <class T> A::operator T*(){ return 0; }
 template <> A::operator char*(){ return 0; }    // [:en] specialization
+                                                // [|:zh_CN] 特化式
 template A::operator void*();                   // [:en] explicit instantiation
+                                                // [|:zh_CN] 显式实例化式
 
 int main() {
   A a;
   int* ip;
   ip = a.operator int*();       // [:en] explicit call to template operator
+                                // [|:zh_CN] 对模板运算符 [`A::operator int*()]
                                 // [:en@~] [`A::operator int*()]
+                                // [|:zh_CN@~] 的显式调用
 }
 [codeblock:end]
 [exit:example]
@@ -127,27 +166,42 @@ Because the explicit template argument list follows the function template name,
 and because conversion member function templates and constructor member function
 templates are called without using a function name, there is no way to provide
 an explicit template argument list for these function templates.
+[:zh_CN]
+由于显式模板实参列表跟在函数模板名后面，又由于转换成员函数模板和构造函数成员函数
+模板的调用不需要使用函数名，所以无法为这些函数模板提供显式模板实参列表。
 [exit:note]
 
 [para]
 [:en]
 A specialization of a conversion function template is not found by name lookup.
+[:zh_CN]
+转换函数模板的特例不是由名字查找所找到的。
 
 [:en]
 Instead, any conversion function templates visible in the context of the use are
 considered.
+[:zh_CN]
+反而，其使用的语境中可见的所有转换函数模板都要被考察。
 
 [:en]
 For each such operator, if argument deduction succeeds ([#temp.deduct.conv]),
 the resulting specialization is used as if found by name lookup.
+[:zh_CN]
+对于每个这种运算符，如果实参推断成功（[#temp.deduct.conv]），则所产生的特例将
+如同被名字查找所找到的那样进行使用。
 
 [para]
 [:en]
 A [~using-declaration] in a derived class cannot refer to a specialization of a
 conversion function template in a base class.
+[:zh_CN]
+派生类中的 [~using-声明式]不能涉指基类中的转换函数模板的特例。
 
 [para]
 [:en]
 Overload resolution ([#over.ics.rank]) and partial ordering ([#temp.func.order])
 are used to select the best conversion function among multiple specializations
 of conversion function templates and/or non-template conversion functions.
+[:zh_CN]
+重载决议（[#over.ics.rank]）和偏序（[#temp.func.order]）用于在多个转换函数模板的
+特例和/或非模板转换函数中选择最佳的转换函数。
