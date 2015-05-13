@@ -1,5 +1,6 @@
 ﻿[section#temp.class.spec.mfunc
     [:en] Members of class template specializations
+    [:zh_CN] 类模板特化式的成员
 ]
 
 [para]
@@ -7,33 +8,49 @@
 The template parameter list of a member of a class template partial
 specialization shall match the template parameter list of the class template
 partial specialization.
+[:zh_CN]
+类模板部分特化式的成员的模板形参列表，应当与类模板部分特化式的模板形参列表相匹配
+。
 
 [:en]
 The template argument list of a member of a class template partial
 specialization shall match the template argument list of the class template
 partial specialization.
+[:zh_CN]
+类模板部分特化式的成员的模板实参列表，应当与类模板部分特化式的模板实参列表相匹配
+。
 
 [:en]
 A class template specialization is a distinct template.
+[:zh_CN]
+一个类模板特化式是一个独立的模板。
 
 [:en]
 The members of the class template partial specialization are unrelated to the
 members of the primary template.
+[:zh_CN]
+类模板部分特化式的成员与主模板的成员无关。
 
 [:en]
 Class template partial specialization members that are used in a way that
 requires a definition shall be defined; the definitions of members of the
 primary template are never used as definitions for members of a class template
 partial specialization.
+[:zh_CN]
+以需要定义式的方式被使用的类模板部分特化式成员应当进行定义；主模板成员的定义式
+不会用作类模板部分特化式的成员的定义式。
 
 [:en]
 An explicit specialization of a member of a class template partial
 specialization is declared in the same way as an explicit specialization of
 the primary template.
+[:zh_CN]
+类模板部分特化式的成员的显式特化式，以与主模板的显式特化式相同的方式进行声明。
 
 [enter:example]
 [codeblock]
 // [:en] primary template
+// [|:zh_CN] 主模板
 template<class T, int I> struct A {
   void f();
 };
@@ -41,6 +58,7 @@ template<class T, int I> struct A {
 template<class T, int I> void A<T,I>::f() { }
 
 // [:en] class template partial specialization
+// [|:zh_CN] 类模板部分特化式
 template<class T> struct A<T,2> {
   void f();
   void g();
@@ -48,21 +66,30 @@ template<class T> struct A<T,2> {
 };
 
 // [:en] member of class template partial specialization
+// [|:zh_CN] 类模板部分特化式的成员
 template<class T> void A<T,2>::g() { }
 
 // [:en] explicit specialization
+// [|:zh_CN] 显式特化式
 template<> void A<char,2>::h() { }
 
 int main() {
   A<char,0> a0;
   A<char,2> a2;
   a0.f();                       // [:en] OK, uses definition of primary template[=']s member
+                                // [|:zh_CN] OK，使用主模板的成员的定义式
   a2.g();                       // [:en] OK, uses definition of
+                                // [|:zh_CN] OK，使用部分特化式的
                                 // [:en@~] partial specialization[=']s member
+                                // [|:zh_CN@~] 成员的定义式
   a2.h();                       // [:en] OK, uses definition of
+                                // [|:zh_CN] OK，使用显式特化式的
                                 // [:en@~] explicit specialization[=']s member
+                                // [|:zh_CN@~] 成员的定义式
   a2.f();                       // [:en] ill-formed, no definition of [`f] for [`A<T,2>]
+                                // [|:zh_CN] 非良构，[`A<T,2>] 中的 [`f] 没有定义
                                 // [:en@~] the primary template is not used here
+                                // [|:zh_CN@~] 并未使用其主模板
 }
 [codeblock:end]
 [exit:example]
@@ -75,18 +102,28 @@ template; if the enclosing class template is instantiated ([#temp.inst],
 [#temp.explicit]), a declaration for every member template partial
 specialization is also instantiated as part of creating the members of the class
 template specialization.
+[:zh_CN]
+若类模板的成员模板被部分特化，则成员模板部分特化式是其外围类模板的成员模板；若其
+外围类模板被实例化（[#temp.inst]，[#temp.explicit]），则作为类模板特例的创建过程
+的一部分，每个成员模板部分特化式的声明式均要被实例化出来。
 
 [:en]
 If the primary member template is explicitly specialized for a given (implicit)
 specialization of the enclosing class template, the partial specializations of
 the member template are ignored for this specialization of the enclosing class
 template.
+[:zh_CN]
+若主成员模板为其外围类模板的某个给定（隐式）特例进行了显式特化，则该成员模板的
+部分特化式在外围类模板的这个特例中被忽略。
 
 [:en]
 If a partial specialization of the member template is explicitly specialized for
 a given (implicit) specialization of the enclosing class template, the primary
 member template and its other partial specializations are still considered for
 this specialization of the enclosing class template.
+[:zh_CN]
+若成员模板的部分特化式为其外围类模板的某个给定（隐式）特例进行了显式特化，则
+主成员模板及其其他部分特化式在外围类模板的这个特例中仍要被考虑。
 
 [enter:example]
 [codeblock]
@@ -98,7 +135,10 @@ template<class T> struct A {
 template<> template<class T2> struct A<short>::B {};  // #3
 
 A<char>::B<int*>  abcip;  // [:en] uses #2
+                          // [|:zh_CN] 使用了 #2
 A<short>::B<int*> absip;  // [:en] uses #3
+                          // [|:zh_CN] 使用了 #3
 A<char>::B<int>  abci;    // [:en] uses #1
+                          // [|:zh_CN] 使用了 #1
 [codeblock:end]
 [exit:example]
