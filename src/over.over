@@ -157,7 +157,7 @@ template of [`F1] according to the partial ordering rules of [#temp.func.order].
 若选择了多于一个函数，则如果集合中还包含并非函数模板特例的函数，就消除集合中的
 所有函数模板特例，并且对于任意给定的函数模板特例 [`F1]，如果该集合包含另一个函数
 模板特例，根据 [#temp.func.order] 中的部分顺序规则，其函数模板比 [`F1] 的函数
-模板更加特定，则也要消除 [`F1]。
+模板更加特殊，则也要消除 [`F1]。
 
 [:en]
 After such eliminations, if any, there shall remain exactly one selected

@@ -270,7 +270,7 @@ argument list of the primary template.
 The specialization shall be more specialized than the primary template
 ([#temp.class.order]).
 [:zh_CN]
-特化式应当比主模板更加特定（[#temp.class.order]）。
+特化式应当比主模板更加特殊（[#temp.class.order]）。
 
 [item]
 [:en]

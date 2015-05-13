@@ -1,5 +1,6 @@
 ﻿[section#temp.class.spec.match
     [:en] Matching of class template partial specializations
+    [:zh_CN] 类模板部分特化式的匹配
 ]
 
 [para]
@@ -7,32 +8,47 @@
 When a class template is used in a context that requires an instantiation of
 the class, it is necessary to determine whether the instantiation is to be
 generated using the primary template or one of the partial specializations.
+[:zh_CN]
+当在需要类的实例的语境中使用一个类模板时，需要确定这个实例应当从其主模板还是从其
+部分特化式之一生成。
 
 [:en]
 This is done by matching the template arguments of the class template
 specialization with the template argument lists of the partial specializations.
+[:zh_CN]
+这是通过将类模板特例的模板实参与这些部分特化式的模板实参列表进行匹配来完成的。
 
 [list]
 [item]
 [:en]
 If exactly one matching specialization is found, the instantiation is generated
 from that specialization.
+[:zh_CN]
+若恰好找到了一个匹配的特化式，则该实例从该特化式生成。
 
 [item]
 [:en]
 If more than one matching specialization is found, the partial order rules
 ([#temp.class.order]) are used to determine whether one of the specializations
 is more specialized than the others.
+[:zh_CN]
+若找到了多于一个匹配的特化式，则使用偏序规则（[#temp.class.order]）来确定这些
+特化式中是否有一个比其他更特殊。
 
 [:en]
 If none of the specializations is more specialized than all of the other
 matching specializations, then the use of the class template is ambiguous and
 the program is ill-formed.
+[:zh_CN]
+若其中没有比其他所有匹配的特化式都更特殊的特化式，则使用该类模板有歧义且程序
+非良构。
 
 [item]
 [:en]
 If no matches are found, the instantiation is generated from the primary
 template.
+[:zh_CN]
+若没找到任何匹配，则该实例从主模板生成。
 [list:end]
 
 [para]
@@ -40,14 +56,22 @@ template.
 A partial specialization matches a given actual template argument
 list if the template arguments of the partial specialization can be
 deduced from the actual template argument list ([#temp.deduct]).
+[:zh_CN]
+若某个部分特化式的模板实参能够从给定的实际模板实参列表中推断出来
+（[#temp.deduct]），则该部分特化式与这个实际模板实参列表相匹配。
 
 [enter:example]
 [codeblock]
 A<int, int, 1>   a1;            // [:en] uses #1
+                                // [|:zh_CN] 使用 #1
 A<int, int*, 1>  a2;            // [:en] uses #2, [`T] is [`int], [`I] is [`1]
+                                // [|:zh_CN] 使用 #2，[`T] 为 [`int]，[`I] 为 [`1]
 A<int, char*, 5> a3;            // [:en] uses #4, [`T] is [`char]
+                                // [|:zh_CN] 使用 #4，[`T] 为 [`char]
 A<int, char*, 1> a4;            // [:en] uses #5, [`T1] is [`int], [`T2] is [`char], [`I] is [`1]
+                                // [|:zh_CN] 使用 #5，[`T1] 为 [`int]，[`T2] 为 [`char]，[`I] 为 [`1]
 A<int*, int*, 2> a5;            // [:en] ambiguous: matches #3 and #5
+                                // [|:zh_CN] 有歧义：匹配 #3 和 #5
 [codeblock:end]
 [exit:example]
 
@@ -55,10 +79,14 @@ A<int*, int*, 2> a5;            // [:en] ambiguous: matches #3 and #5
 [:en]
 A non-type template argument can also be deduced from the value of an actual
 template argument of a non-type parameter of the primary template.
+[:zh_CN]
+非类型模板实参也能够从主模板的非类型形参的实际模板实参的值推断出来。
 
 [enter:example]
 [:en]
 the declaration of [`a2] above.
+[:zh_CN]
+上述 [`a2] 的声明式。
 [exit:example]
 
 [para]
@@ -66,7 +94,12 @@ the declaration of [`a2] above.
 In a type name that refers to a class template specialization, (e.g., [`A<int,
 int, 1>]) the argument list shall match the template parameter list of the
 primary template.
+[:zh_CN]
+指代某个类模板特例的类型名中（比如 [`A<int, int, 1>]），其实参列表应当与主模板
+的模板形参列表匹配。
 
 [:en]
 The template arguments of a specialization are deduced from the arguments of the
 primary template.
+[:zh_CN]
+特化式的模板实参是从主模板的实参推断出来的。
