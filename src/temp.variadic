@@ -1,20 +1,27 @@
 ﻿[section#temp.variadic
     [:en] Variadic templates
+    [:zh_CN] 变参模板
 ]
 
 [para]
 [:en]
 A [+template parameter pack] is a template parameter that accepts zero or more
 template arguments.
+[:zh_CN]
+[+模板形参包组]是接受零个或多个模板实参的模板形参。
 
 [enter:example]
 [codeblock]
 template<class ... Types> struct Tuple { };
 
 Tuple<> t0;                     // [:en] [`Types] contains no arguments
+                                // [|:zh_CN] [`Types] 不包含实参
 Tuple<int> t1;                  // [:en] [`Types] contains one argument: [`int]
+                                // [|:zh_CN] [`Types] 包含一个实参：[`int]
 Tuple<int, float> t2;           // [:en] [`Types] contains two arguments: [`int] and [`float]
+                                // [|:zh_CN] [`Types] 包含两个实参：[`int] 和 [`float]
 Tuple<0> error;                 // [:en] error: 0 is not a type
+                                // [|:zh_CN] 错误：0 不是类型
 [codeblock:end]
 
 [exit:example]
@@ -23,14 +30,19 @@ Tuple<0> error;                 // [:en] error: 0 is not a type
 [:en]
 A [+function parameter pack] is a function parameter that accepts zero or more
 function arguments.
+[:zh_CN]
+[+函数形参包组]是接受零个或多个函数实参的函数形参。
 
 [enter:example]
 [codeblock]
 template<class ... Types> void f(Types ... args);
 
 f();                // [:en] OK: [`args] contains no arguments
+                    // [|:zh_CN] OK：[`args] 不包含实参
 f(1);               // [:en] OK: [`args] contains one argument: [`int]
+                    // [|:zh_CN] OK：[`args] 包含一个实参：[`int]
 f(2, 1.0);          // [:en] OK: [`args] contains two arguments: [`int] and [`double]
+                    // [|:zh_CN] OK：[`args] 包含两个实参：[`int] 和 [`double]
 [codeblock:end]
 
 [exit:example]
@@ -39,76 +51,105 @@ f(2, 1.0);          // [:en] OK: [`args] contains two arguments: [`int] and [`do
 [:en]
 A [+parameter pack] is either a template parameter pack or a function parameter
 pack.
+[:zh_CN]
+[+形参包组]是模板形参包组或函数形参包组。
 
 [para]
 [:en]
 A [+pack expansion] consists of a [+pattern] and an ellipsis, the instantiation
 of which produces zero or more instantiations of the pattern in a list
 (described below).
+[:zh_CN]
+[+包组展开式]由一个[+模式]和一个省略号构成，它的实例化将产生包含零个或更多该模式
+的实例的一个列表（见下文说明）。
 
 [:en]
 The form of the pattern depends on the context in which the expansion occurs.
+[:zh_CN]
+其模式的形式依赖于展开式所在的语境。
 
 [:en]
 Pack expansions can occur in the following contexts:
+[:zh_CN]
+包组展开式可以出现于下列语境中：
 
 [list]
 [item]
 [:en] In a function parameter pack ([#dcl.fct]); the pattern is the
 [~parameter-declaration] without the ellipsis.
+[:zh_CN] 在函数形参包组（[#dcl.fct]）中；其模式是不带有省略号的[~形参声明式]。
 
 [item]
 [:en] In a template parameter pack that is a pack expansion ([#temp.param]):
+[:zh_CN] 在作为包组展开式的模板形参包组（[#temp.param]）中：
 
 [list]
 [item]
 [:en] if the template parameter pack is a [~parameter-declaration];
 the pattern is the [~parameter-declaration] without the ellipsis;
+[:zh_CN] 若该模板形参包组是一个[~形参声明式]，则其模式是不带有省略号的[~形参
+声明式]；
 
 [item]
 [:en] if the template parameter pack is a [~type-parameter] with a
 [~template-parameter-list]; the pattern is the corresponding [~type-parameter]
 without the ellipsis.
+[:zh_CN] 若该模板形参包组是一个带有[~模板形参列表]的[~类型形参]，则其模式为对应
+的不带有省略号的[~类型形参]。
 [list:end]
 
 [item]
 [:en] In an [~initializer-list] ([#dcl.init]); the pattern is an
 [~initializer-clause].
+[:zh_CN] 在[~初始化式列表]（[#dcl.init]）中；其模式是个[~初始化式子句]。
 
 [item]
 [:en] In a [~base-specifier-list] (Clause [#class.derived]); the pattern is a
 [~base-specifier].
+[:zh_CN] 在[~基说明符列表]（第 [#class.derived] 条）中；其模式是个[~基说明符]。
 
-[item] In a [~mem-initializer-list] ([#class.base.init]) for a
+[item]
+[:en] In a [~mem-initializer-list] ([#class.base.init]) for a
 [~mem-initializer] whose [~mem-initializer-id] denotes a base class; the pattern
 is the [~mem-initializer].
+[:zh_CN] 在[~成员初始化式列表]（[#class.base.init]）中；其模式是个[~成员初始化
+式]。
 
 [item]
 [:en] In a [~template-argument-list] ([#temp.arg]); the pattern is a
 [~template-argument].
+[:zh_CN] 在[~模板实参列表]（[#temp.arg]）中；其模式是个[~模板实参]。
 
 [item]
 [:en] In a [~dynamic-exception-specification] ([#except.spec]); the pattern is a
 [~type-id].
+[:zh_CN] 在[~动态异常说明]（[#except.spec]）中；其模式是个[~类型标识]。
 
 [item]
 [:en] In an [~attribute-list] ([#dcl.attr.grammar]); the pattern is an
 [~attribute].
+[:zh_CN] 在[~特性列表]（[#dcl.attr.grammar]）中；其模式是个[~特性]。
 
 [item]
 [:en] In an [~alignment-specifier] ([#dcl.align]); the pattern is the
 [~alignment-specifier] without the ellipsis.
+[:zh_CN] 在[~对齐说明符]（[#dcl.align]）中；其模式是不带有省略号的[~对齐说明符]
+。
 
 [item]
 [:en] In a [~capture-list] ([#expr.prim.lambda]); the pattern is a [~capture].
+[:zh_CN] 在[~捕获式列表]（[#expr.prim.lambda]）中；其模式是个[~捕获式]。
 
 [item]
 [:en] In a [`sizeof...] expression ([#expr.sizeof]); the pattern is an
 [~identifier].
+[:zh_CN] 在 [`sizeof...] 表达式（[#expr.sizeof]）中；其模式是个[~标识符]。
 
 [item]
 [:en] In a [~fold-expression] ([#expr.prim.fold]); the pattern is the
 [~cast-expression] that contains an unexpanded parameter pack.
+[:zh_CN] 在[~折叠表达式]（[#expr.prim.fold]）中；其模式是包含未展开的形参包组的
+[~强制转换表达式]。
 [list:end]
 
 [para]
@@ -117,6 +158,9 @@ For the purpose of determining whether a parameter pack satisfies a rule
 regarding entities other than parameter packs, the parameter pack is considered
 to be the entity that would result from an instantiation of the pattern in which
 it appears.
+[:zh_CN]
+当确定形参包组是否符合有关非形参包组的实体的规定时，形参包组被当作由包含它的模式
+进行实例化所得到的实体一样来进行处理。
 
 [para:~]
 [enter:example]
@@ -124,6 +168,7 @@ it appears.
 template<class ... Types> void f(Types ... rest);
 template<class ... Types> void g(Types ... rest) {
   f(&rest ...);     // [:en] ["[`&rest ...]] is a pack expansion; ["[`&rest]] is its pattern
+                    // [|:zh_CN] “[`&rest ...]”是包组展开式；“[`&rest]”是其模式
 }
 [codeblock:end]
 
@@ -133,22 +178,33 @@ template<class ... Types> void g(Types ... rest) {
 [:en]
 A parameter pack whose name appears within the pattern of a pack expansion is
 expanded by that pack expansion.
+[:zh_CN]
+若形参包组的名字出现于某个包组展开式的模式之中，则它被此包组展开式所展开。
 
 [:en]
 An appearance of the name of a parameter pack is only expanded by the innermost
 enclosing pack expansion.
+[:zh_CN]
+每次出现的形参包组名字，仅会被其最内层的外围包组展开式所展开。
 
 [:en]
 The pattern of a pack expansion shall name one or more parameter packs that
 are not expanded by a nested pack expansion; such parameter packs are called
 [+unexpanded] parameter packs in the pattern.
+[:zh_CN]
+包组展开式的模式中，应当指名一个或多个未被其中所嵌套的包组展开式所展开的形参包组
+；这种形参包组被称为这个模式中的[+未展开的]形参包组。
 
 [:en]
 All of the parameter packs expanded by a pack expansion shall have the same
 number of arguments specified.
+[:zh_CN]
+被包组展开式所展开的所有形参包组都应当指定相同数量的实参。
 
 [:en]
 An appearance of a name of a parameter pack that is not expanded is ill-formed.
+[:zh_CN]
+出现未被展开的形参包组的名字是非良构的。
 
 [enter:example]
 [codeblock]
@@ -163,16 +219,24 @@ template<class ... Args1> struct zip {
 
 typedef zip<short, int>::with<unsigned short, unsigned>::type T1;
     // [:en] [`T1] is [`Tuple<Pair<short, unsigned short>, Pair<int, unsigned>>]
+    // [|:zh_CN] [`T1] 为 [`Tuple<Pair<short, unsigned short>, Pair<int, unsigned>>]
 typedef zip<short>::with<unsigned short, unsigned>::type T2;
     // [:en] error: different number of arguments specified for [`Args1] and [`Args2]
+    // [|:zh_CN] 错误：为 [`Args1] 和 [`Args2] 指定了不同数量的实参
 
 template<class ... Args>
   void g(Args ... args) {               // [:en] OK: [`Args] is expanded by the function parameter pack [`args]
+                                        // [|:zh_CN] OK：[`Args] 由函数形参包组 [`args] 所展开
     f(const_cast<const Args*>(&args)...); // [:en] OK: ["[`Args]] and ["[`args]] are expanded
+                                          // [|:zh_CN] OK：“[`Args]”和“[`args]”被展开
     f(5 ...);                             // [:en] error: pattern does not contain any parameter packs
+                                          // [|:zh_CN] 错误：模式并不包含任何形参包组
     f(args);                              // [:en] error: parameter pack ["[`args]] is not expanded
+                                          // [|:zh_CN] 错误：形参包组“[`args]”未被展开
     f(h(args ...) + args ...);            // [:en] OK: first ["[`args]] expanded within [`h], second
+                                          // [|:zh_CN] OK：第一个“[`args]”在 [`h] 中被展开，
                                           // [:en@~] ["[`args]] expanded within [`f]
+                                          // [|:zh_CN@~] 第二个“[`args]”在 [`f] 中被展开
   }
 [codeblock:end]
 [exit:example]
@@ -183,13 +247,22 @@ The instantiation of a pack expansion that is neither a [`sizeof...] expression
 nor a [~fold-expression] produces a list [$[`E][_1]], [$[`E][_2]], ...,
 [$[`E][_N]], where [$N] is the number of elements in the pack expansion
 parameters.
+[:zh_CN]
+既不是 [`sizeof...] 表达式也不是[~折叠表达式]的包组展开式的实例化，产生一个列表
+“[$[`E][_1]], [$[`E][_2]], ..., [$[`E][_N]]”，其中 [$N] 为该包组展开式形参的元素
+数量。
 
 [:en]
 Each [$[`E][_i]] is generated by instantiating the pattern and replacing each
 pack expansion parameter with its [$i]th element.
+[:zh_CN]
+每个 [$[`E][_i]] 是通过实例化其模式并把每个包组展开式形参用其第 [$i] 个元素代替
+而产生的。
 
 [:en]
 Such an element, in the context of the instantiation, is interpreted as follows:
+[:zh_CN]
+这种元素在进行实例化的语境中已如下方式进行解释：
 
 [list]
 [item]
@@ -197,30 +270,45 @@ Such an element, in the context of the instantiation, is interpreted as follows:
 if the pack is a template parameter pack, the element is a template parameter
 ([#temp.param]) of the corresponding kind (type or non-type) designating the
 type or value from the template argument; otherwise,
+[:zh_CN]
+如果该包组是模板形参包组，则该元素是其对应种类（类型或非类型）的一个模板形参
+（[#temp.param]），并代表模板实参的类型或值；否则
 
 [item]
 [:en]
 if the pack is a function parameter pack, the element is an [~id-expression]
 designating the function parameter that resulted from the instantiation of the
 pattern where the pack is declared.
+[:zh_CN]
+如果该包组是函数形参包组，则该元素是一个[~标识表达式]，并代表由声明这个包组的
+模式进行实例化所得到的函数形参。
 [list:end]
 
 [:en]
 All of the [$[`E][_i]] become elements in the enclosing list.
+[:zh_CN]
+所有 [$[`E][_i]] 均变为其外围列表之中的元素。
 
 [enter:note]
 [:en]
 The variety of list varies with the context: [~expression-list],
 [~base-specifier-list], [~template-argument-list], etc.
+[:zh_CN]
+这个列表的种类随语境变化：[~表达式列表]，[~基说明符列表]，[~模板实参列表]等等。
 [exit:note]
 
 [:en]
 When [$N] is zero, the instantiation of the expansion produces an empty list.
+[:zh_CN]
+当 [$N] 为零时，该展开式的实例化产生一个空列表。
 
 [:en]
 Such an instantiation does not alter the syntactic interpretation of the
 enclosing construct, even in cases where omitting the list entirely would
 otherwise be ill-formed or would result in an ambiguity in the grammar.
+[:zh_CN]
+这种实例化并不会改变对包围它的语言构造的语法解释，即使某些情况下完全省略这个列表
+可能是非良构的，或者可能导致文法中的歧义也是如此。
 
 [enter:example]
 [codeblock]
@@ -230,7 +318,9 @@ template<class... T> void f(T... values) {
 }
 
 template void f<>();  // [:en] OK: [`X<>] has no base classes
+                      // [|:zh_CN] OK：[`X<>] 没有基类
                       // [:en@~] [`x] is a variable of type [`X<>] that is value-initialized
+                      // [|:zh_CN@~] [`x] 是类型 [`X<>] 的变量，并进行值初始化
 [codeblock:end]
 [exit:example]
 
@@ -239,28 +329,43 @@ template void f<>();  // [:en] OK: [`X<>] has no base classes
 The instantiation of a [`sizeof...] expression ([#expr.sizeof]) produces an
 integral constant containing the number of elements in the parameter pack
 it expands.
+[:zh_CN]
+[`sizeof...] 表达式（[#expr.sizeof]）的实例化，产生一个含有其所展开的形参包组的
+元素的个数的整型常量。
 
 [para]
 [:en]
 The instantiation of a [~fold-expression] produces:
+[:zh_CN]
+[~折叠表达式]的实例化产生：
 
 [list]
 [item]
 [:en]
-[$[`((E][_1] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]
-for a unary left fold,
+[$[`((E][_1] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]] for a unary left
+fold,
+[:zh_CN]
+[$[`((E][_1] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]（对于一元左折叠），
 [item]
 [:en]
-[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`E][_N][`))]]
-for a unary right fold,
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`E][_N][`))]] for a unary right
+fold,
+[:zh_CN]
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`E][_N][`))]]（对于一元右折叠），
 [item]
 [:en]
-[$[`(((E] op [`E][_1][`)] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]
-for a binary left fold, and
+[$[`(((E] op [`E][_1][`)] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]] for a
+binary left fold, and
+[:zh_CN]
+[$[`(((E] op [`E][_1][`)] op [`E][_2][`)] op [=cdots] [`)] op [`E][_N]]（对于
+二元左折叠），以及
 [item]
 [:en]
-[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`(E][_N] op [`E)))]]
-for a binary right fold.
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`(E][_N] op [`E)))]] for a binary
+right fold.
+[:zh_CN]
+[$[`E][_1] op [`(][=cdots] op [`(E][_N-1] op [`(E][_N] op [`E)))]]（对于二元右
+折叠）。
 [list:end]
 
 [:en]
@@ -268,10 +373,17 @@ In each case, [$op] is the [~fold-operator], [$N] is the number of elements in
 the pack expansion parameters, and each [$[`E][_i]] is generated by
 instantiating the pattern and replacing each pack expansion parameter with its
 [$i]th element.
+[:zh_CN]
+以上每种情况中，[$op] 为[~折叠运算符]，[$N] 为包组展开式的形参的元素数量，而每个
+[$[`E][_i]] 是通过实例化其模式并把每个包组展开式形参用其第 [$i] 个元素代替而产生
+的。
 
 [:en]
 For a binary fold-expression, [`E] is generated by instantiating the
 [~cast-expression] that did not contain an unexpanded parameter pack.
+[:zh_CN]
+对于二元折叠表达式，[`E] 是通过对不包含未展开的形参包组的[~折叠表达式]进行实例化
+而产生的。
 
 [enter:example]
 [codeblock]
@@ -284,21 +396,30 @@ bool b = all(true, true, true, false);
 [:en]
 Within the instantiation of [`all], the returned expression expands to
 [`((true && true) && true) && false], which evalutes to [`false].
+[:zh_CN]
+在 [`all] 的实例化中，所返回的表达式被展开为 [`((true && true) && true) &&
+false]，并求值为 [`false]。
 [exit:example]
 
 [:en]
 If [$N] is zero for a unary fold-expression, the value of the expression is
 shown in Table [#tab:fold.empty]; if the operator is not listed in Table
 [#tab:fold.empty], the instantiation is ill-formed.
+[:zh_CN]
+当一元折叠表达式的 [$N] 为零时，表达式的值如表 [#tab:fold.empty] 所示；若其
+运算符未在表 [#tab:fold.empty] 中列出，则其实例化非良构。
 
 [table:listing#tab:fold.empty
     [:en] Value of folding empty sequences
+    [:zh_CN] 折叠空序列的值
     [columns
         [column@code
             [:en] Operator
+            [:zh_CN] 运算符
         ]
         [column@code
             [:en] Value when parameter pack is empty
+            [:zh_CN] 当形参包组未空时的值
         ]
     ]
     [border:cell@none]
