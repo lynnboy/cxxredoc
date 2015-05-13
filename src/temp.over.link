@@ -1,5 +1,6 @@
 ﻿[section#temp.over.link
     [:en] Function template overloading
+    [:zh_CN] 函数模板的重载
 ]
 
 [para]
@@ -7,28 +8,34 @@
 [%overloading]
 It is possible to overload function templates so that two different function
 template specializations have the same type.
+[:zh_CN]
+[%重载]
+重载函数模板有可能使得两个不同的函数模板特例具有相同的类型。
 
 [enter:example]
-[/\begin{minipage}{.45\hsize}/]
+
+[multicolumn@2]
+[|]
 [codeblock]
 // file1.c
 template<class T>
   void f(T*);
 void g(int* p) {
   f(p); // [:en] calls [`f<int>(int*)]
+        // [|:zh_CN] 调用了 [`f<int>(int*)]
 }
 [codeblock:end]
-[/\end{minipage}
-\begin{minipage}{.45\hsize}/]
+[|]
 [codeblock]
 // file2.c
 template<class T>
   void f(T);
 void h(int* p) {
   f(p); // [:en] calls [`f<int*>(int*)]
+        // [|:zh_CN] 调用了 [`f<int*>(int*)]
 }
 [codeblock:end]
-[/\end{minipage}/]
+[multicolumn:end]
 
 [exit:example]
 
@@ -36,25 +43,36 @@ void h(int* p) {
 [:en]
 Such specializations are distinct functions and do not violate the one
 definition rule ([#basic.def.odr]).
+[:zh_CN]
+这样的特例都是独立的函数，而且并不违反唯一定义原则（[#basic.def.odr]）。
 
 [para]
 [:en]
 The signature of a function template is defined in [#intro.defs].
+[:zh_CN]
+函数模板的签名在 [#intro.defs] 中定义。
 
 [:en]
 The names of the template parameters are significant only for establishing the
 relationship between the template parameters and the rest of the signature.
+[:zh_CN]
+仅在建立模板形参与签名的其余部分之间的关系时，模板形参的名字才是有意义的。
 
 [enter:note]
 [:en]
 Two distinct function templates may have identical function return types and
 function parameter lists, even if overload resolution alone cannot distinguish
 them.
+[:zh_CN]
+即使无法只用重载决议进行区分，两个不同的函数模板也可以带有相同的函数返回类型和
+函数形参列表。
 
 [codeblock]
 template<class T> void f();
 template<int I> void f();       // [:en] OK: overloads the first template
+                                // [|:zh_CN] OK：重载了第一个模板
                                 // [:en@~] distinguishable with an explicit template argument list
+                                // [|:zh_CN@~] 可通过其显式模板实参列表来区别
 [codeblock:end]
 [exit:note]
 
@@ -64,18 +82,27 @@ When an expression that references a template parameter is used in the function
 parameter list or the return type in the declaration of a function template, the
 expression that references the template parameter is part of the signature of
 the function template.
+[:zh_CN]
+当函数模板的声明式中的函数形参列表或返回类型中使用了涉指模板形参的表达式时，这个
+涉指了模板形参的表达式就是该函数模板的签名的一部分。
 
 [:en]
 This is necessary to permit a declaration of a function template in one
 translation unit to be linked with another declaration of the function template
 in another translation unit and, conversely, to ensure that function templates
 that are intended to be distinct are not linked with one another.
+[:zh_CN]
+若要允许把某个函数模板在一个翻译单元中的声明式连接到另一个翻译单元中该函数模板的
+另一个声明式，这就是必要的，反过来说，当需要保证不同的函数模板不会相互连接时这
+也是必要的。
 
 [enter:example]
 [codeblock]
 template <int I, int J> A<I+J> f(A<I>, A<J>);   // #1
 template <int K, int L> A<K+L> f(A<K>, A<L>);   // [:en] same as #1
+                                                // [|:zh_CN] 与 #1 相同
 template <int I, int J> A<I-J> f(A<I>, A<J>);   // [:en] different from #1
+                                                // [|:zh_CN] 与 #1 不同
 [codeblock:end]
 [exit:example]
 
@@ -83,9 +110,13 @@ template <int I, int J> A<I-J> f(A<I>, A<J>);   // [:en] different from #1
 [:en]
 Most expressions that use template parameters use non-type template parameters,
 but it is possible for an expression to reference a type parameter.
+[:zh_CN]
+使用模板形参的大多数表达式都使用非类型模板形参，但表达式涉及类型形参也是可能的。
 
 [:en]
 For example, a template type parameter can be used in the [`sizeof] operator.
+[:zh_CN]
+例如，模板类型形参可被用在 [`sizeof] 运算符中。
 [exit:note]
 
 [para]
@@ -96,27 +127,42 @@ definition rule ([#basic.def.odr]), except that the tokens used to name the
 template parameters may differ as long as a token used to name a template
 parameter in one expression is replaced by another token that names the same
 template parameter in the other expression.
+[:zh_CN]
+若包含涉及模板形参的两个表达式的两个函数定义式能够符合唯一定义原则
+（[#basic.def.odr]），则它们被当作[+等价]，但允许其中用以指名模板形参的记号可以
+不同：一个表达式中指名某个模板形参的记号可以替换为另一个表达式中指名同一个模板
+形参的另一个标记。
 
 [:en]
 For determining whether two dependent names ([#temp.dep]) are equivalent, only
 the name itself is considered, not the result of name lookup in the context of
 the template.
+[:zh_CN]
+为确定两个待决名字（[#temp.dep]）是否等价，仅考察这个名字自身，而不是在模板的
+语境中进行名字查找的结果。
 
 [:en]
 If multiple declarations of the same function template differ in the result of
 this name lookup, the result for the first declaration is used.
+[:zh_CN]
+如果相同函数模板的多个声明式因为名字查找的结果而不同，则使用第一个声明式的结果。
 
 [enter:example]
 [codeblock]
 template <int I, int J> void f(A<I+J>);         // #1
 template <int K, int L> void f(A<K+L>);         // [:en] same as #1
+                                                // [|:zh_CN] 与 #1 相同
 
 template <class T> decltype(g(T())) h();
 int g(int);
 template <class T> decltype(g(T())) h()         // [:en] redeclaration of [`h()] uses the earlier lookup
+                                                // [|:zh_CN] 用更早的查找重新声明 [`h()]
   { return g(T()); }                            // [:en@~] ...although the lookup here does find [`g(int)]
-int i = h<int>();                               // [:en@~] template argument substitution fails; [`g(int)]
+                                                // [|:zh_CN@~] ... 虽然此处的查找能够找到 [`g(int)]
+int i = h<int>();                               // [:en] template argument substitution fails; [`g(int)]
+                                                // [|:zh_CN] 模板实参代换失败；[`g(int)]
                                                 // [:en@~] was not in scope at the first declaration of [`h()]
+                                                // [|:zh_CN@~] 在 [`h()] 的第一个声明式之处不在作用域中
 [codeblock:end]
 [exit:example]
 
@@ -124,6 +170,9 @@ int i = h<int>();                               // [:en@~] template argument sub
 Two expressions involving template parameters that are not equivalent are
 [+functionally equivalent] if, for any given set of template arguments, the
 evaluation of the expression results in the same value.
+[:zh_CN]
+两个不等价的涉及模板形参的表达式，若对于任意给定的一组模板实参，对该表达式求值都
+产生相同的值，则它们是[+功能等价的]。
 
 [para]
 [:en]
@@ -131,17 +180,27 @@ Two function templates are [+equivalent] if they are declared in the same scope,
 have the same name, have identical template parameter lists, and have return
 types and parameter lists that are equivalent using the rules described above to
 compare expressions involving template parameters.
+[:zh_CN]
+若两个函数模板声明于相同的作用域中，具有相同的名字，具有相同的模板形参列表，而且
+根据上述对涉及模板形参的表达式的比较规则，具有等价的返回类型和形参列表，则它们是
+[+等价的]。
 
 [:en]
 Two function templates are [+functionally equivalent] if they are equivalent
 except that one or more expressions that involve template parameters in the
 return types and parameter lists are functionally equivalent using the rules
 described above to compare expressions involving template parameters.
+[:zh_CN]
+若两个函数模板，除了根据上述对涉及模板形参的表达式的比较规则，在返回类型和形参
+列表中涉及模板形参的一个或多个表达式为功能等价之外，是等价的，则它们是[+功能等价
+的]。
 
 [:en]
 If a program contains declarations of function templates that are functionally
 equivalent but not equivalent, the program is ill-formed; no diagnostic is
 required.
+[:zh_CN]
+若程序包含功能等价但不等价的函数模板的声明式，则程序是非良构的；无须诊断。
 
 [para]
 [enter:note]
@@ -149,21 +208,29 @@ required.
 This rule guarantees that equivalent declarations will be linked with one
 another, while not requiring implementations to use heroic efforts to guarantee
 that functionally equivalent declarations will be treated as distinct.
+[:zh_CN]
+这条规则保证了等价的声明式之间将会互相连接，同时还不要求实现付出巨大精力来保证
+功能等价的声明式被视为各自独立的。
 
 [:en]
 For example, the last two declarations are functionally equivalent and would
 cause a program to be ill-formed:
+[:zh_CN]
+例如，最后两个声明式是功能等价的，并导致程序非良构：
 
 [codeblock]
 // [:en] Guaranteed to be the same
+// [|:zh_CN] 保证相同
 template <int I> void f(A<I>, A<I+10>);
 template <int I> void f(A<I>, A<I+10>);
 
 // [:en] Guaranteed to be different
+// [|:zh_CN] 保证不同
 template <int I> void f(A<I>, A<I+10>);
 template <int I> void f(A<I>, A<I+11>);
 
 // [:en] Ill-formed, no diagnostic required
+// [|:zh_CN] 非良构，无须诊断
 template <int I> void f(A<I>, A<I+10>);
 template <int I> void f(A<I>, A<I+1+2+3+4>);
 [codeblock:end]
