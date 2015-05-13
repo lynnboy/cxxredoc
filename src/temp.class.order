@@ -1,5 +1,6 @@
 ﻿[section#temp.class.order
     [:en] Partial ordering of class template specializations
+    [:zh_CN] 类模板特化式的偏序
 ]
 
 [para]
@@ -9,6 +10,11 @@ For two class template partial specializations, the first is [+more specialized]
 than the second if, given the following rewrite to two function templates, the
 first function template is more specialized than the second according to the
 ordering rules for function templates ([#temp.func.order]):
+[:zh_CN]
+[%更特殊[!类模板部分特化式]]
+两个模板部分特化式，若将它们重写为如下的两个函数模板时，根据函数模板排序规则
+（[#temp.func.order]）第一个函数模板比第二个是更特殊，则第一个部分特化式比第二个
+[+更特殊]：
 
 [list]
 [item]
@@ -17,6 +23,9 @@ the first function template has the same template parameters as the first
 partial specialization and has a single function parameter whose type is a class
 template specialization with the template arguments of the first partial
 specialization, and
+[:zh_CN]
+第一个函数模板与第一个部分特化式具有相同的模板形参，并带有一个函数形参，其类型为
+带有第一个部分特化式的模板实参的类模板特例，而
 
 [item]
 [:en]
@@ -24,6 +33,9 @@ the second function template has the same template parameters as the second
 partial specialization and has a single function parameter whose type is a class
 template specialization with the template arguments of the second partial
 specialization.
+[:zh_CN]
+第二个函数模板与第二个部分特化式具有相同的模板形参，并带有一个函数形参，其类型为
+带有第二个部分特化式的模板实参的类模板特例。
 [list:end]
 
 [para]
@@ -42,4 +54,7 @@ The partial specialization [`#2] is more specialized than the partial
 specialization [`#1] because the function template [`B] is more specialized than
 the function template [`A] according to the ordering rules for function
 templates.
+[:zh_CN]
+部分特化式 [`#2] 比部分特化式 [`#1] 更特殊，这是由于根据函数模板排序规则函数模板
+[`B] 比函数模板 [`A] 更特殊。
 [exit:example]
