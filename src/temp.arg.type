@@ -1,174 +1,63 @@
-﻿[section#temp.arg
-    [:en] Template arguments
+﻿[section#temp.arg.type
+    [:en] Template type arguments
+    [:zh_CN] 模板的类型实参
 ]
 
 [para]
-[%argument[!template]]
-There are three forms of [~template-argument], corresponding to the three forms
-of [~template-parameter]: type, non-type and template.
-
 [:en]
-The type and form of each [~template-argument] specified in a [~template-id]
-shall match the type and form specified for the corresponding parameter declared
-by the template in its [~template-parameter-list].
+A [~template-argument] for a [~template-parameter] which is a type shall be a
+[~type-id].
+[:zh_CN]
+类型[~模板形参]的[~模板实参]应该为[~类型标识]。
 
-[:en]
-When the parameter declared by the template is a template parameter pack
-([#temp.variadic]), it will correspond to zero or more [~template-argument]s.
-
+[para]
 [enter:example]
 [codeblock]
-template<class T> class Array {
-  T* v;
-  int sz;
-public:
-  explicit Array(int);
-  T& operator[](int);
-  T& elem(int i) { return v[i]; }
-};
+template <class T> class X { };
+template <class T> void f(T t) { }
+struct { } unnamed_obj;
 
-Array<int> v1(20);
-typedef std::complex<double> dcomplex;  // [:en] [`std::complex] is a standard
-                                        // [:en@~] library template
-Array<dcomplex> v2(30);
-Array<dcomplex> v3(40);
-
-void bar() {
-  v1[3] = 7;
-  v2[3] = v3.elem(4) = dcomplex(7,8);
+void f() {
+  struct A { };
+  enum { e1 };
+  typedef struct { } B;
+  B b;
+  X<A> x1;          // OK
+  X<A*> x2;         // OK
+  X<B> x3;          // OK
+  f(e1);            // OK
+  f(unnamed_obj);   // OK
+  f(b);             // OK
 }
 [codeblock:end]
 [exit:example]
-
-[para]
-[:en]
-In a [~template-argument], an ambiguity between a [~type-id] and an expression
-is resolved to a [~type-id], regardless of the form of the corresponding
-[~template-parameter].
-
-[footnote]
-[:en]
-There is no such ambiguity in a default [~template-argument] because the form of
-the [~template-parameter] determines the allowable forms of the
-[~template-argument].
-[footnote:end]
-
-[enter:example]
-[codeblock]
-template<class T> void f();
-template<int I> void f();
-
-void g() {
-  f<int()>();       // [:en] [`int()] is a type-id: call the first [`f()]
-}
-[codeblock:end]
-[exit:example]
-
-[para]
-The name of a [~template-argument] shall be accessible at the point where it is
-used as a [~template-argument].
 
 [enter:note]
 [:en]
-If the name of the [~template-argument] is accessible at the point where it is
-used as a [~template-argument], there is no further access restriction in the
-resulting instantiation where the corresponding [~template-parameter] name is
-used.
+A template type argument may be an incomplete type ([#basic.types]).
+[:zh_CN]
+模板类型实参可以是不完整类型（[#basic.types]）。
 [exit:note]
 
-[enter:example]
-[codeblock]
-template<class T> class X {
-  static T t;
-};
-
-class Y {
-private:
-  struct S { /* ... */ };
-  X<S> x;           // [:en] OK: [`S] is accessible
-                    // [:en] [`X<Y::S>] has a static member of type [`Y::S]
-                    // [:en] OK: even though [`Y::S] is private
-};
-
-X<Y::S> y;          // [:en] error: [`S] not accessible
-[codeblock:end]
-[exit:example]
-
-[:en]
-For a [~template-argument] that is a class type or a class template, the
-template definition has no special access rights to the members of the
-[~template-argument].
-
-[enter:example]
-[codeblock]
-template <template <class TT> class T> class A {
-  typename T<int>::S s;
-};
-
-template <class U> class B {
-private:
-  struct S { /* ... */ };
-};
-
-A<B> b;             // [:en] ill-formed: [`A] has no access to [`B::S]
-[codeblock:end]
-[exit:example]
-
 [para]
 [:en]
-When template argument packs or default [~template-argument]s are used, a
-[~template-argument] list can be empty.
-
-[:en]
-In that case the empty [`<>] brackets shall still be used as the
-[~template-argument-list].
-
-[enter:example]
-[codeblock]
-template<class T = char> class String;
-String<>* p;                    // OK: [`String<char>]
-String* q;                      // [:en] syntax error
-template<class ... Elements> class Tuple;
-Tuple<>* t;                     // [:en] OK: [`Elements] is empty
-Tuple* u;                       // [:en] syntax error
-[codeblock:end]
-[exit:example]
-
-[para]
-[:en]
-An explicit destructor call ([#class.dtor]) for an object that has a type
-that is a class template specialization may explicitly specify the
-[~template-argument]s.
+If a declaration acquires a function type through a type dependent on a
+[~template-parameter] and this causes a declaration that does not use the
+syntactic form of a function declarator to have function type, the program is
+ill-formed.
+[:zh_CN]
+如果声明式中通过依存于某个[~模板形参]的类型获得了函数类型，由此导致某个并未使用
+函数声明符的语法形式的声明式具有了函数类型，则程序非良构。
 
 [enter:example]
 [codeblock]
 template<class T> struct A {
-  ~A();
+  static T t;
 };
-void f(A<int>* p, A<int>* q) {
-  p->A<int>::~A();              // [:en] OK: destructor call
-  q->A<int>::~A<int>();         // [:en] OK: destructor call
-}
+typedef int function();
+A<function> a;                  // [:en] ill-formed: would declare [`A<function>::t]
+                                // [|:zh_CN] 非良构：将 [`A<function>::t]
+                                // [:en@~] as a static member function
+                                // [|:zh_CN@~] 声明为静态成员函数
 [codeblock:end]
 [exit:example]
-
-[para]
-[:en]
-If the use of a [~template-argument] gives rise to an ill-formed construct in
-the instantiation of a template specialization, the program is ill-formed.
-
-[para]
-[:en]
-When the template in a [~template-id] is an overloaded function template, both
-non-template functions in the overload set and function templates in the
-overload set for which the [~template-argument]s do not match the
-[~template-parameter]s are ignored.
-
-[:en]
-If none of the function templates have matching [~template-parameter]s, the
-program is ill-formed.
-
-[para]
-[:en]
-A [~template-argument] followed by an ellipsis is a pack expansion
-([#temp.variadic]).
