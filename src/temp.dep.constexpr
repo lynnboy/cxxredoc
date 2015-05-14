@@ -1,37 +1,52 @@
 ﻿[section#temp.dep.constexpr
     [:en] Value-dependent expressions
+    [:zh_CN] 值待决的表达式
 ]
 
 [para]
 [:en]
 Except as described below, a constant expression is value-dependent if any
 subexpression is value-dependent.
+[:zh_CN]
+除了如下所述之外，若常量表达式的任意子表达式是值待决的，则它是值待决的。
 
 [para]
 [:en]
 An [~id-expression] is value-dependent if:
+[:zh_CN]
+若[~标识表达式]是以下各项之一则它是值待决的：
 
 [list]
 [item]
 [:en] it is a name declared with a dependent type,
+[:zh_CN] 它是以待决类型声明的名字，
 [item]
 [:en] it is the name of a non-type template parameter,
+[:zh_CN] 它是非类型模板形参的名字，
 [item]
 [:en] it names a member of an unknown specialization,
+[:zh_CN] 它指名某个未知特例的成员，
 [item]
 [:en] it names a static data member that is a dependent member of the current
 instantiation and is not initialized in a [~member-declarator],
+[:zh_CN] 它指名作为当前实例的待决成员的某个静态数据成员，且并未以[~成员声明符]所
+初始化，
 [item]
 [:en] it names a static member function that is a dependent member of the
 current instantiation, or
+[:zh_CN] 它指名作为当前实例的待决成员的某个静态成员函数，或者
 [item]
 [:en] it is a constant with literal type and is initialized with an expression
 that is value-dependent.
+[:zh_CN] 它是字面量类型的常量，并以值待决的表达式初始化。
 [list:end]
 
 [:en]
 Expressions of the following form are value-dependent if the [~unary-expression]
 or [~expression] is type-dependent or the [~type-id] is dependent:
+[:zh_CN]
+如下形式的表达式，若其[~一元表达式]或[~表达式]是值待决的，或其[~类型标识]是待决
+的，则它是值待决的：
 
 [syntax:explanation]
 [| [`sizeof] unary-expression ]
@@ -45,6 +60,8 @@ or [~expression] is type-dependent or the [~type-id] is dependent:
 [enter:note]
 [:en]
 For the standard library macro [`offsetof], see [#support.types].
+[:zh_CN]
+有关标准程序库宏 [`offsetof]，参见 [#support.types]。
 [exit:note]
 
 [para]
@@ -52,6 +69,9 @@ For the standard library macro [`offsetof], see [#support.types].
 Expressions of the following form are value-dependent if either the [~type-id]
 or [~simple-type-specifier] is dependent or the [~expression] or
 [~cast-expression] is value-dependent:
+[:zh_CN]
+如下形式的表达式，若其[~类型标识]或[~简单类型说明符]是待决的，或者其[~表达式]或
+[~强制转换表达式]是值待决的，则它是值待决的：
 
 [syntax:explanation]
 [| simple-type-specifier [`(] [~:opt expression-list] [`)] ]
@@ -64,6 +84,8 @@ or [~simple-type-specifier] is dependent or the [~expression] or
 [para]
 [:en]
 Expressions of the following form are value-dependent:
+[:zh_CN]
+如下形式的表达式是值待决的：
 
 [syntax:explanation]
 [| [`sizeof] [`...] [`(] identifier [`)] ]
@@ -74,3 +96,6 @@ Expressions of the following form are value-dependent:
 [:en]
 An expression of the form [`&][~qualified-id] where the [~qualified-id] names a
 dependent member of the current instantiation is value-dependent.
+[:zh_CN]
+如果形式为“[`&][~限定标识]”表达式，其[~限定标识]指名当前实例的待决成员，则它是值
+待决的。
