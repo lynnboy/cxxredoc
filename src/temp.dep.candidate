@@ -1,5 +1,6 @@
 ﻿[section#temp.dep.candidate
     [:en] Candidate functions
+    [:zh_CN] 候选函数
 ]
 
 [para]
@@ -8,6 +9,10 @@
 For a function call where the [~postfix-expression] is a dependent name, the
 candidate functions are found using the usual lookup rules
 ([#basic.lookup.unqual], [#basic.lookup.argdep]) except that:
+[:zh_CN]
+[%函数[!候选～]]
+对于[~后缀表达式]为待决名字的函数调用，使用常规查找规则（[#basic.lookup.unqual]
+，[#basic.lookup.argdep]）查找其候选函数，除非：
 
 [list]
 [item]
@@ -15,12 +20,18 @@ candidate functions are found using the usual lookup rules
 For the part of the lookup using unqualified name lookup
 ([#basic.lookup.unqual]), only function declarations from the template
 definition context are found.
+[:zh_CN]
+在使用未限定名查找（[#basic.lookup.unqual]）的查找部分中，只能找到模板定义语境中
+的函数声明式。
 
 [item]
 [:en]
 For the part of the lookup using associated namespaces ([#basic.lookup.argdep]),
 only function declarations found in either the template definition context or
 the template instantiation context are found.
+[:zh_CN]
+在使用关联命名空间（[#basic.lookup.argdep]）的查找部分中，只能找到函数定义语境或
+模板实例化语境中的函数声明式。
 [list:end]
 
 [:en]
@@ -29,3 +40,7 @@ within the associated namespaces considered all the function declarations with
 external linkage introduced in those namespaces in all translation units, not
 just considering those declarations found in the template definition and
 template instantiation contexts, then the program has undefined behavior.
+[:zh_CN]
+当在关联命名空间中进行查找时，若考察所有翻译单元中这些命名空间所引入的带有外部
+连接的全部函数声明式，而不只考察在模板定义和模板实例化语境中所找到的那些声明式，
+将使得该调用非良构，或将找到某个更好的匹配，则程序带有未定义行为。
