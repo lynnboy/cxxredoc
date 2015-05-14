@@ -1,5 +1,6 @@
 ﻿[section#temp.inst
     [:en] Implicit instantiation
+    [:zh_CN]
 ]
 
 [para]
@@ -10,6 +11,11 @@ Unless a class template specialization has been explicitly instantiated
 template specialization is implicitly instantiated when the specialization is
 referenced in a context that requires a completely-defined object type or when
 the completeness of the class type affects the semantics of the program.
+[:zh_CN]
+[%实例化[!模板隐式～]]
+除非类模板特例已被显式实例化（[#temp.explicit]）或显式特化（[#temp.expl.spec]）
+，否则在需要完整定义的对象类型的语境中指代该特例，或者当其类类型的完整性对程序的
+语义有影响时，就对该类模板特例进行隐式实例化。
 
 [enter:note]
 [:en]
@@ -17,11 +23,17 @@ Within a template declaration, a local class or enumeration and the members of
 a local class are never considered to be entities that can be separately
 instantiated (this includes their default arguments,
 [~exception-specification]s, and non-static data member initializers, if any).
+[:zh_CN]
+在模板声明式中，局部类或枚举，以及局部类的成员不会被当作可以分别进行实例化的实体
+（这还包括它们的默认实参，[~异常说明]，以及非静态数据成员初始化式，如果有）。
 
 [:en]
 As a result, the dependent names are looked up, the semantic constraints are
 checked, and any templates used are instantiated as part of the instantiation of
 the entity within which the local class or enumeration is declared.
+[:zh_CN]
+其结果是，作为对声明了该局部类或枚举的实体的实例化过程的一部分，实施待决名字查找
+，检查其语义约束，并实例化其所使用的任何模板。
 [exit:note]
 
 [:en]
@@ -31,11 +43,18 @@ arguments, or [~exception-specification]s of the class member functions, member
 classes, scoped member enumerations, static data members and member templates;
 and it causes the implicit instantiation of the definitions of unscoped member
 enumerations and member anonymous unions.
+[:zh_CN]
+类模板特例的隐式实例化导致对类成员函数、成员类、有作用域的成员枚举、静态数据成员
+和成员模板的声明式，而不是对它们的定义式、默认实参或[~异常说明]的隐式实例化；
+它还导致对无作用域的成员枚举和成员匿名联合的定义式的隐式实例化。
 
 [:en]
 However, for the purpose of determining whether an instantiated redeclaration
 of a member is valid according to [#class.mem], a declaration that corresponds
 to a definition in the template is considered to be a definition.
+[:zh_CN]
+然而，在根据 [#class.mem] 来确定某个成员的已实例化的重复声明式是否有效时，对应于
+该模板中的一个定义式的声明式被当作定义式处理。
 
 [enter:example]
 [codeblock]
@@ -44,25 +63,35 @@ struct Outer {
   template<class X, class Y> struct Inner;
   template<class Y> struct Inner<T, Y>;         // #1a
   template<class Y> struct Inner<T, Y> { };     // [:en] #1b; OK: valid redeclaration of #1a
+                                                // [|:zh_CN] #1b；OK：对 #1a 的有效的重复声明式
   template<class Y> struct Inner<U, Y> { };     // #2
 };
 
 Outer<int, int> outer;                          // [:en] error at #2
+                                                // [|:zh_CN] 在 #2 处有错误
 [codeblock:end]
 
 [:en]
 [`Outer<int, int>::Inner<int, Y>] is redeclared at #1b.
+[:zh_CN]
+[`Outer<int, int>::Inner<int, Y>] 在 #1b 被重复声明。
 
 [:en]
 (It is not defined but noted as being associated with a definition in
 [`Outer<T, U>].)
+[:zh_CN]
+（它并未被定义，但被标记为与 [`Outer<T, U>] 中的一个定义式相关联。）
 
 [:en]
 #2 is also a redeclaration of #1a.
+[:zh_CN]
+#2 也是对 #1a 的重复声明式。
 
 [:en]
 It is noted as associated with a definition, so it is an invalid redeclaration
 of the same partial specialization.
+[:zh_CN]
+它被标记为与一个定义式相关联，因此它在同一个部分特化式中是一个无效的重复声明式。
 [exit:example]
 
 [para]
@@ -74,6 +103,11 @@ requires the member definition to exist; in particular, the initialization (and
 any associated side-effects) of a static data member does not occur unless the
 static data member is itself used in a way that requires the definition of the
 static data member to exist.
+[:zh_CN]
+除非类模板的成员或成员模板已被显式实例化或显式特化，否则在需要存在该成员的定义式
+的语境中指代该特例时，该成员的特例就被隐式实例化；特别地，除非静态数据成员自身以
+需要该静态数据成员的定义式存在的方式被使用，否则静态数据成员的实例化（以及任何
+相关的副作用）并不会发生。
 
 [para]
 [:en]
@@ -81,6 +115,9 @@ Unless a function template specialization has been explicitly instantiated or
 explicitly specialized, the function template specialization is implicitly
 instantiated when the specialization is referenced in a context that requires a
 function definition to exist.
+[:zh_CN]
+除非函数模板特例已被显式实例化或显式特化，否则在需要存在函数定义式的语境中涉指该
+特例时，该函数模板特例就被隐式实例化。
 
 [:en]
 Unless a call is to a function template explicit specialization or to a member
@@ -88,6 +125,9 @@ function of an explicitly specialized class template, a default argument for a
 function template or a member function of a class template is implicitly
 instantiated when the function is called in a context that requires the value of
 the default argument.
+[:zh_CN]
+除非调用了函数模板显式特化式或被显式特化的类模板的成员函数，否则函数模板或类模板
+的成员函数的默认实参在需要该默认实参的值的语境中调用该函数时就被隐式实例化。
 
 [para]
 [enter:example]
@@ -99,18 +139,27 @@ template<class T> struct Z {
 
 void h() {
   Z<int> a;         // [:en] instantiation of class [`Z<int>] required
+                    // [|:zh_CN] 需要类 [`Z<int>] 的实例化
   Z<char>* p;       // [:en] instantiation of class [`Z<char>] not required
+                    // [|:zh_CN] 不需要类 [`Z<char>] 的实例化
   Z<double>* q;     // [:en] instantiation of class [`Z<double>] not required
+                    // [|:zh_CN] 不需要类 [`Z<double>] 的实例化
 
   a.f();            // [:en] instantiation of [`Z<int>::f()] required
+                    // [|:zh_CN] 需要 [`Z<int>::f()] 的实例化
   p->g();           // [:en] instantiation of class [`Z<char>] required, and
-                    // [:en] instantiation of [`Z<char>::g()] required
+                    // [|:zh_CN] 需要类 [`Z<char>] 的实例化，并且
+                    // [:en@~] instantiation of [`Z<char>::g()] required
+                    // [|:zh_CN@~] 需要 [`Z<char>::g()] 的实例化
 }
 [codeblock:end]
 
 [:en]
 Nothing in this example requires [`class Z<double>], [`Z<int>::g()], or
 [`Z<char>::f()] to be implicitly instantiated.
+[:zh_CN]
+本例中不需要对 [`class Z<double>]，[`Z<int>::g()]>，或者 [`Z<char>::f()] 进行
+隐式实例化。
 [exit:example]
 
 [para]
@@ -118,28 +167,43 @@ Nothing in this example requires [`class Z<double>], [`Z<int>::g()], or
 Unless a variable template specialization has been explicitly instantiated or
 explicitly specialized, the variable template specialization is implicitly
 instantiated when the specialization is used.
+[:zh_CN]
+除非变量模板特例已被显式实例化或显式特化，否则变量模板特例在使用该特例时就被隐式
+实例化。
 
 [:en]
 A default template argument for a variable template is implicitly instantiated
 when the variable template is referenced in a context that requires the value of
 the default argument.
+[:zh_CN]
+变量模板的默认模板实参，当其变量模板在需要该默认实参的值的语境中被涉指时被隐式
+实例化。
 
 [para]
 [:en]
 A class template specialization is implicitly instantiated if the class type is
 used in a context that requires a completely-defined object type or if the
 completeness of the class type might affect the semantics of the program.
+[:zh_CN]
+若在需要完整定义的对象类型的语境中使用类模板特例的类类型，或者若该类类型的完整性
+对程序的语义可能有影响，则类模板特例就被隐式实例化。
 
 [enter:note]
 [:en]
 In particular, if the semantics of an expression depend on the member or base
 class lists of a class template specialization, the class template
 specialization is implicitly generated.
+[:zh_CN]
+特别地，若某表达式的语义依赖于某个类模板特例的成员或基类列表，则将隐式生成该类
+模板特例。
 
 [:en]
 For instance, deleting a pointer to class type depends on whether or not the
 class declares a destructor, and conversion between pointer to class types
 depends on the inheritance relationship between the two classes involved.
+[:zh_CN]
+例如，对某个类类型的指针进行删除依赖于该类是否声明了析构函数，而在类类型的指针
+之间进行的转换依赖于其所涉及的两个类之间的继承关系。
 [exit:note]
 
 [enter:example]
@@ -152,9 +216,13 @@ void f(B<int>*);
 
 void g(D<int>* p, D<char>* pp, D<double>* ppp) {
   f(p);             // [:en] instantiation of [`D<int>] required: call [`f(B<int>*)]
+                    // [|:zh_CN] 需要 [`D<int>] 的实例化：调用了 [`f(B<int>*)]
   B<char>* q = pp;  // [:en] instantiation of [`D<char>] required:
+                    // [|:zh_CN] 需要 [`D<char>] 的实例化：
                     // [:en@~] convert [`D<char>*] to [`B<char>*]
+                    // [|:zh_CN@~] 将 [`D<char>*] 转换为 [`B<char>*]
   delete ppp;       // [:en] instantiation of [`D<double>] required
+                    // [|:zh_CN] 需要 [`D<double>] 的实例化
 }
 [codeblock:end]
 [exit:example]
@@ -164,6 +232,9 @@ void g(D<int>* p, D<char>* pp, D<double>* ppp) {
 If the overload resolution process can determine the correct function to call
 without instantiating a class template definition, it is unspecified whether
 that instantiation actually takes place.
+[:zh_CN]
+若重载决议可以在不实例化类模板定义式时就能确定所调用的正确函数，则该实例化实际上
+会不会发生是未指明的。
 
 [enter:example]
 [codeblock]
@@ -177,7 +248,9 @@ void f(S<float>);
 
 void g(S<int>& sr) {
   f(sr);            // [:en] instantiation of [`S<int>] allowed but not required
+                    // [|:zh_CN] 允许但不需要 [`S<int>] 的实例化
                     // [:en] instantiation of [`S<float>] allowed but not required
+                    // [|:zh_CN] 允许但不需要 [`S<float>] 的实例化
 };
 [codeblock:end]
 [exit:example]
@@ -186,12 +259,15 @@ void g(S<int>& sr) {
 [:en]
 If an implicit instantiation of a class template specialization is required and
 the template is declared but not defined, the program is ill-formed.
+[:zh_CN]
+若类模板特例需要进行隐式实例化而该模板已声明但未被定义，则程序非良构。
 
 [enter:example]
 [codeblock]
 template<class T> class X;
 
 X<char> ch;         // [:en] error: definition of [`X] required
+                    // [|:zh_CN] 错误：需要 [`X] 的定义式
 [codeblock:end]
 [exit:example]
 
@@ -199,12 +275,17 @@ X<char> ch;         // [:en] error: definition of [`X] required
 [:en]
 The implicit instantiation of a class template does not cause any static data
 members of that class to be implicitly instantiated.
+[:zh_CN]
+类模板的隐式实例化并不会造成该类的任意静态数据成员被隐式实例化。
 
 [para]
 [:en]
 If a function template or a member function template specialization is used in
 a way that involves overload resolution, a declaration of the specialization is
 implicitly instantiated ([#temp.over]).
+[:zh_CN]
+若以涉及重载决议的方式使用函数模板或成员函数模板的特例，则该特例的声明式就被隐式
+实例化（[#temp.over]）。
 
 [para]
 [:en]
@@ -212,34 +293,51 @@ An implementation shall not implicitly instantiate a function template,
 a variable template, a member template, a non-virtual member function, a member
 class, or a static data member of a class template that does not require
 instantiation.
+[:zh_CN]
+实现不能隐式实例化不需要实例化的函数模板、变量模板、成员模板、类模板的非虚成员
+函数、成员类或静态数据成员。
 
 [:en]
 It is unspecified whether or not an implementation implicitly instantiates a
 virtual member function of a class template if the virtual member function would
 not otherwise be instantiated.
+[:zh_CN]
+若类模板的虚成员函数不会以其他方式被实例化，则实现是否隐式实例化该虚成员函数是
+未指明的。
 
 [:en]
 The use of a template specialization in a default argument shall not cause the
 template to be implicitly instantiated except that a class template may be
 instantiated where its complete type is needed to determine the correctness of
 the default argument.
+[:zh_CN]
+在默认实参中使用模板特例，除非因需要其完整类型以确定该默认实参的正确性而实例化
+该类模板，否则并不能造成该模板被隐式实例化。
 
 [:en]
 The use of a default argument in a function call causes specializations in the
 default argument to be implicitly instantiated.
+[:zh_CN]
+在函数调用中使用默认实参将造成默认实参中的特例被隐式实例化。
 
 [para]
 [:en]
 Implicitly instantiated class, function, and variable template specializations
 are placed in the namespace where the template is defined.
+[:zh_CN]
+隐式实例化的类、函数和变量模板的特例，被置于定义了该模板的命名空间中。
 
 [:en]
 Implicitly instantiated specializations for members of a class template are
 placed in the namespace where the enclosing class template is defined.
+[:zh_CN]
+隐式实例化的类模板的成员的特例，被置于定义了其所在类模板的命名空间中。
 
 [:en]
 Implicitly instantiated member templates are placed in the namespace where the
 enclosing class or class template is defined.
+[:zh_CN]
+隐式实例化的成员模板被置于定义了其所在类或类模板的命名空间中。
 
 [enter:example]
 [codeblock]
@@ -264,6 +362,9 @@ void g(Map<const char*,int>& m) {
 [:en]
 a call of [`lt.get()] from [`Map<const char*,int>::get()] would place
 [`List<int>::get()] in the namespace [`N] rather than in the global namespace.
+[:zh_CN]
+在 [`Map<const char*,int>::get()] 中调用 [`lt.get()] 将把 [`List<int>::get()]
+置于命名空间 [`N] 中而不是全局命名空间中。
 [exit:example]
 
 [para]
@@ -277,16 +378,27 @@ the same access as that of the function template [`f] used at that point, except
 that the scope in which a closure type is declared ([#expr.prim.lambda]) [=-]
 and therefore its associated namespaces [=-] remain as determined from the
 context of the definition for the default argument.
+[:zh_CN]
+若函数模板 [`f] 以需要使用某个默认实参的方式被调用，则要按照如同该默认实参作为与
+该处所使用的函数模板 [`f] 带有相同作用域、相同模板形参和相同访问权的函数模板特例
+中所使用的初始化式那样，查找其待决名，检查其语义约束，并对在该默认实参中所使用的
+任何模板进行实例化。
 
 [:en]
 This analysis is called [+default argument instantiation].
+[:zh_CN]
+这项分析被称为[+默认实参的实例化]。
 
 [:en]
 The instantiated default argument is then used as the argument of [`f].
+[:zh_CN]
+所实例化的默认实参随即被用作 [`f] 的实参。
 
 [para]
 [:en]
 Each default argument is instantiated independently.
+[:zh_CN]
+每个默认实参的实例化是独立进行的。
 
 [enter:example]
 [codeblock]
@@ -298,8 +410,11 @@ A zdef(A);
 
 void g(A a, A b, A c) {
   f(a, b, c);       // [:en] no default argument instantiation
+                    // [|:zh_CN] 没有默认实参实例化
   f(a, b);          // [:en] default argument [`z = zdef(T())] instantiated
+                    // [|:zh_CN] 默认实参 [`z = zdef(T())] 被实例化
   f(a);             // [:en] ill-formed; [`ydef] is not declared
+                    // [|:zh_CN] 非良构；[`ydef] 未被声明
 }
 [codeblock:end]
 [exit:example]
@@ -309,6 +424,9 @@ void g(A a, A b, A c) {
 The [~exception-specification] of a function template specialization is not
 instantiated along with the function declaration; it is instantiated when needed
 ([#except.spec]).
+[:zh_CN]
+函数模板特例的[~异常说明]并不与函数声明式一起实例化；它是当需要时才实例化的
+（[#except.spec]）。
 
 [:en]
 If such an [~exception-specification] is needed but has not yet been
@@ -316,11 +434,17 @@ instantiated, the dependent names are looked up, the semantics constraints are
 checked, and the instantiation of any template used in the
 [~exception-specification] is done as if it were being done as part
 of instantiating the declaration of the specialization at that point.
+[:zh_CN]
+如果这种[~异常说明]被需要但还未被实例化，则如同它作为在该处对声明式的实例化过程
+的一部分一样，实施待决名字查找，检查其语义约束，并实例化在这个[~异常说明]中所
+使用的任何模板。
 
 [para]
 [enter:note]
 [:en]
 [#temp.point] defines the point of instantiation of a template specialization.
+[:zh_CN]
+[#temp.point] 定义了模板特例的实例化点。
 [exit:note]
 
 [para]
@@ -328,17 +452,25 @@ of instantiating the declaration of the specialization at that point.
 There is an implementation-defined quantity that specifies the limit on the
 total depth of recursive instantiations, which could involve more than one
 template.
+[:zh_CN]
+由实现定义的一个数量，指定了递归进行的实例化的总深度的限度，其中可能会涉及多于
+一个模板。
 
 [:en]
 The result of an infinite recursion in instantiation is undefined.
+[:zh_CN]
+无限递归的实例化的结果是未定义的。
 [enter:example]
 
 [codeblock]
 template<class T> class X {
   X<T>* p;          // OK
   X<T*> a;          // [:en] implicit generation of [`X<T>] requires
+                    // [|:zh_CN] [`X<T>] 的隐式生成需要
                     // [:en@~] the implicit instantiation of [`X<T*>] which requires
+                    // [|:zh_CN@~] 隐式实例化 [`X<T*>]，而它又需要
                     // [:en@~] the implicit instantiation of [`X<T**>] which ...
+                    // [|:zh_CN@~] 隐式实例化 [`X<T**>]，……
 };
 [codeblock:end]
 [exit:example]
