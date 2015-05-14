@@ -1,24 +1,35 @@
 ﻿[section#temp.local
     [:en] Locally declared names
+    [:zh_CN] 局部声明的名字
 ]
 
 [para]
 [:en]
 Like normal (non-template) classes, class templates have an injected-class-name
 (Clause [#class]).
+[:zh_CN]
+与普通（非模板）类相似，类模板也有注入类名（第 [#class] 条）。
 
 [:en]
 The injected-class-name can be used as a [~template-name] or a [~type-name].
+[:zh_CN]
+注入类名可以用作[~模板名]或[~类型名]。
 
 [:en]
 When it is used with a [~template-argument-list], as a [~template-argument] for
 a template [~template-parameter], or as the final identifier in the
 [~elaborated-type-specifier] of a friend class template declaration, it refers
 to the class template itself.
+[:zh_CN]
+若使用时带有[~模板实参列表]，将它用作某个模板[~模板形参]的[~模板实参]，或者将它
+用作某个友元类模板声明式的[~详细类型说明符]中的最后一个标识符时，注入类名涉指该
+类模板自身。
 
 [:en]
 Otherwise, it is equivalent to the [~template-name] followed by the
 [~template-parameter]s of the class template enclosed in [`<>].
+[:zh_CN]
+否则，它等价于其[~模板名]后面跟着以 [`<>] 包围的该类模板的[~模板形参]。
 
 [para]
 [:en]
@@ -26,6 +37,9 @@ Within the scope of a class template specialization or partial specialization,
 when the injected-class-name is used as a [~type-name], it is equivalent to the
 [~template-name] followed by the [~template-argument]s of the class template
 specialization or partial specialization enclosed in [`<>].
+[:zh_CN]
+在类模板特化式或部分特化式的作用域中，当注入类名被用作[~类型名]时，它等价于其
+[~模板名]后面跟着以 [`<>] 包围的该类模板特化式或部分特化式的[~模板实参]。
 
 [enter:example]
 [codeblock]
@@ -33,10 +47,14 @@ template<template<class> class T> class A { };
 template<class T> class Y;
 template<> class Y<int> {
   Y* p;                               // [:en] meaning [`Y<int>]
+                                      // [|:zh_CN] 意思是 [`Y<int>]
   Y<char>* q;                         // [:en] meaning [`Y<char>]
+                                      // [|:zh_CN] 意思是 [`Y<char>]
   A<Y>* a;                            // [:en] meaning [`A<::Y>]
+                                      // [|:zh_CN] 意思是 [`A<::Y>]
   class B {
     template<class> friend class Y;   // [:en] meaning [`::Y]
+                                      // [|:zh_CN] 意思是 [`::Y]
   };
 };
 [codeblock:end]
@@ -46,6 +64,9 @@ template<> class Y<int> {
 [:en]
 The injected-class-name of a class template or class template specialization can
 be used either as a [~template-name] or a [~type-name] wherever it is in scope.
+[:zh_CN]
+类模板或类模板特化式的注入类名，只要其处于作用域中，就可以被用作[~模板名]或
+[~类型名]。
 
 [enter:example]
 [codeblock]
@@ -55,10 +76,12 @@ template <class T> struct Base {
 
 template <class T> struct Derived: public Base<T> {
   typename Derived::Base* p;    // [:en] meaning [`Derived::Base<T>]
+                                // [|:zh_CN] 意思是 [`Derived::Base<T>]
 };
 
 template<class T, template<class> class U = T::template Base> struct Third { };
 Third<Base<int> > t;            // [:en] OK: default argument uses injected-class-name as a template
+                                // [|:zh_CN] OK：默认实参将注入类名用作模板
 [codeblock:end]
 [exit:example]
 
@@ -67,18 +90,25 @@ Third<Base<int> > t;            // [:en] OK: default argument uses injected-clas
 A lookup that finds an injected-class-name ([#class.member.lookup]) can result
 in an ambiguity in certain cases (for example, if it is found in more than one
 base class).
+[:zh_CN]
+找到注入类名的查找（[#class.member.lookup]），在某些情况下可能导致歧义（例如当
+在多个基类中找到时）。
 
 [:en]
 If all of the injected-class-names that are found refer to specializations of
 the same class template, and if the name is used as a [~template-name], the
 reference refers to the class template itself and not a specialization thereof,
 and is not ambiguous.
+[:zh_CN]
+如果所找到的所有注入类名都涉指同一个类模板的特化，且其名字被用作[~模板名]，则所
+涉指的是类模板自身而不是其特例，并且没有歧义。
 
 [enter:example]
 [codeblock]
 template <class T> struct Base { };
 template <class T> struct Derived: Base<int>, Base<char> {
   typename Derived::Base b;             // [:en] error: ambiguous
+                                        // [|:zh_CN] 错误：有歧义
   typename Derived::Base<double> d;     // OK
 };
 [codeblock:end]
@@ -89,15 +119,21 @@ template <class T> struct Derived: Base<int>, Base<char> {
 When the normal name of the template (i.e., the name from the enclosing scope,
 not the injected-class-name) is used, it always refers to the class template
 itself and not a specialization of the template.
+[:zh_CN]
+当使用模板的普通名字（就是外围作用域中的名字，而不是注入类名）时，它总是涉指该类
+模板自身而不是该模板的特例。
 
 [enter:example]
 [codeblock]
 template<class T> class X {
   X* p;             // [:en] meaning [`X<T>]
+                    // [|:zh_CN] 意思是 [`X<T>]
   X<T>* p2;
   X<int>* p3;
   ::X* p4;          // [:en] error: missing template argument list
+                    // [|:zh_CN] 错误：缺少模板实参列表
                     // [:en@~] [`::X] does not refer to the injected-class-name
+                    // [|:zh_CN@~] [`::X] 并不涉指注入类名
 };
 [codeblock:end]
 [exit:example]
@@ -106,20 +142,27 @@ template<class T> class X {
 [:en]
 A [~template-parameter] shall not be redeclared within its scope (including
 nested scopes).
+[:zh_CN]
+[~模板形参]不能在其作用域（包括嵌套的作用域）中被重复声明。
 
 [:en]
 A [~template-parameter] shall not have the same name as the template name.
+[:zh_CN]
+[~模板形参]不能具有与模板名相同的名字。
 
 [enter:example]
 [codeblock]
 template<class T, int i> class Y {
-  int T;            // [:en] error: template-parameter redeclared
+  int T;            // [:en] error: [~template-parameter] redeclared
+                    // [|:zh_CN] 错误：[~模板形参]被重复声明
   void f() {
-    char T;         // [:en] error: template-parameter redeclared
+    char T;         // [:en] error: [~template-parameter] redeclared
+                    // [|:zh_CN] 错误：[~模板形参]被重复声明
   }
 };
 
-template<class X> class X;      // [:en] error: template-parameter redeclared
+template<class X> class X;      // [:en] error: [~template-parameter] redeclared
+                                // [|:zh_CN] 错误：[~模板形参]被重复声明
 [codeblock:end]
 [exit:example]
 
@@ -130,6 +173,10 @@ class template definition, the name of a member of the class template hides the
 name of a [~template-parameter] of any enclosing class templates (but not a
 [~template-parameter] of the member if the member is a class or function
 template).
+[:zh_CN]
+处于类模板定义式之外的类模板成员的定义式中，此类模板的成员的名字隐藏其所在类模板
+的任何[~模板形参]的名字（但若该成员是类或函数模板，则并不隐藏该成员的[~模板形参]
+）。
 
 [enter:example]
 [codeblock]
@@ -142,11 +189,14 @@ template<class T> struct A {
 
 template<class B> void A<B>::f() {
   B b;              // [:en] [`A][=']s [`B], not the template parameter
+                    // [|:zh_CN] [`A] 中的 [`B]，而不是模板形参
 }
 
 template<class B> template<class C> void A<B>::g(C) {
   B b;              // [:en] [`A][=']s [`B], not the template parameter
+                    // [|:zh_CN] [`A] 中的 [`B]，而不是模板形参
   C c;              // [:en] the template parameter [`C], not [`A][=']s [`C]
+                    // [|:zh_CN] 模板形参 [`C]，而不是 [`A] 中的 [`C]
 }
 [codeblock:end]
 [exit:example]
@@ -156,6 +206,9 @@ template<class B> template<class C> void A<B>::g(C) {
 In the definition of a member of a class template that appears outside of the
 namespace containing the class template definition, the name of a
 [~template-parameter] hides the name of a member of this namespace.
+[:zh_CN]
+处于包围类模板定义式的命名空间之外的类模板成员的定义式中，[~模板形参]的名字隐藏
+此命名空间的成员的名字。
 
 [enter:example]
 [codeblock]
@@ -167,6 +220,7 @@ namespace N {
 }
 template<class C> void N::B<C>::f(C) {
   C b;              // [:en] [`C] is the template parameter, not [`N::C]
+                    // [|:zh_CN] [`C] 是模板形参，而不是 [`N::C]
 }
 [codeblock:end]
 [exit:example]
@@ -179,6 +233,11 @@ non-dependent base class ([#temp.dep.type]), if the name of the base class or
 the name of a member of the base class is the same as the name of a
 [~template-parameter], the base class name or member name hides the
 [~template-parameter] name ([#basic.scope.hiding]).
+[:zh_CN]
+在类模板的定义式中，或者在处于模板定义式之外的类模板成员的定义式中，对于每个非
+待决基类（[#temp.dep.type]），若该基类的名字或者该基类的成员的名字与某个[~模板
+形参]的名字相同，则该基类名或成员名隐藏该[~模板形参]名（[#basic.scope.hiding]）
+。
 
 [enter:example]
 [codeblock]
@@ -190,7 +249,9 @@ struct A {
 
 template<class B, class a> struct X : A {
   B b;              // [:en] [`A][=']s [`B]
+                    // [|:zh_CN] [`A] 的 [`B]
   a b;              // [:en] error: [`A][=']s [`a] isn[=']t a type name
+                    // [|:zh_CN] 错误：[`A] 的 [`a] 不是类型名
 };
 [codeblock:end]
 [exit:example]
