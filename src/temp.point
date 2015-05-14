@@ -1,5 +1,6 @@
 ﻿[section#temp.point
     [:en] Point of instantiation
+    [:zh_CN] 实例化点
 ]
 
 [para]
@@ -12,11 +13,19 @@ is referenced from within another template specialization and the context from
 which it is referenced depends on a template parameter, the point of
 instantiation of the specialization is the point of instantiation of the
 enclosing specialization.
+[:zh_CN]
+[%实例化[!～点]]
+对于函数模板特例，成员函数模板特例，或者类模板的成员函数或静态数据成员的特例，若
+该特例因其从其它模板特化式中被涉指而实例化，且涉指它的语境依存于某个模板形参，则
+该特例的实例化点是其外围特化式的实例化点。
 
 [:en]
 Otherwise, the point of instantiation for such a specialization immediately
 follows the namespace scope declaration or definition that refers to the
 specialization.
+[:zh_CN]
+否则，该特例的实例化点紧跟在对该特例进行涉指的命名空间作用域的声明式或定义式之后
+。
 
 [para]
 [:en]
@@ -24,6 +33,9 @@ If a function template or member function of a class template is called in a way
 which uses the definition of a default argument of that function template or
 member function, the point of instantiation of the default argument is the point
 of instantiation of the function template or member function specialization.
+[:zh_CN]
+若某函数模板或类模板的成员函数的调用方式中使用了这个函数模板或成员函数的某个默认
+实参，则该默认实参的实例化点是这个函数模板或成员函数的特例的实例化点。
 
 [para]
 [:en]
@@ -33,11 +45,18 @@ specialization of a member function of a class template, if the
 another template specialization and the context that requires it depends on a
 template parameter, the point of instantiation of the [~exception-specification]
 is the point of instantiation of the specialization that requires it.
+[:zh_CN]
+对于函数模板特例或类模板的成员函数特例的[~异常说明]，若该[~异常说明]因其被其他
+模板特例所需要而实例化，且需要它的语境依存于某个模板形参，则该[~异常说明]的
+实例化点是需要它的特例的实例化点。
 
 [:en]
 Otherwise, the point of instantiation for such an [~exception-specification]
 immediately follows the namespace scope declaration or definition that requires
 the [~exception-specification].
+[:zh_CN]
+否则，该[~异常说明]的实例化点紧跟在需要该[~异常说明]的命名空间作用域的声明式或
+定义式之后。
 
 [para]
 [:en]
@@ -49,22 +68,32 @@ depends on a template parameter, and if the specialization is not instantiated
 previous to the instantiation of the enclosing template, the point of
 instantiation is immediately before the point of instantiation of the enclosing
 template.
+[:zh_CN]
+对于类模板特例，类成员模板特例，或者类模板的类成员的特例，若该特例因其从其它模板
+特化式中被涉指而实例化，若涉指它的语境依存于某个模板形参，且若该特例在其外围模板
+的实例化之前未被实例化，则其实例化点紧跟在其外围模板的实例化点之前。
 
 [:en]
 Otherwise, the point of instantiation for such a specialization immediately
 precedes the namespace scope declaration or definition that refers to the
 specialization.
+[:zh_CN]
+否则，此特例的实例化点紧跟对该特例进行涉指的命名空间作用域的声明式或定义式之前。
 
 [para]
 [:en]
 If a virtual function is implicitly instantiated, its point of instantiation is
 immediately following the point of instantiation of its enclosing class template
 specialization.
+[:zh_CN]
+若虚函数被隐式实例化，则其实例化点紧跟其外围类模板特例的实例化点之后。
 
 [para]
 [:en]
 An explicit instantiation definition is an instantiation point for the
 specialization or specializations specified by the explicit instantiation.
+[:zh_CN]
+显式实例化定义式，是被该显式实例化式所指定的一个或多个特例的实例化点。
 
 [para]
 [:en]
@@ -72,6 +101,9 @@ The instantiation context of an expression that depends on the template
 arguments is the set of declarations with external linkage declared prior to the
 point of instantiation of the template specialization in the same translation
 unit.
+[:zh_CN]
+依存于模板实参的表达式的实例化语境，是在相同翻译单元中这个模板特例的实例化点之前
+所声明的带有外部连接的声明式的集合。
 
 [para]
 [:en]
@@ -81,16 +113,27 @@ points of instantiations within a translation unit, and in addition to the
 points of instantiation described above, for any such specialization that has a
 point of instantiation within the translation unit, the end of the translation
 unit is also considered a point of instantiation.
+[:zh_CN]
+函数模板，成员函数模板，或者类模板的成员函数或静态数据成员的特例，可以在一个翻译
+单元中有多个实例化点，而且，除了上述实例化点之外，对于任何在翻译单元中存在实例化
+点的这种特例，该翻译单元的结尾也被当作是一个实例化点。
 
 [:en]
 A specialization for a class template has at most one point of instantiation
 within a translation unit.
+[:zh_CN]
+类模板的一个特例在一个翻译单元中只能有最多一个实例化点。
 
 [:en]
 A specialization for any template may have points of instantiation in multiple
 translation units.
+[:zh_CN]
+任意模板的特例可以在多个翻译单元中均有实例化点。
 
 [:en]
 If two different points of instantiation give a template specialization
 different meanings according to the one definition rule ([#basic.def.odr]), the
 program is ill-formed, no diagnostic required.
+[:zh_CN]
+若两个不同的实例化点根据唯一定义原则（[#basic.def.odr]）为模板特例给出了不同的
+含义，则程序是非良构的，无须诊断。
