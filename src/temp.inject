@@ -1,29 +1,41 @@
 ﻿[section#temp.inject
     [:en] Friend names declared within a class template
+    [:zh_CN] 在类模板内声明的友元名字
 ]
 
 [para]
 [:en]
 Friend classes or functions can be declared within a class template.
+[:zh_CN]
+在类模板中可以声明友元类或函数。
 
 [:en]
 When a template is instantiated, the names of its friends are treated as if the
 specialization had been explicitly declared at its point of instantiation.
+[:zh_CN]
+当模板被实例化时，其友元的名字被当作如同其特例已经在其实例化点被显式声明过一样。
 
 [para]
 [:en]
 As with non-template classes, the names of namespace-scope friend functions of a
 class template specialization are not visible during an ordinary lookup unless
 explicitly declared at namespace scope ([#class.friend]).
+[:zh_CN]
+如同非模板类，类模板特例的命名空间作用域友元函数的名字，除非在命名空间作用域中
+被显式声明，否则在常规查找中是不可见的（[#class.friend]）。
 
 [:en]
 Such names may be found under the rules for associated classes
 ([#basic.lookup.argdep]).
+[:zh_CN]
+根据有关关联类的规则可以找到这种名字（[#basic.lookup.argdep]）。
 
 [footnote]
 [:en]
 Friend declarations do not introduce new names into any scope, either when the
 template is declared or when it is instantiated.
+[:zh_CN]
+不论是声明模板还是实例化它，友元声明式都不会向任何作用域中引入新名字。
 [footnote:end]
 
 [enter:example]
@@ -36,9 +48,13 @@ template<typename T> struct number {
 void g() {
   number<double> a(3), b(4);
   a = gcd(a,b);     // [:en] finds [`gcd] because [`number<double>] is an
+                    // [|:zh_CN] 找到了 [`gcd]，由于 [`number<double>] 是
                     // [:en@~] associated class, making [`gcd] visible
+                    // [|:zh_CN@~] 关联类，使得 [`gcd] 在其命名空间
                     // [:en@~] in its namespace (global scope)
+                    // [|:zh_CN@~] （全局作用域）中可见
   b = gcd(3,4);     // [:en] ill-formed; [`gcd] is not visible
+                    // [|:zh_CN] 非良构；[`gcd] 不可见
 }
 [codeblock:end]
 [exit:example]
