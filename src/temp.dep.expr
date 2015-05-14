@@ -1,56 +1,79 @@
 ﻿[section#temp.dep.expr
     [:en] Type-dependent expressions
+    [:zh_CN] 类型待决的表达式
 ]
 
 [para]
 [:en]
 Except as described below, an expression is type-dependent if any subexpression
 is type-dependent.
+[:zh_CN]
+除了如下所述之外，若一个表达式的任何子表达式是类型待决的，则该表达式是类型待决的
+。
 
 [para]
 [:en]
 [`this] is type-dependent if the class type of the enclosing member function is
 dependent ([#temp.dep.type]).
+[:zh_CN]
+若 [`this] 的所在成员函数的类类型是待决的（[#temp.dep.type]），则它是类型待决的
+。
 
 [para]
 [:en]
 An [~id-expression] is type-dependent if it contains
+[:zh_CN]
+若[~标识表达式]包含如下各项之一，则它是类型待决的：
 
 [list]
 [item]
 [:en] an [~identifier] associated by name lookup with one or more declarations
 declared with a dependent type,
+[:zh_CN] 通过名字查找与一个或多个以待决类型声明的声明式相关联的[~标识符]，
 
 [item]
 [:en] an [~identifier] associated by name lookup with one or more declarations
 of member functions of the current instantiation declared with a return type
 that contains a placeholder type ([#dcl.spec.auto]),
+[:zh_CN] 通过名字查找与一个或多个声明为返回类型包含占位符类型
+（[#dcl.spec.auto]）的当前实例的成员函数的声明式相关联的[~标识符]，
 
 [item]
 [:en] the [~identifier] [`__func__] ([#dcl.fct.def.general]), where any
 enclosing function is a template, a member of a class template, or a generic
 lambda,
+[:zh_CN] [~标识符] [`__func__]（[#dcl.fct.def.general]），其任何外围函数是模板，
+类模板的成员，或者通用 lambda。
 
 [item]
 [:en] a [~template-id] that is dependent,
+[:zh_CN] 待决的[~模板标识]，
 
 [item]
 [:en] a [~conversion-function-id] that specifies a dependent type, or
+[:zh_CN] 指定了待决类型的[~转换函数标识]，或者
 
 [item]
 [:en] a [~nested-name-specifier] or a [~qualified-id] that names a member of an
 unknown specialization;
+[:zh_CN] 指名了某个未知特例的成员的[~嵌套名说明符]或[~限定标识]；
 [list:end]
 
 [:en]
 or if it names a dependent member of the current instantiation that is a static
 data member of type ["array of unknown bound of [`T]] for some [`T]
 ([#temp.static]).
+[:zh_CN]
+或者，对于某个 [`T]，它指名了当前实例中某个具有类型“[`T] 的未知边界的数组”的静态
+数据成员（[#temp.static]）。
 
 [:en]
 Expressions of the following forms are type-dependent only if the type specified
 by the [~type-id], [~simple-type-specifier] or [~new-type-id] is dependent, even
 if any subexpression is type-dependent:
+[:zh_CN]
+如下形式的表达式，仅当其[~类型标识]，[~简单类型说明符]或 [~new-类型标识]所指定的
+类型是待决时，它才是类型待决的，即使其有任意子表达式是类型待决的，也是如此：
 
 [syntax:explanation]
 [| simple-type-specifier [`(] [~:opt expression-list] [`)] ]
@@ -67,6 +90,8 @@ if any subexpression is type-dependent:
 [:en]
 Expressions of the following forms are never type-dependent (because the type
 of the expression cannot be dependent):
+[:zh_CN]
+如下形式的表达式从不是类型待决的（这是由于表达式的类型不可能为待决的）：
 
 [syntax:explanation]
 [| literal ]
@@ -87,6 +112,8 @@ of the expression cannot be dependent):
 [enter:note]
 [:en]
 For the standard library macro [`offsetof], see [#support.types].
+[:zh_CN]
+有关标准程序库宏 [`offsetof]，参见 [#support.types]。
 [exit:note]
 
 [para]
@@ -95,28 +122,44 @@ A class member access expression ([#expr.ref]) is type-dependent if the
 expression refers to a member of the current instantiation and the type of the
 referenced member is dependent, or the class member access expression refers to
 a member of an unknown specialization.
+[:zh_CN]
+若类成员访问表达式（[#expr.ref]）涉指当前实例的成员，且所指代的成员的类型是待决
+的，或者该类成员访问表达式涉指某个未知特例的成员，则它是类型待决的。
 
 [enter:note]
 [:en]
 In an expression of the form [`x.y] or [`xp->y] the type of the expression is
 usually the type of the member [`y] of the class of [`x] (or the class pointed
 to by [`xp]).
+[:zh_CN]
+在形式为 [`x.y] 或 [`xp->y] 的表达式中，该表达式的类型通常为类 [`x]（或由 [`xp]
+所指向的类）的成员 [`y] 的类型。
 
 [:en]
 However, if [`x] or [`xp] refers to a dependent type that is not the current
 instantiation, the type of [`y] is always dependent.
+[:zh_CN]
+然而，若 [`x] 或 [`xp] 涉指某个并非当前实例的待决类型，则 [`y] 的类型总是待决的
+。
 
 [:en]
 If [`x] or [`xp] refers to a non-dependent type or refers to the current
 instantiation, the type of [`y] is the type of the class member access
 expression.
+[:zh_CN]
+若 [`x] 或 [`xp] 涉指某个非待决类型或者涉指当前实例，则 [`y] 的类型就是该类成员
+访问表达式的类型。
 [exit:note]
 
 [para]
 [:en]
 A [~braced-init-list] is type-dependent if any element is type-dependent or is a
 pack expansion.
+[:zh_CN]
+若[~花括号初始化列表]的任何成员类型待决或者是包组展开式，则它是类型待决的。
 
 [para]
 [:en]
 A [~fold-expression] is type-dependent.
+[:zh_CN]
+[~折叠表达式]是类型待决的。
