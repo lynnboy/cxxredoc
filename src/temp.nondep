@@ -1,11 +1,14 @@
 ﻿[section#temp.nondep
     [:en] Non-dependent names
+    [:zh_CN] 非待决的名字
 ]
 
 [para]
 [:en]
 Non-dependent names used in a template definition are found using the usual name
 lookup and bound at the point they are used.
+[:zh_CN]
+模板定义式中使用的非待决名字，是通过常规名字查找找到，并在它们的使用点绑定的。
 
 [enter:example]
 [codeblock]
@@ -16,13 +19,19 @@ template<class T> class Z {
 public:
   void f() {
     g(1);           // [:en] calls [`g(double)]
+                    // [|:zh_CN] 调用了 [`g(double)]
     h++;            // [:en] ill-formed: cannot increment function;
+                    // [|:zh_CN] 非良构：不能对函数进行增量：
                     // [:en@~] this could be diagnosed either here or
+                    // [|:zh_CN@~] 这可以在此处或者在其实例化点
                     // [:en@~] at the point of instantiation
+                    // [|:zh_CN@~] 之处进行诊断
   }
 };
 
 void g(int);        // [:en] not in scope at the point of the template
+                    // [|:zh_CN] 在模板的定义点不处于作用域中，
                     // [:en@~] definition, not considered for the call [`g(1)]
+                    // [|:zh_CN@~] 在调用中 [`g(1)] 不考虑它
 [codeblock:end]
 [exit:example]
