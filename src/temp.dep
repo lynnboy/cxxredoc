@@ -7,21 +7,34 @@
 [%name[!dependent]]
 Inside a template, some constructs have semantics which may differ from one
 instantiation to another.
+[:zh_CN]
+[%名字[!待决～]]
+在一个模板中，某些语言构造的语义在不同的实例之间是不同的。
 
 [:en]
 Such a construct [+depends] on the template parameters.
+[:zh_CN]
+这样的构造[+依存]于其模板形参。
 
 [:en]
 In particular, types and expressions may depend on the type and/or value of
 template parameters (as determined by the template arguments) and this
 determines the context for name lookup for certain names.
+[:zh_CN]
+特别是，类型和表达式可以依存于模板形参的类型和/或值（由其模板实参决定），而且这
+也决定了对特定名字进行查找的语境。
 
 [:en]
 Expressions may be [+type-dependent] (on the type of a template parameter) or
 [+value-dependent] (on the value of a non-type template parameter).
+[:zh_CN]
+表达式可能是[+类型待决的]（依存于模板形参的类型），或者是[+值待决的]（依存于
+非类型模板形参的值）。
 
 [:en]
 In an expression of the form:
+[:zh_CN]
+在如下形式的表达式中：
 
 [syntax:explanation]
 [~postfix-expression] [`(] [~:opt expression-list] [`)]
@@ -30,29 +43,42 @@ In an expression of the form:
 [:en@~]
 where the [~postfix-expression] is an [~unqualified-id], the [~unqualified-id]
 denotes a [%name[!dependent]] [+dependent name] if
+[:zh_CN@~]
+其中的[~后缀表达式]是个[~未限定标识]，如果符合以下条件，则这个[~未限定标识]代表
+一个[%名字[!待决～]][+待决的名字]。
 
 [list]
 [item] 
 [:en@~] any of the expressions in the [~expression-list] is a pack expansion
 ([#temp.variadic]),
+[:zh_CN@~] [~表达式列表]中有任何表达式是包组展开式（[#temp.variadic]），
 
 [item]
 [:en@~] any of the expressions or [~braced-init-list]s in the [~expression-list]
 is type-dependent ([#temp.dep.expr]), or
+[:zh_CN@~] [~表达式列表]中有任何表达式或[~花括号初始化列表]是类型待决的表达式
+（[#temp.dep.expr]），或者
 
 [item]
 [:en@~] if the [~unqualified-id] is a [~template-id] in which any of the
 template arguments depends on a template parameter.
+[:zh_CN@~] 当该[~未限定标识]是一个[~模板标识]，其中有任何模板实参依存于某个模板
+形参时。
 [list:end]
 
 [:en]
 If an operand of an operator is a type-dependent expression, the operator also
 denotes a dependent name.
+[:zh_CN]
+若某个运算符的一个操作数是类型待决的表达式，则该运算符也代表一个待决的名字。
 
 [:en]
 Such names are unbound and are looked up at the point of the template
 instantiation ([#temp.point]) in both the context of the template definition and
 the context of the point of instantiation.
+[:zh_CN]
+这些名字是未绑定的，并且在模板实例化点（[#temp.point]），同时模板定义式的语境和
+实例化点的语境中进行查找。
 
 [para]
 [enter:example]
@@ -69,6 +95,9 @@ template<class T> struct X : B<T> {
 [:en]
 the base class name [`B<T>], the type name [`T::A], the names [`B<T>::i] and
 [`pb->j] explicitly depend on the [~template-parameter].
+[:zh_CN]
+基类名 [`B<T>]，类型名 [`T::A]，名字 [`B<T>::i] 和 [`pb->j] 明确依存于其[~模板
+形参]。
 [exit:example]
 
 [para]
@@ -77,6 +106,9 @@ In the definition of a class or class template, the scope of a dependent base
 class ([#temp.dep.type]) is not examined during unqualified name lookup either
 at the point of definition of the class template or member or during an
 instantiation of the class template or member.
+[:zh_CN]
+在类或类模板的定义式中，在该类模板或成员的定义点，或者在该类模板或成员的实例化
+过程中进行未限定名的查找时，均不检查待决基类（[#temp.dep.type]）的作用域。
 
 [enter:example]
 [codeblock]
@@ -86,6 +118,7 @@ template<class T> class B {
 };
 template<class T> struct X : B<T> {
   A a;              // [:en] [`a] has type [`double]
+                    // [|:zh_CN] [`a] 的类型为 [`double]
 };
 [codeblock:end]
 
@@ -93,6 +126,9 @@ template<class T> struct X : B<T> {
 The type name [`A] in the definition of [`X<T>] binds to the typedef name
 defined in the global namespace scope, not to the typedef name defined in the
 base class [`B<T>].
+[:zh_CN]
+[`X<T>] 的定义式中的类型名 [`A] 绑定到全局命名空间作用域中定义的 typedef 名，而
+不是基类 [`B<T>] 中定义的 typedef 名。
 [exit:example]
 
 [enter:example]
@@ -108,6 +144,7 @@ int a;
 template<class T> struct Y : T {
   struct B { /* ... */ };
   B b;                          // [:en] The [`B] defined in [`Y]
+                                // [|:zh_CN] [`Y] 中所定义的 [`B]
   void f(int i) { a = i; }      // [`::a]
   Y* p;                         // [`Y<T>]
 };
@@ -118,6 +155,8 @@ Y<A> ya;
 [:en]
 The members [`A::B], [`A::a], and [`A::Y] of the template argument [`A] do not
 affect the binding of names in [`Y<A>].
+[:zh_CN]
+模板实参 [`A] 的成员 [`A::B]，[`A::a] 和 [`A::Y] 并不影响 [`Y<A>] 中的名字绑定。
 [exit:example]
 
 [include temp.dep.type]
