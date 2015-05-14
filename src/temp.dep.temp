@@ -1,15 +1,21 @@
 ﻿[section#temp.dep.temp
     [:en] Dependent template arguments
+    [:zh_CN] 待决的模板实参
 ]
 
 [para]
 [:en]
 A type [~template-argument] is dependent if the type it specifies is dependent.
+[:zh_CN]
+若类型[~模板实参]所指定的类型是待决的，则它是待决的。
 
 [para]
 [:en]
 A non-type [~template-argument] is dependent if its type is dependent or the
 constant expression it specifies is value-dependent.
+[:zh_CN]
+若非类型[~模板实参]的类型是待决的，或其所指定的常量表达式是值待决的，则它是待决
+的。
 
 [para]
 [:en]
@@ -17,8 +23,14 @@ Furthermore, a non-type [~template-argument] is dependent if the corresponding
 non-type [~template-parameter] is of reference or pointer type and the
 [~template-argument] designates or points to a member of the current
 instantiation or a member of a dependent type.
+[:zh_CN]
+此外，如果非类型[~模板实参]所对应的非类型[~模板形参]具有引用或指针类型，且该
+[~模板实参]指代或指向当前实例的某个成员，或者某个待决类型的成员，则它是待决的。
 
 [para]
 [:en]
 A template [~template-argument] is dependent if it names a [~template-parameter]
 or is a [~qualified-id] that refers to a member of an unknown specialization.
+[:zh_CN]
+若模板[~模板实参]指名了某个[~模板形参]，或者是一个涉指某个未知特例的成员的[~限定
+标识]，则它是待决的。
