@@ -1,10 +1,13 @@
 ﻿[section#temp.dep.type
     [:en] Dependent types
+    [:zh_CN] 待决的类型
 ]
 
 [para]
 [:en]
 A name refers to the [+current instantiation] if it is
+[:zh_CN]
+如果某个名字为如下之一，则它涉指[+当前实例]：
 
 [list]
 [item]
@@ -12,6 +15,9 @@ A name refers to the [+current instantiation] if it is
 in the definition of a class template, a nested class of a class template,
 a member of a class template, or a member of a nested class of a class template,
 the injected-class-name (Clause [#class]) of the class template or nested class,
+[:zh_CN]
+在类模板，类模板的嵌套类，类模板的成员，或者类模板的嵌套类的成员的定义式中，该
+类模板或者嵌套类的注入类名（[#class]），
 
 [item]
 [:en]
@@ -19,11 +25,16 @@ in the definition of a primary class template or a member of a primary class
 template, the name of the class template followed by the template argument list
 of the primary template (as described below) enclosed in [`<>] (or an equivalent
 template alias specialization),
+[:zh_CN]
+在主类模板或主类模板的成员的定义式中，该类模板的名字后面跟着被括在 [`<>] 中的
+主模板的模板实参列表（如下文所述）（或者某个等价的模板别名特例），
 
 [item]
 [:en]
 in the definition of a nested class of a class template, the name of the nested
 class referenced as a member of the current instantiation, or
+[:zh_CN]
+在类模板的嵌套类的定义式中，作为当前实例的成员进行涉指的该嵌套类的名字，或者
 
 [item]
 [:en]
@@ -31,11 +42,17 @@ in the definition of a partial specialization or a member of a partial
 specialization, the name of the class template followed by the template argument
 list of the partial specialization enclosed in [`<>] (or an equivalent template
 alias specialization).
+[:zh_CN]
+在部分特化式或部分特化式的成员的定义式中，该类模板的名字后面跟着被括在 [`<>] 中
+的该部分特化式的模板实参列表（或者某个等价的模板别名特例）。
 
 [:en]
 If the [$n]th template parameter is a parameter pack, the [$n]th template
 argument is a pack expansion ([#temp.variadic]) whose pattern is the name of
 the parameter pack.
+[:zh_CN]
+若其第 [$n] 个模板形参是形参包组，则第 [$n] 个模板实参是一个以该形参包组的名字为
+其模式的包组展开式（[#temp.variadic]）。
 [list:end]
 
 [para]
@@ -43,53 +60,80 @@ the parameter pack.
 The template argument list of a primary template is a template argument list in
 which the [$n]th template argument has the value of the [$n]th template
 parameter of the class template.
+[:zh_CN]
+主模板的模板实参列表，是其第 [$n] 个模板实参具有该类模板的第 [$n] 个模板形参的值
+的模板实参列表。
 
 [:en]
 If the [$n]th template parameter is a template parameter pack
 ([#temp.variadic]), the [$n]th template argument is a pack expansion
 ([#temp.variadic]) whose pattern is the name of the template parameter pack.
+[:zh_CN]
+若第 [$n] 个模板形参是模板形参包组（[#temp.variadic]），则第 [$n] 个模板实参是以
+该模板形参包组的名字为其模式的包组展开式（[#temp.variadic]）。
 
 [para]
 [:en]
 A template argument that is equivalent to a template parameter (i.e., has the
 same constant value or the same type as the template parameter) can be used in
 place of that template parameter in a reference to the current instantiation.
+[:zh_CN]
+等价于某个模板形参（就是说，与该模板形参具有相同的常量值或相同的类型）的模板实参
+，在对当前实例所进行的涉指之中可以用于代替的这个模板形参。
 
 [:en]
 In the case of a non-type template argument, the argument must have been given
 the value of the template parameter and not an expression in which the template
 parameter appears as a subexpression.
+[:zh_CN]
+对于非类型模板实参的情况，必须为此实参给定该模板形参的值，而不是某个以该模板形参
+作为子表达式的表达式。
 
 [enter:example]
 [codeblock]
 template <class T> class A {
   A* p1;                        // [:en] [`A] is the current instantiation
+                                // [|:zh_CN] [`A] 为当前实例
   A<T>* p2;                     // [:en] [`A<T>] is the current instantiation
+                                // [|:zh_CN] [`A<T>] 为当前实例
   A<T*> p3;                     // [:en] [`A<T*>] is not the current instantiation
+                                // [|:zh_CN] [`A<T*>] 不是当前实例
   ::A<T>* p4;                   // [:en] [`::A<T>] is the current instantiation
+                                // [|:zh_CN] [`::A<T>] 为当前实例
   class B {
     B* p1;                      // [:en] [`B] is the current instantiation
+                                // [|:zh_CN] [`B] 为当前实例
     A<T>::B* p2;                // [:en] [`A<T>::B] is the current instantiation
+                                // [|:zh_CN] [`A<T>::B] 为当前实例
     typename A<T*>::B* p3;      // [:en] [`A<T*>::B] is not the
+                                // [|:zh_CN] [`A<T*>::B] 不是
                                 // [:en@~] current instantiation
+                                // [|:zh_CN@~] 当前实例
   };
 };
 
 template <class T> class A<T*> {
   A<T*>* p1;                    // [:en] [`A<T*>] is the current instantiation
+                                // [|:zh_CN] [`A<T*>] 为当前实例
   A<T>* p2;                     // [:en] [`A<T>] is not the current instantiation
+                                // [|:zh_CN] [`A<T>] 不是当前实例
 };
 
 template <class T1, class T2, int I> struct B {
   B<T1, T2, I>* b1;             // [:en] refers to the current instantiation
+                                // [|:zh_CN] 涉指当前实例
   B<T2, T1, I>* b2;             // [:en] not the current instantiation
+                                // [|:zh_CN] 不是当前实例
   typedef T1 my_T1;
   static const int my_I = I;
   static const int my_I2 = I+0;
   static const int my_I3 = my_I;
   B<my_T1, T2, my_I>* b3;       // [:en] refers to the current instantiation
+                                // [|:zh_CN] 涉指当前实例
   B<my_T1, T2, my_I2>* b4;      // [:en] not the current instantiation
+                                // [|:zh_CN] 不是当前实例
   B<my_T1, T2, my_I3>* b5;      // [:en] refers to the current instantiation
+                                // [|:zh_CN] 涉指当前实例
 };
 [codeblock:end]
 [exit:example]
@@ -99,11 +143,16 @@ template <class T1, class T2, int I> struct B {
 [%base class[!dependent]]
 A [+dependent base class] is a base class that is a dependent type and is not
 the current instantiation.
+[:zh_CN]
+[%基类[!待决～]]
+[+待决基类]是待决类型但并非当前实例的基类。
 
 [enter:note]
 [:en]
 a base class can be the current instantiation in the case of a nested class
 naming an enclosing class as a base.
+[:zh_CN]
+当嵌套类将其外围类指名为其基类时，基类可以是当前实例。
 
 [enter:example]
 [codeblock]
@@ -126,17 +175,24 @@ template<class T> struct A<T>::B::C : A<T> {
 [:en]
 [%instantiation[!member of the current]]
 A name is a [+member of the current instantiation] if it is
+[:zh_CN]
+[%实例[!当前～的成员]]
+如果某个名字为如下之一，则它是[+当前实例的成员]：
 
 [list]
 [item]
 [:en]
 An unqualified name that, when looked up, refers to at least one member of a
 class that is the current instantiation or a non-dependent base class thereof.
+[:zh_CN]
+未限定名，当进行查找时，涉指作为当前实例的类或其某个非待决基类的至少一个成员。
 
 [enter:note]
 [:en]
 This can only occur when looking up a name in a scope enclosed by the definition
 of a class template.
+[:zh_CN]
+这只会发生于在由类模板的定义式所包围的作用域中查找名字之时。
 [exit:note]
 
 [item]
@@ -144,12 +200,18 @@ of a class template.
 A [~qualified-id] in which the [~nested-name-specifier] refers to the current
 instantiation and that, when looked up, refers to at least one member of a class
 that is the current instantiation or a non-dependent base class thereof.
+[:zh_CN]
+[~限定标识]，其[~嵌套名说明符]涉指当前实例，并且当进行名字查找时，涉指作为当前
+实例的类或其某个非待决基类的至少一个成员。
 
 [enter:note]
 [:en]
 if no such member is found, and the current instantiation has any dependent base
 classes, then the [~qualified-id] is a member of an unknown specialization;
 see below.
+[:zh_CN]
+如果未找到这种成员，并且当前实例具有任何待决的基类，则该[~限定标识]为某个未知
+特例的成员；见下文。
 [exit:note]
 
 [item]
@@ -159,12 +221,19 @@ An [~id-expression] denoting the member in a class member access expression
 instantiation, and the [~id-expression], when looked up
 ([#basic.lookup.classref]), refers to at least one member of a class that is the
 current instantiation or a non-dependent base class thereof.
+[:zh_CN]
+代表类成员访问表达式（[#expr.ref]）中的成员的[~标识表达式]，其中的对象表达式的
+类型为当前实例，并且当进行名字查找（[#basic.lookup.classref]）时，该[~标识表达
+式]涉指作为当前实例的类或其某个非待决基类的至少一个成员。
 
 [enter:note]
 [:en]
 if no such member is found, and the current instantiation has any dependent base
 classes, then the [~id-expression] is a member of an unknown specialization;
 see below.
+[:zh_CN]
+如果未找到这种成员，并且当前实例具有任何待决的基类，则该[~标识表达式]为某个未知
+特例的成员；见下文。
 [exit:note]
 [list:end]
 
@@ -173,13 +242,17 @@ see below.
 template <class T> class A {
   static const int i = 5;
   int n1[i];        // [:en] [`i] refers to a member of the current instantiation
+                    // [|:zh_CN] [`i] 涉指当前实例的成员
   int n2[A::i];     // [:en] [`A::i] refers to a member of the current instantiation
+                    // [|:zh_CN] [`A::i] 涉指当前实例的成员
   int n3[A<T>::i];  // [:en] [`A<T>::i] refers to a member of the current instantiation
+                    // [|:zh_CN] [`A<T>::i] 涉指当前实例的成员
   int f();
 };
 
 template <class T> int A<T>::f() {
   return i;         // [:en] [`i] refers to a member of the current instantiation
+                    // [|:zh_CN] [`i] 涉指当前实例的成员
 }
 [codeblock:end]
 [exit:example]
@@ -190,25 +263,36 @@ template <class T> int A<T>::f() {
 A name is a [+dependent member of the current instantiation] if it is a member
 of the current instantiation that, when looked up, refers to at least one member
 of a class that is the current instantiation.
+[:zh_CN]
+[%实例[!当前～的待决成员]]
+如果某个名字是当前实例的成员，并且当进行查找时，涉指作为当前实例的类的至少一个
+成员，则它是[+当前实例的待决成员]。
 
 [para]
 [:en]
 A name is a [+member of an unknown specialization] if it is
+[:zh_CN]
+如果某个名字为如下之一，则它是[+某个未知特例的成员]：
 
 [list]
 [item] 
 [:en] A [~qualified-id] in which the [~nested-name-specifier] names a dependent
 type that is not the current instantiation.
+[:zh_CN] [~限定标识]，其[~嵌套名说明符]指名某个不是当前实例的待决类型。
 
 [item]
 [:en] A [~qualified-id] in which the [~nested-name-specifier] refers to the
 current instantiation, the current instantiation has at least one dependent base
 class, and name lookup of the [~qualified-id] does not find any member of a
 class that is the current instantiation or a non-dependent base class thereof.
+[:zh_CN] [~限定标识]，其[~嵌套名说明符]涉指当前实例，当前实例具有至少一个待决
+基类，并且对该[~限定标识]进行的名字查找未找到任何作为当前实例的类或其非待决基类
+的成员。
 
 [item]
 [:en] An [~id-expression] denoting the member in a class member access
 expression ([#expr.ref]) in which either
+[:zh_CN] 代表类成员访问表达式（[#expr.ref]）中的成员的[~标识表达式]，其中
 
 [list]
 [item]
@@ -216,10 +300,13 @@ expression ([#expr.ref]) in which either
 current instantiation has at least one dependent base class, and name lookup
 of the [~id-expression] does not find a member of a class that is the current
 instantiation or a non-dependent base class thereof; or
+[:zh_CN] 对象表达式的类型为当前实例，当前实例具有至少一个待决基类，并且对该
+[~标识表达式]进行的名字查找未找到任何作为当前实例的类或其非待决基类的成员；或者
 
 [item]
 [:en] the type of the object expression is dependent and is not the current
 instantiation.
+[:zh_CN] 对象表达式的类型是待决的，并且不是当前实例。
 [list:end]
 [list:end]
 
@@ -229,6 +316,10 @@ If a [~qualified-id] in which the [~nested-name-specifier] refers to the current
 instantiation is not a member of the current instantiation or a member of an
 unknown specialization, the program is ill-formed even if the template
 containing the [~qualified-id] is not instantiated; no diagnostic required.
+[:zh_CN]
+如果某个[~限定标识]，其中的[~嵌套名说明符]涉指当前实例，并非当前实例的成员或某个
+未知特例的成员，则即使包含该[~限定标识]的模板并未被实例化，程序也是非良构的；
+无须诊断。
 
 [:en]
 Similarly, if the [~id-expression] in a class member access expression for which
@@ -236,6 +327,10 @@ the type of the object expression is the current instantiation does not refer to
 a member of the current instantiation or a member of an unknown specialization,
 the program is ill-formed even if the template containing the member access
 expression is not instantiated; no diagnostic required.
+[:zh_CN]
+相似地，如果某个类成员访问表达式，其中的对象表达式的类型为当前实例，其[~标识表达
+式]并未涉指当前实例的成员或某个未知特例的成员，则即使包含该成员访问表达式的模板
+并未被实例化，程序也是非良构的；无须诊断。
 
 [enter:example]
 [codeblock]
@@ -243,8 +338,11 @@ template<class T> class A {
   typedef int type;
   void f() {
     A<T>::type i;           // [:en] OK: refers to a member of the current instantiation
+                            // [|:zh_CN] OK：涉指当前实例的成员
     typename A<T>::other j; // [:en] error: neither a member of the current instantiation nor
+                            // [|:zh_CN] 错误：既不是当前实例的成员
                             // [:en@~] a member of an unknown specialization
+                            // [|:zh_CN@~] 也不是某个未知特例的成员
   }
 };
 [codeblock:end]
@@ -257,10 +355,16 @@ instantiated that refers to a member of the current instantiation with a
 [~qualified-id] or class member access expression, the name in the
 [~qualified-id] or class member access expression is looked up in the template
 instantiation context.
+[:zh_CN]
+对于给定的一组模板实参，如果对模板的某个特例进行实例化中包含以某个[~限定标识]或
+类成员访问表达式对当前实例的某个成员进行涉指，则该[~限定标识]或类成员访问表达式
+中的名字在模板实例化语境中进行查找。
 
 [:en]
 If the result of this lookup differs from the result of name lookup in the
 template definition context, name lookup is ambiguous.
+[:zh_CN]
+如果此查找的结果与在模板定义式的语境中进行名字查找的结果不同，则名字查找有歧义。
 
 [enter:note]
 [:en]
@@ -268,34 +372,49 @@ the result of name lookup differs only when the member of the current
 instantiation was found in a non-dependent base class of the current
 instantiation and a member with the same name is also introduced by the
 substitution for a dependent base class of the current instantiation.
+[:zh_CN]
+只有当在当前实例的某个非待决基类中找到当前实例的成员，且对当前实例的某个待决基类
+进行的代换中还引入了具有相同名字的成员时，名字查找的结果才会产生不同。
 [exit:note]
 
 [para]
 [:en]
 A type is dependent if it is
+[:zh_CN]
+如果某个类型为如下之一，则它是待决的。
 
 [list]
 [item]
 [:en@~] a template parameter,
+[:zh_CN@~] 模板形参，
 [item]
 [:en@~] a member of an unknown specialization,
+[:zh_CN@~] 某个未知特例的成员，
 [item]
 [:en@~] a nested class or enumeration that is a dependent member of the current
 instantiation,
+[:zh_CN@~] 作为当前实例的待决成员的嵌套类或枚举，
 [item]
 [:en@~] a cv-qualified type where the cv-unqualified type is dependent,
+[:zh_CN@~] 被 cv-限定的类型，其 cv-未限定的类型是待决的，
 [item]
 [:en@~] a compound type constructed from any dependent type,
+[:zh_CN@~] 从任意待决类型构造的组合类型，
 [item]
 [:en@~] an array type constructed from any dependent type or whose size is
 specified by a constant expression that is value-dependent,
+[:zh_CN@~] 从任意待决类型构造的，或者以值待决的常量表达式指定其大小的数组，
 [item]
 [:en@~] a [~simple-template-id] in which either the template name is a template
 parameter or any of the template arguments is a dependent type or an expression
 that is type-dependent or value-dependent, or
+[:zh_CN@~] [~简单模板标识]，其中的模板名为一个模板形参，或者有任何模板实参为一个
+待决类型或者一个类型待决或值待决的表达式，或者
 [item]
 [:en@~] denoted by [`decltype(][~expression][`)], where [~expression] is
 type-dependent ([#temp.dep.expr]).
+[:zh_CN@~] 由 [`decltype(][~表达式][`)] 表示，其中[~表达式] 是类型待决的
+（[#temp.dep.expr]）。
 [list:end]
 
 [para]
@@ -304,4 +423,7 @@ type-dependent ([#temp.dep.expr]).
 Because typedefs do not introduce new types, but instead simply refer to other
 types, a name that refers to a typedef that is a member of the current
 instantiation is dependent only if the type referred to is dependent.
+[:zh_CN]
+由于 typedef 并不引入新的类型，而只是单纯地代表其他类型，所以涉指作为当前实例的
+成员的 typedef 的名字时，仅当被指代的类型待决时才是待决的。
 [exit:note]
