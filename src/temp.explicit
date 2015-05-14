@@ -1,5 +1,6 @@
 ﻿[section#temp.explicit
     [:en] Explicit instantiation
+    [:zh_CN] 显式实例化
 ]
 
 [para]
@@ -7,22 +8,33 @@
 [%instantiation[!explicit]]
 A class, function, variable, or member template specialization can be explicitly
 instantiated from its template.
+[:zh_CN]
+[%实例化[!显式～]]
+类、函数、变量或成员模板特例可从其模板显式实例化出来。
 
 [:en]
 A member function, member class or static data member of a class template can
 be explicitly instantiated from the member definition associated with its class
 template.
+[:zh_CN]
+类模板的成员函数、成员类或静态数据成员可从与其类模板相关联的成员定义式中显式
+实例化出来。
 
 [:en]
 An explicit instantiation of a function template or member function of a class
 template shall not use the [`inline] or [`constexpr] specifiers.
+[:zh_CN]
+函数模板或类模板的成员函数的显式实例化式不能使用 [`inline] 或 [`constexpr]
+说明符。
 
 [para]
 [:en]
 The syntax for explicit instantiation is:
+[:zh_CN]
+显式实例化式的语法是：
 
 [syntax]
-[rule explicit-instantiation [:zh_CN] ]
+[rule explicit-instantiation [:zh_CN] 显式实例化式 ]
     [| [`:opt extern] [`template] declaration ]
 [rule:end]
 [syntax:end]
@@ -30,26 +42,39 @@ The syntax for explicit instantiation is:
 [:en]
 There are two forms of explicit instantiation: an explicit instantiation
 definition and an explicit instantiation declaration.
+[:zh_CN]
+有两种形式的显式实例化式：显式实例化定义式和显式实例化声明式。
 
 [:en]
 An explicit instantiation declaration begins with the [`extern] keyword.
+[:zh_CN]
+显式实例化声明式以 [`extern] 关键字开始。
 
 [para]
 [:en]
 If the explicit instantiation is for a class or member class, the
 [~elaborated-type-specifier] in the [~declaration] shall include a
 [~simple-template-id].
+[:zh_CN]
+若显式实例化的是类或成员类，则其[~声明式]中的[~详细类型说明符]应当包含一个[~简单
+模板标识]。
 
 [:en]
 If the explicit instantiation is for a function or member function, the
 [~unqualified-id] in the [~declaration] shall be either a [~template-id] or,
 where all template arguments can be deduced, a [~template-name] or
 [~operator-function-id].
+[:zh_CN]
+若显式实例化的是函数或成员函数，则其[~声明式]中的[~未限定标识]应当为一个[~模板
+标识]，或者当所有模板实参均可被推断出来时，为一个[~模板名]或[~运算符函数标识]。
 
 [enter:note]
 [:en]
 The declaration may declare a [~qualified-id], in which case the
 [~unqualified-id] of the [~qualified-id] must be a [~template-id].
+[:zh_CN]
+其声明式可以声明某个[~限定标识]，这种情况下该[~限定标识]的[~未限定标识]必须为
+一个[~模板标识]。
 [exit:note]
 
 [:en]
@@ -57,24 +82,37 @@ If the explicit instantiation is for a member function, a member class or
 a static data member of a class template specialization, the name of the class
 template specialization in the [~qualified-id] for the member name shall be a
 [~simple-template-id].
+[:zh_CN]
+若显式实例化的是类模板特例的成员函数、成员类或静态数据成员，则其成员名的[~限定
+标识]中的该类模板特例的名字应当为一个[~简单模板标识]。
 
 [:en]
 If the explicit instantiation is for a variable, the [~unqualified-id] in the
 declaration shall be a [~template-id].
+[:zh_CN]
+若显式实例化的是变量，则其声明式中的[~未限定标识]应当为一个[~模板标识]。
 
 [:en]
 An explicit instantiation shall appear in an enclosing namespace of its
 template.
+[:zh_CN]
+显式实例化式应当出现于其模板的某个外围命名空间中。
 
 [:en]
 If the name declared in the explicit instantiation is an unqualified name, the
 explicit instantiation shall appear in the namespace where its template is
 declared or, if that namespace is inline ([#namespace.def]), any namespace from
 its enclosing namespace set.
+[:zh_CN]
+若显式实例化式中声明的名字是未限定名，则该显式实例化式应当出现于声明了其模板的
+命名空间中，或者若该命名空间为内联的（[#namespace.def]），则应当出现于其外围命名
+空间集合中的任意命名空间中。
 
 [enter:note]
 [:en]
 Regarding qualified names in declarators, see [#dcl.meaning].
+[:zh_CN]
+有关在声明符中的限定名，见 [#dcl.meaning]。
 [exit:note]
 
 [enter:example]
@@ -85,6 +123,7 @@ template void Array<int>::mf();
 
 template<class T> void sort(Array<T>& v) { /* ... */ }
 template void sort(Array<char>&);       // [:en] argument is deduced here
+                                        // [|:zh_CN] 实参在此进行推断
 
 namespace N {
   template<class T> void f(T&) { }
@@ -98,41 +137,62 @@ template void N::f<int>(int&);
 A declaration of a function template, a variable template, a member function
 or static data member of a class template, or a member function template of a
 class or class template shall precede an explicit instantiation of that entity.
+[:zh_CN]
+函数模板，变量模板，类模板的成员函数或静态数据成员，或者类或类模板的成员函数模板
+的声明式，应当先于该实体的显式实例化式。
 
 [:en]
 A definition of a class template, a member class of a class template, or a
 member class template of a class or class template shall precede an explicit
 instantiation of that entity unless the explicit instantiation is preceded by an
 explicit specialization of the entity with the same template arguments.
+[:zh_CN]
+类模板，类模板的成员类，或者类或类模板的成员类模板的定义式，应当先于该实体的显式
+实例化式，除非这个显式实例化式之前出现过该实体带有相同模板实参的显式特化式。
 
 [:en]
 If the [~declaration] of the explicit instantiation names an implicitly-declared
 special member function (Clause [#special]), the program is ill-formed.
+[:zh_CN]
+若显式实例化式的[~声明式]指名了某个隐式声明的特殊成员函数（第 [#special] 条），
+则程序非良构。
 
 [para]
 [:en]
 For a given set of template arguments, if an explicit instantiation of a
 template appears after a declaration of an explicit specialization for that
 template, the explicit instantiation has no effect.
+[:zh_CN]
+对于一组给定的模板形参，若某个模板的显式实例化式出现于该模板的显式特化式的声明式
+之后，则该显式实例化式没有效果。
 
 [:en]
 Otherwise, for an explicit instantiation definition the definition of a function
 template, a variable template, a member function template, or a member function
 or static data member of a class template shall be present in every translation
 unit in which it is explicitly instantiated.
+[:zh_CN]
+否则，对于显式实例化定义式，函数模板，变量模板，成员函数模板，或者类模板的成员
+函数或静态数据成员的定义式，应当在其被显式实例化的每个翻译单元中出现。
 
 [para]
 [:en]
 An explicit instantiation of a class, function template, or variable template
 specialization is placed in the namespace in which the template is defined.
+[:zh_CN]
+类、函数模板或变量模板的特例的显式实例化式被置于定义了该模板的命名空间中。
 
 [:en]
 An explicit instantiation for a member of a class template is placed in the
 namespace where the enclosing class template is defined.
+[:zh_CN]
+类模板的成员的显式实例化式被置于定义了其所在类模板的命名空间中。
 
 [:en]
 An explicit instantiation for a member template is placed in the namespace
 where the enclosing class or class template is defined.
+[:zh_CN]
+成员模板的显式实例化式被置于定义了其所在类或类模板的命名空间中。
 
 [enter:example]
 [codeblock]
@@ -141,15 +201,22 @@ namespace N {
 }
 
 template class Y<int>;                  // [:en] error: class template [`Y] not visible
+                                        // [|:zh_CN] 错误：类模板 [`Y] 在全局
                                         // [:en@~] in the global namespace
+                                        // [|:zh_CN@~] 命名空间中不可见
 
 using N::Y;
 template class Y<int>;                  // [:en] error: explicit instantiation outside of the
+                                        // [|:zh_CN] 错误：显式实例化式处于
                                         // [:en@~] namespace of the template
+                                        // [|:zh_CN@~] 模板的命名空间之外
 
 template class N::Y<char*>;             // [:en] OK: explicit instantiation in namespace [`N]
+                                        // [|:zh_CN] OK：在命名空间 [`N] 中显式实例化
 template void N::Y<double>::mf();       // [:en] OK: explicit instantiation
+                                        // [|:zh_CN] OK：在命名空间
                                         // [:en@~] in namespace [`N]
+                                        // [|:zh_CN@~] [`N] 中显式实例化
 [codeblock:end]
 [exit:example]
 
@@ -159,13 +226,17 @@ A trailing [~template-argument] can be left unspecified in an explicit
 instantiation of a function template specialization or of a member function
 template specialization provided it can be deduced from the type of a function
 parameter ([#temp.deduct]).
+[:zh_CN]
+在函数模板特例或成员函数模板特例的显式实例化式中，可以不指定尾部的[~模板实参]，
+只要它可以从函数实参的类型中推断出来（[#temp.deduct]）。
 
 [enter:example]
 [codeblock]
 template<class T> class Array { /* ... */ };
 template<class T> void sort(Array<T>& v) { /* ... */ }
 
-// [:en] instantiate [`sort(Array<int>&)] - template-argument deduced
+// [:en] instantiate [`sort(Array<int>&)] - [~template-argument] deduced
+// [|:zh_CN] 实例化 [`sort(Array<int>&)]——其[~模板实参]被推断出来
 template void sort<>(Array<int>&);
 [codeblock:end]
 [exit:example]
@@ -178,11 +249,17 @@ of its members (not including members inherited from base classes and members
 that are templates) that has not been previously explicitly specialized in the
 translation unit containing the explicit instantiation, except as described
 below.
+[:zh_CN]
+除了下面描述的之外，指名某个类模板特例的显式实例化式，同时还是在包含该显式实例化
+式的翻译单元中，所有之前并未被显式特化过的成员（不包括继承自基类的成员和模板成员
+）的相同种类（声明式或定义式）的显式实例化式。
 
 [enter:note]
 [:en]
 In addition, it will typically be an explicit instantiation of certain
 implementation-dependent data about the class.
+[:zh_CN]
+此外，典型情况下，它还是对有关该类的实现相关的特定数据的显式实例化式。
 [exit:note]
 
 [para]
@@ -191,6 +268,9 @@ An explicit instantiation definition that names a class template specialization
 explicitly instantiates the class template specialization and is an explicit
 instantiation definition of only those members that have been defined at the
 point of instantiation.
+[:zh_CN]
+指名某个类模板特例的显式实例化定义式，显式实例化了这个类模板特例，并且是在实例化
+点已定义的成员的显式实例化定义式。
 
 [para]
 [:en]
@@ -199,6 +279,10 @@ initializer or return value ([#dcl.spec.auto]), [`const] variables of literal
 types, variables of reference types, and class template specializations,
 explicit instantiation declarations have the effect of suppressing the implicit
 instantiation of the entity to which they refer.
+[:zh_CN]
+除了内联函数，带有由其初始化式或返回值进行推断的类型的声明式（[#dcl.spec.auto]）
+，字面量类型的 [`const] 变量，引用类型的变量，以及类模板特例之外，显式实例化
+声明式具有抑制它们所指代的实体的隐式实例化的效果。
 
 [enter:note]
 [:en]
@@ -207,6 +291,10 @@ instantiation declaration will still be implicitly instantiated when odr-used
 ([#basic.def.odr]) so that the body can be considered for inlining, but that no
 out-of-line copy of the inline function would be generated in the translation
 unit.
+[:zh_CN]
+其意图是使经受显式实例化声明式的内联函数被 ODR-式使用（[#basic.def.odr]）时，
+仍然可被隐式实例化以使其函数体可进行内联，而在翻译单元中并不生成该内联函数的非
+内联副本。
 [exit:note]
 
 [para]
@@ -214,6 +302,9 @@ unit.
 If an entity is the subject of both an explicit instantiation declaration and an
 explicit instantiation definition in the same translation unit, the definition
 shall follow the declaration.
+[:zh_CN]
+若某实体在同一翻译单元中同时经受显式实例化声明式和显式实例化定义式，则其定义式
+应当在其声明式之后。
 
 [:en]
 An entity that is the subject of an explicit instantiation declaration and that
@@ -221,25 +312,37 @@ is also used in a way that would otherwise cause an implicit instantiation
 ([#temp.inst]) in the translation unit shall be the subject of an explicit
 instantiation definition somewhere in the program; otherwise the program is
 ill-formed, no diagnostic required.
+[:zh_CN]
+经受显式实例化声明式并在其翻译单元中以能够导致隐式实例化（[#temp.inst]）的方式被
+使用的实体，应当在程序中的别处经受显式实例化定义式；否则程序非良构，无须诊断。
 
 [enter:note]
 [:en]
 This rule does apply to inline functions even though an explicit instantiation
 declaration of such an entity has no other normative effect.
+[:zh_CN]
+此规则也适用于内联函数，尽管这种实体的显式实例化声明式并没有其他的规则性效果。
 
 [:en]
 This is needed to ensure that if the address of an inline function is taken in
 a translation unit in which the implementation chose to suppress the out-of-line
 body, another translation unit will supply the body.
+[:zh_CN]
+这用于保证，如果在一个翻译单元中获取某个内联函数的地址，而实现准备在其中抑制其
+非内联函数体，那么其他翻译单元将会提供其函数体。
 [exit:note]
 
 [:en]
 An explicit instantiation declaration shall not name a specialization of a
 template with internal linkage.
+[:zh_CN]
+显式实例化声明式不能指名带有内部连接的模板的特例。
 
 [para]
+[:en]
 The usual access checking rules do not apply to names used to specify explicit
 instantiations.
+常规的访问检查规则并不适用于用以指定显式实例的名字。
 
 [enter:note]
 [:en]
@@ -248,17 +351,24 @@ In particular, the template arguments and names used in the function declarator
 private types or objects which would normally not be accessible and the template
 may be a member template or member function which would not normally be
 accessible.
+[:zh_CN]
+特别是，在函数声明符中所使用的模板实参和名字（包括形参类型，返回类型和异常说明）
+，可以是通常不可访问的私有类型或对象，而该模板也可以为通常不可访问的成员模板或
+成员函数。
 [exit:note]
 
 [para]
 [:en]
 An explicit instantiation does not constitute a use of a default argument, so
 default argument instantiation is not done.
+[:zh_CN]
+显式实例化式并不构成对默认实参的使用，故它并不会实例化默认实参。
 
 [enter:example]
 [codeblock]
 char* p = 0;
 template<class T> T g(T x = &p) { return x; }
 template int g<int>(int);       // [:en] OK even though [`&p] isn[=']t an [`int].
+                                // [|:zh_CN] OK，即使 [`&p] 并不是 [`int]。
 [codeblock:end]
 [exit:example]
