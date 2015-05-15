@@ -1124,8 +1124,8 @@ or catch-clause parameter) with the same cv-unqualified type as the function
 return type, the copy/move operation can be omitted by constructing the
 automatic object directly into the function[=']s return value
 [:zh_CN]
-在返回类类型的函数的 [`return] 语句中，当其表达式是（除函数或捕获子句的形参外）
-非-volatile 自动对象的名字，且它带有与函数返回类型相同的未被 cv-限定的类型时，
+在返回类类型的函数的 [`return] 语句中，当其表达式是（除函数或 catch 子句的形参外
+）非-volatile 自动对象的名字，且它带有与函数返回类型相同的未被 cv-限定的类型时，
 其复制/移动操作可以通过将该自动对象直接构造到该函数的返回值中而省略掉
 
 [item]
@@ -1137,9 +1137,9 @@ whose scope does not extend beyond the end of the innermost enclosing
 exception object ([#except.throw]) can be omitted by constructing the automatic
 object directly into the exception object
 [:zh_CN]
-在 [~throw-表达式]（[#expr.throw]）中，当其操作数是（除函数或捕获子句的形参外）
-非-volatile 自动对象的名字，且它的作用域不超过其最内层外围 [~try-块]（如果有）的
-末尾时，从该操作数向异常对象（[#except.throw]）的复制/移动操作可以通过将该自动
+在 [~throw-表达式]（[#expr.throw]）中，当其操作数是（除函数或 catch 子句的形参外
+）非-volatile 自动对象的名字，且它的作用域不超过其最内层外围 [~try-块]（如果有）
+的末尾时，从该操作数向异常对象（[#except.throw]）的复制/移动操作可以通过将该自动
 对象直接构造到该异常对象中而省略掉
 
 [item]
