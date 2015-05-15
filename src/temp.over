@@ -1,11 +1,16 @@
 ﻿[section#temp.over
     [:en] Overload resolution
+    [:zh_CN] 重载决议
 ]
 
 [para]
+[:en]
 [%overloading[!resolution[!function template]]]
 A function template can be overloaded either by (non-template) functions of its
 name or by (other) function templates of the same name.
+[:zh_CN]
+[%重载[!～决议[!函数模板]]]
+函数模板可以被其名字的（非模板）函数或被（其他）相同名字的函数模板所重载。
 
 [:en]
 When a call to that name is written (explicitly, or implicitly using the
@@ -14,44 +19,70 @@ any explicit template arguments ([#temp.arg]) are performed for each function
 template to find the template argument values (if any) that can be used with
 that function template to instantiate a function template specialization that
 can be invoked with the call arguments.
+[:zh_CN]
+当对该名字的调用被（显式，或使用运算符记法隐式）写出时，对每个函数模板实施模板
+实参推断（[#temp.deduct]）并对任何显式模板实参进行检查（[#temp.arg]），以找到
+一组模板实参值（如果有），它们可以被用于从该函数模板实例化一个函数模板特例，并
+能够以这个调用的实参来进行调用。
 
 [:en]
 For each function template, if the argument deduction and checking succeeds, the
 [~template-argument]s (deduced and/or explicit) are used to synthesize the
 declaration of a single function template specialization which is added to the
 candidate functions set to be used in overload resolution.
+[:zh_CN]
+对于每个函数模板，若实参推断和检查成功，则其（被推断的和/或显式的）[~模板实参]
+被用于为一个函数模板特例合成出声明式，它将被添加到用于重载决议的候选函数集合中。
 
 [:en]
 If, for a given function template, argument deduction fails, no such function is
 added to the set of candidate functions for that template.
+[:zh_CN]
+若对于某个给定函数模板，实参推断失败了，则不会为该模板向候选函数集合中添加这样的
+函数。
 
 [:en]
 The complete set of candidate functions includes all the synthesized
 declarations and all of the non-template overloaded functions of the same name.
+[:zh_CN]
+候选函数的完整集合包括所有合成的声明式和所有相同名字的非模板重载函数。
 
 [:en]
 The synthesized declarations are treated like any other functions in the
 remainder of overload resolution, except as explicitly noted in
 [#over.match.best].
+[:zh_CN]
+除非在 [#over.match.best] 中明确指出，否则合成的声明式在剩下的重载决议中将与任何
+其他函数同等对待。
 
 [footnote]
 [:en]
 The parameters of function template specializations contain no template
 parameter types.
+[:zh_CN]
+函数模板特例的形参中不包含模板形参类型。
 
 [:en]
 The set of conversions allowed on deduced arguments is limited, because the
 argument deduction process produces function templates with parameters that
 either match the call arguments exactly or differ only in ways that can be
 bridged by the allowed limited conversions.
+[:zh_CN]
+允许对被推断的实参实施的转换的集合是有限的，这是由于实参推断过程产生的函数模板所
+带有的形参要么与调用的实参精确匹配，要么其差别可以仅由所允许的有限转换进行桥接。
 
 [:en]
 Non-deduced arguments allow the full range of conversions.
+[:zh_CN]
+非推断的实参允许全部范围的转换。
 
 [:en]
 Note also that [#over.match.best] specifies that a non-template function will
 be given preference over a template specialization if the two functions are
 otherwise equally good candidates for an overload match.
+[:zh_CN]
+还要注意 [#over.match.best] 指定了当两个函数对某重载匹配来说是同样好的候选时，
+非模板函数将优先于模板特例。
 [footnote:end]
 
 [para:~]
@@ -63,12 +94,15 @@ void f(int a, int b, char c, char d) {
   int m1 = max(a,b);            // [`max(int a, int b)]
   char m2 = max(c,d);           // [`max(char a, char b)]
   int m3 = max(a,c);            // [:en] error: cannot generate [`max(int,char)]
+                                // [|:zh_CN] 错误：无法生成 [`max(int,char)]
 }
 [codeblock:end]
 
 [para]
 [:en]
 Adding the non-template function
+[:zh_CN]
+向上例中添加非模板函数
 
 [codeblock]
 int max(int,int);
@@ -78,11 +112,16 @@ int max(int,int);
 to the example above would resolve the third call, by providing a function that
 could be called for [`max(a,c)] after using the standard conversion of [`char]
 to [`int] for [`c].
+[:zh_CN·~]
+将会通过提供在为 [`c] 使用从 [`char] 到 [`int] 的标准转换之后可以为 [`max(a,c)]
+调用的函数而解决第三个调用。
 
 [para]
 [:en]
 Here is an example involving conversions on a function argument involved in
 [~template-argument] deduction:
+[:zh_CN]
+这是包括了在[~模板实参]推断中所涉及到的函数实参上进行转换的例子：
 
 [codeblock]
 template<class T> struct B { /* ... */ };
@@ -99,6 +138,8 @@ void g(B<int>& bi, D<int>& di) {
 [:en]
 Here is an example involving conversions on a function argument not involved in
 [~template-parameter] deduction:
+[:zh_CN]
+这是包括了未在[~模板形参]的推断中所涉及的函数实参上进行转换的例子：
 
 [codeblock]
 template<class T> void f(T*,int);       // #1
@@ -118,17 +159,23 @@ void h(int* pi, int i, char c) {
 [:en]
 Only the signature of a function template specialization is needed to enter the
 specialization in a set of candidate functions.
+[:zh_CN]
+将函数模板特例加入到候选函数的集合中时只需要该特例的签名。
 
 [:en]
 Therefore only the function template declaration is needed to resolve a call
 for which a template specialization is a candidate.
+[:zh_CN]
+因此在对某模板特例为其候选的调用进行决议时只需要函数模板的声明式。
 
 [enter:example]
 [codeblock]
 template<class T> void f(T);    // [:en] declaration
+                                // [|:zh_CN] 声明式
 
 void g() {
   f("Annemarie");               // [:en] call of [`f<const char*>]
+                                // [|:zh_CN] 调用 [`f<const char*>]
 }
 [codeblock:end]
 
@@ -136,8 +183,13 @@ void g() {
 [:en]
 The call of [`f] is well-formed even if the template [`f] is only declared and
 not defined at the point of the call.
+[:zh_CN]
+即使模板 [`f] 在调用点只进行过声明而未曾定义，对 [`f] 的调用也是良构的。
 
 [:en]
 The program will be ill-formed unless a specialization for [`f<const char*>],
 either implicitly or explicitly generated, is present in some translation unit.
+[:zh_CN]
+除非在某个翻译单元中存在隐式或显式生成的 [`f<const char*>] 的特例，否则程序是
+非良构的。
 [exit:example]
