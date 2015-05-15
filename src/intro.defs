@@ -50,13 +50,13 @@ parentheses
 
 [section:def#defns.argument.macro
     [:en] argument [index argument [!function-like macro]]
-    [:zh_CN] 实参（argument） [index 实参 [!函数形式宏]]
+    [:zh_CN] 实参（argument） [index 实参 [!函数式宏]]
 ]
 [:en]
 <function-like macro> sequence of preprocessing tokens in the comma-separated
 list bounded by the parentheses
 [:zh_CN]
-【函数形式宏】 圆括号所包围的逗号分隔列表中的预处理记号序列
+【函数式宏】 圆括号所包围的逗号分隔列表中的预处理记号序列
 
 [section:def#defns.argument.throw
     [:en] argument [index argument [!throw expression]]
@@ -226,13 +226,13 @@ acquires a value on entry to the function or handler
 
 [section:def#defns.parameter.macro
     [:en] parameter [index parameter [sub function-like macro]]
-    [:zh_CN] 形参（parameter） [index 形参 [sub 函数形式宏～]]
+    [:zh_CN] 形参（parameter） [index 形参 [sub 函数式宏～]]
 ]
 [:en]
 <function-like macro> identifier from the comma-separated list bounded by the
 parentheses immediately following the macro name
 [:zh_CN]
-【函数形式宏】 紧跟宏名的圆括号所包围的逗号分隔列表中的标识符
+【函数式宏】 紧跟宏名的圆括号所包围的逗号分隔列表中的标识符
 
 [section:def#defns.parameter.templ
     [:en] parameter [index parameter [sub template]]

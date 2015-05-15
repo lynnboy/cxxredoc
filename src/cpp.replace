@@ -1,13 +1,18 @@
 ﻿[section#cpp.replace
     [:en] Macro replacement
+    [:zh_CN] 宏替换
 ]
 [%:begin#macro.replacement
     [:en] macro [!replacement]
+    [:zh_CN] 宏[!～替换]
 ]
 
 [:en]
 [%replacement[!macro][see macro[!replacement]]]
 [%preprocessing directives[!macro replacement][see macro[!replacement]]]
+[:zh_CN]
+[%替换[!宏～][see 宏[!～替换]]]
+[%预处理指令[!宏替换][see 宏[!～替换]]]
 
 [para]
 [:en]
@@ -15,6 +20,10 @@
 Two replacement lists are identical if and only if the preprocessing tokens in
 both have the same number, ordering, spelling, and white-space separation, where
 all white-space separations are considered identical.
+[:zh_CN]
+[%宏[!～替换]]
+两个替换列表当且仅当它们之中的预处理记号具有相同的数量、顺序、拼写和空白分隔时，
+它们是等同的，其中所有空白分隔均被认为是等同的。
 
 [para]
 [:en]
@@ -24,6 +33,10 @@ An identifier currently defined as an
 directive provided that the second definition is an object-like macro definition
 and the two replacement lists are identical, otherwise the program is
 ill-formed.
+[:zh_CN]
+当前被定义为[%对象式宏[see 宏[!对象式～]]][%宏[!对象式～]][+对象式]宏的标识符
+可被其他 [`#define] 预处理指令重新定义，只要第二个定义也是对象式宏定义且其两个
+替换列表是等同的，否则程序非良构。
 
 [:en]
 Likewise, an identifier currently defined as a
@@ -32,12 +45,19 @@ Likewise, an identifier currently defined as a
 directive provided that the second definition is a function-like macro
 definition that has the same number and spelling of parameters, and the two
 replacement lists are identical, otherwise the program is ill-formed.
+[:zh_CN]
+相似地，当前被定义为[%函数式宏[see 宏[!函数式～]]][%宏[!函数式～]][+函数式]宏的
+标识符可被其他 [`#define] 预处理指令重新定义，只要第二个定义也是带有相同数量和
+拼写的形参的函数式宏定义且其两个替换列表是等同的，否则程序非良构。
 
 [para]
 [:en]
 [%macro[!replacement list]]
 There shall be white-space between the identifier and the replacement list
 in the definition of an object-like macro.
+[:zh_CN]
+[%宏[!替换列表]]
+对象式宏的定义中，标识符和替换列表之间应当有空白。
 
 [para]
 [:en]
@@ -45,48 +65,71 @@ If the [~identifier-list] in the macro definition does not end with an ellipsis,
 the number of arguments (including those arguments consisting of no
 preprocessing tokens) in an invocation of a function-like macro shall equal the
 number of parameters in the macro definition.
+[:zh_CN]
+若宏定义中的[~标识符列表]不是以省略号结束的，则对函数式宏的调用中的实参（包括
+没有预处理记号所构成的实参）数量应当与该宏定义中的形参数量相等。
 
 [:en]
 Otherwise, there shall be more arguments in the invocation than there are
 parameters in the macro definition (excluding the [`...]).
+[:zh_CN]
+否则，调用中的实参应当比宏定义中的（除 [`...] 之外的）形参更多。
 
 [:en]
 There shall exist a [`)] preprocessing token that terminates the invocation.
+[:zh_CN]
+应当存在一个用来终止该调用的 [`)] 预处理记号。
 
 [para]
 [%[`__VA_ARGS__]]
 [:en]
 The identifier [`__VA_ARGS__] shall occur only in the replacement-list of a
 function-like macro that uses the ellipsis notation in the parameters.
+[:zh_CN]
+标识符 [`__VA_ARGS__] 只能出现在其形参中使用了省略号记法的函数式宏的替换列表中。
 
 [para]
 [:en]
 A parameter identifier in a function-like macro shall be uniquely declared
 within its scope.
+[:zh_CN]
+函数式宏中的形参标识符，在其作用域中应当被唯一声明。
 
 [para]
 [:en]
 The identifier immediately following the [`define] is called the
-[%macro[!name]] [%name[!macro][see macro[!name]]]
-[+macro name].
+[%macro[!name]] [%name[!macro][see macro[!name]]] [+macro name].
+[:zh_CN]
+紧跟在 [`define] 后面的标识符被称为[%宏[!～名]][%名[!宏～][see宏[!～名]]][+宏名]
+。
 
 [:en]
 There is one name space for macro names.
+[:zh_CN]
+宏名有一个命名空间。
 
 [:en]
 Any white-space characters preceding or following the replacement list of
 preprocessing tokens are not considered part of the replacement list for either
 form of macro.
+[:zh_CN]
+各种形式的宏中，预处理记号的替换列表前后的任何空白字符，均不认为是替换列表的
+一部分。
 
 [para]
 [:en]
 If a [%[`#] operator] [`#] preprocessing token, followed by an identifier,
 occurs lexically at the point at which a preprocessing directive could begin,
 the identifier is not subject to macro replacement.
+[:zh_CN]
+若某个后面跟着标识符的预处理记号 [%[`#] 运算符][`#] 在词法上出现于应当开始一个
+预处理指令之处，则该标识符不会进行宏替换。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [%[`#define]]
@@ -96,6 +139,9 @@ A preprocessing directive of the form
 [:en@~]
 defines an [%macro[!object-like]] [+object-like macro] that causes each
 subsequent instance of the macro name
+[:zh_CN@~]
+定义[%宏[!对象式～]][+对象式宏]，并导致这个宏名的每个后续实例
+<sup><a href="#footnote_153" title="脚注 153">153</a></sup>
 
 [footnote]
 [:en]
@@ -103,47 +149,67 @@ Since, by macro-replacement time, all character literals and string literals are
 preprocessing tokens, not sequences possibly containing identifier-like
 subsequences (see [#lex.phases], translation phases), they are never scanned for
 macro names or parameters.
+[:zh_CN]
+由于在宏替换时，所有字符字面量和字符串字面量都是预处理记号，而不是可能包含类似
+标识符子序列的序列（参见 [#lex.phrases]，翻译阶段），它们从不会为宏名或形参进行
+扫描。
 [footnote:end]
 
 [:en@~]
 to be replaced by the replacement list of preprocessing tokens that constitute
 the remainder of the directive.
+[:zh_CN@~]
+均被构成该指令的余下部分的预处理记号的替换序列所替换。
 
 [footnote]
 [:en]
 An alternative token ([#lex.digraph]) is not an identifier, even when its
 spelling consists entirely of letters and underscores.
+[:zh_CN]
+替代记号（[#lex.digraph]）并不是标识符，即使其拼写完全由字母和下划线组成。
 
 [:en]
 Therefore it is not possible to define a macro whose name is the same as that of
 an alternative token.
+[:zh_CN]
+因此定义与某替代记号的名字相同的宏是不可能的。
 [footnote:end]
 
 [:en]
 The replacement list is then rescanned for more macro names as specified below.
+[:zh_CN]
+该替换序列随即按照下文所述重新扫描更多的宏名。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
-[rule]
-    [| [`#] [`define] identifier lparen [~:opt identifier-list] [`)] replacement-list new-line ]
-    [| [`#] [`define] identifier lparen [`...] [`)] replacement-list new-line ]
-    [| [`#] [`define] identifier lparen identifier-list [`,] [`...] [`)] replacement-list new-line ]
-[rule:end]
+[| [`#] [`define] identifier lparen [~:opt identifier-list] [`)]
+    replacement-list new-line ]
+[| [`#] [`define] identifier lparen [`...] [`)] replacement-list new-line ]
+[| [`#] [`define] identifier lparen identifier-list [`,] [`...] [`)]
+    replacement-list new-line ]
 [syntax:end]
 
 [:en@~]
 [%macro[!function-like]]
 defines a [+function-like macro] with parameters, whose use is similar
 syntactically to a function call.
+[:zh_CN@~]
+[%宏[!函数式～]]
+定义带有形参的[+函数式宏]，其用法在语法上与函数调用相似。
 
 [:en]
 The parameters [%parameters[!macro]] are specified by the optional list of
 identifiers, whose scope extends from their declaration in the identifier list
 until the new-line character that terminates the [`#define] preprocessing
 directive.
+[:zh_CN]
+其形参[%形参[!宏]]由可选的标识符列表所指定，其作用域从该标识符列表中的声明延伸到
+终结该 [`#define] 预处理指令的换行字符。
 
 [:en]
 [%invocation[!macro]]
@@ -151,38 +217,59 @@ Each subsequent instance of the function-like macro name followed by a [`(] as
 the next preprocessing token introduces the sequence of preprocessing tokens
 that is replaced by the replacement list in the definition (an invocation of the
 macro).
+[:zh_CN]
+[%调用[!宏]]
+这个函数式宏名后面跟着 [`(] 为其下一个预处理记号的每个后续实例，都开始一个预处理
+记号序列，它将被替换为其定义中的替换列表（对该宏的调用）。
 
 [:en]
 The replaced sequence of preprocessing tokens is terminated by the matching [`)]
 preprocessing token, skipping intervening matched pairs of left and right
 parenthesis preprocessing tokens.
+[:zh_CN]
+被替换的预处理记号序列由匹配的 [`)] 预处理记号终止，跳过介于其间的相匹配的左右
+括号预处理记号对。
 
 [:en]
 Within the sequence of preprocessing tokens making up an invocation of a
 function-like macro, new-line is considered a normal white-space character.
+[:zh_CN]
+在构成函数式宏的调用的预处理记号序列中，换行被当作普通空白字符。
 
 [para]
 [:en]
 [%macro[!function-like[!arguments]]]
 The sequence of preprocessing tokens bounded by the outside-most matching
 parentheses forms the list of arguments for the function-like macro.
+[:zh_CN]
+[%宏[!函数式～[!实参]]]
+由最外层的匹配括号所包围的预处理记号序列构成函数式宏的实参的列表。
 
 [:en]
 The individual arguments within the list are separated by comma preprocessing
 tokens, but comma preprocessing tokens between matching inner parentheses do not
 separate arguments.
+[:zh_CN]
+列表中的独立实参是以逗号预处理记号分隔的，但处于匹配的内部括号中的逗号预处理记号
+并不分隔实参。
 
 [:en]
 If there are sequences of preprocessing tokens within the list of arguments that
 would otherwise act as preprocessing directives,
+[:zh_CN]
+若实参列表中的预处理记号序列可能被当作预处理指令，
 
 [footnote]
 [:en]
 Despite the name, a non-directive is a preprocessing directive.
+[:zh_CN]
+不管名字如何，非指令也是预处理指令。
 [footnote:end]
 
 [:en@~]
 the behavior is undefined.
+[:zh_CN@~]
+则其行为是未定义的。
 
 [para]
 [:en]
@@ -191,11 +278,18 @@ If there is a [`...] immediately preceding the [`)] in the function-like macro
 definition, then the trailing arguments, including any separating comma
 preprocessing tokens, are merged to form a single item: the [+variable
 arguments].
+[:zh_CN]
+[%宏[!函数式～[!实参]]]
+若函数式宏定义中紧接 [`)] 之前有 [`...]，则尾部的实参，包括任何用于分隔的逗号
+预处理记号，都被合并以构成一个单独的项：[+可变实参]。
 
 [:en]
 The number of arguments so combined is such that, following merger, the number
 of arguments is one more than the number of parameters in the macro definition
 (excluding the [`...]).
+[:zh_CN]
+如此合并的实参的数量为，合并之后的实参数量比宏定义中（除 [`...] 之外）的形参的
+数量大一。
 
 [include cpp.subst]
 
