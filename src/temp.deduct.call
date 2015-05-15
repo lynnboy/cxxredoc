@@ -1,5 +1,6 @@
 ﻿[section#temp.deduct.call
     [:en] Deducing template arguments from a function call
+    [:zh_CN] 从函数调用中推断模板实参
 ]
 
 [para]
@@ -7,6 +8,9 @@
 Template argument deduction is done by comparing each function template
 parameter type (call it [`P]) with the type of the corresponding argument of the
 call (call it [`A]) as described below.
+[:zh_CN]
+模板实参推断是按如下所述通过对每个函数模板形参类型（称其为 [`P]）与调用中的对应
+实参的类型（称其为 [`A]）进行比较而作出的。
 
 [:en]
 If [`P] is a dependent type, removing references and cv-qualifiers from [`P]
@@ -16,36 +20,54 @@ then deduction is performed instead for each element of the initializer list,
 taking [$[`P]'] as a function template parameter type and the initializer
 element as its argument, and in the [$[`P]'][`[N`]] case, if [`N] is a non-type
 template parameter, [`N] is deduced from the length of the initializer list.
+[:zh_CN]
+如果 [`P] 是待决类型，从 [`P] 移除引用和 cv-限定符将会得到（对某个 [$[`P]']）
+[`std::initializer_list<][$[`P]'][`>] 或者 [$[`P]'][`[N`]]，并且其实参是个非空
+初始化式列表（[#dcl.init.list]），则为初始化式列表中的每个元素进行推断，其中将
+[$[`P]'] 作为函数模板形参类型，并以初始化式的元素作为其实参进行推断，而在
+[$[`P]'][`[N`]] 的情况中，如果 [`N] 是某个非类型模板形参，则 [`N] 从初始化式列表
+的长度推断出来。
 
 [:en]
 Otherwise, an initializer list argument causes the parameter to be considered a
 non-deduced context ([#temp.deduct.type]).
+[:zh_CN]
+否则，初始化式列表实参将使其形参被当作非推断语境处理（[#temp.deduct.type]）。
 
 [enter:example]
 [codeblock]
 template<class T> void f(std::initializer_list<T>);
 f({1,2,3});                 // [:en] [`T] deduced to [`int]
+                            // [|:zh_CN] [`T] 被推断为 [`int]
 f({1,"asdf"});              // [:en] error: [`T] deduced to both [`int] and [`const char*]
+                            // [|:zh_CN] 错误：[`T] 同时被推断为 [`int] 和 [`const char*]
 
 template<class T> void g(T);
 g({1,2,3});                 // [:en] error: no argument deduced for [`T]
+                            // [|:zh_CN] 错误：未对 [`T] 推断出实参
 
 template<class T, int N> void h(T const(&)[N]);
 h({1,2,3});                 // [:en] [`T] deduced to [`int], [`N] deduced to [`3]
+                            // [|:zh_CN] [`T] 被推断为 [`int]，[`N] 被推断为 [`3]
 
 template<class T> void j(T const(&)[3]);
 j({42});                    // [:en] [`T] deduced to [`int], array bound not considered
+                            // [|:zh_CN] [`T] 被推断为 [`int]，不考虑数组的界
 
 struct Aggr { int i; int j; };
 template<int N> void k(Aggr const(&)[N]);
 k({1,2,3});                 // [:en] error: deduction fails, no conversion from [`int] to [`Aggr]
+                            // [|:zh_CN] 错误：推断失败，不存在从 [`int] 向 [`Aggr] 的转换
 k({{1},{2},{3}});           // [:en] OK, [`N] deduced to [`3]
+                            // [|:zh_CN] OK，[`N] 被推断为 [`3]
 
 template<int M, int N> void m(int const(&)[M][N]);
 m({{1,2},{3,4}});           // [:en] [`M] and [`N] both deduced to [`2]
+                            // [|:zh_CN] [`M] 和 [`N] 都被推断为 [`2]
 
 template<class T, int N> void n(T const(&)[N], T);
 n({{1},{2},{3}},Aggr());    // [:en] OK, [`T] is [`Aggr], [`N] is [`3]
+                            // [|:zh_CN] OK，[`T] 为 [`Aggr]，[`N] 为 [`3]
 [codeblock:end]
 [exit:example]
 
@@ -54,14 +76,22 @@ For a function parameter pack that occurs at the end of the
 [~parameter-declaration-list], the type [`A] of each remaining argument of the
 call is compared with the type [`P] of the [~declarator-id] of the function
 parameter pack.
+[:zh_CN]
+对于出现在[~形参声明式列表]的末尾的函数形参包组，该调用中的每个余下的实参的类型
+[`A] 是与该函数形参包组的[~声明符标识]的类型 [`P] 进行比较的。
 
 [:en]
 Each comparison deduces template arguments for subsequent positions in the
 template parameter packs expanded by the function parameter pack.
+[:zh_CN]
+每个比较推断了被函数形参包组所展开的模板形参包组中的后续位置的模板实参。
 
 [:en]
 When a function parameter pack appears in a non-deduced context
 ([#temp.deduct.type]), the type of that parameter pack is never deduced.
+[:zh_CN]
+如果函数形参包组出现于非推断语境中（[#temp.deduct.type]），则该形参包组的类型
+不会进行推断。
 
 [enter:example]
 [codeblock]
@@ -72,9 +102,13 @@ template<class T1, class ... Types> void g1(Types ..., T1);
 void h(int x, float& y) {
   const int z = x;
   f(x, y, z);                  // [:en] [`Types] is deduced to [`int], [`float], [`const int]
+                               // [|:zh_CN] [`Types] 被推断为“[`int], [`float], [`const int]”
   g(x, y, z);                  // [:en] [`T1] is deduced to [`int]; [`Types] is deduced to [`float], [`int]
+                               // [|:zh_CN] [`T1] 被推断为 [`int]；[`Types] 被推断为“[`float], [`int]”
   g1(x, y, z);                 // [:en] error: [`Types] is not deduced
+                               // [|:zh_CN] 错误：[`Types] 未推断
   g1<int, int, int>(x, y, z);  // [:en] OK, no deduction occurs
+                               // [|:zh_CN] OK，未发生推断
 
 }
 [codeblock:end]
@@ -84,6 +118,8 @@ void h(int x, float& y) {
 [para]
 [:en]
 If [`P] is not a reference type:
+[:zh_CN]
+若 [`P] 不是引用类型：
 
 [list]
 [item]
@@ -91,17 +127,25 @@ If [`P] is not a reference type:
 If [`A] is an array type, the pointer type produced by the array-to-pointer
 standard conversion ([#conv.array]) is used in place of [`A] for type deduction;
 otherwise,
+[:zh_CN]
+若 [`A] 为数组类型，则在类型推断中由数组向指针标准转换（[#conv.array]）所产生的
+指针类型替代 [`A]；否则，
 
 [item]
 [:en]
 If [`A] is a function type, the pointer type produced by the function-to-pointer
 standard conversion ([#conv.func]) is used in place of [`A] for type deduction;
 otherwise,
+[:zh_CN]
+若 [`A] 为函数类型，则在类型推断中由函数向指针标准转换（[#conv.func]）所产生的
+指针类型替代 [`A]；否则，
 
 [item]
 [:en]
 If [`A] is a cv-qualified type, the top level cv-qualifiers of [`A][=']s type
 are ignored for type deduction.
+[:zh_CN]
+若 [`A] 为被 cv-限定的类型，则在类型推断中 [`A] 的类型的顶层 cv-限定符被忽略。
 [list:end]
 
 [para]
@@ -109,18 +153,28 @@ are ignored for type deduction.
 [%reference[!forwarding]]
 If [`P] is a cv-qualified type, the top level cv-qualifiers of [`P][=']s type
 are ignored for type deduction.
+[:zh_CN]
+[%引用[!转发～]]
+若 [`P] 为被 cv-限定的类型，则在类型推断中 [`P] 的类型的顶层 cv-限定符被忽略。
 
 [:en]
 If [`P] is a reference type, the type referred to by [`P] is used for type
 deduction.
+[:zh_CN]
+若 [`P] 是引用类型，则在类型推断中使用由 [`P] 所指代的类型。
 
 [:en]
 A [def forwarding reference] is an rvalue reference to a cv-unqualified template
 parameter.
+[:zh_CN]
+[def 转发引用]是 cv-未限定的模板形参的右值引用。
 
 [:en]
 If [`P] is a forwarding reference and the argument is an lvalue, the type
 ["lvalue reference to [`A]] is used in place of [`A] for type deduction.
+[:zh_CN]
+若 [`P] 为转发引用，而其实参是一个左值，则在类型推断中使用“[`A] 的左值引用”替代
+[`A]。
 
 [enter:example]
 [codeblock]
@@ -128,9 +182,13 @@ template <class T> int f(T&& heisenreference);
 template <class T> int g(const T&&);
 int i;
 int n1 = f(i);                  // [:en] calls [`f<int&>(int&)]
+                                // [|:zh_CN] 调用了 [`f<int&>(int&)]
 int n2 = f(0);                  // [:en] calls [`f<int>(int&&)]
+                                // [|:zh_CN] 调用了[`f<int>(int&&)]
 int n3 = g(i);                  // [:en] error: would call [`g<int>(const int&&)], which
+                                // [|:zh_CN] 错误：试图调用 [`g<int>(const int&&)]，
                                 // [:en@~] would bind an rvalue reference to an lvalue
+                                // [|:zh_CN@~] 但这将把一个右值引用绑定到左值
 [codeblock:end]
 [exit:example]
 
@@ -139,9 +197,14 @@ int n3 = g(i);                  // [:en] error: would call [`g<int>(const int&&)
 In general, the deduction process attempts to find template argument values that
 will make the deduced [`A] identical to [`A] (after the type [`A] is transformed
 as described above).
+[:zh_CN]
+一般地，推断过程试图找到能够使被推断出来的 [`A] 与 [`A]（经由上述对类型 [`A] 的
+变换之后）一致的模板实参值。
 
 [:en]
 However, there are three cases that allow a difference:
+[:zh_CN]
+然而，在三种情况下允许有所不同：
 
 [list]
 [item]
@@ -149,21 +212,33 @@ However, there are three cases that allow a difference:
 If the original [`P] is a reference type, the deduced [`A] (i.e., the type
 referred to by the reference) can be more cv-qualified than the transformed
 [`A].
+[:zh_CN]
+若原来的 [`P] 为引用类型，则被推断出来的 [`P]（就是被该引用所指代的类型）可以比
+经变换的 [`P] 更加被 cv-限定的。
 
 [item]
 [:en]
 The transformed [`A] can be another pointer or pointer to member type that can
 be converted to the deduced [`A] via a qualification conversion ([#conv.qual]).
+[:zh_CN]
+经变换的 [`A] 可以为可通过限定性转换（[#conv.qual]）转换为被推断出来的 [`A] 的
+其他指针或成员指针类型。
 
 [item]
 [:en]
 If [`P] is a class and [`P] has the form [~simple-template-id], then the
 transformed [`A] can be a derived class of the deduced [`A].
+[:zh_CN]
+若 [`P] 是类，且 [`P] 的形式为[~简单模板标识]，则经变换的 [`A] 可以为被推断出来
+的 [`A] 的派生类。
 
 [:en]
 Likewise, if [`P] is a pointer to a class of the form [~simple-template-id], the
 transformed [`A] can be a pointer to a derived class pointed to by the deduced
 [`A].
+[:zh_CN]
+与此相似，若 [`P] 是指向某个形式为[~简单模板标识]的类的指针，则经转换的 [`A]
+可以为指向被推断出来的 [`A] 所指向的类的派生类的指针。
 [list:end]
 
 [enter:note]
@@ -172,18 +247,27 @@ as specified in [#temp.arg.explicit], implicit conversions will be performed on
 a function argument to convert it to the type of the corresponding function
 parameter if the parameter contains no [~template-parameter]s that participate
 in template argument deduction.
+[:zh_CN]
+如 [#temp.arg.explicit] 所述，如果一个函数形参不包含参与模板实参推断的[~模板
+形参]，则实施隐式转换以将函数实参转换为对应的函数形参的类型。
 
 [:en]
 Such conversions are also allowed, in addition to the ones described in the
 preceding list.
+[:zh_CN]
+在以上列出的各种转换之外，也是允许进行这种转换的。
 [exit:note]
 
 [para]
 [:en]
 These alternatives are considered only if type deduction would otherwise fail.
+[:zh_CN]
+仅当若非如此类型推断将失败时才会考虑这些备选方式。
 
 [:en]
 If they yield more than one possible deduced [`A], the type deduction fails.
+[:zh_CN]
+若它们产生多于一个可能的被推断出来的 [`A]，则类型推断失败。
 
 [enter:note]
 [:en]
@@ -191,41 +275,58 @@ If a [~template-parameter] is not used in any of the function parameters of a
 function template, or is used only in a non-deduced context, its corresponding
 [~template-argument] cannot be deduced from a function call and the
 [~template-argument] must be explicitly specified.
+[:zh_CN]
+若某[~模板形参]未在函数模板的任何函数形参中使用，或仅在非推断的语境中使用，则其
+对应[~模板实参]不能从函数调用中推断出来，且该[~模板实参]必须被显式指定。
 [exit:note]
 
 [para]
 [:en]
 When [`P] is a function type, pointer to function type, or pointer to member
 function type:
+[:zh_CN]
+当 [`P] 为函数类型，函数指针类型，或者成员函数指针类型时：
 
 [list]
 [item]
 [:en]
 If the argument is an overload set containing one or more function templates,
 the parameter is treated as a non-deduced context.
+[:zh_CN]
+若其实参是包含一个或多个函数模板的重载集合，则该实参被当成非推断语境。
 
 [item]
 [:en]
 If the argument is an overload set (not containing function templates), trial
 argument deduction is attempted using each of the members of the set.
+[:zh_CN]
+若其实参是（不包含函数模板的）重载集合，则尝试使用该集合中的每个成员进行试验性的
+实参推断。
 
 [:en]
 If deduction succeeds for only one of the overload set members, that member is
 used as the argument value for the deduction.
+[:zh_CN]
+若仅对一个重载集合成员推断成功，则该成员被用作推断中的实参值。
 
 [:en]
 If deduction succeeds for more than one member of the overload set the parameter
 is treated as a non-deduced context.
+[:zh_CN]
+若对重载集合的多于一个成员推断成功则该形参被当作是非推断语境。
 
 [para]
 [enter:example]
 [codeblock]
 // [:en] Only one function of an overload set matches the call so the function
+// [|:zh_CN] 重载集合中只有一个函数与调用匹配，
 // [:en@~] parameter is a deduced context.
+// [|:zh_CN@~] 故其函数形参是推断语境。
 template <class T> int f(T (*p)(T));
 int g(int);
 int g(char);
 int i = f(g);       // [:en] calls [`f(int (*)(int))]
+                    // [|:zh_CN] 调用了 [`f(int (*)(int))]
 [codeblock:end]
 [exit:example]
 
@@ -233,11 +334,14 @@ int i = f(g);       // [:en] calls [`f(int (*)(int))]
 [enter:example]
 [codeblock]
 // [:en] Ambiguous deduction causes the second function parameter to be a
+// [|:zh_CN] 有歧义的推断导致第二个函数形参
 // [:en@~] non-deduced context.
+// [|:zh_CN@~] 成为非推断语境。
 template <class T> int f(T, T (*p)(T));
 int g(int);
 char g(char);
 int i = f(1, g);    // [:en] calls [`f(int, int (*)(int))]
+                    // [|:zh_CN] 调用了 [`f(int, int (*)(int))]
 [codeblock:end]
 [exit:example]
 
@@ -245,11 +349,14 @@ int i = f(1, g);    // [:en] calls [`f(int, int (*)(int))]
 [enter:example]
 [codeblock]
 // [:en] The overload set contains a template, causing the second function
+// [|:zh_CN] 重载集合包含模板，导致第二个函数
 // [:en@~] parameter to be a non-deduced context.
+// [|:zh_CN@~] 形参成为非推断语境。
 template <class T> int f(T, T (*p)(T));
 char g(char);
 template <class T> T g(T);
 int i = f(1, g);    // [:en] calls [`f(int, int (*)(int))]
+                    // [|:zh_CN] 调用了 [`f(int, int (*)(int))]
 [codeblock:end]
 [exit:example]
 [list:end]
