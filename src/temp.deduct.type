@@ -1,5 +1,6 @@
 ﻿[section#temp.deduct.type
     [:en] Deducing template arguments from a type
+    [:zh_CN] 从类型中推断模板实参
 ]
 
 [para]
@@ -11,136 +12,201 @@ template argument values (a type for a type parameter, a value for a non-type
 parameter, or a template for a template parameter) that will make [`P], after
 substitution of the deduced values (call it the deduced [`A]), compatible with
 [`A].
+[:zh_CN]
+模板实参可以在几个不同的语境中推断出来，但在每种情况下要对在模板形参中指定的类型
+（称其为 [`P]）与某个实际类型（称其为 [`A]）之间进行比较，并试图找到模板实参值
+（对类型形参的类型，对非类型形参的值，或者对模板形参的模板），将会使 [`P] 在进行
+推断出的值的替换之后（称其为推断出的 [`A]）与 [`A] 兼容。
 
 [para]
 [:en]
 In some cases, the deduction is done using a single set of types [`P] and [`A],
 in other cases, there will be a set of corresponding types [`P] and [`A].
+[:zh_CN]
+在一些情况下，使用一组类型 [`P] 和 [`A] 就能进行推断，在其他情况下，将有一个对应
+类型 [`P] 和 [`A] 的集合。
 
 [:en]
 Type deduction is done independently for each [`P/A] pair, and the deduced
 template argument values are then combined.
+[:zh_CN]
+每对 [`P/A] 的类型推断是独立进行的，然后再对被推断出来的模版实参值进行组合。
 
 [:en]
 If type deduction cannot be done for any [`P/A] pair, or if for any pair the
 deduction leads to more than one possible set of deduced values, or if different
 pairs yield different deduced values, or if any template argument remains
 neither deduced nor explicitly specified, template argument deduction fails.
+[:zh_CN]
+若对任意一对 [`P/A] 不能完成类型推断，或者若对任意一对的推断将导致多于一组可能的
+被推断出来的值，或者若不同的对产生不同的被推断出来的值，或者若有任意模板实参保持
+既未被推断也未被显式指定，则模板实参推断失败。
 
 [para]
 [:en]
 A given type [`P] can be composed from a number of other types, templates, and
 non-type values:
+[:zh_CN]
+给定的类型 [`P] 可以从多个其他类型、模板和非类型值组合而成：
 
 [list]
 [item]
 [:en]
 A function type includes the types of each of the function parameters and the
 return type.
+[:zh_CN]
+函数类型，其中包括每个函数形参的类型和其返回类型。
 [item]
 [:en]
 A pointer to member type includes the type of the class object pointed to and
 the type of the member pointed to.
+[:zh_CN]
+成员指针类型，其中包括被指向的类对象的类型和被指向的成员的类型。
 [item]
 [:en]
 A type that is a specialization of a class template (e.g., [`A<int>]) includes
 the types, templates, and non-type values referenced by the template argument
 list of the specialization.
+[:zh_CN]
+作为类模板特例的类型（比如，[`A<int>]），其中包括由该特例的模板实参列表所涉指的
+类型、模板和非类型值。
 [item]
 [:en]
 An array type includes the array element type and the value of the array bound.
+[:zh_CN]
+数组类型，其中包括数组元素类型和数组边界的值。
 [list:end]
 
 [para]
 [:en]
 In most cases, the types, templates, and non-type values that are used to
 compose [`P] participate in template argument deduction.
+[:zh_CN]
+多数情况下，用于组成 [`P] 的类型、模板和非类型值均参与模板实参推断。
 
 [:en]
 That is, they may be used to determine the value of a template argument, and the
 value so determined must be consistent with the values determined elsewhere.
+[:zh_CN]
+就是说，它们可能被用于确定模板实参的值，而如此所确定的值必须与在别处所确定的值
+保持一致。
 
 [:en]
 In certain contexts, however, the value does not participate in type deduction,
 but instead uses the values of template arguments that were either deduced
 elsewhere or explicitly specified.
+[:zh_CN]
+然而，在特定的语境中，这个值并不参与类型推断，而是使用在别处推断出或被显式指定的
+模板实参的值。
 
 [:en]
 If a template parameter is used only in non-deduced contexts and is not
 explicitly specified, template argument deduction fails.
+[:zh_CN]
+若某模板形参仅在非推断的语境中使用且未被显式指定，则模板实参推断失败。
 
 [para]
 [:en]
-The non-deduced contexts are:
-
-[:en]
 [%context[!non-deduced]]
+The non-deduced contexts are:
+[:zh_CN]
+[%语境[!非推断～]]
+非推断的语境为：
+
 [list]
 [item]
 [:en] The [~nested-name-specifier] of a type that was specified using a
 [~qualified-id].
+[:zh_CN] 由[~限定标识]所指定的类型的[~嵌套名说明符]。
+
 [item]
 [:en] The [~expression] of a [~decltype-specifier].
+[:zh_CN] [~decltype-说明符]的[~表达式]。
+
 [item]
 [:en] A non-type template argument or an array bound in which a subexpression
 references a template parameter.
+[:zh_CN] 非类型模板实参或数组边界，其中的子表达式涉指了某模板形参。
+
 [item]
 [:en] A template parameter used in the parameter type of a function parameter
 that has a default argument that is being used in the call for which argument
 deduction is being done.
+[:zh_CN] 在函数形参的形参类型中使用的模板形参，而其带有默认实参并在实施实参推断
+的调用中所使用。
 
 [item]
 [:en] A function parameter for which argument deduction cannot be done because
 the associated function argument is a function, or a set of overloaded functions
 ([#over.over]), and one or more of the following apply:
+[:zh_CN] 无法实施实参推断的函数形参，其原因是其所关联的函数实参是某个函数，或者
+一组被重载的函数（[#over.over]），并且符合如下一种或多种情况：
 
 [list]
 [item]
 [:en@~] more than one function matches the function parameter type (resulting in
 an ambiguous deduction), or
+[:zh_CN@~] 有多于一个函数与该函数形参类型匹配（将造成有歧义的推断），或者
 [item]
 [:en@~] no function matches the function parameter type, or
+[:zh_CN@~] 没有与该函数形参类型匹配的函数，或者
 [item]
 [:en@~] the set of functions supplied as an argument contains one or more
 function templates.
+[:zh_CN@~] 提供作为实参的函数的集合中包含一个或多个函数模板。
 [list:end]
 
 [item]
 [:en] A function parameter for which the associated argument is an initializer
 list ([#dcl.init.list]) but the parameter does not have a type for which
 deduction from an initializer list is specified ([#temp.deduct.call]).
+[:zh_CN] 函数形参，其所关联的实参是个初始化式列表（[#dcl.init.list]），旦该形参
+不具有被指定为可以从初始化式列表进行推断的类型（[#temp.deduct.call]）。
 
 [enter:example]
 [codeblock]
 template<class T> void g(T);
 g({1,2,3});                 // [:en] error: no argument deduced for [`T]
+                            // [|:zh_CN] 错误：未对 [`T] 进行实参推断
 [codeblock:end]
 [exit:example]
 
 [item]
 [:en] A function parameter pack that does not occur at the end of the 
 [~parameter-declaration-list].
+[:zh_CN] 并未出现于[~形参声明式列表]末尾的函数形参包组。
 [list:end]
 
 [para]
 [:en]
 When a type name is specified in a way that includes a non-deduced context, all
 of the types that comprise that type name are also non-deduced.
+[:zh_CN]
+当对某个类型名的指定包括了非推断语境时，组成该类型名的所有类型也为非推断的。
 
 [:en]
 However, a compound type can include both deduced and non-deduced types.
+[:zh_CN]
+然而，组合类型可以同时包括推断的和非推断的类型。
 
 [enter:example]
 [:en]
 If a type is specified as [`A<T>::B<T2>], both [`T] and [`T2] are non-deduced.
+[:zh_CN]
+若某类型被指定为 [`A<T>::B<T2>]，则 [`T] 和 [`T2] 均为非推断的。
 
 [:en]
 Likewise, if a type is specified as [`A<I+J>::X<T>], [`I], [`J], and [`T] are
 non-deduced.
+[:zh_CN]
+与此相似，若某类型被指定为 [`A<I+J>::X<T>]，则 [`I]、[`J] 和 [`T] 均为非推断的。
 
 [:en]
 If a type is specified as [`void f(typename A<T>::B, A<T>)], the [`T] in
 [`A<T>::B] is non-deduced but the [`T] in [`A<T>] is deduced.
+[:zh_CN]
+若某类型被指定为 [`void f(typename A<T>::B, A<T>)]，则 [`A<T>::B] 中的 [`T] 是
+非推断的但 [`A<T>] 中的 [`T] 是推断的。
 [exit:example]
 
 [para]
@@ -148,6 +214,8 @@ If a type is specified as [`void f(typename A<T>::B, A<T>)], the [`T] in
 [:en]
 Here is an example in which different parameter/argument pairs produce
 inconsistent template argument deductions:
+[:zh_CN]
+这是不同的形参/实参对产生不一致的模板实参推断的例子：
 
 [codeblock]
 template<class T> void f(T x, T y) { /* ... */ }
@@ -155,18 +223,26 @@ struct A { /* ... */ };
 struct B : A { /* ... */ };
 void g(A a, B b) {
   f(a,b);           // [:en] error: [`T] could be [`A] or [`B]
+                    // [|:zh_CN] 错误：[`T] 可为 [`A] 或 [`B]
   f(b,a);           // [:en] error: [`T] could be [`A] or [`B]
+                    // [|:zh_CN] 错误：[`T] 可为 [`A] 或 [`B]
   f(a,a);           // [:en] OK: [`T] is [`A]
+                    // [|:zh_CN] OK：[`T] 为 [`A]
   f(b,b);           // [:en] OK: [`T] is [`B]
+                    // [|:zh_CN] OK：[`T] 为 [`B]
 }
 [codeblock:end]
 
 [:en]
 Here is an example where two template arguments are deduced from a single
 function parameter/argument pair.
+[:zh_CN]
+这是两个模板实参从一个函数形参/实参对中推断出来的例子。
 
 [:en]
 This can lead to conflicts that cause type deduction to fail:
+[:zh_CN]
+这可以导致造成类型推断失败的冲突：
 
 [codeblock]
 template <class T, class U> void f(  T (*)( T, U, U )  );
@@ -177,14 +253,19 @@ int g3( int, char, float);
 
 void r() {
   f(g1);            // [:en] OK: [`T] is [`int] and [`U] is [`float]
+                    // [|:zh_CN] OK：[`T] 为 [`int] 而 [`U] 为 [`float]
   f(g2);            // [:en] error: [`T] could be [`char] or [`int]
+                    // [|:zh_CN] 错误：[`T] 可为 [`char] 或 [`int]
   f(g3);            // [:en] error: [`U] could be [`char] or [`float]
+                    // [|:zh_CN] 错误：[`T] 可为 [`char] 或 [`float]
 }
 [codeblock:end]
 
 [:en]
 Here is an example where a qualification conversion applies between the argument
 type on the function call and the deduced template argument type:
+[:zh_CN]
+这是在函数调用的实参类型和被推断出来的模板实参类型之间应用限定性转换的例子：
 
 [codeblock]
 template<class T> void f(const T*) { }
@@ -197,6 +278,8 @@ void s() {
 [:en]
 Here is an example where the template argument is used to instantiate a derived
 class type of the corresponding function parameter type:
+[:zh_CN]
+这是用模板实参来实例化其对应函数形参类型的派生类类型的例子：
 
 [codeblock]
 template <class T> struct B { };
@@ -207,7 +290,9 @@ void t() {
   D<int> d;
   D2     d2;
   f(d);             // [:en] calls [`f(B<int>&)]
+                    // [|:zh_CN] 调用了 [`f(B<int>&)]
   f(d2);            // [:en] calls [`f(B<int>&)]
+                    // [|:zh_CN] 调用了 [`f(B<int>&)]
 }
 [codeblock:end]
 [exit:example]
@@ -217,6 +302,9 @@ void t() {
 A template type argument [`T], a template template argument [`TT] or a template
 non-type argument [`i] can be deduced if [`P] and [`A] have one of the following
 forms:
+[:zh_CN]
+若 [`P] 和 [`A] 具有如下之一的形式，则模板类型实参 [`T]，模板模板实参 [`TT] 或
+模板非类型实参 [`i] 可以被推断出来：
 
 [codeblock:notation
     [special:grammar cv-list integer-constant template-name type]
@@ -252,12 +340,19 @@ TT<>
 where [`(T)] represents a [+parameter-type-list] where at least one parameter
 type contains a [`T], and [`()] represents a [+parameter-type-list] where no
 parameter type contains a [`T].
+[:zh_CN@~]
+其中 [`(T)] 表示其中至少有一个形参类型含有 [`T] 的[~形参类型列表]，而 [`()] 表示
+其中没有含有 [`T] 的形参类型的[~形参类型列表]。
 
 [:en]
 Similarly, [`<T>] represents template argument lists where at least one argument
 contains a [`T], [`<i>] represents template argument lists where at least one
 argument contains an [`i] and [`<>] represents template argument lists where no
 argument contains a [`T] or an [`i].
+[:zh_CN]
+相似地，[`<T>] 表示其中至少有一个实参含有 [`T] 的模板实参列表，[`<i>] 表示其中
+至少有一个实参含有 [`i] 的模板实参列表而 [`<>] 表示其中没有含有 [`T] 或 [`i] 的
+实参的模板实参列表。
 
 [para]
 [:en]
@@ -265,32 +360,48 @@ If [`P] has a form that contains [`<T>] or [`<i>], then each argument
 [$[`P][_i]] of the respective template argument list [`P] is compared with the
 corresponding argument [$[`A][_i]] of the corresponding template argument list
 of [`A].
+[:zh_CN]
+若 [`P] 的形式中包含 [`<T>] 或 [`<i>]，则 [`P] 的各自的模板实参列表的每个实参
+[$[`P][_i]] 将与 [`A] 的对应模板实参列表的对应实参 [$[`A][_i]] 进行比较。
 
 [:en]
 If the template argument list of [`P] contains a pack expansion that is not the
 last template argument, the entire template argument list is a non-deduced
 context.
+[:zh_CN]
+若 [`P] 的模板实参列表包含一个并不是最后一个模板实参的包组展开式，则此整个模板
+实参列表是非推断的语境。
 
 [:en]
 If [$[`P][_i]] is a pack expansion, then the pattern of [$[`P][_i]] is compared
 with each remaining argument in the template argument list of [`A].
+[:zh_CN]
+若 [$[`P][_i]] 为包组展开式，则 [$[`P][_i]] 的模式将与 [`A] 的模板实参列表中的
+每个剩余实参进行比较。
 
 [:en]
 Each comparison deduces template arguments for subsequent positions in the
 template parameter packs expanded by [$[`P][_i]].
+[:zh_CN]
+每个比较均为被 [$[`P][_i]] 所展开的模板形参包组中的后续位置推断模板实参。
 
 [:en]
 During partial ordering ([#temp.deduct.partial]), if [$[`A][_i]] was originally
 a pack expansion:
+[:zh_CN]
+在偏序（[#temp.deduct.partial]）过程中，若 [$[`A][_i]] 原本是一个包组展开式，则
+：
 
 [list]
 [item]
 [:en] if [`P] does not contain a template argument corresponding to
 [$[`A][_i]] then [$[`A][_i]] is ignored;
+[:zh_CN] 如果 [`P] 并不包含对应于 [$[`A][_i]] 的模板实参，[$[`A][_i]] 即被忽略；
 
 [item]
 [:en] otherwise, if [$[`P][_i]] is not a pack expansion, template argument
 deduction fails.
+[:zh_CN] 否则，如果 [$[`P][_i]] 不是包组展开式，则模板实参推断失败。
 [list:end]
 
 [enter:example]
@@ -299,11 +410,13 @@ template<class T1, class... Z> class S;                               // #1
 template<class T1, class... Z> class S<T1, const Z&...> { };          // #2
 template<class T1, class T2>   class S<T1, const T2&> { };            // #3
 S<int, const int&> s;         // [:en] both #2 and #3 match; #3 is more specialized
+                              // [|:zh_CN] #2 和 #3 都匹配；而 #3 更特殊
 
 template<class T, class... U>            struct A { };                // #1
 template<class T1, class T2, class... U> struct A<T1, T2*, U...> { }; // #2
 template<class T1, class T2>             struct A<T1, T2> { };        // #3
 template struct A<int, int*>; // [:en] selects #2
+                              // [|:zh_CN] 选择了 #2
 [codeblock:end]
 [exit:example]
 
@@ -313,6 +426,10 @@ Similarly, if [`P] has a form that contains [`(T)], then each parameter type
 [$[`P][_i]] of the respective [+parameter-type-list] of [`P] is compared with
 the corresponding parameter type [$[`A][_i]] of the corresponding
 [+parameter-type-list] of [`A].
+[:zh_CN]
+相似地，若 [`P] 的形式中包含 [`(T)]，则 [`P] 的各自的[+形参类型列表]的每个形参
+类型 [$[`P][_i]] 将与 [`A] 的对应[+形参类型列表]的对应形参类型 [$[`A][_i]] 进行
+比较。
 
 [:en]
 If [`P] and [`A] are function types that originated from deduction when taking
@@ -323,11 +440,21 @@ template arguments from a function declaration ([#temp.deduct.decl]) and
 if it is a forwarding reference ([#temp.deduct.call]) and [$[`A][_i]] is an
 lvalue reference, in which case the type of [$[`P][_i]] is changed to be the
 template parameter type (i.e., [`T&&] is changed to simply [`T]).
+[:zh_CN]
+若 [`P] 和 [`A] 为通过对获取一个函数模板的地址（[#temp.deduct.funcaddr]），或者
+从函数声明式中推断模板实参（[#temp.deduct.decl]）而推断出的函数类型，且
+[$[`P][_i]] 和 [$[`A][_i]] 分别为 [`P] 和 [`A] 的顶层[+形参类型列表]中的形参，则
+当 [$[`P][_i]] 为转发引用（[#temp.deduct.call]）且 [$[`A][_i]] 为左值引用时，就
+对 [$[`P][_i]] 进行调整，这种情况下 [$[`P][_i]] 的类型被改成其模板实参类型（就是
+说，[`T&&] 被改成单纯的 [`T]）。
 
 [enter:note]
 [:en]
 As a result, when [$[`P][_i]] is [`T&&] and [$[`A][_i]] is [`X&], the adjusted
 [$[`P][_i]] will be [`T], causing [`T] to be deduced as [`X&].
+[:zh_CN]
+其结果为，若 [$[`P][_i]] 为 [`T&&] 而 [$[`A][_i]] 为 [`X&]，则调整后的
+[$[`P][_i]] 将为 [`T]，使得 [`T] 被推断为 [`X&]。
 [exit:note]
 
 [enter:example]
@@ -337,7 +464,9 @@ template <> void f(int&) { }  // #1
 template <> void f(int&&) { } // #2
 void g(int i) {
   f(i);                       // [:en] calls [`f<int&>(int&)], i.e., #1
+                              // [|:zh_CN] 调用了 [`f<int&>(int&)]，亦即 #1
   f(0);                       // [:en] calls [`f<int>(int&&)], i.e., #2
+                              // [|:zh_CN] 调用了 [`f<int&>(int&&)]，亦即 #2
 }
 [codeblock:end]
 [exit:example]
@@ -347,23 +476,34 @@ void g(int i) {
 If the [~parameter-declaration] corresponding to [$[`P][_i]] is a function
 parameter pack, then the type of its [~declarator-id] is compared with each
 remaining parameter type in the [+parameter-type-list] of [`A].
+[:zh_CN]
+若对应于 [$[`P][_i]] 的[~形参声明式]是个函数形参包组，则其[~声明标识符]的类型将
+与 [`A] 的[+形参类型列表]中的每个剩余形参类型进行比较。
 
 [:en]
 Each comparison deduces template arguments for subsequent positions in the
 template parameter packs expanded by the function parameter pack.
+[:zh_CN]
+每个比较均为被该函数形参包组所展开的模板形参包组中的后续位置推断模板实参。
 
 [:en]
 During partial ordering ([#temp.deduct.partial]), if [$[`A][_i]] was originally
 a function parameter pack:
+[:zh_CN]
+在偏序（[#temp.deduct.partial]）过程中，若 [$[`A][_i]] 原本是一个函数形参包组，
+则：
 
 [list]
 [item]
 [:en] if [`P] does not contain a function parameter type corresponding to
 [$[`A][_i]] then [$[`A][_i]] is ignored;
+[:zh_CN] 如果 [`P] 并不包含对应于 [$[`A][_i]] 的函数形参类型，[$[`A][_i]] 即被
+忽略；
 
 [item]
 [:en] otherwise, if [$[`P][_i]] is not a function parameter pack, template
 argument deduction fails.
+[:zh_CN] 否则，如果 [$[`P][_i]] 不是函数形参包组，则模板实参推断失败。
 [list:end]
 
 [enter:example]
@@ -371,6 +511,7 @@ argument deduction fails.
 template<class T, class... U> void f(T*, U...) { }    // #1
 template<class T>             void f(T) { }           // #2
 template void f(int*);      // [:en] selects #1
+                            // [|:zh_CN] 选择了 #1
 [codeblock:end]
 [exit:example]
 
@@ -378,6 +519,8 @@ template void f(int*);      // [:en] selects #1
 [:en]
 These forms can be used in the same way as [`T] is for further composition of
 types.
+[:zh_CN]
+这些形式可以与 [`T] 相同的方式用在进一步的类型组合中。
 
 [enter:example]
 [codeblock]
@@ -386,6 +529,8 @@ X<int> (*)(char[6])
 
 [:en@~]
 is of the form
+[:zh_CN@~]
+的形式为
 
 [codeblock:notation [special:grammar template-name type] ]
 template-name<T> (*)(type[i])
@@ -393,31 +538,40 @@ template-name<T> (*)(type[i])
 
 [:en@~]
 which is a variant of
+[:zh_CN@~]
+它是如下形式的变体
 
 [codeblock:notation [special:grammar type] ]
 type (*)(T)
 [codeblock:end]
 
 [:en@~]
-where type is [`X<int>] and [`T] is [`char[6`]].
+where [$type] is [`X<int>] and [`T] is [`char[6`]].
+[:zh_CN@~]
+其中的 [$type] 为 [`X<int>] 而 [`T] 为 [`char[6`]]。
 [exit:example]
 
 [para]
 [:en]
 Template arguments cannot be deduced from function arguments involving
 constructs other than the ones specified above.
+[:zh_CN]
+模板实参不能从含有除上所指定之外的语言构造的函数实参中推断出来。
 
 [para]
 [:en]
 A template type argument cannot be deduced from the type of a non-type
 [~template-argument].
+[:zh_CN]
+模板类型实参参不能从非类型[~模板实参]的类型中推断出来。
 
 [para]
 [enter:example]
 [codeblock]
 template<class T, T i> void f(double a[10][i]);
 int v[10][20];
-f(v);               // [:en] error: argument for template-parameter [`T] cannot be deduced
+f(v);               // [:en] error: argument for [~template-parameter] [`T] cannot be deduced
+                    // [|:zh_CN] 错误：[~模板形参] [`T] 的实参无法推断
 [codeblock:end]
 [exit:example]
 
@@ -426,6 +580,8 @@ f(v);               // [:en] error: argument for template-parameter [`T] cannot 
 [:en]
 Except for reference and pointer types, a major array bound is not part of a
 function parameter type and cannot be deduced from an argument:
+[:zh_CN]
+除引用和指针类型外，主数组边界不是函数形参类型的一部分且无法从实参中推断出来：
 
 [codeblock]
 template<int i> void f1(int a[10][i]);
@@ -435,10 +591,13 @@ template<int i> void f3(int (&a)[i][20]);
 void g() {
   int v[10][20];
   f1(v);            // [:en] OK: [`i] deduced to be [`20]
+                    // [|:zh_CN] OK：[`i] 被推断为 [`20]
   f1<20>(v);        // OK
-  f2(v);            // [:en] error: cannot deduce template-argument [`i]
+  f2(v);            // [:en] error: cannot deduce [~template-argument] [`i]
+                    // [|:zh_CN] 错误：无法推断[~模板实参] [`i]
   f2<10>(v);        // OK
   f3(v);            // [:en] OK: [`i] deduced to be [`10]
+                    // [|:zh_CN] OK：[`i] 被推断为 [`10]
 }
 [codeblock:end]
 
@@ -448,6 +607,9 @@ If, in the declaration of a function template with a non-type template
 parameter, the non-type template parameter is used in a subexpression in the
 function parameter list, the expression is a non-deduced context as specified
 above.
+[:zh_CN]
+若在带有非类型模板形参的函数模板的声明式中，该非类型模板形参用在函数形参列表中的
+子表达式之中，则其表达式是如上文所指出的非推断语境。
 
 [enter:example]
 [codeblock]
@@ -458,6 +620,7 @@ void k() {
   A<1> a1;
   A<2> a2;
   g(a1);            // [:en] error: deduction fails for expression [`i+1]
+                    // [|:zh_CN] 错误：对表达式 [`i+1] 的推断失败
   g<0>(a1);         // OK
   f(a1, a2);        // OK
 }
@@ -469,23 +632,34 @@ void k() {
 [:en]
 Template parameters do not participate in template argument deduction if they
 are used only in non-deduced contexts.
+[:zh_CN]
+仅被用在非推断的语境中的模板形参，不参与模板实参推断。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 template<int i, typename T>
 T deduce(typename A<T>::X x,    // [:en] [`T] is not deduced here
+                                // [|:zh_CN] [`T] 并不在此推断
   T t,                          // [:en] but [`T] is deduced here
+                                // [|:zh_CN] 但 [`T] 在此推断
   typename B<i>::Y y);          // [:en] [`i] is not deduced here
+                                // [|:zh_CN] [`i] 并不在此推断
 A<int> a;
 B<77>  b;
 
 int    x = deduce<77>(a.xm, 62, b.ym);
 // [:en] [`T] is deduced to be [`int], [`a.xm] must be convertible to
+// [|:zh_CN] [`T] 被推断为 [`int]，[`a.xm] 必须可以转换为
 // [:en@~] [`A<int>::X]
+// [|:zh_CN@~] [`A<int>::X]
 // [:en] [`i] is explicitly specified to be [`77], [`b.ym] must be convertible
+// [|:zh_CN] [`i] 被显式指定为 [`77]，[`b.ym] 必须可以转换为
 // [:en@~] to [`B<77>::Y]
+// [|:zh_CN@~] [`B<77>::Y]
 [codeblock:end]
 [exit:note]
 
@@ -493,16 +667,24 @@ int    x = deduce<77>(a.xm, 62, b.ym);
 [:en]
 If [`P] has a form that contains [`<i>], and if the type of the corresponding
 value of [`A] differs from the type of [`i], deduction fails.
+[:zh_CN]
+若 [`P] 的形式中包含 [`<i>]，且若 [`A] 中的对应值的类型与 [`i] 的类型不同，则
+推断失败。
 
 [:en]
-If [`P] has a form that contains [`[i]], and if the type of [`i] is not an
+If [`P] has a form that contains [`[i`]], and if the type of [`i] is not an
 integral type, deduction fails.
+[:zh_CN]
+若 [`P] 的形式中包含 [`[i`]]，且若 [`i] 的类型不是整型类型，则推断失败。
 
 [footnote]
 [:en]
 Although the [~template-argument] corresponding to a [~template-parameter] of
 type [`bool] may be deduced from an array bound, the resulting value will always
 be [`true] because the array bound will be non-zero.
+[:zh_CN]
+虽然对应于 [`bool] 类型的[~模板形参]的[~模板实参]可以从数组边界中推断出来，但
+因为数组边界是非零的，其结果将总为 [`true]。
 [footnote:end]
 
 [enter:example]
@@ -512,6 +694,7 @@ template<short s> void f(A<s>);
 void k1() {
   A<1> a;
   f(a);             // [:en] error: deduction fails for conversion from [`int] to [`short]
+                    // [|:zh_CN] 错误：对从 [`int] 到 [`short] 的转换的推断失败
   f<1>(a);          // OK
 }
 
@@ -519,7 +702,8 @@ template<const short cs> class B { };
 template<short s> void g(B<s>);
 void k2() {
   B<1> b;
-  g(b);             // [:en] OK: cv-qualifiers are ignored on template parameter types
+  g(b);             // [:en] OK: [~cv-qualifier]s are ignored on template parameter types
+                    // [|:zh_CN] OK：模板形参类型上的 [~cv-限定符]被忽略
 }
 [codeblock:end]
 [exit:example]
@@ -528,6 +712,8 @@ void k2() {
 [:en]
 A [~template-argument] can be deduced from a function, pointer to function, or
 pointer to member function type.
+[:zh_CN]
+可以从函数、函数指针或成员函数指针类型中推断出[~模板实参]。
 
 [para:~]
 [enter:example]
@@ -541,8 +727,11 @@ void h(int,int,int);
 void h(char,int);
 int m() {
   f(&g);            // [:en] error: ambiguous
-  f(&h);            // [:en] OK: void [`h(char,int)] is a unique match
+                    // [|:zh_CN] 错误：有歧义
+  f(&h);            // [:en] OK: [`void h(char,int)] is a unique match
+                    // [|:zh_CN] OK：[`void h(char,int)] 是唯一匹配
   f(&foo);          // [:en] error: type deduction fails because [`foo] is a template
+                    // [|:zh_CN] 错误：类型匹配失败，因为 [`foo] 是模板
 }
 [codeblock:end]
 [exit:example]
@@ -551,14 +740,19 @@ int m() {
 [:en]
 A template [~type-parameter] cannot be deduced from the type of a function
 default argument.
+[:zh_CN]
+模板[~类型形参]不能从函数默认实参的类型中推断出来。
 
 [enter:example]
 [codeblock]
 template <class T> void f(T = 5, T = 7);
 void g() {
   f(1);             // [:en] OK: call [`f<int>(1,7)]
+                    // [|:zh_CN] OK：调用了 [`f<int>(1,7)]
   f();              // [:en] error: cannot deduce [`T]
+                    // [|:zh_CN] 错误：无法推断 [`T]
   f<int>();         // [:en] OK: call [`f<int>(5,7)]
+                    // [|:zh_CN] OK：调用了 [`f<int>(5,7)]
 }
 [codeblock:end]
 [exit:example]
@@ -568,6 +762,9 @@ void g() {
 The [~template-argument] corresponding to a template [~template-parameter] is
 deduced from the type of the [~template-argument] of a class template
 specialization used in the argument list of a function call.
+[:zh_CN]
+对应于模板[~模板形参]的[~模板实参]，是从函数调用的实参列表中所使用的类模板特例的
+[~模板实参]的类型中推断出来的。
 
 [enter:example]
 [codeblock]
@@ -576,6 +773,7 @@ template <template <class T> class X> void f(A<X>) { }
 template<class T> struct B { };
 A<B> ab;
 f(ab);              // [:en] calls [`f(A<B>)]
+                    // [|:zh_CN] 调用了 [`f(A<B>)]
 [codeblock:end]
 [exit:example]
 
@@ -584,6 +782,9 @@ f(ab);              // [:en] calls [`f(A<B>)]
 [:en]
 Template argument deduction involving parameter packs ([#temp.variadic]) can
 deduce zero or more arguments for each parameter pack.
+[:zh_CN]
+涉及形参包组（[#temp.variadic]）的模板实参推断可以为每个形参包组推断出零个或多个
+实参。
 [exit:note]
 
 [enter:example]
@@ -597,11 +798,18 @@ template<class ... Types> int f(void (*)(Types ...));
 void g(int, float);
 
 X<int> x1;                      // [:en] uses primary template
+                                // [|:zh_CN] 使用了主模板
 X<int(int, float, double)> x2;  // [:en] uses partial specialization; [`ArgTypes] contains [`float], [`double]
+                                // [|:zh_CN] 使用了部分特化式；[`ArgTypes] 包含 [`float]，[`double]
 X<int(float, int)> x3;          // [:en] uses primary template
+                                // [|:zh_CN] 使用了主模板
 Y<> y1;                         // [:en] use primary template; [`Types] is empty
+                                // [|:zh_CN] 使用了主模板；[`Types] 为空
 Y<int&, float&, double&> y2;    // [:en] uses partial specialization; [`T] is [`int&], [`Types] contains [`float], [`double]
+                                // [|:zh_CN] 使用了部分特化式；[`T] 为 [`int&]，[`Types] 包含 [`float]，[`double]
 Y<int, float, double> y3;       // [:en] uses primary template; [`Types] contains [`int], [`float], [`double]
+                                // [|:zh_CN] 使用了主模板；[`Types] 包含 [`int]，[`float]，[`double]
 int fv = f(g);                  // [:en] OK; [`Types] contains [`int], [`float]
+                                // [|:zh_CN] OK；[`Types] 包含 [`int]，[`float]
 [codeblock:end]
 [exit:example]
