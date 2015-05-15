@@ -1,21 +1,32 @@
 ﻿[section#temp.deduct.funcaddr
     [:en] Deducing template arguments taking the address of a function template
+    [:zh_CN] 获取函数模板的地址时推断模板实参
 ]
 
 [para]
 [:en]
 Template arguments can be deduced from the type specified when taking the
 address of an overloaded function ([#over.over]).
+[:zh_CN]
+当获取被重载的函数的地址（[#over.over]）时，可以从被指定的类型中推断出模板实参。
 
 [:en]
 The function template[=']s function type and the specified type are used as the
-types of [`P] and [`A], and the deduction is done as described in [#temp.deduct.type].
+types of [`P] and [`A], and the deduction is done as described in
+[#temp.deduct.type].
+[:zh_CN]
+函数模板的函数类型和所指定的类型被用作类型 [`P] 和 [`A]，而此推断按照
+[#temp.deduct.type] 中的描述进行。
 
 [para]
 [:en]
 A placeholder type ([#dcl.spec.auto]) in the return type of a function template
 is a non-deduced context.
+[:zh_CN]
+函数模板的返回类型中的占位符类型（[#dcl.spec.auto]）不是推断语境。
 
 [:en]
 If template argument deduction succeeds for such a function, the return type is
 determined from instantiation of the function body.
+[:zh_CN]
+如果对这种函数成功进行了函数实参推断，则其返回类型是通过函数体的实例化中确定的。
