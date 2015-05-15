@@ -1,14 +1,19 @@
 ﻿[section#temp.fct
     [:en] Function templates
+    [:zh_CN] 函数模板
 ]
 
 [para]
 [:en]
 A function template defines an unbounded set of related functions.
+[:zh_CN]
+函数模板定义了相关函数的一个无界集合。
 
 [enter:example]
 [:en]
 a family of sort functions might be declared like this:
+[:zh_CN]
+一族排序函数可以被这样声明：
 
 [codeblock]
 template<class T> class Array { };
@@ -20,21 +25,31 @@ template<class T> void sort(Array<T>&);
 [:en]
 A function template can be overloaded with other function templates and with
 non-template functions ([#dcl.fct]).
+[:zh_CN]
+函数模板可以被其他函数模板和非模板函数所重载（[#dcl.fct]）。
 
 [:en]
 A non-template function is not related to a function template (i.e., it is never
 considered to be a specialization), even if it has the same name and type as a
 potentially generated function template specialization.
+[:zh_CN]
+非模板函数与函数模板无关（就是说它不会被当作一个模板特例），即使它与某个潜在生成
+的函数模板特例带有相同的名字和类型也是如此。
 
 [footnote]
 [:en]
 That is, declarations of non-template functions do not merely guide overload
 resolution of function template specializations with the same name.
+[:zh_CN]
+就是说，非模板函数的声明式并不仅仅引导带有相同名字的函数模板特化的重载决议。
 
 [:en]
 If such a non-template function is odr-used ([#basic.def.odr]) in a program, it
 must be defined; it will not be implicitly instantiated using the function
 template definition.
+[:zh_CN]
+若在程序中 ODR-式使用（[#basic.def.odr]）了此种非模板函数，则它必须被定义；它
+不会用函数模板定义式隐式实例化出来。
 [footnote:end]
 
 [include temp.over.link]

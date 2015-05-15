@@ -1,5 +1,6 @@
 ﻿[section#temp.arg.explicit
     [:en] Explicit template argument specification
+    [:zh_CN] 显式模板实参说明
 ]
 
 [para]
@@ -9,6 +10,10 @@ Template arguments can be specified when referring to a function template
 specialization by qualifying the function template name with the list of
 [~template-argument]s in the same way as [~template-argument]s are specified in
 uses of a class template specialization.
+[:zh_CN]
+[%说明[!模板实参～]]
+当涉指函数模板的特例时，可以通过以[~模板实参]的列表对函数模板名进行限定而指定
+模板实参，这与在使用类模板特例时指定其[~模板实参]的方式相同。
 
 [enter:example]
 [codeblock]
@@ -21,6 +26,8 @@ void f(Array<dcomplex>& cv, Array<int>& ci) {
 
 [:en]
 and
+[:zh_CN]
+以及
 
 [codeblock]
 template<class U, class V> U convert(V v);
@@ -36,19 +43,27 @@ void g(double d) {
 [:en]
 A template argument list may be specified when referring to a specialization of
 a function template
+[:zh_CN]
+当涉指函数模板的特例时可以指定模板实参列表：
 
 [list]
 [item]
-[:en] when a function is called,
+[:en@~] when a function is called,
+[:zh_CN@~] 当调用函数时，
 [item]
-[:en] when the address of a function is taken, when a function initializes a
+[:en@~] when the address of a function is taken, when a function initializes a
 reference to function, or when a pointer to member function is formed,
+[:zh_CN@~] 当获取函数的地址，以函数对函数引用进行初始化，或者构成成员函数指针时
+，
 [item]
-[:en] in an explicit specialization,
+[:en@~] in an explicit specialization,
+[:zh_CN@~] 在显式特化式中，
 [item]
-[:en] in an explicit instantiation, or
+[:en@~] in an explicit instantiation, or
+[:zh_CN@~] 在显式实例化式中，或者
 [item]
-[:en] in a friend declaration.
+[:en@~] in a friend declaration.
+[:zh_CN@~] 在友元声明式中。
 [list:end]
 
 [para]
@@ -56,14 +71,22 @@ reference to function, or when a pointer to member function is formed,
 Trailing template arguments that can be deduced ([#temp.deduct]) or obtained
 from default [~template-argument]s may be omitted from the list of explicit
 [~template-argument]s.
+[:zh_CN]
+在显式[~模板实参]的列表中可以省略可被推断（[#temp.deduct]）出来或者可从默认
+[~模板实参]中获取的尾部模板实参。
 
 [:en]
 A trailing template parameter pack ([#temp.variadic]) not otherwise deduced will
 be deduced to an empty sequence of template arguments.
+[:zh_CN]
+未被推断的尾部的模板形参包组（[#temp.variadic]）将被推断为空的模板实参序列。
 
 [:en]
 If all of the template arguments can be deduced, they may all be omitted; in
 this case, the empty template argument list [`<>] itself may also be omitted.
+[:zh_CN]
+若所有模板实参均可被推断出来，则它们全部可以省略；这种情况下，空模板实参列表
+[`<>] 自身也可被省略。
 
 [:en]
 In contexts where deduction is done and fails, or in contexts where deduction is
@@ -71,6 +94,10 @@ not done, if a template argument list is specified and it, along with any
 default template arguments, identifies a single function template
 specialization, then the [~template-id] is an lvalue for the function template
 specialization.
+[:zh_CN]
+在推断完成但失败的语境中，或者在未进行推断的语境中，若指定了模板实参列表，并且
+连带任何默认模板实参，它确定了单个函数模板特例，则其[~模板标识]是该函数模板特例
+的左值。
 
 [enter:example]
 [codeblock]
@@ -78,14 +105,23 @@ template<class X, class Y> X f(Y);
 template<class X, class Y, class ... Z> X g(Y);
 void h() {
   int i = f<int>(5.6);          // [:en] [`Y] is deduced to be [`double]
+                                // [|:zh_CN] [`Y] 被推断为 [`double]
   int j = f(5.6);               // [:en] ill-formed: [`X] cannot be deduced
+                                // [|:zh_CN] 非良构：[`X] 无法被推断
   f<void>(f<int, bool>);        // [:en] [`Y] for outer [`f] deduced to be
+                                // [|:zh_CN] 外面的 [`f] 的 [`Y] 被推断为
                                 // [:en@~] [`int (*)(bool)]
+                                // [|:zh_CN@~] [`int (*)(bool)]
   f<void>(f<int>);              // [:en] ill-formed: [`f<int>] does not denote a
+                                // [|:zh_CN] 非良构：[`f<int>] 并不代表
                                 // [:en@~] single function template specialization
-  int k = g<int>(5.6);          // [:en] [`Y] is deduced to be double, [`Z] is deduced to an empty sequence
+                                // [|:zh_CN@~] 某一个函数模板特例
+  int k = g<int>(5.6);          // [:en] [`Y] is deduced to be [`double], [`Z] is deduced to an empty sequence
+                                // [|:zh_CN] [`Y] 被推断为 [`double]，[`Z] 被推断为空序列
   f<void>(g<int, bool>);        // [:en] [`Y] for outer [`f] is deduced to be
+                                // [|:zh_CN] 外面的 [`f] 的 [`Y] 被推断为
                                 // [:en@~] [`int (*)(bool)], [`Z] is deduced to an empty sequence
+                                // [|:zh_CN@~] [`int (*)(bool)]，[`Z] 被推断为空序列
 }
 [codeblock:end]
 [exit:example]
@@ -96,15 +132,22 @@ void h() {
 An empty template argument list can be used to indicate that a given use refers
 to a specialization of a function template even when a non-template function
 ([#dcl.fct]) is visible that would otherwise be used.
+[:zh_CN]
+空模板实参列表可以用来指出某次特定的使用所指代的是函数模板的特例，否则将可能会
+使用某个可见的非模板函数（[#dcl.fct]）。
 
 [:en]
 For example:
+[:zh_CN]
+例如：
 
 [codeblock]
 template <class T> int f(T);    // #1
 int f(int);                     // #2
 int k = f(1);                   // [:en] uses #2
+                                // [|:zh_CN] 使用了 #2
 int l = f<>(1);                 // [:en] uses #1
+                                // [|:zh_CN] 使用了 #1
 [codeblock:end]
 [exit:note]
 
@@ -112,11 +155,16 @@ int l = f<>(1);                 // [:en] uses #1
 [:en]
 Template arguments that are present shall be specified in the declaration
 order of their corresponding [~template-parameter]s.
+[:zh_CN]
+所列出的模板实参应当以它们对应的[~模板形参]的声明顺序进行指定。
 
 [:en]
 The template argument list shall not specify more [~template-argument]s than
 there are corresponding [~template-parameter]s unless one of the
 [~template-parameter]s is a template parameter pack.
+[:zh_CN]
+除非其[~模板形参]之一是模板形参包组，否则模板实参列表不能指定比对应的[~模板形参]
+更多的[~模板实参]。
 
 [enter:example]
 [codeblock]
@@ -125,9 +173,13 @@ template<class ... Args> void f2();
 void g() {
   f<int,const char*,double>("aa",3.0);
   f<int,const char*>("aa",3.0);       // [:en] [`Z] is deduced to be [`double]
+                                      // [|:zh_CN] [`Z] 被推断为 [`double]
   f<int>("aa",3.0);             // [:en] [`Y] is deduced to be [`const char*], and
+                                // [|:zh_CN] [`Y] 被推断为 [`const char*]，而
                                 // [:en@~] [`Z] is deduced to be [`double]
+                                // [|:zh_CN@~] [`Z] 被推断为 [`double]
   f("aa",3.0);                  // [:en] error: [`X] cannot be deduced
+                                // [|:zh_CN] 错误：[`X] 无法被推断
   f2<char, short, int, long>(); // OK
 }
 [codeblock:end]
@@ -139,14 +191,21 @@ Implicit conversions (Clause [#conv]) will be performed on a function argument
 to convert it to the type of the corresponding function parameter if the
 parameter type contains no [~template-parameter]s that participate in template
 argument deduction.
+[:zh_CN]
+若一个函数实参所对应的函数形参不包含参与模板实参推断的[~模板形参]，则将对该函数
+实参实施隐式转换（第 [#conv] 条）以将其转换为其对应函数形参的类型。
 
 [enter:note]
 [:en]
 Template parameters do not participate in template argument deduction if they
 are explicitly specified.
+[:zh_CN]
+被显式指定的模板形参并不参与模板实参推断。
 
 [:en]
 For example,
+[:zh_CN]
+例如，
 
 [codeblock]
 template<class T> void f(T);
@@ -157,6 +216,7 @@ class Complex {
 
 void g() {
   f<Complex>(1);                // [:en] OK, means [`f<Complex>(Complex(1))]
+                                // [|:zh_CN] OK，意思是 [`f<Complex>(Complex(1))]
 }
 [codeblock:end]
 [exit:note]
@@ -168,6 +228,9 @@ Because the explicit template argument list follows the function template name,
 and because conversion member function templates and constructor member function
 templates are called without using a function name, there is no way to provide
 an explicit template argument list for these function templates.
+[:zh_CN]
+由于显式模板实参列表跟在函数模板名之后，且由于转换成员函数模板和构造函数成员函数
+模板的调用并不使用函数名，所以对这些函数模板无法提供显式模板实参列表。
 [exit:note]
 
 [/
@@ -181,23 +244,36 @@ an explicit template argument list for these function templates.
 [:en]
 For simple function names, argument dependent lookup ([#basic.lookup.argdep])
 applies even when the function name is not visible within the scope of the call.
+[:zh_CN]
+对于简单的函数名，即使该函数名在调用的作用域中不可见也要应用实参依赖查找
+（[#basic.lookup.argdep]）。
 
 [:en]
 This is because the call still has the syntactic form of a function call
 ([#basic.lookup.unqual]).
+[:zh_CN]
+这是由于该调用仍具有函数调用的语法形式（[#basic.lookup.unqual]）。
 
 [:en]
 But when a function template with explicit template arguments is used, the call
 does not have the correct syntactic form unless there is a function template
 with that name visible at the point of the call.
+[:zh_CN]
+但当带有显式模板实参来使用函数模板时，除非存在其名字在调用的作用域中可见的函数
+模板，否则该调用并不具有正确的语法形式。
 
 [:en]
 If no such name is visible, the call is not syntactically well-formed and
 argument-dependent lookup does not apply.
+[:zh_CN]
+若没有可见的这种名字，则该调用在语法上不是良构的且并不应用实参依赖查找。
 
 [:en]
 If some such name is visible, argument dependent lookup applies and additional
 function templates may be found in other namespaces.
+[:zh_CN]
+若有一些可见的这种名字，则要应用实参依赖查找并且可能在其他命名空间中会找到额外的
+函数模板。
 
 [enter:example]
 [/% Argument added to f per Usenet posting from martin von Loewis, 6 Sep 1998/]
@@ -211,12 +287,18 @@ namespace C {
 }
 void g(A::B b) {
   f<3>(b);                      // [:en] ill-formed: not a function call
+                                // [|:zh_CN] 非良构：不是函数调用
   A::f<3>(b);                   // [:en] well-formed
+                                // [|:zh_CN] 良构
   C::f<3>(b);                   // [:en] ill-formed; argument dependent lookup
+                                // [|:zh_CN] 非良构；仅对未限定名
                                 // [:en@~] applies only to unqualified names
+                                // [|:zh_CN@~] 应用实参依赖查找
   using C::f;
   f<3>(b);                      // [:en] well-formed because [`C::f] is visible; then
+                                // [|:zh_CN] 因 [`C::f] 可见而是良构的；随即
                                 // [:en@~] [`A::f] is found by argument dependent lookup
+                                // [|:zh_CN@~] [`A::f] 将被实参依赖查找所找到
 }
 [codeblock:end]
 [exit:example]
@@ -227,6 +309,9 @@ void g(A::B b) {
 Template argument deduction can extend the sequence of template arguments
 corresponding to a template parameter pack, even when the sequence contains
 explicitly specified template arguments.
+[:zh_CN]
+通过模板实参推断能够展开对应于模板形参包组的模板实参的序列，即使该序列包含被显式
+指定的模板实参也进行展开。
 
 [enter:example]
 [codeblock]
@@ -234,6 +319,7 @@ template<class ... Types> void f(Types ... values);
 
 void g() {
   f<int*, float*>(0, 0, 0);     // [:en] [`Types] is deduced to the sequence [`int*], [`float*], [`int]
+                                // [|:zh_CN] [`Types] 被推断为序列“[`int*], [`float*], [`int]”
 }
 [codeblock:end]
 [exit:example]
