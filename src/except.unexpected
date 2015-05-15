@@ -1,5 +1,6 @@
 ﻿[section#except.unexpected
     [:en] The [`std::unexpected()] function
+    [:zh_CN] [`std::unexpected()] 函数
 ]
 
 [para]
@@ -9,30 +10,46 @@ If a function with a [~dynamic-exception-specification] exits via an exception
 of a type that is not allowed by its exception specification, the function
 [`std::unexpected()] is called ([#exception.unexpected]) immediately after
 completing the stack unwinding for the former function.
+[:zh_CN]
+若带有[~动态异常说明]的函数以未被其异常说明所允许的类型的异常而退出，则函数
+[`std::unexpected()] 将在完成前一个函数的堆栈解退之后紧接着被调用
+（[#exception.unexpected]）。
 
 [para]
 [enter:note]
 [:en]
 By default, [`std::unexpected()] calls [`std::terminate()], but a program can
 install its own handler function ([#set.unexpected]).
+[:zh_CN]
+默认情况下，[`std::unexpected()] 调用 [`std::terminate()]，但程序可以安装其自己
+的处理函数（[#set.unexpected]）。
 
 [:en]
 In either case, the constraints in the following paragraph apply.
+[:zh_CN]
+以下各段落的约束在任何情况下均适用。
 [exit:note]
 
 [para]
 [:en]
 The [`std::unexpected()] function shall not return, but it can throw (or
 rethrow) an exception.
+[:zh_CN]
+[`std::unexpected()] 函数不能返回，但它可以抛出（或重新抛出）某个异常。
 
 [:en]
 If it throws a new exception which is allowed by the exception specification
 which previously was violated, then the search for another handler will continue
 at the call of the function whose exception specification was violated.
+[:zh_CN]
+若它抛出了被刚违反的异常说明允许的新异常，则将从异常说明被违反的函数的调用处继续
+搜索其他的处理器。
 
 [:en]
 If it exits via an exception of a type that the
 [~dynamic-exception-specification] does not allow, then the following happens:
+[:zh_CN]
+若它以[~动态异常说明]并不允许的类型的异常退出，则会发生如下事情：
 
 [%[`bad_exception]]
 [:en]
@@ -42,15 +59,25 @@ is called, otherwise the thrown exception is replaced by an
 implementation-defined object of type [`std::bad_exception] and the search for
 another handler will continue at the call of the function whose
 [~dynamic-exception-specification] was violated.
+[:zh_CN]
+若其[~动态异常说明]并不包含类 [`std::bad_exception]（[#bad.exception]），则调用
+函数 [`std::terminate()]，否则被抛出的表达式被替换为由实现定义的
+[`std::bad_exception] 类型的对象，并从[~动态异常说明]被违反的函数的调用处继续
+搜索其他的处理器。
 
 [para]
 [enter:note]
 [:en]
 Thus, a [~dynamic-exception-specification] guarantees that a function exits only
 via an exception of one of the listed types.
+[:zh_CN]
+由此，[~动态异常说明]保证了函数只能以所列出的类型之一的异常而退出。
 
 [:en]
 If the [~dynamic-exception-specification] includes the type
 [`std::bad_exception] then any exception type not on the list may be replaced by
 [`std::bad_exception] within the function [`std::unexpected()].
+[:zh_CN]
+若[~动态异常说明]包含了类型 [`std::bad_exception]，则任何不在列表中的异常都能够
+在函数 [`std::unexpected()] 中被替换为 [`std::bad_exception]。
 [exit:note]
