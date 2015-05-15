@@ -1,121 +1,181 @@
 ﻿[section#temp.deduct.partial
     [:en] Deducing template arguments during partial ordering
+    [:zh_CN] 在偏序中推断模板实参
 ]
 
 [para]
 [:en]
 Template argument deduction is done by comparing certain types associated with
 the two function templates being compared.
+[:zh_CN]
+模板实参推断是通过对与被比较的两个函数模板相关联的特定类型进行比较来进行的。
 
 [para]
 [:en]
 Two sets of types are used to determine the partial ordering.
+[:zh_CN]
+使用两个类型集合来确定偏序。
 
 [:en]
 For each of the templates involved there is the original function type and the
 transformed function type.
+[:zh_CN]
+每个被涉及的模板都有其原始函数类型和经变换的函数类型。
 
 [enter:note]
 [:en]
 The creation of the transformed type is described in [#temp.func.order].
+[:zh_CN]
+[#temp.func.order] 中说明如何创建经变换的类型。
 [exit:note]
 
 [:en]
 The deduction process uses the transformed type as the argument template and the
 original type of the other template as the parameter template.
+[:zh_CN]
+推断过程把经变换类型用作实参模板而把另一个模板的原始类型用作形参模板。
 
 [:en]
 This process is done twice for each type involved in the partial ordering
 comparison: once using the transformed template-1 as the argument template and
 template-2 as the parameter template and again using the transformed template-2
 as the argument template and template-1 as the parameter template.
+[:zh_CN]
+这个过程对在偏序比较中所涉及的每个类型共进行两次：一次把经变换的模板-1 用作实参
+模板而把模板-2 用作形参模板，另一次把经变换的模板-2 用作实参模板而把模板-1 用作
+形参模板。
 
 [para]
 [:en]
 The types used to determine the ordering depend on the context in which the
 partial ordering is done:
+[:zh_CN]
+用于确定偏序的类型依赖于进行偏序的语境：
 
 [list]
 [item]
 [:en]
 In the context of a function call, the types used are those function parameter
 types for which the function call has arguments.
+[:zh_CN]
+在函数调用语境中，所使用的类型是在函数调用中带有实参的函数形参类型。
 
 [footnote]
 [:en]
 Default arguments are not considered to be arguments in this context; they only
 become arguments after a function has been selected.
+[:zh_CN]
+在这种语境中，默认实参并不被当作实参看待；只有在一个函数被选择之后，它们才成为
+实参。
 [footnote:end]
 
 [item]
 [:en]
 In the context of a call to a conversion function, the return types of the
 conversion function templates are used.
+[:zh_CN]
+在对转换运算符进行调用的语境中，使用转换函数模板的返回类型。
 
 [item]
 [:en]
 In other contexts ([#temp.func.order]) the function template[=']s function type
 is used.
+[:zh_CN]
+在其他语境中（[#temp.func.order]）使用函数模板的函数类型。
 [list:end]
 
 [para]
 [:en]
 Each type nominated above from the parameter template and the corresponding type
 from the argument template are used as the types of [`P] and [`A].
+[:zh_CN]
+在形参模板中提到的每个上述类型，和其在实参模板中的对应类型，被用作类型 [`P] 和
+[`A]。
 
 [para]
 [:en]
 Before the partial ordering is done, certain transformations are performed
 on the types used for partial ordering:
+[:zh_CN]
+在完成偏序之前，对用于偏序的类型实施如下变换：
 
 [list]
 [item]
 [:en] If [`P] is a reference type, [`P] is replaced by the type referred to.
+[:zh_CN] 若 [`P] 为引用类型，则 [`P] 被其所指代的类型取代。
 [item]
 [:en] If [`A] is a reference type, [`A] is replaced by the type referred to.
+[:zh_CN] 若 [`A] 为引用类型，则 [`A] 被其所指代的类型取代。
 [list:end]
 
 [para]
+[:en]
 If both [`P] and [`A] were reference types (before being replaced with the type
 referred to above), determine which of the two types (if any) is more
 cv-qualified than the other; otherwise the types are considered to be equally
 cv-qualified for partial ordering purposes.
+[:zh_CN]
+若 [`P] 和 [`A]（在按上文被其所指代的类型所替代之前）均为引用类型，则先确定这
+两个类型中的哪个（如果有）会比另一个是更被 cv-限定的；否则这两个类型在进行偏序
+时被当作是等同地被 cv-限定的。
 
 [:en]
 The result of this determination will be used below.
+[:zh_CN]
+此确定过程的结果将在下文用到。
 
 [para]
 [:en]
 Remove any top-level cv-qualifiers:
+[:zh_CN]
+移除任何顶层 cv-限定符：
 
 [list]
 [item]
 [:en] If [`P] is a cv-qualified type, [`P] is replaced by the cv-unqualified
 version of [`P].
+[:zh_CN] 若 [`P] 是被 cv-限定的类型，则 [`P] 被替换为 [`P] 的 cv-未限定的版本。
 [item]
 [:en] If [`A] is a cv-qualified type, [`A] is replaced by the cv-unqualified
 version of [`A].
+[:zh_CN] 若 [`A] 是被 cv-限定的类型，则 [`A] 被替换为 [`A] 的 cv-未限定的版本。
 [list:end]
 
 [para]
 [:en]
 If [`A] was transformed from a function parameter pack and [`P] is not
-a parameter pack, type deduction fails. Otherwise, using the resulting types
-[`P] and [`A], the deduction is then done as described in [#temp.deduct.type].
+a parameter pack, type deduction fails.
+[:zh_CN]
+若 [`A] 是从一个函数形参包组转换而成，而 [`P] 并非形参包组，则类型推断失败。
+
+[:en]
+Otherwise, using the resulting types [`P] and [`A], the deduction is then done
+as described in [#temp.deduct.type].
+[:zh_CN]
+否则，使用所产生的类型 [`P] 和 [`A]，然后按照 [#temp.deduct.type] 所述完成推断。
 
 [:en]
 If [`P] is a function parameter pack, the type [`A] of each remaining parameter
 type of the argument template is compared with the type [`P] of the
 [~declarator-id] of the function parameter pack.
+[:zh_CN]
+若 [`P] 是一个函数形参包组，则实参模板的每个剩余的形参类型的类型 [`A]，均与该
+函数形参包组的[~声明符标识]的类型 [`P] 进行比较。
 
 [:en]
 Each comparison deduces template arguments for subsequent positions in the
 template parameter packs expanded by the function parameter pack.
+[:zh_CN]
+按照由该函数形参包组所展开的模板形参包组中的位置，每次比较将依次推断出其模板实参
+。
 
 [:en]
 If deduction succeeds for a given type, the type from the argument template is
 considered to be at least as specialized as the type from the parameter
 template.
+[:zh_CN]
+若某个给定类型的推断成功，则实参模板中的类型被认为是至少同形参模板中的类型一样
+特殊。
 
 [enter:example]
 [codeblock]
@@ -124,9 +184,13 @@ template<class T1, class... Args> void f(T1 a1, Args... args);    // #2
 template<class T1, class T2>      void f(T1 a1, T2 a2);           // #3
 
 f();                  // [:en] calls #1
+                      // [|:zh_CN] 调用了 #1
 f(1, 2, 3);           // [:en] calls #2
+                      // [|:zh_CN] 调用了 #2
 f(1, 2);              // [:en] calls #3; non-variadic template #3 is more
+                      // [|:zh_CN] 调用了 #3；非变参模板 #3 比变参
                       // [:en@~] specialized than the variadic templates #1 and #2
+                      // [|:zh_CN@~] 模板 #1 和 #2 更特殊
 [codeblock:end]
 [exit:example]
 
@@ -135,17 +199,24 @@ f(1, 2);              // [:en] calls #3; non-variadic template #3 is more
 If, for a given type, deduction succeeds in both directions (i.e., the types are
 identical after the transformations above) and both [`P] and [`A] were reference
 types (before being replaced with the type referred to above):
+[:zh_CN]
+若对某给定类型，在两个方向的推断均成功（就是说，这些类型在上述变换之后是相同的）
+，且 [`P] 和 [`A]（在按上文被其所指代的类型代替之前）均为引用类型，则：
 
 [list]
 [item]
 [:en] if the type from the argument template was an lvalue reference and the
 type from the parameter template was not, the parameter type is not considered
 to be at least as specialized as the argument type; otherwise,
+[:zh_CN] 若实参模板中的类型是左值引用，而形参模板中的类型不是，则形参类型不被
+认为是至少与形参类型一样特殊；否则，
 
 [item]
 [:en] if the type from the argument template is more cv-qualified than the type
 from the parameter template (as described above), the parameter type is not
 considered to be at least as specialized as the argument type.
+[:zh_CN] 若实参模板中的类型是比形参模板中的类型更被 cv-限定的（如上所述），则
+形参类型不被认为是至少与形参类型一样特殊。
 [list:end]
 
 [para]
@@ -154,10 +225,17 @@ considered to be at least as specialized as the argument type.
 Function template [`F] is at least as specialized as function template [`G] if,
 for each pair of types used to determine the ordering, the type from [`F] is at
 least as specialized as the type from [`G].
+[:zh_CN]
+[%更特殊[!函数模板]]
+对于函数模板 [`F] 和 [`G]，如果用于确定顺序的每对类型中，[`F] 中的类型均至少与
+[`G] 中的类型一样特殊，则称函数模板 [`F] 至少与函数模板 [`G] 一样特殊。
 
 [:en]
 [`F] is [+more specialized than] [`G] if [`F] is at least as specialized as [`G]
 and [`G] is not at least as specialized as [`F].
+[:zh_CN]
+如果 [`F] 至少与 [`G] 一样特殊而 [`G] 不至少与 [`F] 一样特殊，则 [`F] 比 [`G]
+[+更特殊]。
 
 [para]
 [:en]
@@ -165,10 +243,15 @@ In most cases, all template parameters must have values in order for deduction
 to succeed, but for partial ordering purposes a template parameter may remain
 without a value provided it is not used in the types being used for partial
 ordering.
+[:zh_CN]
+在多数情况下，为使推断成功所有模板形参必须都带有值，但进行偏排序时模板形参可以
+保持未带有值，只要它未被用作进行偏排序所使用的类型之中。
 
 [enter:note]
 [:en]
 A template parameter used in a non-deduced context is considered used.
+[:zh_CN]
+在非推断的语境中使用的模板形参被认为是被使用的。
 [exit:note]
 
 [enter:example]
@@ -177,6 +260,7 @@ template <class T> T f(int);        // #1
 template <class T, class U> T f(U); // #2
 void g() {
   f<int>(1);        // [:en] calls #1
+                    // [|:zh_CN] 调用了 #1
 }
 [codeblock:end]
 [exit:example]
@@ -187,6 +271,8 @@ void g() {
 Partial ordering of function templates containing template parameter packs is
 independent of the number of deduced arguments for those template parameter
 packs.
+[:zh_CN]
+包含模板形参包组的函数模板的偏序，与为这些模板形参包组推断的实参的数量无关。
 [exit:note]
 
 [enter:example]
@@ -197,9 +283,13 @@ template<class T1, class ... Types> void g(Tuple<T1, Types ...>);   // #2
 template<class T1, class ... Types> void g(Tuple<T1, Types& ...>);  // #3
 
 g(Tuple<>());                   // [:en] calls #1
+                                // [|:zh_CN] 调用了 #1
 g(Tuple<int, float>());         // [:en] calls #2
+                                // [|:zh_CN] 调用了 #2
 g(Tuple<int, float&>());        // [:en] calls #3
+                                // [|:zh_CN] 调用了 #3
 g(Tuple<int>());                // [:en] calls #3
+                                // [|:zh_CN] 调用了 #3
 [codeblock:end]
 
 [exit:example]
