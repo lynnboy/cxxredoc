@@ -1,22 +1,33 @@
 ﻿[section#cpp.include
     [:en] Source file inclusion
+    [:zh_CN] 源文件包含
 ]
 
 [:en]
 [%preprocessing directives [!header inclusion]]
 [%preprocessing directives [!source-file inclusion]]
 [%inclusion[!source file][see preprocessing directives[!source-file inclusion]]]
+[:zh_CN]
+[%预处理指令 [!头文件包含]]
+[%预处理指令 [!源文件包含]]
+[%包含[!源文件～][see 预处理指令[!源文件包含]]]
+
 [%[`#include]]
 
 [para]
 [:en]
 A [`#include] directive shall identify a header or source file that can be
 processed by the implementation.
+[:zh_CN]
+[`#include] 指令应当标识某个可被实现处理的头或源文件。
 
 [para]
 [:en]
 [%[`<...>][see preprocessing directive[!header]]]
 A preprocessing directive of the form
+[:zh_CN]
+[%[`<...>][see 预处理指令[!头文件]]]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`include] [`<][~h-char-sequence][`>] [~new-line]
@@ -27,15 +38,23 @@ searches a sequence of [%@impldef sequence of places searched for a header]
 implementation-defined places for a header identified uniquely by the specified
 sequence between the [`<] and [`>] delimiters, and causes the replacement of
 that directive by the entire contents of the header.
+[:zh_CN@~]
+在[%@impldef 搜索头文件的位置序列]由实现定义的位置序列中搜索由分隔符 [`<] 和
+[`>] 之间指定的序列所唯一标识的头文件，并造成该指令被该头文件的整个内容所替换。
 
 [:en]
 How the places are specified or the header identified is [%@impldef search
 locations for [`<>] header] implementation-defined.
+[:zh_CN]
+如何指定这些位置或标识头文件是[%@impldef [`<>] 头文件的搜索位置]由实现定义的。
 
 [para]
 [:en]
 [%[`"..."][see preprocessing directives[!source-file inclusion]]]
 A preprocessing directive of the form
+[:zh_CN]
+[%[`"..."][see 预处理指令[!源文件包含]]]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`include] [`"][~q-char-sequence][`"] [~new-line]
@@ -44,14 +63,20 @@ A preprocessing directive of the form
 [:en@~]
 causes the replacement of that directive by the entire contents of the source
 file identified by the specified sequence between the [`"] delimiters.
+[:zh_CN@~]
+导致该指令被由分隔符 [`"] 之间指定的序列所标识的源文件的整个内容所替换。
 
 [:en]
 The named source file is searched for in an [%@impldef manner of search for
 included source file] implementation-defined manner.
+[:zh_CN]
+以[%@impldef 搜索被包含的源文件的方式]由实现定义的方式对所指名的源文件进行搜索。
 
 [:en]
 If this search is not supported, or if the search fails, the directive is
 reprocessed as if it read
+[:zh_CN]
+若不支持这项搜索，或者若搜索失败，则该指令如同读到如下指令而进行再次处理
 
 [syntax:explanation]
 [`#] [`include] [`<][~h-char-sequence][`>] [~new-line]
@@ -60,10 +85,14 @@ reprocessed as if it read
 [:en@~]
 with the identical contained sequence (including [`>] characters, if any) from
 the original directive.
+[:zh_CN@~]
+其中包含与原指令中相同的序列（包括 [`>] 字符，如果有）。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`include] [~pp-tokens] [~new-line]
@@ -71,21 +100,31 @@ A preprocessing directive of the form
 
 [:en@~]
 (that does not match one of the two previous forms) is permitted.
+[:zh_CN@~]
+（这并不匹配上述两种形式之一）是允许的。
 
 [:en]
 The preprocessing tokens after [`include] in the directive are processed just as
 in normal text (i.e., each identifier currently defined as a macro name is
 replaced by its replacement list of preprocessing tokens).
+[:zh_CN]
+对指令中 [`include] 之后的预处理指令如同普通文本中那样进行处理（将每个当前定义为
+宏名的标识符替换为它的预处理记号的替换列表）。
 
 [:en]
 If the directive resulting after all replacements does not match one of the two
 previous forms, the behavior is undefined.
+[:zh_CN]
+若进行全部替换之后所产生的指令并不匹配上述两种形式之一，则其行为是未定义的。
 
 [footnote]
 [:en]
 Note that adjacent string literals are not concatenated into a single string
 literal (see the translation phases in [#lex.phases]); thus, an expansion that
 results in two string literals is an invalid directive.
+[:zh_CN]
+要注意的是相邻的字符串字面量并不被拼接为一个字符串字面量（参见 [#lex.phases] 中
+的翻译阶段）；因此，造成两个字符串字面量的扩展是非法指令。
 [footnote:end]
 
 [:en]
@@ -93,23 +132,37 @@ The method by which a sequence of preprocessing tokens between a [`<] and a [`>]
 preprocessing token pair or a pair of [`"] characters is combined into a single
 header name preprocessing token is [%@impldef search locations for [`""] header]
 implementation-defined.
+[:zh_CN]
+如何将预处理记号对 [`<] 和 [`>] 之间或一对 [`"] 字符之间的预处理记号序列合并为
+一个头文件名预处理记号的方式是[%@impldef [`""] 头文件的搜索位置]由实现定义的。
 
 [para]
 [:en]
 The implementation shall provide unique mappings for sequences consisting of one
 or more [~nondigit]s or [~digit]s ([#lex.name]) followed by a period ([`.]) and
 a single [~nondigit].
+[:zh_CN]
+实现应当为由一个或多个[~非数字]或[~数字]（[#lex.name]）后面跟着一个句点（[`.]）
+和一个[~非数字]所构成的序列提供唯一的映射。
 
 [:en]
 The first character shall not be a [~digit].
+[:zh_CN]
+第一个字符不能为[~数字]。
 
 [:en]
 The implementation may ignore distinctions of alphabetical case.
+[:zh_CN]
+实现可以忽略其字母大小写上的区别。
 
 [para]
+[:en]
 A [`#include] preprocessing directive may appear in a source file that has been
 read because of a [`#include] directive in another file, up to an [%@impldef
 nesting limit for [`#include] directives] implementation-defined nesting limit.
+[:zh_CN]
+预处理指令 [`#include] 可以出现在已经因其他文件中的 [`#include] 指令而被读入的
+源文件中，直到某个[%@impldef [`#include] 指令的嵌套限度]由实现定义的嵌套限度。
 
 [para]
 [enter:note]
@@ -118,9 +171,14 @@ Although an implementation may provide a mechanism for making arbitrary source
 files available to the [`< >] search, in general programmers should use the
 [`< >] form for headers provided with the implementation, and the [`" "] form
 for sources outside the control of the implementation.
+[:zh_CN]
+尽管实现可以提供使任意源文件对 [`< >] 搜索可用的机制，程序员通常应当为实现提供的
+头文件使用 [`< >] 形式，而为处于实现控制之外的源文件使用 [`" "] 形式。
 
 [:en]
 For instance:
+[:zh_CN]
+例如：
 
 [codeblock]
 #include <stdio.h>
@@ -135,12 +193,15 @@ For instance:
 [enter:example]
 [:en]
 This illustrates macro-replaced [`#include] directives:
+[:zh_CN]
+以下演示带有宏替换的 [`#include] 指令：
 
 [codeblock]
 #if VERSION == 1
     #define INCFILE  "vers1.h"
 #elif VERSION == 2
     #define INCFILE  "vers2.h"   // [:en] and so on
+                                 // [|:zh_CN] 等等
 #else
     #define INCFILE  "versN.h"
 #endif
