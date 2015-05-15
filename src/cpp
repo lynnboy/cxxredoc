@@ -1,15 +1,21 @@
 ﻿[section:chapter#cpp
     [:en] Preprocessing directives
+    [:zh_CN] 预处理指令
 ]
 
 [%:begin#preprocessing.directives
     [:en] preprocessing directives
+    [:zh_CN] 预处理指令
 ]
 
 [:en]
 [%compiler control line[see preprocessing directives]]
 [%control line[see preprocessing directives]]
 [%directive[!preprocessing][see preprocessing directives]]
+[:zh_CN]
+[%编译器控制行[see 预处理指令]]
+[%控制行[see 预处理指令]]
+[%指令[!预处理～][see 预处理指令]]
 
 [/
 %gram: \rSec1[gram.cpp]{Preprocessing directives}
@@ -20,76 +26,91 @@
 [:en]
 A [def preprocessing directive] consists of a sequence of preprocessing tokens
 that satisfies the following constraints:
+[:zh_CN]
+[def 预处理指令]由预处理标记的序列构成并满足如下约束条件：
 
 [:en]
 The first token in the sequence is a [`#] preprocessing token that (at the start
 of translation phase 4) is either the first character in the source file
 (optionally after white space containing no new-line characters) or that follows
 white space containing at least one new-line character.
+[:zh_CN]
+该序列中的第一个标记是预处理标记 [`#]，它（在翻译阶段 4 开始时）要么是源文件中的
+第一个字符（可选地跟在不包含换行字符的空白之后），要么跟在至少包含一个换行字符的
+空白后面。
 
 [:en]
 The last token in the sequence is the first new-line character that follows the
 first token in the sequence.
+[:zh_CN]
+该序列中的最后一个标记是跟在该序列第一个标记之后的第一个换行字符。
 
 [footnote]
 [:en]
 Thus, preprocessing directives are commonly called ["lines.]
+[:zh_CN]
+因此，预处理指令通常被称为“行”。
 
 [:en]
 These ["lines] have no other syntactic significance, as all white space is
 equivalent except in certain situations during preprocessing (see the [`#]
 character string literal creation operator in [#cpp.stringize], for example).
+[:zh_CN]
+这些“行”没有其他语法含义，因为除了预处理过程中的特殊情况（例如，参见
+[#cpp.stringize] 中的字符串字面量创建运算符 [`#] 字符）外，所有空白都是等价的。
 [footnote:end]
 
 [:en]
 A new-line character ends the preprocessing directive even if it occurs within
 what would otherwise be an invocation of a function-like macro.
+[:zh_CN]
+即使换行字符出现于可能成为对某函数式宏的调用之内，它也将终止预处理指令。
 
 [syntax]
-[rule preprocessing-file [:zh_CN] ]
+[rule preprocessing-file [:zh_CN] 预处理文件 ]
     [| [~:opt group] ]
 [rule:end]
 
-[rule group [:zh_CN ] ]
+[rule group [:zh_CN ] 组 ]
     [| group-part ]
     [| group group-part ]
 [rule:end]
 
-[rule group-part [:zh_CN] ]
+[rule group-part [:zh_CN] 组部分 ]
     [| if-section ]
     [| control-line ]
     [| text-line ]
     [| [`#] non-directive ]
 [rule:end]
 
-[rule if-section [:zh_CN] ]
+[rule if-section [:zh_CN] if-节 ]
     [| if-group [~:opt elif-groups] [~:opt else-group] endif-line ]
 [rule:end]
 
-[rule@aligned if-group [:zh_CN] ]
+[rule@aligned if-group [:zh_CN] if-组 ]
     [| [`#] [`if]       constant-expression new-line [~:opt group] ]
     [| [`#] [`ifdef]    identifier new-line [~:opt group] ]
     [| [`#] [`ifndef]   identifier new-line [~:opt group] ]
 [rule:end]
 
-[rule elif-groups [:zh_CN] ]
+[rule elif-groups [:zh_CN] elif-组序列 ]
     [| elif-group ]
     [| elif-groups elif-group ]
 [rule:end]
 
-[rule@aligned elif-group [:zh_CN] ]
+[rule@aligned elif-group [:zh_CN] elif-组 ]
     [| [`#] [`elif]     constant-expression new-line [~:opt group] ]
 [rule:end]
 
-[rule@aligned else-group [:zh_CN] ]
+[rule@aligned else-group [:zh_CN] else-组 ]
     [| [`#] [`else]     new-line [~:opt group] ]
 [rule:end]
 
-[rule@aligned endif-line [:zh_CN] ]
+[rule@aligned endif-line [:zh_CN] endif-行 ]
     [| [`#] [`endif]    new-line ]
 [rule:end]
 
-[rule@aligned control-line [:zh_CN] ]
+[rule@aligned control-line [:zh_CN] 控制行 ]
     [| [`#] [`include]  pp-tokens new-line ]
     [| [`#] [`define]   identifier replacement-list new-line ]
     [| [`#] [`define]   identifier lparen [~:opt identifier-list] [`)] replacement-list new-line ]
@@ -102,37 +123,38 @@ what would otherwise be an invocation of a function-like macro.
     [| [`#] new-line ]
 [rule:end]
 
-[rule text-line [:zh_CN] ]
+[rule text-line [:zh_CN] 文本行 ]
     [| [~:opt pp-tokens] new-line ]
 [rule:end]
 
-[rule non-directive [:zh_CN] ]
+[rule non-directive [:zh_CN] 非指令行 ]
     [| pp-tokens new-line ]
 [rule:end]
 
-[rule lparen [:zh_CN] ]
+[rule lparen [:zh_CN] 左括号 ]
     [|:descriptive
         [:en] a [`(] character not immediately preceded by white-space
     ]
 [rule:end]
 
-[rule identifier-list [:zh_CN] ]
+[rule identifier-list [:zh_CN] 标识符列表 ]
     [| identifier ]
     [| identifier-list [`,] identifier ]
 [rule:end]
 
-[rule replacement-list [:zh_CN] ]
+[rule replacement-list [:zh_CN] 替换列表 ]
     [| [~:opt pp-tokens] ]
 [rule:end]
 
-[rule pp-tokens [:zh_CN] ]
+[rule pp-tokens [:zh_CN] 预处理记号列表 ]
     [| preprocessing-token ]
     [| pp-tokens preprocessing-token ]
 [rule:end]
 
-[rule new-line [:zh_CN] ]
+[rule new-line [:zh_CN] 换行 ]
     [|:descriptive
         [:en] the new-line character
+        [:zh_CN] 换行字符
     ]
 [rule:end]
 [syntax:end]
@@ -140,16 +162,23 @@ what would otherwise be an invocation of a function-like macro.
 [para]
 [:en]
 A text line shall not begin with a [`#] preprocessing token.
+[:zh_CN]
+文本行不能以 [`#] 预处理记号开始。
 
 [:en]
 A non-directive shall not begin with any of the directive names appearing in the
 syntax.
+[:zh_CN]
+非指令行不能以语法中所出现的任何指令的名字开始。
 
 [para]
 [:en]
 When in a group that is skipped ([#cpp.cond]), the directive syntax is relaxed
 to allow any sequence of preprocessing tokens to occur between the directive
 name and the following new-line character.
+[:zh_CN]
+在被跳过的组（[#cpp.cond]）中，放宽指令语法，允许在指令名和下一个换行字符之间
+出现预处理标记的任何序列。
 
 [para]
 [:en]
@@ -158,25 +187,39 @@ within a preprocessing directive (from just after the introducing [`#]
 preprocessing token through just before the terminating new-line character)
 are space and horizontal-tab (including spaces that have replaced comments or
 possibly other white-space characters in translation phase 3).
+[:zh_CN]
+允许在预处理指令中的预处理标记之间（从紧跟开头的预处理标记 [`#] 之后直到紧跟末尾
+的换行字符之前）出现的空白字符，仅有空格和水平制表（包括在翻译阶段 3 中替换注释
+或其他可能的空白字符的空格）。
 
 [para]
 [:en]
 The implementation can process and skip sections of source files conditionally,
 include other source files, and replace macros.
+[:zh_CN]
+实现可以处理并有条件地处理并跳过源文件中的段落，包含其他源文件，以及对宏进行替换
+。
 
 [:en]
 These capabilities are called [+preprocessing], because conceptually they occur
 before translation of the resulting translation unit.
+[:zh_CN]
+这些能力被称为[+预处理]，这是由于在概念上它们发生于对所产生的翻译单元进行翻译
+之前。
 
 [para]
 [:en]
 The preprocessing tokens within a preprocessing directive are not subject to
 macro expansion unless otherwise stated.
+[:zh_CN]
+除非明确指出，预处理指令中的预处理标记并不进行宏扩展。
 
 [para:~]
 [enter:example]
 [:en]
 In:
+[:zh_CN]
+下例中：
 
 [codeblock]
 #define EMPTY
@@ -188,6 +231,9 @@ the sequence of preprocessing tokens on the second line is [em not]
 a preprocessing directive, because it does not begin with a [`#] at the start of
 translation phase 4, even though it will do so after the macro [`EMPTY] has been
 replaced.
+[:zh_CN@~]
+第二行中的预处理标记序列[em 并不是]预处理指令，因为在翻译阶段 4 开始时它并不是以
+[`#] 开始的，虽然宏 [`EMPTY] 被替换之后确实会这样。
 [exit:example]
 
 [include cpp.cond]
