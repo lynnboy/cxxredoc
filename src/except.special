@@ -1,5 +1,6 @@
 ﻿[section#except.special
     [:en] Special functions
+    [:zh_CN] 特殊函数
 ]
 
 [para]
@@ -7,11 +8,17 @@
 The functions [`std::terminate()] ([#except.terminate]) and [`std::unexpected()]
 ([#except.unexpected]) are used by the exception handling mechanism for coping
 with errors related to the exception handling mechanism itself.
+[:zh_CN]
+异常处理机制利用函数 [`std::terminate()]（[#except.terminate]）和
+[`std::unexpected()]（[#except.unexpected]）以应付与异常处理机制自身相关的错误。
 
 [:en]
 The function [`std::current_exception()] ([#propagation]) and the class
 [`std::nested_exception] ([#except.nested]) can be used by a program to capture
 the currently handled exception.
+[:zh_CN]
+程序可以利用函数 [`std::current_exception()]（[#propagation]）和类
+[`std::nested_exception]（[#except.nested]）来获得当前被处理的异常。
 
 [include except.terminate]
 
