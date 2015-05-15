@@ -1,5 +1,6 @@
 ﻿[section#temp.deduct.decl
     [:en] Deducing template arguments from a function declaration
+    [:zh_CN] 从函数声明式中推断模板实参
 ]
 
 [para]
@@ -7,25 +8,40 @@
 In a declaration whose [~declarator-id] refers to a specialization of a function
 template, template argument deduction is performed to identify the
 specialization to which the declaration refers.
+[:zh_CN]
+在[~声明符标识]涉指某个函数模板特例的声明式中，模板实参推断用于辨认该声明式所
+涉指的是哪个特例。
 
 [:en]
 Specifically, this is done for explicit instantiations ([#temp.explicit]),
 explicit specializations ([#temp.expl.spec]), and certain friend declarations
 ([#temp.friend]).
+[:zh_CN]
+特别地，显式实例化式（[#temp.explicit]），显式特化式（[#temp.expl.spec]），以及
+某些友元声明式（[#temp.friend]）中将进行这种模板实参推断。
 
 [:en]
 This is also done to determine whether a deallocation function template
 specialization matches a placement [`operator new]
 ([#basic.stc.dynamic.deallocation], [#expr.new]).
+[:zh_CN]
+当确认一个回收函数模板特例是否与一个放置式 [`operator new] 相匹配
+（[#basic.stc.dynamic.deallocation]，[#expr.new]）时，也将进行这种模板实参推断。
 
 [:en]
 In all these cases, [`P] is the type of the function template being considered
 as a potential match and [`A] is either the function type from the declaration
 or the type of the deallocation function that would match the placement
 [`operator new] as described in [#expr.new].
+[:zh_CN]
+所有这些情况下，[`P] 为所考察的函数模板的将要进行匹配的类型，而 [`A] 要么为该
+声明式中的函数类型，要么为如 [#expr.new] 所述的能够与放置式 [`operator new] 相
+匹配的回收函数的类型。
 
 [:en]
 The deduction is done as described in [#temp.deduct.type].
+[:zh_CN]
+其推断过程如 [#temp.deduct.type] 所述进行。
 
 [para]
 [:en]
@@ -33,3 +49,6 @@ If, for the set of function templates so considered, there is either no match or
 more than one match after partial ordering has been considered
 ([#temp.func.order]), deduction fails and, in the declaration cases, the program
 is ill-formed.
+[:zh_CN]
+如果由此所考察的函数模板的集合中，当考虑偏序（[#temp.func.order]）之后不存在匹配
+或存在多于一个匹配，则推断失败，并且对于声明式来说，程序非良构。
