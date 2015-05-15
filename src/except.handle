@@ -1,15 +1,19 @@
 ﻿[section#except.handle
     [:en] Handling an exception
+    [:zh_CN] 处理异常
 ]
 
 [%:begin#exception.handling.handler
     [:en] exception handling [!handler]
+    [:zh_CN] 异常处理[!处理器]
 ]
 
 [para]
 [:en]
-The [~exception-declaration] in a [+handler] describes the type(s) of exceptions
-that can cause that [+handler] to be entered.
+The [~exception-declaration] in a [~handler] describes the type(s) of exceptions
+that can cause that [~handler] to be entered.
+[:zh_CN]
+[~处理器]中的[~异常声明式]描述了可以导致进入该[~处理器]的异常的类型。
 
 [:en]
 [%exception handling[!handler[!incomplete type in]]]
@@ -18,60 +22,93 @@ that can cause that [+handler] to be entered.
 [%exception handling[!handler[!pointer to function in]]]
 The [~exception-declaration] shall not denote an incomplete type, an abstract
 class type, or an rvalue reference type.
+[:zh_CN]
+[%异常处理[!处理器[!～中的不完整类型]]]
+[%异常处理[!处理器[!～中的右值引用]]]
+[%异常处理[!处理器[!～中的数组]]]
+[%异常处理[!处理器[!～中的函数指针]]]
+[~异常声明式]不能代表不完整类型，抽象类类型，或右值引用类型。
 
 [:en]
 The [~exception-declaration] shall not denote a pointer or reference to an
 incomplete type, other than [`void*], [`const void*], [`volatile void*], or
 [`const volatile void*].
+[:zh_CN]
+除 [`void*]、[`const void*]、[`volatile void*] 或 [`const volatile void*] 之外，
+[~异常声明式]不能代表不完整类型的指针或引用。
 
 [para]
 [:en]
 A handler of type ["array of [`T]] or ["function returning [`T]] is adjusted to
 be of type ["pointer to [`T]] or ["pointer to function returning [`T]],
 respectively.
+[:zh_CN]
+类型“[`T] 的数组”或“[`T] 为返回类型的函数”的处理器，被分别调整为“[`T] 的指针”或
+“[`T] 为返回类型的函数的指针”类型。
 
 [%:begin#exception.handling.handler.match
     [:en] exception handling [!handler [!match]]
+    [:zh_CN] 异常处理[!处理器[!匹配]]
 ]
 
 [para]
 [:en]
-A [+handler] is a match for an exception object of type [`E] if
+A [~handler] is a match for an exception object of type [`E] if
+[:zh_CN]
+符合如下条件时[~处理器]与类型 [`E] 的异常对象匹配：
 
 [list]
 [item]
 [:en]
-The [+handler] is of type [$cv] [`T] or [$cv] [`T&] and [`E] and [`T] are the
+The [~handler] is of type [$cv] [`T] or [$cv] [`T&] and [`E] and [`T] are the
 same type (ignoring the top-level [~cv-qualifier]s), or
+[:zh_CN]
+[~处理器]的类型为 [$cv] [`T] 或 [$cv] [`T&]，而 [`E] 和 [`T]（忽略顶层
+[~cv-限定符]后）类型相同，或者
 
 [item]
 [:en]
-the [+handler] is of type [$cv] [`T] or [$cv] [`T&] and [`T] is an unambiguous
+the [~handler] is of type [$cv] [`T] or [$cv] [`T&] and [`T] is an unambiguous
 public base class of [`E], or
+[:zh_CN]
+[~处理器]的类型为 [$cv] [`T] 或 [$cv] [`T&]，而 [`T] 是 [`E] 的无歧义公用基类，
+或者
 
 [item]
 [:en]
-the [+handler] is of type [$cv] [`T] or [`const T&] where [`T] is a pointer type
+the [~handler] is of type [$cv] [`T] or [`const T&] where [`T] is a pointer type
 and [`E] is a pointer type that can be converted to [`T] by either or both of
+[:zh_CN]
+[~处理器]的类型为 [$cv] [`T] 或 [`const T&]，其中 [`T] 为指针类型，而 [`E] 为
+可以通过如下之一或全部来转换为 [`T] 的指针类型：
 
 [list]
 [item]
 [:en@~] a standard pointer conversion ([#conv.ptr]) not involving conversions to
 pointers to private or protected or ambiguous classes
+[:zh_CN@~] 标准指针转换（[#conv.ptr]），其中不涉及向指向私有或受保护或有歧义的类
+的指针的转换
 [item]
 [:en@~] a qualification conversion, or
+[:zh_CN@~] 限定性转换，或者
 [list:end]
 
 [item]
 [:en]
-the [+handler] is of type [$cv] [`T] or [`const T&] where [`T] is a pointer or
+the [~handler] is of type [$cv] [`T] or [`const T&] where [`T] is a pointer or
 pointer to member type and [`E] is [`std::nullptr_t].
+[:zh_CN]
 [list:end]
+[~处理器]的类型为 [$cv] [`T] 或 [`const T&]，其中 [`T] 为指针或成员指针类型，而
+[`E] 为 [`std::nullptr_t]。
 
 [enter:note]
 [:en]
 A [~throw-expression] whose operand is an integer literal with value zero does
 not match a handler of pointer or pointer to member type.
+[:zh_CN]
+操作数是零值的整型字面量的 [~throw-表达式]，并不与指针或成员指针类型的处理器匹配
+。
 [exit:note]
 
 [para:~]
@@ -98,54 +135,83 @@ Here, the [`Overflow] handler will catch exceptions of type [`Overflow] and the
 [`Matherr] handler will catch exceptions of type [`Matherr] and of all types
 publicly derived from [`Matherr] including exceptions of type [`Underflow] and
 [`Zerodivide].
+[:zh_CN]
+此处，[`Overflow] 处理器将会捕获 [`Overflow] 类型的异常，而 [`Matherr] 处理器将
+会捕获 [`Matherr] 类型以及公用派生自 [`Matherr] 的所有类型，包括 [`Underflow] 和
+[`Zerodivide] 类型的异常。
 [exit:example]
 
 [para]
 [:en]
 The handlers for a try block are tried in order of appearance.
+[:zh_CN]
+按照出现顺序尝试 try 块的各处理器。
 
 [:en]
 That makes it possible to write handlers that can never be executed, for example
 by placing a handler for a derived class after a handler for a corresponding
 base class.
+[:zh_CN]
+这使得可能写出永远不会执行的处理器，例如把派生类的处理器放在某个相应基类的处理器
+之后。
 
 [para]
 [:en]
 A [`...] in a handler[=']s [~exception-declaration] functions similarly to
 [`...] in a function parameter declaration; it specifies a match for any
 exception.
+[:zh_CN]
+处理器的[~异常声明式]中的 [`...] 与函数形参声明式中的 [`...] 功能相似；它指定与
+任意异常匹配。
 
 [:en]
 If present, a [`...] handler shall be the last handler for its try block.
+[:zh_CN]
+如果出现，则 [`...] 处理器应当为其 try 块的最后一个处理器。
 
 [para]
 [:en]
 If no match is found among the handlers for a try block, the search for a
 matching handler continues in a dynamically surrounding try block of the same
 thread.
+[:zh_CN]
+若在一个 try 块的各处理器中没有找到匹配，则要继续在相同线程中其动态的外围 try 块
+中继续搜索匹配的处理器。
 
 [para]
 [:en]
 A handler is considered active when initialization is complete for the parameter
 (if any) of the catch clause.
+[:zh_CN]
+当对捕获子句的形参（如果有）的初始化完成时，处理器被认为是活动的。
 
 [enter:note]
 [:en]
 The stack will have been unwound at that point.
+[:zh_CN]
+到此处时堆栈已经完成了解退。
 [exit:note]
 
 [:en]
 Also, an implicit handler is considered active when [`std::terminate()] or
 [`std::unexpected()] is entered due to a throw.
+[:zh_CN]
+同样，当由于某次抛出而进入 [`std::terminate()] 或 [`std::unexpected()] 时，认为
+某个隐含的处理器是活动的。
 
 [:en]
 A handler is no longer considered active when the catch clause exits or when
 [`std::unexpected()] exits after being entered due to a throw.
+[:zh_CN]
+当 catch 子句退出时，或由于某次抛出而进入的 [`std::unexpected()] 退出时，处理器
+不再被认为是活动的。
 
 [para]
 [:en]
 The exception with the most recently activated handler that is still active is
 called the [+currently handled exception].
+[:zh_CN]
+若异常最近变为活动的处理器仍然处于活动中，则它被称为是“当前被处理的异常”。
 
 [para]
 [:en]
@@ -153,76 +219,115 @@ If no matching handler is found, the function [`std::terminate()] is called;
 whether or not the stack is unwound before this call to [`std::terminate()] is
 [%@impldef stack unwinding before call to [`std::terminate()]]
 implementation-defined ([#except.terminate]).
+[:zh_CN]
+若未找到匹配的处理器，则调用函数 [`std::terminate()]；在调用 [`std::terminate()]
+之前是否进行堆栈解退是 [%@impldef 调用 [`std::terminate()] 之前进行堆栈解退]
+由实现定义的（[#except.terminate]）。
 
 [para]
 [:en]
 Referring to any non-static member or base class of an object in the handler for
 a [~function-try-block] of a constructor or destructor for that object results
 in undefined behavior.
+[:zh_CN]
+在对象的构造函数或析构函数的[~函数-try-块]的处理器中涉指该对象的任何非静态成员或
+基类将导致未定义行为。
 
 [para]
 [:en]
 The scope and lifetime of the parameters of a function or constructor extend
 into the handlers of a [~function-try-block].
+[:zh_CN]
+函数或构造函数的形参的作用域和生存期扩展到[~函数-try-块]的处理器之中。
 
 [para]
 [:en]
 Exceptions thrown in destructors of objects with static storage duration or in
 constructors of namespace-scope objects with static storage duration are not
 caught by a [~function-try-block] on [`main()].
+[:zh_CN]
+在具有静态存储期的对象的析构函数中，或者在具有静态存储期的命名空间作用域对象的
+构造函数中抛出的异常，不会被 [`main()] 的[~函数-try-块]捕获。
 
 [:en]
 Exceptions thrown in destructors of objects with thread storage duration or in
 constructors of namespace-scope objects with thread storage duration are not
 caught by a [~function-try-block] on the initial function of the thread.
+[:zh_CN]
+在具有线程存储期的对象的析构函数中或者在具有线程存储期的命名空间作用域对象的构造
+函数中抛出的异常不会被该线程的起始函数的[~函数-try-块]捕获。
 
 [para]
 [:en]
 If a return statement appears in a handler of the [~function-try-block] of a
 constructor, the program is ill-formed.
+[:zh_CN]
+若构造函数的[~函数-try-块]的处理器中出现返回语句，则程序非良构。
 
 [para]
 [:en]
 The currently handled exception is rethrown if control reaches the end of a
 handler of the [~function-try-block] of a constructor or destructor.
+[:zh_CN]
+当控制到达构造函数或析构函数的[~函数-try-块]的处理器的末尾时，重新抛出当前被处理
+的异常。
 
 [:en]
 Otherwise, a function returns when control reaches the end of a handler for the
 [~function-try-block] ([#stmt.return]).
+[:zh_CN]
+否则，当控制到达[~函数-try-块]的处理器的末尾时，函数返回（[#stmt.return]）。
 
 [:en]
 Flowing off the end of a [~function-try-block] is equivalent to a [`return] with
 no value; this results in undefined behavior in a value-returning function
 ([#stmt.return]).
+[:zh_CN]
+控制流出[~函数-try-块]末尾，等价于没有值的 [`return]；这在返回值的函数
+（[#stmt.return]）中将导致未定义行为。
 
 [para]
 [:en]
 The variable declared by the [~exception-declaration], of type [$cv] [`T] or
 [$cv] [`T&], is initialized from the exception object, of type [`E], as follows:
+[:zh_CN]
+由[~异常声明式]声明的类型为 [$cv] [`T] 或 [$cv] [`T&] 的变量，由类型为 [`E] 的
+异常对象，以如下方式进行初始化：
 
 [list]
 [item]
 [:en@~] if [`T] is a base class of [`E], the variable is copy-initialized
 ([#dcl.init]) from the corresponding base class subobject of the exception
 object;
+[:zh_CN@~] 若 [`T] 为 [`E] 的基类，则该变量以异常对象的对应基类子对象进行复制
+初始化（[#dcl.init]）；
 [item]
 [:en@~] otherwise, the variable is copy-initialized ([#dcl.init]) from the
 exception object.
+[:zh_CN@~] 否则，该变量以异常对象进行复制初始化（[#dcl.init]）。
 [list:end]
 
 [:en]
 The lifetime of the variable ends when the handler exits, after the destruction
 of any automatic objects initialized within the handler.
+[:zh_CN]
+这个变量的生存期在该处理器退出时，于该处理器中初始化的任何自动对象的销毁之后结束
+。
 
 [para]
 [:en]
 When the handler declares an object, any changes to that object will not affect
 the exception object.
+[:zh_CN]
+当处理器声明对象时，对该对象的任何改动均不会影响异常对象。
 
 [:en]
 When the handler declares a reference to an object, any changes to the
 referenced object are changes to the exception object and will have effect
 should that object be rethrown.
+[:zh_CN]
+当处理器声明对象引用时，对被指代的对象的任何改动均会改动异常对象，并且将会在重新
+抛出该对象时产生效果。
 
 [%:end#exception.handling.handler.match]
 
