@@ -1,6 +1,8 @@
 ﻿[section#except.ctor
     [:en] Constructors and destructors
+    [:zh_CN] 构造函数和析构函数
 ]
+
 [:en]
 [%exception handling[!constructors and destructors]]
 [%stack unwinding[!see exception handling[!constructors and destructors]]]
@@ -8,6 +10,11 @@
     [see exception handling[!constructors and destructors]]]
 [%destructor[!exception handling]
     [see exception handling[!constructors and destructors]]]
+[:zh_CN]
+[%异常处理[!构造函数和析构函数]]
+[%堆栈解退[!see 异常处理[!构造函数和析构函数]]]
+[%构造函数[!异常处理][see 异常处理[!构造函数和析构函数]]]
+[%析构函数[!异常处理][see 异常处理[!构造函数和析构函数]]]
 
 [para]
 [:en]
@@ -15,25 +22,38 @@
 As control passes from the point where an exception is thrown to a handler,
 destructors are invoked by a process, specified in this section, called
 [def stack unwinding].
+[:zh_CN]
+[%解退[!堆栈～]]
+当控制从抛出异常之处传递到处理器时，根据本小结指定的过程调用析构函数，称之为
+[def 堆栈解退]。
 
 [:en]
 If a destructor directly invoked by stack unwinding exits with an exception,
 [`std::terminate] is called ([#except.terminate]).
+[:zh_CN]
+若堆栈解退过程中所直接调用的析构函数以抛出异常退出，则调用 [`std::terminate]
+（[#except.terminate]）。
 
 [enter:note]
 [:en]
 Consequently, destructors should generally catch exceptions and not let them
 propagate out of the destructor.
+[:zh_CN]
+因此，析构函数通常应当捕获异常并且不让它们从析构函数中传播出去。
 [exit:note]
 
 [para]
 [:en]
 The destructor is invoked for each automatic object of class type constructed
 since the try block was entered.
+[:zh_CN]
+调用进入 try 块以来所创建的所有类类型的自动对象的析构函数。
 
 [:en]
 The automatic objects are destroyed in the reverse order of the completion of
 their construction.
+[:zh_CN]
+自动对象以它们构造完成的相反顺序销毁。
 
 [para]
 [:en]
@@ -43,24 +63,40 @@ the object[=']s fully constructed subobjects, that is, for each subobject for
 which the principal constructor ([#class.base.init]) has completed execution
 and the destructor has not yet begun execution, except that in the case of
 destruction, the variant members of a union-like class are not destroyed.
+[:zh_CN]
+任意存储期的类类型对象，若其初始化或销毁过程以异常终止，将会执行其所有完整构造了
+的子对象（也就是其主构造函数（[#class.base.init]）已经完全执行而其析构函数还未
+开始执行的所有子对象）的析构函数，但在进行销毁的情况下，类似联合的类的可变成员
+不进行销毁。
 
 [:en]
 The subobjects are destroyed in the reverse order of the completion of their
 construction.
+[:zh_CN]
+这些子对象以它们构造完成的相反顺序销毁。
 
 [:en]
 Such destruction is sequenced before entering a handler of the
 [~function-try-block] of the constructor or destructor, if any.
+[:zh_CN]
+这种销毁过程按顺序早于构造函数或析构函数的[~函数-try-块]的处理器（如果有）的进入
+。
 
 [para]
 [:en]
 Similarly, if the non-delegating constructor for an object has completed
 execution and a delegating constructor for that object exits with an exception,
 the object[=']s destructor is invoked.
+[:zh_CN]
+相似地，若某对象的非委派的构造函数已经完成执行而该对象的某个委派构造函数以异常
+退出，则将调用该对象的析构函数。
 
 [:en]
 Such destruction is sequenced before entering a handler of the
 [~function-try-block] of a delegating constructor for that object, if any.
+[:zh_CN]
+这种销毁过程按顺序早于该对象的委派构造函数的[~函数-try-块]的处理器（如果有）的
+进入。
 
 [para]
 [enter:note]
@@ -68,4 +104,7 @@ Such destruction is sequenced before entering a handler of the
 If the object was allocated by a [~new-expression] ([#expr.new]), the matching
 deallocation function ([#basic.stc.dynamic.deallocation]), if any, is called to
 free the storage occupied by the object.
+[:zh_CN]
+若对象是由 [~new-表达式]分配的（[#expr.new]），则要调用匹配的回收配函数
+（[#basic.stc.dynamic.deallocation]）（如果有）以释放该对象所占据的存储。
 [exit:note]
