@@ -1,14 +1,19 @@
 ﻿[section#except.throw
     [:en] Throwing an exception
+    [:zh_CN] 异常的抛出
 ]
 [%[:en] exception handling[!throwing]
+  [:zh_CN] 异常处理[!抛出]
 ]
 [%[:en] throwing [see exception handling[!throwing]]
+  [:zh_CN] 抛出 [see 异常处理[!抛出]]
 ]
 
 [para]
 [:en]
 Throwing an exception transfers control to a handler.
+[:zh_CN]
+抛出一个异常将把控制转移到某个处理器中。
 
 [enter:note]
 [:en]
@@ -17,11 +22,18 @@ An exception can be thrown from one of the following contexts:
 ([#basic.stc.dynamic.allocation]), [`dynamic_cast] ([#expr.dynamic.cast]),
 [`typeid] ([#expr.typeid]), [~new-expression]s ([#expr.new]), and standard
 library functions ([#structure.specifications]).
+[:zh_CN]
+下列语境可以抛出异常：[~throw-表达式]（[#expr.throw]），分配函数
+（[#basic.stc.dynamic.allocation]），[`dynamic_cast]（[#expr.dynamic.cast]），
+[`typeid]（[#expr.typeid]），[~new-表达式]（[#expr.new]），以及标准程序库的函数
+（[#structure.specifications]）。
 [exit:note]
 
 [:en]
 An object is passed and the type of that object determines which handlers can
 catch it.
+[:zh_CN]
+将会传递一个对象，而该对象的类型决定了那个处理器可以捕获它。
 
 [enter:example]
 [codeblock]
@@ -30,6 +42,8 @@ throw "Help!";
 
 [:en]
 can be caught by a [+handler] of [`const char*] type:
+[:zh_CN]
+可以被某个 [`const char*] 类型的[+处理器]捕获：
 
 [codeblock]
 try {
@@ -37,11 +51,14 @@ try {
 }
 catch(const char* p) {
     // [:en] handle character string exceptions here
+    // [|:zh_CN] 此处处理字符串异常
 }
 [codeblock:end]
 
 [:en@~]
 and
+[:zh_CN@~]
+而
 
 [codeblock]
 class Overflow {
@@ -56,12 +73,15 @@ void f(double x) {
 
 [:en@~]
 can be caught by a handler for exceptions of type [`Overflow]
+[:zh_CN@~]
+可以被 [`Overflow] 类型的异常的处理器捕获
 
 [codeblock]
 try {
     f(1.2);
 } catch(Overflow& oo) {
     // [:en] handle exceptions of type [`Overflow] here
+    // [|:zh_CN] 此处处理类型 [`Overflow] 的异常
 }
 [codeblock:end]
 [exit:example]
@@ -75,20 +95,36 @@ When an exception is thrown, control is transferred to the nearest handler with
 a matching type ([#except.handle]); ["nearest] means the handler for which the
 [~compound-statement] or [~ctor-initializer] following the [`try] keyword was
 most recently entered by the thread of control and not yet exited.
+[:zh_CN]
+[%异常处理[!重新抛出]]
+[%异常处理[!处理器]]
+[%异常处理[!最近处理器]]
+当抛出异常时，控制将转移到具有匹配类型的最近的处理器中（[#except.handle]）；
+“最近的”意思是，跟在这个处理器的 [`try] 关键字之后的[~组合语句]或[~构造函数初始
+化式]，是控制线程最晚进入且还未退出的。
 
 [para]
 [:en]
 Throwing an exception copy-initializes ([#dcl.init], [#class.copy]) a temporary
 object, called the [%exception handling[!exception object]][+exception object].
+[:zh_CN]
+抛出异常时，将复制初始化（[#dcl.init]，[#class.copy]）一个临时对象，称之为
+[%异常处理[!异常对象]][+异常对象]。
 
 [:en]
 The temporary is an lvalue and is used to initialize the variable declared in
 the matching [+handler] ([#except.handle]).
+[:zh_CN]
+该临时对象为左值，并用于初始化其所匹配的[+处理器]中所声明的变量
+（[#except.handle]）。
 
 [:en]
 If the type of the exception object would be an incomplete type or a pointer to
 an incomplete type other than (possibly cv-qualified) [`void] the program is
 ill-formed.
+[:zh_CN]
+如果异常对象的类型是不完整类型，或是指向除（可能被 cv-限定的）[`void] 之外的
+不完整类型的指针或引用，则程序非良构。
 
 [para]
 [:en]
@@ -97,35 +133,57 @@ ill-formed.
 [%exception handling[!exception object]]
 The memory for the exception object is allocated in an unspecified way, except
 as noted in [#basic.stc.dynamic.allocation].
+[:zh_CN]
+[%异常处理[!内存]]
+[%异常处理[!重新抛出]]
+[%异常处理[!异常对象]]
+除了 [#basic.stc.dynamic.allocation] 所注明的之外，异常对象的内存是以未指明的
+方式分配的。
 
 [:en]
 If a handler exits by rethrowing, control is passed to another handler for the
 same exception.
+[:zh_CN]
+若某个处理器通过重新抛出而退出，则控制被转移到相同异常的另一个处理器。
 
 [:en]
 The exception object is destroyed after either the last remaining active handler
 for the exception exits by any means other than rethrowing, or the last object
 of type [`std::exception_ptr] ([#propagation]) that refers to the exception
 object is destroyed, whichever is later.
+[:zh_CN]
+异常对象的销毁，要么在该异常的最后逗留的活动处理器以除了重新抛出以外的方式退出
+之后，要么在指代该异常对象的最后一个 [`std::exception_ptr]（[#propagation]）类型
+的对象销毁之后，按最晚发生的情况进行。
 
 [:en]
 In the former case, the destruction occurs when the handler exits, immediately
 after the destruction of the object declared in the [~exception-declaration] in
 the handler, if any.
+[:zh_CN]
+在前一种情况下，其销毁发生于处理器退出时，紧跟在这个处理器的[~异常声明式]中所
+声明的对象（如果有）销毁之后。
 
 [:en]
 In the latter case, the destruction occurs before the destructor of
 [`std::exception_ptr] returns.
+[:zh_CN]
+在后一种情况下，其销毁发生于 [`std::exception_ptr] 的析构函数返回之前。
 
 [:en]
 The implementation may then deallocate the memory for the exception object; any
 such deallocation is done in an unspecified way.
+[:zh_CN]
+随即实现可以回收异常对象的内存；任何这样的回收均以未指明的方式进行。
 
 [enter:note]
 [:en]
 a thrown exception does not propagate to other threads unless caught, stored,
 and rethrown using appropriate library functions; see [#propagation] and
 [#futures].
+[:zh_CN]
+被抛出的异常，除非利用适当的程序库函数进行捕获，存储，然后重新抛出，否则并不会
+传播给其他线程；参见 [#propagation] 和 [#futures]。
 [exit:note]
 
 [para]
@@ -135,6 +193,11 @@ and rethrown using appropriate library functions; see [#propagation] and
 When the thrown object is a class object, the constructor selected for the
 copy-initialization and the destructor shall be accessible, even if the
 copy/move operation is elided ([#class.copy]).
+[:zh_CN]
+[%异常处理[!异常对象[!构造函数]]]
+[%异常处理[!异常对象[!析构函数]]]
+当被抛出的对象是类对象时，其被选择用于进行复制初始化的构造函数及其析构函数应当是
+可访问的，无论其复制/移动操作是否被消除（[#class.copy]）。
 
 [para]
 [:en]
@@ -143,11 +206,18 @@ copy/move operation is elided ([#class.copy]).
 [%reraise[see exception handling[!rethrow]]]
 An exception is considered caught when a handler for that exception becomes
 active ([#except.handle]).
+[:zh_CN]
+[%异常处理[!重新抛出]]
+[%重新抛出[see 异常处理[!重新抛出]]]
+[%重新唤起[see 异常处理[!重新抛出]]]
+当针对某个异常的处理器变为活动（[#except.handle]）时，认为该异常被捕获。
 
 [enter:note]
 [:en]
 An exception can have active handlers and still be considered uncaught if it is
 rethrown.
+[:zh_CN]
+如果异常被重新抛出，则它可以带有活动的处理器而仍被认为是未被捕获的。
 [exit:note]
 
 [para]
@@ -158,6 +228,11 @@ If the exception handling mechanism, after completing the initialization of the
 exception object but before the activation of a handler for the exception, calls
 a function that exits via an exception, [`std::terminate] is called
 ([#except.terminate]).
+[:zh_CN]
+[%异常处理[!调用 [`terminate()]]]
+[%[`terminate()][!调用]]
+如果在完成对所抛出的异常的求值之后但在异常被捕获之前，异常处理机制调用了某个函数
+并以异常退出，则将调用 [`std::terminate]（[#except.terminate]）。
 
 [enter:example]
 [codeblock]
@@ -166,6 +241,7 @@ struct C {
   C(const C&) {
     if (std::uncaught_exceptions()) {
       throw 0;      // [:en] throw during copy to handler[=']s [~exception-declaration] object ([#except.handle])
+                    // [|:zh_CN] 当对处理器的[~异常声明]的对象（[#except.handle]）进行复制时抛出
     }
   }
 };
@@ -173,7 +249,9 @@ struct C {
 int main() {
   try {
     throw C();      // [:en] calls [`std::terminate()] if construction of the handler[=']s
+                    // [|:zh_CN] 如果处理器的[~异常声明]的对象并未被消除（[#class.copy]）
                     // [:en@~] [~exception-declaration] object is not elided ([#class.copy])
+                    // [|:zh_CN@~] 则将调用 [`std::terminate()]
   } catch(C) { }
 }
 [codeblock:end]
