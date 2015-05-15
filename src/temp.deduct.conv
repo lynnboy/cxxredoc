@@ -1,5 +1,6 @@
 ﻿[section#temp.deduct.conv
     [:en] Deducing conversion function template arguments
+    [:zh_CN] 推断转换函数模板实参
 ]
 
 [para]
@@ -9,16 +10,25 @@ conversion function template (call it [`P]) with the type that is required as
 the result of the conversion (call it [`A]; see [#dcl.init], [#over.match.conv],
 and [#over.match.ref] for the determination of that type) as described in
 [#temp.deduct.type].
+[:zh_CN]
+模板实参推断是对转换函数模板的返回类型（称其为 [`P]），与转换结果所需的类型（称
+其为 [`A]；有关这个类型的确定过程，参见 [#dcl.init]，[#over.match.conv] 和
+[#over.match.ref]），按照 [#temp.deduct.type] 所述进行比较而作出的。
 
 [para]
 [:en]
 If [`P] is a reference type, the type referred to by [`P] is used in place of
 [`P] for type deduction and for any further references to or transformations of
 [`P] in the remainder of this section.
+[:zh_CN]
+若 [`P] 为引用类型，则在类型推断过程，以及本节中任何后续的对 [`P] 的涉指或变换，
+均由 [`P] 所指代的类型代替 [`P] 进行。
 
 [para]
 [:en]
 If [`A] is not a reference type:
+[:zh_CN]
+若 [`A] 不是引用类型：
 
 [list]
 [item]
@@ -26,79 +36,118 @@ If [`A] is not a reference type:
 If [`P] is an array type, the pointer type produced by the array-to-pointer
 standard conversion ([#conv.array]) is used in place of [`P] for type deduction;
 otherwise,
+[:zh_CN]
+若 [`P] 为数组类型，则在类型推断中由数组向指针标准转换（[#conv.array]）所产生的
+指针类型替代 [`P]；否则，
 
 [item]
 [:en]
 If [`P] is a function type, the pointer type produced by the function-to-pointer
 standard conversion ([#conv.func]) is used in place of [`P] for type deduction;
 otherwise,
+[:zh_CN]
+若 [`P] 为函数类型，则在类型推断中由函数向指针标准转换（[#conv.func]）所产生的
+指针类型替代 [`P]；否则，
 
 [item]
 [:en]
 If [`P] is a cv-qualified type, the top level cv-qualifiers of [`P][=']s type
 are ignored for type deduction.
+[:zh_CN]
+若 [`P] 为被 cv-限定的类型，则在类型推断中 [`P] 的类型的顶层 cv-限定符被忽略。
 [list:end]
 
 [para]
 [:en]
 If [`A] is a cv-qualified type, the top level cv-qualifiers of [`A][=']s type
 are ignored for type deduction.
+[:zh_CN]
+若 [`A] 为被 cv-限定的类型，则在类型推断中 [`A] 的类型的顶层 cv-限定符被忽略。
 
 [:en]
 If [`A] is a reference type, the type referred to by [`A] is used for type
 deduction.
+[:zh_CN]
+若 [`A] 是引用类型，则在类型推断中使用由 [`A] 指代的类型。
 
 [para]
 [:en]
 In general, the deduction process attempts to find template argument values that
 will make the deduced [`A] identical to [`A].
+[:zh_CN]
+一般地，推断过程试图找到能够使被推断出来的 [`A] 与 [`A] 一致的模板实参值。
 
 [:en]
 However, there are two cases that allow a difference:
+[:zh_CN]
+然而，在两种情况下允许有所不同：
 
 [list]
 [item]
 [:en]
 If the original [`A] is a reference type, [`A] can be more cv-qualified than the
 deduced [`A] (i.e., the type referred to by the reference)
+[:zh_CN]
+若原来的 [`A] 为引用类型，则 [`A] 可以比被推断出来的 [`A]（就是被该引用所指代的
+类型）更加被 cv-限定的。
 
 [item]
 [:en]
 The deduced [`A] can be another pointer or pointer to member type that can be
 converted to [`A] via a qualification conversion.
+[:zh_CN]
+被推断出来的 [`A] 可以为可通过限定性转换转换为 [`A] 的其他指针或成员指针类型。
 [list:end]
 
 [para]
 [:en]
 These alternatives are considered only if type deduction would otherwise fail.
+[:zh_CN]
+仅当若非如此类型推断将失败时才会考虑这些备选方式。
 
 [:en]
 If they yield more than one possible deduced [`A], the type deduction fails.
+[:zh_CN]
+若它们产生多于一个可能的被推断出来的 [`A]，则类型推断失败。
 
 [para]
 [:en]
 When the deduction process requires a qualification conversion for a pointer or
 pointer to member type as described above, the following process is used to
 determine the deduced template argument values:
+[:zh_CN]
+当推断过程需要对指针或成员指针类型进行如上所述的限定性转换时，使用如下过程来确定
+被推断的模板实参值：
 
 [:en]
 If [`A] is a type
+[:zh_CN]
+若 [`A] 为类型
 
 [syntax:explanation]
 [:en@~]
 [$cv[_1,0]] ["pointer to [=ldots]] [$cv[_1,n-1]] ["pointer to] [$cv[_1,n]] [$T1]
+[:zh_CN@~]
+[$cv[_1,n]] [$T1] 的 [$cv[_1,n-1]] 指针的 [=ldots] 的 [$cv[_1,0]] 指针
 [syntax:end]
 
 [:en@~]
 and [`P] is a type
+[:zh_CN@~]
+而 [`P] 为类型
 
 [syntax:explanation]
+[:en@~]
 [$cv[_2,0]] ["pointer to [=ldots]] [$cv[_2,n-1]] ["pointer to] [$cv[_2,n]] [$T2]
+[:zh_CN@~]
+[$cv[_2,n]] [$T2] 的 [$cv[_2,n-1]] 指针的 [=ldots] 的 [$cv[_2,0]] 指针
 [syntax:end]
 
 [:en]
 The cv-unqualified [`T1] and [`T2] are used as the types of [`A] and [`P]
 respectively for type deduction.
+[:zh_CN]
+在类型推断中，未被 cv-限定的 [`T1] 和 [`T2] 分别被用作 [`A] 和 [`P] 的类型。
 
 [enter:example]
 [codeblock]
@@ -107,5 +156,6 @@ struct A {
 };
 A a;
 const int * const * const * p1 = a;     // [:en] [`T] is deduced as [`int], not [`const int]
+                                        // [|:zh_CN] [`T] 被推断为 [`int]，而不是 [`const int]
 [codeblock:end]
 [exit:example]
