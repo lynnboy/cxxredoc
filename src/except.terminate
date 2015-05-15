@@ -1,95 +1,133 @@
 ﻿[section#except.terminate
     [:en] The [`std::terminate()] function
+    [:zh_CN] [`std::terminate()] 函数
 ]
 
 [para]
-[:en]
 [%[`terminate()]]
+[:en]
 In some situations exception handling must be abandoned for less subtle error
 handling techniques.
+[:zh_CN]
+某些情况下必须放弃异常处理，而采用不这么微妙的错误处理技术。
 
 [enter:note]
 [:en]
 These situations are:
+[:zh_CN]
+这些情况有：
 
 [:en]
 [%[`terminate()][!called]]
+[:zh_CN]
+[%[`terminate()][!调用]]
 [list]
 [item]
 [:en] when the exception handling mechanism, after completing the initialization
 of the exception object but before activation of a handler for the exception
 ([#except.throw]), calls a function that exits via an exception, or
+[:zh_CN] 当对异常对象的初始化完成之后但在该异常的某个处理器开始活动之前
+（[#except.throw]），异常处理机制调用了某个以异常退出的函数时，或者
 
 [item]
 [:en] when the exception handling mechanism cannot find a handler for a thrown
 exception ([#except.handle]), or
+[:zh_CN] 当异常处理机制无法为所抛出的异常找到处理器时（[#except.handle]），或者
 
 [item]
 [:en] when the search for a handler ([#except.handle]) encounters the outermost
 block of a function with a [~noexcept-specification] that does not allow the
 exception ([#except.spec]), or
+[:zh_CN] 当搜索处理器（[#except.handle]）时遇到一个函数的最外层块，而它带有不
+允许异常的 [~noexcept-说明]时（[#except.spec]），或者
 
 [item]
 [:en] when the destruction of an object during stack unwinding ([#except.ctor])
 terminates by throwing an exception, or
+[:zh_CN] 当在堆栈解退（[#except.ctor]）过程中某对象的销毁过程以抛出异常退出时，
+或者
 
 [item]
 [:en] when initialization of a non-local variable with static or thread storage
 duration ([#basic.start.init]) exits via an exception, or
+[:zh_CN] 当带有静态或线程存储期的非局部变量的初始化过程（[#basic.start.init]）以
+异常退出时，或者
 
 [item]
 [:en] when destruction of an object with static or thread storage duration exits
 via an exception ([#basic.start.term]), or
+[:zh_CN] 当带有静态或线程存储期的对象的销毁过程以异常退出时
+（[#basic.start.term]），或者
 
 [item]
 [:en] when execution of a function registered with [`std::atexit] or
 [`std::at_quick_exit] exits via an exception ([#support.start.term]), or
+[:zh_CN] 当用 [`std::atexit] 或 [`std::at_quick_exit] 注册的函数的执行以异常退出
+时（[#support.start.term]），或者
 
 [item]
 [:en] when a [~throw-expression] ([#expr.throw]) with no operand attempts to
 rethrow an exception and no exception is being handled ([#except.throw]), or
+[:zh_CN] 当没有操作数的 [~throw-表达式]（[#expr.throw]）试图重新抛出异常，而没有
+正在被处理的异常时（[#except.throw]），或者
 
 [item]
 [:en] when [`std::unexpected] exits via an exception of a type that is not
 allowed by the previously violated exception specification, and
 [`std::bad_exception] is not included in that exception specification
 ([#except.unexpected]), or
+[:zh_CN] 当 [`std::unexpected] 以抛出了某个刚被违反的异常说明所不允许的异常退出
+，而该异常说明并不包括 [`std::bad_exception] 时（[#except.unexpected]），或者
 
 [item]
 [:en] when the implementation[=']s default unexpected exception handler is
 called ([#unexpected.handler]), or
+[:zh_CN] 当调用实现预置的非预期异常处理器时（[#unexpected.handler]），或者
 
 [item]
 [:en] when the function [`std::nested_exception::rethrow_nested] is called for
 an object that has captured no exception ([#except.nested]), or
+[:zh_CN] 当为某个并未捕获异常的对象调用 [`std::nested_exception::rethrow_nested]
+函数时（[#except.nested]），或者
 
 [item]
 [:en] when execution of the initial function of a thread exits via an exception
 ([#thread.thread.constr]), or
+[:zh_CN] 当线程的起始函数以异常退出时（[#thread.thread.constr]），或者
 
 [item]
 [:en] when the destructor or the copy assignment operator is invoked on an
 object of type [`std::thread] that refers to a joinable thread
 ([#thread.thread.destr], [#thread.thread.assign]), or
+[:zh_CN] 当为某个代表可会合线程的 [`std::thread] 类型的对象调用其析构函数或复制
+赋值运算符时（[#thread.thread.destr]，[#thread.thread.assign]），或者
 
 [item]
 [:en] when a call to a [`wait()], [`wait_until()], or [`wait_for()] function on
 a condition variable ([#thread.condition.condvar],
 [#thread.condition.condvarany]) fails to meet a postcondition.
+[:zh_CN] 当对某个条件变量（[#thread.condition.condvar]，
+[#thread.condition.condvarany]）所调用的 [`wait()]，[`wait_until()]，或
+[`wait_for()] 函数无法满足其后条件时。
 
 [list:end]
 
 [exit:note]
 
 [para]
-[:en]
 [%[`terminate()]]
+[:en]
 In such cases, [`std::terminate()] is called ([#exception.terminate]).
+[:zh_CN]
+在这些情况下，[`std::terminate()] 将被调用（[#exception.terminate]）。
 
 [:en]
 In the situation where no matching handler is found, it is [%@impldef stack
 unwinding before call to [`std::terminate()]] implementation-defined whether or
 not the stack is unwound before [`std::terminate()] is called.
+[:zh_CN]
+在没有找到匹配处理器的情况中，是否于调用 [`std::terminate()] 之前进行堆栈解退是
+[%@impldef 在调用 [`std::terminate()] 之前进行堆栈解退]由实现定义的。
 
 [:en]
 In the situation where the search for a handler ([#except.handle]) encounters
@@ -98,12 +136,22 @@ allow the exception ([#except.spec]), it is [%@impldef whether stack is unwound
 before calling [`std::terminate()] when a [`noexcept] specification is violated]
 implementation-defined whether the stack is unwound, unwound partially, or not
 unwound at all before [`std::terminate()] is called.
+[:zh_CN]
+在搜索处理器（[#except.handle]）时遇到某个函数的最外层块，而它带有不允许该异常的
+[~noexcept-说明]（[#except.spec]）的情况中，在调用 [`std::terminate()] 之前，
+堆栈是否完成解退，部分进行了解退，还是完全不进行解退，是[%@impldef 当违反
+[`noexcept] 说明时，调用[`std::terminate()] 之前是否进行堆栈解退]由实现定义的。
 
 [:en]
 In all other situations, the stack shall not be unwound before
 [`std::terminate()] is called.
+[:zh_CN]
+在所有其他情况下，调用 [`std::terminate()] 之前不应进行堆栈解退。
 
 [:en]
 An implementation is not permitted to finish stack unwinding prematurely based
 on a determination that the unwind process will eventually cause a call to
 [`std::terminate()].
+[:zh_CN]
+不允许实现基于确定堆栈解退过程最终将导致调用 [`std::terminate()] 来提前完成堆栈
+解退。
