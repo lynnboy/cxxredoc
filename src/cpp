@@ -27,7 +27,7 @@
 A [def preprocessing directive] consists of a sequence of preprocessing tokens
 that satisfies the following constraints:
 [:zh_CN]
-[def 预处理指令]由预处理标记的序列构成并满足如下约束条件：
+[def 预处理指令]由预处理记号的序列构成并满足如下约束条件：
 
 [:en]
 The first token in the sequence is a [`#] preprocessing token that (at the start
@@ -35,7 +35,7 @@ of translation phase 4) is either the first character in the source file
 (optionally after white space containing no new-line characters) or that follows
 white space containing at least one new-line character.
 [:zh_CN]
-该序列中的第一个标记是预处理标记 [`#]，它（在翻译阶段 4 开始时）要么是源文件中的
+该序列中的第一个记号是预处理记号 [`#]，它（在翻译阶段 4 开始时）要么是源文件中的
 第一个字符（可选地跟在不包含换行字符的空白之后），要么跟在至少包含一个换行字符的
 空白后面。
 
@@ -43,7 +43,7 @@ white space containing at least one new-line character.
 The last token in the sequence is the first new-line character that follows the
 first token in the sequence.
 [:zh_CN]
-该序列中的最后一个标记是跟在该序列第一个标记之后的第一个换行字符。
+该序列中的最后一个记号是跟在该序列第一个记号之后的第一个换行字符。
 
 [footnote]
 [:en]
@@ -178,7 +178,7 @@ to allow any sequence of preprocessing tokens to occur between the directive
 name and the following new-line character.
 [:zh_CN]
 在被跳过的组（[#cpp.cond]）中，放宽指令语法，允许在指令名和下一个换行字符之间
-出现预处理标记的任何序列。
+出现预处理记号的任何序列。
 
 [para]
 [:en]
@@ -188,7 +188,7 @@ preprocessing token through just before the terminating new-line character)
 are space and horizontal-tab (including spaces that have replaced comments or
 possibly other white-space characters in translation phase 3).
 [:zh_CN]
-允许在预处理指令中的预处理标记之间（从紧跟开头的预处理标记 [`#] 之后直到紧跟末尾
+允许在预处理指令中的预处理记号之间（从紧跟开头的预处理记号 [`#] 之后直到紧跟末尾
 的换行字符之前）出现的空白字符，仅有空格和水平制表（包括在翻译阶段 3 中替换注释
 或其他可能的空白字符的空格）。
 
@@ -212,7 +212,7 @@ before translation of the resulting translation unit.
 The preprocessing tokens within a preprocessing directive are not subject to
 macro expansion unless otherwise stated.
 [:zh_CN]
-除非明确指出，预处理指令中的预处理标记并不进行宏扩展。
+除非明确指出，预处理指令中的预处理记号并不进行宏扩展。
 
 [para:~]
 [enter:example]
@@ -232,7 +232,7 @@ a preprocessing directive, because it does not begin with a [`#] at the start of
 translation phase 4, even though it will do so after the macro [`EMPTY] has been
 replaced.
 [:zh_CN@~]
-第二行中的预处理标记序列[em 并不是]预处理指令，因为在翻译阶段 4 开始时它并不是以
+第二行中的预处理记号序列[em 并不是]预处理指令，因为在翻译阶段 4 开始时它并不是以
 [`#] 开始的，虽然宏 [`EMPTY] 被替换之后确实会这样。
 [exit:example]
 

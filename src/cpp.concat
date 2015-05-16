@@ -1,15 +1,21 @@
 ﻿[section#cpp.concat
     [:en] The [`##] operator
+    [:zh_CN] [`##] 运算符
 ]
 
 [:en]
 [%[`##] operator]
 [%concatenation[!macro argument][see [`##]]]
+[:zh_CN]
+[%[`##] 运算符]
+[%拼接[!宏实参][see [`##]]]
 
 [para]
 [:en]
 A [`##] preprocessing token shall not occur at the beginning or at the end of a
 replacement list for either form of macro definition.
+[:zh_CN]
+预处理记号 [`##] 在任何形式的宏定义的替换列表中不能出现于开头或末尾。
 
 [para]
 [:en]
@@ -18,11 +24,18 @@ preceded or followed by a [`##] preprocessing token, the parameter is replaced
 by the corresponding argument[=']s preprocessing token sequence; however, if an
 argument consists of no preprocessing tokens, the parameter is replaced by a
 placemarker preprocessing token instead.
+[:zh_CN]
+若在函数式宏的替换列表中，某形参之前或之后紧跟一个 [`##] 预处理记号，则该形参被
+其对应实参的预处理记号序列所替换；然而，若某个实参没有构成它的预处理记号，则其
+形参被一个位置标记预处理记号所替换。
 
 [footnote]
 [:en]
 Placemarker preprocessing tokens do not appear in the syntax because they are
 temporary entities that exist only within translation phase 4.
+[:zh_CN]
+位置标记预处理记号并不出现在语法中，这是由于它们是仅存在于翻译阶段 4 之中的临时
+实体。
 [footnote:end]
 
 [para]
@@ -32,26 +45,41 @@ list is reexamined for more macro names to replace, each instance of a [`##]
 preprocessing token in the replacement list (not from an argument) is deleted
 and the preceding preprocessing token is concatenated with the following
 preprocessing token.
+[:zh_CN]
+在对象式宏和函数式宏调用中，在再次检查其替换列表以替换更多宏名之前，删除替换列表
+中（而不是实参中）的每个预处理记号 [`##] 的实例，并将其前面的预处理记号与其后面
+的预处理记号拼接起来。
 
 [:en]
 Placemarker preprocessing tokens are handled specially: concatenation of two
 placemarkers results in a single placemarker preprocessing token, and
 concatenation of a placemarker with a non-placemarker preprocessing token
 results in the non-placemarker preprocessing token.
+[:zh_CN]
+对位置标记预处理记号进行特殊处理；两个位置标记的拼接产生一个位置标记预处理记号，
+而一个位置标记和一个非位置标记预处理记号的拼接产生该非位置标记预处理记号。
 
 [:en]
 If the result is not a valid preprocessing token, the behavior is undefined.
+[:zh_CN]
+若其结果并不是合法的预处理记号，则其行为是未定义的。
 
 [:en]
 The resulting token is available for further macro replacement.
+[:zh_CN]
+所产生的记号可以进行进一步宏替换。
 
 [:en]
 The order of evaluation of [`##] operators is unspecified.
+[:zh_CN]
+未指明 [`##] 运算符的求值顺序。
 
 [para:~]
 [enter:example]
 [:en]
 In the following fragment:
+[:zh_CN]
+在如下片断中：
 
 [codeblock]
 #define hash_hash # ## #
@@ -59,11 +87,14 @@ In the following fragment:
 #define in_between(a) mkstr(a)
 #define join(c, d) in_between(c hash_hash d)
 char p[] = join(x, y);          // [:en] equivalent to
+                                // [|:zh_CN] 等价于
                                 // [`char p[`] = "x ## y";]
 [codeblock:end]
 
 [:en]
 The expansion produces, at various stages:
+[:zh_CN]
+其扩展在不同的阶段产生：
 
 [codeblock]
 join(x, y)
@@ -76,4 +107,7 @@ mkstr(x ## y)
 [:en]
 In other words, expanding [`hash_hash] produces a new token, consisting of two
 adjacent sharp signs, but this new token is not the [`##] operator.
+[:zh_CN]
+换句话说，扩展 [`hash_hash] 产生一个新的记号，由两个相邻的升调符号构成，但这个新
+记号不是 [`##] 运算符。
 [exit:example]

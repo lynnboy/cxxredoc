@@ -12,7 +12,7 @@ be looked up to determine whether the [`<] is the beginning of a template
 argument list ([#temp.names]) or a less-than operator.
 [:zh_CN]
 [%查找[!类成员的～]]
-在类成员访问表达式中（[#expr.ref]），若 [`.] 或 [`->] 标记后面紧跟着的[~标识符]
+在类成员访问表达式中（[#expr.ref]），若 [`.] 或 [`->] 记号后面紧跟着的[~标识符]
 后面紧跟着一个 [`<]，则必须查找该标识符以断定这个 [`<] 是一个模板实参列表
 （[#temp.names]）的开始还是一个小于运算符。
 

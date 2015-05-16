@@ -131,7 +131,7 @@ template parameter in the other expression.
 若包含涉及模板形参的两个表达式的两个函数定义式能够符合唯一定义原则
 （[#basic.def.odr]），则它们被当作[+等价]，但允许其中用以指名模板形参的记号可以
 不同：一个表达式中指名某个模板形参的记号可以替换为另一个表达式中指名同一个模板
-形参的另一个标记。
+形参的另一个记号。
 
 [:en]
 For determining whether two dependent names ([#temp.dep]) are equivalent, only

@@ -23,7 +23,7 @@ preprocessing token or followed by a [`##] preprocessing token (see below), is
 replaced by the corresponding argument after all macros contained therein have
 been expanded.
 [:zh_CN]
-替换列表中的形参，除非前面带有预处理标记 [`#] 或 [`##] 或者后面跟着预处理标记
+替换列表中的形参，除非前面带有预处理记号 [`#] 或 [`##] 或者后面跟着预处理记号
 [`##]，否则由其所对应的实参（于其所包含的宏均进行扩展之后）所替换。
 
 [:en]
@@ -31,8 +31,8 @@ Before being substituted, each argument[=']s preprocessing tokens are completely
 macro replaced as if they formed the rest of the preprocessing file; no other
 preprocessing tokens are available.
 [:zh_CN]
-在进行代换前，每个实参的预处理标记均（如同它们构成进行预处理的文件的余下部分
-那样）进行完全的宏替换；没有其他预处理标记。
+在进行代换前，每个实参的预处理记号均（如同它们构成进行预处理的文件的余下部分
+那样）进行完全的宏替换；没有其他预处理记号。
 
 [para]
 [:en]
@@ -41,4 +41,4 @@ treated as if it were a parameter, and the variable arguments shall form the
 preprocessing tokens used to replace it.
 [:zh_CN]
 替换列表中出现的 [`__VA_ARGS__] 标识符应当当作如同是一个形参，并且应当由可变实参
-构成用于替换它的预处理标记。
+构成用于替换它的预处理记号。

@@ -109,7 +109,7 @@ satisfies the syntactic requirements of an [~identifier] ([#lex.name]) is
 contained in an [~attribute-token], it is considered an identifier.
 [:zh_CN]
 如果[~特性记号]中包含符合标识符（[#lex.name]）的语法规定的关键字（[#lex.key]）
-或者替代标记（[#lex.digraph]），则它被当作是一个标识符。
+或者替代记号（[#lex.digraph]），则它被当作是一个标识符。
 
 [:en]
 No name lookup ([#basic.lookup]) is performed on any of the identifiers
@@ -182,7 +182,7 @@ implementation-defined.
 Two consecutive left square bracket tokens shall appear only when introducing an
 [~attribute-specifier].
 [:zh_CN]
-只能在引入[~特性说明符]时才能出现连续的两个左方括号标记。
+只能在引入[~特性说明符]时才能出现连续的两个左方括号记号。
 
 [enter:note]
 [:en]
@@ -190,7 +190,7 @@ If two consecutive left square brackets appear where an [~attribute-specifier]
 is not allowed, the program is ill-formed even if the brackets match an
 alternative grammar production.
 [:zh_CN]
-如果连续的两个左方括号标记出现于不允许[~特性说明符]的地方，则即使这些方括号能够
+如果连续的两个左方括号记号出现于不允许[~特性说明符]的地方，则即使这些方括号能够
 与别的文法产生式相匹配，程序也是非良构的。
 [exit:note]
 
