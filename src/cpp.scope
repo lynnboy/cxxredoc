@@ -1,23 +1,34 @@
 ﻿[section#cpp.scope
     [:en] Scope of macro definitions
+    [:zh_CN] 宏定义的作用域
 ]
 
 [:en]
 [%macro[!scope of definition]]
 [%scope[!macro definition][see macro[!scope of definition]]]
+[:zh_CN]
+[%宏[!～定义的作用域]]
+[%作用域[!宏定义的～][see 宏[!～定义的作用域]]]
 
 [para]
 [:en]
 A macro definition lasts (independent of block structure) until a corresponding
 [`#undef] directive is encountered or (if none is encountered) until the end of
 the translation unit.
+[:zh_CN]
+宏定义持续到（与块结构无关）遇到一个对应的 [`#undef] 指令或者（若未遇到）直到
+翻译单元的末尾。
 
 [:en]
 Macro definitions have no significance after translation phase 4.
+[:zh_CN]
+宏定义在翻译阶段 4 之后不再有效。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [%[`#undef]]
@@ -26,15 +37,21 @@ A preprocessing directive of the form
 
 [:en@~]
 causes the specified identifier no longer to be defined as a macro name.
+[:zh_CN@~]
+导致被指定的标识符不再定义为宏名。
 
 [:en]
 It is ignored if the specified identifier is not currently defined as a macro
 name.
+[:zh_CN]
+若所指定的标识符当前并未定义为宏名则它被忽略。
 
 [para]
 [enter:example]
 [:en]
 The simplest use of this facility is to define a ["manifest constant,] as in
+[:zh_CN]
+此功能的最简单用法是如下这样用于定义“清单常量”
 
 [codeblock]
 #define TABSIZE 100
@@ -47,18 +64,27 @@ int table[TABSIZE];
 [:en]
 The following defines a function-like macro whose value is the maximum of its
 arguments.
+[:zh_CN]
+如下定义了其值为其实参的最大值的函数式宏。
 
 [:en]
 It has the advantages of working for any compatible types of the arguments and
 of generating in-line code without the overhead of function calling.
+[:zh_CN]
+其优点是可对任意兼容的实参类型工作并且产生内联代码而没有函数调用开销。
 
 [:en]
 It has the disadvantages of evaluating one or the other of its arguments a
 second time (including [%side effects] side effects) and generating more code
 than a function if invoked several times.
+[:zh_CN]
+其缺点是它会对其中一个或另一个实参进行再次求值（包括其[%副作用]副作用）并且当
+多次调用时将比函数产生更多代码。
 
 [:en]
 It also cannot have its address taken, as it has none.
+[:zh_CN]
+还不能获取它的地址，因为它没有。
 
 [codeblock]
 #define max(a, b) ((a) > (b) ? (a) : (b))
@@ -67,12 +93,16 @@ It also cannot have its address taken, as it has none.
 [:en]
 The parentheses ensure that the arguments and the resulting expression are bound
 properly.
+[:zh_CN]
+其中的括号保证实参和结果表达式被正确地括起来。
 [exit:example]
 
 [para]
 [enter:example]
 [:en]
 To illustrate the rules for redefinition and reexamination, the sequence
+[:zh_CN]
+为示范重新定义和重新检查的规则，如下序列
 
 [codeblock]
 #define x       3
@@ -99,6 +129,8 @@ char c[2][6] = { str(hello), str() };
 
 [:en@~]
 results in
+[:zh_CN@~]
+产生
 
 [codeblock]
 f(2 * (y+1)) + f(2 * (f(2 * (z[0])))) % f(2 * (0)) + t(1);
@@ -113,6 +145,8 @@ char c[2][6] = { "hello", "" };
 [:en]
 To illustrate the rules for creating character string literals and concatenating
 tokens, the sequence
+[:zh_CN]
+为示范创建字符字符串字面量和拼接记号的规则，如下序列
 
 [codeblock]
 #define str(s)      # s
@@ -126,7 +160,8 @@ tokens, the sequence
 #define LOW         LOW ", world"
 
 debug(1, 2);
-fputs(str(strncmp("abc\0d", "abc", '\4')  // this goes away
+fputs(str(strncmp("abc\0d", "abc", '\4')  // [:en] this goes away
+                                          // [|:zh_CN] 这会消失
     == 0) str(: @\n), s);
 #include xstr(INCFILE(2).h)
 glue(HIGH, LOW);
@@ -135,6 +170,8 @@ xglue(HIGH, LOW)
 
 [:en@~]
 results in
+[:zh_CN@~]
+产生
 
 [codeblock [special] ]
 printf("x" "1" "= %d, x" "2" "= %s", x1, x2);
@@ -146,6 +183,8 @@ fputs("strncmp(\"abc\\0d\", \"abc\", '\\4') == 0" ": @\n", s);
 
 [:en@~]
 or, after concatenation of the character string literals,
+[:zh_CN@~]
+或者，在对字符串字面量进行拼接之后，
 
 [codeblock [special] ]
 printf("x1= %d, x2= %s", x1, x2);
@@ -157,12 +196,16 @@ fputs("strncmp(\"abc\\0d\", \"abc\", '\\4') == 0: @\n", s);
 
 [:en]
 Space around the [`#] and [`##] tokens in the macro definition is optional.
+[:zh_CN]
+在宏定义中的 [`#] 和 [`##] 记号周围的空格是可选的。
 [exit:example]
 
 [para]
 [enter:example]
 [:en]
 To illustrate the rules for placemarker preprocessing tokens, the sequence
+[:zh_CN]
+为演示位置标记预处理记号的规则，如下序列
 
 [codeblock]
 #define t(x,y,z) x ## y ## z
@@ -172,6 +215,8 @@ int j[] = { t(1,2,3), t(,4,5), t(6,,7), t(8,9,),
 
 [:en@~]
 results in
+[:zh_CN@~]
+产生
 
 [codeblock]
 int j[] = { 123, 45, 67, 89,
@@ -183,24 +228,32 @@ int j[] = { 123, 45, 67, 89,
 [enter:example]
 [:en]
 To demonstrate the redefinition rules, the following sequence is valid.
+[:zh_CN]
+为演示重复定义规则，如下序列是合法的。
 
 [codeblock]
 #define OBJ_LIKE      (1-1)
-#define OBJ_LIKE      /* [:en] white space */ (1-1) /* [:en] other */
+#define OBJ_LIKE      /* [:en] white space [:zh_CN] 空白 */ (1-1) /* [:en] other [:zh_CN] 另一个空白 */
 #define FUNC_LIKE(a)   ( a )
-#define FUNC_LIKE( a )(     /* [:en] note the white space */ \
-                a /* [:en] other stuff on this line
+#define FUNC_LIKE( a )(     /* [:en] note the white space [:zh_CN] 注意空白 */ \
+                a /* [:en] other stuff on this line [:zh_CN] 本行中的其他事物
                   */ )
 [codeblock:end]
 
 [:en]
 But the following redefinitions are invalid:
+[:zh_CN]
+但如下重新定义是非法的：
 
 [codeblock]
 #define OBJ_LIKE    (0)      // [:en] different token sequence
+                             // [|:zh_CN] 不同的记号序列
 #define OBJ_LIKE    (1 - 1)  // [:en] different white space
+                             // [|:zh_CN] 不同的空白
 #define FUNC_LIKE(b) ( a )   // [:en] different parameter usage
+                             // [|:zh_CN] 不同的形参用法
 #define FUNC_LIKE(b) ( b )   // [:en] different parameter spelling
+                             // [|:zh_CN] 不同的形参拼写
 [codeblock:end]
 [exit:example]
 
@@ -208,6 +261,8 @@ But the following redefinitions are invalid:
 [enter:example]
 [:en]
 Finally, to show the variable argument list macro facilities:
+[:zh_CN]
+最后，为展示可变实参列表的宏功能：
 
 [codeblock]
 #define debug(...) fprintf(stderr, __VA_ARGS__)
@@ -221,6 +276,8 @@ report(x>y, "x is %d but y is %d", x, y);
 
 [:en@~]
 results in
+[:zh_CN@~]
+产生
 
 [codeblock]
 fprintf(stderr, "Flag");
