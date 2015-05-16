@@ -1,5 +1,6 @@
 ﻿[section#library.general
-    [:en]
+    [:en] General
+    [:zh_CN] 概述
 ]
 
 [para]
@@ -8,47 +9,76 @@ This Clause describes the contents of the [+[=Cpp] standard library],
 [%@library[!C++ standard]] how a well-formed [=Cpp] program makes use of the
 library, and how a conforming implementation may provide the entities in the
 library.
+[:zh_CN]
+本条款描述了 [+[=Cpp] 标准程序库] [%@程序库[!C++ 标准～]] 的内容，良构 [=Cpp]
+程序如何使用这个程序库，以及遵从标准的实现如何提供该程序库中的实体。
 
 [para]
 [:en]
 The following subclauses describe the definitions ([#definitions]), method of
 description ([#description]), and organization ([#organization]) of the library.
+[:zh_CN]
+以下子条款描述了程序库中的定义（[#definitions]），说明方案（[#description]），
+以及组织方式（[#organization]）。
 
 [:en]
 Clause [#requirements], Clauses [#language.support] through [#thread], and Annex
 [#depr] specify the contents of the library, as well as library requirements and
 constraints on both well-formed [=Cpp] programs and conforming implementations.
+[:zh_CN]
+条款 [#requirements]，第 [#language.support] 到 [#thread] 条，以及附录 [#depr]
+说明了程序库的内容，以及对于良构的 [=Cpp] 程序和符合标准的实现，程序库对于二者的
+规定和约束条件。
 
 [para]
 [:en]
 Detailed specifications for each of the components in the library are in Clauses
 [#language.support][=-][#thread], as shown in Table [#tab:library.categories].
+[:zh_CN]
+第 [#language.support] 到 [#thread] 条是对程序库的每个组件的详细说明，如表
+[#tab:library.categories] 所示：
 
 [table:listing#tab:library.categories
     [:en] Library categories
+    [:zh_CN] 程序库的类别
     [columns
         [column
             [:en] Clause
+            [:zh_CN] 条款
         ]
         [column
             [:en] Category
+            [:zh_CN] 类别
         ]
     ]
     [border:cell@none]
 ]
 [|] [#language.support] [|] [:en] Language support library
+                            [:zh_CN] 语言支持库
 [|] [#diagnostics]      [|] [:en] Diagnostics library
+                            [:zh_CN] 诊断库
 [|] [#utilities]        [|] [:en] General utilities library
+                            [:zh_CN] 通用工具库
 [|] [#strings]          [|] [:en] Strings library
+                            [:zh_CN] 字符串库
 [|] [#localization]     [|] [:en] Localization library
+                            [:zh_CN] 本地化库
 [|] [#containers]       [|] [:en] Containers library
+                            [:zh_CN] 容器库
 [|] [#iterators]        [|] [:en] Iterators library
+                            [:zh_CN] 迭代器库
 [|] [#algorithms]       [|] [:en] Algorithms library
+                            [:zh_CN] 算法库
 [|] [#numerics]         [|] [:en] Numerics library
+                            [:zh_CN] 数值库
 [|] [#input.output]     [|] [:en] Input/output library
+                            [:zh_CN] 输入/输出库
 [|] [#re]               [|] [:en] Regular expressions library
+                            [:zh_CN] 正则表达式库
 [|] [#atomics]          [|] [:en] Atomic operations library
+                            [:zh_CN] 原子性操作库
 [|] [#thread]           [|] [:en] Thread support library
+                            [:zh_CN] 线程支持库
 [table:end]
 
 [para]
@@ -57,12 +87,19 @@ The language support library (Clause [#language.support]) provides components
 that are required by certain parts of the [=Cpp] language, such as memory
 allocation ([#expr.new], [#expr.delete]) and exception processing (Clause
 [#except]).
+[:zh_CN]
+语言支持库（第 [#language.support] 条）所提供的一些组件，是 [=Cpp] 语言的特定
+部分所需要的，比如内存分配（[#expr.new]，[#expr.delete]）和异常处理（第
+[#except] 条）。
 
 [para]
 [:en]
 The diagnostics library (Clause [#diagnostics]) provides a consistent framework
 for reporting errors in a [=Cpp] program, including predefined exception
 classes.
+[:zh_CN]
+诊断库（第 [#diagnostics] 条）提供了一个一致的错误报告框架，包括一些预定义的
+异常类。
 
 [para]
 [:en]
@@ -70,6 +107,10 @@ The general utilities library (Clause [#utilities]) includes components used by
 other library elements, such as a predefined storage allocator for dynamic
 storage management ([#basic.stc.dynamic]), and components used as infrastructure
 in [=Cpp] programs, such as a tuples, function wrappers, and time facilities.
+[:zh_CN]
+通用工具库（第 [#utilities] 条）中包括被其他库元素所使用的组件，比如动态存储管理
+的预定义存储分配器（[#basic.stc.dynamic]），以及用作 [=Cpp] 程序的基础设施的组件
+，比如元组、函数包装器和时间设施。
 
 [para]
 [:en]
@@ -77,52 +118,81 @@ The strings library (Clause [#strings]) provides support for manipulating text
 represented as sequences of type [`char], sequences of type [`char16_t],
 sequences of type [`char32_t], sequences of type [`wchar_t], and sequences of
 any other character-like type.
+[:zh_CN]
+字符串库（第 [#strings] 条）为处理以 [`char] 类型的序列，[`char16_t] 类型的序列
+，[`char32_t] 类型的序列，[`wchar_t] 类型的序列，或者其他字符式类型的序列表示的
+文本提供支持。
 
 [para]
 [:en]
 The localization library (Clause [#localization]) provides extended
 internationalization support for text processing.
+[:zh_CN]
+本地化库（第 [#localization] 条）为文本处理提供了扩展的国际化支持。
 
 [para]
 [:en]
 The containers (Clause [#containers]), iterators (Clause [#iterators]), and
 algorithms (Clause [#algorithms]) libraries provide a [=Cpp] program with access
 to a subset of the most widely used algorithms and data structures.
+[:zh_CN]
+容器库（第 [#containers] 条），迭代器库（第 [#iterators] 条）和算法库（第
+[#algorithms] 条）为 [=Cpp] 程序提供了对最广泛使用的算法和数据结构的一个子集的
+使用方式。
 
 [para]
 [:en]
 The numerics library (Clause [#numerics]) provides numeric algorithms and
 complex number components that extend support for numeric processing.
+[:zh_CN]
+数值库（第 [#numerics] 条）提供的数值算法和复数组件扩展了对数值处理的支持。
 
 [:en]
 The [`valarray] component provides support for [$n]-at-a-time processing,
 potentially implemented as parallel operations on platforms that support such
 processing.
+[:zh_CN]
+[`valarray] 组件提供了对一次 [$n] 个数据处理的支持，并在支持这种处理的平台上可以
+被潜在地实现为并行操作。
 
 [:en]
 The random number component provides facilities for generating pseudo-random
 numbers.
+[:zh_CN]
+随机数组件提供了用于生成伪随机数的设施。
 
 [para]
 [:en]
 The input/output library (Clause [#input.output]) provides the [`iostream]
 components that are the primary mechanism for [=Cpp] program input and output.
+[:zh_CN]
+输入/输出库（第 [#input.output] 条）提供的 [`iostream] 组件是 [=Cpp] 程序输入/
+输出的首选机制。
 
 [:en]
 They can be used with other elements of the library, particularly strings,
 locales, and iterators.
+[:zh_CN]
+它们可以和程序库中的其他元素，尤其是字符串、区域和迭代器一起使用。
 
 [para]
 [:en]
 The regular expressions library (Clause [#re]) provides regular expression
 matching and searching.
+[:zh_CN]
+正则表达式库（第 [#re] 条）提供了正则表达式匹配和搜索功能。
 
 [para]
 [:en]
 The atomic operations library (Clause [#atomics]) allows more fine-grained
 concurrent access to shared data than is possible with locks.
+[:zh_CN]
+原子性操作库（第 [#atomics] 条）允许对共享数据使用比锁定更加精细的并发访问。
 
 [para]
 [:en]
 The thread support library (Clause [#thread]) provides components to create and
 manage threads, including mutual exclusion and interthread communication.
+[:zh_CN]
+线程支持库（第 [#thread] 条）提供的组件用于创建并管理线程，包括互斥和线程间通信
+。
