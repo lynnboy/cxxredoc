@@ -1,12 +1,18 @@
 ﻿[section#cpp.pragma.op
     [:en] Pragma operator
+    [:zh_CN] 语用运算符
 ]
 [:en]
 [%macro[!pragma operator]]
 [%operator[!pragma][see macro[!pragma operator]]]
+[:zh_CN]
+[%宏[!语用运算符]]
+[%运算符[!语用～][see 宏[!语用运算符]]]
 
 [:en]
 A unary operator expression of the form:
+[:zh_CN]
+如下形式的一元运算符表达式：
 
 [syntax:explanation]
 [`_Pragma] [`(] [~string-literal] [`)]
@@ -14,21 +20,32 @@ A unary operator expression of the form:
 
 [:en@~]
 is processed as follows:
+[:zh_CN@~]
+进行如下处理：
 
 [:en]
 The string literal is [+destringized] by deleting the [`L] prefix, if present,
 deleting the leading and trailing double-quotes, replacing each escape sequence
 [`\"] by a double-quote, and replacing each escape sequence [`\\] by a single
 backslash.
+[:zh_CN]
+通过删除 [`L] 前缀（如果有），删除开头和末尾的双引号，将每个转义序列 [`\"] 替换
+为一个双引号，将每个转义序列 [`\\] 替换为一个反斜杠，来对字符串字面量进行
+[+反字符串化]。
 
 [:en]
 The resulting sequence of characters is processed through translation phase 3
 to produce preprocessing tokens that are executed as if they were the
 [~pp-tokens] in a pragma directive.
+[:zh_CN]
+所产生的字符序列被处理到翻译阶段 3 以产生一组预处理记号，并如同作为一个语用指令
+中的[~预处理记号序列]那样执行它们。
 
 [:en]
 The original four preprocessing tokens in the unary operator expression are
 removed.
+[:zh_CN]
+删除一元运算符表达式中原来的四个预处理记号。
 
 [para:~]
 [enter:example]
@@ -37,8 +54,10 @@ removed.
 #pragma listing on "..\listing.dir"
 [codeblock:end]
 
-[:en@~]
+[:en]
 can also be expressed as:
+[:zh_CN]
+还可被表达为：
 
 [codeblock]
 _Pragma ( "listing on \"..\\listing.dir\"" )
@@ -47,6 +66,8 @@ _Pragma ( "listing on \"..\\listing.dir\"" )
 [:en]
 The latter form is processed in the same way whether it appears literally
 as shown, or results from macro replacement, as in:
+[:zh_CN]
+后面的形式当其如字面所示，或产生自宏替换时将按相同的方式处理，如下：
 
 [codeblock]
 #define LISTING(x) PRAGMA(listing on #x)
