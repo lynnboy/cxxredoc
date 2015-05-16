@@ -1,13 +1,19 @@
 ﻿[section#cpp.error
     [:en] Error directive
+    [:zh_CN] 报错指令
 ]
 [:en]
 [%preprocessing directives[!error]]
-[%[`#error][see preprocessing directives[!error]]
+[%[`#error][see preprocessing directives[!error]]]
+[:zh_CN]
+[%预处理指令[!报错]]
+[%[`#error][see 预处理指令[!报错]]]
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`error] [~:opt pp-tokens] [~new-line]
@@ -16,3 +22,5 @@ A preprocessing directive of the form
 [:en@~]
 causes the implementation to produce a diagnostic message that includes the
 specified sequence of preprocessing tokens, and renders the program ill-formed.
+[:zh_CN@~]
+导致实现产生包含所指定的预处理记号序列的诊断消息，并导致程序非良构。
