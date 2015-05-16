@@ -1,11 +1,18 @@
 ﻿[section#cpp.null
     [:en] Null directive
+    [:zh_CN] 空指令
 ]
-[%[:en] preprocessing directives[!null]]
+
+[:en]
+[% preprocessing directives[!null]]
+[:zh_CN]
+[% 预处理指令[!空～]]
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [~new-line]
@@ -13,3 +20,5 @@ A preprocessing directive of the form
 
 [:en@~]
 has no effect.
+[:zh_CN@~]
+没有效果。
