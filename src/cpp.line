@@ -1,24 +1,36 @@
 ﻿[section#cpp.line
     [:en] Line control
+    [:zh_CN] 行控制
 ]
 
 [:en]
 [%preprocessing directives[!line control]]
 [%[`#line][see preprocessing directives[!line control]]]
+[:zh_CN]
+[%预处理指令[!行控制]]
+[%[`#line][see 预处理指令[!行控制]]]
 
 [para]
 [:en]
 The string literal of a [`#line] directive, if present, shall be a character
 string literal.
+[:zh_CN]
+[`#line] 指令的字符串字面量（如果出现）应当为字符字符串字面量。
 
 [para]
+[:en]
 The [+line number] of the current source line is one greater than the number of
 new-line characters read or introduced in translation phase 1 ([#lex.phases])
 while processing the source file to the current token.
+[:zh_CN]
+当前源文件行的[+行号]，比在翻译阶段 1（[#lex.phases]）中处理源文件直到当前记号时
+所遇到的或者引入的换行字符的数量大一。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`line] [~digit-sequence] [~new-line]
@@ -28,14 +40,21 @@ A preprocessing directive of the form
 causes the implementation to behave as if the following sequence of source lines
 begins with a source line that has a line number as specified by the digit
 sequence (interpreted as a decimal integer).
+[:zh_CN@~]
+导致实现的行为，如同其后的源文件行序列开始于一个由这个数字序列（被解释为十进制
+整数）指定行号的源文件行。
 
 [:en]
 If the digit sequence specifies zero or a number greater than 2147483647, the
 behavior is undefined.
+[:zh_CN]
+若此数字序列指定零或大于 2147483647 的数字，则其行为是未定义的。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`line] [~digit-sequence] [`"] [~:opt s-char-sequence] [`"] [~new-line]
@@ -44,10 +63,14 @@ A preprocessing directive of the form
 [:en@~]
 sets the presumed line number similarly and changes the presumed name of the
 source file to be the contents of the character string literal.
+[:zh_CN@~]
+相似地设置假定的行号，并将假定的源文件的名字改变为该字符串字面量的内容。
 
 [para]
 [:en]
 A preprocessing directive of the form
+[:zh_CN]
+如下形式的预处理指令
 
 [syntax:explanation]
 [`#] [`line] [~pp-tokens] [~new-line]
@@ -55,13 +78,21 @@ A preprocessing directive of the form
 
 [:en@~]
 (that does not match one of the two previous forms) is permitted.
+[:zh_CN@~]
+（并不与上述两种形式之一匹配）是允许的。
 
 [:en]
 The preprocessing tokens after [`line] on the directive are processed just as in
 normal text (each identifier currently defined as a macro name is replaced by
 its replacement list of preprocessing tokens).
+[:zh_CN]
+对指令的 [`line] 之后的预处理记号如同在普通文本中那样进行处理（当前被定义为宏名
+的每个标识符均被其预处理记号的替换列表所替换）。
 
 [:en]
 If the directive resulting after all replacements does not match one of the two
 previous forms, the behavior is undefined; otherwise, the result is processed as
 appropriate.
+[:zh_CN]
+若全部替换之后所产生的指令并不与上述两种形式之一匹配，则其行为是未定义的；否则，
+对其结果进行相应地处理。
