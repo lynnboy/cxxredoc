@@ -1,36 +1,54 @@
 ﻿[section#cpp.rescan
     [:en] Rescanning and further replacement
+    [:zh_CN] 再扫描与进一步替换
 ]
 
 [:en]
 [%macro[!rescanning and replacement]]
 [%rescanning and replacement[see macro[!rescanning and replacement]]]
+[:zh_CN]
+[%宏[!再扫描与进一步替换]]
+[%再扫描与进一步替换[see 宏[!再扫描与进一步替换]]]
 
 [para]
 [:en]
 After all parameters in the replacement list have been substituted and [`#] and
 [`##] processing has taken place, all placemarker preprocessing tokens are
 removed.
+[:zh_CN]
+在对替换列表中的所有形参完成代换并完成 [`#] 和 [`##] 的处理之后，删除所有位置
+标记预处理记号。
 
 [:en]
 Then the resulting preprocessing token sequence is rescanned, along with all
 subsequent preprocessing tokens of the source file, for more macro names to
 replace.
+[:zh_CN]
+然后对所产生的预处理记号序列，与源文件的所有后续的预处理记号一起进行重新扫描，
+以替换更多宏名。
 
 [para]
 [:en]
 If the name of the macro being replaced is found during this scan of the
 replacement list (not including the rest of the source file[=']s preprocessing
 tokens), it is not replaced.
+[:zh_CN]
+若在对替换列表（不包括源文件的余下预处理记号）的重复扫描中找到了正被替换的宏的
+名字，它是不被替换的。
 
 [:en]
 Furthermore, if any nested replacements encounter the name of the macro being
 replaced, it is not replaced.
+[:zh_CN]
+此外，若在任何嵌套的替换中遇到正被替换的宏的名字，它也不被替换。
 
 [:en]
 These nonreplaced macro name preprocessing tokens are no longer available for
 further replacement even if they are later (re)examined in contexts in which
 that macro name preprocessing token would otherwise have been replaced.
+[:zh_CN]
+这些未替换的宏名预处理记号在进一步替换中不再有效，即使它们此后可能在该宏名预处理
+记号将会被替换的语境中被重新检查。
 
 [para]
 [:en]
@@ -38,3 +56,7 @@ The resulting completely macro-replaced preprocessing token sequence is not
 processed as a preprocessing directive even if it resembles one, but all pragma
 unary operator expressions within it are then processed as specified in
 [#cpp.pragma.op] below.
+[:zh_CN]
+即使所产生的已完全进行宏替换的预处理记号序列形似预处理指令，它也不会作为预处理
+指令被再次处理，但其中的所有语用一元运算符表达式仍会按照后文 [#cpp.pragma.op]
+指定的方式进行处理。
