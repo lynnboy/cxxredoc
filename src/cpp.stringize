@@ -1,33 +1,49 @@
 ﻿[section#cpp.stringize
     [:en] The [`#] operator
+    [:zh_CN] [`#] 运算符
 ]
 [:en]
 [%[`#] operator]
 [%stringize[see [`#]]]
+[:zh_CN]
+[%[`#] 运算符]
+[%字符串化[see [`#]]]
 
 [para]
 [:en]
 Each [`#] preprocessing token in the replacement list for a function-like macro
 shall be followed by a parameter as the next preprocessing token in the
 replacement list.
+[:zh_CN]
+函数式宏的替换列表中的每个 [`#] 预处理标记后面应当跟着一个形参作为替换列表中的
+下一个预处理标记。
 
 [para]
 [:en]
 A [def character string literal] is a [~string-literal] with no prefix.
+[:zh_CN]
+[def 字符字符串字面量]是没有前缀的[~字符串字面量]。
 
 [:en]
 If, in the replacement list, a parameter is immediately preceded by a [`#]
 preprocessing token, both are replaced by a single character string literal
 preprocessing token that contains the spelling of the preprocessing token
 sequence for the corresponding argument.
+[:zh_CN]
+若在替换列表中，某形参前紧跟一个 [`#] 预处理标记，则它们被替换为一个字符串字面量
+预处理标记，其中包含对应实参的预处理标记序列的拼写。
 
 [:en]
 Each occurrence of white space between the argument[=']s preprocessing tokens
 becomes a single space character in the character string literal.
+[:zh_CN]
+该实参的预处理标记之间的每个空白均变为字符串字面量中的一个空格字符。
 
 [:en]
 White space before the first preprocessing token and after the last
 preprocessing token comprising the argument is deleted.
+[:zh_CN]
+处于构成该实参的第一个预处理标记之前和最后一个预处理标记之后的空白均被删除。
 
 [:en]
 Otherwise, the original spelling of each preprocessing token in the argument is
@@ -35,13 +51,23 @@ retained in the character string literal, except for special handling for
 producing the spelling of string literals and character literals: a [`\]
 character is inserted before each [`"] and [`\] character of a character literal
 or string literal (including the delimiting [`"] characters).
+[:zh_CN]
+除此之外，实参中的每个预处理标记的原始拼写方式均保留于字符串字面量中，并且为产生
+字符串字面量和字符字面量进行特殊处理：在字符字面量或字符串字面量的每个
+[`"] 和 [`\] 字符（包括用作分隔的 [`"] 字符）之前插入一个 [`\] 字符。
 
 [:en]
 If the replacement that results is not a valid character string literal, the
 behavior is undefined.
+[:zh_CN]
+若所产生的替换并不是有效的字符串字面量，则其行为是未定义的。
 
 [:en]
 The character string literal corresponding to an empty argument is [`""].
+[:zh_CN]
+对应于空实参的字符串字面量为 [`""]。
 
 [:en]
 The order of evaluation of [`#] and [`##] operators is unspecified.
+[:zh_CN]
+未指明 [`#] 和 [`##] 运算符的求值顺序。
