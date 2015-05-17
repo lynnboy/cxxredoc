@@ -1,40 +1,60 @@
 ﻿[section#using.linkage
     [:en] Linkage
+    [:zh_CN] 连接
 ]
 
 [para]
+[:en]
 Entities in the [=Cpp] standard library have external linkage ([#basic.link]).
+[:zh_CN]
+[=Cpp] 标准程序库中的实体具有外部连接（[#basic.link]）。
 
 [:en]
 Unless otherwise specified, objects and functions have the default
 [`extern "C++"] linkage ([#dcl.link]).
+[:zh_CN]
+除非另外指名，对象和函数具有缺省的 [`extern "C++"] 连接（[#dcl.link]）。
 
 [para]
 [:en]
-[%library[!C standard]]
+[%library[!C standard]] [%linkage[!external]] [%header[!C library]]
 Whether a name from the C standard library declared with external linkage has
-[%linkage[!external]] [%header[!C library]]
 [%[`extern "C"]] [`extern "C"] or [%[`extern "C++"]] [`extern "C++"]
 linkage is [%@impldef linkage of names from Standard C library]
 implementation-defined.
+[:zh_CN]
+[%程序库[!C 标准～]] [%连接[!外部～]] [%头文件[!C 程序库～]]
+来自 C 标准程序库的声明为具有外部连接的名字是带有 [%[`extern "C"]] [`extern "C"]
+还是 [%[`extern "C++"]] [`extern "C++"] 连接是[%@impldef 标准 C 程序库中的名字的
+连接]由实现定义的。
 
 [:en]
 It is recommended that an implementation use [`extern "C++"] linkage for this
 purpose.
+[:zh_CN]
+建议实现对此使用 [`extern "C++"] 连接。
 
 [footnote]
 [:en]
 The only reliable way to declare an object or function signature from the
 Standard C library is by including the header that declares it, notwithstanding
 the latitude granted in 7.1.4 of the C Standard.
+[:zh_CN]
+声明标准 C 程序库中的对象或函数签名的唯一可靠方式是通过包含声明了它的头文件，而
+不管在 C 标准的 7.1.4 中所授予的自由度。
 [footnote:end]
 
 [para]
 [:en]
 Objects and functions defined in the library and required by a [=Cpp] program
 are included in the program prior to [%startup[!program]] program startup.
+[:zh_CN]
+在程序库中定义并被 [=Cpp] 程序需要的对象和函数在[%启动[!程序～]]程序启动之前被
+包含到程序之中。
 
 [para:xref]
 [:en]
 replacement functions ([#replacement.functions]), run-time changes
 ([#handler.functions]).
+[:zh_CN]
+替代函数（[#replacement.functions]），运行时改变（[#handler.functions]）。
