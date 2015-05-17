@@ -1,35 +1,48 @@
 ﻿[section#compliance
     [:en] Freestanding implementations
+    [:zh_CN] 自立式实现
 ]
 
 [para]
 [:en]
 Two kinds of implementations are defined: [+hosted] and [+freestanding]
 ([#intro.compliance]).
+[:zh_CN]
+有两种实现被定义：[+宿主式]和[+自立式]（[#intro.compliance]）。
 
 [:en]
 For a hosted implementation, this International Standard
 [%implementation[!hosted]] describes the set of available headers.
+[:zh_CN]
+对于[%实现[!宿主式～]]宿主式实现，本国际标准描述了可用的头文件的集合。
 
 [para]
 [:en]
 A freestanding implementation [%implementation[!freestanding]] has an
 [%@impldef headers for freestanding implementation] implementation-defined set
 of headers.
+[:zh_CN]
+[%实现[!自立式～]]自立式实现带有一个[%@impldef 自立式实现的头文件]由实现定义的
+头文件集合。
 
 [:en]
 This set shall include at least the headers shown in Table
 [#tab:cpp.headers.freestanding].
+[:zh_CN]
+这个集合至少应当包含表 [#tab:cpp.headers.freestanding] 所示的头文件：
 
 [table:listing#tab:cpp.headers.freestanding
     [:en] [=Cpp] headers for freestanding implementations
+    [:zh_CN] 自立式实现的 [=Cpp] 头文件
     [columns
         [column]
         [column@headercenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
@@ -37,36 +50,47 @@ This set shall include at least the headers shown in Table
 [|]     [|]     [|] <ciso646>
 [|] [#support.types] 
         [|] [:en] Types
+            [:zh_CN] 类型
                 [|] <cstddef>
 [|] [#support.limits]
         [|] [:en] Implementation properties
+            [:zh_CN] 实现的属性
                 [|] <cfloat> <limits> <climits>
 [|] [#cstdint]
         [|] [:en] Integer types
+            [:zh_CN] 整数类型
                 [|] <cstdint>
 [|] [#support.start.term]
         [|] [:en] Start and termination
+            [:zh_CN] 启动与终止
                 [|] <cstdlib>
 [|] [#support.dynamic]
         [|] [:en] Dynamic memory management
+            [:zh_CN] 动态内存管理
                 [|] <new>
 [|] [#support.rtti]
         [|] [:en] Type identification
+            [:zh_CN] 类型标识
                 [|] <typeinfo>
 [|] [#support.exception]
         [|] [:en] Exception handling
+            [:zh_CN] 异常处理
                 [|] <exception>
 [|] [#support.initlist]
         [|] [:en] Initializer lists
+            [:zh_CN] 初始化式列表
                 [|] <initializer_list>
 [|] [#support.runtime]
         [|] [:en] Other runtime support
+            [:zh_CN] 其他运行时支持
                 [|] <cstdalign> <cstdarg> <cstdbool>
 [|] [#meta]
         [|] [:en] Type traits
+            [:zh_CN] 类型特征
                 [|] <type_traits>
 [|] [#atomics]
         [|] [:en] Atomics
+            [:zh_CN] 原子性
                 [|] <atomic>
 [table:end]
 
@@ -75,9 +99,16 @@ This set shall include at least the headers shown in Table
 The supplied version of the header [`<cstdlib>]
 [%[`<cstdlib>][sortas cstdlib]] [%@library <cstdlib>[sortas cstdlib]]
 shall declare at least the functions [`abort], [`atexit], [`at_quick_exit],
-[`exit], and [`quick_exit]
-[%@library abort] [%@library atexit] [%@library exit] ([#support.start.term]).
+[`exit], and [`quick_exit] [%@library abort] [%@library atexit] [%@library exit]
+([#support.start.term]).
+[:zh_CN]
+所提供的 [%[`<cstdlib>][sortas cstdlib]] [%@library <cstdlib>[sortas cstdlib]]
+[`<cstdlib>] 头文件版本应当至少声明函数 [`abort]，[`atexit]，[`at_quick_exit]，
+[`exit]，和 [`quick_exit] [%@library abort] [%@library atexit] [%@library exit]
+（[#support.start.term]）。
 
 [:en]
 The other headers listed in this table shall meet the same requirements as for a
 hosted implementation.
+[:zh_CN]
+此表中列出的其他头文件应当满足与宿主式实现相同的规定。
