@@ -1,5 +1,6 @@
 ﻿[section#structure.requirements
     [:en] Requirements
+    [:zh_CN] 要件
 ]
 
 [para]
@@ -7,67 +8,108 @@
 [%requirements]
 Requirements describe constraints that shall be met by a [=Cpp] program that
 extends the standard library.
+[:zh_CN]
+[%要件]
+要件描述了对标准程序库进行扩展的 [=Cpp] 程序所要满足的约束条件。
 
 [:en]
 Such extensions are generally one of the following:
+[:zh_CN]
+这种扩展通常是如下之一：
 
 [list]
 [item]
 [:en] Template arguments
+[:zh_CN] 模板实参
 [item]
 [:en] Derived classes
+[:zh_CN] 派生类
 [item]
 [:en] Containers, iterators, and algorithms that meet an interface convention
+[:zh_CN] 符合某个接口约定的容器、迭代器和算法
 [list:end]
 
 [para]
 [:en]
 The string and iostream components use an explicit representation of operations
-required of template arguments. They use a class template [`char_traits] to
-define these constraints.
+required of template arguments.
+
+[:zh_CN]
+字符串和 I/O 流组件使用针对模板实参所需的操作的明确表示。
+
+[:en]
+They use a class template [`char_traits] to define these constraints.
+[:zh_CN]
+它们使用类模板 [`char_traits] 来定义这些约束条件。
 
 [para]
 [:en]
 Interface convention requirements are stated as generally as possible.
+[:zh_CN]
+尽可能一般性地叙述针对接口约定的要件。
 
 [:en]
-Instead of stating ["class X has to define a member function [`operator++()],]
-the interface requires ["for any object [`x] of class [`X], [`++x] is defined.]
+Instead of stating ["class [`X] has to define a member function
+[`operator++()],] the interface requires ["for any object [`x] of class [`X],
+[`++x] is defined.]
+[:zh_CN]
+不说“类 [`X] 必须定义成员函数 [`operator++()]”，而是说接口要求“对于类 [`X] 的
+任意对象 [`x]，[`++x] 是有定义的”。
 
 [:en]
 That is, whether the operator is a member is unspecified.
+[:zh_CN]
+就是说，该运算符是否是成员是未指明的。
 
 [para]
 [:en]
 Requirements are stated in terms of well-defined expressions that define valid
 terms of the types that satisfy the requirements.
+[:zh_CN]
+这些要件是依据良构表达式来叙述的，它们定义了满足这些要件的类型的有效依据术语。
 
 [:en]
 For every set of well-defined expression requirements there is a table that
 specifies an initial set of the valid expressions and their semantics.
+[:zh_CN]
+对于每组良构表达式要件，都有一个指定其有效表达式及其语义的初始集合的表格。
 
 [:en]
 Any generic algorithm (Clause [#algorithms]) that uses the well-defined
 expression requirements is described in terms of the valid expressions for its
 template type parameters.
+[:zh_CN]
+任何使用了某良构表达式要件的通用算法（第 [#algorithms] 条），都是依据其模板类型
+形参的有效表达式来描述的。
 
 [para]
 [:en]
 Template argument requirements are sometimes referenced by name.
+[:zh_CN]
+有时按名字提及针对模板实参的规定。
 
 [:en]
 See [#type.descriptions].
+[:zh_CN]
+参见 [#type.descriptions]。
 
 [para]
 [:en]
 In some cases the semantic requirements are presented as [=Cpp] code.
+[:zh_CN]
+某些情况下的语义要件是用 [=Cpp] 代码表示的。
 
 [:en]
 Such code is intended as a specification of equivalence of a construct to
 another construct, not necessarily as the way the construct must be implemented.
+[:zh_CN]
+此种代码的意图是作为对一个语言构造与另一个语言构造之间的等价性的说明，而并非作为
+实现该语言构造的必须方式。
 
 [footnote]
 [:en]
 Although in some cases the code given is unambiguously the optimum
 implementation.
+[:zh_CN]
+虽然某些情况下给定的代码明显为其最优实现。
 [footnote:end]
