@@ -1,34 +1,50 @@
 ﻿[section#contents
     [:en] Library contents
+    [:zh_CN] 程序库的内容
 ]
 
 [para]
 [:en]
 The [=Cpp] standard library provides definitions for the following types of
 entities: macros, values, types, templates, classes, functions, objects.
+[:zh_CN]
+[=Cpp] 标准程序库提供了下列种类的实体的定义式：宏，值，类型，模板，类，函数，
+对象。
 
 [para]
 [:en]
 All library entities except macros, [`operator new] and [`operator delete] are
 defined within the namespace [`std] or namespaces nested within namespace
 [`std].
+[:zh_CN]
+除了宏、[`operator new] 和 [`operator delete] 外的所有程序库实体均定义于命名空间
+[`std] 或嵌套在命名空间 [`std] 之内的命名空间中。
 
 [footnote]
 [:en]
 The C standard library headers (Annex [#depr.c.headers]) also define
 names within the global namespace, while the [=Cpp] headers for C library
 facilities ([#headers]) may also define names within the global namespace.
+[:zh_CN]
+C 标准程序库头文件（附录 [#depr.c.headers]）也在全局命名空间中定义名字，而
+C 程序库设施的 [=Cpp] 头文件（[#headers]）可能也在全局命名空间中定义名字。
 [footnote:end]
 
 [:en]
 [%namespace]
 It is unspecified whether names declared in a specific namespace are declared
 directly in that namespace or in an inline namespace inside that namespace.
+[:zh_CN]
+[%命名空间]
+声明于特定命名空间中的名字，是直接在该命名空间中进行声明，还是在该命名空间中的
+某个内联命名空间中声明是未指明的。
 
 [footnote]
 [:en]
 This gives implementers freedom to use inline namespaces to support multiple
 configurations of the library.
+[:zh_CN]
+这给了实现者利用内联命名空间来支持程序库的多种配置的自由。
 [footnote:end]
 
 [para]
@@ -36,7 +52,13 @@ configurations of the library.
 Whenever a name [`x] defined in the standard library is mentioned, the name [`x]
 is assumed to be fully qualified as [`::std::x], unless explicitly described
 otherwise.
+[:zh_CN]
+除非另行明确说明，否则一旦提到某个在标准程序库中定义的名字 [`x]，就假定名字 [`x]
+被完全限定为 [`::std::x]。
 
 [:en]
 For example, if the Effects section for library function [`F] is described as
 calling library function [`G], the function [`::std::G] is meant.
+[:zh_CN]
+例如，若库函数 [`F] 的“效果”部分的描述中调用了程序库函数 [`G]，则其意为函数
+[`::std::G]。
