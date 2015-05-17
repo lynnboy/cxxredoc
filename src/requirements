@@ -1,20 +1,28 @@
 ﻿[section#requirements
     [:en] Library-wide requirements
+    [:zh_CN] 全库范围的规定
 ]
 
 [para]
 [:en]
 This subclause specifies requirements that apply to the entire [=Cpp] standard
 library.
+[:zh_CN]
+本子条款指定了适用于整个 [=Cpp] 标准程序库的规定。
 
 [:en]
 Clauses [#language.support] through [#thread] and Annex [#depr] specify the
 requirements of individual entities within the library.
+[:zh_CN]
+第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 指定了针对程序库中的
+各个实体的规定。
 
 [para]
 [:en]
 Requirements specified in terms of interactions between threads do not apply to
 programs having only a single thread of execution.
+[:zh_CN]
+针对线程之间的交互而提出的规定并不适用于只有单个执行线程的程序。
 
 [para]
 [:en]
@@ -24,6 +32,11 @@ library entities, [#utility.requirements] describes constraints on types and
 functions used with the [=Cpp] standard library, [#constraints] describes
 constraints on well-formed [=Cpp] programs, and [#conforming] describes
 constraints on conforming implementations.
+[:zh_CN]
+在本子条款中，[#organization] 描述了程序库的内容和组织；[#using] 描述了良构的
+[=Cpp] 程序如何访问程序库实体；[#utility.requirements] 描述了对 [=Cpp] 标准程序
+库中所使用的类型和函数的约束条件；[#constraints] 描述了对良构的 [=Cpp] 程序的
+约束条件；而 [#conforming] 描述了对遵从标准的实现的约束条件。
 
 [include organization]
 

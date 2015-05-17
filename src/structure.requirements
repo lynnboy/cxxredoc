@@ -1,6 +1,6 @@
 ﻿[section#structure.requirements
     [:en] Requirements
-    [:zh_CN] 要件
+    [:zh_CN] 规定
 ]
 
 [para]
@@ -9,8 +9,8 @@
 Requirements describe constraints that shall be met by a [=Cpp] program that
 extends the standard library.
 [:zh_CN]
-[%要件]
-要件描述了对标准程序库进行扩展的 [=Cpp] 程序所要满足的约束条件。
+[%规定]
+规定描述了对标准程序库进行扩展的 [=Cpp] 程序所要满足的约束条件。
 
 [:en]
 Such extensions are generally one of the following:
@@ -46,7 +46,7 @@ They use a class template [`char_traits] to define these constraints.
 [:en]
 Interface convention requirements are stated as generally as possible.
 [:zh_CN]
-尽可能一般性地叙述针对接口约定的要件。
+尽可能一般性地叙述针对接口约定的规定。
 
 [:en]
 Instead of stating ["class [`X] has to define a member function
@@ -66,20 +66,20 @@ That is, whether the operator is a member is unspecified.
 Requirements are stated in terms of well-defined expressions that define valid
 terms of the types that satisfy the requirements.
 [:zh_CN]
-这些要件是依据良构表达式来叙述的，它们定义了满足这些要件的类型的有效依据术语。
+这些规定是依据良构表达式来叙述的，它们定义了满足这些规定的类型的有效依据术语。
 
 [:en]
 For every set of well-defined expression requirements there is a table that
 specifies an initial set of the valid expressions and their semantics.
 [:zh_CN]
-对于每组良构表达式要件，都有一个指定其有效表达式及其语义的初始集合的表格。
+对于每组良构表达式规定，都有一个指定其有效表达式及其语义的初始集合的表格。
 
 [:en]
 Any generic algorithm (Clause [#algorithms]) that uses the well-defined
 expression requirements is described in terms of the valid expressions for its
 template type parameters.
 [:zh_CN]
-任何使用了某良构表达式要件的通用算法（第 [#algorithms] 条），都是依据其模板类型
+任何使用了某良构表达式规定的通用算法（第 [#algorithms] 条），都是依据其模板类型
 形参的有效表达式来描述的。
 
 [para]
@@ -97,7 +97,7 @@ See [#type.descriptions].
 [:en]
 In some cases the semantic requirements are presented as [=Cpp] code.
 [:zh_CN]
-某些情况下的语义要件是用 [=Cpp] 代码表示的。
+某些情况下的语义规定是用 [=Cpp] 代码表示的。
 
 [:en]
 Such code is intended as a specification of equivalence of a construct to
