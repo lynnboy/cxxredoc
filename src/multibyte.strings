@@ -1,25 +1,36 @@
 ﻿[section#multibyte.strings
     [:en] Multibyte strings
+    [:zh_CN] 多字节字符串
 ]
 
 [para]
 [:en]
-A [%NTBS] [%NTMBS] [+null-terminated multibyte string,] or [em@sc ntmbs],
-[%string[!null-terminated multibyte]]
-is an [em@sc ntbs] that constitutes a sequence of valid multibyte characters,
-beginning and ending in the initial shift state.
+A [%NTBS] [%NTMBS] [%string[!null-terminated multibyte]] [+null-terminated
+multibyte string,] or [em@sc ntmbs], is an [em@sc ntbs] that constitutes a
+sequence of valid multibyte characters, beginning and ending in the initial
+shift state.
+[:zh_CN]
+[%NTBS] [%NTMBS] [%字符串[!空终结多字节～]] [+空终结多字节字符串]，或
+[em@sc ntmbs]，是由有效的，开始并结束于初始转移状态的多字节字符的序列所构成的
+[em@sc ntbs]。
 
 [footnote]
 [:en]
 An [em@sc ntbs] that contains characters only from the basic execution character
 set is also an [em@sc ntmbs].
+[:zh_CN]
+仅包含基本执行字符集中的字符的 [em@sc ntbs] 也是 [em@sc ntmbs]。
 
 [:en]
 Each multibyte character then consists of a single byte.
+[:zh_CN]
+此时每个多字节字符由单个字节构成。
 [footnote:end]
 
 [para]
 [:en]
-[%NTMBS[!static]]
-[%NTMBS]
+[%NTMBS[!static]] [%NTMBS]
 A [+static] [em@sc ntmbs] is an [em@sc ntmbs] with static storage duration.
+[:zh_CN]
+[%NTMBS[!静态～]] [%NTMBS]
+[+静态] [em@sc ntmbs] 为具有静态存储期的 [em@sc ntmbs]。
