@@ -1,26 +1,36 @@
 ﻿[section#headers
     [:en] Headers
+    [:zh_CN] 头文件
 ]
 
 [para]
 [:en]
 Each element of the [=Cpp] standard library is declared or defined (as
 appropriate) in a [+header].
+[:zh_CN]
+[=Cpp] 标准程序库的每个元素均（视情况相应地）声明或者定义于某个[+头文件]中。
 
 [footnote]
 [:en]
 A header is not necessarily a source file, nor are the sequences delimited by
 [`<] and [`>] in header names necessarily valid source file names
 ([#cpp.include]).
+[:zh_CN]
+头文件不必是源文件，在头文件名中由 [`<] 和 [`>] 分隔的序列也不必是有效的源文件名
+（[#cpp.include]）。
 [footnote:end]
 
 [para]
 [:en]
 The [=Cpp] standard library provides 53 [+[=Cpp] library headers],
 [%header[!C++ library]] as shown in Table [#tab:cpp.library.headers].
+[:zh_CN]
+[=Cpp] 标准程序库提供了 53 个 [%头文件[!C++ 程序库～]][+[=Cpp] 程序库头文件]，
+如表 [#tab:cpp.library.headers] 所示。
 
 [table:listing@simple#tab:cpp.library.headers
     [:en] [=Cpp] library headers
+    [:zh_CN] [=Cpp] 程序库头文件
     [column@code@5]
 ]
 [|] <algorithm>
@@ -87,9 +97,13 @@ The [=Cpp] standard library provides 53 [+[=Cpp] library headers],
 The facilities of the C standard Library are provided in 26
 [%library[!C standard]]
 additional headers, as shown in Table [#tab:cpp.c.headers].
+[:zh_CN]
+[%程序库[!C 标准～]]C 标准程序库中的设施以 26 个额外的头文件提供，如表
+[#tab:cpp.c.headers] 所示：
 
 [table:listing@simple#tab:cpp.c.headers
     [:en] [=Cpp] headers for C library facilities
+    [:zh_CN] C 程序库设施的 [=Cpp] 头文件
     [column@code@5]
 ]
 [|] <cassert>
@@ -130,66 +144,100 @@ Except as noted in Clauses [#language.support] through [#thread] and Annex
 [#depr], the contents of each header [`c[$name]] shall be the same as that of
 the corresponding header [`[$name].h], as specified in the C standard library
 ([#intro.refs]) or the C Unicode TR, as appropriate, as if by inclusion.
+[:zh_CN]
+除非在第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 中注明，否则每个
+头文件 [`c[$name]] 的内容应当与在 C 标准程序库（[#intro.refs]）或适当地在
+C Unicode TR 中所指定的对应头文件 [`[$name].h] 相同，如同被包含一样。
 
 [:en]
 In the [=Cpp] standard library, however, the declarations (except for names
 which are defined as macros in C) are within namespace scope
 ([#basic.scope.namespace]) of the namespace [`std.]
+[:zh_CN]
+然而，在 [=Cpp] 标准程序库中，声明式（除了在 C 中被定义为宏的名字之外）都处于
+命名空间 [`std] 的命名空间作用域之中（[#basic.scope.namespace]）。
 
 [:en]
 It is unspecified whether these names are first declared within the global
 namespace scope and are then injected into namespace [`std] by explicit
 [~using-declaration]s ([#namespace.udecl]).
+[:zh_CN]
+这些名字是否首先在全局命名空间作用域中声明然后再通过显式的 [~using-声明式]
+（[#namespace.udecl]）注入到命名空间 [`std] 中是未指明的。
 
 [para]
 [:en]
 Names which are defined as macros in C shall be defined as macros in the [=Cpp]
 standard library, even if C grants license for implementation as functions.
+[:zh_CN]
+在 C 中被定义为宏的名字在 [=Cpp] 标准程序库中应该被定义为宏，即使 C 授予了实现为
+函数的许可也应如此。
 
 [enter:note]
 [:en]
 The names defined as macros in C include the following: [`assert], [`offsetof],
 [`setjmp], [`va_arg], [`va_end], and [`va_start].
+[:zh_CN]
+在 C 中定义为宏的名字包括：[`assert]，[`offsetof]，[`setjmp]，[`va_arg]，
+[`va_end] 和 [`va_start]。
 [exit:note]
 
 [para]
 [:en]
 Names that are defined as functions in C shall be defined as functions in the
 [=Cpp] standard library.
+[:zh_CN]
+在 C 中被定义为函数的名字在 [=Cpp] 标准程序库中应该被定义为函数。
 
 [footnote]
 [:en]
 This disallows the practice, allowed in C, of providing a masking macro in
 addition to the function prototype.
+[:zh_CN]
+由 C 中所允许的在函数原型之外提供“掩蔽宏”的实践在这里是不允许的。
 
 [:en]
 The only way to achieve equivalent inline behavior in [=Cpp] is to provide a
 definition as an extern inline function.
+[:zh_CN]
+在 [=Cpp] 中获得等价的内联行为的唯一方式是以外部内联函数提供其定义式。
 [footnote:end]
 
 [para]
 [:en]
 Identifiers that are keywords or operators in [=Cpp] shall not be defined as
 macros in [=Cpp] standard library headers.
+[:zh_CN]
+在 [=Cpp] 中作为关键字或运算符的标识符不能在 [=Cpp] 标准程序库头文件中定义为宏。
 
 [footnote]
 [:en]
 In particular, including the standard header [`<iso646.h>] or [`<ciso646>] has
 no effect.
+[:zh_CN]
+特别地，包含标准头文件 [`<iso646.h>] 或 [`<ciso646>] 没有效果。
 [footnote:end]
 
 [para]
 [:en]
 [#depr.c.headers], C standard library headers, describes the effects of using
 the [`[$name].h] (C header) form in a [=Cpp] program.
+[:zh_CN]
+[#depr.c.headers]，C 标准程序库头文件，描述了在 [=Cpp] 程序中使用 [`[$name].h]
+（C 头文件）的效果。
 
 [footnote]
 [:en]
-The
-[`".h"] headers dump all their names into the global namespace, whereas the
+The [`".h"] headers dump all their names into the global namespace, whereas the
 newer forms keep their names in namespace [`std].
+[:zh_CN]
+[`".h"] 头文件将它们的所有名字倾倒入全局命名空间中，而其新形式保持它们的名字在
+[`std] 命名空间中。
 
 [:en]
 Therefore, the newer forms are the preferred forms for all uses except for
 [=Cpp] programs which are intended to be strictly compatible with C.
+[:zh_CN]
+因此，除了需要与 C 严格兼容的 [=Cpp] 程序外，新形式对所有使用来说均是更好的选择
+。
 [footnote:end]
