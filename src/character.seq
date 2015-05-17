@@ -1,5 +1,6 @@
 ﻿[section#character.seq
     [:en] Character sequences
+    [:zh_CN] 字符序列
 ]
 
 [para]
@@ -7,16 +8,23 @@
 [%library[!C standard]]
 The C standard library makes widespread use of characters and character
 sequences that follow a few uniform conventions:
+[:zh_CN]
+[%程序库[!C 标准～]]
+C 标准程序库中广泛使用了遵循少量统一约定的字符和字符序列：
 
 [list]
 [item]
 [:en]
-A [+letter] is any of the 26 lowercase or 26 [%lowercase] [%uppercase] uppercase
+A [+letter] is any of the 26 [%lowercase] lowercase or 26 [%uppercase] uppercase
 letters in the basic execution character set.
+[:zh_CN]
+[+字母]是基本执行字符集中的任意 26 个[%小写]小写或者 26 个[%大写]大写字母。
 
 [footnote]
 [:en]
 Note that this definition differs from the definition in ISO C 7.1.1.
+[:zh_CN]
+注意这个定义与 ISO C 7.1.1 中的定义不同。
 [footnote:end]
 
 [item]
@@ -25,27 +33,42 @@ Note that this definition differs from the definition in ISO C 7.1.1.
 The [+decimal-point character] is the (single-byte) character used by functions
 that convert between a (single-byte) character sequence and a value of one of
 the floating-point types.
+[:zh_CN]
+[%字符[!小数点～]]
+[+小数点字符]是被在（单字节）字符序列和浮点类型之一的值之间进行转换的函数所使用
+的（单字节）字符。
 
 [:en]
 It is used in the character sequence to denote the beginning of a fractional
 part.
+[:zh_CN]
+它用于在字符序列中代表小数部分的开始。
 
 [:en]
 It is represented in Clauses [#language.support] through [#thread] and Annex
 [#depr] by a period, [%period] [`'.'], which is also its value in the [`"C"]
 locale, but may change during program execution by a call to
 [`setlocale(int, const char*)],
+[:zh_CN]
+它在第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 中被表示为圆点，
+[%圆点] [`'.']，这也是它在区域 [`"C"] 中的值，但可以在程序执行中通过调用
+[`setlocale(int, const char*)]，
 
 [footnote]
-[:en]
 [%[`setlocale]] [%@library setlocale]
 [%[`<clocale>][sortas clocale]] [%@library clocale]
+[:en]
 declared in [`<clocale>] ([#c.locales]).
+[:zh_CN]
+声明于 [`<clocale>]（[#c.locales]）。
 [footnote:end]
 
 [:en@~]
 or by a change to a [`locale] object, as described in Clauses [#locales] and
 [#input.output].
+[:zh_CN@~]
+或者通过改变 [`locale] 对象而被改变，如在第 [#locales] 和第 [#input.output] 条中
+所述。
 
 [item]
 [:en]
@@ -53,14 +76,22 @@ A [+character sequence] is an array object ([#dcl.array]) [$A] that can be
 declared as [`[$T] [$A][[$N]`]], where [$T] is any of the types [`char],
 [`unsigned char], or [`signed char] ([#basic.fundamental]), optionally qualified
 by any combination of [`const] or [`volatile].
+[:zh_CN]
+[+字符序列]是可以被声明为 [`[$T] [$A][[$N]`]] 的数组对象（[#dcl.array]）[$A]，
+其中 [$T] 为 [`char]、[`unsigned char] 或者 [`signed char] 中的任意类型
+（[#basic.fundamental]），可选地被 [`const] 或 [`volatile] 的任意组合所限定。
 
 [:en]
 The initial elements of the array have defined contents up to and including an
 element determined by some predicate.
+[:zh_CN]
+该数组中直到并包括一个被某个谓词所确定的元素为止的各起始元素具有有定义的内容。
 
 [:en]
 A character sequence can be designated by a pointer value [$S] that points to
 its first element.
+[:zh_CN]
+字符序列可以用指向其第一个元素的指针值 [$S] 来代表。
 [list:end]
 
 [include byte.strings]
