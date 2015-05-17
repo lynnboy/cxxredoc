@@ -1,5 +1,6 @@
 ﻿[section#objects.within.classes
     [:en] Private members
+    [:zh_CN] 私有成员
 ]
 
 [para]
@@ -7,25 +8,39 @@
 Clauses [#language.support] through [#thread] and Annex [#depr] do not specify
 the representation of classes, and intentionally omit specification of class
 members ([#class.mem]).
+[:zh_CN]
+第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 并不指明类的具体表示，
+并且有意忽略其成员的说明（[#class.mem]）。
 
 [:en]
 An implementation may define static or non-static class members, or both, as
 needed to implement the semantics of the member functions specified in Clauses
 [#language.support] through [#thread] and Annex [#depr].
+[:zh_CN]
+若实现第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 中指定的成员函数
+的语义时有需要，实现可定义静态或非静态的类成员，或都进行定义。
 
 [para]
 [:en]
 Objects of certain classes are sometimes required by the external specifications
 of their classes to store data, apparently in member objects.
+[:zh_CN]
+有时某些类的外部说明需要该类的对象存储数据，表现为成员对象。
 
 [:en]
 For the sake of exposition, some subclauses provide representative declarations,
 and semantic requirements, for private member objects of classes that meet the
 external specifications of the classes.
+[:zh_CN]
+为便于阐述，一些子条款提供了符合类的外部说明的类私有成员对象的典型声明式和语义
+规定。
 
 [:en]
 The declarations for such member objects and the definitions of related member
 types are followed by a comment that ends with [=Expos], as in:
+[:zh_CN]
+此种成员对象的声明式以及相关的成员类型定义式之后跟着结尾带有 [=Expos] 的注释，
+如：
 
 [codeblock]
 streambuf* sb;  // [=Expos]
@@ -35,3 +50,5 @@ streambuf* sb;  // [=Expos]
 [:en]
 An implementation may use any technique that provides equivalent external
 behavior.
+[:zh_CN]
+实现可以利用任何技术来提供等价的外部行为。
