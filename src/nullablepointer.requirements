@@ -1,93 +1,135 @@
 ﻿[section#nullablepointer.requirements
     [:en] [`NullablePointer] requirements
+    [:zh_CN] [`NullablePointer] 规定
 ]
 
 [para]
 [:en]
 A [`NullablePointer] type is a pointer-like type that supports null values.
+[:zh_CN]
+[`NullablePointer] 类型是支持空值的指针式类型。
 
 [:en]
 A type [`P] meets the requirements of [`NullablePointer] if:
+[:zh_CN]
+若符合下列条件，则类型 [`P] 符合 [`NullablePointer] 的规定：
 
 [list]
 [item]
 [:en] [`P] satisfies the requirements of [`EqualityComparable],
 [`DefaultConstructible], [`CopyConstructible], [`CopyAssignable],
 and [`Destructible],
+[:zh_CN] [`P] 符合 [`EqualityComparable]、[`DefaultConstructible]、
+[`CopyConstructible]、[`CopyAssignable] 和 [`Destructible] 的规定，
 
 [item]
 [:en] lvalues of type [`P] are swappable ([#swappable.requirements]),
+[:zh_CN] 类型 [`P] 的左值是可交换的（[#swappable.requirements]），
 
 [item]
 [:en] the expressions shown in Table [#nullablepointer] are valid and have the
 indicated semantics, and
+[:zh_CN] 表 [#nullablepointer] 中列出的表达式均合法，且具有所指定的语义，而且
 
 [item]
 [:en] [`P] satisfies all the other requirements of this subclause.
+[:zh_CN] [`P] 符合本子条款中的所有其他规定。
 [list:end]
 
 [para]
 [:en]
 A value-initialized object of type [`P] produces the null value of the type.
+[:zh_CN]
+经值初始化的类型 [`P] 的对象产生该类型的空值。
+
+[:en]
 The null value shall be equivalent only to itself.
+[:zh_CN]
+空值应当仅与其自身相等。
 
 [:en]
 A default-initialized object of type [`P] may have an indeterminate value.
+[:zh_CN]
+经默认初始化的类型 [`P] 的对象可能带有不确定值。
 
 [enter:note]
 [:en]
 Operations involving indeterminate values may cause undefined behavior.
+[:zh_CN]
+涉及不确定值的操作可能导致未定义行为。
 [exit:note]
 
 [para]
 [:en]
 An object [`p] of type [`P] can be contextually converted to [`bool] (Clause
 [#conv]).
+[:zh_CN]
+类型 [`P] 的对象 [`p] 可以按语境转换为 [`bool]（第 [#conv] 条）。
 
 [:en]
 The effect shall be as if [`p != nullptr] had been evaluated in place of [`p].
+[:zh_CN]
+其效果应当如同用 [`p != nullptr] 的求值来代替 [`p]。
 
 [para]
 [:en]
 No operation which is part of the [`NullablePointer] requirements shall exit
 via an exception.
+[:zh_CN]
+作为 [`NullablePointer] 规定一部分的任何操作均不应以异常退出。
 
 [para]
+[:en]
 In Table [#nullablepointer], [`u] denotes an identifier, [`t] denotes a
 non-[`const] lvalue of type [`P], [`a] and [`b] denote values of type (possibly
 [`const]) [`P], and [`np] denotes a value of type (possibly [`const])
 [`std::nullptr_t].
+[:zh_CN]
+表 [#nullablepointer] 中，[`u] 代表某个标识符，[`t] 代表类型 [`P] 的非-[`const]
+左值，[`a] 和 [`b] 代表类型 [`P] 的（可能为 [`const]）的值，而 [`np] 代表
+[`std::nullptr_t] 的（可能为 [`const]）的值。
 
-[%[:en] requirements[![`NullablePointer]]]
+[%[:en] requirements[![`NullablePointer]]
+  [:zh_CN] 规定[![`NullablePointer]] ]
 [table:listing@reflable#nullablepointer
     [:en] [`NullablePointer] requirements
+    [:zh_CN] [`NullablePointer] 规定
     [columns
         [column@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
     ]
     [border:row@none]
 ]
 [|] P u(np); [br] P u = np;
         [|]     [|] [:en] post: [`u == nullptr]
+                    [:zh_CN] 后条件：[`u == nullptr]
 [|] P(np)
         [|]     [|] [:en] post: [`P(np) == nullptr]
+                    [:zh_CN] 后条件：[`P(np) == nullptr]
 [|] t = np
         [|] [`P&]
                 [|] [:en] post: [`t == nullptr]
+                    [:zh_CN] 后条件：[`t == nullptr]
 [|] a != b
-        [|] contextually convertible to [`bool]
-                [|] [:en] [`!(a == b)]
+        [|] [:en] contextually convertible to [`bool]
+            [:zh_CN] 按语境转换为 [`bool]
+                [|] [`!(a == b)]
 [|] a == np [br] np == a
-        [|] contextually convertible to [`bool]
-                [|] [:en] [`a == P()]
+        [|] [:en] contextually convertible to [`bool]
+            [:zh_CN] 按语境转换为 [`bool]
+                [|] [`a == P()]
 [|] a != np [br] np != a
-        [|] contextually convertible to [`bool]
-                [|] [:en] [`!(a == np)]
+        [|] [:en] contextually convertible to [`bool]
+            [:zh_CN] 按语境转换为 [`bool]
+                [|] [`!(a == np)]
 [table:end]
