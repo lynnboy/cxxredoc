@@ -1,88 +1,125 @@
 ﻿[section#structure.specifications
     [:en] Detailed specifications
+    [:zh_CN] 详细规范
 ]
 
 [para]
 [:en]
 The detailed specifications each contain the following elements:
+[:zh_CN]
+详细规范中各自包含下列要素：
 
 [list]
 [item]
 [:en] name and brief description
+[:zh_CN] 名字和简要说明
 [item]
 [:en] synopsis (class definition or function declaration, as appropriate)
+[:zh_CN] 纲要（类定义式或函数声明式，视其情况）
 [item]
 [:en] restrictions on template arguments, if any
+[:zh_CN] 对模板实参（如果有）的限制条件
 [item]
 [:en] description of class invariants
+[:zh_CN] 对类不变式的说明
 [item]
 [:en] description of function semantics
+[:zh_CN] 对函数语义的说明
 [list:end]
 
 [para]
 [:en]
 Descriptions of class member functions follow the order (as appropriate):
+[:zh_CN]
+对类成员函数的说明遵循如下顺序（视其情况）：
 
 [footnote]
 [:en]
 To save space, items that do not apply to a class are omitted.
+[:zh_CN]
+为节省空间，并不适用于某个类的条目将被省略。
 
 [:en]
 For example, if a class does not specify any comparison functions, there will be
 no ["Comparison functions] subclause.
+[:zh_CN]
+例如，若某个类并未指定任何比较函数，则将没有“比较函数”子条款。
 [footnote:end]
 
 [list]
 [item]
 [:en] constructor(s) and destructor
+[:zh_CN] 构造函数和析构函数
 [item]
 [:en] copying, moving & assignment functions
+[:zh_CN] 复制、移动和赋值函数
 [item]
 [:en] comparison functions
+[:zh_CN] 比较函数
 [item]
 [:en] modifier functions
+[:zh_CN] 改动函数
 [item]
 [:en] observer functions
+[:zh_CN] 探察函数
 [item]
 [:en] operators and other non-member functions
+[:zh_CN] 运算符和其他非成员函数
 [list:end]
 
 [para]
 [:en]
 Descriptions of function semantics contain the following elements (as
 appropriate):
+[:zh_CN]
+对函数语义的说明中包含下列要素（视其情况）：
 
 [footnote]
 [:en]
 To save space, items that do not apply to a function are omitted.
+[:zh_CN]
+为节省空间，并不适用于某一函数的条目将被省略。
 
 [:en]
 For example, if a function does not specify any further preconditions, there
 will be no ["Requires] paragraph.
+[:zh_CN]
+例如，若某函数并未指定任何进一步的前条件，则将没有“要求”段落。
 [footnote:end]
 
 [list]
 [item]
 [:en] [=Requires] the preconditions for calling the function
+[:zh_CN] [=Requires] 调用该函数的前条件
 [item]
 [:en] [=Effects] the actions performed by the function
+[:zh_CN] [=Effects] 该函数实施的动作
 [item]
 [:en] [=Sync] the synchronization operations ([#intro.multithread]) applicable
 to the function
+[:zh_CN] [=Sync] 适用于该函数的同步操作（[#intro.multithread]）
 [item]
 [:en] [=Postconditions] the observable results established by the function
+[:zh_CN] [=Postconditions] 该函数造成的可观察结果
 [item]
 [:en] [=Returns] a description of the value(s) returned by the function
+[:zh_CN] [=Returns] 对该函数所返回的值的说明
 [item]
-[:en] [=Throws] any exceptions thrown by the function, and the conditions that would cause the exception
+[:en] [=Throws] any exceptions thrown by the function, and the conditions that
+would cause the exception
+[:zh_CN] [=Throws] 该函数所抛出的任何异常，以及可能造成异常的条件
 [item]
 [:en] [=Complexity] the time and/or space complexity of the function
+[:zh_CN] [=Complexity] 该函数的时间和/或空间复杂度
 [item]
 [:en] [=Notes] additional semantic constraints on the function
+[:zh_CN] [=Notes] 该函数的其他语义约束
 [item]
 [:en] [=Errors] the error conditions for error codes reported by the function.
+[:zh_CN] [=Errors] 由该函数报告的错误号码的错误条件
 [item]
 [:en] [=Realnotes] non-normative comments about the function
+[:zh_CN] [=Realnotes] 有关该函数的非规范性注释
 [list:end]
 
 [para]
@@ -90,55 +127,86 @@ to the function
 Whenever the [=Effects] element specifies that the semantics of some function
 [`F] are [em@tech Equivalent to] some code sequence, then the various elements
 are interpreted as follows.
+[:zh_CN]
+一旦 [=Effects] 要素中指出某个函数 [`F] 的语义[em@tech 等价于]某个代码序列，则
+各个要素的解释规则如下。
 
 [:en]
 If [`F][=']s semantics specifies a [=Requires] element, then that requirement is
 logically imposed prior to the [em@tech equivalent-to] semantics.
+[:zh_CN]
+若 [`F] 的语义指定了 [=Requires] 要素，则此要求在逻辑上先于其[em@tech 等价于]
+语义进行。
 
 [:en]
 Next, the semantics of the code sequence are determined by the [=Requires],
 [=Effects], [=Postconditions], [=Returns], [=Throws], [=Complexity], [=Notes],
 [=Errors], and [=Realnotes] specified for the function invocations contained in
 the code sequence.
+[:zh_CN]
+然后，根据代码序列中包含的各个函数调用所指定的 [=Requires]、[=Effects]、
+[=Postconditions]、[=Returns]、[=Throws]、[=Complexity]、[=Notes]、[=Errors] 和
+[=Realnotes] 来确定代码序列的语义。
 
 [:en]
 The value returned from [`F] is specified by [`F][=']s [=Returns] element, or if
 [`F] has no [=Returns] element, a non-[`void] return from [`F] is specified by
 the [=Returns] elements in the code sequence.
+[:zh_CN]
+[`F] 的返回值由 [`F] 的 [=Returns] 要素所指定，或当 [`F] 没有 [=Returns] 要素时
+，[`F] 的非-[`void] 返回值由其代码序列的 [=Returns] 要素指定。
 
 [:en]
 If [`F][=']s semantics contains a [=Throws], [=Postconditions], or [=Complexity]
 element, then that supersedes any occurrences of that element in the code
 sequence.
+[:zh_CN]
+如果 [`F] 的语义包含 [=Throws]、[=Postconditions] 或 [=Complexity] 要素，则它
+代替代码序列中所出现的任何这些要素。
 
 [para]
 [:en]
 For non-reserved replacement and handler functions, Clause [#language.support]
 specifies two behaviors for the functions in question: their required and
 default behavior.
+[:zh_CN]
+对于非保留的替代和处理函数，第 [#language.support] 条中指定了这种函数的两种行为
+：它们的预期和缺省行为。
 
 [:en]
 [%behavior[!default]]
 The [+default behavior] describes a function definition provided by the
 implementation.
+[:zh_CN]
+[%行为[!缺省～]]
+[+缺省行为]描述由实现提供的函数定义。
 
 [:en]
 [%behavior[!required]]
 The [+required behavior] describes the semantics of a function definition
 provided by either the implementation or a [=Cpp] program.
+[:zh_CN]
+[%行为[!预期～]]
+[+预期行为]描述由实现或 [=Cpp] 程序提供的函数定义式的语义。
 
 [:en]
 Where no distinction is explicitly made in the description, the behavior
 described is the required behavior.
+[:zh_CN]
+当在描述中没有明确说明其区别时，所描述的行为就是其预期行为。
 
 [para]
 [:en]
 If the formulation of a complexity requirement calls for a negative number of
 operations, the actual requirement is zero operations.
+[:zh_CN]
+若复杂度规定的公式导致负数次的操作，则其实际规定是零个操作。
 
 [footnote]
 [:en]
 This simplifies the presentation of complexity requirements in some cases.
+[:zh_CN]
+这在某些情况下简化了复杂度规定的陈述。
 [footnote:end]
 
 [para]
@@ -146,11 +214,17 @@ This simplifies the presentation of complexity requirements in some cases.
 Complexity requirements specified in the library clauses are upper bounds,
 and implementations that provide better complexity guarantees satisfy
 the requirements.
+[:zh_CN]
+程序库条款中所指定的复杂度规定是其上限，而提供更好复杂度的实现保证满足这些规定。
 
 [para]
 [:en]
 Error conditions specify conditions where a function may fail.
+[:zh_CN]
+错误条件指出函数在何种条件下会失败。
 
 [:en]
 The conditions are listed, together with a suitable explanation, as the [`enum
 class errc] constants ([#syserr]).
+[:zh_CN]
+各种条件以及适当的解释，均以 [`enum class errc] 常量（[#syserr]）的形式列出。
