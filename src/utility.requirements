@@ -1,25 +1,37 @@
 ﻿[section#utility.requirements
     [:en] Requirements on types and expressions
+    [:zh_CN] 对类型和表达式的规定
 ]
 
 [para]
 [:en]
 [#utility.arg.requirements] describes requirements on types and expressions used
 to instantiate templates defined in the [=Cpp] standard library.
+[:zh_CN]
+[#utility.arg.requirements] 描述了针对用以实例化 [=Cpp] 标准程序库中所定义的模板
+的类型和表达式的规定。
 
 [:en]
 [#swappable.requirements] describes the requirements on swappable types and
 swappable expressions.
+[:zh_CN]
+[#swappable.requirements] 描述了针对可交换类型和可交换表达式的规定。
 
 [:en]
 [#nullablepointer.requirements] describes the requirements on pointer-like types
 that support null values.
+[:zh_CN]
+[#nullablepointer.requirements] 描述了针对支持空值的指针式类型的规定。
 
 [:en]
 [#hash.requirements] describes the requirements on hash function objects.
+[:zh_CN]
+[#hash.requirements] 描述了针对散列函数对象的规定。
 
 [:en]
 [#allocator.requirements] describes the requirements on storage allocators.
+[:zh_CN]
+[#allocator.requirements] 描述了针对存储分配器的规定。
 
 [include utility.arg.requirements]
 
