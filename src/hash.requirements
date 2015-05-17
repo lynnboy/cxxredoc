@@ -1,20 +1,29 @@
 ﻿[section#hash.requirements
     [:en] Hash requirements
+    [:zh_CN] Hash 规定
 ]
 
-[% [:en] requirements[![`Hash]]]
+[% [:en] requirements[![`Hash]]
+   [:zh_CN] 规定[![`Hash]] ]
 [para]
+[:en]
 A type [`H] meets the [`Hash] requirements if:
+[:zh_CN]
+若满足下列条件，则类型 [`H] 符合 [`Hash] 规定：
 
 [list]
 [item]
 [:en] it is a function object type ([#function.objects]),
+[:zh_CN] 它是函数对象类型（[#function.objects]），
 [item]
 [:en] it satisfies the requirements of [`CopyConstructible] and [`Destructible]
 ([#utility.arg.requirements]), and
+[:zh_CN] 它符合 [`CopyConstructible] 和 [`Destructible] 的规定
+（[#utility.arg.requirements]），并且
 [item]
 [:en] the expressions shown in Table [#hash] are valid and have the indicated
 semantics.
+[:zh_CN] 表 [#hash] 中列出的表达式均合法，且具有所指定的语义。
 [list:end]
 
 [para]
@@ -23,18 +32,26 @@ Given [`Key] is an argument type for function objects of type [`H], in Table
 [#hash] [`h] is a value of type (possibly [`const]) [`H], [`u] is an lvalue of
 type [`Key], and [`k] is a value of a type convertible to (possibly [`const])
 [`Key].
+[:zh_CN]
+给定 [`Key] 为类型 [`H] 的函数对象的实参类型，表 [#hash] 中的 [`h] 为类型（可能
+为 [`const] 的）[`H] 的值，[`u] 为类型 [`Key] 的左值，而 [`k] 为可以转换为（可能
+为 [`const] 的）[`Key] 的值。
 
 [table:listing@reflabel#hash
     [:en] [`Hash] requirements
+    [:zh_CN] [`Hash] 规定
     [columns
         [column@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@code
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column
             [:en] Requirement
+            [:zh_CN] 规定
         ]
     ]
     [border:row@none]
@@ -45,11 +62,16 @@ type [`Key], and [`k] is a value of a type convertible to (possibly [`const])
 [:en]
 The value returned shall depend only on the argument [`k] for the duration of
 the program.
+[:zh_CN]
+在程序执行期间，其所返回的值仅应依赖于实参 [`k]。
 
 [enter:note]
 [:en]
 Thus all evaluations of the expression [`h(k)] with the same value for [`k]
 yield the same result for a given execution of the program.
+[:zh_CN]
+因此用相同的 [`k] 值对表达式 [`h(k)] 进行的所有求值，在程序的一次执行期间均产生
+相同结果。
 [exit:note]
 
 [enter:note]
@@ -57,9 +79,13 @@ yield the same result for a given execution of the program.
 For two different values [`t1] and [`t2], the probability that [`h(t1)] and
 [`h(t2)] compare equal should be very small, approaching
 [`1.0 / numeric_limits<size_t>::max()].
+[:zh_CN]
+对于两个不同的值 [`t1] 和 [`t2]，[`h(t1)] 和 [`h(t2)] 比较为相等的概率应当非常小
+，趋近于 [`1.0 / numeric_limits<size_t>::max()]。
 [exit:note]
 
 [|] h(u)
         [|] size_t
                 [|] [:en] Shall not modify [`u].
+                    [:zh_CN] 不应当改动 [`u]。
 [table:end]
