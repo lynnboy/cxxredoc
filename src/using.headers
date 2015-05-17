@@ -1,5 +1,6 @@
 ﻿[section#using.headers
     [:en] Headers
+    [:zh_CN] 头文件
 ]
 
 [para]
@@ -8,34 +9,50 @@ The entities in the [=Cpp] standard library are defined in headers, whose
 contents are made available to a translation unit when it contains the
 [%source file] [%unit[!translation]]
 appropriate [%[`#include]] [`#include] preprocessing directive ([#cpp.include]).
+[:zh_CN]
+[=Cpp] 标准程序库中的实体被定义在头文件中，其内容在 [%源文件] [%单元[!翻译～]]
+翻译单元包含适当的 [%[`#include]][`#include] 预处理指令（[#cpp.include]）时将
+成为可用的。
 
 [para]
 [:en]
 [%unit[!translation]]
 A translation unit may include library headers in any order (Clause [#lex]).
+[:zh_CN]
+[%单元[!翻译～]]翻译单元中可以以任意顺序包含程序库头文件（第 [#lex] 条）。
 
 [:en]
 Each may be included more than once, with no effect different from being
-included exactly once, except that the effect of including either [`<cassert>]
-or [`<assert.h>] depends each time on the lexically
+included exactly once, except that the effect of including either
 [%[`<cassert>][sortas cassert]] [%@library <cassert>[sortas cassert]]
 [%[`<assert.h>][sortas assert.h]] [%@library <assert.h>[sortas assert.h]]
-current definition of
-[%[`NDEBUG]] [%@library [`NDEBUG]]
-[`NDEBUG].
+[`<cassert>] or [`<assert.h>] depends each time on the lexically
+current definition of [%[`NDEBUG]] [%@library [`NDEBUG]] [`NDEBUG].
+[:zh_CN]
+每个头文件都能被多次包含，并与仅被包含一次没有不同效果，但包含
+[%[`<cassert>][sortas cassert]] [%@library <cassert>[sortas cassert]]
+[%[`<assert.h>][sortas assert.h]] [%@library <assert.h>[sortas assert.h]]
+[`<cassert>] 或 [`<assert.h>] 的效果每次均依赖于
+[%[`NDEBUG]] [%@library [`NDEBUG]] [`NDEBUG] 的当前的词法定义。
 
 [footnote]
 [:en]
 This is the same as the Standard C library.
+[:zh_CN]
+这与标准 C 程序库相同。
 [footnote:end]
 
 [para]
 [:en]
-A translation unit shall include a header only outside of any
-[%unit[!translation]]
-external declaration or definition, and shall include the header lexically
+A [%unit[!translation]] translation unit shall include a header only outside of
+any external declaration or definition, and shall include the header lexically
 before the first reference in that translation unit to any of the entities
 declared in that header.
+[:zh_CN]
+[%单元[!翻译～]]翻译单元只能在任何外部声明式或定义式之外包含头文件，并应当在词法
+上在该翻译单元中于第一次对头文件中所声明的实体进行涉指之前包含头文件。
 
 [:en]
 No diagnostic is required.
+[:zh_CN]
+无须诊断。
