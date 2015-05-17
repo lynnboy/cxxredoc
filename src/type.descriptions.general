@@ -1,32 +1,49 @@
 ﻿[section#type.descriptions.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 The Requirements subclauses may describe names that are used to specify
 constraints on template arguments.
+[:zh_CN]
+要件子条款中可能描述一些名字，用于指定对模板实参的约束条件。
 
 [footnote]
 [:en]
 Examples from [#utility.requirements] include: [`EqualityComparable],
 [`LessThanComparable], [`CopyConstructible].
+[:zh_CN]
+[#utility.requirements] 中包括以下例子：[`EqualityComparable]，
+[`LessThanComparable]，[`CopyConstructable]。
 
 [:en]
 Examples from [#iterator.requirements] include: [`InputIterator],
 [`ForwardIterator], [`Function], [`Predicate].
+[:zh_CN]
+[#iterator.requirements] 中包括如下例子：[`InputIterator]，[`ForwardIterator]，
+[`Function]，[`Predicate]。
 [footnote:end]
 
 [:en]
 These names are used in library Clauses to describe the types that may be
 supplied as arguments by a [=Cpp] program when instantiating template components
 from the library.
+[:zh_CN]
+程序库条款中用这些名字来描述，当实例化程序库中的模板组件时，可以由 [=Cpp] 程序
+提供用作实参的类型。
 
 [para]
 [:en]
 [%types[!implementation-defined]]
 Certain types defined in Clause [#input.output] are used to describe
 implementation-defined types.
+[:zh_CN]
+[%类型[!由实现定义的～]]
+第 [#input.output] 条中定义的某些类型用于描述由实现定义的类型。
 
 [:en]
 They are based on other types, but with added constraints.
+[:zh_CN]
+它们基于其他类型，但带有额外的约束条件。
