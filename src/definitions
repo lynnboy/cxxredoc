@@ -1,292 +1,425 @@
 ﻿[section#definitions
     [:en] Definitions
+    [:zh_CN] 定义
 ]
 
 [section:def#defns.arbitrary.stream
     [:en] arbitrary-positional stream [% stream[!arbitrary-positional]]
+    [:zh_CN] 可任意定位流 [%流[!可任意定位～]]
 ]
 [:en]
 a stream (described in Clause [#input.output]) that can seek to any integral
 position within the length of the stream
+[:zh_CN]
+可以定位到该流的长度内的任意整型位置的流（在第 [#input.output] 条中描述）
 [br]
 [enter:note]
 [:en]
 Every arbitrary-positional stream is also a repositional stream.
+[:zh_CN]
+可任意定位流也是可重定位流。
 [exit:note]
 
 [section:def#defns.block
     [:en] block [% block]
+    [:zh_CN] 阻塞 [%阻塞]
 ]
 [:en]
 place a thread in the blocked state
+[:zh_CN]
+使线程处于阻塞状态
 
 [section:def#defns.blocked
     [:en] blocked thread [%thread[!blocked]]
+    [:zh_CN] 被阻塞线程 [%线程[!被阻塞～]]
 ]
 [:en]
 a thread that is waiting for some condition (other than the availability of a
 processor) to be satisfied before it can continue execution
+[:zh_CN]
+一个线程正在等待某种（除处理器的可用性外的）条件的满足，以使其能够继续执行
 
 [footnote]
 [:en]
 This definition is taken from POSIX.
+[:zh_CN]
+这条定义来自 POSIX。
 [footnote:end]
 
 [section:def#defns.character
     [:en] character [%character]
+    [:zh_CN] 字符 [%字符]
 ]
 [:en]
 <Clauses [#strings], [#localization], [#input.output], and [#re]>
 any object which, when treated sequentially, can represent text
+[:zh_CN]
+【第 [#strings]，第 [#localization]，第 [#input.output]，和第 [#re] 条】
+表示当其被处理为序列时可以用来表示文本的任何对象
 [br]
 [enter:note]
 [:en]
 The term does not mean only [`char], [`char16_t], [`char32_t], and [`wchar_t]
 objects, but any value that can be represented by a type that provides the
 definitions specified in these Clauses.
+[:zh_CN]
+此术语并不仅仅表示 [`char]，[`char16_t]，[`char32_t] 和 [`wchar_t] 对象，而是
+可以被符合这些条款所指定的定义的类型来表示的任何值。
 [exit:note]
 
 [section:def#defns.character.container
     [:en] character container type [%type[!character container]]
+    [:zh_CN] 字符容器类型 [%类型[!字符容器～]]
 ]
 [:en]
 a class or a type used to represent a [+character]
+[:zh_CN]
+用于表示[+字符]的类或类型
 [br]
 [enter:note]
 [:en]
 It is used for one of the template parameters of the string, iostream, and
 regular expression class templates.
+[:zh_CN]
+它被用作字符串、I/O 流和正则表达式类模板的模板形参之一。
 
 [:en]
 A character container type is a POD ([#basic.types]) type.
+[:zh_CN]
+字符容器类型为 POD 类型（[#basic.types]）。
 [exit:note]
 
 [section:def#defns.comparison
     [:en] comparison function [%function[!comparison]]
+    [:zh_CN] 比较函数 [%函数[!比较～]]
 ]
 [:en]
 an operator function ([#over.oper]) for any of the equality ([#expr.eq]) or
 relational ([#expr.rel]) operators
+[:zh_CN]
+用于表示任何相等性（[#expr.eq]）或关系（[#expr.rel]）运算符的运算符函数
+（[#over.oper]）
 
 [section:def#defns.component
     [:en] component [%component]
+    [:zh_CN] 组件 [%组件]
 ]
 [:en]
 a group of library entities directly related as members, parameters, or
 return types
+[:zh_CN]
+一组程序库实体，以成员、形参或返回类型的形式直接相关
 [br]
 [enter:note]
 [:en]
 For example, the class template [`basic_string] and the non-member function
 templates that operate on strings are referred to as the [+string component].
+[:zh_CN]
+例如，类模板 [`basic_string] 和操作字符串的非成员函数模板被称为[+字符串组件]。
 [exit:note]
 
 [section:def#defns.deadlock
     [:en] deadlock [%deadlock]
+    [:zh_CN] 死锁 [%死锁]
 ]
 [:en]
 one or more threads are unable to continue execution because each is blocked
 waiting for one or more of the others to satisfy some condition
+[:zh_CN]
+一个或多个线程，由于其中每个都由于等待其他线程中的一个或多个来满足某种条件而阻塞
+，因此无法继续执行
 
 [section:def#defns.default.behavior.impl
     [:en] default behavior [%behavior[!default]]
+    [:zh_CN] 缺省行为 [%行为[!缺省～]]
 ]
 [:en]
 <implementation>
 any specific behavior provided by the implementation, within the scope of the
 [+required behavior]
+[:zh_CN]
+【实现】
+在[+预期行为]的范围内，任何由实现提供的特定行为
 
 [section:def#defns.default.behavior.func
     [:en] default behavior [%behavior[!default]]
+    [:zh_CN] 缺省行为 [%行为[!缺省～]]
 ]
 [:en]
 <specification>
 a description of [+replacement function] and [+handler function] semantics
+[:zh_CN]
+【规范】
+对[+替代函数]和[+处理函数]语义的描述
 
 [section:def#defns.handler
     [:en] handler function [%function[!handler]]
+    [:zh_CN] 处理函数 [%函数[!处理～]]
 ]
 [:en]
 a [+non-reserved function] whose definition may be provided by a [=Cpp] program
+[:zh_CN]
+可以由 [=Cpp] 程序提供其定义的[+非保留函数]
 [br]
 [enter:note]
 [:en]
 A [=Cpp] program may designate a handler function at various points in its
 execution by supplying a pointer to the function when calling any of the library
 functions that install handler functions (Clause [#language.support]).
+[:zh_CN]
+[=Cpp] 程序可以在其执行过程中的不同点，通过调用任何用于安装处理函数的程序库函数
+（第 [#language.support] 条）并提供函数指针来指定一个处理函数。
 [exit:note]
 
 [section:def#defns.iostream.templates
     [:en] iostream class templates
+    [:zh_CN] I/O 流类模板
 ]
 [:en]
 templates, defined in Clause [#input.output], that take two template arguments
+[:zh_CN]
+定义于第 [#input.output] 条模板，接受两个模板实参
 [br]
 [enter:note]
 [:en]
 The arguments are named [`charT] and [`traits].
+[:zh_CN]
+两个实参名为 [`charT] 和 [`traits]。
 
 [:en]
 The argument [`charT] is a character container class, and the argument [`traits]
 is a class which defines additional characteristics and functions of the
 character type represented by [`charT] necessary to implement the iostream class
 templates.
+[:zh_CN]
+实参 [`charT] 为字符容器类，而实参 [`traits] 为一个类，定义了为实现 I/O 流类模板
+所需的，[`charT] 所表示的字符类型的额外特征和功能。
 [exit:note]
 
 [section:def#defns.modifier
     [:en] modifier function [%function[!modifier]]
+    [:zh_CN] 改动函数 [%函数[!改动～]]
 ]
 [:en]
 a class member function ([#class.mfct]) other than a constructor, assignment
 operator, or destructor that alters the state of an object of the class
+[:zh_CN]
+除构造函数、赋值运算符或析构函数之外的改变类对象的状态的类成员函数
+（[#class.mfct]）
 
 [section:def#defns.move.constr
     [:en] move construction [%construction[!move]]
+    [:zh_CN] 移动构造 [%构造[!移动～]]
 ]
 [:en]
 direct-initialization of an object of some type with an rvalue of the same type
+[:zh_CN]
+对某个类型的对象用相同类型的右值进行直接初始化
 
 [section:def#defns.move.assign
     [:en] move assignment [%assignment[!move]]
+    [:zh_CN] 移动赋值 [%赋值[!移动～]]
 ]
 [:en]
 assignment of an rvalue of some object type to a modifiable lvalue of the same
 type
+[:zh_CN]
+以某个对象类型的右值对相同类型的可改动左值进行赋值
 
 [section:def#defns.obj.state
     [:en] object state [%state[!object]]
+    [:zh_CN] 对象状态 [%状态[!对象～]]
 ]
 [:en]
 the current value of all non-static class members of an object ([#class.mem])
+[:zh_CN]
+某对象的所有非静态类成员的当前值（[#class.mem]）
 [br]
 [enter:note]
 [:en]
 The state of an object can be obtained by using one or more [+observer
 functions].
+[:zh_CN]
+对象的状态可以通过使用一个或多个[+探察函数]来获取。
 [exit:note]
 
 [section:def#defns.ntcts
     [:en] NTCTS [%NTCTS] [%string[!null-terminated character type]]
+    [:zh_CN] NTCTS [%NTCTS] [%字符串[!空终结～类型]]
 ]
 [:en]
 a sequence of values that have [+character type] that precede the terminating
 null character type value [`charT()]
+[:zh_CN]
+[+字符类型]的值的序列，后面带有用于终结的空字符类型值 [`charT()]
 
 [section:def#defns.observer
     [:en] observer function [%function[!observer]]
+    [:zh_CN] 探察函数 [%函数[!探察～]]
 ]
 [:en]
 a class member function ([#class.mfct]) that accesses the state of an object of
 the class but does not alter that state
+[:zh_CN]
+访问类对象的状态但不改变该状态的类成员函数（[#class.mfct]）
 [br]
 [enter:note]
 [:en]
 Observer functions are specified as [`const] member functions ([#class.this]).
+[:zh_CN]
+探察函数被指定为 [`const] 成员函数（[#class.this]）。
 [exit:note]
 
 [section:def#defns.referenceable
     [:en] referenceable type [%type[!referenceable]]
+    [:zh_CN] 可引用类型 [%类型[!可引用～]]
 ]
 [:en]
 An object type, a function type that does not have cv-qualifiers or a
 [~ref-qualifier], or a reference type.
+[:zh_CN]
+对象类型，没有 cv-限定符和[~引用限定符]的函数类型，或者引用类型。
 [br]
 [enter:note]
 [:en]
 The term describes a type to which a reference can be created, including
 reference types.
+[:zh_CN]
+这个术语说明可以为其创建引用的类型，其中包括引用类型。
 [exit:note]
 
 [section:def#defns.replacement
     [:en] replacement function [%function[!replacement]]
+    [:zh_CN] 替代函数 [%函数[!替代～]]
 ]
 [:en]
 a [+non-reserved function] whose definition is provided by a [=Cpp] program
+[:zh_CN]
+由 [=Cpp] 程序提供定义式的[+非保留函数]
 [br]
 [enter:note]
 [:en]
 Only one definition for such a function is in effect for the duration of the
 program[=']s execution, as the result of creating the program ([#lex.phases])
 and resolving the definitions of all translation units ([#basic.link]).
+[:zh_CN]
+在程序的执行期间这种函数只能有一个定义式发挥作用，这是创建程序（[#lex.phases]）
+并对所有翻译单元中的定义式进行决议（[#basic.link]）的结果。
 [exit:note]
 
 [section:def#defns.repositional.stream
     [:en] repositional stream [%stream[!repositional]]
+    [:zh_CN] 可重定位流 [%流[!可重定位～]]
 ]
 [:en]
 a stream (described in Clause [#input.output]) that can seek to a position that
 was previously encountered
+[:zh_CN]
+只能定位到之前曾经到达过的位置的流（在第 [#input.output] 条中描述）
 
 [section:def#defns.required.behavior
     [:en] required behavior [%behavior[!required]]
+    [:zh_CN] 预期行为 [%行为[!预期～]]
 ]
 [:en]
 a description of [+replacement function] and [+handler function] semantics
 applicable to both the behavior provided by the implementation and
 the behavior of any such function definition in the program
+[:zh_CN]
+对[+替代函数]和[+处理函数]语义的描述，适用于由实现提供的行为和由程序中的函数
+定义式所提供的行为
 [br]
 [enter:note]
 [:en]
 If such a function defined in a [=Cpp] program fails to meet the required
-behavior when it executes, the behavior is undefined.
-[%undefined]
+behavior when it executes, the behavior is [%undefined] undefined.
+[:zh_CN]
+若在某 [=Cpp] 程序中定义的函数在执行时不能满足预期行为，则其行为是 [%未定义的]
+未定义的。
 [exit:note]
 
 [section:def#defns.reserved.function
     [:en] reserved function [%function[!reserved]]
+    [:zh_CN] 保留函数 [%函数[!保留～]]
 ]
 [:en]
 a function, specified as part of the [=Cpp] standard library, that must be
 defined by the implementation
+[:zh_CN]
+被指定为 [=Cpp] 标准程序库的一部分，而必须由实现定义的函数
 [br]
 [enter:note]
+[:en]
 If a [=Cpp] program provides a definition for any reserved function, the results
 are [%undefined] undefined.
+[:zh_CN]
+若某 [=Cpp] 程序提供了任意保留函数的定义式，则其结果是[%未定义的]未定义的。
 [exit:note]
 
 [section:def#defns.stable
     [:en] stable algorithm [%algorithm[!stable]] [%stable algorithm]
+    [:zh_CN] 稳定算法 [%算法[!稳定～]] [%稳定算法]
 ]
 [:en]
 an algorithm that preserves, as appropriate to the particular algorithm, the
 order of elements
+[:zh_CN]
+保留了成员顺序的算法，其方式适合于该特定算法
 [br]
 [enter:note]
 [:en]
 Requirements for stable algorithms are given in [#algorithm.stable].
+[:zh_CN]
+[#algorithm.stable] 中给出了对稳定算法的规定。
 [exit:note]
 
 [section:def#defns.traits
     [:en] traits class [%traits]
+    [:zh_CN] 特征类 [%特征]
 ]
 [:en]
 a class that encapsulates a set of types and functions necessary for class
 templates and function templates to manipulate objects of types for which they
 are instantiated
+[:zh_CN]
+针对用以实例化它的类型，封装了由类模板和函数模板在操纵该类型的对象时所需要的一组
+类型和函数的类
 [br]
 [enter:note]
 [:en]
 Traits classes defined in Clauses [#strings], [#localization] and
 [#input.output] are [+character traits], which provide the character handling
 support needed by the string and iostream classes.
+[:zh_CN]
+在第 [#strings]、[#localization] 和 [#input.output] 条中定义的特征类是[+字符
+特征]，它提供了由字符串和 I/O 流类所需要的字符处理支持。
 [exit:note]
 
 [section:def#defns.unblock
     [:en] unblock [%unblock]
+    [:zh_CN] 解除阻塞 [%解除阻塞]
 ]
 [:en]
 place a thread in the unblocked state
+[:zh_CN]
+使线程处于未阻塞状态
 
 [section:def#defns.valid
     [:en] valid but unspecified state [%valid but unspecified state]
+    [:zh_CN] 有效但未指明的状态 [%有效但未指明的状态]
 ]
 [:en]
 an object state that is not specified except that the object[=']s invariants are
 met and operations on the object behave as specified for its type
+[:zh_CN]
+未指明的对象状态，但满足对象的不变式，并且对对象的操作以其类型所指定的方式进行
 [br]
 [enter:example]
 [:en]
 If an object [`x] of type [`std::vector<int>] is in a valid but unspecified
 state, [`x.empty()] can be called unconditionally, and [`x.front()] can be
 called only if [`x.empty()] returns [`false].
+[:zh_CN]
+如果类型 [`std::vector<int>] 的对象 [`x] 处于有效但未指明的状态，则 [`x.empty()]
+可以无条件调用，而仅当 [`x.empty()] 返回 [`false] 时可以调用 [`x.front()]。
 [exit:example]
