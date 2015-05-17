@@ -1,32 +1,43 @@
 ﻿[section#swappable.requirements
     [:en] [`Swappable] requirements
+    [:zh_CN] [`Swappable] 规定
 ]
 
 [para]
 [:en]
 This subclause provides definitions for swappable types and expressions.
+[:zh_CN]
+本子条款给出可交换类型和表达式的定义。
 
 [:en]
 In these definitions, let [`t] denote an expression of type [`T], and let [`u]
 denote an expression of type [`U].
+[:zh_CN]
+这些定义中，令 [`t] 代表类型 [`T] 的表达式，并令 [`u] 代表类型 [`U] 的表达式。
 
 [para]
 [:en]
 An object [`t] is [def swappable with] an object [`u] if and only if:
+[:zh_CN]
+当且仅当下列条件成立时，对象 [`t] 与对象 [`u] [def 可互相交换]：
 
 [list]
 [item]
 [:en] the expressions [`swap(t, u)] and [`swap(u, t)] are valid when evaluated
 in the context described below, and
+[:zh_CN] 表达式 [`swap(t, u)] 和 [`swap(u, t)] 在下述语境中求值时都合法，且
 
 [item]
 [:en] these expressions have the following effects:
+[:zh_CN] 这些表达式具有下列效果：
 
 [list]
 [item]
 [:en] the object referred to by [`t] has the value originally held by [`u] and
+[:zh_CN] 由 [`t] 代表的对象带有 [`u] 原来所持有的值，而
 [item]
 [:en] the object referred to by [`u] has the value originally held by [`t].
+[:zh_CN] 由 [`u] 代表的对象带有 [`t] 原来所持有的值。
 [list:end]
 [list:end]
 
@@ -35,15 +46,20 @@ in the context described below, and
 The context in which [`swap(t, u)] and [`swap(u, t)] are evaluated shall ensure
 that a binary non-member function named ["swap] is selected via overload
 resolution ([#over.match]) on a candidate set that includes:
+[:zh_CN]
+[`swap(t, u)] 和 [`swap(u, t)] 进行求值的语境，应当保证一个名为“swap”的二元
+非成员函数，由重载决议（[#over.match]）在包含下列各项的候选集合中选择出来：
 
 [list]
 [item]
 [:en] the two [`swap] function templates defined in [`<utility>] ([#utility])
 and
+[:zh_CN] 在 [`<utility>]（[#utility]）中定义的两个 [`<swap>] 函数模板，以及
 
 [item]
 [:en] the lookup set produced by argument-dependent lookup
 ([#basic.lookup.argdep]).
+[:zh_CN] 由依赖于实参的名字查找（[#basic.lookup.argdep]）所生成的查找集合。
 [list:end]
 
 [enter:note]
@@ -52,6 +68,10 @@ If [`T] and [`U] are both fundamental types or arrays of fundamental types and
 the declarations from the header [`<utility>] are in scope, the overall lookup
 set described above is equivalent to that of the qualified name lookup applied
 to the expression [`std::swap(t, u)] or [`std::swap(u, t)] as appropriate.
+[:zh_CN]
+若 [`T] 和 [`U] 均为基础类型或基础类型的数组，而头文件 [`<utility>] 中的声明式
+处于作用域中，则上述查找集合总体等价于对表达式 [`std::swap(t, u)] 或
+[`std::swap(u, t)] 进行适当的限定名查找的查找集合。
 [exit:note]
 
 [para:~]
@@ -59,42 +79,60 @@ to the expression [`std::swap(t, u)] or [`std::swap(u, t)] as appropriate.
 [:en]
 It is unspecified whether a library component that has a swappable requirement
 includes the header [`<utility>] to ensure an appropriate evaluation context.
+[:zh_CN]
+带有可交换规定的程序库组件，是否通过包含头文件 [`<utility>] 以确保适当求值上下文
+，是未指明的。
 [exit:note]
 
 [para]
 [:en]
 An rvalue or lvalue [`t] is [def swappable] if and only if [`t] is swappable
 with any rvalue or lvalue, respectively, of type [`T].
+[:zh_CN]
+当且仅当右值或左值 [`t] 与类型 [`T] 的相应右值或左值可互相交换时，[`t]
+[def 可交换]。
 
 [para]
 [:en]
 A type [`X] satisfying any of the iterator requirements
 ([#iterator.requirements]) satisfies the requirements of [`ValueSwappable] if,
 for any dereferenceable object [`x] of type [`X], [`*x] is swappable.
+[:zh_CN]
+符合任何迭代器规定（[#iterator.requirements]）的类型 [`X]，若对于类型 [`X] 的
+任意可解引用对象 [`x]，有 [`*x] 可交换，则它符合 [`ValueSwappable] 规定。
 
 [para:~]
 [enter:example]
 [:en]
 User code can ensure that the evaluation of [`swap] calls is performed in an
 appropriate context under the various conditions as follows:
+[:zh_CN]
+用户代码可以像下面这样来确保，在各种条件下对 [`swap] 调用的求值均是在适当的语境
+中进行的：
 
 [codeblock]
 #include <utility>
 
 // [:en] Requires: [`std::forward<T>(t)] shall be swappable with [`std::forward<U>(u)].
+// [|:zh_CN] 要求：[`std::forward<T>(t)] 应当与 [`std::forward<U>(u)] 可互相交换
 template <class T, class U>
 void value_swap(T&& t, U&& u) {
   using std::swap;
   swap(std::forward<T>(t), std::forward<U>(u)); // [:en] OK: uses ["swappable with] conditions
+                                                // [|:zh_CN] OK：对右值和左值应用
                                                 // [:en@~] for rvalues and lvalues
+                                                // [|:zh_CN@~] “可与……交换”条件
 }
 
 // [:en] Requires: lvalues of [`T] shall be swappable.
+// [|:zh_CN] 要求：[`T] 的左值应当是可交换的。
 template <class T>
 void lv_swap(T& t1, T& t2) {
   using std::swap;
   swap(t1, t2);                                 // [:en] OK: uses swappable conditions for
+                                                // [|:zh_CN] OK：对类型 [`T] 的左值
 }                                               // [:en@~] lvalues of type [`T]
+                                                // [|:zh_CN@~] 应用可交换条件
 
 namespace N {
   struct A { int m; };
@@ -103,9 +141,12 @@ namespace N {
 
   void swap(A& x, Proxy p) {
     std::swap(x.m, p.a->m);                     // [:en] OK: uses context equivalent to swappable
+                                                // [|:zh_CN] OK：使用与基础类型的可交换
                                                 // [:en@~] conditions for fundamental types
+                                                // [|:zh_CN@~] 条件等价的语境
   }
   void swap(Proxy p, A& x) { swap(x, p); }      // [:en] satisfy symmetry constraint
+                                                // [|:zh_CN] 符合对称性约束条件
 }
 
 int main() {
