@@ -1,24 +1,34 @@
 ﻿[section#enumerated.types
     [:en] Enumerated types
+    [:zh_CN] 列举类型
 ]
 
 [para]
 [:en]
 [%type[!enumerated]]
 Several types defined in Clause [#input.output] are [+enumerated types].
+[:zh_CN]
+[%类型[!列举～]]
+第 [#input.output] 条中定义的几个类型是[+列举类型]。
 
 [:en]
 Each enumerated type may be implemented as an enumeration or as a synonym for
 an enumeration.
+[:zh_CN]
+每个列举类型可以被实现为枚举或枚举的同义词。
 
 [footnote]
 [:en]
 Such as an integer type, with constant integer values ([#basic.fundamental]).
+[:zh_CN]
+比如整数类型，带有常量整数值（[#basic.fundamental]）。
 [footnote:end]
 
 [para]
 [:en]
-The enumerated type [+enumerated] can be written:
+The enumerated type [$enumerated] can be written:
+[:zh_CN]
+列举类型 [$enumerted] 可以写为：
 
 [codeblock [special enumerated V0 V1 V2 V3 C0 C1 C2 C3] ]
 enum enumerated { V0, V1, V2, V3, ..... };
@@ -32,9 +42,14 @@ static const enumerated C3 (V3);
 
 [para]
 [:en]
-Here, the names [+C0], [+C1], etc. represent [+enumerated elements] for this
+Here, the names [$C0], [$C1], etc. represent [+enumerated elements] for this
 particular enumerated type.
+[:zh_CN]
+此处，名字 [$C0]，[$C1] 等等表示这个特定列举类型的[+列举元素]。
 
 [:en]
 [%type[!enumerated]]
 All such elements have distinct values.
+[:zh_CN]
+[%类型[!列举～]]
+这些元素都具有不同的值。
