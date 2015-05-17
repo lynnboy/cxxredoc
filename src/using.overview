@@ -1,12 +1,18 @@
 ﻿[section#using.overview
     [:en] Overview
+    [:zh_CN] 概述
 ]
 
 [para]
 [:en]
 This section describes how a [=Cpp] program gains access to the facilities of
 the [=Cpp] standard library.
+[:zh_CN]
+本节描述了 [=Cpp] 程序如何获得对 [=Cpp] 标准程序库的设施的访问。
 
 [:en]
 [#using.headers] describes effects during translation phase 4, while
 [#using.linkage] describes effects during phase 8 ([#lex.phases]).
+[:zh_CN]
+[#using.headers] 描述了在翻译阶段 4 中的效果，而 [#using.linkage] 描述了在翻译
+阶段 8 中的效果（[#lex.phases]）。
