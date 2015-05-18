@@ -1,15 +1,22 @@
 ﻿[section#new.delete.placement
     [:en] Placement forms
+    [:zh_CN] 放置形式
 ]
 
 [para]
 [:en]
 These functions are reserved, a [=Cpp] program may not define functions that
 displace the versions in the Standard [=Cpp] library ([#constraints]).
+[:zh_CN]
+这些函数是被保留的，[=Cpp] 程序不能定义替代标准 [=Cpp] 程序库中的版本的函数
+（[#constraints]）。
 
 [:en]
 The provisions of ([#basic.stc.dynamic]) do not apply to these reserved
 placement forms of [`operator new] and [`operator delete].
+[:zh_CN]
+[#basic.stc.dynamic] 中的规定并不适用于 [`operator new] 和 [`operator delete] 的
+这些保留的放置形式。
 
 [%@library new[!operator]]
 [codeblock:declaration]
@@ -20,15 +27,21 @@ void* operator new(std::size_t size, void* ptr) noexcept;
 [para:returns]
 [:en]
 [`ptr].
+[:zh_CN]
+[`ptr]。
 
 [para:notes]
 [:en]
 Intentionally performs no other action.
+[:zh_CN]
+有意不实施任何其他动作。
 
 [para]
 [enter:example]
 [:en]
 This can be useful for constructing an object at a known address:
+[:zh_CN]
+可用于在已知地址构造对象：
 
 [codeblock]
 void* place = operator new(sizeof(Something));
@@ -46,10 +59,14 @@ void* operator new[](std::size_t size, void* ptr) noexcept;
 [para:returns]
 [:en]
 [`ptr].
+[:zh_CN]
+[`ptr]。
 
 [para:notes]
 [:en]
 Intentionally performs no other action.
+[:zh_CN]
+有意不实施任何其他动作。
 [exit:description]
 
 [%@library new[!operator]]
@@ -61,17 +78,25 @@ void operator delete(void* ptr, void*) noexcept;
 [para:effects]
 [:en]
 Intentionally performs no action.
+[:zh_CN]
+有意不实施任何其他动作。
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:notes]
 [:en]
 Default function called when any part of the initialization in a placement
-[~new-expression] that invokes the library[=']s non-array placement operator new
-terminates by throwing an exception ([#expr.new]).
+[~new-expression] that invokes the library[=']s non-array placement [`operator
+new] terminates by throwing an exception ([#expr.new]).
+[:zh_CN]
+当调用了程序库中的非数组放置式 [`operator new] 的放置式 [~new-表达式]，其中的
+初始化的任何部分以抛出异常而终止时，所默认调用的函数（[#expr.new]）。
 [exit:description]
 
 [%@library new[!operator]]
@@ -83,15 +108,23 @@ void operator delete[](void* ptr, void*) noexcept;
 [para:effects]
 [:en]
 Intentionally performs no action.
+[:zh_CN]
+有意不实施任何其他动作。
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:notes]
 [:en]
 Default function called when any part of the initialization in a placement
-[~new-expression] that invokes the library[=']s array placement operator new
+[~new-expression] that invokes the library[=']s array placement [`operator new]
 terminates by throwing an exception ([#expr.new]).
+[:zh_CN]
+当调用了程序库中的数组放置式 [`operator new] 的放置式 [~new-表达式]，其中的
+初始化的任何部分以抛出异常而终止时，所默认调用的函数（[#expr.new]）。
 [exit:description]
