@@ -1,5 +1,6 @@
 ﻿[section#extern.names
     [:en] External linkage
+    [:zh_CN] 外部连接
 ]
 
 [para]
@@ -7,16 +8,25 @@
 Each name declared as an object with [%linkage[!external]] external linkage
 in a header is reserved to the implementation to designate that library
 object with [%linkage[!external]] external linkage,
+[:zh_CN]
+每个在头文件中声明为带有[%连接[!外部～]]外部连接的对象的名字均被实现保留用以在
+命名空间 [`std] 和全局命名空间中代表这个带有[%连接[!外部～]]外部连接的程序库对象
 
 [footnote]
 [:en]
 The list of such reserved names includes [`errno], declared or defined in
 [%[`<cerrno>] [sortas cerrno]] [%@library <cerrno> [sortas cerrno]]
 [`<cerrno>].
+[:zh_CN]
+这种保留的名字的列表包括 [`errno]，声明或定义于
+[%[`<cerrno>] [sortas cerrno]] [%@library <cerrno> [sortas cerrno]]
+[`<cerrno>]。
 [footnote:end]
 
 [:en@~]
 both in namespace [`std] and in the global namespace.
+[:zh_CN@~]
+。
 
 [para]
 [:en]
@@ -24,6 +34,9 @@ Each [%function[!global]] global function signature declared with
 [%linkage[!external]] external linkage in a header is reserved to the
 implementation to designate that function signature with
 [%linkage[!external]] external linkage.
+[:zh_CN]
+每个在头文件中声明为带有[%连接[!外部～]]外部连接的[%函数[!全局～]]全局函数签名均
+被实现保留用以代表这个带有[%连接[!外部～]]外部连接的函数签名。
 
 [footnote]
 [:en]
@@ -32,14 +45,23 @@ The list of such reserved function signatures with external linkage includes
 [%@library <csetjmp>[sortas csetjmp]] [`<csetjmp>], and
 [%@library va_end] [%@library va_list] [`va_end(va_list)], declared or defined
 in [%@library <cstdarg> [sortas cstdarg]] [`<cstdarg>].
+[:zh_CN]
+这种保留的带有外部连接的函数签名的列表包括 [%@library setjmp] [`setjmp(jmp_buf)]
+，声明或定义于 [%@library <csetjmp>[sortas csetjmp]] [`<csetjmp>]，以及
+[%@library va_end] [%@library va_list] [`va_end(va_list)]，声明或定义于
+[%@library <cstdarg> [sortas cstdarg]] [`<cstdarg>]。
 [footnote:end]
 
 [para]
 [:en]
 Each name from the Standard C library declared with external linkage
 [%linkage[!external]] is reserved to the implementation for use as a name with
-[%header[!C]] [%[`extern "C"]] [`extern "C"] linkage, both in namespace std and
-in the global namespace.
+[%header[!C]] [%[`extern "C"]] [`extern "C"] linkage, both in namespace [`std]
+and in the global namespace.
+[:zh_CN]
+每个标准 C 程序库中声明为带有[%连接[!外部～]]外部连接的名字均被实现保留用作
+命名空间 [`std] 和全局命名空间中带有[%头文件[!C]] [%[`extern "C"]] [`extern "C"]
+连接的名字。
 
 [para]
 [:en]
@@ -47,18 +69,28 @@ Each function signature from the Standard C library declared with
 [%linkage[!external]] external linkage is reserved to the implementation for use
 as a function signature with both [%[`extern "C"]] [`extern "C"] and
 [%[`extern "C++"]] [`extern "C++"] linkage,
+[:zh_CN]
+每个标准 C 程序库中声明为带有[%连接[!外部～]]外部连接的函数签名均被实现同时保留
+用作带有 [%[`extern "C"]] [`extern "C"] 和 [%[`extern "C++"]] [`extern "C++"]
+连接的函数签名，
 
 [footnote]
-[:en]
-The function signatures declared in
-[%Amendment 1]
 [%[`<cuchar>][sortas cuchar]] [%@library <cuchar>[sortas cuchar]]
 [%[`<cwchar>][sortas cwchar]] [%@library <cwchar>[sortas cwchar]]
 [%[`<cwchar>][sortas cwchar]]
+[:en]
+The function signatures declared in
+[%Amendment 1]
 [`<cuchar>], [`<cwchar>], and [`<cwctype>] are always reserved, notwithstanding
 the restrictions imposed in subclause 4.5.1 of Amendment 1 to the C Standard for
 these headers.
+[:zh_CN]
+[%修订 1]
+[`<cuchar>]，[`<cwchar>]，和 [`<cwctype>] 中声明的函数签名总是被保留的，而不管在
+C 标准的修订 1 的子条款 4.5.1 中所隐含的对这些头文件的限制。
 [footnote:end]
 
 [:en@~]
 or as a name of namespace scope in the global namespace.
+[:zh_CN@~]
+或者用作全局命名空间中的命名空间作用域名字。
