@@ -1,5 +1,6 @@
 ﻿[section#tuple.tuple
     [:en] Class template [`tuple]
+    [:zh_CN] 类模板 [`tuple]
 ]
 
 [%@library tuple]
@@ -10,6 +11,7 @@ namespace std {
   public:
 
     // [:en] [#tuple.cnstr], [`tuple] construction
+    // [|:zh_CN] [#tuple.cnstr]，[`tuple] 构造
     constexpr tuple();
     constexpr explicit tuple(const Types&...);
     template <class... UTypes>
@@ -25,10 +27,13 @@ namespace std {
 
     template <class U1, class U2>
       constexpr tuple(const pair<U1, U2>&);       // [:en] only if [`sizeof...(Types) == 2]
+                                                  // [|:zh_CN] 仅当 [`sizeof...(Types) == 2]
     template <class U1, class U2>
       constexpr tuple(pair<U1, U2>&&);            // [:en] only if [`sizeof...(Types) == 2]
+                                                  // [|:zh_CN] 仅当 [`sizeof...(Types) == 2]
 
     // [:en] allocator-extended constructors
+    // [|:zh_CN] 未分配器所扩充的构造函数
     template <class Alloc>
       tuple(allocator_arg_t, const Alloc& a);
     template <class Alloc>
@@ -49,6 +54,7 @@ namespace std {
       tuple(allocator_arg_t, const Alloc& a, pair<U1, U2>&&);
 
     // [:en] [#tuple.assign], [`tuple] assignment
+    // [|:zh_CN] [#tuple.assign]，[`tuple] 的赋值
     tuple& operator=(const tuple&);
     tuple& operator=(tuple&&) noexcept([=Seebelow]);
 
@@ -63,7 +69,8 @@ namespace std {
       tuple& operator=(pair<U1, U2>&&);         // [:en] only if [`sizeof...(Types) == 2]
 
     // [:en] [#tuple.swap], [`tuple] swap
-    void swap(tuple&) noexcept(@\seebelow@);
+    // [|:zh_CN] [#tuple.swap]，[`tuple] 的交换
+    void swap(tuple&) noexcept([=Seebelow]);
   };
 }
 [codeblock:end]
