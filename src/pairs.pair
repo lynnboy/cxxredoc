@@ -1,10 +1,12 @@
 ﻿[section#pairs.pair
     [:en] Class template [`pair]
+    [:zh_CN] 类模板 [`pair]
 ]
 
 [%@library pair]
 [codeblock]
 // [:en] defined in header [`<utility>]
+// [|:zh_CN] 定义于头文件 [`<utility>]
 
 namespace std {
   template <class T1, class T2>
@@ -40,6 +42,9 @@ namespace std {
 Constructors and member functions of [`pair] shall not throw exceptions unless
 one of the element-wise operations specified to be called for that operation
 throws an exception.
+[:zh_CN]
+[`pair] 的构造函数和成员函数不能抛出异常，除非该操作所指定要调用的按元素操作抛出
+了异常。
 
 [para]
 [:en]
@@ -47,6 +52,9 @@ The defaulted move and copy constructor, respectively, of pair shall be a
 [`constexpr] function if and only if all required element-wise initializations
 for copy and move, respectively, would satisfy the requirements for a
 [`constexpr] function.
+[:zh_CN]
+[`pair] 的预置移动和复制构造函数，当且仅当其对应的所有需要的按元素复制或移动
+初始化能够符合 [`constexpr] 函数的规定，则它是 [`constexpr] 函数。
 
 [%@library pair[!pair]]
 [codeblock:declaration]
@@ -57,9 +65,12 @@ constexpr pair();
 [para:requires]
 [:en] [`is_default_constructible<first_type>::value] is [`true] and
 [`is_default_constructible<second_type>::value] is [`true].
+[:zh_CN] [`is_default_constructible<first_type>::value] 为 [`true] 并且
+[`is_default_constructible<second_type>::value] 为 [`true]。
 
 [para:effects]
 [:en] Value-initializes [`first] and [`second].
+[:zh_CN] 值初始化 [`first] 和 [`second]。
 [exit:description]
 
 [%@library pair[!pair]]
@@ -71,9 +82,12 @@ constexpr pair(const T1& x, const T2& y);
 [para:requires]
 [:en] [`is_copy_constructible<first_type>::value] is [`true]
 and [`is_copy_constructible<second_type>::value] is [`true].
+[:zh_CN] [`is_copy_constructible<first_type>::value] 为 [`true] 并且
+[`is_copy_constructible<second_type>::value] 为 [`true]。
 
 [para:effects]
 [:en] The constructor initializes [`first] with [`x] and [`second] with [`y].
+[:zh_CN] 该构造函数以 [`x] 初始化 [`first]，并以 [`y] 初始化 [`second]。
 [exit:description]
 
 [%@library pair[!pair]]
@@ -85,15 +99,21 @@ template<class U, class V> constexpr pair(U&& x, V&& y);
 [para:requires]
 [:en] [`is_constructible<first_type, U&&>::value] is [`true]
 and [`is_constructible<second_type, V&&>::value] is [`true].
+[:zh_CN] [`is_constructible<first_type, U&&>::value] 为 [`true] 并且
+[`is_constructible<second_type, V&&>::value] 为 [`true]。
 
 [para:effects]
 [:en] The constructor initializes [`first] with [`std::forward<U>(x)] and
 [`second] with [`std::forward<V>(y)].
+[:zh_CN] 该构造函数以 [`std::forward<U>(x)] 初始化 [`first]，并以
+[`std::forward<V>(y)] 初始化 [`second]。
 
 [para:notes]
 [:en] If [`U] is not implicitly convertible to [`first_type] or [`V] is not
 implicitly convertible to [`second_type] this constructor shall not participate
 in overload resolution.
+[:zh_CN] 如果 [`U] 不能隐式转换为 [`first_type]，或者 [`V] 不能隐式转换为
+[`second_type]，则这个构造函数不能参与重载决议。
 [exit:description]
 
 [%@library pair[!pair]]
@@ -105,14 +125,19 @@ template<class U, class V> constexpr pair(const pair<U, V>& p);
 [para:requires]
 [:en] [`is_constructible<first_type, const U&>::value] is [`true]
 and [`is_constructible<second_type, const V&>::value] is [`true].
+[:zh_CN] [`is_constructible<first_type, const U&>::value] 为 [`true] 并且
+[`is_constructible<second_type, const V&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Initializes members from the corresponding members of the argument.
+[:zh_CN] 以实参的对应成员初始化其成员。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless
 [`const U&] is implicitly convertible to [`first_type] and [`const V&] is
 implicitly convertible to [`second_type].
+[:zh_CN] 除非 [`const U&] 可以隐式转换为 [`first_type] 且 [`const V&] 可以隐式
+转换为 [`second_type]，否则这个构造函数不能参与重载决议。
 [exit:description]
 
 [%@library pair[!pair]]
@@ -124,15 +149,21 @@ template<class U, class V> constexpr pair(pair<U, V>&& p);
 [para:requires]
 [:en] [`is_constructible<first_type, U&&>::value] is [`true]
 and [`is_constructible<second_type, V&&>::value] is [`true].
+[:zh_CN] [`is_constructible<first_type, U&&>::value] 为 [`true] 并且
+[`is_constructible<second_type, V&&>::value] 为 [`true]。
 
 [para:effects]
 [:en] The constructor initializes [`first] with [`std::forward<U>(p.first)]
 and [`second] with [`std::forward<V>(p.second)].
+[:zh_CN] 该构造函数以 [`std::forward<U>(p.first)] 初始化 [`first]，并以
+[`std::forward<V>(p.second)] 初始化 [`second]。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless [`U]
 is implicitly convertible to [`first_type] and [`V] is implicitly convertible to
 [`second_type].
+[:zh_CN] 除非 [`U] 可以隐式转换为 [`first_type] 并且 [`V] 可以隐式转换为
+[`second_type]，否则这个构造函数不能参与重载决议。
 [exit:description]
 
 [%@library pair[!pair]]
@@ -146,21 +177,32 @@ template<class... Args1, class... Args2>
 [para:requires]
 [:en] [`is_constructible<first_type, Args1&&...>::value] is [`true]
 and [`is_constructible<second_type, Args2&&...>::value] is [`true].
+[:zh_CN] [`is_constructible<first_type, Args1&&...>::value] 为 [`true] 并且
+[`is_constructible<second_type, Args2&&...>::value] 为 [`true]。
 
 [para:effects]
 [:en] The constructor initializes [`first] with arguments of types [`Args1...]
 obtained by forwarding the elements of [`first_args] and initializes [`second]
 with arguments of types [`Args2...] obtained by forwarding the elements of
 [`second_args].
+[:zh_CN] 该构造函数通过转发 [`first_args] 的元素获得 [`Args1...] 的各类型的实参
+并以之初始化 [`first]，并且通过转发 [`second_args] 的元素获得 [`Args2...] 的各
+类型的实参并以之初始化 [`second]。
 
 [:en]
 (Here, forwarding an element [`x] of type [`U] within a [`tuple] object means
 calling [`std::forward<U>(x)].)
+[:zh_CN]
+（此处，转发一个 [`tuple] 对象中类型 [`U] 的元素 [`x] 的意思是调用
+[`std::forward<U>(x)]。）
 
 [:en]
 This form of construction, whereby constructor arguments for [`first] and
 [`second] are each provided in a separate [`tuple] object, is called
 [def piecewise construction].
+[:zh_CN]
+这种形式的构造，其中为 [`first] 和 [`second] 提供的构造函数实参是以各自独立的
+[`tuple] 对象提供的，称之为[def 逐段构造]。
 [exit:description]
 
 [%@library operator=[!pair]]
@@ -173,12 +215,16 @@ pair& operator=(const pair& p);
 [para:requires]
 [:en] [`is_copy_assignable<first_type>::value] is [`true]
 and [`is_copy_assignable<second_type>::value] is [`true].
+[:zh_CN] [`is_copy_assignable<first_type>::value] 为 [`true] 并且
+[`is_copy_assignable<second_type>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns [`p.first] to [`first] and [`p.second] to [`second].
+[:zh_CN] 赋值 [`p.first] 给 [`first]，并赋值 [`p.second] 给 [`second]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!pair]]
@@ -191,12 +237,16 @@ template<class U, class V> pair& operator=(const pair<U, V>& p);
 [para:requires]
 [:en] [`is_assignable<first_type&, const U&>::value] is [`true]
 and [`is_assignable<second_type&, const V&>::value] is [`true].
+[:zh_CN] [`is_assignable<first_type&, const U&>::value] 为 [`true] 并且
+[`is_assignable<second_type&, const V&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns [`p.first] to [`first] and [`p.second] to [`second].
+[:zh_CN] 赋值 [`p.first] 给 [`first]，并赋值 [`p.second] 给 [`second]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!pair]]
@@ -208,8 +258,9 @@ pair& operator=(pair&& p) noexcept([=Seebelow]);
 [enter:description]
 [para:remarks]
 [:en] The expression inside [`noexcept] is equivalent to:
+[:zh_CN] [`noexcept] 中的表达式等价于：
 
-[codeblock]
+[codeblock:notation]
 is_nothrow_move_assignable<T1>::value &&
 is_nothrow_move_assignable<T2>::value
 [codeblock:end]
@@ -217,13 +268,18 @@ is_nothrow_move_assignable<T2>::value
 [para:requires]
 [:en] [`is_move_assignable<first_type>::value] is [`true]
 and [`is_move_assignable<second_type>::value] is [`true].
+[:zh_CN] [`is_move_assignable<first_type>::value] 为 [`true] 并且
+[`is_move_assignable<second_type>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns to [`first] with [`std::forward<first_type>(p.first)] and to
 [`second] with [`std::forward<second_type>(p.second)].
+[:zh_CN] 以 [`std::forward<first_type>(p.first)] 对 [`first] 赋值，并以
+[`std::forward<second_type>(p.second)] 对 [`second] 赋值。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!pair]]
@@ -236,13 +292,18 @@ template<class U, class V> pair& operator=(pair<U, V>&& p);
 [para:requires]
 [:en] [`is_assignable<first_type&, U&&>::value] is [`true]
 and [`is_assignable<second_type&, V&&>::value] is [`true].
+[:zh_CN] [`is_assignable<first_type&, U&&>::value] 为 [`true] 并且
+[`is_assignable<second_type&, V&&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns to [`first] with [`std::forward<U>(p.first)] and to [`second] with
 [`std::forward<V>(p.second)].
+[:zh_CN] 以 [`std::forward<U>(p.first)] 对 [`first] 赋值，并以
+[`std::forward<V>(p.second)] 对 [`second] 赋值。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library swap[!pair]]
@@ -254,8 +315,9 @@ void swap(pair& p) noexcept([=Seebelow]);
 [enter:description]
 [para:remarks]
 [:en] The expression inside [`noexcept] is equivalent to:
+[:zh_CN] [`noexcept] 中的表达式等价于：
 
-[codeblock]
+[codeblock:notation]
 noexcept(swap(first, p.first)) &&
 noexcept(swap(second, p.second))
 [codeblock:end]
@@ -263,7 +325,10 @@ noexcept(swap(second, p.second))
 [para:requires]
 [:en] [`first] shall be swappable with ([#swappable.requirements]) [`p.first]
 and [`second] shall be swappable with [`p.second].
+[:zh_CN] [`first] 应当能够与 [`p.first] 互相交换（[#swappable.requirements]），
+并且 [`second] 应当能够与 [`p.second] 互相交换。
 
 [para:effects]
 [:en] Swaps [`first] with [`p.first] and [`second] with [`p.second].
+[:zh_CN] 交换 [`first] 与 [`p.first]，并交换 [`second] 与 [`p.second]。
 [exit:description]
