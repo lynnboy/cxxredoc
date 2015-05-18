@@ -1,5 +1,6 @@
 ﻿[section#numeric.limits
     [:en] Class template [`numeric_limits]
+    [:zh_CN] 类模板 [`numeric_limits]
 ]
 
 [%@library numeric_limits]
@@ -56,9 +57,14 @@ namespace std {
 [:en]
 The default [`numeric_limits<T>] template shall have all members, but with 0 or
 [`false] values.
+[:zh_CN]
+缺省的 [`numeric_limits<T>] 模板应当带有所有的成员，但值为 0 或 [`false]。
 
 [para]
 [:en]
 The value of each member of a specialization of [`numeric_limits] on a
 [$cv]-qualified type [`cv T] shall be equal to the value of the corresponding
 member of the specialization on the unqualified type [`T].
+[:zh_CN]
+[`numeric_limits] 对被 [$cv]-限定的类型 [`cv T] 的特例中的每个成员的值应当与其在
+对未限定的类型 [`T] 的特例中的对应成员的值相同。
