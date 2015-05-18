@@ -1,5 +1,6 @@
 ﻿[section#bad.cast
     [:en] Class [`bad_cast]
+    [:zh_CN] 类 [`bad_cast]
 ]
 
 [%@library bad_cast]
@@ -18,10 +19,14 @@ namespace std {
 [para]
 [:en]
 The class [`bad_cast] defines the type of objects thrown as exceptions by the
-implementation to report the execution of an invalid [~dynamic-cast] expression
+implementation to report the execution of an invalid [+dynamic-cast] expression
 ([#expr.dynamic.cast]).
+[:zh_CN]
+[`bad_cast] 类定义了当实现报告执行了无效的[+动态强制转换]表达式
+（[#expr.dynamic.cast]）时所抛出的异常对象的类型。
 
-[%[:en] cast[!dynamic]]
+[%[:en] cast[!dynamic]
+  [:zh_CN] 强制转换[!动态] ]
 [%@library bad_cast[!bad_cast]]
 [codeblock:declaration]
 bad_cast() noexcept;
@@ -31,11 +36,15 @@ bad_cast() noexcept;
 [para:effects]
 [:en]
 Constructs an object of class [`bad_cast].
+[:zh_CN]
+构造类 [`bad_cast] 的对象。
 
 [para:notes]
 [:en]
 The result of calling [`what()] on the newly constructed object is
 [%implementation-defined] implementation-defined.
+[:zh_CN]
+在新构造的对象上调用 [`what()] 的结果是[%由实现定义的]由实现定义的。
 [exit:description]
 
 [%@library bad_cast[!bad_cast]]
@@ -49,6 +58,8 @@ bad_cast& operator=(const bad_cast&) noexcept;
 [para:effects]
 [:en]
 Copies an object of class [`bad_cast].
+[:zh_CN]
+复制一个类 [`bad_cast] 的对象。
 [exit:description]
 
 [%@library what[!bad_cast]]
@@ -62,10 +73,16 @@ virtual const char* what() const noexcept;
 [%@library bad_cast::what[!implementation-defined]]
 An [%@impldef return value of [`bad_cast::what]] implementation-defined
 [em@sc ntbs].
+[:zh_CN]
+[%@library bad_cast::what[!由实现定义的]]
+一个[%@impldef [`bad_cast::what] 的返回值]由实现定义的 [em@sc ntbs]。
 
 [para:notes]
 [:en]
 The message may be a null-terminated multibyte string ([#multibyte.strings]),
 suitable for conversion and display as a [`wstring] ([#string.classes],
 [#locale.codecvt])
+[:zh_CN]
+该消息可能是个空终结多字节字符串（[#multibyte.strings]），且适于转换并显示为一个
+[`wstring]（[#string.classes]，[#locale.codecvt]）。
 [exit:description]
