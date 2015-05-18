@@ -1,8 +1,9 @@
 ﻿[section#syserr.errcat.nonvirtuals
     [:en] Class [`error_category] non-virtual members
+    [:zh_CN] 类 [`error_category] 的非虚成员
 ]
 
-[%@library error_category[!constructor]]
+[%@library error_category[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr error_category() noexcept;
 [codeblock:end]
@@ -10,6 +11,7 @@ constexpr error_category() noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`error_category].
+[:zh_CN] 构造一个类 [`error_category] 的对象。
 [exit:description]
 
 [%@library operator==[!error_category]]
@@ -21,6 +23,7 @@ bool operator==(const error_category& rhs) const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`this == &rhs].
+[:zh_CN] [`this == &rhs]。
 [exit:description]
 
 [%@library operator!=[!error_category]]
@@ -32,6 +35,7 @@ bool operator!=(const error_category& rhs) const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`!(*this == rhs)].
+[:zh_CN] [`!(*this == rhs)]。
 [exit:description]
 
 [%@library operator<[!error_category]]
@@ -43,8 +47,10 @@ bool operator<(const error_category& rhs) const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`less<const error_category*>()(this, &rhs)].
+[:zh_CN] [`less<const error_category*>()(this, &rhs)]。
 
 [enter:note]
 [:en] [`less] ([#comparisons]) provides a total ordering for pointers.
+[:zh_CN] [`less]（[#comparisons]）为指针提供了一种全序。
 [exit:note]
 [exit:description]
