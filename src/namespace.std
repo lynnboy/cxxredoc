@@ -1,5 +1,6 @@
 ﻿[section#namespace.std
     [:en] Namespace [`std]
+    [:zh_CN] 命名空间 [`std]
 ]
 
 [para]
@@ -7,44 +8,64 @@
 The behavior of a [=Cpp] program is undefined if it adds declarations or
 definitions to namespace [`std] or to a namespace within namespace [`std] unless
 otherwise specified.
+[:zh_CN]
+除非另行指明，否则向命名空间 [`std] 或命名空间 [`std] 之中的命名空间中添加声明式
+或定义式的 [=Cpp] 程序的行为是未定义的。
 
 [:en]
 A program may add a template specialization for any standard library template
 to namespace [`std] only if the declaration depends on a user-defined type and
 the specialization meets the standard library requirements for the original
 template and is not explicitly prohibited.
+[:zh_CN]
+仅当其声明式依赖于某个用户定义的类型，并且该特化式满足标准程序库对于原始模板的
+规定，并且并未被明确制止时，程序可以向命名空间 [`std] 中添加任何标准程序库模板的
+模板特化式。
 
 [footnote]
 [:en]
 Any library code that instantiates other library templates must be prepared to
 work adequately with any user-supplied specialization that meets the minimum
 requirements of the Standard.
+[:zh_CN]
+任何实例化其他程序库模板的程序库代码，必须足以与满足标准的最小规定的任意用户提供
+的特化式适当地工作。
 [footnote:end]
 
 [para]
 [:en]
 The behavior of a [=Cpp] program is undefined if it declares
+[:zh_CN]
+声明下列各项的 [=Cpp] 程序的行为是未定义的：
 
 [list]
 [item]
 [:en] an explicit specialization of any member function of a standard library
 class template, or
+[:zh_CN] 标准程序库类模板的任意成员函数的显式特化式，或者
 
 [item]
 [:en] an explicit specialization of any member function template of a standard
 library class or class template, or
+[:zh_CN] 标准程序库类或类模板的任意成员函数模板的显式特化式，或者
 
 [item]
 [:en] an explicit or partial specialization of any member class template of a
 standard library class or class template.
+[:zh_CN] 标准程序库类或类模板的任意成员类模板的显式或部分特化式。
 [list:end]
 
 [:en]
 A program may explicitly instantiate a template defined in the standard library
 only if the declaration depends on the name of a user-defined type and the
 instantiation meets the standard library requirements for the original template.
+[:zh_CN]
+仅当其声明式依赖于某个用户定义类型的名字，并且其实例化满足标准程序库对于原始模板
+的规定时，程序可以显式实例化标准程序库中的任何模板。
 
 [para]
 [:en]
 A translation unit shall not declare namespace [`std] to be an inline namespace
 ([#namespace.def]).
+[:zh_CN]
+翻译单元不应当把命名空间 [`std] 声明为内联命名空间（[#namespace.def]）。
