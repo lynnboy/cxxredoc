@@ -1,5 +1,6 @@
 ﻿[section#terminate.handler
     [:en] Type [`terminate_handler]
+    [:zh_CN] 类型 [`terminate_handler]
 ]
 
 [%@library terminate_handler]
@@ -12,14 +13,21 @@ typedef void (*terminate_handler)();
 [:en]
 The type of a [+handler function] to be called by [`std::terminate()]
 [%@library terminate] when terminating exception processing.
+[:zh_CN]
+当终止异常处理时由 [%@library terminate] [`std::terminate()] 所调用的[+处理函数]
+的类型。
 
 [para:required]
 [:en]
 A [`terminate_handler] shall terminate execution of the program without
 returning to the caller.
+[:zh_CN]
+[`terminate_handler] 应当终止程序的执行而不返回到其调用方。
 
 [para:default]
 [:en]
 The implementation[=']s default [`terminate_handler] calls
 [%@library abort] [`abort()].
+[:zh_CN]
+实现的预置 [`terminate_handler] 调用 [%@library abort] [`abort()]。
 [exit:description]
