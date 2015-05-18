@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcode.modifiers
     [:en] Class [`error_code] modifiers
+    [:zh_CN] 类 [`error_code] 改动函数
 ]
 
 [%@library assign[!error_code]]
@@ -11,6 +12,7 @@ void assign(int val, const error_category& cat) noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`val_ == val] and [`cat_ == &cat].
+[:zh_CN] [`val_ == val] 并且 [`cat_ == &cat]。
 [exit:description]
 
 [%@library operator=[!error_code]]
@@ -23,13 +25,17 @@ template <class ErrorCodeEnum>
 [enter:description]
 [para:postconditions]
 [:en] [`*this == make_error_code(e)].
+[:zh_CN] [`*this == make_error_code(e)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 
 [para:remarks]
 [:en] This operator shall not participate in overload resolution unless
 [`is_error_code_enum<ErrorCodeEnum>::value] is [`true].
+[:zh_CN] 除非 [`is_error_code_enum<ErrorCodeEnum>::value] 为 [`true]，否则这个
+运算符不能参与重载决议。
 [exit:description]
 
 [%@library clear[!error_code]]
@@ -41,4 +47,5 @@ void clear() noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`value() == 0] and [`category() == system_category()].
+[:zh_CN] [`value() == 0] 并且 [`category() == system_category()]。
 [exit:description]
