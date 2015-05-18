@@ -1,10 +1,13 @@
 ﻿[section#c.limits
     [:en] C library
+    [:zh_CN] C 程序库
 ]
 
 [para]
 [:en]
 Table [#tab:support.hdr.climits] describes the header [`<climits>].
+[:zh_CN]
+表 [#tab:support.hdr.climits] 描述头文件 [`<climits>]。
 
 [%@library CHAR_BIT]
 [%@library INT_MAX]
@@ -28,12 +31,15 @@ Table [#tab:support.hdr.climits] describes the header [`<climits>].
 
 [table:listing#tab:support.hdr.climits
     [:en] Header [`<climits>] synopsis
+    [:zh_CN] 头文件 [`<climits>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -70,16 +76,22 @@ Table [#tab:support.hdr.climits] describes the header [`<climits>].
 [para]
 [:en]
 The contents are the same as the Standard C library header [`<limits.h>].
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<limits.h>] 相同。
 
 [enter:note]
 [:en]
 The types of the constants defined by macros in [`<climits>] are not required to
 match the types to which the macros refer.
+[:zh_CN]
+[`<climits>] 中的宏所定义的常量的类型不必与该宏所涉指的类型匹配。
 [exit:note]
 
 [para]
 [:en]
 Table [#tab:support.hdr.cfloat] describes the header [`<cfloat>].
+[:zh_CN]
+表 [#tab:support.hdr.cfloat] 描述头文件 [`<cfloat>]。
 
 [%@library DBL_DIG]
 [%@library DBL_MIN_EXP]
@@ -115,12 +127,15 @@ Table [#tab:support.hdr.cfloat] describes the header [`<cfloat>].
 
 [table:listing#tab:support.hdr.cfloat
     [:en] Header [`<cfloat>] synopsis
+    [:zh_CN] 头文件 [`<cfloat>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -170,7 +185,11 @@ Table [#tab:support.hdr.cfloat] describes the header [`<cfloat>].
 [para]
 [:en]
 The contents are the same as the Standard C library header [`<float.h>].
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<float.h>] 相同。
 
 [para:xref]
 [:en]
 ISO C 7.1.5, 5.2.4.2.2, 5.2.4.2.1.
+[:zh_CN]
+ISO C 7.1.5，5.2.4.2.2，5.2.4.2.1。
