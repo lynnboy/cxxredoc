@@ -1,5 +1,6 @@
 ﻿[section#support.initlist.access
     [:en] Initializer list access
+    [:zh_CN] 初始化式列表的访问
 ]
 
 [%@library begin[!initializer_list]]
@@ -11,8 +12,15 @@ constexpr const E* begin() const noexcept;
 [enter:description]
 [para:returns]
 [:en]
-A pointer to the beginning of the array. If [`size() == 0] the values of
-[`begin()] and [`end()] are unspecified but they shall be identical.
+A pointer to the beginning of the array.
+[:zh_CN]
+指向数组起始位置的指针。
+
+[:en]
+If [`size() == 0] the values of [`begin()] and [`end()] are unspecified but they
+shall be identical.
+[:zh_CN]
+若 [`size() == 0]，则 [`begin()] 和 [`end()] 是未指明的，但它们应当相等。
 [exit:description]
 
 [%@library end[!initializer_list]]
@@ -23,7 +31,7 @@ constexpr const E* end() const noexcept;
 
 [enter:description]
 [para:returns]
-[:en] [`begin() + size()]
+[`begin() + size()]
 [exit:description]
 
 [%@library size[!initializer_list]]
@@ -36,8 +44,12 @@ constexpr size_t size() const noexcept;
 [para:returns]
 [:en]
 The number of elements in the array.
+[:zh_CN]
+数组中元素的数量。
 
 [para:complexity]
 [:en]
 Constant time.
+[:zh_CN]
+常量时间。
 [exit:description]
