@@ -1,5 +1,6 @@
 ﻿[section#runtime.error
     [:en] Class [`runtime_error]
+    [:zh_CN] 类 [`runtime_error]
 ]
 
 [%@library runtime_error]
@@ -15,10 +16,11 @@ namespace std {
 
 [para]
 [:en]
-The class
-[`runtime_error]
-defines the type of objects thrown as exceptions to report errors presumably detectable only
-when the program executes.
+The class [`runtime_error] defines the type of objects thrown as exceptions to
+report errors presumably detectable only when the program executes.
+[:zh_CN]
+[`runtime_error] 类定义了作为异常而被抛出的对象的类型，用以报告假定只有在程序
+执行时才可被检测到的错误。
 
 [%@library runtime_error[!runtime_error]]
 [codeblock:declaration]
@@ -28,9 +30,11 @@ runtime_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`runtime_error].
+[:zh_CN] 构造一个 [`runtime_error] 类的对象
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library runtime_error[!runtime_error]]
@@ -41,7 +45,9 @@ runtime_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`runtime_error].
+[:zh_CN] 构造一个 [`runtime_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
