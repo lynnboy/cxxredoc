@@ -1,5 +1,6 @@
 ﻿[section#overflow.error
     [:en] Class [`overflow_error]
+    [:zh_CN] 类 [`overflow_error]
 ]
 
 [%@library overflow_error]
@@ -15,9 +16,10 @@ namespace std {
 
 [para]
 [:en]
-The class
-[`overflow_error]
-defines the type of objects thrown as exceptions to report an arithmetic overflow error.
+The class [`overflow_error] defines the type of objects thrown as exceptions to
+report an arithmetic overflow error.
+[:zh_CN]
+[`overflow_error] 类定义了作为异常而被抛出的对象的类型，用以报告算术上溢错误。
 
 [%@library overflow_error[!overflow_error]]
 [codeblock:declaration]
@@ -27,9 +29,11 @@ overflow_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`overflow_error].
+[:zh_CN] 构造一个 [`overflow_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library overflow_error[!overflow_error]]
@@ -40,7 +44,9 @@ overflow_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`overflow_error].
+[:zh_CN] 构造一个 [`overflow_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
