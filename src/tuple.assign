@@ -1,17 +1,25 @@
 ﻿[section#tuple.assign
     [:en] Assignment
+    [:zh_CN] 赋值
 ]
 
 [para]
 [:en]
 For each [`tuple] assignment operator, an exception is thrown only if the
 assignment of one of the types in [`Types] throws an exception.
+[:zh_CN]
+对于每个 [`tuple] 赋值运算符，仅当 [`Types] 中的一个类型的赋值抛出异常时，它才
+抛出异常。
 
 [:en]
 In the function descriptions that follow, let [$i] be in the range
 [=range[0,sizeof...(Types))] in order, [$T[_i]] be the [$i[^th]] type in
 [`Types], and [$U[_i]] be the [$i[^th]] type in a template parameter pack named
 [`UTypes], where indexing is zero-based.
+[:zh_CN]
+下文对函数的描述中，令 [$i] 在范围 [=range[0,sizeof...(Types))] 中依序取值，
+[$T[_i]] 为 [`Types] 中的第 [$i] 个类型，而 [$U[_i]] 为名为 [`UTypes] 的模板形参
+包组中的第 [$i] 个类型，其中的索引基于零。
 
 [%@library tuple[!operator=]]
 [%@library operator=[!tuple]]
@@ -22,12 +30,14 @@ tuple& operator=(const tuple& u);
 [enter:description]
 [para:requires]
 [:en] [`is_copy_assignable<[$T[_i]]>::value] is [`true] for all [$i].
+[:zh_CN] [`is_copy_assignable<[$T[_i]]>::value] 对于所有 [$i] 为 [`true]。
 
 [para:effects]
 [:en] Assigns each element of [`u] to the corresponding element of [`*this].
+[:zh_CN] 以 [`u] 的每个元素对 [`*this] 的对应元素赋值。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library tuple[!operator=]]
@@ -40,6 +50,7 @@ tuple& operator=(tuple&& u) noexcept([=Seebelow]);
 [para:remark]
 [:en] The expression inside [`noexcept] is equivalent to the logical [em@sc and]
 of the following expressions:
+[:zh_CN] [`noexcept] 中的表达式等价于以下表达式的逻辑 [em@sc and]：
 
 [codeblock:notation]
 is_nothrow_move_assignable<[$T[_i]]>::value
@@ -47,16 +58,22 @@ is_nothrow_move_assignable<[$T[_i]]>::value
 
 [:en@~]
 where [$T[_i]] is the [$i[^th]] type in [`Types].
+[:zh_CN@~]
+其中 [$T[_i]] 为 [`Types] 的第 [$i] 个类型。
 
 [para:requires]
 [:en] [`is_move_assignable<[$T[_i]]>::value] is [`true] for all [$i].
+[:zh_CN] [`is_move_assignable<[$T[_i]]>::value] 对于所有 [$i] 为 [`true]。
 
 [para:effects]
 [:en] For all [$i], assigns [`std::forward<[$T[_i]]>(get<[$i]>(u))] to
 [`get<[$i]>(*this)].
+[:zh_CN] 对于所有 [$i]，以 [`std::forward<[$T[_i]]>(get<[$i]>(u))] 对
+[`get<[$i]>(*this)] 进行赋值。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library tuple[!operator=]]
@@ -70,12 +87,15 @@ template <class... UTypes>
 [para:requires]
 [:en] [`sizeof...(Types) == sizeof...(UTypes)] and
 [`is_assignable<[$T[_i]]&, const [$U[_i]]&>::value] is [`true] for all [$i].
+[:zh_CN] [`sizeof...(Types) == sizeof...(UTypes)] 并且对于所有 [$i]
+[`is_assignable<[$T[_i]]&, const [$U[_i]]&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns each element of [`u] to the corresponding element of [`*this].
+[:zh_CN] 以 [`u] 的每个元素对 [`*this] 的对应元素进行赋值。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library tuple[!operator=]]
@@ -88,15 +108,20 @@ template <class... UTypes>
 [enter:description]
 [para:requires]
 [:en] [`is_assignable<Ti&, Ui&&>::value == true] for all [`i].
+[:zh_CN] 对于所有 [`i]，[`is_assignable<Ti&, Ui&&>::value == true]。
 
 [:en] [`sizeof...(Types) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(Types) == sizeof...(UTypes)]。
 
 [para:effects]
 [:en] For all [$i], assigns [`std::forward<[$U[_i]]>(get<[$i])>(u))] to
 [`get<[$i]>(*this)].
+[:zh_CN] 对于所有 [$i]，以 [`std::forward<[$U[_i]]>(get<[$i])>(u))] 对
+[`get<[$i]>(*this)] 进行赋值。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library tuple[!operator=]]
@@ -109,17 +134,23 @@ template <class U1, class U2> tuple& operator=(const pair<U1, U2>& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == 2].
+[:zh_CN] [`sizeof...(Types) == 2]。
 
 [:en] [`is_assignable<[$T[_0]]&, const U1&>::value] is [`true] for the first
 type [$T[_0]] in [`Types] and [`is_assignable<[$T[_1]]&, const U2&>::value] is
 [`true] for the second type [$T[_1]] in [`Types].
+[:zh_CN] 对于 [`Types] 中的第一个类型 [$T[_0]]，[`is_assignable<[$T[_0]]&, const
+U1&>::value] 为 [`true]，并且对于 [`Types] 中的第二个类型 [$T[_1]]，
+[`is_assignable<[$T[_1]]&, const U2&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns [`u.first] to the first element of [`*this] and [`u.second] to the
 second element of [`*this].
+[:zh_CN] 以 [`u.first] 对 [`*this] 的第一个元素赋值，并以 [`u.second] 对
+[`*this] 的第二个元素赋值。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library tuple[!operator=]]
@@ -132,15 +163,22 @@ template <class U1, class U2> tuple& operator=(pair<U1, U2>&& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == 2].
+[:zh_CN] [`sizeof...(Types) == 2]。
 
 [:en] [`is_assignable<[$T[_0]]&, U1&&>::value] is [`true] for the first type
 [$T[_0]] in [`Types] and [`is_assignable<[$T[_1]]&, U2&&>::value] is [`true] for
 the second type [$T[_1]] in [`Types].
+[:zh_CN] 对于 [`Types] 中的第一个类型 [$T[_0]]，[`is_assignable<[$T[_0]]&,
+U1&&>::value] 为 [`true]，并且对于 [`Types] 中的第二个类型 [$T[_1]]，
+[`is_assignable<[$T[_1]]&, U2&&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Assigns [`std::forward<U1>(u.first)] to the first element of [`*this] and
 [`std::forward<U2>(u.second)] to the second element of [`*this].
+[:zh_CN] 以 [`std::forward<U1>(u.first)] 对 [`*this] 的第一个元素赋值，并以
+[`std::forward<U2>(u.second)] 对 [`*this] 的第二个元素赋值。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
