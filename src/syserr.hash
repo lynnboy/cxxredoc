@@ -1,5 +1,6 @@
 ﻿[section#syserr.hash
     [:en] System error hash support
+    [:zh_CN] 系统错误的散列支持
 ]
 
 [%@library hash]
@@ -11,4 +12,5 @@ template <> struct hash<error_code>;
 [para]
 [:en] The template specialization shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 该模板特例应当满足类模板 [`hash] 的规定（[#unord.hash]）。
 [exit:description]
