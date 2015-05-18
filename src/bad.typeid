@@ -1,5 +1,6 @@
 ﻿[section#bad.typeid
     [:en] Class [`bad_typeid]
+    [:zh_CN] 类 [`bad_typeid]
 ]
 
 [%@library bad_typeid]
@@ -18,8 +19,11 @@ namespace std {
 [para]
 [:en]
 The class [`bad_typeid] defines the type of objects thrown as exceptions by the
-implementation to report a null pointer in a [~typeid] expression
+implementation to report a null pointer in a [+typeid] expression
 ([#expr.typeid]).
+[:zh_CN]
+[`bad_typeid] 类定义了当实现报告 [`typeid] 表达式（[#expr.typeid]）中的空指针时
+所抛出的异常对象的类型。
 
 [%@library bad_typeid[!bad_typeid]]
 [codeblock:declaration]
@@ -30,11 +34,15 @@ bad_typeid() noexcept;
 [para:effects]
 [:en]
 Constructs an object of class [`bad_typeid].
+[:zh_CN]
+构造类 [`bad_typeid] 的对象。
 
 [para:notes]
 [:en]
 The result of calling [`what()] on the newly constructed object is
 [%implementation-defined] implementation-defined.
+[:zh_CN]
+在新构造的对象上调用 [`what()] 的结果是[%由实现定义的]由实现定义的。
 [exit:description]
 
 [%@library bad_typeid[!bad_typeid]]
@@ -48,6 +56,8 @@ bad_typeid& operator=(const bad_typeid&) noexcept;
 [para:effects]
 [:en]
 Copies an object of class [`bad_typeid].
+[:zh_CN]
+复制一个类 [`bad_typeid] 的对象。
 [exit:description]
 
 [%@library what[!bad_typeid]]
@@ -61,10 +71,16 @@ virtual const char* what() const noexcept;
 [%[`bad_typeid::what][!implementation-defined]]
 An [%@impldef return value of [`bad_typeid::what]] implementation-defined
 [em@sc ntbs].
+[:zh_CN]
+[%[`bad_typeid::what][!由实现定义的]]
+一个[%@impldef [`bad_typeid::what] 的返回值]由实现定义的 [em@sc ntbs]。
 
 [para:notes]
 [:en]
 The message may be a null-terminated multibyte string ([#multibyte.strings]),
 suitable for conversion and display as a [`wstring] ([#string.classes],
 [#locale.codecvt])
+[:zh_CN]
+该消息可能是个空终结多字节字符串（[#multibyte.strings]），且适于转换并显示为一个
+[`wstring]（[#string.classes]，[#locale.codecvt]）。
 [exit:description]
