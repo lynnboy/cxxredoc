@@ -1,20 +1,26 @@
 ﻿[section#reserved.names
     [:en] Reserved names
+    [:zh_CN] 
 ]
 
-[% [:en] name[!reserved]]
+[% [:en] name[!reserved]
+   [:zh_CN] 名字[!保留的～] ]
 
 [para]
 [:en]
 The [=Cpp] standard library reserves the following kinds of names:
+[:zh_CN] [=Cpp] 标准程序库保留了下列种类的名字：
 
 [list]
 [item]
 [:en@~] macros
+[:zh_CN@~] 宏
 [item]
 [:en@~] global names
+[:zh_CN@~] 全局名字
 [item]
 [:en@~] names with external linkage
+[:zh_CN@~] 具有外部连接的名字
 [list:end]
 
 [para]
@@ -22,6 +28,9 @@ The [=Cpp] standard library reserves the following kinds of names:
 If a program declares or defines a name in a context where it is reserved, other
 than as explicitly allowed by this Clause, its behavior is [%undefined]
 undefined.
+[:zh_CN]
+若程序在某个名字被保留的语境中对它进行声明或定义，除非本条款明确允许，否则其行为
+是[%未定义的]未定义的。
 
 [include macro.names]
 
