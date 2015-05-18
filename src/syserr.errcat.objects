@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcat.objects
     [:en] Error category objects
+    [:zh_CN] 错误类别对象
 ]
 
 [%@library generic_category]
@@ -10,15 +11,20 @@ const error_category& generic_category() noexcept;
 [enter:description]
 [para:returns]
 [:en] A reference to an object of a type derived from class [`error_category].
+[:zh_CN] 指代派生自类 [`error_category] 的类型的某个对象的引用。
 
 [:en] All calls to this function shall return references to the same object.
+[:zh_CN] 对该函数的所有调用应当返回指代相同对象的引用。
 
 [para:notes]
 [:en] The object[=']s [`default_error_condition] and [`equivalent] virtual
 functions shall behave as specified for the class [`error_category].
+[:zh_CN] 该对象的 [`default_error_condition] 和 [`equivalent] 虚函数应当具有符合
+类 [`error_category] 所指定的行为。
 
 [:en] The object[=']s [`name] virtual function shall return a pointer to the
 string [`"generic"].
+[:zh_CN] 该对象的 [`name] 虚函数应当返回指向字符串 [`"generic"] 的指针。
 [exit:description]
 
 [%@library system_category]
@@ -29,33 +35,46 @@ const error_category& system_category() noexcept;
 [enter:description]
 [para:returns]
 [:en] A reference to an object of a type derived from class [`error_category].
+[:zh_CN] 指代派生自类 [`error_category] 的类型的某个对象的引用。
 
 [:en] All calls to this function shall return references to the same object.
+[:zh_CN] 对该函数的所有调用应当返回指代相同对象的引用。
 
 [para:notes]
 [:en] The object[=']s [`equivalent] virtual functions shall behave as specified
 for class [`error_category].
+[:zh_CN] 该对象的 [`equivalent] 虚函数应当具有符合类 [`error_category] 所指定的
+行为。
 
 [:en] The object[=']s [`name] virtual function shall return a pointer to the
 string [`"system"].
+[:zh_CN] 该对象的 [`name] 虚函数应当返回指向字符串 [`"system"] 的指针。
 
 [:en] The object[=']s [`default_error_condition] virtual function shall behave
 as follows:
+[:zh_CN] 该对象的 [`default_error_condition] 虚函数应当有如下行为：
 
 [para:~]
 [:en] If the argument [`ev] corresponds to a POSIX [`errno] value [`posv], the
 function shall return [`error_condition(posv, generic_category())].
+[:zh_CN] 若实参 [`ev] 对应于某个 POSIX [`errno] 值 [`posv]，则该函数应当返回
+[`error_condition(posv, generic_category())]。
 
 [:en] Otherwise, the function shall return [`error_condition(ev,
 system_category())].
+[:zh_CN] 否则，该函数应当返回 [`error_condition(ev, system_category())]。
 
 [:en] What constitutes correspondence for any given operating system is
 unspecified.
+[:zh_CN] 对任意给定操作系统，如何制定对应关系是未指明的。
 
 [enter:note]
 [:en] The number of potential system error codes is large and unbounded, and
 some may not correspond to any POSIX [`errno] value.
+[:zh_CN] 潜在的系统错误号码是巨大且无界的，而且其中一些可能无法对应到任何 POSIX
+[`errno] 值。
 
 [:en] Thus implementations are given latitude in determining correspondence.
+[:zh_CN] 故而将决定其对应关系的自主权交给实现。
 [exit:note]
 [exit:description]
