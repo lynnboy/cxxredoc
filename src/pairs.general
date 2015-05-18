@@ -1,17 +1,25 @@
 ﻿[section#pairs.general
     [:en] In general
+    [:zh_CN] 综述
 ]
+
+[%@library pair]
 
 [para]
 [:en]
 The library provides a template for heterogeneous pairs of values.
+[:zh_CN]
+程序库提供了一个异质值对偶的模板。
 
 [:en]
+[%[`pair][!tuple interface to]]
+[%[`tuple][!and [`pair]]]
 The library also provides a matching function template to simplify their
 construction and several templates that provide access to [`pair] objects as if
 they were [`tuple] objects (see [#tuple.helper] and [#tuple.elem]).
-
-[%@library pair]
-[%[`pair][!tuple interface to]]
-[%[`tuple][!and pair@and [`pair]]]
-
+[:zh_CN]
+[%[`pair][!～的 tuple 接口]]
+[%[`tuple][!～与 [`pair]]]
+程序库还提供了用以简化它们的构造的相匹配的函数模板，以及几个提供对 [`pair] 对象
+的如同它们是 [`tuple] 对象那样的访问方式的模板（参见 [#tuple.helper] 和
+[#tuple.elem]）。
