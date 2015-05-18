@@ -1,5 +1,6 @@
 ﻿[section#utility.exchange
     [:en] exchange
+    [:zh_CN] exchange
 ]
 
 [codeblock:declaration]
@@ -9,8 +10,9 @@ template <class T, class U=T> T exchange(T& obj, U&& new_val);
 [enter:description]
 [para:effects]
 [:en] Equivalent to:
+[:zh_CN] 等价于：
 
-[codeblock]
+[codeblock:notation]
 T old_val = std::move(obj);
 obj = std::forward<U>(new_val);
 return old_val;
