@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcondition.modifiers
     [:en] Class [`error_condition] modifiers
+    [:zh_CN] 类 [`error_condition] 的改动函数
 ]
 
 [%@library assign[!error_condition]]
@@ -11,6 +12,7 @@ void assign(int val, const error_category& cat) noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`val_ == val] and [`cat_ == &cat].
+[:zh_CN] [`val_ == val] 并且 [`cat_ == &cat]。
 [exit:description]
 
 [%@library operator=[!error_condition]]
@@ -23,13 +25,17 @@ template <class ErrorConditionEnum>
 [enter:description]
 [para:postcondition]
 [:en] [`*this == make_error_condition(e)].
+[:zh_CN] [`*this == make_error_condition(e)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 
 [para:remarks]
 [:en] This operator shall not participate in overload resolution unless
 [`is_error_condition_enum<ErrorConditionEnum>::value] is [`true].
+[:zh_CN] 除非 [`is_error_condition_enum<ErrorConditionEnum>::value] 为 [`true]，
+否则这个运算符不能参与重载决议。
 [exit:description]
 
 [%@library clear[!error_condition]]
@@ -41,4 +47,5 @@ void clear() noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`value() == 0] and [`category() == generic_category()].
+[:zh_CN] [`value() == 0] 并且 [`category() == generic_category()]。
 [exit:description]
