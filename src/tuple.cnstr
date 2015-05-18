@@ -1,11 +1,15 @@
 ﻿[section#tuple.cnstr
     [:en] Construction
+    [:zh_CN] 构造
 ]
 
 [para]
 [:en]
 For each [`tuple] constructor, an exception is thrown only if the construction
 of one of the types in [`Types] throws an exception.
+[:zh_CN]
+对于每个 [`tuple] 构造函数，仅当 [`Types] 中的一个类型的构造抛出异常时，它才抛出
+异常。
 
 [para]
 [:en]
@@ -13,10 +17,15 @@ The defaulted move and copy constructor, respectively, of [`tuple] shall be a
 [`constexpr] function if and only if all required element-wise initializations
 for copy and move, respectively, would satisfy the requirements for a
 [`constexpr] function.
+[:zh_CN]
+[`tuple] 的预置移动和复制构造函数，当且仅当其对应的所有需要的按元素复制或移动
+初始化能够符合 [`constexpr] 函数的规定，则它是 [`constexpr] 函数。
 
 [:en]
 The defaulted move and copy constructor of [`tuple<>] shall be [`constexpr]
 functions.
+[:zh_CN]
+[`tuple<>] 的预置移动和复制构造函数应当是 [`constexpr] 函数。
 
 [para]
 [:en]
@@ -24,6 +33,10 @@ In the constructor descriptions that follow, let [$i] be in the range
 [=range[0,sizeof...(Types))] in order, [$T[_i]] be the [$i[^th]] type in
 [`Types], and [$U[_i]] be the [$i[^th]] type in a template parameter pack named
 [`UTypes], where indexing is zero-based.
+[:zh_CN]
+下文对构造函数的描述中，令 [$i] 在范围 [=range[0,sizeof...(Types))] 中依序取值，
+[$T[_i]] 为 [`Types] 中的第 [$i] 个类型，而 [$U[_i]] 为名为 [`UTypes] 的模板形参
+包组中的第 [$i] 个类型，其中的索引基于零。
 
 [%@library tuple[!tuple]]
 [codeblock:declaration]
@@ -33,12 +46,14 @@ constexpr tuple();
 [enter:description]
 [para:requires]
 [:en] [`is_default_constructible<[$T[_i]]>::value] is true for all [$i].
+[:zh_CN] [`is_default_constructible<[$T[_i]]>::value] 对于所有 [$i] 为真。
 
 [para:effects]
 [:en] Value initializes each element.
+[:zh_CN] 值初始化其每个元素。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr explicit tuple(const Types&...);
 [codeblock:end]
@@ -46,12 +61,14 @@ constexpr explicit tuple(const Types&...);
 [enter:description]
 [para:requires]
 [:en] [`is_copy_constructible<[$T[_i]]>::value] is true for all [$i].
+[:zh_CN] [`is_copy_constructible<[$T[_i]]>::value] 对于所有 [$i] 为真。
 
 [para:effects]
 [:en] Initializes each element with the value of the corresponding parameter.
+[:zh_CN] 以对应形参的值初始化其每个元素。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class... UTypes>
   constexpr explicit tuple(UTypes&&... u);
@@ -60,20 +77,26 @@ template <class... UTypes>
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(Types) == sizeof...(UTypes)]。
 
 [:en] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] is [`true] for all [$i].
+[:zh_CN] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] 对于每个 [$i] 为
+[`true]。
 
 [para:effects]
 [:en] Initializes the elements in the tuple with the corresponding value in
 [`std::forward<UTypes>(u)].
+[:zh_CN] 以 [`std::forward<UTypes>(u)] 中的对应值初始化元组中的各个元素。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless each
 type in [`UTypes] is implicitly convertible to its corresponding type in
 [`Types].
+[:zh_CN] 除非 [`UTypes] 的每个类型均可隐式转换为 [`Types] 中的对应类型，否则这个
+构造函数不能参与重载决议。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 tuple(const tuple& u) = default;
 [codeblock:end]
@@ -81,13 +104,15 @@ tuple(const tuple& u) = default;
 [enter:description]
 [para:requires]
 [:en] [`is_copy_constructible<[$T[_i]]>::value] is [`true] for all [$i].
+[:zh_CN] [`is_copy_constructible<[$T[_i]]>::value] 对于所有 [$i] 为 [`true]。
 
 [para:effects]
 [:en] Initializes each element of [`*this] with the corresponding element of
 [`u].
+[:zh_CN] 以 [`u] 的对应元素初始化 [`*this] 的每个元素。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 tuple(tuple&& u) = default;
 [codeblock:end]
@@ -95,13 +120,16 @@ tuple(tuple&& u) = default;
 [enter:description]
 [para:requires]
 [:en] [`is_move_constructible<[$T[_i]]>::value] is [`true] for all [$i].
+[:zh_CN] [`is_move_constructible<[$T[_i]]>::value] 对于所有 [$i] 为 [`true]。
 
 [para:effects]
 [:en] For all [$i], initializes the [$i[^th]] element of [`*this] with
 [`std::forward<[$T[_i]]>(get<[$i]>(u))].
+[:zh_CN] 对于所有 [$i]，以 [`std::forward<[$T[_i]]>(get<[$i]>(u))] 初始化
+[`*this] 的第 [$i] 个元素。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class... UTypes> constexpr tuple(const tuple<UTypes...>& u);
 [codeblock:end]
@@ -109,20 +137,26 @@ template <class... UTypes> constexpr tuple(const tuple<UTypes...>& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(Types) == sizeof...(UTypes)]。
 
 [:en] [`is_constructible<[$T[_i]], const [$U[_i]]&>::value] is [`true] for all
 [$i].
+[:zh_CN] [`is_constructible<[$T[_i]], const [$U[_i]]&>::value] 对于所有 [$i] 为
+[`true]。
 
 [para:effects]
 [:en] Constructs each element of [`*this] with the corresponding element of
 [`u].
+[:zh_CN] 以 [`u] 的对应元素构造 [`*this] 的各个元素。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless
 [`const [$U[_i]]&] is implicitly convertible to [$T[_i]] for all [$i].
+[:zh_CN] 除非对于所有 [$i]，[`const [$U[_i]]&] 均可以隐式转换为 [$T[_i]]，否则
+这个构造函数不能参与重载决议。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class... UTypes> constexpr tuple(tuple<UTypes...>&& u);
 [codeblock:end]
@@ -130,20 +164,27 @@ template <class... UTypes> constexpr tuple(tuple<UTypes...>&& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(Types) == sizeof...(UTypes)]。
 
 [:en] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] is [`true] for all [$i].
+[:zh_CN] [`is_constructible<[$T[_i]], [$U[_i]]&&>::value] 对于所有 [$i] 为
+[`true]。
 
 [para:effects]
 [:en] For all [$i], initializes the [$i[^th]] element of [`*this] with
 [`std::forward<[$U[_i]]>(get<[$i]>(u))].
+[:zh_CN] 对于所有 [$i]，以 [`std::forward<[$U[_i]]>(get<[$i]>(u))] 初始化
+[`*this] 的第 [$i] 个元素。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless
 each type in [`UTypes] is implicitly convertible to its corresponding type in
 [`Types].
+[:zh_CN] 除非 [`UTypes] 中的每个类型均可以隐式转换为 [`Types] 中的对应类型，否则
+这个构造函数不能参与重载决议。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [%@library pair]
 [codeblock:declaration]
 template <class U1, class U2> constexpr tuple(const pair<U1, U2>& u);
@@ -152,22 +193,29 @@ template <class U1, class U2> constexpr tuple(const pair<U1, U2>& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == 2].
+[:zh_CN] [`sizeof...(Types) == 2]。
 
 [:en] [`is_constructible<[$T[_0]], const U1&>::value] is [`true] for the first
 type [$T[_0]] in [`Types] and [`is_constructible<[$T[_1]], const U2&>::value] is
 [`true] for the second type [$T[_1]] in [`Types].
+[:zh_CN] 对于 [`Types] 中的第一个类型 [$T[_0]] 有 [`is_constructible<[$T[_0]],
+const U1&>::value] 为 [`true]，且对于 [`Types] 中的第二个类型 [$T[_1]] 有
+[`is_constructible<[$T[_1]], const U2&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Constructs the first element with [`u.first] and the second element with
 [`u.second].
+[:zh_CN] 以 [`u.first] 构造第一个元素，并以 [`u.second] 构造第二个元素。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless
 [`const U1&] is implicitly convertible to [$T[_0]] and [`const U2&]
 is implicitly convertible to [$T[_1]].
+[:zh_CN] 除非 [`const U1&] 可以隐式转换为 [$T[_0]]，且 [`const U2&] 可以隐式转换
+为 [$T[_1]]，否则这个构造函数不能参与重载决议。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [%@library pair]
 [codeblock:declaration]
 template <class U1, class U2> constexpr tuple(pair<U1, U2>&& u);
@@ -176,22 +224,30 @@ template <class U1, class U2> constexpr tuple(pair<U1, U2>&& u);
 [enter:description]
 [para:requires]
 [:en] [`sizeof...(Types) == 2].
+[:zh_CN] [`sizeof...(Types) == 2]。
 
 [:en] [`is_constructible<[$T[_0]], U1&&>::value] is [`true] for the first type
 [$T[_0]] in [`Types] and [`is_constructible<[$T[_1]], U2&&>::value] is [`true]
 for the second type [$T[_1]] in [`Types].
+[:zh_CN] 对于 [`Types] 中的第一个类型 [$T[_0]] 有 [`is_constructible<[$T[_0]],
+U1&&>::value] 为 [`true]，且对于 [`Types] 中的第二个类型 [$T[_1]] 有
+[`is_constructible<[$T[_1]], U2&&>::value] 为 [`true]。
 
 [para:effects]
 [:en] Initializes the first element with [`std::forward<U1>(u.first)] and the
 second element with [`std::forward<U2>(u.second)].
+[:zh_CN] 以 [`std::forward<U1>(u.first)] 初始化第一个元素，并以
+[`std::forward<U2>(u.second)] 初始化第二个元素。
 
 [para:remark]
 [:en] This constructor shall not participate in overload resolution unless [`U1]
 is implicitly convertible to [$T[_0]] and [`U2] is implicitly convertible to
 [$T[_1]].
+[:zh_CN] 除非 [`U1] 可以隐式转换为 [$T[_0]] 并且 [`U2] 可以隐式转换为 [$T[_1]]，
+否则这个构造函数不能参与重载决议。
 [exit:description]
 
-[%@library [:en] tuple[!constructor]]
+[%@library tuple[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class Alloc>
   tuple(allocator_arg_t, const Alloc& a);
@@ -217,8 +273,11 @@ template <class Alloc, class U1, class U2>
 [para:requires]
 [:en] [`Alloc] shall meet the requirements for an [`Allocator]
 ([#allocator.requirements]).
+[:zh_CN] [`Alloc] 应当符合 [`Allocator] 的规定（[#allocator.requirements]）。
 
 [para:effects]
 [:en] Equivalent to the preceding constructors except that each element is
 constructed with uses-allocator construction ([#allocator.uses.construction]).
+[:zh_CN] 等价于之前的构造函数，但其各个元素的构造均为应用分配器的构造
+（[#allocator.uses.construction]）。
 [exit:description]
