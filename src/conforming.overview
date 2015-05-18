@@ -1,11 +1,14 @@
 ﻿[section#conforming.overview
     [:en] Overview
+    [:zh_CN] 概述
 ]
 
 [para]
 [:en]
 This section describes the constraints upon, and latitude of, implementations of
 the [=Cpp] standard library.
+[:zh_CN]
+本节说明对 [=Cpp] 标准程序库的实现的各种约束和自由度条件。
 
 [para]
 [:en]
@@ -15,3 +18,9 @@ in [#global.functions], member functions in [#member.functions], data race
 avoidance in [#res.on.data.races], access specifiers
 in [#protection.within.classes], class derivation in [#derivation], and
 exceptions in [#res.on.exception.handling].
+[:zh_CN]
+实现如何使用头文件在 [#res.on.headers] 中讨论，如何使用宏在
+[#res.on.macro.definitions] 中，全局函数在 [#global.functions] 中，成员函数在
+[#member.functions] 中，如何避免数据竞争在 [#res.on.data.races] 中，访问说明符在
+[#protection.within.classes] 中，类继承在 [#derivation] 中，而异常在
+[#res.on.exception.handling] 中讨论。
