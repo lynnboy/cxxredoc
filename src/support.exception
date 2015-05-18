@@ -1,14 +1,18 @@
 ﻿[section#support.exception
     [:en] Exception handling
+    [:zh_CN] 异常处理
 ]
 
 [para]
 [:en]
 The header [`<exception>] defines several types and functions related to the
 handling of exceptions in a [=Cpp] program.
+[:zh_CN]
+头文件 [`<exception>] 定义了与在 [=Cpp] 程序中处理异常有关的几个类型和函数。
 
 [para:synopsis]
 [:en] Header [`<exception>] synopsis
+[:zh_CN] 头文件 [`<exception>] 纲要
 
 [%[`<exception>][sortas exception]] [%@library <exception>[sortas exception]]
 [codeblock:synopsis [special unspecified] ]
@@ -43,6 +47,7 @@ namespace std {
 
 [para:xref]
 [:en] [#except.special].
+[:zh_CN] [#except.special]。
 
 [include exception]
 
