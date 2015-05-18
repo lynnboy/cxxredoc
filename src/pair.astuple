@@ -1,5 +1,6 @@
 ﻿[section#pair.astuple
     [:en] Tuple-like access to pair
+    [:zh_CN] tuple 式的 pair 访问
 ]
 
 [%@library tuple_size]
@@ -17,6 +18,7 @@ tuple_element<0, pair<T1, T2> >::type
 [enter:description]
 [para:value]
 [:en] the type [`T1].
+[:zh_CN] 类型 [`T1]。
 [exit:description]
 
 [%@library tuple_element]
@@ -27,6 +29,7 @@ tuple_element<1, pair<T1, T2> >::type
 [enter:description]
 [para:value]
 [:en] the type [`T2].
+[:zh_CN] 类型 [`T2]。
 [exit:description]
 
 [%@library pair[!get]]
@@ -44,6 +47,8 @@ template<size_t I, class T1, class T2>
 [para:returns]
 [:en] If [`I == 0] returns [`p.first]; if [`I == 1] returns [`p.second];
 otherwise the program is ill-formed.
+[:zh_CN] 当 [`I == 0] 时返回 [`p.first]；当 [`I == 1] 时返回 [`p.second]；否则
+程序非良构。
 [exit:description]
 
 [%@library pair[!get]]
@@ -58,6 +63,8 @@ template<size_t I, class T1, class T2>
 [para:returns]
 [:en] If [`I == 0] returns [`std::forward<T1&&>(p.first)]; if [`I == 1] returns
 [`std::forward<T2&&>(p.second)]; otherwise the program is ill-formed.
+[:zh_CN] 当 [`I == 0] 时返回 [`std::forward<T1&&>(p.first)]；当 [`I == 1] 时返回
+[`std::forward<T2&&>(p.second)]；否则程序非良构。
 [exit:description]
 
 [%@library pair[!get]]
@@ -72,11 +79,13 @@ template <class T, class U>
 [enter:description]
 [para:requires]
 [:en] [`T] and [`U] are distinct types.
+[:zh_CN] [`T] 和 [`U] 是不同的类型。
 
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [para:returns]
-[:en] [`get<0>(p);]
+[`get<0>(p);]
 [exit:description]
 
 [%@library pair[!get]]
@@ -89,11 +98,13 @@ template <class T, class U>
 [enter:description]
 [para:requires]
 [:en] [`T] and [`U] are distinct types.
+[:zh_CN] [`T] 和 [`U] 是不同的类型。
 
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [para:returns]
-[:en] [`get<0>(std::move(p));]
+[`get<0>(std::move(p));]
 [exit:description]
 
 [%@library pair[!get]]
@@ -108,8 +119,10 @@ template <class T, class U>
 [enter:description]
 [para:requires]
 [:en] [`T] and [`U] are distinct types.
+[:zh_CN] [`T] 和 [`U] 是不同的类型。
 
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [para:returns]
 [:en] [`get<1>(p);]
@@ -124,8 +137,12 @@ template <class T, class U>
 
 [enter:description]
 [para:requires]
-[:en] [`T] and [`U] are distinct types. Otherwise, the program is ill-formed.
+[:en] [`T] and [`U] are distinct types.
+[:zh_CN] [`T] 和 [`U] 是不同的类型。
+
+[:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [para:returns]
-[:en] [`get<1>(std::move(p));]
+[`get<1>(std::move(p));]
 [exit:description]
