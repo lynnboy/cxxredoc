@@ -1,11 +1,15 @@
 ﻿[section#new.delete
     [:en] Storage allocation and deallocation
+    [:zh_CN] 存储的分配和回收
 ]
 
 [para]
 [:en]
 Except where otherwise specified, the provisions of ([#basic.stc.dynamic])
 apply to the library versions of [`operator new] and [`operator delete].
+[:zh_CN]
+除非另行指明，[#basic.stc.dynamic] 中的规定适用于 [`operator new] 和 [`operator
+delete] 的程序库版本。
 
 [include new.delete.single]
 
