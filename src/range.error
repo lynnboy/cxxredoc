@@ -1,5 +1,6 @@
 ﻿[section#range.error
     [:en] Class [`range_error]
+    [:zh_CN] 类 [`range_error]
 ]
 
 [%@library range_error]
@@ -15,10 +16,11 @@ namespace std {
 
 [para]
 [:en]
-The class
-[`range_error]
-defines the type of objects thrown as exceptions to report range errors
-in internal computations.
+The class [`range_error] defines the type of objects thrown as exceptions to
+report range errors in internal computations.
+[:zh_CN]
+[`range_error] 类定义了作为异常而被抛出的对象的类型，用以报告内部计算中的值域
+错误。
 
 [%@library range_error[!range_error]]
 [codeblock:declaration]
@@ -28,9 +30,11 @@ range_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`range_error].
+[:zh_CN] 构造一个 [`range_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library range_error[!range_error]]
@@ -41,7 +45,9 @@ range_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`range_error].
+[:zh_CN] 构造一个 [`range_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
