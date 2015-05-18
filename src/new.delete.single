@@ -215,7 +215,7 @@ earlier call to the (possibly replaced) [`operator new(std::size_t)] or
 [`operator new(std::size_t,const std::nothrow_t&)] which has not been
 invalidated by an intervening call to [`operator delete(void*)].
 [:zh_CN]
-[$ptr] 应当为空指针，或者其值应当是从早前对（可能已被替代的）的 [`operator
+[$ptr] 应当为空指针，或者其值应当是从早前对（可能已被替代的） [`operator
 new(std::size_t)] 或 [`operator new(std::size_t,const std::nothrow_t&)] 的调用
 所返回的，且未被介于其间的对 [`operator delete(void*)] 的调用变为无效的值。
 
