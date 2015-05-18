@@ -1,5 +1,6 @@
 ﻿[section#res.on.arguments
     [:en] Function arguments
+    [:zh_CN] 函数实参
 ]
 
 [para]
@@ -9,13 +10,21 @@
 Each of the following applies to all arguments [%argument] to functions defined
 in the [=Cpp] standard library, [%library[!C++ standard]] unless explicitly
 stated otherwise.
+[:zh_CN]
+[%限制]
+[%实参]
+除非有另外明确陈述，下列每项均适用于所有在 [%程序库[!C++ 标准～]] [=Cpp] 标准
+程序库中定义的函数的[%实参]实参。
 
 [list]
 [item]
 [:en]
-If an argument to a function has an invalid value (such [%argument] as a value
+If an [%argument] argument to a function has an invalid value (such as a value
 outside the domain of the function or a pointer invalid for its intended use),
 the behavior is [%undefined] undefined.
+[:zh_CN]
+若某函数的[%实参]实参带有无效的值（比如处于函数定义域之外的值，或对于其使用意图
+无效的指针），则其行为是[%未定义的]未定义的。
 
 [item]
 [:en]
@@ -23,18 +32,27 @@ If a function argument is described as being an array, [%argument] the pointer
 actually passed to the function shall have a value such that all address
 computations and accesses to objects (that would be valid if the pointer did
 point to the first element of such an array) are in fact valid.
+[:zh_CN]
+若某函数[%实参]实参被描述为数组，则实际被传递给该函数的指针应当具有一个值，使得
+所有地址计算和对对象的访问（如当该指针确实指向这种数组的第一个元素时即为有效的）
+实际上均为有效的。
 
 [item]
 [:en]
 If a function argument binds to an rvalue reference parameter, the
 implementation may assume that this parameter is a unique reference to this
 argument.
+[:zh_CN]
+若某函数实参绑定到某个右值引用形参，则实现可以假设该形参是对该形参的唯一引用。
 
 [enter:note]
 [:en]
 If the parameter is a generic parameter of the form [`T&&] and an lvalue of type
 [`A] is bound, the argument binds to an lvalue reference ([#temp.deduct.call])
 and thus is not covered by the previous sentence.
+[:zh_CN]
+若形参是形式为 [`T&&] 的泛型形参，且绑定了类型 [`A] 的一个左值，则实参绑定到一个
+左值引用上（[#temp.deduct.call]），且因此并不属于这一句话的范围。
 [exit:note]
 
 [enter:note]
@@ -42,9 +60,14 @@ and thus is not covered by the previous sentence.
 If a program casts an lvalue to an xvalue while passing that lvalue to a library
 function (e.g. by calling the function with the argument [`move(x)]), the
 program is effectively asking that function to treat that lvalue as a temporary.
+[:zh_CN]
+如果程序把一个左值强制转换为临期值后再传递给某个程序库函数（比如以实参
+[`move(x)] 来调用这个函数），则程序相当于要求这个函数把该左值当作一个临时对象。
 
 [:en]
 The implementation is free to optimize away aliasing checks which might be
 needed if the argument was an lvalue.
+[:zh_CN]
+对于当实参为左值时可能需要进行的别名检查，实现可以随意将其优化掉。
 [exit:note]
 [list:end]
