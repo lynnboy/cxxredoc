@@ -1,5 +1,5 @@
 ﻿[section#uncaught.exceptions
-    [:en] [`uncaught_exceptions]
+    [`uncaught_exceptions]
 ]
 
 [%@library uncaught_exceptions]
@@ -11,9 +11,14 @@ int uncaught_exceptions() noexcept;
 [para:returns]
 [:en]
 The number of uncaught exceptions ([#except.uncaught]).
+[:zh_CN]
+未捕获的异常的数量（[#except.uncaught]）。
 
 [para:notes]
 [:en]
 When [`uncaught_exceptions() > 0], throwing an exception can result in a call of
 [`std::terminate()] ([#except.terminate]).
+[:zh_CN]
+当 [`uncaught_exceptions() > 0] 时，抛出异常将导致调用 [`std::terminate()]
+（[#except.terminate]）。
 [exit:description]
