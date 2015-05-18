@@ -1,5 +1,6 @@
 ﻿[section#derived.classes
     [:en] Derived classes
+    [:zh_CN] 派生类
 ]
 
 [para]
@@ -8,3 +9,7 @@
 Virtual member function signatures defined for a [%class[!base]] base class in
 the [%library[!C++ standard]] [=Cpp] standard library may be overridden in a
 derived class defined in the program ([#class.virtual]).
+[:zh_CN]
+[%函数[!虚成员～]]
+在[%程序库[!C++ 标准～]] [=Cpp] 标准程序库中的[%类[!基～]]基类所定义的虚成员函数
+签名可以被在程序中定义的派生类所覆盖（[#class.virtual]）。
