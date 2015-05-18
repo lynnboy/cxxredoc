@@ -1,10 +1,13 @@
 ﻿[section#support.types
     [:en] Types
+    [:zh_CN] 类型
 ]
 
 [para]
 [:en]
 Table [#tab:support.hdr.cstddef] describes the header [`<cstddef>].
+[:zh_CN]
+表 [#tab:support.hdr.cstddef] 描述头文件 [`<cstddef>]。
 
 [%@library NULL]
 [%@library offsetof]
@@ -15,12 +18,15 @@ Table [#tab:support.hdr.cstddef] describes the header [`<cstddef>].
 
 [table:grid#tab:support.hdr.cstddef
     [:en] Header [`<cstddef>] synopsis
+    [:zh_CN] 头文件 [`<cstddef>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -43,65 +49,98 @@ Table [#tab:support.hdr.cstddef] describes the header [`<cstddef>].
 [:en]
 The contents are the same as the Standard C library header [`<stddef.h>], with
 the following changes:
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<stddef.h>] 相同，但有下列改变：
 
 [para]
 [:en]
-The macro [%@library NULL] [`NULL] is an implementation-defined [=Cpp] null
-pointer constant in [%implementation-defined] this International Standard
-([#conv.ptr]).
+The macro [%@library NULL] [`NULL] is an [%implementation-defined]
+implementation-defined [=Cpp] nullpointer constant in this International
+Standard ([#conv.ptr]).
+[:zh_CN]
+宏 [%@library NULL] [`NULL] 在本国际标准中是个[%由实现定义的]由实现定义的 [=Cpp]
+空指针常量（[#conv.ptr]）。
 
 [footnote]
 [:en]
 Possible definitions include [`0] and [`0L], but not [`(void*)0].
+[:zh_CN]
+可能的定义包括 [`0] 和 [`0L]，但不包括 [`(void*)0]。
 [footnote:end]
 
 [para]
 [:en]
 The macro [%@library offsetof] [`offsetof]([$type],[$member-designator]) accepts
 a restricted set of [$type] arguments in this International Standard.
+[:zh_CN]
+宏 [%@library offsetof] [`offsetof]([$type],[$member-designator]) 在本国际标准中
+接受一个有限制的实参 [$type] 的集合。
 
 [:en]
 If [$type] is not a standard-layout class (Clause [#class]), the results are
 undefined.
+[:zh_CN]
+若 [$type] 不是标准布局类（第 [#class] 条），则其结果是未定义的。
 
 [footnote]
 [:en]
 Note that [`offsetof] is required to work as specified even if unary
 [`operator&] is overloaded for any of the types involved.
+[:zh_CN]
+注意 [`offsetof] 在它所涉及的任何类型重载了一元 [`operator&] 时也要按其所指定的
+工作。
 [footnote:end]
 
 [:en]
 The expression [`offsetof]([$type], [$member-designator]) is never
 type-dependent ([#temp.dep.expr]) and it is value-dependent
 ([#temp.dep.constexpr]) if and only if [$type] is dependent.
+[:zh_CN]
+表达式 [`offsetof]([$type], [$member-designator]) 永远不是类型待决的
+（[#temp.dep.expr]）并且当且仅当 [$type] 待决时它是值待决的
+（[#temp.dep.constexpr]）。
 
 [:en]
 The result of applying the [`offsetof] macro to a field that is a static data
 member or a function member is undefined.
+[:zh_CN]
+对静态数据成员或函数成员字段应用宏 [`offsetof] 的结果是未定义的。
 
 [:en]
 No operation invoked by the [`offsetof] macro shall throw an exception and
 [`noexcept(offsetof(type, member-designator))] shall be [`true].
+[:zh_CN]
+由 [`offsetof] 宏所引发的操作不应当抛出异常，且
+[`noexcept(offsetof(type, member-designator))] 应当为 [`true]。
 
 [para]
 [:en]
 The type [`ptrdiff_t] is an [%@impldef type of [`ptrdiff_t]]
 implementationd-defined signed integer type that can hold the difference of two
 subscripts in an array object, as described in [#expr.add].
+[:zh_CN]
+类型 [`ptrdiff_t] 是[%@impldef [`ptrdiff_t] 的类型]由实现定义的有符号整数类型，
+并能够持有数组对象的两个下标的差，如 [#expr.add] 所述。
 
 [para]
 [:en]
 The type [`size_t] is an [%@impldef type of [`size_t]] implementation-defined
 unsigned integer type that is large enough to contain the size in bytes of any
 object.
+[:zh_CN]
+类型 [`size_t] 是[%@impldef [`size_t] 的类型]由实现定义的无符号整数类型，并足以
+包含任意对象的字节大小。
 
 [para]
-[:en]
 [enter:note]
+[:en]
 It is recommended that implementations choose types for [`ptrdiff_t] and
 [`size_t] whose integer conversion ranks ([#conv.rank]) are no greater than that
 of [`signed long int] unless a larger size is necessary to contain all the
 possible values.
+[:zh_CN]
+推荐实现为 [`ptrdiff_t] 和 [`size_t] 所选择的类型的整数转换等级（[#conv.rank]）
+不高于 [`signed long int]，除非需要更大的大小以包含其可能的值。
 [exit:note]
 
 [para]
@@ -109,12 +148,17 @@ possible values.
 The type [%@library max_align_t] [`max_align_t] is a POD type whose alignment
 requirement is at least as great as that of every scalar type, and whose
 alignment requirement is supported in every context.
+[:zh_CN]
+类型 [%@library max_align_t] [`max_align_t] 是个对齐要求至少与每个标量类型一样大
+，并且其对齐要求在任何语境中都被支持的 POD 类型。
 
 [para]
 [:en]
 [%@library nullptr_t] [`nullptr_t] is defined as follows:
+[:zh_CN]
+[%@library nullptr_t] [`nullptr_t] 定义如下：
 
-[codeblock]
+[codeblock:notation]
 namespace std {
   typedef decltype(nullptr) nullptr_t;
 }
@@ -123,14 +167,23 @@ namespace std {
 [:en]
 The type for which [`nullptr_t] is a synonym has the characteristics described
 in [#basic.fundamental] and [#conv.ptr].
+[:zh_CN]
+以 [`nullptr_t] 为别名的类型具有 [#basic.fundamental] 和 [#conv.ptr] 中所描述的
+性质。
 
 [enter:note]
 [:en]
 Although [`nullptr][=']s address cannot be taken, the address of another
 [`nullptr_t] object that is an lvalue can be taken.
+[:zh_CN]
+虽然不能获取 [`nullptr] 的地址，但可以获取作为左值的其它 [`nullptr_t] 对象的地址
+。
 [exit:note]
 
 [para:xref]
 [:en]
 Alignment ([#basic.align]), Sizeof ([#expr.sizeof]), Additive operators
 ([#expr.add]), Free store ([#class.free]), and ISO C 7.1.6.
+[:zh_CN]
+对齐（[#basic.align]），Sizeof（[#expr.sizeof]），加性运算符（[#expr.add]），
+自由存储（[#class.free]），以及 ISO C 7.1.6。
