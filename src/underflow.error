@@ -1,5 +1,6 @@
 ﻿[section#underflow.error
     [:en] Class [`underflow_error]
+    [:zh_CN] 类 [`underflow_error]
 ]
 
 [%@library overflow_error]
@@ -17,6 +18,8 @@ namespace std {
 [:en]
 The class [`underflow_error] defines the type of objects thrown as exceptions to
 report an arithmetic underflow error.
+[:zh_CN]
+[`underflow_error] 类定义了作为异常而被抛出的对象的类型，用以报告算术下溢错误。
 
 [%@library underflow_error[!underflow_error]]
 [codeblock:declaration]
@@ -26,9 +29,11 @@ underflow_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`underflow_error].
+[:zh_CN] 构造一个 [`underflow_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library underflow_error[!underflow_error]]
@@ -39,7 +44,9 @@ underflow_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`underflow_error].
+[:zh_CN] 构造一个 [`underflow_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
