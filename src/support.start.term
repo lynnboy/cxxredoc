@@ -1,11 +1,14 @@
 ﻿[section#support.start.term
     [:en] Start and termination
+    [:zh_CN] 启动和终止
 ]
 
 [para]
 [:en]
 Table [#tab:support.hdr.cstdlib] describes some of the contents of the header
 [`<cstdlib>].
+[:zh_CN]
+表 [#tab:support.hdr.cstdlib] 描述了头文件 [`<cstdlib>] 的一些内容。
 
 [%@library EXIT_FAILURE]
 [%@library EXIT_SUCCESS]
@@ -17,12 +20,15 @@ Table [#tab:support.hdr.cstdlib] describes some of the contents of the header
 [%@library quick_exit]
 [table:grid#tab:support.hdr.cstdlib
     [:en] Header [`<cstdlib>] synopsis
+    [:zh_CN] 头文件 [`<cstdlib>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -50,6 +56,8 @@ Table [#tab:support.hdr.cstdlib] describes some of the contents of the header
 [:en]
 The contents are the same as the Standard C library header [`<stdlib.h>],
 with the following changes:
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<stdlib.h>] 相同，但有下列改变：
 
 [%@library _Exit]
 [codeblock:declaration]
@@ -61,6 +69,8 @@ with the following changes:
 [:en]
 The function [`_Exit(int status)] has additional behavior in this International
 Standard:
+[:zh_CN]
+函数 [`_Exit(int status)] 在本国际标准中带有额外的行为：
 
 [list]
 [item]
@@ -68,6 +78,9 @@ Standard:
 The program is terminated without executing destructors for objects of
 automatic, thread, or static storage duration and without calling functions
 passed to [`atexit()] ([#basic.start.term]).
+[:zh_CN]
+程序终止时并不执行自动、线程或静态存储期的对象的析构函数，且并不调用传递给
+[`atexit()] 的函数（[#basic.start.term]）。
 [list:end]
 [exit:description]
 
@@ -80,15 +93,18 @@ passed to [`atexit()] ([#basic.start.term]).
 [para]
 [:en]
 The function [`abort()] has additional behavior in this International Standard:
+[:zh_CN]
+函数 [`abort()] 在本国际标准中带有额外的行为：
 
 [list]
 [item]
 [:en]
 The program is terminated without executing destructors for objects of
 automatic, thread, or static storage duration and without calling functions
-passed to [`atexit()] ([#basic.start.term]).
-
-[%@library atexit]
+passed to [%@library atexit] [`atexit()] ([#basic.start.term]).
+[:zh_CN]
+程序终止时并不执行自动、线程或静态存储期的对象的析构函数，且并不调用传递给
+[%@library atexit] [`atexit()] 的函数（[#basic.start.term]）。
 [list:end]
 [exit:description]
 
@@ -103,24 +119,35 @@ extern "C++" int atexit(void (*f)(void)) noexcept;
 [:en]
 The [`atexit()] functions register the function pointed to by [`f] to be called
 without arguments at normal program termination.
+[:zh_CN]
+[`atexit()] 函数登记由 [`f] 所指向的函数，以在正常的程序终止时不带实参地调用。
 
 [:en]
 It is unspecified whether a call to [`atexit()] that does not happen before
 ([#intro.multithread]) a call to [`exit()] will succeed.
+[:zh_CN]
+若对 [`atexit()] 的调用并非发生早于（[#intro.multithread]）对 [`exit()] 的调用，
+则其是否成功是未指明的。
 
 [enter:note]
 [:en]
 The [`atexit()] functions do not introduce a data race ([#res.on.data.races]).
+[:zh_CN]
+[`atexit()] 函数不会引入数据竞争（[#res.on.data.races]）。
 [exit:note]
 
 [para:implimits]
 [:en]
 The implementation shall support the registration of at least 32 functions.
+[:zh_CN]
+实现应当支持至少登记 32 个函数。
 
 [para:returns]
 [:en]
 The [`atexit()] function returns zero if the registration succeeds, non-zero if
 it fails.
+[:zh_CN]
+若登记成功则 [`atexit()] 函数返回零，若它失败则为非零。
 [exit:description]
 
 [%@library exit]
@@ -132,73 +159,108 @@ it fails.
 [para]
 [:en]
 The function [`exit()] has additional behavior in this International Standard:
+[:zh_CN]
+函数 [`exit()] 在本国际标准中带有额外的行为：
 
 [list]
 [item]
 [:en]
 First, objects with thread storage duration and associated with the current
 thread are destroyed.
+[:zh_CN]
+首先，销毁具有线程存储期并与当前线程关联的对象。
 
 [:en]
 Next, objects with static storage duration are destroyed and functions
 registered by calling [`atexit] are called.
+[:zh_CN]
+然后，销毁具有静态存储期的对象并调用通过调用 [`atexit] 登记的函数。
 
 [footnote]
 [:en]
 A function is called for every time it is registered.
+[:zh_CN]
+函数的每次登记均会进行调用。
 [footnote:end]
 
 [:en]
 See [#basic.start.term] for the order of destructions and calls.
+[:zh_CN]
+有关进行销毁和调用之间的顺序，参见 [#basic.start.term]。
 
 [:en]
 (Automatic objects are not destroyed as a result of calling [`exit()].)
+[:zh_CN]
+（调用 [`exit()] 不会导致销毁自动对象。）
 
 [footnote]
 [:en]
 Objects with automatic storage duration are all destroyed in a program whose
 function [`main()] contains no automatic objects and executes the call to
 [`exit()].
+[:zh_CN]
+对于 [`main()] 函数中不包含任何自动对象，并且由它执行对 [`exit()] 的调用的程序，
+所有自动存储期对象都将被销毁。
 
 [:en]
 Control can be transferred directly to such a [`main()] by throwing an exception
 that is caught in [`main()].
+[:zh_CN]
+可以通过抛出在 [`main()] 中捕获的异常而把控制直接传递到这种 [`main()] 中。
 [footnote:end]
 
 [para:~]
 [:en]
 If control leaves a registered function called by [`exit] because the function
-does not provide a handler for a thrown exception, [`std::terminate()] shall be
-called ([#except.terminate]).
-[%@library terminate]
+does not provide a handler for a thrown exception,
+[%@library terminate] [`std::terminate()] shall be called ([#except.terminate]).
+[:zh_CN]
+当被 [`exit] 所调用的某个已注册函数，由于未为其所抛出的异常提供处理器而导致控制
+离开它时，应当调用 [%@library terminate] [`std::terminate()]
+（[#except.terminate]）。
 
 [item]
 [:en]
 Next, all open C streams (as mediated by the function signatures declared in
 [`<cstdio>]) with unwritten buffered data are flushed, all open C streams are
 closed, and all files created by calling [`tmpfile()] are removed.
+[:zh_CN]
+然后，清空所有打开的带有未写出的缓冲数据的 C 流（以在 [`<cstdio>] 中声明的函数
+签名为中介），关闭所有打开的 C 流，并删除通过调用 [`tmpfile()] 创建的所有文件。
 
 [item]
 [:en]
 Finally, control is returned to the host environment.
+[:zh_CN]
+最后，控制被返回到宿主环境。
 
 [:en]
+[%implementation-defined]
 If [`status] is zero or [`EXIT_SUCCESS], an [%@impldef exit status]
 implementation-defined form of the status [+successful termination] is returned.
+[:zh_CN]
+若 [`status] 为零或 [`EXIT_SUCCESS]，则以[%@impldef 退出状态]由实现定义的[+成功
+终止]状态的形式返回。
 
 [:en]
 [%implementation-defined]
 If [`status] is [`EXIT_FAILURE], an [%@impldef exit status]
 implementation-defined form of the status [+unsuccessful termination] is
 returned.
+[:zh_CN]
+若 [`status] 为 [`EXIT_FAILURE]，则以[%@impldef 退出状态]由实现定义的[+不成功
+终止]状态的形式返回。
 
 [:en]
-[%implementation-defined]
 Otherwise the status returned is [%@impldef exit status] implementation-defined.
+[:zh_CN]
+否则返回的状态是[%@impldef 退出状态]由实现定义的。
 
 [footnote]
 [:en]
 The macros [`EXIT_FAILURE] and [`EXIT_SUCCESS] are defined in [`<cstdlib>].
+[:zh_CN]
+宏 [`EXIT_FAILURE] 和 [`EXIT_SUCCESS] 在 [`<cstdlib>] 中定义。
 [footnote:end]
 [list:end]
 
@@ -215,21 +277,31 @@ extern "C++" int at_quick_exit(void (*f)(void)) noexcept;
 [:en]
 The [`at_quick_exit()] functions register the function pointed to by [`f]
 to be called without arguments when [`quick_exit] is called.
+[:zh_CN]
+[`at_quick_exit()] 函数登记由 [`f] 所指向的函数，以在调用 [`quick_exit] 时不带
+实参地调用。
 
 [:en]
 It is unspecified whether a call to [`at_quick_exit()] that does not happen
 before ([#intro.multithread]) all calls to [`quick_exit] will succeed.
+[:zh_CN]
+若对 [`at_quick_exit()] 的调用并非发生早于（[#intro.multithread]）所有对
+[`quick_exit] 的调用，则其是否成功是未指明的。
 
 [enter:note]
 [:en]
 The [`at_quick_exit()] functions do not introduce a data race
 ([#res.on.data.races]).
+[:zh_CN]
+[`at_quick_exit()] 函数不会引入数据竞争（[#res.on.data.races]）。
 [exit:note]
 
 [enter:note]
 [:en]
 The order of registration may be indeterminate if [`at_quick_exit] was called
 from more than one thread.
+[:zh_CN]
+若从多个线程调用 [`at_quick_exit]，则登记顺序可以是不确定的。
 [exit:note]
 
 [enter:note]
@@ -237,15 +309,22 @@ from more than one thread.
 The [`at_quick_exit] registrations are distinct from the [`atexit]
 registrations, and applications may need to call both registration functions
 with the same argument.
+[:zh_CN]
+[`at_quick_exit] 的登记与 [`atexit] 登记是不同的，并且应用程序可能需要用相同的
+实参调用这两个登记。
 [exit:note]
 
 [para:implimits]
 [:en]
 The implementation shall support the registration of at least 32 functions.
+[:zh_CN]
+实现应当支持至少登记 32 个函数。
 
 [para:returns]
 [:en]
 Zero if the registration succeeds, non-zero if it fails.
+[:zh_CN]
+若登记成功则为零，若失败则为非零。
 [exit:description]
 
 [%@library quick_exit]
@@ -260,32 +339,48 @@ Functions registered by calls to [`at_quick_exit] are called in the reverse
 order of their registration, except that a function shall be called after any
 previously registered functions that had already been called at the time it was
 registered.
+[:zh_CN]
+对通过调用 [`at_quick_exit] 所登记的函数，以它们登记的相反顺序进行调用，但对一个
+函数的调用，应当在先于它登记的，当其登记时已经调用过的函数之后进行。
 
 [:en]
 Objects shall not be destroyed as a result of calling [`quick_exit].
+[:zh_CN]
+调用 [`quick_exit] 不应当导致销毁对象。
 
 [:en]
 If control leaves a registered function called by [`quick_exit] because the
-function does not provide a handler for a thrown exception, [`std::terminate()]
-shall be called.
-[%@library terminate]
+function does not provide a handler for a thrown exception,
+[%@library terminate] [`std::terminate()] shall be called.
+[:zh_CN]
+当被 [`quick_exit] 所调用的某个已登记函数，由于未为其所抛出的异常提供处理器而
+导致控制离开它时，应当调用 [%@library terminate] [`std::terminate()]。
 
 [enter:note]
 [:en]
 [`at_quick_exit] may call a registered function from a different thread than the
 one that registered it, so registered functions should not rely on the identity
 of objects with thread storage duration.
+[:zh_CN]
+[`at_quick_exit] 可能从与函数登记时不同的线程调用一个已登记函数，因此所登记的
+函数不应当依赖于具有线程存储期的对象的同一性。
 [exit:note]
 
 [:en]
 After calling registered functions, [`quick_exit] shall call [`_Exit(status)].
+[:zh_CN]
+调用已登记函数之后，[`quick_exit] 应当调用 [`_Exit(status)]。
 
 [enter:note]
 [:en]
 The standard file buffers are not flushed.
+[:zh_CN]
+不会清空标准文件缓冲区。
 
 [:en]
 [=Xsee] ISO C 7.20.4.4.
+[:zh_CN]
+[=Xsee] ISO C 7.20.4.4。
 [exit:note]
 
 [exit:description]
@@ -293,3 +388,5 @@ The standard file buffers are not flushed.
 [para:xref]
 [:en]
 [#basic.start], [#basic.start.term], ISO C 7.10.4.
+[:zh_CN]
+[#basic.start]，[#basic.start.term]，ISO C 7.10.4。
