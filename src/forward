@@ -1,5 +1,6 @@
 ﻿[section#forward
     [:en] forward/move helpers
+    [:zh_CN] forward/move 辅助函数
 ]
 
 [para]
@@ -7,6 +8,8 @@
 The library provides templated helper functions to simplify applying move
 semantics to an lvalue and to simplify the implementation of forwarding
 functions.
+[:zh_CN]
+程序库中提供了模板化的辅助函数，来简化对左值施加移动语义并简化转发函数的实现。
 
 [%@library forward]
 [codeblock:declaration]
@@ -17,10 +20,12 @@ template <class T> constexpr T&& forward(remove_reference_t<T>&& t) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`static_cast<T&&>(t)].
+[:zh_CN] [`static_cast<T&&>(t)]。
 
 [para:remark]
 [:en] If the second form is instantiated with an lvalue reference type, the
 program is ill-formed.
+[:zh_CN] 若第二种形式以左值引用类型实例化，则程序非良构。
 
 [para]
 [enter:example]
@@ -36,6 +41,7 @@ struct A {
 
 void g() {
   shared_ptr<A> sp1 = factory<A>(2, 1.414); // [:en] error: 2 will not bind to [`int&]
+                                            // [|:zh_CN] 错误：2 不会绑定到 [`int&]
   int i = 2;
   shared_ptr<A> sp2 = factory<A>(i, 1.414); // OK
 }
@@ -45,14 +51,23 @@ void g() {
 [:en]
 In the first call to [`factory], [`A1] is deduced as [`int], so 2 is forwarded
 to [`A][=']s constructor as an rvalue.
+[:zh_CN]
+在第一次调用 [`factory] 中，[`A1] 被推断为 [`int]，故 2 作为一个右值被转发给
+[`A] 的构造函数。
 
 [:en]
 In the second call to [`factory], [`A1] is deduced as [`int&], so [`i] is
 forwarded to [`A][=']s constructor as an lvalue.
+[:zh_CN]
+在第二次调用 [`factory] 中，[`A1] 被推断为 [`int&]，故 [`i] 作为一个左值被转发给
+[`A] 的构造函数。
 
 [:en]
 In both cases, [`A2] is deduced as [`double], so 1.414 is forwarded to [`A][=']s
 constructor as an rvalue.
+[:zh_CN]
+在两种情况下，[`A2] 被推断为 [`double]，故 1.414 作为一个右值被转发给 [`A] 的
+构造函数。
 [exit:example]
 [exit:description]
 
@@ -64,6 +79,7 @@ template <class T> constexpr remove_reference_t<T>&& move(T&& t) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`static_cast<remove_reference_t<T>&&>(t)].
+[:zh_CN] [`static_cast<remove_reference_t<T>&&>(t)]。
 
 [para]
 [enter:example]
@@ -76,13 +92,17 @@ shared_ptr<T> factory(A1&& a1) {
 struct A {
   A();
   A(const A&);  // [:en] copies from lvalues
+                // [|:zh_CN] 从左值复制
   A(A&&);       // [:en] moves from rvalues
+                // [|:zh_CN] 从右值移动
 };
 
 void g() {
   A a;
   shared_ptr<A> sp1 = factory<A>(a);              // [:en] ["[`a]] binds to [`A(const A&)]
+                                                  // [|:zh_CN] “[`a]”绑定到 [`A(const A&)]
   shared_ptr<A> sp1 = factory<A>(std::move(a));   // [:en] ["[`a]] binds to [`A(A&&)]
+                                                  // [|:zh_CN] “[`a]”绑定到 [`A(A&&)]
 }
 [codeblock:end]
 
@@ -90,16 +110,26 @@ void g() {
 [:en]
 In the first call to [`factory], [`A1] is deduced as [`A&], so [`a] is forwarded
 as a non-const lvalue.
+[:zh_CN]
+在第一次调用 [`factory] 时，[`A1] 被推断为 [`A&]，故 [`a] 作为非-const 左值被
+转发。
 
 [:en]
 This binds to the constructor [`A(const A&)], which copies the value from [`a].
+[:zh_CN]
+它被绑定到构造函数 [`A(const A&)]，它复制 [`a] 中的值。
 
 [:en]
 In the second call to [`factory], because of the call [`std::move(a)], [`A1] is
 deduced as [`A], so [`a] is forwarded as an rvalue.
+[:zh_CN]
+在第二次调用 [`factory] 时，由于调用 [`std::move(a)]，[`A1] 被推断为 [`A]，故
+[`a] 作为右值被转发。
 
 [:en]
 This binds to the constructor [`A(A&&)], which moves the value from [`a].
+[:zh_CN]
+它被绑定到构造函数 [`A(A&&)]，它移动 [`a] 中的值。
 [exit:example]
 [exit:description]
 
@@ -112,5 +142,5 @@ template <class T> constexpr conditional_t<
 
 [enter:description]
 [para:returns]
-[:en] [`std::move(x)]
+[`std::move(x)]
 [exit:description]
