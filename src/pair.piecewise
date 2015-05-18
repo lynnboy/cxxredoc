@@ -1,5 +1,6 @@
 ﻿[section#pair.piecewise
     [:en] Piecewise construction
+    [:zh_CN] 逐段构造
 ]
 
 [%@library piecewise_construct_t]
@@ -13,8 +14,14 @@ constexpr piecewise_construct_t piecewise_construct{};
 [:en]
 The [`struct piecewise_construct_t] is an empty structure type used as a unique
 type to disambiguate constructor and function overloading.
+[:zh_CN]
+[`struct piecewise_construct_t] 是一个空结构类型，作为唯一类型用以在重载中区分
+构造函数和函数。
 
 [:en]
 Specifically, [`pair] has a constructor with [`piecewise_construct_t] as the
 first argument, immediately followed by two [`tuple] ([#tuple]) arguments used
 for piecewise construction of the elements of the [`pair] object.
+[:zh_CN]
+特别是，[`pair] 具有一个构造函数以 [`piecewise_construct_t] 作为其第一个实参，
+其后紧跟两个 [`tuple]（[#tuple]）实参用来对 [`pair] 对象中的元素进行逐段构造。
