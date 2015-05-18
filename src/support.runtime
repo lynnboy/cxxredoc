@@ -1,5 +1,6 @@
 ﻿[section#support.runtime
     [:en] Other runtime support
+    [:zh_CN] 其他运行时支持
 ]
 
 [para]
@@ -17,11 +18,16 @@
 [:en]
 Headers [`<csetjmp>] (nonlocal jumps), [`<csignal>] (signal handling),
 [`<cstdalign>] (alignment), [`<cstdarg>] (variable arguments), [`<cstdbool>]
-([`__bool_true_false_are_defined]).
+([`__bool_true_false_are_defined]), [`<cstdlib>] (runtime environment
+[`getenv()], [`system()]), and [`<ctime>] (system clock [`clock()], [`time()])
+provide further compatibility with C code.
+[:zh_CN]
+头文件 [`<csetjmp>]（非局部跳转），[`<csignal>]（信号处理），[`<cstdalign>]
+（对齐），[`<cstdarg>]（可变实参），[`<cstdbool>]
+（[`__bool_true_false_are_defined]），[`<cstdlib>]（运行时环境 [`getenv()]，
+[`system()]），以及 [`<ctime>]（系统时钟 [`clock()]，[`time()]）进一步提供了同 C
+代码之间的兼容性。
 
-[:en]
-[`<cstdlib>] (runtime environment [`getenv(), system()]), and [`<ctime>] (system
-clock [`clock(), time()]) provide further compatibility with C code.
 
 [para]
 [%@library <stdarg.h>[sortas stdarg.h]]
@@ -34,6 +40,10 @@ clock [`clock(), time()]) provide further compatibility with C code.
 The contents of these headers are the same as the Standard C library headers
 [`<setjmp.h>], [`<signal.h>], [`<stdalign.h>], [`<stdarg.h>], [`<stdbool.h>],
 [`<stdlib.h>], and [`<time.h>], respectively, with the following changes:
+[:zh_CN]
+这些头文件的内容分别与标准 C 程序库头文件 [`<setjmp.h>]，[`<signal.h>]，
+[`<stdalign.h>]，[`<stdarg.h>]，[`<stdbool.h>]，[`<stdlib.h>]，以及 [`<time.h>]
+相同，但有下列改变：
 
 [para]
 [:en]
@@ -41,48 +51,74 @@ The restrictions that ISO C places on the second parameter to the
 [%@library va_start] [`va_start()] macro in header
 [%@library <stdarg.h>[sortas stdarg.h]] [`<stdarg.h>]
 are different in this International Standard.
+[:zh_CN]
+ISO C 施加于头文件 [%@library <stdarg.h>[sortas stdarg.h]] [`<stdarg.h>] 中的宏
+[%@library va_start] [`va_start()] 的第二个形参上的限制与本国际标准不同。
 
 [:en]
 The parameter [`parmN] is the identifier of the rightmost parameter in the
 variable parameter list of the function definition (the one just before the
 [`...]).
+[:zh_CN]
+形参 [`parmN] 是函数定义式的可变形参列表中最右边的形参（就是 [`...] 之前的形参）
+的标识符。
 
 [footnote]
 [:en]
 Note that [`va_start] is required to work as specified even if unary
 [`operator&] is overloaded for the type of [`parmN].
+[:zh_CN]
+注意，即使对 [`parmN] 的类型重载了一元 [`operator&]，仍要求 [`va_start] 按照所
+指定的来工作。
 [footnote:end]
 
 [:en]
 If the parameter [`parmN] is of a reference type, or of a type that is not
 compatible with the type that results when passing an argument for which there
 is no parameter, the behavior is undefined.
+[:zh_CN]
+若形参 [`parmN] 被声明为函数、数组或引用类型，或者其类型与当没有形参时传递实参所
+产生的类型不兼容，则其行为是未定义的。
 
 [para:xref]
 [:en] ISO C 4.8.1.1.
+[:zh_CN] ISO C 4.8.1.1。
 
 [para]
 [:en]
 The function signature [%@library longjmp] [`longjmp(jmp_buf jbuf, int val)]
 has more restricted behavior in this International Standard.
+[:zh_CN]
+函数签名 [%@library longjmp] [`longjmp(jmp_buf jbuf, int val)] 在本国际标准中有
+更加受限制的行为。
 
 [:en]
 A [`setjmp]/[`longjmp] call pair has undefined behavior if replacing the
 [`setjmp] and [`longjmp] by [`catch] and [`throw] would invoke any non-trivial
 destructors for any automatic objects.
+[:zh_CN]
+若将某个 [`setjmp]/[`longjmp] 调用对中的 [`setjmp] 和 [`longjmp] 替换为 [`catch]
+和 [`throw] 将会导致调用任何自动对象的非平凡析构函数，则它具有未定义的行为。
 
 [para:xref]
 [:en] ISO C 7.10.4, 7.8, 7.6, 7.12.
+[:zh_CN] ISO C 7.10.4，7.8，7.6，7.12。
 
 [para]
 [:en]
 Calls to the function [%@library getenv] [`getenv] shall not introduce a data
 race ([#res.on.data.races]) provided that nothing modifies the environment.
+[:zh_CN]
+调用函数 [%@library getenv] [`getenv]，在不更改环境的条件下，不应当引入数据竞争
+（[#res.on.data.races]）。
 
 [enter:note]
 [:en]
 Calls to the POSIX functions [%@library setenv] [`setenv] and [%@library putenv]
 [`putenv] modify the environment.
+[:zh_CN]
+调用 POSIX 函数 [%@library setenv] [`setenv] 和 [%@library putenv] [`putenv] 会
+更改环境。
 [exit:note]
 
 [para]
@@ -90,10 +126,16 @@ Calls to the POSIX functions [%@library setenv] [`setenv] and [%@library putenv]
 A call to the [`setlocale] function may introduce a data race with other calls
 to the [`setlocale] function or with calls to functions that are affected by the
 current C locale.
+[:zh_CN]
+调用 [`setlocale] 函数，可能会与其它对 [`setlocale] 函数的调用之间，或与对受
+当前 C 区域影响的函数的调用之间引入数据竞争。
 
 [:en]
 The implementation shall behave as if no library function other than
 [`locale::global()] calls the [`setlocale] function.
+[:zh_CN]
+实现应当表现为如同除 [`locale::global()] 之外，没有其它程序库函数调用
+[`setlocale] 函数。
 
 [para]
 [%@library <cstdalign>[sortas cstdalign]]
@@ -101,53 +143,81 @@ The implementation shall behave as if no library function other than
 [:en]
 The header [`<cstdalign>] and the header [`<stdalign.h>] shall not define a
 macro named [`alignas].
+[:zh_CN]
+头文件 [`<cstdalign>] 和头文件 [`<stdalign.h>] 不能定义名为 [`alignas] 的宏。
 
 [para]
 [%@library <cstdbool>[sortas cstdbool]]
 [%@library <stdbool.h>[sortas stdbool.h]]
 The header [`<cstdbool>] and the header [`<stdbool.h>] shall not define macros
 named [`bool], [`true], or [`false].
+[:zh_CN]
+头文件 [`<cstdbool>] 和头文件 [`<stdbool.h>] 不能定义名为 [`bool]，[`true] 或
+[`false] 的宏。
 
 [para]
 [:en]
 A call to the function [`signal] synchronizes with any resulting invocation of
 the signal handler so installed.
+[:zh_CN]
+对函数 [`signal] 的调用同步于其所导致的对任何由其所安装的信号处理器的调用。
 
 [para]
 [:en]
 The common subset of the C and [=Cpp] languages consists of all declarations,
 definitions, and expressions that may appear in a well formed [=Cpp] program
 and also in a conforming C program.
+[:zh_CN]
+C 和 [=Cpp] 语言的公共子集由可以出现在良构 [=Cpp] 程序中也可以出现在符合标准的 C
+程序中的所有声明式、定义式和表达式构成。
 
 [:en]
 A [%POF] [%function[!plain old]] POF (["plain old function]) is a function that
 uses only features from this common subset, and that does not directly or
 indirectly use any function that is not a POF, except that it may use plain
 lock-free atomic operations.
+[:zh_CN]
+[%POF] [%函数[!传统～]] POF（“传统函数 plain old function”）是仅使用这个公共子集
+中的功能特性，并且并未直接或间接使用任何非 POF 函数的函数，但它可以使用普通无锁
+原子性操作。
 
 [:en]
 A [+plain lock-free atomic operation] is an invocation of a function [$f] from
 Clause [#atomics], such that [$f] is not a member function, and either [$f] is
 the function [`atomic_is_lock_free], or for every atomic argument [`A] passed to
 [$f], [`atomic_is_lock_free(A)] yields [`true].
+[:zh_CN]
+[+普通无锁原子性操作]是对第 [#atomics] 条中的函数 [$f] 的调用，其中 [$f] 不是
+成员函数，并且要么 [$f] 是函数 [`atomic_is_lock_free]，要么对于传递给 [$f] 的
+每个原子性实参 [`A]，[`atomic_is_lock_free(A)] 都产生 [`true]。
 
 [:en]
 All signal handlers shall have C linkage.
+[:zh_CN]
+所有信号处理器都应当具有 C 连接。
 
 [:en]
 The behavior of any function other than a POF used as a signal handler in a
 [=Cpp] program is [%@impldef use of non-POF function as signal handler]
 implementation-defined.
+[:zh_CN]
+在 [=Cpp] 程序中用作信号处理器的任何非 POF 函数的行为是[%@impldef 将非 POD 函数
+用作信号处理器]由实现定义的。
 
 [footnote]
 [:en]
 In particular, a signal handler using exception handling is very likely to have
 problems.
+[:zh_CN]
+特别地，使用了异常处理的信号处理器很可能会发生问题。
 
 [:en]
 Also, invoking [`std::exit] may cause destruction of objects, including those of
 the standard library implementation, which, in general, yields undefined
 behavior in a signal handler (see [#intro.execution]).
+[:zh_CN]
+而且，调用 [`std::exit] 可能导致对象的销毁，其中包括标准程序库实现中的对象，通常
+在信号处理器中都将产生未定义的行为（参见 [#intro.execution]）。
 [footnote:end]
 
 [%@library <csetjmp>[sortas csetjmp]]
@@ -157,12 +227,15 @@ behavior in a signal handler (see [#intro.execution]).
 
 [table:listing#tab:support.hdr.csetjmp
     [:en] Header [`<csetjmp>] synopsis
+    [:zh_CN] 头文件 [`<csetjmp>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -202,12 +275,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library SIG_ERR]
 [table:listing#tab:support.hdr.csignal
     [:en] Header [`<csignal>] synopsis
+    [:zh_CN] 头文件 [`<csignal>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -246,12 +322,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library __alignas_is_defined]
 [table:listing#tab:support.hdr.cstdalign
     [:en] Header [`<cstdalign>] synopsis
+    [:zh_CN] 头文件 [`<cstdalign>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -272,12 +351,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library va_list]
 [table:listing#tab:support.hdr.cstdalign
     [:en] Header [`<cstdalign>] synopsis
+    [:zh_CN] 头文件 [`<cstdalign>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -301,12 +383,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library __bool_true_false_are_defined]
 [table:listing#tab:support.hdr.cstdbool
     [:en] Header [`<cstdbool>] synopsis
+    [:zh_CN] 头文件 [`<cstdbool>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -323,12 +408,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library system]
 [table:listing#tab:support.hdr.cstdbool
     [:en] Header [`<cstdbool>] synopsis
+    [:zh_CN] 头文件 [`<cstdbool>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -347,12 +435,15 @@ behavior in a signal handler (see [#intro.execution]).
 [%@library clock]
 [table:listing#tab:support.hdr.ctime
     [:en] Header [`<ctime>] synopsis
+    [:zh_CN] 头文件 [`<ctime>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
