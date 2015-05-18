@@ -1,5 +1,6 @@
 ﻿[section#utility.swap
     [:en] swap
+    [:zh_CN] swap
 ]
 
 [%@library swap]
@@ -10,8 +11,9 @@ template<class T> void swap(T& a, T& b) noexcept([=Seebelow]);
 [enter:description]
 [para:remark]
 [:en] The expression inside [`noexcept] is equivalent to:
+[:zh_CN] [`noexcept] 中的表达式等价于：
 
-[codeblock]
+[codeblock:notation]
 is_nothrow_move_constructible<T>::value &&
 is_nothrow_move_assignable<T>::value
 [codeblock:end]
@@ -19,9 +21,12 @@ is_nothrow_move_assignable<T>::value
 [para:requires]
 [:en] Type [`T] shall be [`MoveConstructible] (Table [#moveconstructible]) and
 [`MoveAssignable] (Table [#moveassignable]).
+[:zh_CN] 类型 [`T] 应当为 [`MoveConstructible]（表 [#moveconstructible]）且为
+[`MoveAssignable]（表 [#moveassignable]）。
 
 [para:effects]
 [:en] Exchanges values stored in two locations.
+[:zh_CN] 交换两个位置中所存储的值。
 [exit:description]
 
 [%@library swap]
@@ -34,7 +39,9 @@ template<class T, size_t N>
 [para:requires]
 [:en] [`a[i`]] shall be swappable with ([#swappable.requirements]) [`b[i`]]
 for all [`i] in the range [=range[0,N)].
+[:zh_CN] 对于范围 [=range[0,N)] 中的所有 [`i]，[`a[i`]] 应当与 [`b[i`]] 可互相
+交换（[#swappable.requirements]）。
 
 [para:effects]
-[:en] [`swap_ranges(a, a + N, b)]
+[`swap_ranges(a, a + N, b)]
 [exit:description]
