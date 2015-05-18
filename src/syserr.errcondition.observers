@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcondition.observers
     [:en] Class [`error_condition] observers
+    [:zh_CN] 类 [`error_condition] 的探察函数
 ]
 
 [%@library value[!error_condition]]
@@ -11,6 +12,7 @@ int value() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`val_].
+[:zh_CN] [`val_]。
 [exit:description]
 
 [%@library category[!error_condition]]
@@ -22,6 +24,7 @@ const error_category& category() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`*cat_].
+[:zh_CN] [`*cat_]。
 [exit:description]
 
 [%@library message[!error_condition]]
@@ -33,6 +36,7 @@ string message() const;
 [enter:description]
 [para:returns]
 [:en] [`category().message(value())].
+[:zh_CN] [`category().message(value())]。
 [exit:description]
 
 [%@library operator bool[!error_condition]]
@@ -44,4 +48,5 @@ explicit operator bool() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`value() != 0].
+[:zh_CN] [`value() != 0]。
 [exit:description]
