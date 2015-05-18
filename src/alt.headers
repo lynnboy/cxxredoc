@@ -1,5 +1,6 @@
 ﻿[section#alt.headers
     [:en] Headers
+    [:zh_CN] 头文件
 ]
 
 [para]
@@ -10,3 +11,8 @@ standard library headers is not provided as part of the implementation, and a
 file with that name is placed in any of the standard places for a
 [%source file] source file to be included ([#cpp.include]), the
 [%undefined] behavior is undefined.
+[:zh_CN]
+[%由实现定义的]
+若某个带有与 [=Cpp] 标准程序库头文件之一的衍生的文件名等价的文件并未作为实现的
+一部分被提供，而带有该名字的某个文件被放在进行[%源文件]源文件包含的任何标准位置
+中（[#cpp.include]），其行为是[%未定义的]未定义的。
