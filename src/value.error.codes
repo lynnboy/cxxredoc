@@ -1,20 +1,33 @@
 ﻿[section#value.error.codes
     [:en] Value of error codes
+    [:zh_CN] 错误码的值
 ]
 
 [para]
 [:en]
 Certain functions in the [=Cpp] standard library report errors via a
-[`std::error_code] ([#syserr.errcode.overview]) object. That object[=']s
-[`category()] member shall return [`std::system_category()] for
+[`std::error_code] ([#syserr.errcode.overview]) object.
+[:zh_CN]
+[=Cpp] 标准程序库中的某些函数通过 [`std::error_code]
+（[#syserr.errcode.overview]）对象来报告错误。
+
+[:en]
+That object[=']s [`category()] member shall return [`std::system_category()] for
 errors originating from the operating system, or a reference to an
 [%@impldef [`error_category] for errors originating outside the operating
 system] implementation-defined [`error_category] object for errors originating
 elsewhere.
+[:zh_CN]
+该对象的 [`category()] 成员，对于源自操作系统的错误应当返回
+[`std::system_category()]，而对于其他来源的错误返回指代某个[%@impldef 代表源自
+操作系统之外的错误的 [`error_category]]由实现定义的 [`error_category] 对象的引用
+。
 
 [:en]
 The implementation shall define the possible values of [`value()] for each of
 these error categories.
+[:zh_CN]
+实现应当为这些错误类别的每一种都定义其 [`value()] 的可能值。
 
 [enter:example]
 [:en]
@@ -22,12 +35,20 @@ For operating systems that are based on POSIX, implementations are encouraged to
 define the [`std::system_category()] values as identical to the POSIX [`errno]
 values, with additional values as defined by the operating system[=']s
 documentation.
+[:zh_CN]
+对于基于 POSIX 的操作系统，鼓励实现将 [`std::system_category()] 的值定义为与
+POSIX 的 [`errno] 值相同，再加上有操作系统的文档中所定义的额外的值。
 
 [:en]
 Implementations for operating systems that are not based on POSIX are encouraged
 to define values identical to the operating system[=']s values.
+[:zh_CN]
+对于并非基于 POSIX 的操作系统的实现，鼓励它们将这些值定义为与该操作系统的值相同
+。
 
 [:en]
 For errors that do not originate from the operating system, the implementation
 may provide enums for the associated values.
+[:zh_CN]
+对于并非源自操作系统的错误，实现可以为其所关联的值提供枚举。
 [exit:example]
