@@ -1,5 +1,6 @@
 ﻿[section#set.new.handler
     [:en] [`set_new_handler]
+    [:zh_CN] [`set_new_handler]
 ]
 
 [%@library set_new_handler]
@@ -11,12 +12,18 @@ new_handler set_new_handler(new_handler new_p) noexcept;
 [para:effects]
 [:en]
 Establishes the function designated by [`new_p] as the current [`new_handler].
+[:zh_CN]
+把由 [`new_p] 所代表的函数设立为当前的 [`new_handler]。
 
 [para:returns]
 [:en]
 The previous [`new_handler].
+[:zh_CN]
+前一个 [`new_handler]。
 
 [para:remarks]
 [:en]
 The initial [`new_handler] is a null pointer.
+[:zh_CN]
+初始 [`new_handler] 是空指针。
 [exit:description]
