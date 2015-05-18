@@ -1,5 +1,5 @@
 ﻿[section#terminate
-    [:en] [`terminate]
+    [`terminate]
 ]
 
 [%@library terminate]
@@ -13,17 +13,26 @@
 Called by the implementation when exception handling must be abandoned for any
 of several reasons ([#except.terminate]), in effect immediately after throwing
 the exception.
+[:zh_CN]
+当由于几种原因而必须放弃异常处理时由实现调用（[#except.terminate]），效果上紧跟
+异常抛出之后。
 
 [:en]
 May also be called directly by the program.
+[:zh_CN]
+也可以被程序直接调用。
 
 [para:effects]
 [:en]
 Calls the current [`terminate_handler] function.
+[:zh_CN]
+调用当前 [`terminate_handler] 函数。
 
 [enter:note]
 [:en]
 A default [`terminate_handler] is always considered a callable handler in this
 context.
+[:zh_CN]
+这种语境下，预置 [`terminate_handler] 总是当做是可调用的处理函数。
 [exit:note]
 [exit:description]
