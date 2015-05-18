@@ -1,7 +1,9 @@
 ﻿[section#bad.alloc
-[%@library bad_alloc]
     [:en] Class [`bad_alloc]
+    [:zh_CN] 类 [`bad_alloc]
 ]
+
+[%@library bad_alloc]
 
 [codeblock:synopsis]
 namespace std {
@@ -19,6 +21,8 @@ namespace std {
 [:en]
 The class [`bad_alloc] defines the type of objects thrown as exceptions by the
 implementation to report a failure to allocate storage.
+[:zh_CN]
+[`bad_alloc] 类定义了当实现报告分配存储失败时所抛出的异常对象的类型。
 
 [%@library bad_alloc[!bad_alloc]]
 [codeblock:declaration]
@@ -29,14 +33,17 @@ bad_alloc() noexcept;
 [para:effects]
 [:en]
 Constructs an object of class [`bad_alloc].
+[:zh_CN]
+构造类 [`bad_alloc] 的对象。
 
 [para:notes]
 [:en]
 The result of calling [`what()] on the newly constructed object is
-implementation-defined.
+[%implementation-defined] implementation-defined.
+[:zh_CN]
+在新构造的对象上调用 [`what()] 的结果是[%由实现定义的]由实现定义的。
 [exit:description]
 
-[%[:en] implementation-defined]
 [%@library bad_alloc[!bad_alloc]]
 [%@library operator=[!bad_alloc]]
 [codeblock:declaration]
@@ -48,6 +55,8 @@ bad_alloc& operator=(const bad_alloc&) noexcept;
 [para:effects]
 [:en]
 Copies an object of class [`bad_alloc].
+[:zh_CN]
+复制类 [`bad_alloc] 的对象。
 [exit:description]
 
 [%@library what[!bad_alloc]]
@@ -61,4 +70,7 @@ virtual const char* what() const noexcept;
 [%@library bad_alloc[!bad_alloc::what[!implementation-defined]]]
 An [%@impldef return value of [`bad_alloc::what]] implementation-defined
 [em@sc ntbs].
+[:zh_CN]
+[%@library bad_alloc[!bad_alloc::what[!由实现定义的]]]
+一个[%@impldef [`bad_alloc::what]的返回值]由实现定义的 [em@sc ntbs]。
 [exit:description]
