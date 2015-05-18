@@ -1,5 +1,6 @@
 ﻿[section#protection.within.classes
     [:en] Protection within classes
+    [:zh_CN] 类内部的保护
 ]
 
 [para]
@@ -9,3 +10,8 @@ It is unspecified whether any function signature or class described in Clauses
 [#support.language] through [#thread] and Annex [#depr] is a
 [%specifier[![`friend]]] [`friend] of another class in the [=Cpp] standard
 library.
+[:zh_CN]
+[%保护]
+第 [#support.language] 到第 [#thread] 条以及附录 [#depr] 中描述的任何函数签名或
+类是否是 [=Cpp] 标准程序库中的其他类的 [%说明符[![`friend]]] [`friend] 是未指明
+的。
