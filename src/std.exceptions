@@ -1,35 +1,49 @@
 ﻿[section#std.exceptions
     [:en] Exception classes
+    [:zh_CN] 异常类
 ]
 
 [para]
 [:en] The Standard [=Cpp] library provides classes to be used to report certain
 errors ([#res.on.exception.handling]) in [=Cpp] programs.
+[:zh_CN]
+标准 [=Cpp] 程序库提供了用于在 [=Cpp] 程序中报告特定错误的类
+（[#res.on.exception.handling]）。
 
 [:en] In the error model reflected in these classes, errors are divided into two
 broad categories: [+logic] errors and [+runtime] errors.
+[:zh_CN]
+在这些类所反映的错误模型中，错误被划分为两种主要类别：[+逻辑]错误和[+运行时]错误
+。
 
 [para]
 [:en] The distinguishing characteristic of logic errors is that they are due to
 errors in the internal logic of the program.
+[:zh_CN] 逻辑错误的可识别特征为，它们是源自程序的内部逻辑中的错误。
 
 [:en] In theory, they are preventable.
+[:zh_CN] 理论上，它们是可以避免的。
 
 [para]
 [:en] By contrast, runtime errors are due to events beyond the scope of the
 program.
+[:zh_CN] 与之相对地，运行时错误源自程序范围之外的事件。
 
 [:en] They cannot be easily predicted in advance.
+[:zh_CN] 它们不能被轻易地提前预计到。
 
-[:en] The header [`<stdexcept>]
 [%[`<stdexcept>][sortas stdexcept]] [%@library <stdexcept>[sortas stdexcept]]
-defines several types of predefined exceptions for reporting errors in a [=Cpp]
-program.
+[:en] The header [`<stdexcept>] defines several types of predefined exceptions
+for reporting errors in a [=Cpp] program.
+[:zh_CN] 头文件 [`<stdexcept>] 定义了几个用于在 [=Cpp] 程序报告错误的预定义异常
+的类型。
 
 [:en] These exceptions are related by inheritance.
+[:zh_CN] 这些异常之间有继承关系。
 
 [para:synopsis]
 [:en] Header [`<stdexcept>] synopsis
+[:zh_CN] 头文件 [`<stdexcept>] 纲要
 
 [%@library <stdexcept>[sortas stdexcept]]
 [%@library logic_error]
