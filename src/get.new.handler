@@ -1,5 +1,6 @@
 ﻿[section#get.new.handler
     [:en] [`get_new_handler]
+    [:zh_CN] [`get_new_handler]
 ]
 
 [codeblock:declaration]
@@ -10,9 +11,13 @@ new_handler get_new_handler() noexcept;
 [para:returns]
 [:en]
 The current [`new_handler].
+[:zh_CN]
+当前 [`new_handler]。
 
 [enter:note]
 [:en]
 This may be a null pointer value.
+[:zh_CN]
+可能是空指针值。
 [exit:note]
 [exit:description]
