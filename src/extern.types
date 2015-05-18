@@ -1,18 +1,28 @@
 ﻿[section#extern.types
     [:en] Types
+    [:zh_CN] 类型
 ]
 
 [para]
 [:en]
-For each type T from the Standard C library,
+For each type [`T] from the Standard C library,
+[:zh_CN]
+对于每个标准 C 程序库中的类型 [`T]，
 
 [footnote]
 [:en]
 These types are [`clock_t], [`div_t], [`FILE], [`fpos_t], [`lconv], [`ldiv_t],
 [`mbstate_t], [`ptrdiff_t], [`sig_atomic_t], [`size_t], [`time_t], [`tm],
 [`va_list], [`wctrans_t], [`wctype_t], and [`wint_t].
+[:zh_CN]
+这些类型是 [`clock_t]，[`div_t]，[`FILE]，[`fpos_t]，[`lconv]，[`ldiv_t]，
+[`mbstate_t]，[`ptrdiff_t]，[`sig_atomic_t]，[`size_t]，[`time_t]，[`tm]，
+[`va_list]，[`wctrans_t]，[`wctype_t]，以及 [`wint_t]。
 [footnote:end]
 
 [:en@~]
 the types [`::T] and [`std::T] are reserved to the implementation and, when
 defined, [`::T] shall be identical to [`std::T].
+[:zh_CN@~]
+类型 [`::T] 和 [`std::T] 均被实现保留，并且当其被定义时，[`::T] 应当等同于
+[`std::T]。
