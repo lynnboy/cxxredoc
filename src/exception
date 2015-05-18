@@ -1,5 +1,6 @@
 ﻿[section#exception
     [:en] Class [`exception]
+    [:zh_CN] 类 [`exception]
 ]
 
 [%@library exception]
@@ -21,21 +22,32 @@ namespace std {
 The class [`exception] defines the base class for the types of objects thrown as
 exceptions by [=Cpp] standard library components, and certain expressions, to
 report errors detected during program execution.
+[:zh_CN]
+[`exception] 类定义了在程序执行过程中用于报告错误而被 [=Cpp] 标准程序库组件以及
+特定的表达式作为异常所抛出的对象的类型的基类。
 
 [para]
 [:en]
 Each standard library class [`T] that derives from class [`exception] shall have
 a publicly accessible copy constructor and a publicly accessible copy assignment
 operator that do not exit with an exception.
+[:zh_CN]
+派生于类 [`exception] 的每个标准程序库类 [`T] 都应带有不会以异常退出的一个可公用
+访问的复制构造函数和一个可公用访问的复制赋值运算符。
 
 [:en]
 These member functions shall meet the following postcondition:
+[:zh_CN]
+这些成员函数应当满足以下条件：
 
 [:en]
 If two objects [`lhs] and [`rhs] both have dynamic type [`T] and [`lhs] is a
 copy of [`rhs], then [`strcmp(lhs.what(), rhs.what())] shall equal 0.
+[:zh_CN]
+若两个对象 [`lhs] 和 [`rhs] 都具有动态类型 [`T]，且 [`lhs] 为 [`rhs] 的副本，则
+[`strcmp(lhs.what(), rhs.what())] 应当等于 0。
 
-[%@library exception[!constructor]]
+[%@library exception[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 exception() noexcept;
 [codeblock:end]
@@ -44,6 +56,8 @@ exception() noexcept;
 [para:effects]
 [:en]
 Constructs an object of class [`exception].
+[:zh_CN]
+构造一个类 [`exception] 的对象。
 [exit:description]
 
 [%@library operator=[!exception]]
@@ -56,15 +70,21 @@ exception& operator=(const exception& rhs) noexcept;
 [para:effects]
 [:en]
 Copies an [`exception] object.
+[:zh_CN]
+复制一个 [`exception] 对象。
 
 [para:postcondition]
 [:en]
 If [`*this] and [`rhs] both have dynamic type [`exception] then [`strcmp(what(),
 rhs.what())] shall equal 0.
+[:zh_CN]
+若 [`*this] 和 [`rhs] 均具有动态类型 [`exception]，则 [`strcmp(what(),
+rhs.what())] 应当为 0。
 [exit:description]
 
-[%[:en] implementation-defined]
-[%@library exception[!destructor]]
+[%[:en] implementation-defined
+  [:zh_CN]由实现定义的]
+[%@library exception[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 virtual ~exception();
 [codeblock:end]
@@ -73,6 +93,8 @@ virtual ~exception();
 [para:effects]
 [:en]
 Destroys an object of class [`exception].
+[:zh_CN]
+销毁一个类 [`exception] 的对象。
 [exit:description]
 
 [%@library what[!exception]]
@@ -85,15 +107,24 @@ virtual const char* what() const noexcept;
 [:en]
 [%[`exception::what] message[!implementation-defined]]
 An [%@impldef result of [`exception::what]] implementation-defined [em@sc ntbs].
+[:zh_CN]
+[%[`exception::what] 消息[!由实现定义的]]
+一个[%@impldef [`exception::what]的结果]由实现定义的 [em@sc ntbs]。
 
 [para:notes]
 [:en]
 The message may be a null-terminated multibyte string ([#multibyte.strings]),
 suitable for conversion and display as a [`wstring] ([#string.classes],
 [#locale.codecvt]).
+[:zh_CN]
+该消息可能是个空终结多字节字符串（[#multibyte.strings]），且适于转换并显示为一个
+[`wstring]（[#string.classes]，[#locale.codecvt]）。
 
 [:en]
 The return value remains valid until the exception object from which it is
 obtained is destroyed or a non-[`const] member function of the exception object
 is called.
+[:zh_CN]
+其返回值直到从中获取它的异常对象被销毁或者调用了该异常对象的某个非-[`const] 成员
+函数之前保持有效。
 [exit:description]
