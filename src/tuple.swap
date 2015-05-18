@@ -1,5 +1,6 @@
 ﻿[section#tuple.swap
     [:en] [`swap]
+    [:zh_CN] [`swap]
 ]
 
 [%@library swap[!tuple]]
@@ -12,22 +13,29 @@ void swap(tuple& rhs) noexcept([=Seebelow]);
 [para:remark]
 [:en] The expression inside [`noexcept] is equivalent to the logical [em@sc and]
 of the following expressions:
+[:zh_CN] [`noexcept] 中的表达式等价于以下表达式的逻辑 [em@sc and]：
 
 [codeblock:notation]
 noexcept(swap(declval<[$T[_i]]&>>(), declval<[$T[_i]]&>()))
 [codeblock:end]
 
 [:en@~] where [$T[_i]] is the [$i[^th]] type in [`Types].
+[:zh_CN@~] 其中 [$T[_i]] 为 [`Types] 中的第 [$i] 个类型。
 
 [para:requires]
 [:en]
 Each element in [`*this] shall be swappable with ([#swappable.requirements])
 the corresponding element in [`rhs].
+[:zh_CN]
+[`*this] 中的每个类型均应当与 [`rhs] 中的对应元素之间可互相交换
+（[#swappable.requirements]）。
 
 [para:effects]
 [:en] Calls [`swap] for each element in [`*this] and its corresponding element
 in [`rhs].
+[:zh_CN] 为 [`*this] 中的每个元素与其在 [`rhs] 中的对应元素调用 [`swap]。
 
 [para:throws]
 [:en] Nothing unless one of the element-wise [`swap] calls throws an exception.
+[:zh_CN] 除非按元素调用的 [`swap] 中有一个抛出异常，否则不抛出异常。
 [exit:description]
