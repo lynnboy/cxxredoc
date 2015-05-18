@@ -1,58 +1,87 @@
 ﻿[section#res.on.exception.handling
     [:en] Restrictions on exception handling
+    [:zh_CN] 对异常处理的限制
 ]
 
 [:en]
 [%restriction]
 [%exception handling[!handler]]
+[:zh_CN]
+[%限制]
+[%异常处理[!处理器]]
 
 [para]
 [:en]
 Any of the functions defined in [%library[!C++ standard]] the [=Cpp] standard
 library can report a failure by throwing an exception of a type described in its
 [=Throws] paragraph.
+[:zh_CN]
+[%程序库[!C++ 标准～]] [=Cpp] 标准程序库中定义的任何函数均可通过抛出其 [=Throws]
+段落中描述的类型的异常来报告错误。
 
 [:en]
 An implementation may strengthen the exception specification for a non-virtual
 function by adding a non-throwing [~noexcept-specification].
+[:zh_CN]
+实现可以通过增加非抛出的 [~noexcept-说明]来为非虚函数强化其异常说明。
 
 [para]
 [:en]
 A function may throw an object of a type not listed in its [=Throws] clause if
 its type is derived from a type named in the [=Throws] clause and would be
 caught by an exception handler for the base type.
+[:zh_CN]
+实现可以抛出并未在其 [=Throws] 条款中列出的类型的对象，但其类型应派生自
+[=Throws] 条款中指名的某个类型，且针对基类的异常处理器能够捕获它。
 
 [para]
 [:en]
-Functions from the C standard library shall not throw exceptions
 [%specifications[!C standard library exception]]
+Functions from the C standard library shall not throw exceptions
+[:zh_CN]
+[%说明[!C 标准程序库的异常～]]
+C 标准程序库中的函数不应抛出异常
 
 [footnote]
 [:en]
-That is, the C library functions can all be treated as if they
-are marked [`noexcept].
-This allows implementations to make performance optimizations
-based on the absence of exceptions at runtime.
+That is, the C library functions can all be treated as if they are marked
+[`noexcept].
+[:zh_CN]
+就是说，C 程序库函数都可以当作如同标记为 [`noexcept] 来对待。
+
+[:en]
+This allows implementations to make performance optimizations based on the
+absence of exceptions at runtime.
+[:zh_CN]
+这允许实现基于运行时没有异常而进行性能优化。
 [footnote:end]
 
 [:en@~]
 except when such a function calls a program-supplied function that throws an
 exception.
+[:zh_CN@~]
+，除非它调用某个抛出异常的由程序提供的函数。
 
 [footnote]
 [:en]
 The functions [`qsort()] and [`bsearch()] ([#alg.c.library]) meet this
 condition.
+[:zh_CN]
+函数 [`qsort()] 和 [`bsearch()]（[#alg.c.library]）符合此条件。
 [footnote:end]
 
 [para]
 [:en]
 Destructor operations defined in the [=Cpp] standard library shall not throw
 exceptions.
+[:zh_CN]
+[=Cpp] 标准程序库中定义的析构函数操作均不应抛出异常。
 
 [:en]
 Every destructor in the [=Cpp] standard library shall behave as if it had a
 non-throwing exception specification.
+[:zh_CN]
+[=Cpp] 标准程序库中的每个析构函数都应当表现为如同带有非抛出异常说明。
 
 [:en]
 Any other functions defined in the [=Cpp] standard library
@@ -60,32 +89,48 @@ Any other functions defined in the [=Cpp] standard library
 [%@impldef exceptions thrown by standard library functions that do not have an
 exception specification] implementation-defined exceptions unless otherwise
 specified.
+[:zh_CN]
+除非另行说明，[=Cpp] 标准程序库中[%说明[!C++]]定义的没有[~异常说明]的任何其他
+函数均可抛出[%@impldef 没有异常说明的标准程序库函数所抛出的异常]由实现定义的异常
+。
 
 [footnote]
 [:en]
 In particular, they can report a failure to allocate storage by throwing an
 exception of type [`bad_alloc], or a class derived from [`bad_alloc]
 ([#bad.alloc]).
+[:zh_CN]
+特别地，它们可以通过抛出类型 [`bad_alloc]，或派生自 [`bad_alloc] 的类的异常来
+报告存储分配的失败（[#bad.alloc]）。
 
 [:en]
 Library implementations should report errors by throwing exceptions of or
 derived from the standard exception classes ([#bad.alloc], [#support.exception],
 [#std.exceptions]).
+[:zh_CN]
+程序库实现应当通过抛出标准异常类或其派生类来报告错误（[#bad.alloc]，
+[#support.exception]，[#std.exceptions]）。
 [footnote:end]
 
 [:en]
 An implementation may strengthen this implicit [~exception-specification]
 by adding an explicit one.
+[:zh_CN]
+实现可以通过添加显式的[~异常说明]来强化其隐含的[~异常说明]。
 
 [footnote]
 [:en]
 That is, an implementation may provide an explicit [~exception-specification]
 that defines the subset of ["any] exceptions thrown by that function.
+[:zh_CN]
+就是说，实现可以提供显式[~异常说明]并定义由该函数抛出的“任何”异常的子集的。
 
 [:en]
-This implies that the implementation may list implementation-defined types
+This implies that the implementation may list
+[%types[!implementation-defined exception]] implementation-defined types
 in such an
-[%types[!implementation-defined exception]]
-[%specifications[!implementation-defined exception]]
-[~exception-specification].
+[%specifications[!implementation-defined exception]] [~exception-specification].
+[:zh_CN]
+这意味着实现可以在此种[%说明[!由实现定义的异常～]][~异常说明]中列出
+[%类型[!由实现定义的异常～]]由实现定义的类型。
 [footnote:end]
