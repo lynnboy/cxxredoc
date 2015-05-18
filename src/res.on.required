@@ -1,5 +1,6 @@
 ﻿[section#res.on.required
     [:en] Required paragraph
+    [:zh_CN] “要求”段落
 ]
 
 [para]
@@ -8,3 +9,7 @@
 Violation of the preconditions specified in a function[=']s [=Requires]
 paragraph results in undefined behavior unless the function[=']s [=Throws]
 paragraph specifies throwing an exception when the precondition is violated.
+[:zh_CN]
+[%限制]
+当违反了在某函数的 [=Requires] 段落中指定的前条件时，除非该函数的 [=Throws] 段落
+指定了当该前条件被违反时将抛出异常，否则将导致未定义的行为。
