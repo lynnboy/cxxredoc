@@ -1,11 +1,14 @@
 ﻿[section#util.smartptr.ownerless
     [:en] Class template [`owner_less]
+    [:zh_CN] 类模板 [`owner_less]
 ]
 
 [para]
 [:en]
 The class template [`owner_less] allows ownership-based mixed comparisons of
 shared and weak pointers.
+[:zh_CN]
+类模板 [`owner_less] 允许进行基于所有权的共享指针和弱指针之间的混合比较。
 
 [codeblock:synopsis]
 namespace std {
@@ -34,18 +37,26 @@ namespace std {
 [para]
 [:en]
 [`operator()(x,y)] shall return [`x.owner_before(y)].
+[:zh_CN]
+[`operator()(x,y)] 应当返回 [`x.owner_before(y)]。
 
 [enter:note]
 [:en]
 Note that
+[:zh_CN]
+注意
 
 [list]
 [item]
 [:en] [`operator()] defines a strict weak ordering as defined in [#alg.sorting];
+[:zh_CN] [`operator()] 定义一种如 [#alg.sorting] 所定义的严格弱序关系；
 
 [item]
 [:en] under the equivalence relation defined by [`operator()], [`!operator()(a,
 b) && !operator()(b, a)], two [`shared_ptr] or [`weak_ptr] instances are
 equivalent if and only if they share ownership or are both empty.
+[:zh_CN] 在由 [`operator()] 所定义的等价关系中，[`!operator()(a, b) &&
+!operator()(b, a)]，当且仅当两个 [`shared_ptr] 或 [`weak_ptr] 实例共享所有权或
+二者均为空时，它们等价。
 [list:end]
 [exit:note]
