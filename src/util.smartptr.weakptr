@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.weakptr
     [:en] Class [`bad_weak_ptr]
+    [:zh_CN] 类 [`bad_weak_ptr]
 ]
 
 [%@library exception[!bad_weak_ptr]]
@@ -17,6 +18,9 @@ namespace std {
 [:en]
 An exception of type [`bad_weak_ptr] is thrown by the [`shared_ptr]
 constructor taking a [`weak_ptr].
+[:zh_CN]
+[`bad_weak_ptr] 类型的异常由 [`shared_ptr] 的获取一个 [`weak_ptr] 的构造函数所
+抛出。
 
 [%@library bad_weak_ptr[!bad_weak_ptr]]
 [%@library bad_weak_ptr[!what]]
@@ -29,4 +33,6 @@ bad_weak_ptr() noexcept;
 [para:postconditions]
 [:en] [`what()] returns an [%@impldef string returned by [`what()] for
 [`bad_weak_ptr]] implementation-defined NTBS.
+[:zh_CN] [`what()] 返回一个[%@impldef [`bad_weak_ptr] 的 [`what()] 所返回的
+字符串] 由实现定义的 NTBS。
 [exit:description]
