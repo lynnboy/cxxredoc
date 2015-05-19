@@ -1,5 +1,6 @@
 ﻿[section#allocator.uses.trait
     [:en] [`uses_allocator] trait
+    [:zh_CN] [`uses_allocator] 特征
 ]
 
 [%@library uses_allocator]
@@ -11,24 +12,35 @@ template <class T, class Alloc> struct uses_allocator;
 [para:remarks]
 [:en] automatically detects whether [`T] has a nested [`allocator_type] that
 is convertible from [`Alloc].
+[:zh_CN] 自动检查 [`T] 是否带有可以从 [`Alloc] 转换的嵌套的 [`allocator_type]。
 
-[:en] Meets the BinaryTypeTrait requirements ([#meta.rqmts]).
+[:en] Meets the [`BinaryTypeTrait] requirements ([#meta.rqmts]).
+[:zh_CN] 符合 [`BinaryTypeTrait] 规定（[#meta.rqmts]）。
 
 [:en] The implementation shall provide a definition that is derived from
 [`true_type] if the [~qualified-id] [`T::allocator_type] is valid and denotes a
 type ([#temp.deduct]) and [`is_convertible<Alloc, T::allocator_type>::value !=
 false], otherwise it shall be derived from [`false_type].
+[:zh_CN] 如果[~限定标识] [`T::allocator_type] 有效且代表某个类型
+（[#temp.deduct]），并且 [`is_convertible<Alloc, T::allocator_type>::value !=
+false] 时，实现应当为其提供派生自 [`true_type] 的定义，否则它应当派生自
+[`false_type]。
 
 [:en] A program may specialize this template to derive from [`true_type] for a
 user-defined type [`T] that does not have a nested [`allocator_type] but
 nonetheless can be constructed with an allocator where either:
+[:zh_CN] 程序可以为某个没有嵌套的 [`allocator_type] 的用户定义的类型 [`T] 将这个
+模板特化为继承自 [`true_type]，只要满足以下条件：
 
 [list]
 [item]
 [:en] the first argument of a constructor has type [`allocator_arg_t] and the
 second argument has type [`Alloc] or
+[:zh_CN] 某个构造函数的第一个实参具有类型 [`allocator_arg_t] 且其第二个实参具有
+类型 [`Alloc]，或者
 
 [item]
 [:en] the last argument of a constructor has type [`Alloc].
+[:zh_CN] 某个构造函数的最后一个实参具有类型 [`Alloc]。
 [list:end]
 [exit:description]
