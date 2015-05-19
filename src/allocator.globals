@@ -1,5 +1,6 @@
 ﻿[section#allocator.globals
     [:en] [`allocator] globals
+    [:zh_CN] [`allocator] 的全局函数
 ]
 
 [%@library operator==[!allocator]]
@@ -12,6 +13,7 @@ template <class T1, class T2>
 [enter:description]
 [para:returns]
 [:en] [`true].
+[:zh_CN] [`true]。
 [exit:description]
 
 [%@library operator!=[!allocator]]
@@ -24,4 +26,5 @@ template <class T1, class T2>
 [enter:description]
 [para:returns]
 [:en] [`false].
+[:zh_CN] [`false]。
 [exit:description]
