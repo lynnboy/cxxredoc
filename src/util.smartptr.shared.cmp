@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.cmp
     [:en] [`shared_ptr] comparison
+    [:zh_CN] [`shared_ptr] 的比较
 ]
 
 [%@library shared_ptr[!operator==]]
@@ -11,6 +12,7 @@ template<class T, class U> bool operator==(const shared_ptr<T>& a, const shared_
 [enter:description]
 [para:returns]
 [:en] [`a.get() == b.get()].
+[:zh_CN] [`a.get() == b.get()]。
 [exit:description]
 
 [%@library shared_ptr[!operator<]]
@@ -23,11 +25,14 @@ template<class T, class U> bool operator<(const shared_ptr<T>& a, const shared_p
 [para:returns]
 [:en] [`less<V>()(a.get(), b.get())], where [`V] is the composite pointer type
 (Clause [#expr]) of [`T*] and [`U*].
+[:zh_CN] [`less<V>()(a.get(), b.get())]，其中 [`V] 为 [`T*] 和 [`U*] 的合成指针
+类型（第 [#expr] 条）。
 
 [para]
 [enter:note]
 [:en] Defining a comparison operator allows [`shared_ptr] objects to be used as
 keys in associative containers.
+[:zh_CN] 定义比较运算符允许 [`shared_ptr] 对象被用作关联容器中的键。
 [exit:note]
 [exit:description]
 
@@ -43,6 +48,7 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] [`!a].
+[:zh_CN] [`!a]。
 [exit:description]
 
 [%@library operator!=[!shared_ptr]]
@@ -57,6 +63,7 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] [`(bool)a].
+[:zh_CN] [`(bool)a]。
 [exit:description]
 
 [%@library operator<[!shared_ptr]]
@@ -71,8 +78,10 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`less<T*>()(a.get(), nullptr)].
+[:zh_CN] 第一个函数模板返回 [`less<T*>()(a.get(), nullptr)]。
 
 [:en] The second function template returns [`less<T*>()(nullptr, a.get())].
+[:zh_CN] 第二个函数模板返回 [`less<T*>()(nullptr, a.get())]。
 [exit:description]
 
 [%@library operator>[!shared_ptr]]
@@ -87,8 +96,10 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`nullptr < a].
+[:zh_CN] 第一个函数模板返回 [`nullptr < a]。
 
 [:en] The second function template returns [`a < nullptr].
+[:zh_CN] 第二个函数模板返回 [`a < nullptr]。
 [exit:description]
 
 [%@library operator<=[!shared_ptr]]
@@ -103,8 +114,10 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`!(nullptr < a)].
+[:zh_CN] 第一个函数模板返回 [`!(nullptr < a)]。
 
 [:en] The second function template returns [`!(a < nullptr)].
+[:zh_CN] 第二个函数模板返回 [`!(a < nullptr)]。
 [exit:description]
 
 [%@library operator>=[!shared_ptr]]
@@ -119,6 +132,8 @@ template <class T>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`!(a < nullptr)].
+[:zh_CN] 第一个函数模板返回 [`!(a < nullptr)]。
 
 [:en] The second function template returns [`!(nullptr < a)].
+[:zh_CN] 第二个函数模板返回 [`!(nullptr < a)]。
 [exit:description]
