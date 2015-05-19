@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.create
     [:en] [`unique_ptr] creation
+    [:zh_CN] [`unique_ptr] 的创建
 ]
 
 [%@library make_unique]
@@ -11,9 +12,11 @@ template <class T, class... Args> unique_ptr<T> make_unique(Args&&... args);
 [para:remarks]
 [:en] This function shall not participate in overload resolution unless [`T] is
 not an array.
+[:zh_CN] 除非 [`T] 不是数组，否则这个函数不能参与重载决议。
 
 [para:returns]
 [:en] [`unique_ptr<T>(new T(std::forward<Args>(args)...))].
+[:zh_CN] [`unique_ptr<T>(new T(std::forward<Args>(args)...))]。
 [exit:description]
 
 [codeblock:declaration]
@@ -24,9 +27,11 @@ template <class T> unique_ptr<T> make_unique(size_t n);
 [para:remarks]
 [:en] This function shall not participate in overload resolution unless [`T] is
 an array of unknown bound.
+[:zh_CN] 除非 [`T] 是未知边界的数组，否则这个函数不能参与重载决议。
 
 [para:returns]
 [:en] [`unique_ptr<T>(new remove_extent_t<T>[n`]())].
+[:zh_CN] [`unique_ptr<T>(new remove_extent_t<T>[n`]())]。
 
 [exit:description]
 [codeblock:declaration [special unspecified] ]
@@ -37,4 +42,5 @@ template <class T, class... Args> unspecified make_unique(Args&&...) = delete;
 [para:remarks]
 [:en] This function shall not participate in overload resolution unless [`T] is
 an array of known bound.
+[:zh_CN] 除非 [`T] 是未知边界的数组，否则这个函数不能参与重载决议。
 [exit:description]
