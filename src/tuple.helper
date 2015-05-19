@@ -1,8 +1,9 @@
 ﻿[section#tuple.helper
     [:en] Tuple helper classes
+    [:zh_CN] 元组的辅助类
 ]
 
-[%@library [:en] tuple_size[!in general]]
+[%@library tuple_size[![:en]in general[:zh_CN]一般说明]]
 [codeblock:declaration]
 template <class T> struct tuple_size;
 [codeblock:end]
@@ -12,6 +13,9 @@ template <class T> struct tuple_size;
 [:en] All specializations of [`tuple_size<T>] shall meet the [`UnaryTypeTrait]
 requirements ([#meta.rqmts]) with a [`BaseCharacteristic] of
 [`integral_constant<size_t, N>] for some [`N].
+[:zh_CN] [`tuple_size<T>] 的所有特例都应当符合 [`UnaryTypeTrait] 规定
+（[#meta.rqmts]），并以对于某个 [`N] 的 [`integral_constant<size_t, N>] 为其
+[`BaseCharacteristic]。
 [exit:description]
 
 [%@library tuple_size]
@@ -33,12 +37,15 @@ public:
 [enter:description]
 [para:requires]
 [:en] [`I < sizeof...(Types)].
+[:zh_CN] [`I < sizeof...(Types)]。
 
 [:en] The program is ill-formed if [`I] is out of bounds.
+[:zh_CN] 若 [`I] 超出范围则程序非良构。
 
 [para:ctype]
 [:en] [`TI] is the type of the [`I]th element of [`Types], where indexing is
 zero-based.
+[:zh_CN] [`TI] 为 [`Types] 的第 [`I] 个元素的类型，其中的索引基于零。
 [exit:description]
 
 [codeblock:declaration]
@@ -50,9 +57,12 @@ template <class T> class tuple_size<const volatile T>;
 [enter:description]
 [para]
 [:en] Let [$TS] denote [`tuple_size<T>] of the [$cv]-unqualified type [`T].
+[:zh_CN] 令 [$TS] 代表 [$cv]-未限定类型 [`T] 的 [`tuple_size<T>]。
 
 [:en] Then each of the three templates shall meet the [`UnaryTypeTrait]
 requirements ([#meta.rqmts]) with a [`BaseCharacteristic] of
+[:zh_CN] 则三个模板中的每个都符合 [`UnaryTypeTrait] 规定（[#meta.rqmts]），其
+[`BaseCharacteristic] 为
 
 [codeblock:notation]
 integral_constant<size_t, TS::value>
@@ -62,6 +72,8 @@ integral_constant<size_t, TS::value>
 [:en] In addition to being available via inclusion of the [`<tuple>] header,
 the three templates are available when either of the headers [`<array>] or
 [`<utility>] are included.
+[:zh_CN] 除了通过包含 [`<tuple>] 头文件而使其可用之外，这三个模板还可以通过包含
+[`<array>] 或 [`<utility>] 而可用。
 [exit:description]
 
 [codeblock:declaration]
@@ -74,22 +86,30 @@ template <size_t I, class T> class tuple_element<I, const volatile T>;
 [para]
 [:en] Let [$TE] denote [`tuple_element<I, T>] of the [$cv]-unqualified type
 [`T].
+[:zh_CN] 令 [$TE] 代表 [$cv]-未限定的类型 [`T] 的 [`tuple_element<I, T>]。
 
 [:en] Then each of the three templates shall meet the [`TransformationTrait]
 requirements ([#meta.rqmts]) with a member typedef [`type] that names the
 following type:
+[:zh_CN] 则三个模板中的每个都符合 [`TransformationTrait] 规定（[#meta.rqmts]），
+并带有指名下列类型的成员 typedef [`type]：
 
 [list]
 [item]
 [:en@~] for the first specialization, [`add_const_t<[$TE]::type>],
+[:zh_CN@~] 对于第一个特化式，为 [`add_const_t<[$TE]::type>]，
 [item]
 [:en@~] for the second specialization, [`add_volatile_t<[$TE]::type>], and
+[:zh_CN@~] 对于第二个特化式，为 [`add_volatile_t<[$TE]::type>]，而
 [item]
 [:en@~] for the third specialization, [`add_cv_t<[$TE]::type>].
+[:zh_CN@~] 对于第三个特化式，为 [`add_cv_t<[$TE]::type>]。
 [list:end]
 
 [para]
 [:en] In addition to being available via inclusion of the [`<tuple>] header,
 the three templates are available when either of the headers [`<array>] or
 [`<utility>] are included.
+[:zh_CN] 除了通过包含 [`<tuple>] 头文件而使其可用之外，这三个模板还可以通过包含
+[`<array>] 或 [`<utility>] 而可用。
 [exit:description]
