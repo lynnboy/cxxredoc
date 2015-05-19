@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.assign
     [:en] [`shared_ptr] assignment
+    [:zh_CN] [`shared_ptr] 的赋值
 ]
 
 [%@library shared_ptr[!operator=]]
@@ -12,9 +13,11 @@ template<class Y> shared_ptr& operator=(const shared_ptr<Y>& r) noexcept;
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`shared_ptr(r).swap(*this)].
+[:zh_CN] 等价于 [`shared_ptr(r).swap(*this)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 
 [para]
 [enter:note]
@@ -22,6 +25,7 @@ template<class Y> shared_ptr& operator=(const shared_ptr<Y>& r) noexcept;
 destruction are not observable side effects, so the implementation may meet the
 effects (and the implied guarantees) via different means, without creating a
 temporary. In particular, in the example:
+[:zh_CN]
 
 [codeblock]
 shared_ptr<int> p(new int);
@@ -32,6 +36,8 @@ q = p;
 
 [:en@~]
 both assignments may be no-ops.
+[:zh_CN@~]
+两个赋值均可能为空操作。
 [exit:note]
 [exit:description]
 
@@ -45,9 +51,11 @@ template<class Y> shared_ptr& operator=(shared_ptr<Y>&& r) noexcept;
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`shared_ptr(std::move(r)).swap(*this)].
+[:zh_CN] 等价于 [`shared_ptr(std::move(r)).swap(*this)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!shared_ptr]]
@@ -59,7 +67,8 @@ template <class Y, class D> shared_ptr& operator=(unique_ptr<Y, D>&& r);
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`shared_ptr(std::move(r)).swap(*this)].
+[:zh_CN] 等价于 [`shared_ptr(std::move(r)).swap(*this)]。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
