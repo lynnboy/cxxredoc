@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.runtime.modifiers
     [:en] [`unique_ptr] modifiers
+    [:zh_CN] [`unique_ptr] 的改动函数
 ]
 
 [%@library reset[!unique_ptr]]
@@ -11,6 +12,7 @@ void reset(nullptr_t p = nullptr) noexcept;
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`reset(pointer())].
+[:zh_CN] 等价于 [`reset(pointer())]。
 [exit:description]
 
 [%@library reset[!unique_ptr]]
@@ -24,12 +26,17 @@ template <class U> void reset(U p) noexcept;
 [:en]
 This function behaves the same as the [`reset] member of the primary template,
 except that it shall not participate in overload resolution unless either
+[:zh_CN]
+这个函数的行为与主模板的 [`reset] 成员相同，但它不能参与重载决议，除非
 
 [list]
 [item]
 [:en] [`U] is the same type as [`pointer], or
+[:zh_CN] [`U] 与 [`pointer] 类型相同，或者
 [item]
 [:en] [`pointer] is the same type as [`element_type*], [`U] is a pointer type
 [`V*], and [`V(*)[`]] is convertible to [`element_type(*)[`]].
+[:zh_CN] [`pointer] 与 [`element_type*] 类型相同，[`U] 为指针类型 [`V*]，且
+[`V(*)[`]] 可以转换为 [`element_type(*)[`]]。
 [list:end]
 [exit:description]
