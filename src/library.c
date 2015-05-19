@@ -6,11 +6,11 @@
 [para]
 [:en]
 The [=Cpp] standard library also makes available the facilities of the C
-standard library, [%@library[!C standard]] suitably adjusted to ensure static
+standard library, [% library[!C standard]] suitably adjusted to ensure static
 type safety.
 [:zh_CN]
-[=Cpp] 标准程序库中还可使用 [%@library [!C 标准程序库]] C 标准程序库中的功能，
-它们已经过调整以保证静态类型安全性。
+[=Cpp] 标准程序库中还可使用 [%程序库 [!C 标准～]] C 标准程序库中的功能，它们已经
+经过调整以保证静态类型安全性。
 
 [para]
 [:en]

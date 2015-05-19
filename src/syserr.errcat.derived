@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcat.derived
     [:en] Program defined classes derived from [`error_category]
+    [:zh_CN] 由程序定义的派生自 [`error_category] 的类
 ]
 
 [%@library name[!error_category]]
@@ -11,6 +12,7 @@ virtual const char* name() const noexcept = 0;
 [enter:description]
 [para:returns]
 [:en] A string naming the error category.
+[:zh_CN] 命名这个错误类别的字符串。
 [exit:description]
 
 [%@library default_error_condition[!error_category]]
@@ -22,6 +24,7 @@ virtual error_condition default_error_condition(int ev) const noexcept;
 [enter:description]
 [para:returns]
 [:en] An object of type [`error_condition] that corresponds to [`ev].
+[:zh_CN] 对应于 [`ev] 的 [`error_condition] 类型的对象。
 [exit:description]
 
 [%@library equivalent[!error_category]]
@@ -34,6 +37,8 @@ virtual bool equivalent(int code, const error_condition& condition) const noexce
 [para:returns]
 [:en] [`true] if, for the category of error represented by [`*this], [`code] is
 considered equivalent to [`condition]; otherwise, [`false].
+[:zh_CN] 若对于由 [`*this] 所代表的错误类别，认为 [`code] 与 [`condition] 等价
+则为 [`true]；否则为 [`false]。
 [exit:description]
 
 [%@library equivalent[!error_category]]
@@ -46,4 +51,6 @@ virtual bool equivalent(const error_code& code, int condition) const noexcept;
 [para:returns]
 [:en] [`true] if, for the category of error represented by [`*this], [`code] is
 considered equivalent to [`condition]; otherwise, [`false].
+[:zh_CN] 若对于由 [`*this] 所代表的错误类别，认为 [`code] 与 [`condition] 等价
+则为 [`true]；否则为 [`false]。
 [exit:description]

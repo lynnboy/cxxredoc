@@ -1,5 +1,6 @@
 ﻿[section#tuple.special
     [:en] Tuple specialized algorithms
+    [:zh_CN] 对元组特化的算法
 ]
 
 [%@library swap]
@@ -11,11 +12,12 @@ template <class... Types>
 [enter:description]
 [para:remark]
 [:en] The expression inside [`noexcept] is equivalent to:
+[:zh_CN] [`noexcept] 中的表达式等价于：
 
 [codeblock:notation]
 noexcept(x.swap(y))
 [codeblock:end]
 
 [para:effects]
-[:en] [`x.swap(y)]
+[`x.swap(y)]
 [exit:description]

@@ -1,45 +1,58 @@
 ﻿[section#diagnostics.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 This Clause describes components that [=Cpp] programs may use to detect and
 report error conditions.
+[:zh_CN]
+本条描述了 [=Cpp] 程序可以用来监测并报告错误条件的组件。
 
 [para]
 [:en]
 The following subclauses describe components for reporting several kinds of
 exceptional conditions, documenting program assertions, and a global variable
 for error number codes, as summarized in Table [#tab:diagnostics.lib.summary].
+[:zh_CN]
+下列子条款描述了用于报告几种异常条件，注明程序断言，以及一个用作错误号码的全局
+变量等组件，如表 [#tab:diagnostics.lib.summary] 中所概括：
 
 [table:listing#tab:diagnostics.lib.summary
     [:en] Diagnostics library summary
+    [:zh_CN] 诊断库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
 ]
 [|] [#std.exceptions]
 [|] [:en] Exception classes
+    [:zh_CN] 异常类
 [|] <stdexcept>
 
 [|] [#assertions]
 [|] [:en] Assertions
+    [:zh_CN] 断言
 [|] <cassert>
 
 [|] [#errno]
 [|] [:en] Error numbers
+    [:zh_CN] 错误号码
 [|] <cerrno>
 
 [|] [#syserr]
 [|] [:en] System error support
+    [:zh_CN] 系统错误支持
 [|] <system_error>
 
 [table:end]

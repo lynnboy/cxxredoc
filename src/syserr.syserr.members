@@ -1,5 +1,6 @@
 ﻿[section#syserr.syserr.members
     [:en] Class [`system_error] members
+    [:zh_CN] 类 [`system_error] 的成员
 ]
 
 [%@library system_error[!system_error]]
@@ -11,12 +12,15 @@ system_error(error_code ec, const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == ec].
+[:zh_CN] [`code() == ec]。
 
 [para:~]
 [:en] [`string(what()).find(what_arg) != string::npos].
+[:zh_CN] [`string(what()).find(what_arg) != string::npos]。
 [exit:description]
 
 [%@library system_error[!system_error]]
@@ -28,12 +32,15 @@ system_error(error_code ec, const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == ec].
+[:zh_CN] [`code() == ec]。
 
 [para:~]
 [:en] [`string(what()).find(what_arg) != string::npos].
+[:zh_CN] [`string(what()).find(what_arg) != string::npos]。
 [exit:description]
 
 [%@library system_error[!system_error]]
@@ -45,9 +52,11 @@ system_error(error_code ec);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == ec].
+[:zh_CN] [`code() == ec]。
 [exit:description]
 
 [%@library system_error[!system_error]]
@@ -60,12 +69,15 @@ system_error(int ev, const error_category& ecat,
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == error_code(ev, ecat)].
+[:zh_CN] [`code() == error_code(ev, ecat)]。
 
 [para:~]
 [:en] [`string(what()).find(what_arg) != string::npos].
+[:zh_CN] [`string(what()).find(what_arg) != string::npos]。
 [exit:description]
 
 [%@library system_error[!system_error]]
@@ -78,12 +90,15 @@ system_error(int ev, const error_category& ecat,
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == error_code(ev, ecat)].
+[:zh_CN] [`code() == error_code(ev, ecat)]。
 
 [para:~]
 [:en] [`string(what()).find(what_arg) != string::npos].
+[:zh_CN] [`string(what()).find(what_arg) != string::npos]。
 [exit:description]
 
 [%@library system_error[!system_error]]
@@ -95,9 +110,11 @@ system_error(int ev, const error_category& ecat);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`system_error].
+[:zh_CN] 构造类 [`system_error] 的一个对象。
 
 [para:postconditions]
 [:en] [`code() == error_code(ev, ecat)].
+[:zh_CN] [`code() == error_code(ev, ecat)]。
 [exit:description]
 
 [%@library code[!system_error]]
@@ -109,6 +126,7 @@ const error_code& code() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`ec] or [`error_code(ev, ecat)], from the constructor, as appropriate.
+[:zh_CN] 适当地返回来自其构造函数的 [`ec] 或 [`error_code(ev, ecat)]。
 [exit:description]
 
 [%@library what[!system_error]]
@@ -120,10 +138,12 @@ const char* what() const noexcept;
 [enter:description]
 [para:returns]
 [:en] An [em@sc ntbs] incorporating the arguments supplied in the constructor.
+[:zh_CN] 合并了提供给构造函数的各实参的一个 [em@sc ntbs]。
 
 [para:~]
 [enter:note]
 [:en] The returned NTBS might be the contents of [`what_arg + ": " +
 code.message()].
+[:zh_CN] 所返回的 NTBS 的内容可能为 [`what_arg + ": " + code.message()]。
 [exit:note]
 [exit:description]

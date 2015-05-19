@@ -1,5 +1,6 @@
 ﻿[section#invalid.argument
     [:en] Class [`invalid_argument]
+    [:zh_CN] 类 [`invalid_argument]
 ]
 
 [%@library invalid_argument]
@@ -16,6 +17,8 @@ namespace std {
 [para]
 [:en] The class [`invalid_argument] defines the type of objects thrown as
 exceptions to report an invalid argument.
+[:zh_CN] [`invalid_argument] 类定义了作为异常而被抛出的对象的类型，用以报告无效
+实参。
 
 [%@library invalid_argument[!invalid_argument]]
 [codeblock:declaration]
@@ -25,9 +28,11 @@ invalid_argument(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`invalid_argument].
+[:zh_CN] 构造一个 [`invalid_argument] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library invalid_argument[!invalid_argument]]
@@ -38,7 +43,9 @@ invalid_argument(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`invalid_argument].
+[:zh_CN] 构造一个 [`invalid_argument] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]

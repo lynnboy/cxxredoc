@@ -1,5 +1,6 @@
 ﻿[section#syserr.compare
     [:en] Comparison operators
+    [:zh_CN] 比较运算符
 ]
 
 [%@library operator==[!error_code]]
@@ -11,6 +12,7 @@ bool operator==(const error_code& lhs, const error_code& rhs) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()].
+[:zh_CN] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()]。
 [exit:description]
 
 [%@library operator==[!error_condition]]
@@ -25,6 +27,8 @@ bool operator==(const error_code& lhs, const error_condition& rhs) noexcept;
 [para:returns]
 [:en] [`lhs.category().equivalent(lhs.value(), rhs) ||
 rhs.category().equivalent(lhs, rhs.value())].
+[:zh_CN] [`lhs.category().equivalent(lhs.value(), rhs) ||
+rhs.category().equivalent(lhs, rhs.value())]。
 [exit:description]
 
 [%@library operator==[!error_condition]]
@@ -39,6 +43,8 @@ bool operator==(const error_condition& lhs, const error_code& rhs) noexcept;
 [para:returns]
 [:en] [`rhs.category().equivalent(rhs.value(), lhs) ||
 lhs.category().equivalent(rhs, lhs.value())].
+[:zh_CN] [`rhs.category().equivalent(rhs.value(), lhs) ||
+lhs.category().equivalent(rhs, lhs.value())]。
 [exit:description]
 
 [%@library operator==[!error_condition]]
@@ -50,6 +56,7 @@ bool operator==(const error_condition& lhs, const error_condition& rhs) noexcept
 [enter:description]
 [para:returns]
 [:en] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()].
+[:zh_CN] [`lhs.category() == rhs.category() && lhs.value() == rhs.value()]。
 [exit:description]
 
 [%@library operator!=[!error_code]]
@@ -66,4 +73,5 @@ bool operator!=(const error_condition& lhs, const error_condition& rhs) noexcept
 [enter:description]
 [para:returns]
 [:en] [`!(lhs == rhs)].
+[:zh_CN] [`!(lhs == rhs)]。
 [exit:description]

@@ -1,25 +1,32 @@
 ﻿[section#declval
     [:en] Function template [`declval]
+    [:zh_CN] 函数模板 [`declval]
 ]
 
 [para]
 [:en]
 The library provides the function template [`declval] to simplify the definition
 of expressions which occur as unevaluated operands (Clause [#expr]).
+[:zh_CN]
+程序库提供函数模板 [`declval]，以简化对用作免求值操作数（第 [#expr] 条）的表达式
+的定义。
 
 [%@library declval]
 [codeblock:declaration]
 template <class T>
   add_rvalue_reference_t<T> declval() noexcept;  // [:en] as unevaluated operand
+                                                 // [|:zh_CN] 作为免求值操作数
 [codeblock:end]
 
 [enter:description]
 [para:notes]
 [:en] If this function is odr-used ([#basic.def.odr]), the program is
 ill-formed.
+[:zh_CN] 若该函数被 ODR-式使用（[#basic.def.odr]），则程序非良构。
 
 [para:notes]
 [:en] The template parameter [`T] of [`declval] may be an incomplete type.
+[:zh_CN] [`declval] 的模板形参 [`T] 可以是不完整类型。
 
 [para:~]
 [enter:example]
@@ -28,11 +35,16 @@ template <class To, class From>
   decltype(static_cast<To>(declval<From>())) convert(From&&);
 [codeblock:end]
 
-[:en@~]
+[:en]
 declares a function template [`convert] which only participates in overloading
 if the type [`From] can be explicitly converted to type [`To].
+[:zh_CN]
+声明了函数模板 [`convert]，仅当类型 [`From] 可以显式转换为类型 [`To] 时，它才
+参与重载。
 
 [:en]
 For another example see class template [`common_type] ([#meta.trans.other]).
+[:zh_CN]
+另一个例子，参见类模板 [`common_type]（[#meta.trans.other]）。
 [exit:example]
 [exit:description]

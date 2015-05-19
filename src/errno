@@ -1,31 +1,43 @@
 ﻿[section#errno
     [:en] Error numbers
+    [:zh_CN] 错误号码
 ]
 
 [para]
 [:en]
 The header [`<cerrno>] is described in Table [#tab:diagnostics.hdr.cerrno].
+[:zh_CN]
+头文件 [`<cerrno>] 在表 [#tab:diagnostics.hdr.cerrno] 中描述。
 
 [:en]
 Its contents are the same as the POSIX header [`<errno.h>], except that [`errno]
 shall be defined as a macro.
+[:zh_CN]
+除了 [`errno] 应当被定义为宏之外，其内容与 POSIX 头文件 [`<errno.h>] 相同。
 
 [enter:note]
 [:en]
 The intent is to remain in close alignment with the POSIX standard.
+[:zh_CN]
+其意图是保持与 POSIX 标准高度一致。
 [exit:note]
 
 [:en]
 A separate [`errno] value shall be provided for each thread.
+[:zh_CN]
+应当为每个线程提供一个独立的 [`errno] 值。
 
 [table:listing#tab:diagnostics.hdr.cerrno
     [:en] Header [`<cerrno>] synopsis
+    [:zh_CN] 头文件 [`<cerrno>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]

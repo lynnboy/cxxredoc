@@ -1,5 +1,6 @@
 ﻿[section#tuple.elem
     [:en] Element access
+    [:zh_CN] 成员访问
 ]
 
 [%@library tuple[!get]]
@@ -12,11 +13,14 @@ template <size_t I, class... Types>
 [enter:description]
 [para:requires]
 [:en] [`I < sizeof...(Types)].
+[:zh_CN] [`I < sizeof...(Types)]。
 
 [:en] The program is ill-formed if [`I] is out of bounds.
+[:zh_CN] 若 [`I] 超出范围则程序非良构。
 
 [para:returns]
 [:en] A reference to the [`I]th element of [`t], where indexing is zero-based.
+[:zh_CN] 指代 [`t] 的第 [`I] 个元素的引用，其中的索引基于零。
 [exit:description]
 
 [%@library tuple[!get]]
@@ -30,13 +34,18 @@ template <size_t I, class... Types>
 [para:effects]
 [:en] Equivalent to [`return std::forward<typename tuple_element<I,
 tuple<Types...> >::type&&>(get<I>(t));]
+[:zh_CN] 等价于 [`return std::forward<typename tuple_element<I,
+tuple<Types...> >::type&&>(get<I>(t));]
 
 [para:realnote]
 [:en] if a [`T] in [`Types] is some reference type [`X&], the return type is
 [`X&], not [`X&&].
+[:zh_CN] 如果 [`Types] 中的 [`T] 是某个引用类型 [`X&]，则其返回类型为 [`X&]，而
+不是 [`X&&]。
 
 [:en] However, if the element type is a non-reference type [`T], the return type
 is [`T&&].
+[:zh_CN] 然而，若元素类型为非引用类型 [`T]，则返回类型为 [`T&&]。
 [exit:description]
 
 [%@library tuple[!get]]
@@ -49,25 +58,33 @@ template <size_t I, class... Types>
 [enter:description]
 [para:requires]
 [:en] [`I < sizeof...(Types)].
+[:zh_CN] [`I < sizeof...(Types)]。
 
 [:en] The program is ill-formed if [`I] is out of bounds.
+[:zh_CN] 若 [`I] 超出范围则程序非良构。
 
 [para:returns]
 [:en] A const reference to the [`I]th element of [`t], where indexing is
 zero-based.
+[:zh_CN] 指代 [`t] 的第 [`I] 个元素的 const 引用，其中的索引基于零。
 
 [para]
 [enter:note]
 [:en] Constness is shallow.
+[:zh_CN] 常量性是浅层的。
 
 [:en] If a [`T] in [`Types] is some reference type [`X&], the return type is
 [`X&], not [`const X&].
+[:zh_CN] 如果 [`Types] 中的 [`T] 是某个引用类型 [`X&]，则其返回类型为 [`X&]，而
+不是 [`const X&]。
 
 [:en] However, if the element type is non-reference type [`T], the return type
 is [`const T&].
+[:zh_CN] 然而，若元素类型为非引用类型 [`T]，则返回类型为 [`const T&]。
 
 [:en] This is consistent with how constness is defined to work for member
 variables of reference type.
+[:zh_CN] 这与对引用类型的成员变量所定义的常量性的工作方式相一致。
 [exit:note]
 [exit:description]
 
@@ -85,20 +102,26 @@ template <class T, class... Types>
 [enter:description]
 [para:requires]
 [:en] The type [`T] occurs exactly once in [`Types...].
+[:zh_CN] 类型 [`T] 在 [`Types...] 中恰好出现一次。
 
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [para:returns]
 [:en] A reference to the element of [`t] corresponding to the type [`T] in
 [`Types...].
+[:zh_CN] 指代 [`t] 中对应于 [`Types...] 中的类型 [`T] 的元素的引用。
 
 [para]
 [enter:example]
 [codeblock]
   const tuple<int, const int, double, double> t(1, 2, 3.4, 5.6);
-  const int &i1 = get<int>(t);        // [:en] OK. Not ambiguous. i1 == 1
-  const int &i2 = get<const int>(t);  // [:en] OK. Not ambiguous. i2 == 2
+  const int &i1 = get<int>(t);        // [:en] OK. Not ambiguous. [`i1 == 1]
+                                      // [|:zh_CN] OK。没有歧义。[`i1 == 1]
+  const int &i2 = get<const int>(t);  // [:en] OK. Not ambiguous. [`i2 == 2]
+                                      // [|:zh_CN] OK。没有歧义。[`i2 == 2]
   const double &d = get<double>(t);   // [:en] ERROR. ill-formed
+                                      // [|:zh_CN] 错误。非良构
 [codeblock:end]
 [exit:example]
 [exit:description]
@@ -109,4 +132,7 @@ template <class T, class... Types>
 The reason [`get] is a nonmember function is that if this functionality had been
 provided as a member function, code where the type depended on a template
 parameter would have required using the [`template] keyword.
+[:zh_CN]
+把 [`get] 作为非成员函数的原因为，若以成员函数来提供这个功能，则类型依赖于某模板
+形参的代码将导致要求使用 [`template] 关键字。
 [exit:note]

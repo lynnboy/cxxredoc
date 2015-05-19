@@ -1,5 +1,6 @@
 ﻿[section#logic.error
     [:en] Class [`logic_error]
+    [:zh_CN] 类 [`logic_error]
 ]
 
 [%@library logic_error]
@@ -17,6 +18,8 @@ namespace std {
 [:en] The class [`logic_error] defines the type of objects thrown as exceptions
 to report errors presumably detectable before the program executes, such as
 violations of logical preconditions or class invariants.
+[:zh_CN] [`logic_error] 类定义了作为异常而被抛出的对象的类型，用以报告假定在程序
+执行之前可被检测到的错误，比如违反逻辑的前条件或者类不变式。
 
 [%@library logic_error[!logic_error]]
 [codeblock:declaration]
@@ -26,9 +29,11 @@ logic_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`logic_error].
+[:zh_CN] 构造一个 [`logic_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library logic_error[!logic_error]]
@@ -39,7 +44,9 @@ logic_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`logic_error].
+[:zh_CN] 构造一个 [`logic_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]

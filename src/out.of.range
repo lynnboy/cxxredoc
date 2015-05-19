@@ -1,5 +1,6 @@
 ﻿[section#out.of.range
     [:en] Class [`out_of_range]
+    [:zh_CN] 类 [`out_of_range]
 ]
 
 [%@library out_of_range]
@@ -17,6 +18,9 @@ namespace std {
 [:en]
 The class [`out_of_range] defines the type of objects thrown as exceptions to
 report an [%argument] argument value not in its expected range.
+[:zh_CN]
+[`out_of_range] 类定义了作为异常而被抛出的对象的类型，用以报告某实参不在其所预期
+的范围之内。
 
 [%@library out_of_range[!out_of_range]]
 [codeblock:declaration]
@@ -26,9 +30,11 @@ out_of_range(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`out_of_range].
+[:zh_CN] 构造一个 [`out_of_range] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library out_of_range[!out_of_range]]
@@ -39,7 +45,9 @@ out_of_range(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`out_of_range].
+[:zh_CN] 构造一个 [`out_of_range] 类的对象
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]

@@ -1,5 +1,6 @@
 ﻿[section#utilities.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
@@ -7,73 +8,94 @@
 This Clause describes utilities that are generally useful in [=Cpp] programs;
 some of these utilities are used by other elements of the [=Cpp] standard
 library.
+[:zh_CN]
+本条描述了在 [=Cpp] 程序中有广泛用处的一些工具；[=Cpp] 标准程序库的其他组件中也
+使用了这些工具中的一些。
 
 [:en]
 These utilities are summarized in Table [#tab:util.lib.summary].
+[:zh_CN]
+表 [#tab:util.lib.summary] 总结了这些工具。
 
 [table:listing#tab:util.lib.summary
-    [:en] Diagnostics library summary
+    [:en] General utilities library summary
+    [:zh_CN] 通用工具库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
 ]
 [|] [#utility]
 [|] [:en] Utility components
+    [:zh_CN] 工具组件
 [|] <utility>
 
 [|] [#pairs]
 [|] [:en] Pairs
+    [:zh_CN] 对偶
 [|] <utility>
 
 [|] [#tuple]
 [|] [:en] Tuples
+    [:zh_CN] 元组
 [|] <tuple>
 
 [|] [#intseq]
 [|] [:en] Compile-time integer sequences
+    [:zh_CN] 编译期整数序列
 [|] <utility>
 
 [|] [#template.bitset]
 [|] [:en] Fixed-size sequences of bits
+    [:zh_CN] 固定大小的位序列
 [|] <bitset>
 
 [|] [#memory]
 [|] [:en] Memory
+    [:zh_CN] 内存
 [|] <memory> [br] <cstdlib> [br] <cstring>
 
 [|] [#smartptr]
 [|] [:en] Smart pointers
+    [:zh_CN] 智能指针
 [|] <memory>
 
 [|] [#function.objects]
 [|] [:en] Function objects
+    [:zh_CN] 函数对象
 [|] <functional>
 
 [|] [#meta]
 [|] [:en] Type traits
+    [:zh_CN] 类型特征
 [|] <type_traits>
 
 [|] [#ratio]
 [|] [:en] Compile-time rational arithmetic
+    [:zh_CN] 编译期有理算数
 [|] <ratio>
 
 [|] [#time]
 [|] [:en] Time utilities
+    [:zh_CN] 时间工具
 [|] <chrono> [br] <ctime>
 
 [|] [#allocator.adaptor]
 [|] [:en] Scoped allocators
+    [:zh_CN] 有范围的分配器
 [|] <scoped_allocator>
 
 [|] [#type.index]
 [|] [:en] Type indexes
+    [:zh_CN] 类型索引
 [|] <typeindex>
 
 [table:end]

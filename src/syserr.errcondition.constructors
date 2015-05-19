@@ -1,8 +1,9 @@
 ﻿[section#syserr.errcondition.constructors
     [:en] Class [`error_condition] constructors
+    [:zh_CN] 类 [`error_condition] 的构造函数
 ]
 
-[%@library error_condition[!constructor]]
+[%@library error_condition[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 error_condition() noexcept;
 [codeblock:end]
@@ -10,12 +11,14 @@ error_condition() noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an object of type [`error_condition].
+[:zh_CN] 构造 [`error_condition] 类型的一个对象。
 
 [para:postconditions]
 [:en] [`val_ == 0] and [`cat_ == &generic_category()].
+[:zh_CN] [`val_ == 0] 并且 [`cat_ == &generic_category()]。
 [exit:description]
 
-[%@library error_condition[!constructor]]
+[%@library error_condition[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 error_condition(int val, const error_category& cat) noexcept;
 [codeblock:end]
@@ -23,12 +26,14 @@ error_condition(int val, const error_category& cat) noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an object of type [`error_condition].
+[:zh_CN] 构造 [`error_condition] 类型的一个对象。
 
 [para:postconditions]
 [:en] [`val_ == val] and [`cat_ == &cat].
+[:zh_CN] [`val_ == val] 并且 [`cat_ == &cat]。
 [exit:description]
 
-[%@library error_condition[!constructor]]
+[%@library error_condition[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class ErrorConditionEnum>
   error_condition(ErrorConditionEnum e) noexcept;
@@ -37,11 +42,15 @@ template <class ErrorConditionEnum>
 [enter:description]
 [para:effects]
 [:en] Constructs an object of type [`error_condition].
+[:zh_CN] 构造 [`error_condition] 类型的一个对象。
 
 [para:postcondition]
 [:en] [`*this == make_error_condition(e)].
+[:zh_CN] [`*this == make_error_condition(e)]。
 
 [para:remarks]
 [:en] This constructor shall not participate in overload resolution unless
 [`is_error_condition_enum<ErrorConditionEnum>::value] is [`true].
+[:zh_CN] 除非 [`is_error_condition_enum<ErrorConditionEnum>::value] 为 [`true]，
+否则这个构造函数不能参与重载决议。
 [exit:description]

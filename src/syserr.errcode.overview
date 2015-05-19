@@ -1,16 +1,22 @@
 ﻿[section#syserr.errcode.overview
     [:en] Class [`error_code] overview
+    [:zh_CN] 类 [`error_code] 概要
 ]
 
 [para]
 [:en]
-The class [`error_code] describes an object used to hold error code
-values, such as those originating from the operating system or other low-level
-application program interfaces.
+The class [`error_code] describes an object used to hold error code values, such
+as those originating from the operating system or other low-level application
+program interfaces.
+[:zh_CN]
+[`error_code] 类描述了用于持有错误号码值的对象，比如源自操作系统或其他下层应用
+程序接口的错误号码。
 
 [enter:note]
 [:en]
 Class [`error_code] is an adjunct to error reporting by exception.
+[:zh_CN]
+类 [`error_code] 是对异常所报告的错误的附加功能。
 [exit:note]
 
 [%@library error_code]
@@ -19,18 +25,21 @@ namespace std {
   class error_code {
   public:
     // [:en] [#syserr.errcode.constructors] constructors:
+    // [|:zh_CN] [#syserr.errcode.constructors] 构造函数：
     error_code() noexcept;
     error_code(int val, const error_category& cat) noexcept;
     template <class ErrorCodeEnum>
       error_code(ErrorCodeEnum e) noexcept;
 
     // [:en] [#syserr.errcode.modifiers] modifiers:
+    // [|:zh_CN] [#syserr.errcode.modifiers] 改动函数：
     void assign(int val, const error_category& cat) noexcept;
     template <class ErrorCodeEnum>
         error_code& operator=(ErrorCodeEnum e) noexcept;
     void clear() noexcept;
 
     // [:en] [#syserr.errcode.observers] observers:
+    // [|:zh_CN] [#syserr.errcode.observers] 探察函数：
     int value() const noexcept;
     const error_category& category() const noexcept;
     error_condition default_error_condition() const noexcept;
@@ -43,6 +52,7 @@ namespace std {
   };
 
   // [:en] [#syserr.errcode.nonmembers] non-member functions:
+  // [|:zh_CN] [#syserr.errcode.nonmembers] 非成员函数：
   error_code make_error_code(errc e) noexcept;
   bool operator<(const error_code& lhs, const error_code& rhs) noexcept;
 

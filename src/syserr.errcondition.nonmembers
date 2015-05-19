@@ -1,5 +1,6 @@
 ﻿[section#syserr.errcondition.nonmembers
     [:en] Class [`error_condition] non-member functions
+    [:zh_CN] 类 [`error_condition] 的非成员函数
 ]
 
 [%@library make_error_condition]
@@ -10,6 +11,7 @@ error_condition make_error_condition(errc e) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`error_condition(static_cast<int>(e), generic_category())].
+[:zh_CN] [`error_condition(static_cast<int>(e), generic_category())]。
 [exit:description]
 
 [%@library operator<[!error_condition]]
@@ -22,4 +24,6 @@ bool operator<(const error_condition& lhs, const error_condition& rhs) noexcept;
 [para:returns]
 [:en] [`lhs.category() < rhs.category() || lhs.category() == rhs.category() &&
 lhs.value() < rhs.value()].
+[:zh_CN] [`lhs.category() < rhs.category() || lhs.category() == rhs.category()
+&& lhs.value() < rhs.value()]。
 [exit:description]

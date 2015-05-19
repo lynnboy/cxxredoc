@@ -1,5 +1,6 @@
 ﻿[section#domain.error
     [:en] Class [`domain_error]
+    [:zh_CN] 类 [`domain_error]
 ]
 
 [%@library domain_error]
@@ -16,6 +17,8 @@ namespace std {
 [para]
 [:en] The class [`domain_error] defines the type of objects thrown as exceptions
 by the implementation to report domain errors.
+[:zh_CN] [`domain_error] 类定义了作为异常由实现抛出的对象的类型，用以报告值域
+错误。
 
 [%@library domain_error[!domain_error]]
 [codeblock:declaration]
@@ -25,9 +28,11 @@ domain_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`domain_error].
+[:zh_CN] 构造一个 [`domain_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library domain_error[!domain_error]]
@@ -38,7 +43,9 @@ domain_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`domain_error].
+[:zh_CN] 构造一个 [`domain_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
