@@ -1,8 +1,9 @@
 ﻿[section#util.smartptr.weak.dest
     [:en] [`weak_ptr] destructor
+    [:zh_CN] [`weak_ptr] 的析构函数
 ]
 
-[%@library weak_ptr[!destructor]]
+[%@library weak_ptr[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~weak_ptr();
 [codeblock:end]
@@ -11,4 +12,5 @@
 [para:effects]
 [:en] Destroys this [`weak_ptr] object but has no effect on the object its
 stored pointer points to.
+[:zh_CN] 销毁这个 [`weak_ptr] 对象，但对其所存储的指针所指向的对象没有效果。
 [exit:description]
