@@ -1,5 +1,6 @@
 ﻿[section#temporary.buffer
     [:en] Temporary buffers
+    [:zh_CN] 临时缓冲区
 ]
 
 [%@library get_temporary_buffer]
@@ -12,14 +13,19 @@ template <class T>
 [para:effects]
 [:en] Obtains a pointer to storage sufficient to store up to [`n] adjacent [`T]
 objects.
+[:zh_CN] 获取一个指向足以存储最多 [`n] 个相邻的 [`T] 对象的存储的指针。
 
 [:en] It is [%@impldef support for over-aligned types] implementation-defined
 whether over-aligned types are supported ([#basic.align]).
+[:zh_CN] 是否支持过量对齐类型（[#basic.align]）是[%@impldef 支持过量对齐类型]
+由实现定义的。
 
 [para:returns]
 [:en] A [`pair] containing the buffer[=']s address and capacity (in the units of
-[`sizeof(T)]), or a pair of 0 values if no storage can be obtained or if [`n <=
-0].
+[`sizeof(T)]), or a pair of 0 values if no storage can be obtained or if
+[`n <= 0].
+[:zh_CN] 包含该缓冲区的地址和容量（以 [`sizeof(T)] 为单位）的 [`pair]，或者当
+无法获得存储或 [`n <= 0] 时返回一对 0 值。
 [exit:description]
 
 [%@library return_temporary_buffer]
@@ -30,8 +36,10 @@ template <class T> void return_temporary_buffer(T* p);
 [enter:description]
 [para:effects]
 [:en] Deallocates the buffer to which [`p] points.
+[:zh_CN] 回收由 [`p] 所指向的缓冲区。
 
 [para:requires]
 [:en] The buffer shall have been previously allocated by
 [`get_temporary_buffer].
+[:zh_CN] 该缓冲区应当是之前由 [`get_temporary_buffer] 所分配的。
 [exit:description]
