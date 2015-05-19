@@ -78,7 +78,7 @@ namespace std {
     void return_temporary_buffer(T* p);
 
   // [:en] [#specialized.algorithms], specialized algorithms:
-  // [|:zh_CN] [#specialized.algorithms]，特化的算法：
+  // [|:zh_CN] [#specialized.algorithms]，专用的算法：
   template <class T> T* addressof(T& r) noexcept;
   template <class InputIterator, class ForwardIterator>
     ForwardIterator uninitialized_copy(InputIterator first, InputIterator last,
