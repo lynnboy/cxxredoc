@@ -1,61 +1,92 @@
 ﻿[section#unique.ptr
     [:en] Class template [`unique_ptr]
+    [:zh_CN] 类模板 [`unique_ptr]
 ]
 
 [para]
 [:en]
 A [def unique pointer] is an object that owns another object and manages that
 other object through a pointer.
+[:zh_CN]
+[def 专有（Unique）指针 [%专有指针]]是拥有另一个对象并通过一个指针来管理该对象的
+对象。
 
 [:en]
 More precisely, a unique pointer is an object [$u] that stores a pointer to a
 second object [$p] and will dispose of [$p] when [$u] is itself destroyed (e.g.,
-when leaving block scope ([#stmt.dcl])). In this context, [$u] is said to
-[def own] [`p].
+when leaving block scope ([#stmt.dcl])).
+[:zh_CN]
+更精确地说，专有指针是一个对象 [$u]，它存储指向另一个对象 [$p] 的指针，并当 [$u]
+自身被销毁时（比如，当离开块作用域时（[#stmt.dcl]））对 [$p] 进行处置。
+
+[:en]
+In this context, [$u] is said to [def own] [$p].
+[:zh_CN]
+在这种语境下，称 [$u] [def 拥有] [$p]。
 
 [para]
 [:en]
 The mechanism by which [$u] disposes of [$p] is known as [$p][=']s associated
 [def deleter], a function object whose correct invocation results in [$p][=']s
 appropriate disposition (typically its deletion).
+[:zh_CN]
+处置 [$p] 时所采用的机制是 [$p] 所关联的[def 删除器]，它是一个函数对象，其正确
+调用将导致对 [$p] 的处置（通常是进行删除）。
 
 [para]
 [:en]
 Let the notation [$u.p] denote the pointer stored by [$u], and let [$u.d] denote
 the associated deleter.
+[:zh_CN]
+另记号 [$u.p] 代表 [$u] 所存储的指针，并另 [$u.d] 代表其所关联的删除器。
 
 [:en]
 Upon request, [$u] can [def reset] (replace) [$u.p] and [$u.d] with another
 pointer and deleter, but must properly dispose of its owned object via the
 associated deleter before such replacement is considered completed.
+[:zh_CN]
+当被要求时，[$u] 可以将 [$u.p] 和 [$u.d] [def 重置]（替换）为另一个指针和删除器
+，但必须在这种替换被认为完成之前，通过关联的删除器正确处置其所拥有的对象。
 
 [para]
 [:en]
 Additionally, [$u] can, upon request, [def transfer ownership] to another
 unique pointer [$u2].
+[:zh_CN]
+此外，当被要求时，[$u] 可以[def 转移所有权]给另一个专有指针 [$u2]。
 
 [:en]
 Upon completion of such a transfer, the following postconditions hold:
+[:zh_CN]
+当这种转移完成时，满足以下后条件：
 
 [list]
 [item]
 [:en] [$u2.p] is equal to the pre-transfer [$u.p],
+[:zh_CN] [$u2.p] 等于转移前的 [$u.p]。
 [item]
 [:en] [$u.p] is equal to [`nullptr], and
+[:zh_CN] [$u.p] 等于 [`nullptr]，且
 [item]
 [:en] if the pre-transfer [$u.d] maintained state, such state has been
 transferred to [$u2.d].
+[:zh_CN] 若转移前的 [$u.d] 维护了状态，则该状态被转移给 [$u2.d]。
 [list:end]
 
 [:en]
 As in the case of a reset, [$u2] must properly dispose of its pre-transfer owned
 object via the pre-transfer associated deleter before the ownership transfer is
 considered complete.
+[:zh_CN]
+同重置的情况一样，在所有权转移被认为完成之前，[$u2] 必须通过转移前所关联的删除器
+正确处置其转移前所拥有的对象。
 
 [enter:note]
 [:en]
 A deleter[=']s state need never be copied, only moved or swapped as ownership is
 transferred.
+[:zh_CN]
+删除器的状态不需要被复制，仅需要当所有权转移时进行移动或交换即可。
 [exit:note]
 
 [para]
@@ -63,14 +94,22 @@ transferred.
 Each object of a type [`U] instantiated from the [`unique_ptr] template
 specified in this subclause has the strict ownership semantics, specified above,
 of a unique pointer.
+[:zh_CN]
+本子条款中所给出的 [`unique_ptr] 模板所实例化的类型 [`U] 的每个对象均具有上述的
+专有指针的严格所有权语义。
 
 [:en]
 In partial satisfaction of these semantics, each such [`U] is
 [`MoveConstructible] and [`MoveAssignable], but is not [`CopyConstructible] nor
 [`CopyAssignable].
+[:zh_CN]
+作为满足这些语义的一部分，每个这种 [`U] 均为 [`MoveConstructible] 和
+[`MoveAssignable]，但并非 [`CopyConstructible] 或 [`CopyAssignable]。
 
 [:en]
 The template parameter [`T] of [`unique_ptr] may be an incomplete type.
+[:zh_CN]
+[`unique_ptr] 的模板形参 [`T] 可以是不完整类型。
 
 [para]
 [enter:note]
@@ -78,6 +117,9 @@ The template parameter [`T] of [`unique_ptr] may be an incomplete type.
 The uses of [`unique_ptr] include providing exception safety for dynamically
 allocated memory, passing ownership of dynamically allocated memory to a
 function, and returning dynamically allocated memory from a function.
+[:zh_CN]
+[`unique_ptr] 的用法包括为动态分配的内存提供异常安全性，向函数中传递动态分配的
+内存的所有权，以及从函数中返回动态分配的内存。
 [exit:note]
 
 [codeblock:synopsis [special unspecified] ]
