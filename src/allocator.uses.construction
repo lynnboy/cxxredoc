@@ -1,5 +1,6 @@
 ﻿[section#allocator.uses.construction
     [:en] uses-allocator construction
+    [:zh_CN] 使用分配器的构造
 ]
 
 [para]
@@ -8,30 +9,49 @@
 construction of an object [`obj] of type [`T], using constructor arguments
 [`v1, v2, ..., vN] of types [`V1, V2, ..., VN], respectively, and an allocator
 [`alloc] of type [`Alloc], according to the following rules:
+[:zh_CN]
+以分配器 [`Alloc] 进行的[def 使用分配器的构造]代表对 [`T] 类型的对象 [`obj] 进行
+的构造，使用类型分别为 [`V1, V2, ..., VN] 的实参 [`v1, v2, ..., vN]，以及
+[`Alloc] 类型的分配器 [`alloc] 进行，并遵循下列规则：
 
 [list]
 [item]
 [:en] if [`uses_allocator<T, Alloc>::value] is [`false] and
 [`is_constructible<T, V1, V2, ..., VN>::value] is [`true], then [`obj] is
 initialized as [`obj(v1, v2, ..., vN)];
+[:zh_CN] 如果 [`uses_allocator<T, Alloc>::value] 为 [`false] 而
+[`is_constructible<T, V1, V2, ..., VN>::value] 为 [`true]，则 [`obj] 以
+[`obj(v1, v2, ..., vN)] 进行初始化；
 
 [item]
 [:en] otherwise, if [`uses_allocator<T, Alloc>::value] is [`true] and
 [`is_constructible<T, allocator_arg_t, Alloc, V1, V2, ..., VN>::value] is
 [`true], then [`obj] is initialized as [`obj(allocator_arg, alloc, v1, v2, ...,
 vN)];
+[:zh_CN] 否则，如果 [`uses_allocator<T, Alloc>::value] 为 [`true] 而
+[`is_constructible<T, allocator_arg_t, Alloc, V1, V2, ..., VN>::value] 为
+[`true]，则 [`obj] 以 [`obj(allocator_arg, alloc, v1, v2, ..., vN)] 进行初始化；
 
 [item]
 [:en] otherwise, if [`uses_allocator<T, Alloc>::value] is [`true] and
 [`is_constructible<T, V1, V2, ..., VN, Alloc>::value] is [`true], then [`obj] is
 initialized as [`obj(v1, v2, ..., vN, alloc)];
+[:zh_CN] 否则，如果 [`uses_allocator<T, Alloc>::value] 为 [`true] 而
+[`is_constructible<T, V1, V2, ..., VN, Alloc>::value] 为 [`true]，则 [`obj] 以
+[`obj(v1, v2, ..., vN, alloc)] 进行初始化；
 
 [item]
 [:en] otherwise, the request for uses-allocator construction is ill-formed.
+[:zh_CN] 否则，要求进行使用分配器的构造是非良构的。
 
 [enter:note]
 [:en] An error will result if [`uses_allocator<T, Alloc>::value] is [`true] but
-the specific constructor does not take an allocator. This definition prevents a
-silent failure to pass the allocator to an element.
+the specific constructor does not take an allocator.
+[:zh_CN] 当 [`uses_allocator<T, Alloc>::value] 为 [`true] 但特定的构造函数不接受
+分配器时将导致发生错误。
+
+[:en] This definition prevents a silent failure to pass the allocator to an
+element.
+[:zh_CN] 本条定义防止将分配器传给某个元素而导致的静默的失败。
 [exit:note]
 [list:end]
