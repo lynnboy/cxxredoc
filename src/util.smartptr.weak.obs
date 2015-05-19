@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.weak.obs
     [:en] [`weak_ptr] observers
+    [:zh_CN] [`weak_ptr] 的探察函数
 ]
 
 [%@library weak_ptr[!use_count]]
@@ -12,10 +13,13 @@ long use_count() const noexcept;
 [para:returns]
 [:en] [`0] if [`*this] is [+empty]; otherwise, the number of [`shared_ptr]
 instances that [+share ownership] with [`*this].
+[:zh_CN] 若 [`*this] 为[+空]则返回 [`0]；否则返回与 [`*this] [+共享所有权]的
+[`shared_ptr] 实例的数量。
 
 [para]
 [enter:note]
 [:en] [`use_count()] is not necessarily efficient.
+[:zh_CN]  [`use_count()] 不必是高效的。
 [exit:note]
 [exit:description]
 
@@ -28,10 +32,12 @@ bool expired() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`use_count() == 0].
+[:zh_CN] [`use_count() == 0]。
 
 [para]
 [enter:note]
 [:en] [`expired()] may be faster than [`use_count()].
+[:zh_CN] [`expired()] 可能比 [`use_count()] 更快。
 [exit:note]
 [exit:description]
 
@@ -45,6 +51,7 @@ shared_ptr<T> lock() const noexcept;
 [para:returns]
 [:en] [`expired() ? shared_ptr<T>() : shared_ptr<T>(*this)], executed
 atomically.
+[:zh_CN] 原子性的执行 [`expired() ? shared_ptr<T>() : shared_ptr<T>(*this)]。
 [exit:description]
 
 [%@library owner_before[!shared_ptr]]
@@ -57,15 +64,20 @@ template<class U> bool owner_before(weak_ptr<U> const& b) const;
 [enter:description]
 [para:returns]
 [:en] An unspecified value such that
+[:zh_CN] 一个未指明的值，使得
 
 [list]
 [item]
 [:en] [`x.owner_before(y)] defines a strict weak ordering as defined in
 [#alg.sorting];
+[:zh_CN] [`x.owner_before(y)] 定义一种如 [#alg.sorting] 所定义的严格弱序关系；
 
 [item]
 [:en] under the equivalence relation defined by [`owner_before],
 [`!a.owner_before(b) && !b.owner_before(a)], two [`shared_ptr] or [`weak_ptr]
 instances are equivalent if and only if they share ownership or are both empty.
+[:zh_CN] 在由 [`owner_before] 所定义的等价关系中，[`!a.owner_before(b) &&
+!b.owner_before(a)]，当且仅当两个 [`shared_ptr] 或 [`weak_ptr] 实例共享所有权或
+二者均为空时，它们等价。
 [list:end]
 [exit:description]
