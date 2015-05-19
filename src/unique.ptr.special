@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.special
     [:en] [`unique_ptr] specialized algorithms
+    [:zh_CN] [`unique_ptr] 所特化的算法
 ]
 
 [%@library swap(unique_ptr&, unique_ptr&)]
@@ -10,6 +11,7 @@ template <class T, class D> void swap(unique_ptr<T, D>& x, unique_ptr<T, D>& y) 
 [enter:description]
 [para:effects]
 [:en] Calls [`x.swap(y)].
+[:zh_CN] 调用 [`x.swap(y)]。
 [exit:description]
 
 [%@library operator==[!unique_ptr]]
@@ -22,6 +24,7 @@ template <class T1, class D1, class T2, class D2>
 [enter:description]
 [para:returns]
 [:en] [`x.get() == y.get()].
+[:zh_CN] [`x.get() == y.get()]。
 [exit:description]
 
 [%@library operator!=[!unique_ptr]]
@@ -34,7 +37,9 @@ template <class T1, class D1, class T2, class D2>
 [enter:description]
 [para:returns]
 [:en] [`x.get() != y.get()].
+[:zh_CN] [`x.get() != y.get()]。
 [exit:description]
+
 [%@library operator<[!unique_ptr]]
 [%@library unique_ptr[!operator<]]
 [codeblock:declaration]
@@ -46,18 +51,25 @@ template <class T1, class D1, class T2, class D2>
 [para:requires]
 [:en] Let [`CT] be [`common_type<unique_ptr<T1, D1>::pointer,
 unique_ptr<T2, D2>::pointer>::type].
+[:zh_CN] 令 [`CT] 为 [`common_type<unique_ptr<T1, D1>::pointer,
+unique_ptr<T2, D2>::pointer>::type].
 
 [:en] Then the specialization [`less<CT>] shall be a function object type
 ([#function.objects]) that induces a strict weak ordering ([#alg.sorting]) on
 the pointer values.
+[:zh_CN] 特例 [`less<CT>] 应当是函数对象类型（[#function.objects]），且为指针值
+引入一种严格弱序（[#alg.sorting]）。
 
 [para:returns]
 [:en] [`less<CT>()(x.get(), y.get())].
+[:zh_CN] [`less<CT>()(x.get(), y.get())]。
 
 [para:remarks]
 [:en] If [`unique_ptr<T1, D1>::pointer] is not implicitly convertible to [`CT]
 or [`unique_ptr<T2, D2>::pointer] is not implicitly convertible to [`CT], the
 program is ill-formed.
+[:zh_CN] 若 [`unique_ptr<T1, D1>::pointer] 不能隐式转换为 [`CT] 或者
+[`unique_ptr<T2, D2>::pointer] 不能隐式转换为 [`CT]，则程序非良构。
 [exit:description]
 
 [%@library operator<=[!shared_ptr]]
@@ -70,6 +82,7 @@ template <class T1, class D1, class T2, class D2>
 [enter:description]
 [para:returns]
 [:en] [`!(y < x)].
+[:zh_CN] [`!(y < x)]。
 [exit:description]
 
 [%@library operator>[!unique_ptr]]
@@ -82,6 +95,7 @@ template <class T1, class D1, class T2, class D2>
 [enter:description]
 [para:returns]
 [:en] [`y < x].
+[:zh_CN] [`y < x]。
 [exit:description]
 
 [%@library operator>=[!unique_ptr]]
@@ -94,6 +108,7 @@ template <class T1, class D1, class T2, class D2>
 [enter:description]
 [para:returns]
 [:en] [`!(x < y)].
+[:zh_CN] [`!(x < y)]。
 [exit:description]
 
 [%@library operator==[!unique_ptr]]
@@ -108,6 +123,7 @@ template <class T, class D>
 [enter:description]
 [para:returns]
 [:en] [`!x].
+[:zh_CN] [`!x]。
 [exit:description]
 
 [%@library operator!=[!unique_ptr]]
@@ -122,6 +138,7 @@ template <class T, class D>
 [enter:description]
 [para:returns]
 [:en] [`(bool)x].
+[:zh_CN] [`(bool)x]。
 [exit:description]
 
 [%@library operator<[!unique_ptr]]
@@ -138,13 +155,19 @@ template <class T, class D>
 [:en] The specialization [`less<unique_ptr<T, D>::pointer>] shall be a function
 object type ([#function.objects]) that induces a strict weak ordering
 ([#alg.sorting]) on the pointer values.
+[:zh_CN] 特例 [`less<unique_ptr<T, D>::pointer>] 应当是函数对象类型
+（[#function.objects]），且为指针值引入一种严格弱序（[#alg.sorting]）。
 
 [para:returns]
 [:en] The first function template returns [`less<unique_ptr<T,
 D>::pointer>()(x.get(), nullptr)].
+[:zh_CN] 第一个函数模板返回 [`less<unique_ptr<T, D>::pointer>()(x.get(),
+nullptr)]。
 
 [:en] The second function template returns [`less<unique_ptr<T,
 D>::pointer>()(nullptr, x.get())].
+[:zh_CN] 第二个函数模板返回 [`less<unique_ptr<T, D>::pointer>()(nullptr,
+x.get())]。
 [exit:description]
 
 [%@library operator>[!unique_ptr]]
@@ -159,8 +182,10 @@ template <class T, class D>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`nullptr < x].
+[:zh_CN] 第一个函数模板返回 [`nullptr < x]。
 
 [:en] The second function template returns [`x < nullptr].
+[:zh_CN] 第二个函数模板返回 [`x < nullptr]。
 [exit:description]
 
 [%@library operator<=[!unique_ptr]]
@@ -175,8 +200,10 @@ template <class T, class D>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`!(nullptr < x)].
+[:zh_CN] 第一个函数模板返回 [`!(nullptr < x)]。
 
 [:en] The second function template returns [`!(x < nullptr)].
+[:zh_CN] 第二个函数模板返回 [`!(x < nullptr)]。
 [exit:description]
 
 [%@library operator>=[!unique_ptr]]
@@ -191,6 +218,8 @@ template <class T, class D>
 [enter:description]
 [para:returns]
 [:en] The first function template returns [`!(x < nullptr)].
+[:zh_CN] 第一个函数模板返回 [`!(x < nullptr)]。
 
 [:en] The second function template returns [`!(nullptr < x)].
+[:zh_CN] 第二个函数模板返回 [`!(nullptr < x)]。
 [exit:description]
