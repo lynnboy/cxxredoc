@@ -1,5 +1,6 @@
 ﻿[section#util.dynamic.safety
     [:en] Pointer safety
+    [:zh_CN] 指针安全性
 ]
 
 [para]
@@ -7,6 +8,10 @@
 A complete object is [+declared reachable] while the number of calls to
 [`declare_reachable] with an argument referencing the object exceeds the number
 of calls to [`undeclare_reachable] with an argument referencing the object.
+[:zh_CN]
+一个完整对象，只要以指代该对象的实参进行的 [`declare_reachable] 调用的数量超过
+以指代该对象的实参进行的 [`undeclare_reachable] 调用的数量，就是被[+声明为可达
+的]。
 
 [%@library declare_reachable]
 [codeblock:declaration]
@@ -17,14 +22,19 @@ void declare_reachable(void* p);
 [para:requires]
 [:en] [`p] shall be a safely-derived pointer ([#basic.stc.dynamic.safety]) or a
 null pointer value.
+[:zh_CN] [`p] 应当为安全衍生指针（[#basic.stc.dynamic.safety]）或者空指针值。
 
 [para:effects]
 [:en] If [`p] is not null, the complete object referenced by [`p]
 is subsequently declared reachable ([#basic.stc.dynamic.safety]).
+[:zh_CN] 如果 [`p] 非空，则 [`p] 所指代的完整对象即被声明为可达的
+（[#basic.stc.dynamic.safety]）。
 
 [para:throws]
 [:en] May throw [`std::bad_alloc] if the system cannot allocate additional
 memory that may be required to track objects declared reachable.
+[:zh_CN] 如果系统无法为用于跟踪声明为可达的对象分配额外的内存，则可能抛出
+[`std::bad_alloc]。
 [exit:description]
 
 [%@library undeclare_reachable]
@@ -37,20 +47,28 @@ template <class T> T* undeclare_reachable(T* p);
 [:en] If [`p] is not null, the complete object referenced by [`p] shall have
 been previously declared reachable, and shall be live ([#basic.life]) from the
 time of the call until the last [`undeclare_reachable(p)] call on the object.
+[:zh_CN] 如果 [`p] 非空，则 [`p] 所指代的完整对象应当曾经被声明为可达的，并且
+从这次调用开始直到最近一次对该对象的 [`undeclare_reachable(p)] 的调用之间应当
+保持生存（[#basic.life]）。
 
 [para:returns]
 [:en] A safely derived copy of [`p] which shall compare equal to [`p].
+[:zh_CN] [`p] 的一个安全衍生副本，且与 [`p] 的比较应当相等。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para]
 [enter:note]
 [:en] It is expected that calls to [`declare_reachable(p)] will consume a small
 amount of memory in addition to that occupied by the referenced object until the
 matching call to [`undeclare_reachable(p)] is encountered.
+[:zh_CN] 对 [`declare_reachable(p)] 的调用预料将消耗除了被指代对象所占据之外的
+少量内存，直到发生匹配的 [`undeclare_reachable(p)] 调用。
 
 [:en] Long running programs should arrange that calls are matched.
+[:zh_CN] 长时间运行的程序应当筹划这些调用以使其互相匹配。
 [exit:note]
 [exit:description]
 
@@ -63,40 +81,52 @@ void declare_no_pointers(char* p, size_t n);
 [para:requires]
 [:en] No bytes in the specified range are currently registered with
 [`declare_no_pointers()].
+[:zh_CN] 所指定的范围中不存在当前由 [`declare_no_pointers()] 注册过的字节。
 
 [:en] If the specified range is in an allocated object, then it must be entirely
 within a single allocated object.
+[:zh_CN] 如果所指定的范围处于已分配的对象中，则它必须整体处于单个已分配对象中。
 
 [:en] The object must be live until the corresponding [`undeclare_no_pointers()]
 call.
+[:zh_CN] 该对象必须直到进行对应的 [`undeclare_no_pointers()] 调用之前保持生存。
 
 [enter:note]
 [:en] In a garbage-collecting implementation, the fact that a region in an
 object is registered with [`declare_no_pointers()] should not prevent the object
 from being collected.
+[:zh_CN] 在进行垃圾收集的实现中，一个对象中的区域被 [`declare_no_pointers()]
+注册的事实并不会妨碍该对象被收集。
 [exit:note]
 
 [para:effects]
 [:en] The [`n] bytes starting at [`p] no longer contain traceable pointer
 locations, independent of their type.
+[:zh_CN] 开始于 [`p] 的 [`n] 个字节将不再包含可跟踪指针位置，与其类型无关。
 
 [:en] Hence indirection through a pointer located there is undefined if the
 object it points to was created by global [`operator new] and not previously
 declared reachable.
+[:zh_CN] 因此，对于位于其中的指针，如果其所指向的对象是由全局 [`operator new] 所
+创建，并且未声明为可达的，则通过它进行间接是未定义的。
 
 [enter:note]
 [:en] This may be used to inform a garbage collector or leak detector that this
 region of memory need not be traced.
+[:zh_CN] 这可以用于通知垃圾收集器或者泄漏检测器，这个内存区域不需要进行跟踪。
 [exit:note]
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para]
 [enter:note]
 [:en] Under some conditions implementations may need to allocate memory.
+[:zh_CN] 某些情况下实现可能需要分配内存。
 
 [:en] However, the request can be ignored if memory allocation fails.
+[:zh_CN] 然而当内存分配失败时，可以忽略该请求。
 [exit:note]
 [exit:description]
 
@@ -109,15 +139,19 @@ void undeclare_no_pointers(char* p, size_t n);
 [para:requires]
 [:en] The same range must previously have been passed to
 [`declare_no_pointers()].
+[:zh_CN] 同一个范围必须之前曾被传递给 [`declare_no_pointers()]。
 
 [para:effects]
 [:en] Unregisters a range registered with [`declare_no_pointers()] for
 destruction.
+[:zh_CN] 为进行销毁而注销由 [`declare_no_pointers()] 所注册的范围。
 
 [:en] It must be called before the lifetime of the object ends.
+[:zh_CN] 必须在对象的生存期结束之前进行调用。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library get_pointer_safety]
@@ -129,15 +163,23 @@ pointer_safety get_pointer_safety() noexcept;
 [para:returns]
 [:en] [`pointer_safety::strict] if the implementation has strict pointer safety
 ([#basic.stc.dynamic.safety]).
+[:zh_CN] 如果实现具有严格指针安全性（[#basic.stc.dynamic.safety]）则为
+[`pointer_safety::strict]。
 
 [:en] It is implementation defined [%@impldef whether [`get_pointer_safety]
 returns [`pointer_safety::relaxed] or [`pointer_safety::preferred] if the
 implementation has relaxed pointer safety] whether [`get_pointer_safety] returns
 [`pointer_safety::relaxed] or [`pointer_safety::preferred] if the implementation
 has relaxed pointer safety.
+[:zh_CN] 当实现具有宽松指针安全性时，[`get_pointer_safety] 返回
+[`pointer_safety::relaxed] 还是 [`pointer_safety::preferred] 是
+[%@impldef 当实现具有宽松指针安全性时 [`get_pointer_safety] 返回
+[`pointer_safety::relaxed] 还是 [`pointer_safety::preferred]]由实现定义的。
 
 [footnote]
 [:en] [`pointer_safety::preferred] might be returned to indicate that a leak
 detector is running so that the program can avoid spurious leak reports.
+[:zh_CN] 可以返回 [`pointer_safety::preferred] 以指出正在执行泄漏检测器，使程序
+可以避免虚假的泄漏报告。
 [footnote:end]
 [exit:description]
