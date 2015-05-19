@@ -1,5 +1,6 @@
 ﻿[section#allocator.members
     [:en] [`allocator] members
+    [:zh_CN] [`allocator] 的成员
 ]
 
 [para]
@@ -7,11 +8,17 @@
 Except for the destructor, member functions of the default allocator shall not
 introduce data races ([#intro.multithread]) as a result of concurrent calls to
 those member functions from different threads.
+[:zh_CN]
+除了其析构函数之外，当从不同线程对默认分配器的成员函数进行并发调用时，这些成员
+函数不能引入数据竞争（[#intro.multithread]）。
 
 [:en]
 Calls to these functions that allocate or deallocate a particular unit of
 storage shall occur in a single total order, and each such deallocation call
 shall happen before the next allocation (if any) in this order.
+[:zh_CN]
+对分配或回收某个特定单元的存储的函数进行的调用，应当以单个总顺序进行，且每次这种
+回收调用都应当发生早于在这个顺序中的下一次分配（如果有）。
 
 [%@library address[!allocator]]
 [%@library allocator[!address]]
@@ -23,6 +30,7 @@ pointer address(reference x) const noexcept;
 [para:returns]
 [:en] The actual address of the object referenced by [`x], even in the presence
 of an overloaded [`operator&].
+[:zh_CN] 由 [`x] 所指代的对象的真实地址，即使存在重载的 [`operator&] 也是如此。
 [exit:description]
 
 [%@library address[!allocator]]
@@ -35,6 +43,7 @@ const_pointer address(const_reference x) const noexcept;
 [para:returns]
 [:en] The actual address of the object referenced by [`x], even in the presence
 of an overloaded [`operator&].
+[:zh_CN] 由 [`x] 所指代的对象的真实地址，即使存在重载的 [`operator&] 也是如此。
 [exit:description]
 
 [%@library allocate[!allocator]]
@@ -48,25 +57,36 @@ pointer allocate(size_type n, allocator<void>::const_pointer hint = 0);
 [enter:note]
 [:en] In a container member function, the address of an adjacent element is
 often a good choice to pass for the [`hint] argument.
+[:zh_CN] 在某个容器的成员函数中，相邻元素的地址通常是作为 [`hint] 实参传递的好
+选择。
 [exit:note]
 
 [para:returns]
 [:en] A pointer to the initial element of an array of storage of size [`n *
 sizeof(T)], aligned appropriately for objects of type [`T].
+[:zh_CN] 指向大小为 [`n * sizeof(T)] 的，为类型 [`T] 的对象进行适当对齐的存储的
+数组的起始元素的指针。
 
 [:en] It is [%@impldef support for over-aligned types] implementation-defined
 whether over-aligned types are supported ([#basic.align]).
+[:zh_CN] 是否支持过量对齐类型（[#basic.align]）是[%@impldef 支持过量对齐类型]
+由实现定义的。
 
 [para:note]
 [:en] the storage is obtained by calling [`::operator new(std::size_t)]
 ([#new.delete]), but it is unspecified when or how often this function is
 called.
+[:zh_CN] 其存储是通过调用 [`::operator new(std::size_t)]（[#new.delete]）获得的
+，但何时以及多久进行一次该函数的调用是未指明的。
 
 [:en] The use of [`hint] is unspecified, but intended as an aid to locality if
 an implementation so desires.
+[:zh_CN] 如何使用 [`hint] 是未指明的，但其意图是当实现希望时，这将有助于提高局部
+性。
 
 [para:throws]
 [:en] [`bad_alloc] if the storage cannot be obtained.
+[:zh_CN] 当无法获得存储时抛出 [`bad_alloc]。
 [exit:description]
 
 [%@library deallocate[!allocator]]
@@ -78,16 +98,22 @@ void deallocate(pointer p, size_type n);
 [enter:description]
 [para:requires]
 [:en] [`p] shall be a pointer value obtained from [`allocate()].
+[:zh_CN] [`p] 应当是由 [`allocate()] 获得的指针值。
 
 [:en] [`n] shall equal the value passed as the first argument to the invocation
-of allocate which returned [`p].
+of [`allocate] which returned [`p].
+[:zh_CN] [`n] 应当等于对返回 [`p] 的 [`allocate] 调用中作为其第一个实参所传递的
+值。
 
 [para:effects]
 [:en] Deallocates the storage referenced by [`p].
+[:zh_CN] 回收由 [`p] 所指代的存储。
 
 [para:notes]
 [:en] Uses [`::operator delete(void*, std::size_t)] ([#new.delete]), but it is
 unspecified when this function is called.
+[:zh_CN] 使用 [`::operator delete(void*, std::size_t)]（[#new.delete]），但何时
+调用该函数是未指明的。
 [exit:description]
 
 [%@library max_size[!allocator]]
@@ -99,6 +125,7 @@ size_type max_size() const noexcept;
 [enter:description]
 [para:returns]
 [:en] The largest value [$N] for which the call [`allocate(N,0)] might succeed.
+[:zh_CN] 能够使调用 [`allocate(N,0)] 成功的最大的 [$N] 值。
 [exit:description]
 
 [%@library allocator[!constructor]]
@@ -109,7 +136,7 @@ template <class U, class... Args>
 
 [enter:description]
 [para:effects]
-[:en] [`::new((void *)p) U(std::forward<Args>(args)...)]
+[`::new((void *)p) U(std::forward<Args>(args)...)]
 [exit:description]
 
 [%@library allocator[!destructor]]
@@ -120,5 +147,5 @@ template <class U>
 
 [enter:description]
 [para:effects]
-[:en] [`p->~U()]
+[`p->~U()]
 [exit:description]
