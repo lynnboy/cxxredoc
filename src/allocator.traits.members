@@ -1,5 +1,6 @@
 ﻿[section#allocator.traits.members
     [:en] Allocator traits static member functions
+    [:zh_CN] 分配器特征的静态成员函数
 ]
 
 [%@library allocator_traits[!allocate]]
@@ -11,6 +12,7 @@ static pointer allocate(Alloc& a, size_type n);
 [enter:description]
 [para:returns]
 [:en] [`a.allocate(n)].
+[:zh_CN] [`a.allocate(n)]。
 [exit:description]
 
 [%@library allocator_traits[!allocate]]
@@ -23,6 +25,8 @@ static pointer allocate(Alloc& a, size_type n, const_void_pointer hint);
 [para:returns]
 [:en] [`a.allocate(n, hint)] if that expression is well-formed; otherwise,
 [`a.allocate(n)].
+[:zh_CN] 如果表达式 [`a.allocate(n, hint)] 良构则为该表达式；否则返回
+[`a.allocate(n)]。
 [exit:description]
 
 [%@library allocator_traits[!deallocate]]
@@ -34,12 +38,14 @@ static void deallocate(Alloc& a, pointer p, size_type n);
 [enter:description]
 [para:effects]
 [:en] calls [`a.deallocate(p, n)].
+[:zh_CN] 调用 [`a.deallocate(p, n)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
-[%@library [:en] allocator_traits[!constructor]]
+[%@library allocator_traits[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class T, class... Args>
   static void construct(Alloc& a, T* p, Args&&... args);
@@ -50,9 +56,11 @@ template <class T, class... Args>
 [:en] calls [`a.construct(p, std::forward<Args>(args)...)] if that call is
 well-formed; otherwise, invokes [`::new (static_cast<void*>(p))
 T(std::forward<Args>(args)...)].
+[:zh_CN] 如果调用 [`a.construct(p, std::forward<Args>(args)...)] 良构，则进行该
+调用；否则调用 [`::new (static_cast<void*>(p)) T(std::forward<Args>(args)...)]。
 [exit:description]
 
-[%@library allocator_traits[!destructor]]
+[%@library allocator_traits[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 template <class T>
   static void destroy(Alloc& a, T* p);
@@ -62,6 +70,7 @@ template <class T>
 [para:effects]
 [:en] calls [`a.destroy(p)] if that call is well-formed; otherwise, invokes
 [`p->~T()].
+[:zh_CN] 如果调用 [`a.destroy(p)] 良构，则进行该调用；否则调用 [`p->~T()]。
 [exit:description]
 
 [%@library allocator_traits[!max_size]]
@@ -74,6 +83,8 @@ static size_type max_size(const Alloc& a) noexcept;
 [para:returns]
 [:en] [`a.max_size()] if that expression is well-formed; otherwise,
 [`numeric_limits<size_type>::max()].
+[:zh_CN] 如果表达式 [`a.max_size()] 良构则为该表达式；否则返回
+[`numeric_limits<size_type>::max()]。
 [exit:description]
 
 [%@library allocator_traits[!select_on_container_copy_construction]]
@@ -86,4 +97,6 @@ static Alloc select_on_container_copy_construction(const Alloc& rhs);
 [para:returns]
 [:en] [`rhs.select_on_container_copy_construction()] if that expression is
 well-formed; otherwise, [`rhs].
+[:zh_CN] 如果表达式 [`rhs.select_on_container_copy_construction()] 良构则为该
+表达式；否则返回 [`rhs]。
 [exit:description]
