@@ -1,8 +1,9 @@
 ﻿[section#util.smartptr.shared.dest
     [:en] [`shared_ptr] destructor
+    [:zh_CN] [`shared_ptr] 的析构函数
 ]
 
-[%@library shared_ptr[!destructor]]
+[%@library shared_ptr[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~shared_ptr();
 [codeblock:end]
@@ -13,13 +14,18 @@
 [item]
 [:en] If [`*this] is [+empty] or shares ownership with another [`shared_ptr]
 instance ([`use_count() > 1]), there are no side effects.
+[:zh_CN] 若 [`*this] 为[+空]，或者与其他 [`shared_ptr] 实例共享所有权
+（[`use_count() > 1]），则没有副作用。
 
 [item]
 [:en] Otherwise, if [`*this] [+owns] an object [`p] and a deleter [`d], [`d(p)]
 is called.
+[:zh_CN] 否则，若 [`*this] [+拥有]一个对象 [`p] 和一个删除器 [`d]，则将调用
+[`d(p)]。
 
 [item]
 [:en] Otherwise, [`*this] [+owns] a pointer [`p], and [`delete p] is called.
+[:zh_CN] 否则，[`*this] [+拥有]一个指针 [`p]，并将调用 [`delete p]。
 [list:end]
 [exit:description]
 
@@ -29,4 +35,7 @@ is called.
 share ownership with [`*this] by one, after [`*this] has been destroyed all
 [`shared_ptr] instances that shared ownership with [`*this] will report a
 [`use_count()] that is one less than its previous value.
+[:zh_CN] 由于 [`*this] 的析构将会把与 [`*this] 共享所有权的实例数量减少一个，
+当 [`*this] 被销毁之后，所有与 [`*this] 共享所有权的 [`shared_ptr] 实例将会报告
+一个比其之前的值小一的 [`use_count()]。
 [exit:note]
