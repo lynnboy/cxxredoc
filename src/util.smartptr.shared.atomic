@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.atomic
     [:en] [`shared_ptr] atomic access
+    [:zh_CN] [`shared_ptr] 的原子性访问
 ]
 
 [para]
@@ -7,11 +8,16 @@
 Concurrent access to a [`shared_ptr] object from multiple threads does not
 introduce a data race if the access is done exclusively via the functions in
 this section and the instance is passed as their first argument.
+[:zh_CN]
+从多个线程对一个 [`shared_ptr] 对象进行并发访问，如果是利用本节中的函数，并以该
+实例作为第一个实参所进行的互斥访问，则不会引入数据竞争。
 
 [para]
 [:en]
 The meaning of the arguments of type [`memory_order] is explained in
 [#atomics.order].
+[:zh_CN]
+[`memory_order] 类型的实参的含义在 [#atomics.order] 中说明。
 
 [%@library atomic_is_lock_free[!shared_ptr]]
 [%@library shared_ptr[!atomic_is_lock_free]]
@@ -23,12 +29,15 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:returns]
 [:en] [`true] if atomic access to [`*p] is lock-free, [`false] otherwise.
+[:zh_CN] 如果对 [`*p] 的原子性访问是无锁的，则返回 [`true]，否则返回 [`false]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_load[!shared_ptr]]
@@ -41,12 +50,15 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:returns]
 [:en] [`atomic_load_explicit(p, memory_order_seq_cst)].
+[:zh_CN] [`atomic_load_explicit(p, memory_order_seq_cst)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_load_explicit[!shared_ptr]]
@@ -59,15 +71,19 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:requires]
 [:en] [`mo] shall not be [`memory_order_release] or [`memory_order_acq_rel].
+[:zh_CN] [`mo] 不应当为 [`memory_order_release] 或者 [`memory_order_acq_rel]。
 
 [para:returns]
 [:en] [`*p].
+[:zh_CN] [`*p]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_store[!shared_ptr]]
@@ -80,12 +96,15 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:effects]
 [:en] [`atomic_store_explicit(p, r, memory_order_seq_cst)].
+[:zh_CN] [`atomic_store_explicit(p, r, memory_order_seq_cst)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_store_explicit[!shared_ptr]]
@@ -98,15 +117,19 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:requires]
 [:en] [`mo] shall not be [`memory_order_acquire] or [`memory_order_acq_rel].
+[:zh_CN] [`mo] 不应当为 [`memory_order_acquire] 或者 [`memory_order_acq_rel]。
 
 [para:effects]
 [:en] [`p->swap(r)].
+[:zh_CN] [`p->swap(r)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_exchange[!shared_ptr]]
@@ -119,12 +142,15 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:returns]
 [:en] [`atomic_exchange_explicit(p, r, memory_order_seq_cst)].
+[:zh_CN] [`atomic_exchange_explicit(p, r, memory_order_seq_cst)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_exchange_explicit[!shared_ptr]]
@@ -138,15 +164,19 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null.
+[:zh_CN] [`p] 不应为空。
 
 [para:effects]
 [:en] [`p->swap(r)].
+[:zh_CN] [`p->swap(r)]。
 
 [para:returns]
 [:en] The previous value of [`*p].
+[:zh_CN] [`*p] 之前的值。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_compare_exchange_weak[!shared_ptr]]
@@ -160,12 +190,17 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null and [`v] shall not be null.
+[:zh_CN] [`p] 不应为空，且 [`v] 不应为空。
 
 [para:returns]
 [:en] [`atomic_compare_exchange_weak_explicit(p, v, w, memory_order_seq_cst,
 memory_order_seq_cst)].
+[:zh_CN] [`atomic_compare_exchange_weak_explicit(p, v, w, memory_order_seq_cst,
+memory_order_seq_cst)]。
 
-[para:throws] Nothing.
+[para:throws]
+[:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library atomic_compare_exchange_strong[!shared_ptr]]
@@ -180,6 +215,8 @@ template<class T>
 [para:returns]
 [:en] [`atomic_compare_exchange_strong_explicit(p, v, w, memory_order_seq_cst,
 memory_order_seq_cst)].
+[:zh_CN] [`atomic_compare_exchange_strong_explicit(p, v, w,
+memory_order_seq_cst, memory_order_seq_cst)]。
 [exit:description]
 
 [%@library atomic_compare_exchange_weak_explicit[!shared_ptr]]
@@ -200,29 +237,40 @@ template<class T>
 [enter:description]
 [para:requires]
 [:en] [`p] shall not be null and [`v] shall not be null.
+[:zh_CN] [`p] 不应为空，且 [`v] 不应为空。
 
 [para:requires]
 [:en] [`failure] shall not be [`memory_order_release], [`memory_order_acq_rel],
 or stronger than [`success].
+[:zh_CN] [`failure] 不应当为 [`memory_order_release]，[`memory_order_acq_rel]，
+或者比 [`success] 更强。
 
 [para:effects]
-[:en] If [`*p] is equivalent to [`*v], assigns [`w] to
-[`*p] and has synchronization semantics corresponding to the value of
-[`success], otherwise assigns [`*p] to [`*v] and has
-synchronization semantics corresponding to the value of [`failure].
+[:en] If [`*p] is equivalent to [`*v], assigns [`w] to [`*p] and has
+synchronization semantics corresponding to the value of [`success], otherwise
+assigns [`*p] to [`*v] and has synchronization semantics corresponding to the
+value of [`failure].
+[:zh_CN] 当 [`*p] 等价于 [`*v] 时，以 [`w] 对 [`*p] 进行赋值，并具有对应于
+[`success] 的值的同步语义，否则以 [`*p] 对 [`*v] 进行赋值，并具有对应于
+[`failure] 的值的同步语义。
 
 [para:returns]
 [:en] [`true] if [`*p] was equivalent to [`*v], [`false] otherwise.
+[:zh_CN] 当 [`*p] 等价于 [`*v] 时返回 [`true]，否则返回 [`false]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:remarks]
-[:en] two [`shared_ptr] objects are equivalent if they store the same
-pointer value and share ownership.
+[:en] two [`shared_ptr] objects are equivalent if they store the same pointer
+value and share ownership.
+[:zh_CN] 当两个 [`shared_ptr] 对象存储相同的指针并且共享所有权时，它们是等价的。
 
 [para:remarks]
 [:en] the weak forms may fail spuriously.
+[:zh_CN] 弱的版本可能会发生假性失败。
 
 [:en] See [#atomics.types.operations].
+[:zh_CN] 参见 [#atomics.types.operations]。
 [exit:description]
