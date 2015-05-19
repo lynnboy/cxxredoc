@@ -1,5 +1,6 @@
 ﻿[section#memory.syn
     [:en] Header [`<memory>] synopsis
+    [:zh_CN] 头文件 [`<memory>] 纲要
 ]
 
 [para]
@@ -8,20 +9,29 @@ The header [`<memory>] defines several types and function templates that
 describe properties of pointers and pointer-like types, manage memory for
 containers and other template types, and construct multiple objects in
 uninitialized memory buffers ([#pointer.traits][=-][#specialized.algorithms]).
+[:zh_CN]
+头文件 [`<memory>] 定义了用于描述指针和指针式类型，用于管理容器和其他模板类型的
+内存，以及用于在未初始化内存缓冲区中构造多个对象的几个类型和函数模板
+（[#pointer.traits]—[#specialized.algorithms]）。
 
 [:en]
 The header also defines the templates [`unique_ptr], [`shared_ptr], [`weak_ptr],
 and various function templates that operate on objects of these types
 ([#smartptr]).
+[:zh_CN]
+这个头文件还定义了模板 [`unique_ptr]，[`shared_ptr]，[`weak_ptr]，以及操作这些
+类型的对象的各种函数模板（[#smartptr]）。
 
 [%@library <memory> [sortas memory]]
 [codeblock:synopsis [special unspecified] ]
 namespace std {
   // [:en] [#pointer.traits], pointer traits
+  // [|:zh_CN] [#pointer.traits]，指针特征
   template <class Ptr> struct pointer_traits;
   template <class T> struct pointer_traits<T*>;
 
   // [:en] [#util.dynamic.safety], pointer safety
+  // [|:zh_CN] [#util.dynamic.safety]，指针安全性
   enum class pointer_safety { relaxed, preferred, strict };
   void declare_reachable(void* p);
   template <class T> T* undeclare_reachable(T* p);
@@ -30,20 +40,25 @@ namespace std {
   pointer_safety get_pointer_safety() noexcept;
 
   // [:en] [#ptr.align], pointer alignment function
+  // [|:zh_CN] [#ptr.align]，指针对齐函数
   void* align(std::size_t alignment, std::size_t size,
     void*& ptr, std::size_t& space);
 
   // [:en] [#allocator.tag], allocator argument tag
+  // [|:zh_CN] [#allocator.tag]，分配器实参标签
   struct allocator_arg_t { };
   constexpr allocator_arg_t allocator_arg{};
 
   // [:en] [#allocator.uses], [`uses_allocator]
+  // [|:zh_CN] [#allocator.uses]，[`uses_allocator]
   template <class T, class Alloc> struct uses_allocator;
 
   // [:en] [#allocator.traits], allocator traits
+  // [|:zh_CN] [#allocator.traits]，分配器特征
   template <class Alloc> struct allocator_traits;
 
   // [:en] [#default.allocator], the default allocator:
+  // [|:zh_CN] [#default.allocator]，默认分配器：
   template <class T> class allocator;
   template <> class allocator<void>;
   template <class T, class U>
@@ -52,15 +67,18 @@ namespace std {
     bool operator!=(const allocator<T>&, const allocator<U>&) noexcept;
 
   // [:en] [#storage.iterator], raw storage iterator:
+  // [|:zh_CN] [#storage.iterator]，原始存储迭代器：
   template <class OutputIterator, class T> class raw_storage_iterator;
 
   // [:en] [#temporary.buffer], temporary buffers:
+  // [|:zh_CN] [#temporary.buffer]，临时缓冲区：
   template <class T>
     pair<T*,ptrdiff_t> get_temporary_buffer(ptrdiff_t n) noexcept;
   template <class T>
     void return_temporary_buffer(T* p);
 
   // [:en] [#specialized.algorithms], specialized algorithms:
+  // [|:zh_CN] [#specialized.algorithms]，特化的算法：
   template <class T> T* addressof(T& r) noexcept;
   template <class InputIterator, class ForwardIterator>
     ForwardIterator uninitialized_copy(InputIterator first, InputIterator last,
@@ -75,6 +93,7 @@ namespace std {
     ForwardIterator uninitialized_fill_n(ForwardIterator first, Size n, const T& x);
 
   // [:en] [#unique.ptr] class template unique_ptr:
+  // [|:zh_CN] [#unique.ptr] 类模板 unique_ptr：
   template <class T> struct default_delete;
   template <class T> struct default_delete<T[]>;
   template <class T, class D = default_delete<T>> class unique_ptr;
@@ -125,17 +144,21 @@ namespace std {
     bool operator>=(nullptr_t, const unique_ptr<T, D>& y);
 
   // [:en] [#util.smartptr.weakptr], class bad_weak_ptr:
+  // [|:zh_CN] [#util.smartptr.weakptr]，类 bad_weak_ptr：
   class bad_weak_ptr;
 
   // [:en] [#util.smartptr.shared], class template shared_ptr:
+  // [|:zh_CN] [#util.smartptr.shared]，类模板 shared_ptr：
   template<class T> class shared_ptr;
 
   // [:en] [#util.smartptr.shared.create], shared_ptr creation
+  // [|:zh_CN] [#util.smartptr.shared.create]，shared_ptr 的创建
   template<class T, class... Args> shared_ptr<T> make_shared(Args&&... args);
   template<class T, class A, class... Args>
     shared_ptr<T> allocate_shared(const A& a, Args&&... args);
 
   // [:en] [#util.smartptr.shared.cmp], shared_ptr comparisons:
+  // [|:zh_CN] [#util.smartptr.shared.cmp]，shared_ptr 的比较：
   template<class T, class U>
     bool operator==(shared_ptr<T> const& a, shared_ptr<U> const& b) noexcept;
   template<class T, class U>
@@ -175,9 +198,11 @@ namespace std {
     bool operator>=(nullptr_t, const shared_ptr<T>& y) noexcept;
 
   // [:en] [#util.smartptr.shared.spec], shared_ptr specialized algorithms:
+  // [|:zh_CN] [#util.smartptr.shared.spec]，shared_ptr 的特化算法：
   template<class T> void swap(shared_ptr<T>& a, shared_ptr<T>& b) noexcept;
 
   // [:en] [#util.smartptr.shared.cast], shared_ptr casts:
+  // [|:zh_CN] [#util.smartptr.shared.cast]，shared_ptr 的强制转换：
   template<class T, class U>
     shared_ptr<T> static_pointer_cast(shared_ptr<U> const& r) noexcept;
   template<class T, class U>
@@ -186,25 +211,32 @@ namespace std {
     shared_ptr<T> const_pointer_cast(shared_ptr<U> const& r) noexcept;
 
   // [:en] [#util.smartptr.getdeleter], shared_ptr get_deleter:
+  // [|:zh_CN] [#util.smartptr.getdeleter]，shared_ptr 的 get_deleter：
   template<class D, class T> D* get_deleter(shared_ptr<T> const& p) noexcept;
 
   // [:en] [#util.smartptr.shared.io], shared_ptr I/O:
+  // [|:zh_CN] [#util.smartptr.shared.io]，shared_ptr 的 I/O：
   template<class E, class T, class Y>
     basic_ostream<E, T>& operator<< (basic_ostream<E, T>& os, shared_ptr<Y> const& p);
 
   // [:en] [#util.smartptr.weak], class template weak_ptr:
+  // [|:zh_CN] [#util.smartptr.weak]，类模板 weak_ptr：
   template<class T> class weak_ptr;
 
   // [:en] [#util.smartptr.weak.spec], weak_ptr specialized algorithms:
+  // [|:zh_CN] [#util.smartptr.weak.spec]，weak_ptr 的特化算法：
   template<class T> void swap(weak_ptr<T>& a, weak_ptr<T>& b) noexcept;
 
   // [:en] [#util.smartptr.ownerless], class template owner_less:
+  // [|:zh_CN] [#util.smartptr.ownerless]，类模板 owner_less：
   template<class T> class owner_less;
 
   // [:en] [#util.smartptr.enab], class template enable_shared_from_this:
+  // [|:zh_CN] [#util.smartptr.enab]，类模板 enable_shared_from_this：
   template<class T> class enable_shared_from_this;
 
   // [:en] [#util.smartptr.shared.atomic], shared_ptr atomic access:
+  // [|:zh_CN] [#util.smartptr.shared.atomic]，shared_ptr 的原子性访问：
   template<class T>
     bool atomic_is_lock_free(const shared_ptr<T>* p);
 
@@ -240,6 +272,7 @@ namespace std {
       memory_order success, memory_order failure);
 
   // [:en] [#util.smartptr.hash] hash support
+  // [|:zh_CN] [#util.smartptr.hash] hash 支持
   template <class T> struct hash;
   template <class T, class D> struct hash<unique_ptr<T, D> >;
   template <class T> struct hash<shared_ptr<T> >;
