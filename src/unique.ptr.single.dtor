@@ -1,8 +1,9 @@
 ﻿[section#unique.ptr.single.dtor
     [:en] [`unique_ptr] destructor
+    [:zh_CN] [`unique_ptr] 的析构函数
 ]
 
-[%@library unique_ptr[!destructor]]
+[%@library unique_ptr[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~unique_ptr();
 [codeblock:end]
@@ -11,13 +12,18 @@
 [para:requires]
 [:en] The expression [`get_deleter()(get())] shall be well formed, shall have
 well-defined behavior, and shall not throw exceptions.
+[:zh_CN] 表达式 [`get_deleter()(get())] 应当是良构的，应当具有定义明确的行为，
+并且不能抛出异常。
 
 [enter:note]
 [:en] The use of [`default_delete] requires [`T] to be a complete type.
+[:zh_CN] 对 [`default_delete] 的使用要求 [`T] 为完整类型。
 [exit:note]
 
 [para:effects]
 [:en] If [`get() == nullptr] there are no effects.
+[:zh_CN] 如果 [`get() == nullptr] 则没有效果。
 
 [:en] Otherwise [`get_deleter()(get())].
+[:zh_CN] 否则为 [`get_deleter()(get())]。
 [exit:description]
