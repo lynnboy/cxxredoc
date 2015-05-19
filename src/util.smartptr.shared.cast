@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.cast
     [:en] [`shared_ptr] casts
+    [:zh_CN] [`shared_ptr] 的强制转换
 ]
 
 [%@library shared_ptr[!static_pointer_cast]]
@@ -11,21 +12,28 @@ template<class T, class U> shared_ptr<T> static_pointer_cast(const shared_ptr<U>
 [enter:description]
 [para:requires]
 [:en] The expression [`static_cast<T*>(r.get())] shall be well formed.
+[:zh_CN] 表达式 [`static_cast<T*>(r.get())] 应当是良构的。
 
 [para:returns]
 [:en] If [`r] is [+empty], an [+empty] [`shared_ptr<T>]; otherwise, a
 [`shared_ptr<T>] object that stores [`static_cast<T*>(r.get())] and [+shares
 ownership] with [`r].
+[:zh_CN] 如果 [`r] 为[+空]，则为[+空] [`shared_ptr<T>]；否则为一个储存
+[`static_cast<T*>(r.get())] 并与 [`r] [+共享所有权]的 [`shared_ptr<T>]。
 
 [para:postconditions]
 [:en] [`w.get() == static_cast<T*>(r.get())] and [`w.use_count() ==
 r.use_count()], where [`w] is the return value.
+[:zh_CN] [`w.get() == static_cast<T*>(r.get())] 并且 [`w.use_count() ==
+r.use_count()]，其中 [`w] 为其返回值。
 
 [para]
 [enter:note]
 [:en] The seemingly equivalent expression
 [`shared_ptr<T>(static_cast<T*>(r.get()))] will eventually result in undefined
 behavior, attempting to delete the same object twice.
+[:zh_CN] 看起来等价的表达式 [`shared_ptr<T>(static_cast<T*>(r.get()))] 最终将
+导致未定义行为，因为其试图两次删除相同的对象。
 [exit:note]
 [exit:description]
 
@@ -39,6 +47,8 @@ template<class T, class U> shared_ptr<T> dynamic_pointer_cast(const shared_ptr<U
 [para:requires]
 [:en] The expression [`dynamic_cast<T*>(r.get())] shall be well formed and shall
 have well defined behavior.
+[:zh_CN] 表达式 [`dynamic_cast<T*>(r.get())] 应当是良构的，且应当具有良构的行为
+。
 
 [para:returns]
 [list]
@@ -46,19 +56,25 @@ have well defined behavior.
 [:en] When [`dynamic_cast<T*>(r.get())] returns a nonzero value, a
 [`shared_ptr<T>] object that stores a copy of it and [+shares ownership] with
 [`r];
+[:zh_CN] 当 [`dynamic_cast<T*>(r.get())] 返回非零值时，返回存储它的副本且与 [`r]
+[+共享所有权]的 [`shared_ptr<T>] 对象；
 
 [item]
 [:en] Otherwise, an [+empty] [`shared_ptr<T>] object.
+[:zh_CN] 否则，返回[+空] [`shared_ptr<T>] 对象。
 [list:end]
 
 [para:postcondition]
 [:en] [`w.get() == dynamic_cast<T*>(r.get())], where [`w] is the return value.
+[:zh_CN] [`w.get() == dynamic_cast<T*>(r.get())]，其中 [`w] 为其返回值。
 
 [para]
 [enter:note]
 [:en] The seemingly equivalent expression
 [`shared_ptr<T>(dynamic_cast<T*>(r.get()))] will eventually result in undefined
 behavior, attempting to delete the same object twice.
+[:zh_CN] 看起来等价的表达式 [`shared_ptr<T>(dynamic_cast<T*>(r.get()))] 最终将
+导致未定义行为，因为其试图两次删除相同的对象。
 [exit:note]
 [exit:description]
 
@@ -71,19 +87,26 @@ template<class T, class U> shared_ptr<T> const_pointer_cast(const shared_ptr<U>&
 [enter:description]
 [para:requires]
 [:en] The expression [`const_cast<T*>(r.get())] shall be well formed.
+[:zh_CN] 表达式 [`const_cast<T*>(r.get())] 应当是良构的。
 
 [para:returns]
 [:en] If [`r] is empty, an empty [`shared_ptr<T>]; otherwise, a [`shared_ptr<T>]
 object that stores [`const_cast<T*>(r.get())] and shares ownership with [`r].
+[:zh_CN] 如果 [`r] 为空，则返回空 [`shared_ptr<T>]；否则返回一个保存
+[`const_cast<T*>(r.get())] 且与 [`r] 共享所有权的 [`shared_ptr<T>] 对象。
 
 [para:postconditions]
 [:en] [`w.get() == const_cast<T*>(r.get())] and [`w.use_count() ==
 r.use_count()], where [`w] is the return value.
+[:zh_CN] [`w.get() == const_cast<T*>(r.get())] 并且 [`w.use_count() ==
+r.use_count()]，其中 [`w] 为其返回值。
 
 [para]
 [enter:note]
 [:en] The seemingly equivalent expression
 [`shared_ptr<T>(const_cast<T*>(r.get()))] will eventually result in undefined
 behavior, attempting to delete the same object twice.
+[:zh_CN] 看起来等价的表达式 [`shared_ptr<T>(const_cast<T*>(r.get()))] 最终将
+导致未定义行为，因为其试图两次删除相同的对象。
 [exit:note]
 [exit:description]
