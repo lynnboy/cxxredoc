@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.weak.assign
     [:en] [`weak_ptr] assignment
+    [:zh_CN] [`weak_ptr] 的赋值
 ]
 
 [%@library weak_ptr[!operator=]]
@@ -13,13 +14,16 @@ template<class Y> weak_ptr& operator=(const shared_ptr<Y>& r) noexcept;
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`weak_ptr(r).swap(*this)].
+[:zh_CN] 等价于 [`weak_ptr(r).swap(*this)]。
 
 [para:notes]
 [:en] The implementation may meet the effects (and the implied guarantees) via
 different means, without creating a temporary.
+[:zh_CN] 实现可以以其他方式满足其效果（及其隐含的保证）而不创建临时对象。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library weak_ptr[!operator=]]
@@ -32,7 +36,9 @@ template<class Y> weak_ptr& operator=(weak_ptr<Y>&& r) noexcept;
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`weak_ptr(std::move(r)).swap(*this)].
+[:zh_CN] 等价于 [`weak_ptr(std::move(r)).swap(*this)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
