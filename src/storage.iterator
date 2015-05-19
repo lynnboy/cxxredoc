@@ -1,17 +1,24 @@
 ﻿[section#storage.iterator
     [:en] Raw storage iterator
+    [:zh_CN] 原始存储迭代器
 ]
 
 [para]
 [:en]
 [`raw_storage_iterator] is provided to enable algorithms to store their results
 into uninitialized memory.
+[:zh_CN]
+提供 [`raw_storage_iterator] 是为了使算法可以向未初始化的内存中存储其结果。
 
 [:en]
 The template parameter [`OutputIterator] is required to have its [`operator*]
 return an object for which [`operator&] is defined and returns a pointer to
 [`T], and is also required to satisfy the requirements of an output iterator
 ([#output.iterators]).
+[:zh_CN]
+要求模板形参 [`OutputIterator] 带有 [`operator*]，且其所返回的对象定义了
+[`operator&] 并返回 [`T] 的指针，还要求它满足输出迭代器的规定
+（[#output.iterators]）。
 
 [codeblock:synopsis]
 namespace std {
@@ -29,7 +36,7 @@ namespace std {
 }
 [codeblock:end]
 
-[%@library [:en] raw_storage_iterator[!constructor]]
+[%@library raw_storage_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 explicit raw_storage_iterator(OutputIterator x);
 [codeblock:end]
@@ -37,6 +44,7 @@ explicit raw_storage_iterator(OutputIterator x);
 [enter:description]
 [para:effects]
 [:en] Initializes the iterator to point to the same value to which [`x] points.
+[:zh_CN] 初始化迭代器以指向 [`x] 所指向的相同值。
 [exit:description]
 
 [%@library operator*[!raw_storage_iterator]]
@@ -47,7 +55,7 @@ raw_storage_iterator& operator*();
 
 [enter:description]
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library operator=[!raw_storage_iterator]]
@@ -60,9 +68,11 @@ raw_storage_iterator& operator=(const T& element);
 [para:effects]
 [:en] Constructs a value from [`element] at the location to which the iterator
 points.
+[:zh_CN] 在该迭代器所指向的位置上以 [`element] 构造一个值。
 
 [para:returns]
 [:en] A reference to the iterator.
+[:zh_CN] 指代该迭代器的引用。
 [exit:description]
 
 [%@library operator++[!raw_storage_iterator]]
@@ -75,6 +85,7 @@ raw_storage_iterator& operator++();
 [para:effects]
 [:en] Pre-increment: advances the iterator and returns a reference to the
 updated iterator.
+[:zh_CN] 前置增量：推进迭代器并返回指代更新后的迭代器的引用。
 [exit:description]
 
 [%@library operator++[!raw_storage_iterator]]
@@ -87,4 +98,5 @@ raw_storage_iterator operator++(int);
 [para:effects]
 [:en] Post-increment: advances the iterator and returns the old value of the
 iterator.
+[:zh_CN] 后置增量：推进迭代器并返回该迭代器的原值。
 [exit:description]
