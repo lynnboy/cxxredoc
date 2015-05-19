@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.weak
     [:en] Class template [`weak_ptr]
+    [:zh_CN] 类模板 [`weak_ptr]
 ]
 
 [para]
@@ -7,10 +8,14 @@
 [:en]
 The [`weak_ptr] class template stores a weak reference to an object that is
 already managed by a [`shared_ptr].
+[:zh_CN]
+[`weak_ptr] 类模板存储一个指代已经由某个 [`shared_ptr] 所管理的对象的弱引用。
 
 [:en]
 To access the object, a [`weak_ptr] can be converted to a [`shared_ptr] using
 the member function [`lock].
+[:zh_CN]
+要访问此对象，可以用成员函数 [`lock] 将 [`weak_ptr] 转换为一个 [`shared_ptr]。
 
 [codeblock:synopsis]
 namespace std {
@@ -19,6 +24,7 @@ namespace std {
     typedef T element_type;
 
     // [:en] [#util.smartptr.weak.const], constructors
+    // [|:zh_CN] [#util.smartptr.weak.const]，构造函数
     constexpr weak_ptr() noexcept;
     template<class Y> weak_ptr(shared_ptr<Y> const& r) noexcept;
     weak_ptr(weak_ptr const& r) noexcept;
@@ -27,9 +33,11 @@ namespace std {
     template<class Y> weak_ptr(weak_ptr<Y>&& r) noexcept;
 
     // [:en] [#util.smartptr.weak.dest], destructor
+    // [|:zh_CN] [#util.smartptr.weak.dest]，析构函数
     ~weak_ptr();
 
     // [:en] [#util.smartptr.weak.assign], assignment
+    // [|:zh_CN] [#util.smartptr.weak.assign]，赋值
     weak_ptr& operator=(weak_ptr const& r) noexcept;
     template<class Y> weak_ptr& operator=(weak_ptr<Y> const& r) noexcept;
     template<class Y> weak_ptr& operator=(shared_ptr<Y> const& r) noexcept;
@@ -37,10 +45,12 @@ namespace std {
     template<class Y> weak_ptr& operator=(weak_ptr<Y>&& r) noexcept;    
 
     // [:en] [#util.smartptr.weak.mod], modifiers
+    // [|:zh_CN] [#util.smartptr.weak.mod]，改动函数
     void swap(weak_ptr& r) noexcept;
     void reset() noexcept;
 
     // [:en] [#util.smartptr.weak.obs], observers
+    // [|:zh_CN] [#util.smartptr.weak.obs]，探察函数
     long use_count() const noexcept;
     bool expired() const noexcept;
     shared_ptr<T> lock() const noexcept;
@@ -49,6 +59,7 @@ namespace std {
   };
 
   // [:en] [#util.smartptr.weak.spec], specialized algorithms
+  // [|:zh_CN] [#util.smartptr.weak.spec]，特化的算法
   template<class T> void swap(weak_ptr<T>& a, weak_ptr<T>& b) noexcept;
 } // namespace std
 [codeblock:end]
@@ -57,9 +68,14 @@ namespace std {
 [:en]
 Specializations of [`weak_ptr] shall be [`CopyConstructible] and
 [`CopyAssignable], allowing their use in standard containers.
+[:zh_CN]
+[`weak_ptr] 的特例应当为 [`CopyConstructible] 和 [`CopyAssignable]，使它们能用在
+标准容器中。
 
 [:en]
 The template parameter [`T] of [`weak_ptr] may be an incomplete type.
+[:zh_CN]
+[`weak_ptr] 的模板形参 [`T] 可以是不完整类型。
 
 [include util.smartptr.weak.const]
 
