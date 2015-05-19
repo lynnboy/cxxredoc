@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.single.asgn
     [:en] [`unique_ptr] assignment
+    [:zh_CN] [`unique_ptr] 的赋值
 ]
 
 [%@library operator=[!unique_ptr]]
@@ -13,18 +14,25 @@ unique_ptr& operator=(unique_ptr&& u) noexcept;
 [:en] If [`D] is not a reference type, [`D] shall satisfy the requirements of
 [`MoveAssignable] (Table [#moveassignable]) and assignment of the deleter from
 an rvalue of type [`D] shall not throw an exception.
+[:zh_CN] 若 [`D] 不是引用类型，则 [`D] 应当满足 [`MoveAssignable] 的规定
+（表 [#moveassignable]），并且以类型 [`D] 的右值向删除器赋值时不能抛出异常。
 
 [:en] Otherwise, [`D] is a reference type; [`remove_reference_t<D>] shall
 satisfy the [`CopyAssignable] requirements and assignment of the deleter from an
 lvalue of type [`D] shall not throw an exception.
+[:zh_CN] 否则，[`D] 为引用类型；[`remove_reference_t<D>] 应当满足
+[`CopyAssignable] 的规定，并且以类型 [`D] 的左值向删除器赋值时不能抛出异常。
 
 [para:effects]
 [:en] Transfers ownership from [`u] to [`*this] as if by calling
 [`reset(u.release())] followed by
 [`get_deleter() = std::forward<D>(u.get_deleter())].
+[:zh_CN] 从 [`u] 向 [`*this] 传递所有权，如同进行了调用 [`reset(u.release())]
+之后再跟着 [`get_deleter() = std::forward<D>(u.get_deleter())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!unique_ptr]]
@@ -37,28 +45,37 @@ template <class U, class E> unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept
 [para:requires]
 [:en] If [`E] is not a reference type, assignment of the deleter from an rvalue
 of type [`E] shall be well-formed and shall not throw an exception.
+[:zh_CN] 若 [`E] 不是引用类型，则以类型 [`E] 的右值向删除器赋值应当是良构的且
+不能抛出异常。
 
 [:en] Otherwise, [`E] is a reference type and assignment of the deleter from an
 lvalue of type [`E] shall be well-formed and shall not throw an exception.
+[:zh_CN] 否则，[`E] 为引用类型，并且以类型 [`E] 的左值向删除器赋值应当是良构的
+且不能抛出异常。
 
 [para:remarks]
 [:en] This operator shall not participate in overload resolution unless:
+[:zh_CN] 该构造函数不能参与重载决以，除非：
 
 [list]
 [item]
 [:en] [`unique_ptr<U, E>::pointer] is implicitly convertible to [`pointer] and
+[:zh_CN] [`unique_ptr<U, E>::pointer] 可以隐式转换为 [`pointer]，并且
 [item]
 [:en] [`U] is not an array type.
+[:zh_CN] [`U] 不是数组类型。
 [list:end]
 
 [para:effects]
 [:en] Transfers ownership from [`u] to [`*this] as if by calling
 [`reset(u.release())] followed by
-
-[:en] [`get_deleter() = std::forward<E>(u.get_deleter())].
+[`get_deleter() = std::forward<E>(u.get_deleter())].
+[:zh_CN] 从 [`u] 向 [`*this] 传递所有权，如同进行了调用 [`reset(u.release())]
+之后再跟着 [`get_deleter() = std::forward<E>(u.get_deleter())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!unique_ptr]]
@@ -70,10 +87,12 @@ unique_ptr& operator=(nullptr_t) noexcept;
 [enter:description]
 [para:effects]
 [:en] [`reset()].
+[:zh_CN] [`reset()]。
 
 [para:postcondition]
-[:en] [`get() == nullptr]
+[`get() == nullptr]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
