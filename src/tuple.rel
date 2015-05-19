@@ -1,5 +1,6 @@
 ﻿[section#tuple.rel
     [:en] Relational operators
+    [:zh_CN] 关系运算符
 ]
 
 [%@library tuple[!operator==]]
@@ -14,20 +15,28 @@ template<class... TTypes, class... UTypes>
 [:en] For all [`i], where [`0 <= i] and [`i < sizeof...(TTypes)], [`get<i>(t) ==
 get<i>(u)] is a valid expression returning a type that is convertible to
 [`bool].
+[:zh_CN] 对于所有 [`i]，其中 [`0 <= i] 且 [`i < sizeof...(TTypes)]，
+[`get<i>(t) == get<i>(u)] 为有效表达式，且其返回类型可以转换为 [`bool]。
 
 [:en] [`sizeof...(TTypes) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(TTypes) == sizeof...(UTypes)]。
 
 [para:returns]
 [:en] [`true] if [`get<i>(t) == get<i>(u)] for all [`i], otherwise [`false].
+[:zh_CN] 若对于所有 [`i] 有 [`get<i>(t) == get<i>(u)] 则为 [`true]，否则为
+[`false]。
 
 [:en] For any two zero-length tuples [`e] and [`f], [`e == f] returns [`true].
+[:zh_CN] 对于任意两个零长度元组 [`e] 和 [`f]，[`e == f] 返回 [`true]。
 
 [para:effects]
 [:en] The elementary comparisons are performed in order from the zeroth index
 upwards.
+[:zh_CN] 按元素比较从第零个索引开始依增序进行。
 
 [:en] No comparisons or element accesses are performed after the first equality
 comparison that evaluates to [`false].
+[:zh_CN] 在第一个求值为 [`false] 的比较之后将不再实施任何比较或元素访问。
 [exit:description]
 
 [%@library tuple[!operator<]]
@@ -42,18 +51,27 @@ template<class... TTypes, class... UTypes>
 [:en] For all [`i], where [`0 <= i] and [`i < sizeof...(TTypes)], [`get<i>(t) <
 get<i>(u)] and [`get<i>(u) < get<i>(t)] are valid expressions returning types
 that are convertible to [`bool].
+[:zh_CN] 对于所有 [`i]，其中 [`0 <= i] 且 [`i < sizeof...(TTypes)]，
+[`get<i>(t) < get<i>(u)] 和 [`get<i>(u) < get<i>(t)] 为有效表达式，且其返回类型
+可以转换为 [`bool]。
 
 [:en] [`sizeof...(TTypes) == sizeof...(UTypes)].
+[:zh_CN] [`sizeof...(TTypes) == sizeof...(UTypes)]。
 
 [para:returns]
 [:en] The result of a lexicographical comparison between [`t] and [`u].
+[:zh_CN] 在 [`t] 和 [`u] 之间的字典序比较的结果。
 
 [:en] The result is defined as: [`(bool)(get<0>(t) < get<0>(u)) ||
 (!(bool)(get<0>(u) < get<0>(t)) && t][_tail][` < u][_tail][`)], where
 [`r][_tail] for some tuple [`r] is a tuple containing all but the first element
 of [`r].
+[:zh_CN] 其结果定义为：[`(bool)(get<0>(t) < get<0>(u)) ||
+(!(bool)(get<0>(u) < get<0>(t)) && t][_tail][` < u][_tail][`)]，其中某元组 [`r]
+的 [`r][_tail] 是包含除第一个之外的 [`r] 的所有元素的元组。
 
 [:en] For any two zero-length tuples [`e] and [`f], [`e < f] returns [`false].
+[:zh_CN] 对于任意两个零长度元组 [`e] 和 [`f]，[`e < f] 返回 [`false]。
 [exit:description]
 
 [%@library tuple[!operator!=]]
@@ -66,6 +84,7 @@ template<class... TTypes, class... UTypes>
 [enter:description]
 [para:returns]
 [:en] [`!(t == u)].
+[:zh_CN] [`!(t == u)]。
 [exit:description]
 
 [%@library tuple[!operator>]]
@@ -78,6 +97,7 @@ template<class... TTypes, class... UTypes>
 [enter:description]
 [para:returns]
 [:en] [`u < t].
+[:zh_CN] [`u < t]。
 [exit:description]
 
 [%@library tuple[!operator<=]]
@@ -89,7 +109,7 @@ template<class... TTypes, class... UTypes>
 
 [enter:description]
 [para:returns]
-[:en] [`!(u < t)]
+[`!(u < t)]
 [exit:description]
 
 [%@library tuple[!operator>=]]
@@ -101,7 +121,7 @@ template<class... TTypes, class... UTypes>
 
 [enter:description]
 [para:returns]
-[:en] [`!(t < u)]
+[`!(t < u)]
 [exit:description]
 
 [para]
@@ -109,12 +129,19 @@ template<class... TTypes, class... UTypes>
 [:en]
 The above definitions for comparison operators do not require [`t][_tail]
 (or [`u][_tail]) to be constructed.
+[:zh_CN]
+以上对比较运算符的定义并不要求构造 [`t][_tail]（或 [`u][_tail]）。
 
 [:en]
 It may not even be possible, as [`t] and [`u] are not required to be copy
 constructible.
+[:zh_CN]
+这在当并不要求 [`t] 和 [`u] 为可被复制构造时甚至是不可能的。
 
 [:en]
 Also, all comparison operators are short circuited; they do not perform element
 accesses beyond what is required to determine the result of the comparison.
+[:zh_CN]
+并且，所有的比较运算符都是短路的：它们并不实施超出了用以确定比较结果所需的元素
+访问。
 [exit:note]
