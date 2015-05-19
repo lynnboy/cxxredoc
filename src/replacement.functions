@@ -1,5 +1,6 @@
 ﻿[section#replacement.functions
     [:en] Replacement functions
+    [:zh_CN] 替代函数
 ]
 
 [para]
@@ -8,68 +9,66 @@
 Clauses [#language.support] through [#thread] and Annex [#depr] describe the
 behavior of numerous functions defined by [%library[!C++ standard]] the [=Cpp]
 standard library.
+[:zh_CN]
+[%定义式[!替代～]]
+第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 说明了 [=Cpp] 标准程序
+库中定义的许多函数的行为。
 
 [:en]
 Under some circumstances, however, certain of these function descriptions also
 apply to replacement functions defined in the program ([#definitions]).
+[:zh_CN]
+然而在某些情况下，其中的一些函数说明还适用于在程序中所定义的替代函数
+（[#definitions]）。
 
 [para]
 [:en]
 A [=Cpp] program may provide the definition for any of twelve dynamic memory
 allocation function signatures declared in header [`<new>]
 ([#basic.stc.dynamic], [#support.dynamic]):
+[:zh_CN]
+[=Cpp] 程序可以为在头文件 [`<new>] 中所声明的十二个动态内存分配函数签名中的任意
+函数提供定义式（[#basic.stc.dynamic]，[#support.dynamic]）：
 
 [list]
 [item]
-[:en]
 [%[`new][![`operator]]] [%@library new[!operator]]
 [`operator new(std::size_t)]
 
 [item]
-[:en]
 [`operator new(std::size_t, const std::nothrow_t&)]
 
 [item]
-[:en]
 [%[`new][![`operator]]] [%@library new[!operator]]
 [`operator new[`](std::size_t)]
 
 [item]
-[:en]
 [`operator new[`](std::size_t, const std::nothrow_t&)]
 
 [item]
-[:en]
 [%[`delete][![`operator]]] [%@library delete[!operator]]
 [`operator delete(void*)]
 
 [item]
-[:en]
 [`operator delete(void*, const std::nothrow_t&)]
 
 [item]
-[:en]
 [%[`delete][![`operator]]] [%@library delete[!operator]]
 [`operator delete[`](void*)]
 
 [item]
-[:en]
 [`operator delete[`](void*, const std::nothrow_t&)]
 
 [item]
-[:en]
 [`operator delete(void*, std::size_t)]
 
 [item]
-[:en]
 [`operator delete(void*, std::size_t, const std::nothrow_t&)]
 
 [item]
-[:en]
 [`operator delete[`](void*, std::size_t)]
 
 [item]
-[:en]
 [`operator delete[`](void*, std::size_t, const std::nothrow_t&)]
 [list:end]
 
@@ -77,14 +76,23 @@ allocation function signatures declared in header [`<new>]
 [:en]
 The program[=']s definitions are used instead of the default versions supplied
 by the implementation ([#support.dynamic]).
-
-[:en]
-Such replacement occurs prior to program startup ([#basic.def.odr],
-[#basic.start]).
+[:zh_CN]
+程序中的定义式取代由实现提供的缺省版本（[#support.dynamic]）。
 
 [:en]
 [%startup[!program]]
+Such replacement occurs prior to program startup ([#basic.def.odr],
+[#basic.start]).
+[:zh_CN]
+[%启动[!程序～]]
+这种替代发生于程序启动之前（[#basic.def.odr]，[#basic.start]）。
+
+[:en]
 The program[=']s declarations shall not be specified as [`inline].
+[:zh_CN]
+程序中的定义式不能指定为 [`inline]。
 
 [:en]
 No diagnostic is required.
+[:zh_CN]
+无须诊断。

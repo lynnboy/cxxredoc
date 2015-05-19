@@ -1,5 +1,6 @@
 ﻿[section#default.allocator
     [:en] The default allocator
+    [:zh_CN] 默认分配器
 ]
 
 [%@library allocator]
@@ -8,11 +9,13 @@ namespace std {
   template <class T> class allocator;
 
   // [:en] specialize for [`void]:
+  // [|:zh_CN] 对 [`void] 的特化：
   template <> class allocator<void> {
   public:
     typedef void*   pointer;
     typedef const void* const_pointer;
     // [:en] reference-to-[`void] members are impossible.
+    // [|:zh_CN] 不可能有“[`void] 的引用”成员
     typedef void  value_type;
     template <class U> struct rebind { typedef allocator<U> other; };
   };

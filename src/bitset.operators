@@ -1,5 +1,6 @@
 ﻿[section#bitset.operators
     [:en] [`bitset] operators
+    [:zh_CN] [`bitset] 运算符
 ]
 
 [%@library operator&[!bitset]]
@@ -10,6 +11,7 @@ bitset<N> operator&(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`bitset<N>(lhs) &= rhs].
+[:zh_CN] [`bitset<N>(lhs) &= rhs]。
 [exit:description]
 
 [%@library operator|[!bitset]]
@@ -20,6 +22,7 @@ bitset<N> operator|(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`bitset<N>(lhs) |= rhs].
+[:zh_CN] [`bitset<N>(lhs) |= rhs]。
 [exit:description]
 
 [%@library operator^[!bitset]]
@@ -30,6 +33,7 @@ bitset<N> operator^(const bitset<N>& lhs, const bitset<N>& rhs) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`bitset<N>(lhs) ^= rhs].
+[:zh_CN] [`bitset<N>(lhs) ^= rhs]。
 [exit:description]
 
 [%@library operator>>[!bitset]]
@@ -42,33 +46,47 @@ template <class charT, class traits, size_t N>
 [enter:description]
 [para]
 [:en] A formatted input function ([#istream.formatted]).
+[:zh_CN] 格式化输入函数（[#istream.formatted]）。
 
 [para:effects]
 [:en] Extracts up to [`N] characters from [`is].
+[:zh_CN] 从 [`is] 中抽取最多 [`N] 个字符。
 
 [:en] Stores these characters in a temporary object [`str] of type
 [`basic_string<charT, traits>], then evaluates the expression
 [`x = bitset<N>(str)].
+[:zh_CN] 这些字符被保存到 [`basic_string<charT, traits>] 类型的临时对象 [`str]
+中，然后对表达式 [`x = bitset<N>(str)] 进行求值。
 
 [:en] Characters are extracted and stored until any of the following occurs:
+[:zh_CN] 对字符所进行的抽取和保存执行直到下列任何情况发生：
 
 [list]
 [item]
 [:en] [`N] characters have been extracted and stored;
+[:zh_CN] 已经抽取并保存了 [`N] 个字符；
 [item]
 [:en] [%end-of-file] end-of-file occurs on the input sequence;
+[:zh_CN] 输入序列中发生了[%文件结束]文件结束；
 [item]
 [:en] the next input character is neither [`is.widen('0')] nor [`is.widen('1')]
 (in which case the input character is not extracted).
+[:zh_CN] 下一个输入字符既不是 [`is.widen('0')] 也不是 [`is.widen('1')]（此时该
+输入字符不被抽取）。
+
 [list:end]
 
 [para]
 [:en]
 If no characters are stored in [`str], calls [`is.setstate(ios_base::failbit)]
 (which may throw [`ios_base::failure] ([#iostate.flags])).
+[:zh_CN]
+如果没有任何字符保存到 [`str] 中，则调用 [`is.setstate(ios_base::failbit)]（这
+可能会抛出 [`ios_base::failure]（[#iostate.flags]））。
 
 [para:returns]
 [:en] [`is].
+[:zh_CN] [`is]。
 [exit:description]
 
 [%@library operator<<[!bitset]]
@@ -87,4 +105,5 @@ os << x.template to_string<charT,traits,allocator<charT> >(
 [codeblock:end]
 
 [:en] (see [#ostream.formatted]).
+[:zh_CN] （参见 [#ostream.formatted]）。
 [exit:description]

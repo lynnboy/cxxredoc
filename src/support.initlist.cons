@@ -1,5 +1,6 @@
 ﻿[section#support.initlist.cons
     [:en] Initializer list constructors
+    [:zh_CN] 初始化式列表的构造函数
 ]
 
 [%@library initializer_list[!initializer_list]]
@@ -11,7 +12,9 @@ constexpr initializer_list() noexcept;
 [para:effects]
 [:en]
 constructs an empty [`initializer_list] object.
+[:zh_CN]
+构造空 [`initializer_list] 对象。
 
 [para:postcondition]
-[:en] [`size() == 0]
+[`size() == 0]
 [exit:description]

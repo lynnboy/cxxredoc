@@ -1,12 +1,16 @@
 ﻿[section#res.on.macro.definitions
     [:en] Restrictions on macro definitions
+    [:zh_CN] 对宏定义的限制
 ]
 
-[% [:en] restriction]
 [para]
 [:en]
+[%restriction]
 The names and global function signatures described in [#contents] are
 [%function[!global]] reserved to the implementation.
+[:zh_CN]
+[%限制]
+[#contents] 中说明的名字和[%函数[!全局～]]全局函数签名被实现保留。
 
 [:en]
 [%argument]
@@ -14,9 +18,18 @@ The names and global function signatures described in [#contents] are
 [%function[!global]]
 [%inline]
 [%macro[!masking]]
+[:zh_CN]
+[%实参]
+[%头文件[!C～]]
+[%函数[!全局～]]
+[%内联]
+[%宏[!遮蔽～]]
 
 [para]
 [:en]
 All object-like macros defined by the C standard library and described in this
 Clause as expanding to integral constant expressions are also suitable for use
 in [`#if][%[`#if]] preprocessing directives, unless explicitly stated otherwise.
+[:zh_CN]
+所有由 C 标准程序库定义的和在本条款中描述为扩展为整型常量表达式的对象式宏，除非
+被另外明确说明，否则也适用于预处理指令 [`#if][%[`#if]] 之中。

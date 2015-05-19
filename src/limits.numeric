@@ -1,29 +1,42 @@
 ﻿[section#limits.numeric
     [:en] Class template [`numeric_limits]
+    [:zh_CN] 类模板 [`numeric_limits]
 ]
 
 [para]
 [:en]
-The [%@library numeric_limits] [`numeric_limits] class template provides a [=Cpp]
-program with information about various properties of the implementation[=']s
-representation of the arithmetic types.
+The [%@library numeric_limits] [`numeric_limits] class template provides a
+[=Cpp] program with information about various properties of the
+implementation[=']s representation of the arithmetic types.
+[:zh_CN]
+类模板 [%@library numeric_limits] [`numeric_limits] 为 [=Cpp] 程序提供了有关该
+实现中算术类型的表示的各种性质的信息。
 
 [para]
 [:en]
 Specializations shall be provided for each arithmetic type, both floating point
 and integer, including [`bool].
+[:zh_CN]
+应当为每个算术类型，包括浮点、整数和 [`bool]，提供特化式。
 
 [:en]
 The member [`is_specialized] shall be [`true] for all such specializations of
 [`numeric_limits].
+[:zh_CN]
+[`numeric_limits] 的所有这些特化式的成员 [`is_specialized] 都应为 [`true]。
 
 [para]
 [:en]
 For all members declared [`static constexpr] in the [`numeric_limits] template,
 specializations shall define these values in such a way that they are usable as
 constant expressions.
+[:zh_CN]
+在 [`numeric_limits] 模板中声明为 [`static constexpr] 的所有成员，在特化式中都
+应当以使这些值可被用作常量表达式的方式来定义它们。
 
 [para]
 [:en]
 Non-arithmetic standard types, such as [`complex<T>] ([#complex]), shall not
 have specializations.
+[:zh_CN]
+非算术标准类型，比如 [`complex<T>]（[#complex]），不能有其特化式。

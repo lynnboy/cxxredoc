@@ -1,15 +1,26 @@
 ﻿[section#constexpr.functions
     [:en] [`constexpr] functions and constructors
+    [:zh_CN] [`constexpr] 函数和构造函数
 ]
 
 [para]
 [:en]
 This standard explicitly requires that certain standard library functions are
-[`constexpr] ([#dcl.constexpr]). An implementation shall not declare
-any standard library function signature as [`constexpr] except for those where
-it is explicitly required.
+[`constexpr] ([#dcl.constexpr]).
+
+[:zh_CN]
+本标准明确要求某些标准程序库函数为 [`constexpr]（[#dcl.constexpr]）。
+
+[:en]
+An implementation shall not declare any standard library function signature as
+[`constexpr] except for those where it is explicitly required.
+[:zh_CN]
+实现不应当将未被明确要求的任何标准程序库函数签名声明为 [`constexpr]。
 
 [:en]
 Within any header that provides any non-defining declarations of [`constexpr]
 functions or constructors an implementation shall provide corresponding
 definitions.
+[:zh_CN]
+在提供了任何 [`constexpr] 函数或构造函数的非定义声明式的头文件中，实现应当为其
+提供对应的定义式。

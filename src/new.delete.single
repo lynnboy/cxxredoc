@@ -1,5 +1,6 @@
 ﻿[section#new.delete.single
     [:en] Single-object forms
+    [:zh_CN] 单对象形式
 ]
 
 [%@library new[!operator]]
@@ -13,19 +14,31 @@ void* operator new(std::size_t size);
 The [+allocation function] ([#basic.stc.dynamic.allocation]) called by a
 [~new-expression] ([#expr.new]) to allocate [`size] bytes of storage suitably
 aligned to represent any object of that size.
+[:zh_CN]
+被 [~new-表达式]（[#expr.new]）调用的[+分配函数]
+（[#basic.stc.dynamic.allocation]），以分配 [`size] 个字节的存储，并适当对齐以
+表示该大小的任意对象。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program may define a function with this function signature that
 displaces the default version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有此函数签名的函数来替代由 [=Cpp] 标准程序库所定义的预置
+版本。
 
 [para:required]
 [:en]
 Return a non-null pointer to suitably aligned storage ([#basic.stc.dynamic]),
 or else throw a [`bad_alloc] [%@library bad_alloc] exception.
+[:zh_CN]
+返回非空的指向适当对齐的存储的指针（[#basic.stc.dynamic]），要么抛出
+[%@library bad_alloc] [`bad_alloc] 异常。
 
 [:en]
 This requirement is binding on a replacement version of this function.
+[:zh_CN]
+此函数的替代版本同样遵守此规定。
 
 [para:default]
 
@@ -33,36 +46,51 @@ This requirement is binding on a replacement version of this function.
 [item]
 [:en]
 Executes a loop:
+[:zh_CN]
+执行循环：
 
 [:en]
 Within the loop, the function first attempts to allocate the requested storage.
+[:zh_CN]
+在循环中，该函数首先试图分配所请求的存储。
 
 [:en]
 Whether the attempt involves a call to the Standard C library function [`malloc]
-is unspecified.
-[%unspecified]
+is [%unspecified] unspecified.
+[:zh_CN]
+该尝试是否涉及对标准 C 程序库函数 [`malloc] 的调用是[%未指明的]未指明的。
 
 [item]
 [:en]
 Returns a pointer to the allocated storage if the attempt is successful.
+[:zh_CN]
+若其尝试成功则返回指向所分配的存储的指针。
 
 [:en]
 Otherwise, if the current [`new_handler] ([#get.new.handler]) is a null pointer
 value, throws [`bad_alloc].
+[:zh_CN]
+否则，若当前 [`new_handler]（[#get.new.handler]）为空指针值，则抛出 [`bad_alloc]
+。
 
 [item]
 [:en]
 Otherwise, the function calls the current [`new_handler] function
 ([#new.handler]).
+[:zh_CN]
+否则，该函数调用当前的 [`new_handler] 函数（[#new.handler]）。
 
 [:en]
 If the called function returns, the loop repeats.
+[:zh_CN]
+若所调用的函数返回，则重复循环。
 
 [item]
 [:en]
 The loop terminates when an attempt to allocate the requested storage is
 successful or when a called [`new_handler] function does not return.
 [list:end]
+当尝试分配所请求的存储成功或当所调用的 [`new_handler] 函数并不返回时循环终止。
 [exit:description]
 
 [%@library new[!operator]]
@@ -76,39 +104,60 @@ void* operator new(std::size_t size, const std::nothrow_t&) noexcept;
 Same as above, except that it is called by a placement version of a
 [~new-expression] when a [=Cpp] program prefers a null pointer result as an
 error indication, instead of a [`bad_alloc] exception.
+[:zh_CN]
+同上，但当 [=Cpp] 程序更倾向于将空指针结果，而不是 [`bad_alloc] 异常作为错误指示
+时，它将由 [~new-表达式]的放置式版本所调用。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program may define a function with this function signature that
 displaces the default version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有此函数签名的函数来替代由 [=Cpp] 标准程序库所定义的预置
+版本。
 
 [para:required]
 [:en]
 Return a non-null pointer to suitably aligned storage ([#basic.stc.dynamic]),
 or else return a null pointer.
+[:zh_CN]
+返回非空的指向适当对齐的存储的指针（[#basic.stc.dynamic]），要么返回空指针。
 
 [:en]
 This nothrow version of [`operator new] returns a pointer obtained as if
 acquired from the (possibly replaced) ordinary version.
+[:zh_CN]
+[`operator new] 的这个无抛出版本返回如同从其（可能已被替代的）常规版本所获取的
+指针。
 
 [:en]
 This requirement is binding on a replacement version of this function.
+[:zh_CN]
+此函数的替代版本同样遵守此规定。
 
 [para:default]
 [:en]
 Calls [`operator new(size)].
+[:zh_CN]
+调用 [`operator new(size)]。
 
 [:en]
 If the call returns normally, returns the result of that call.
+[:zh_CN]
+若该调用正常返回，则返回该调用的结果。
 
 [:en]
 Otherwise, returns a null pointer.
+[:zh_CN]
+否则返回空指针。
 
 [para]
 [enter:example]
 [codeblock]
 T* p1 = new T;                  // [:en] throws [`bad_alloc] if it fails
+                                // [|:zh_CN] 若失败则抛出 [`bad_alloc]
 T* p2 = new(nothrow) T;         // [:en] returns [`nullptr] if it fails
+                                // [|:zh_CN] 若失败则返回 [`nullptr]
 [codeblock:end]
 [exit:example]
 [exit:description]
@@ -124,25 +173,39 @@ void operator delete(void* ptr, std::size_t size) noexcept;
 [:en]
 The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by a
 [~delete-expression] to render the value of [`ptr] invalid.
+[:zh_CN]
+被 [~delete-表达式]调用的[+回收函数]（[#basic.stc.dynamic.deallocation]）以使
+[`ptr] 的值成为无效的。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program may define a function with signature [`void operator
 delete(void* ptr) noexcept] that displaces the default version defined by the
 [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有签名 [`void operator delete(void* ptr) noexcept] 的函数
+来替代由 [=Cpp] 标准程序库所定义的预置版本。
 
 [:en]
 If this function (without [`size] parameter) is defined, the program should also
 define [`void operator delete(void* ptr, std::size_t size) noexcept].
+[:zh_CN]
+如果定义了这个函数（没有 [`size] 形参），则程序最好同样定义 [`void operator
+delete(void* ptr, std::size_t size) noexcept]。
 
 [:en]
 If this function with [`size] parameter is defined, the program shall also
 define the version without the [`size] parameter.
+[:zh_CN]
+如果定义了带有 [`size] 形参的这个函数，则程序应当同样定义没有 [`size] 形参的版本
+。
 
 [enter:note]
 [:en]
 The default behavior below may change in the future, which will require
 replacing both deallocation functions when replacing the allocation function.
+[:zh_CN]
+下文的缺省行为可能于未来被改变为，当替换分配函数时同时要求替换两个回收函数。
 [exit:note]
 
 [para:requires]
@@ -151,48 +214,80 @@ replacing both deallocation functions when replacing the allocation function.
 earlier call to the (possibly replaced) [`operator new(std::size_t)] or
 [`operator new(std::size_t,const std::nothrow_t&)] which has not been
 invalidated by an intervening call to [`operator delete(void*)].
+[:zh_CN]
+[$ptr] 应当为空指针，或者其值应当是从早前对（可能已被替代的） [`operator
+new(std::size_t)] 或 [`operator new(std::size_t,const std::nothrow_t&)] 的调用
+所返回的，且未被介于其间的对 [`operator delete(void*)] 的调用变为无效的值。
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:requires]
 [:en]
-If present, the [`std::size_t size] argument shall equal the size argument
+If present, the [`std::size_t size] argument shall equal the [`size] argument
 passed to the allocation function that returned [`ptr].
+[:zh_CN]
+如果存在，则 [`std::size_t size] 实参应当等于对返回 [`ptr] 的分配函数所传递的
+[`size] 实参。
 
 [para:required]
 [:en]
 Calls to [`operator delete(void* ptr, std::size_t size)] may be changed to calls
 to [`operator delete(void* ptr)] without affecting memory allocation.
+[:zh_CN]
+对 [`operator delete(void* ptr, std::size_t size)] 的调用可以被改成对 [`operator
+delete(void* ptr)] 的调用而不影响内存分配。
 
 [enter:note]
 [:en]
 A conforming implementation is for [`operator delete(void* ptr, std::size_t
 size)] to simply call [`operator delete(ptr)].
+[:zh_CN]
+符合标准的一种实现是 [`operator delete(void* ptr, std::size_t size)] 只是简单地
+调用 [`operator delete(ptr)]。
 [exit:note]
 
 [para:default]
 [:en]
 the function [`operator delete(void* ptr, std::size_t size)] calls [`operator
 delete(ptr)].
+[:zh_CN]
+函数 [`operator delete(void* ptr, std::size_t size)] 调用 [`operator
+delete(ptr)]。
 
 [enter:note]
 [:en]
 See the note in the above [=Replaceable] paragraph.
+[:zh_CN]
+参见上文的 [=Replaceable] 段落中的注解。
 [exit:note]
 
 [para:default]
 [:en]
-If [`ptr] is null, does nothing. Otherwise, reclaims the storage allocated by
-the earlier call to [`operator new].
+If [`ptr] is null, does nothing.
+[:zh_CN]
+若 [`ptr] 为空，则不做任何事。
+
+[:en]
+Otherwise, reclaims the storage allocated by the earlier call to
+[`operator new].
+[:zh_CN]
+否则，回收由早前对 [`operator new] 的调用所分配的存储。
 
 [para:notes]
 [:en]
-It is unspecified under what conditions part or all of such [%unspecified]
+It is [%unspecified] unspecified under what conditions part or all of such
 reclaimed storage will be allocated by subsequent calls to [`operator new]
 or any of [`calloc], [`malloc], or [`realloc], declared in [`<cstdlib>].
+[:zh_CN]
+在何种条件下如此回收的存储将被随后对 [`operator new]，或者在 [`<cstdlib>] 中所
+声明的 [`calloc]，[`malloc] 或 [`realloc] 的任何调用所分配是[%未指明的]未指明的
+。
 [exit:description]
 
 [%@library delete[!operator]]
@@ -208,49 +303,77 @@ The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by the
 implementation to render the value of [`ptr] invalid when the constructor
 invoked from a nothrow placement version of the [~new-expression] throws an
 exception.
+[:zh_CN]
+当 [~new-表达式]的无抛出放置式版本所调用的构造函数抛出异常时被实现调用，以使
+[`ptr] 的值成为无效的[+回收函数]（[#basic.stc.dynamic.deallocation]）。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program may define a function with signature [`void operator
 delete(void* ptr, const std::nothrow_t&) noexcept] that displaces the default
 version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有签名 [`void operator delete(void* ptr, const
+std::nothrow_t&) noexcept] 的函数来替代由 [=Cpp] 标准程序库所定义的预置版本。
 
 [:en]
 If this function (without [`size] parameter) is defined, the program should also
 define [`void operator delete(void* ptr, std::size_t size, const
 std::nothrow_t&) noexcept].
+[:zh_CN]
+如果定义了这个函数（没有 [`size] 形参），则程序最好同样定义 [`void operator
+delete(void* ptr, std::size_t size, const std::nothrow_t&) noexcept]。
 
 [:en]
 If this function with [`size] parameter is defined, the program shall also
 define the version without the [`size] parameter.
+[:zh_CN]
+如果定义了带有 [`size] 形参的这个函数，则程序应当同样定义没有 [`size] 形参的版本
+。
 
 [enter:note]
 [:en]
 The default behavior below may change in the future, which will require
 replacing both deallocation functions when replacing the allocation function.
+[:zh_CN]
+下文的缺省行为可能于未来被改变为，当替换分配函数时同时要求替换两个回收函数。
 [exit:note]
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:requires]
 [:en]
-If present, the [`std::size_t size] argument must equal the size argument passed
-to the allocation function that returned [`ptr].
+If present, the [`std::size_t size] argument must equal the [`size] argument
+passed to the allocation function that returned [`ptr].
+[:zh_CN]
+如果存在，则 [`std::size_t size] 实参应当等于对返回 [`ptr] 的分配函数所传递的
+[`size] 实参。
 
 [para:required]
 [:en]
 Calls to [`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)]
 may be changed to calls to [`operator delete(void* ptr, const std::nothrow_t&)]
 without affecting memory allocation.
+[:zh_CN]
+对 [`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)] 的调用
+可以被改成对 [`operator delete(void* ptr, const std::nothrow_t&)] 的调用而不影响
+内存分配。
 
 [enter:note]
 [:en]
 A conforming implementation is for [`operator delete(void* ptr, std::size_t
 size, const std::nothrow_t&)] to simply call [`operator delete(void* ptr, const
 std::nothrow_t&)].
+[:zh_CN]
+符合标准的一种实现是 [`operator delete(void* ptr, std::size_t size, const
+std::nothrow_t&)] 只是简单地调用 [`operator delete(void* ptr, const
+std::nothrow_t&)]。
 [exit:note]
 
 [para:default]
@@ -258,4 +381,8 @@ std::nothrow_t&)].
 [`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)] calls
 [`operator delete(ptr, std::nothrow)], and [`operator delete(void* ptr, const
 std::nothrow_t&)] calls [`operator delete(ptr)].
+[:zh_CN]
+[`operator delete(void* ptr, std::size_t size, const std::nothrow_t&)] 调用
+[`operator delete(ptr, std::nothrow)]，而 [`operator delete(void* ptr, const
+std::nothrow_t&)] 调用 [`operator delete(ptr)].
 [exit:description]

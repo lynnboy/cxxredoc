@@ -1,5 +1,6 @@
 ﻿[section#pointer.traits.functions
     [:en] Pointer traits member functions
+    [:zh_CN] 指针特征的成员函数
 ]
 
 [%@library pointer_traits[!pointer_to]]
@@ -13,12 +14,18 @@ static pointer pointer_traits<T*>::pointer_to([=Seebelow] r) noexcept;
 [para:remark]
 [:en] If [`element_type] is (possibly cv-qualified) [`void], the type of [`r] is
 unspecified; otherwise, it is [`element_type&].
+[:zh_CN] 若 [`element_type] 是（可能被 cv-限定的）[`void]，则 [`r] 的类型是
+未指明的；否则，它是 [`element_type&]。
 
 [para:returns]
 [:en] The first member function returns a pointer to [`r] obtained by calling
 [`Ptr::pointer_to(r)] through which indirection is valid; an instantiation of
 this function is ill-formed if [`Ptr] does not have a matching [`pointer_to]
 static member function.
+[:zh_CN] 第一个成员函数返回通过调用 [`Ptr::pointer_to(r)] 所获得的 [`r] 的指针，
+且通过它进行间接是有效的；如果 [`Ptr] 没有匹配的 [`pointer_to] 静态成员函数，则
+该函数的实例化是非良构的。
 
 [:en] The second member function returns [`std::addressof(r)].
+[:zh_CN] 第二个成员函数返回 [`std::addressof(r)]。
 [exit:description]

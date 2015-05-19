@@ -1,29 +1,45 @@
 ﻿[section#res.on.headers
     [:en] Headers
+    [:zh_CN] 头文件
 ]
 
 [para]
 [:en]
 A [=Cpp] header may include other [=Cpp] headers.
+[:zh_CN]
+[=Cpp] 头文件可以包含其他 [=Cpp] 头文件。
 
 [:en]
 A [=Cpp] header shall provide the declarations and definitions that appear in
 its synopsis.
+[:zh_CN]
+[=Cpp] 头文件应当提供其纲要中出现的声明式和定义式。
 
 [:en]
 A [=Cpp] header shown in its synopsis as including other [=Cpp] headers shall
 provide the declarations and definitions that appear in the synopses of those
 other headers.
+[:zh_CN]
+在 [=Cpp] 头文件的纲要中所展示的对其他 [=Cpp] 头文件的包含，应当提供那些头文件的
+纲要中出现的声明式和定义式。
 
 [para]
 [:en]
 Certain types and macros are defined in more than one header.
+[:zh_CN]
+特定的类型和宏在多于一个头文件中定义。
 
 [:en]
 Every such entity shall be defined such that any header that defines it may be
 included after any other header that also defines it ([#basic.def.odr]).
+[:zh_CN]
+每个这种实体应当定义为，任意定义了它的头文件均可以在其他同样定义了它的头文件之后
+被包含（[#basic.def.odr]）。
 
 [para]
 [:en]
 The C standard headers ([#depr.c.headers]) shall include only their
 corresponding [=Cpp] standard header, as described in [#headers].
+[:zh_CN]
+C 标准头文件（[#depr.c.headers]）只能包含它们的对应 [=Cpp] 头文件，如 [#headers]
+所述。

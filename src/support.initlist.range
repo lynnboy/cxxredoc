@@ -1,5 +1,6 @@
 ﻿[section#support.initlist.range
     [:en] Initializer list range access
+    [:zh_CN] 初始化式列表的范围访问
 ]
 
 [%@library begin(initializer_list<E>)]
@@ -11,6 +12,8 @@ template<class E> constexpr const E* begin(initializer_list<E> il) noexcept;
 [para:returns]
 [:en]
 [`il.begin()].
+[:zh_CN]
+[`il.begin()]。
 [exit:description]
 
 [%@library end(initializer_list<E>)]
@@ -22,4 +25,6 @@ template<class E> constexpr const E* end(initializer_list<E> il) noexcept;
 [para:returns]
 [:en]
 [`il.end()].
+[:zh_CN]
+[`il.end()]。
 [exit:description]

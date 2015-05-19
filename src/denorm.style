@@ -1,5 +1,6 @@
 ﻿[section#denorm.style
     [:en] Type [`float_denorm_style]
+    [:zh_CN] 类型 [`float_denorm_style]
 ]
 
 [%@library float_denorm_style]
@@ -17,6 +18,8 @@ namespace std {
 [:en]
 The presence or absence of denormalization (variable number of exponent bits)
 is characterized by the values:
+[:zh_CN]
+如下各值说明有或没有非规格化（可变的指数位数）：
 
 [list]
 [item]
@@ -24,12 +27,18 @@ is characterized by the values:
 [:en]
 [`denorm_indeterminate] if it cannot be determined whether or not the type
 allows denormalized values
+[:zh_CN]
+[`denorm_indeterminate] 若该类型是否允许非规格化值是无法确定的
 [item]
 [%@library denorm_absent]
 [:en]
 [`denorm_absent] if the type does not allow denormalized values
+[:zh_CN]
+[`denorm_absent] 若该类型不允许非规格化值
 [item]
 [%@library denorm_present]
 [:en]
 [`denorm_present] if the type does allow denormalized values
+[:zh_CN]
+[`denorm_present] 若该类型允许非规格化值
 [list:end]

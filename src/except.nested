@@ -1,5 +1,5 @@
 ﻿[section#except.nested
-    [:en] [`nested_exception]
+    [`nested_exception]
 ]
 
 [%@library nested_exception]
@@ -13,6 +13,7 @@ namespace std {
     virtual ~nested_exception() = default;
 
     // [:en] access functions
+    // [|:zh_CN] 访问函数
     [[noreturn]] void rethrow_nested() const;
     exception_ptr nested_ptr() const noexcept;
   };
@@ -26,17 +27,25 @@ namespace std {
 [:en]
 The class [`nested_exception] is designed for use as a mixin through multiple
 inheritance.
+[:zh_CN]
+类 [`nested_exception] 被设计为通过多继承而使用的混入类。
 
 [:en]
 It captures the currently handled exception and stores it for later use.
+[:zh_CN]
+它捕获当前被处理的异常并将其保存，以便随后使用。
 
 [para]
 [enter:note]
 [:en]
 [`nested_exception] has a virtual destructor to make it a polymorphic class.
+[:zh_CN]
+[`nested_exception] 具有虚析构函数，使其成为多态类。
 
 [:en]
 Its presence can be tested for with [`dynamic_cast].
+[:zh_CN]
+可以用 [`dynamic_cast] 来测试其存在性。
 [exit:note]
 
 [%@library nested_exception[!nested_exception]]
@@ -49,6 +58,8 @@ nested_exception() noexcept;
 [para:effects]
 [:en]
 The constructor calls [`current_exception()] and stores the returned value.
+[:zh_CN]
+该构造函数调用 [`current_exception()] 并保存其返回值。
 [exit:description]
 
 [%@library rethrow_nested[!nested_exception]]
@@ -62,9 +73,13 @@ The constructor calls [`current_exception()] and stores the returned value.
 [:en]
 If [`nested_ptr()] returns a null pointer, the function calls
 [`std::terminate()].
+[:zh_CN]
+若 [`nested_ptr()] 返回空指针，则该函数调用 [`std::terminate()]。
 
 [:en]
 Otherwise, it throws the stored exception captured by [`*this].
+[:zh_CN]
+否则，它抛出由 [`*this] 捕获并保存的异常。
 [exit:description]
 
 [%@library nested_ptr[!nested_exception]]
@@ -77,6 +92,8 @@ exception_ptr nested_ptr() const noexcept;
 [para:returns]
 [:en]
 The stored exception captured by this [`nested_exception] object.
+[:zh_CN]
+由这个 [`nested_exception] 对象所捕获并存储的异常。
 [exit:description]
 
 [%@library throw_with_nested[!nested_exception]]
@@ -89,10 +106,14 @@ template <class T> [[noreturn]] void throw_with_nested(T&& t);
 [para]
 [:en]
 Let [`U] be [`remove_reference_t<T>].
+[:zh_CN]
+另 [`U] 为 [`remove_reference_t<T>]。
 
 [para:requires]
 [:en]
 [`U] shall be [`CopyConstructible].
+[:zh_CN]
+[`U] 应当为 [`CopyConstructible]。
 
 [para:throws]
 [:en]
@@ -100,6 +121,10 @@ if [`U] is a non-union class type not derived from [`nested_exception], an
 exception of unspecified type that is publicly derived from both [`U] and
 [`nested_exception] and constructed from [`std::forward<T>(t)], otherwise
 [`std::forward<T>(t)].
+[:zh_CN]
+若 [`U] 为并非派生自 [`nested_exception] 的非-union 类类型，则为某个具有同时公用
+派生自 [`U] 和 [`nested_exception] 的未指明类型的，并从 [`std::forward<T>(t)] 所
+构造的异常，否则为 [`std::forward<T>(t)]。
 [exit:description]
 
 [%@library rethrow_if_nested[!nested_exception]]
@@ -114,4 +139,7 @@ template <class E> void rethrow_if_nested(const E& e);
 If the dynamic type of [`e] is publicly and unambiguously derived from
 [`nested_exception], calls
 [`dynamic_cast<const nested_exception&>(e).rethrow_nested()].
+[:zh_CN]
+若 [`e] 的动态类型公用且无歧义派生自 [`nested_exception]，则调用
+[`dynamic_cast<const nested_exception&>(e).rethrow_nested()]。
 [exit:description]

@@ -1,5 +1,6 @@
 ﻿[section#ptr.align
     [:en] Align
+    [:zh_CN] 对齐
 ]
 
 [%@library align]
@@ -14,27 +15,37 @@ void* align(std::size_t alignment, std::size_t size,
 into the buffer pointed to by [`ptr] with length [`space], the function updates
 [`ptr] to point to the first possible address of such storage and decreases
 [`space] by the number of bytes used for alignment.
+[:zh_CN] 如果将按照 [`alignment] 对齐的 [`size] 个字节的存储纳入由 [`ptr] 所指向
+的长度为 [`space] 的缓冲区中是可能的，则函数更新 [`ptr] 以指向第一个可能的这种
+存储并对 [`space] 减掉对齐所用掉的字节数。
 
 [:en] Otherwise, the function does nothing.
+[:zh_CN] 否则，此函数不做任何事。
 
 [para:requires]
 
 [list]
 [item]
 [:en] [`alignment] shall be a power of two
+[:zh_CN] [`alignment] 应当为 2 的幂
 
 [item]
 [:en] [`ptr] shall point to contiguous storage of at least [`space] bytes
+[:zh_CN] [`ptr] 应当指向至少 [`space] 个字节的连续存储
 [list:end]
 
 [para:returns]
 [:en] A null pointer if the requested aligned buffer would not fit into the
 available space, otherwise the adjusted value of [`ptr].
+[:zh_CN] 当所请求的对齐缓冲区不能纳入可用的空间中时返回空指针；否则返回调整后的
+[`ptr] 值。
 
 [para]
 [enter:note]
 [:en] The function updates its [`ptr] and [`space] arguments so that it can be
 called repeatedly with possibly different [`alignment] and [`size] arguments for
 the same buffer.
+[:zh_CN] 此函数更新其 [`ptr] 和 [`space] 实参，因此它可以对相同的缓冲区用不同的
+[`alignment] 和 [`size] 实参重复进行调用。
 [exit:note]
 [exit:description]

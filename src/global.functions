@@ -1,11 +1,15 @@
 ﻿[section#global.functions
     [:en] Global and non-member functions
+    [:zh_CN] 全局和非成员函数
 ]
 
 [para]
 [:en]
 It is unspecified whether any global or non-member functions in the [=Cpp]
 standard library are defined as [`inline] ([#dcl.fct.spec]).
+[:zh_CN]
+[=Cpp] 标准程序库中的任何全局或非成员函数是否被定义为 [`inline]
+（[#dcl.fct.spec]）是未指明的。
 
 [para]
 [:en]
@@ -13,33 +17,49 @@ standard library are defined as [`inline] ([#dcl.fct.spec]).
 A call to a global or non-member function signature described in Clauses
 [#language.support] through [#thread] and Annex [#depr] shall behave as if the
 implementation declared no additional global or non-member function signatures.
+[:zh_CN]
+[%函数[!全局～]]
+对在第 [#language.support] 到第 [#thread] 条以及附录 [#depr] 中描述的全局或非
+成员函数签名的调用的行为，应当如同该实现并未声明任何额外的全局或非成员函数签名。
 
 [footnote]
 [:en]
 A valid [=Cpp] program always calls the expected library global or non-member
 function.
+[:zh_CN]
+合法的 [=Cpp] 程序总会调用所期望的程序库全局或非成员函数。
 
 [:en]
 An implementation may also define additional global or non-member functions that
 would otherwise not be called by a valid [=Cpp] program.
+[:zh_CN]
+实现还可定义不会被合法的 [=Cpp] 程序调用的额外的全局或非成员函数。
 [footnote:end]
 
 [para]
 [:en]
 An implementation shall not declare a global or non-member function signature
 with additional default arguments.
+[:zh_CN]
+实现不应将全局或非成员函数签名声明为带有额外的默认实参。
 
 [para]
 [:en]
 Unless otherwise specified, global and non-member functions in the standard
 library shall not use functions from another namespace which are found through
 [+argument-dependent name lookup] ([#basic.lookup.argdep]).
+[:zh_CN]
+除非另行指明，标准程序库中的全局或非成员函数不能使用通过[+依赖于实参的名字查找]
+（[#basic.lookup.argdep]）所找到的其他命名空间中的函数。
 
 [enter:note]
 [:en]
 The phrase ["unless otherwise specified] is intended to allow argument-dependent
 lookup in cases like that of [`ostream_iterator::operator=]
 ([#ostream.iterator.ops]):
+[:zh_CN]
+短语“除非另行指明”目的是允许如 [`ostream_iterator::operator=]
+（[#ostream.iterator.ops]）的情况中实施依赖于实参的名字查找：
 
 [para:effects]
 [codeblock [special out_stream delim] ]

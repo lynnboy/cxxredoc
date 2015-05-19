@@ -1,5 +1,6 @@
 ﻿[section#pointer.traits.types
     [:en] Pointer traits member types
+    [:zh_CN] 指针特征的成员类型
 ]
 
 [%@library pointer_traits[!element_type]]
@@ -14,6 +15,11 @@ typedef [=Seebelow] element_type;
 and denotes a type ([#temp.deduct]); otherwise, [`T] if [`Ptr] is a class
 template instantiation of the form [`SomePointer<T, Args>], where [`Args] is
 zero or more type arguments; otherwise, the specialization is ill-formed.
+[:zh_CN] 如果[~限定标识] [`Ptr::element_type] 有效且代表某个类型
+（[#temp.deduct]）则为 [`Ptr::element_type]；否则若 [`Ptr] 是形式为
+[`SomePointer<T, Args>] 的类模板实例，其中 [`Args] 为零或多个类型实参，则为 [`T]
+；否则该特例非良构。
+
 [exit:description]
 
 [%@library pointer_traits[!difference_type]]
@@ -26,6 +32,8 @@ typedef [=Seebelow] difference_type;
 [para:ctype]
 [:en] [`Ptr::difference_type] if the [~qualified-id] [`Ptr::difference_type] is
 valid and denotes a type ([#temp.deduct]); otherwise, [`std::ptrdiff_t].
+[:zh_CN] 如果[~限定标识] [`Ptr::difference_type] 有效且代表某个类型
+（[#temp.deduct]）则为 [`Ptr::difference_type]；否则为 [`std::ptrdiff_t] 。
 [exit:description]
 
 [%@library pointer_traits[!rebind]]
@@ -41,4 +49,8 @@ denotes a type ([#temp.deduct]); otherwise, [`SomePointer<U, Args>] if [`Ptr] is
 a class template instantiation of the form [`SomePointer<T, Args>], where
 [`Args] is zero or more type arguments; otherwise, the instantiation of
 [`rebind] is ill-formed.
+[:zh_CN] 如果[~限定标识] [`Ptr::rebind<U>] 有效且代表某个类型
+（[#temp.deduct]）则为 [`Ptr::rebind<U>]；否则若 [`Ptr] 是形式为
+[`SomePointer<T, Args>] 的类模板实例，其中 [`Args] 为零或多个类型实参，则为
+[`SomePointer<U, Args>]；否则对 [`rebind] 的实例化非良构。
 [exit:description]

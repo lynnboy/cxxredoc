@@ -1,5 +1,6 @@
 ﻿[section#propagation
     [:en] Exception propagation
+    [:zh_CN] 异常传播
 ]
 
 [%@library exception_ptr]
@@ -10,32 +11,46 @@ typedef unspecified exception_ptr;
 [enter:description]
 [para]
 [:en]
-The type exception_ptr can be used to refer to an exception object.
+The type [`exception_ptr] can be used to refer to an exception object.
+[:zh_CN]
+类型 [`exception_ptr] 可用于指代某个异常对象。
 
 [para]
 [:en]
 [`exception_ptr] shall satisfy the requirements of [`NullablePointer]
 ([#nullablepointer.requirements]).
+[:zh_CN]
+[`exception_ptr] 应当满足 [`NullablePointer] 的规定
+（[#nullablepointer.requirements]），
 
 [para]
 [:en]
 Two non-null values of type [`exception_ptr] are equivalent and compare equal if
 and only if they refer to the same exception.
+[:zh_CN]
+当且仅当类型 [`exception_ptr] 的两个非空值指代相同的异常时它们是等价的且比较时
+相等。
 
 [para]
 [:en]
 The default constructor of [`exception_ptr] produces the null value of the type.
+[:zh_CN]
+[`exception_ptr] 的默认构造函数产生该类型的空值。
 
 [para]
 [:en]
 [`exception_ptr] shall not be implicitly convertible to any arithmetic,
 enumeration, or pointer type.
+[:zh_CN]
+[`exception_ptr] 不应当隐式转换为任何算术、枚举或指针类型。
 
 [para]
 [enter:note]
 [:en]
 An implementation might use a reference-counted smart pointer as
 [`exception_ptr].
+[:zh_CN]
+实现可能会用引用计数的智能指针来作为 [`exception_ptr]。
 [exit:note]
 
 [para]
@@ -43,18 +58,30 @@ An implementation might use a reference-counted smart pointer as
 For purposes of determining the presence of a data race, operations on
 [`exception_ptr] objects shall access and modify only the [`exception_ptr]
 objects themselves and not the exceptions they refer to.
+[:zh_CN]
+为确定数据竞争是否存在，对 [`exception_ptr] 对象的操作应当只访问和改动
+[`exception_ptr] 对象自身而不是其所指代的异常。
 
 [:en]
 Use of [`rethrow_exception] on [`exception_ptr] objects that refer to the same
 exception object shall not introduce a data race.
+[:zh_CN]
+对指代相同异常对象的 [`exception_ptr] 对象使用 [`rethrow_exception]，不应当引入
+数据竞争。
 
 [enter:note]
+[:en]
 if [`rethrow_exception] rethrows the same exception object (rather than a copy),
 concurrent access to that rethrown exception object may introduce a data race.
+[:zh_CN]
+若 [`rethrow_exception] 重新抛出相同异常对象（而不是其副本），则对所重新抛出的
+异常对象的并发访问可能引入数据竞争。
 
 [:en]
 Changes in the number of [`exception_ptr] objects that refer to a particular
 exception do not introduce a data race.
+[:zh_CN]
+改变指代某个特定异常的 [`exception_ptr] 对象的数量，并不会引入数据竞争。
 [exit:note]
 [exit:description]
 
@@ -69,35 +96,53 @@ exception_ptr current_exception() noexcept;
 An [`exception_ptr] object that refers to the currently handled exception
 ([#except.handle]) or a copy of the currently handled exception, or a null
 [`exception_ptr] object if no exception is being handled.
+[:zh_CN]
+指代当前被处理的异常（[#except.handle]）或当前被处理异常的副本的
+[`exception_ptr] 对象，或者当没有异常被处理时的空 [`exception_ptr] 对象。
 
 [:en]
 The referenced object shall remain valid at least as long as there is an
 [`exception_ptr] object that refers to it.
+[:zh_CN]
+其所指代的对象，应当至少在还有任何指代它的 [`exception_ptr] 对象时仍保持有效。
 
 [:en]
 If the function needs to allocate memory and the attempt fails, it returns an
 [`exception_ptr] object that refers to an instance of [`bad_alloc].
+[:zh_CN]
+若该函数需要分配内存但其尝试失败，它将返回一个指代 [`bad_alloc] 的一个实例的
+[`exception_ptr] 对象。
 
 [:en]
 It is unspecified whether the return values of two successive calls to
 [`current_exception] refer to the same exception object.
+[:zh_CN]
+对 [`current_exception] 的两次连续调用的返回值是否指代相同的异常对象是未指明的。
 
 [enter:note]
 [:en]
 That is, it is unspecified whether [`current_exception] creates a new copy each
 time it is called.
+[:zh_CN]
+就是说，[`current_exception] 的每次调用时是否都创建一个新的副本是未指明的。
 [exit:note]
 
 [:en]
 If the attempt to copy the current exception object throws an exception, the
 function returns an [`exception_ptr] object that refers to the thrown exception
 or, if this is not possible, to an instance of [`bad_exception].
+[:zh_CN]
+若尝试复制当前异常对象时抛出异常，它将返回一个指代所抛出异常的，或者如果这不可能
+，则指代一个 [`bad_exception] 实例的 [`exception_ptr] 对象。
 
 [enter:note]
 [:en]
 The copy constructor of the thrown exception may also fail, so the
 implementation is allowed to substitute a [`bad_exception] object to avoid
 infinite recursion.
+[:zh_CN]
+所抛出异常的复制构造函数可能也会失败，所以允许实现替换一个 [`bad_exception] 对象
+以避免发生无限递归。
 [exit:note]
 [exit:description]
 
@@ -110,10 +155,14 @@ infinite recursion.
 [para:requires]
 [:en]
 [`p] shall not be a null pointer.
+[:zh_CN]
+[`p] 不能为空指针。
 
 [para:throws]
 [:en]
 the exception object to which [`p] refers.
+[:zh_CN]
+[`p] 所指代的异常对象。
 [exit:description]
 
 [%@library make_exception_ptr]
@@ -125,7 +174,10 @@ template<class E> exception_ptr make_exception_ptr(E e) noexcept;
 [para:effects]
 [:en]
 Creates an [`exception_ptr] object that refers to a copy of [`e], as if
-[codeblock]
+[:zh_CN]
+创建指代 [`e] 的一个副本的 [`exception_ptr] 对象，如同
+
+[codeblock:notation]
 try {
   throw e;
 } catch(...) {
@@ -137,5 +189,7 @@ try {
 [enter:note]
 [:en]
 This function is provided for convenience and efficiency reasons.
+[:zh_CN]
+为方便和效率原因提供此函数。
 [exit:note]
 [exit:description]

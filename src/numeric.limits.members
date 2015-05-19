@@ -1,5 +1,6 @@
 ﻿[section#numeric.limits.members
     [:en] [`numeric_limits] members
+    [:zh_CN] [`numeric_limits] 的成员
 ]
 
 [%@library min[!numeric_limits]]
@@ -13,21 +14,30 @@ static constexpr T min() noexcept;
 [para]
 [:en]
 Minimum finite value.
+[:zh_CN]
+最小有穷值。
 
 [footnote]
 [:en]
 Equivalent to [`CHAR_MIN], [`SHRT_MIN], [`FLT_MIN], [`DBL_MIN], etc.
+[:zh_CN]
+等价于 [`CHAR_MIN]，[`SHRT_MIN]，[`FLT_MIN]，[`DBL_MIN]，等等。
 [footnote:end]
 
 [para]
 [:en]
 For floating types with denormalization, returns the minimum positive normalized
 value.
+[:zh_CN]
+对于允许非规格化的浮点类型，返回最小规格化正数值。
 
 [para]
 [:en]
 Meaningful for all specializations in which [`is_bounded != false], or
 [`is_bounded == false && is_signed == false].
+[:zh_CN]
+对于所有 [`is_bounded != false]，或者
+[`is_bounded == false && is_signed == false] 的特例有意义。
 [exit:description]
 
 [%@library max[!numeric_limits]] [%@library numeric_limits[!max]]
@@ -39,15 +49,21 @@ static constexpr T max() noexcept;
 [para]
 [:en]
 Maximum finite value.
+[:zh_CN]
+最大有穷值。
 
 [footnote]
 [:en]
 Equivalent to [`CHAR_MAX], [`SHRT_MAX], [`FLT_MAX], [`DBL_MAX], etc.
+[:zh_CN]
+等价于 [`CHAR_MAX]，[`SHRT_MAX]，[`FLT_MAX]，[`DBL_MAX]，等等。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations in which [`is_bounded != false].
+[:zh_CN]
+对于所有 [`is_bounded != false] 的特例有意义。
 [exit:description]
 
 [%@library lowest[!numeric_limits]] [%@library numeric_limits[!lowest]]
@@ -60,17 +76,24 @@ static constexpr T lowest() noexcept;
 [:en]
 A finite value [`x] such that there is no other finite value [`y] where
 [`y < x].
+[:zh_CN]
+有穷值 [`x]，使得不存在满足 [`y < x] 的其他有穷值 [`y]。
 
 [footnote]
 [:en]
 [`lowest()] is necessary because not all floating-point representations have a
 smallest (most negative) value that is the negative of the largest (most
 positive) finite value.
+[:zh_CN]
+[`lowest()] 是必要的，这是由于不是所有浮点表示的最小值（通常为负）都是其最大的
+有穷值（通常为正）的相反数。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations in which [`is_bounded != false].
+[:zh_CN]
+对于所有 [`is_bounded != false] 的特例有意义。
 [exit:description]
 
 [%@library digits[!numeric_limits]] [%@library numeric_limits[!digits]]
@@ -82,19 +105,26 @@ static constexpr int digits;
 [para]
 [:en]
 Number of [`radix] digits that can be represented without change.
+[:zh_CN]
+以 [`radix] 为基的数字可以不改变地表示的数量。
 
 [para]
 [:en]
 For integer types, the number of non-sign bits in the representation.
+[:zh_CN]
+对于整数类型，为其表示中非符号位的数量。
 
 [para]
 [:en]
-For floating point types, the number of [`radix] digits in the
-mantissa.
+For floating point types, the number of [`radix] digits in the mantissa.
+[:zh_CN]
+对于浮点类型，在其尾数中以 [`radix] 为基的数字的个数。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_MANT_DIG], [`DBL_MANT_DIG], [`LDBL_MANT_DIG].
+[:zh_CN]
+等价于 [`FLT_MANT_DIG]，[`DBL_MANT_DIG]，[`LDBL_MANT_DIG]。
 [footnote:end]
 [exit:description]
 
@@ -107,15 +137,21 @@ static constexpr int digits10;
 [para]
 [:en]
 Number of base 10 digits that can be represented without change.
+[:zh_CN]
+以 10 为基的数字可以不改变地表示的数量。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_DIG], [`DBL_DIG], [`LDBL_DIG].
+[:zh_CN]
+等价于 [`FLT_DIG]，[`DBL_DIG]，[`LDBL_DIG]。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations in which [`is_bounded != false].
+[:zh_CN]
+对于所有 [`is_bounded != false] 的特例有意义。
 [exit:description]
 
 [%@library max_digits10[!numeric_limits]]
@@ -129,10 +165,14 @@ static constexpr int max_digits10;
 [:en]
 Number of base 10 digits required to ensure that values which differ are always
 differentiated.
+[:zh_CN]
+保证不同的值总能被区分开所需要的以 10 为基的数字。
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library is_signed[!numeric_limits]]
@@ -145,10 +185,14 @@ static constexpr bool is_signed;
 [para]
 [:en]
 True if the type is signed.
+[:zh_CN]
+若该类型有符号则为真。
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library is_integer[!numeric_limits]]
@@ -161,10 +205,14 @@ static constexpr bool is_integer;
 [para]
 [:en]
 True if the type is integer.
+[:zh_CN]
+若该类型为整数则为真。
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library is_exact[!numeric_limits]]
@@ -177,17 +225,25 @@ static constexpr bool is_exact;
 [para]
 [:en]
 True if the type uses an exact representation.
+[:zh_CN]
+若该类型使用了精确表示则为真。
 
 [:en]
 All integer types are exact, but not all exact types are integer.
+[:zh_CN]
+所有整数类型都是精确的，但不是所有的精确类型都是整数。
 
 [:en]
 For example, rational and fixed-exponent representations are exact but not
 integer.
+[:zh_CN]
+例如，有理数和固定指数表示是精确的但不是整数。
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library radix[!numeric_limits]]
@@ -201,24 +257,34 @@ static constexpr int radix;
 [:en]
 For floating types, specifies the base or radix of the exponent representation
 (often 2).
+[:zh_CN]
+对于浮点类型，指定其指数表示的基或基数（通常为 2）。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_RADIX].
+[:zh_CN]
+等价于 [`FLT_RADIX]。
 [footnote:end]
 
 [para]
 [:en]
 For integer types, specifies the base of the representation.
+[:zh_CN]
+对于整数类型，指定其表示的基。
 
 [footnote]
 [:en]
 Distinguishes types with bases other than 2 (e.g. BCD).
+[:zh_CN]
+区别不以 2 为基的类型（比如 BCD）。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library epsilon[!numeric_limits]]
@@ -232,15 +298,21 @@ static constexpr T epsilon() noexcept;
 [:en]
 Machine epsilon: the difference between 1 and the least value greater than 1
 that is representable.
+[:zh_CN]
+机器 [=epsilon]：1 与大于 1 的可表示的最小值的差。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_EPSILON], [`DBL_EPSILON], [`LDBL_EPSILON].
+[:zh_CN]
+等价于 [`FLT_EPSILON]，[`DBL_EPSILON]，[`LDBL_EPSILON]。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library round_error[!numeric_limits]]
@@ -253,12 +325,17 @@ static constexpr T round_error() noexcept;
 [para]
 [:en]
 Measure of the maximum rounding error.
+[:zh_CN]
+最大舍入误差的度量。
 
 [footnote]
 [:en]
 Rounding error is described in ISO/IEC 10967-1 Language independent arithmetic
 - Part 1 Section 5.2.8 and Annex A Rationale Section A.5.2.8
 - Rounding constants.
+[:zh_CN]
+舍入误差在 ISO/IEC 10967-1 语言无关算术 — 第一部分，第 5.2.8 节以及附录 A 原理，
+第 A.5.2.8 节—“舍入常量”中描述。
 [footnote:end]
 [exit:description]
 
@@ -273,14 +350,21 @@ static constexpr int  min_exponent;
 [:en]
 Minimum negative integer such that [`radix] raised to the power of one less than
 that integer is a normalized floating point number.
+[:zh_CN]
+使得以 [`radix] 为底指数比该整数小一的幂为规格化浮点数的最小负整数。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_MIN_EXP], [`DBL_MIN_EXP], [`LDBL_MIN_EXP].
+[:zh_CN]
+等价于 [`FLT_MIN_EXP]，[`DBL_MIN_EXP]，[`LDBL_MIN_EXP]。
 [footnote:end]
 
 [para]
+[:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library min_exponent10[!numeric_limits]]
@@ -294,15 +378,21 @@ static constexpr int  min_exponent10;
 [:en]
 Minimum negative integer such that 10 raised to that power is in the range
 of normalized floating point numbers.
+[:zh_CN]
+使得以 10 为底的该指数的幂处于规格化浮点数的值域之中的最小负整数。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_MIN_10_EXP], [`DBL_MIN_10_EXP], [`LDBL_MIN_10_EXP].
+[:zh_CN]
+等价于 [`FLT_MIN_10_EXP]，[`DBL_MIN_10_EXP]，[`LDBL_MIN_10_EXP]。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library max_exponent[!numeric_limits]]
@@ -316,15 +406,21 @@ static constexpr int  max_exponent;
 [:en]
 Maximum positive integer such that [`radix] raised to the power one less than
 that integer is a representable finite floating point number.
+[:zh_CN]
+使得以 [`radix] 为底指数比该整数小一的幂为可表示的有穷的浮点数的最大正整数。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_MAX_EXP], [`DBL_MAX_EXP], [`LDBL_MAX_EXP].
+[:zh_CN]
+等价于 [`FLT_MAX_EXP]，[`DBL_MAX_EXP]，[`LDBL_MAX_EXP]。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library max_exponent10[!numeric_limits]]
@@ -338,15 +434,21 @@ static constexpr int  max_exponent10;
 [:en]
 Maximum positive integer such that 10 raised to that power is in the range of
 representable finite floating point numbers.
+[:zh_CN]
+使得以 10 为底的该指数的幂处于可表示的有穷的浮点数的值域之中的最大正整数。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_MAX_10_EXP], [`DBL_MAX_10_EXP], [`LDBL_MAX_10_EXP].
+[:zh_CN]
+等价于 [`FLT_MAX_10_EXP]，[`DBL_MAX_10_EXP]，[`LDBL_MAX_10_EXP]。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library has_infinity[!numeric_limits]]
@@ -359,14 +461,20 @@ static constexpr bool has_infinity;
 [para]
 [:en]
 True if the type has a representation for positive infinity.
+[:zh_CN]
+若该类型具有正无穷的表示则为真。
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 
 [para]
 [:en]
 Shall be [`true] for all specializations in which [`is_iec559 != false].
+[:zh_CN]
+对于所有 [`is_iec559 != false] 的特例应当为 [`true]。
 [exit:description]
 
 [%@library has_quiet_NaN[!numeric_limits]]
@@ -380,19 +488,27 @@ static constexpr bool has_quiet_NaN;
 [:en]
 True if the type has a representation for a quiet (non-signaling) ["Not a
 Number.]
+[:zh_CN]
+若该类型具有静默（无信号的）“非数字（NaN）”的表示则为真。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 
 [para]
 [:en]
 Shall be [`true] for all specializations in which [`is_iec559 != false].
+[:zh_CN]
+对于所有 [`is_iec559 != false] 的特例应当为 [`true]。
 [exit:description]
 
 [%@library has_signaling_NaN[!numeric_limits]]
@@ -405,19 +521,27 @@ static constexpr bool has_signaling_NaN;
 [para]
 [:en]
 True if the type has a representation for a signaling ["Not a Number.]
+[:zh_CN]
+若该类型具有信号“非数字（NaN）”的表示则为真。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 
 [para]
 [:en]
 Shall be [`true] for all specializations in which [`is_iec559 != false].
+[:zh_CN]
+对于所有 [`is_iec559 != false] 的特例应当为 [`true]。
 [exit:description]
 
 [%@library float_denorm_style[!numeric_limits]]
@@ -431,20 +555,29 @@ static constexpr float_denorm_style has_denorm;
 [:en]
 [`denorm_present] if the type allows denormalized values (variable number of
 exponent bits)
+[:zh_CN]
+若该类型允许非规格化值（指数位数可变）则为 [`denorm_present]
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [:en@~]
 , [`denorm_absent] if the type does not allow denormalized values, and
 [`denorm_indeterminate] if it is indeterminate at compile time whether the type
 allows denormalized values.
+[:zh_CN@~]
+，若该类型不允许非规格化值则为 [`denorm_absent]，而若在编译时无法确定该类型是否
+允许非规格化值则为 [`denorm_indeterminate]。
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library has_denorm_loss[!numeric_limits]]
@@ -458,10 +591,14 @@ static constexpr bool has_denorm_loss;
 [:en]
 True if loss of accuracy is detected as a denormalization loss, rather than as
 an inexact result.
+[:zh_CN]
+若精度损失被检测为非规格化损失而不是非精确的结果则为真。
 
 [footnote]
 [:en]
 See IEC 559.
+[:zh_CN]
+参见 IEC 559。
 [footnote:end]
 [exit:description]
 
@@ -475,18 +612,26 @@ static constexpr T infinity() noexcept;
 [para]
 [:en]
 Representation of positive infinity, if available.
+[:zh_CN]
+如果可用则表示正无穷。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations for which [`has_infinity != false].
+[:zh_CN]
+对于所有 [`has_infinity != false] 的特例有意义。
 
 [:en]
 Required in specializations for which [`is_iec559 != false].
+[:zh_CN]
+在 [`is_iec559 != false] 的特例中是必要的。
 [exit:description]
 
 [%@library quiet_NaN[!numeric_limits]]
@@ -499,18 +644,26 @@ static constexpr T quiet_NaN() noexcept;
 [para]
 [:en]
 Representation of a quiet ["Not a Number,] if available.
+[:zh_CN]
+如果可用则表示静默“非数字（NaN）”。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations for which [`has_quiet_NaN != false].
+[:zh_CN]
+对于所有 [`has_infinity != false] 的特例有意义。
 
 [:en]
 Required in specializations for which [`is_iec559 != false].
+[:zh_CN]
+在 [`is_iec559 != false] 的特例中是必要的。
 [exit:description]
 
 [%@library signaling_NaN[!numeric_limits]]
@@ -523,18 +676,26 @@ static constexpr T signaling_NaN() noexcept;
 [para]
 [:en]
 Representation of a signaling ["Not a Number,] if available.
+[:zh_CN]
+如果可用则表示信号“非数字（NaN）”。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations for which [`has_signaling_NaN != false].
+[:zh_CN]
+对于所有 [`has_infinity != false] 的特例有意义。
 
 [:en]
 Required in specializations for which [`is_iec559 != false].
+[:zh_CN]
+在 [`is_iec559 != false] 的特例中是必要的。
 [exit:description]
 
 [%@library denorm_min[!numeric_limits]]
@@ -547,20 +708,28 @@ static constexpr T denorm_min() noexcept;
 [para]
 [:en]
 Minimum positive denormalized value.
+[:zh_CN]
+最小正数非规格化值。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 
 [para]
 [:en]
 In specializations for which [`has_denorm == false], returns the minimum
 positive normalized value.
+[:zh_CN]
+对于 [`has_denorm == false] 的特例，返回最小正数规格化值。
 [exit:description]
 
 [%@library is_iec559[!numeric_limits]]
@@ -573,15 +742,21 @@ static constexpr bool is_iec559;
 [para]
 [:en]
 True if and only if the type adheres to IEC 559 standard.
+[:zh_CN]
+当且仅当该类型符合 IEC 559 标准时为真。
 
 [footnote]
 [:en]
 International Electrotechnical Commission standard 559 is the same as IEEE 754.
+[:zh_CN]
+国际电子技术委员会标准 559 与 IEEE 754 相同。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library is_bounded[!numeric_limits]]
@@ -594,23 +769,33 @@ static constexpr bool is_bounded;
 [para]
 [:en]
 True if the set of values representable by the type is finite.
+[:zh_CN]
+若该类型可表示的值的集合是有穷的则为真。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [enter:note]
 [:en]
 All fundamental types ([#basic.fundamental]) are bounded.
+[:zh_CN]
+所有基础类型（[#basic.fundamental]）都是有界的。
 
 [:en]
 This member would be false for arbitrary precision types.
+[:zh_CN]
+此成员对于任意精度类型应该为假。
 [exit:note]
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library is_modulo[!numeric_limits]]
@@ -623,10 +808,14 @@ static constexpr bool is_modulo;
 [para]
 [:en]
 True if the type is modulo.
+[:zh_CN]
+若该类型按模计算则为真。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [:en]
@@ -634,15 +823,24 @@ A type is modulo if, for any operation involving [`+], [`-], or [`*] on values
 of that type whose result would fall outside the range [=crange[min(),max()],
 the value returned differs from the true value by an integer multiple of
 [`max() - min() + 1].
+[:zh_CN]
+若对于某个类型的值进行涉及 [`+]、[`-] 或 [`*] 的任何操作的结果可能超出范围
+[=crange[min(),max()]，其所返回的值与真值之间相差 [`max() - min() + 1] 的整数倍
+，则该类型是按模计算的。
 
 [para]
 [:en]
 On most machines, this is [`false] for floating types, [`true] for unsigned
 integers, and [`true] for signed integers.
+[:zh_CN]
+在多数机器上，它对浮点类型为 [`false]，对无符号整数为 [`true]，而对有符号整数为
+[`true]。
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library traps[!numeric_limits]]
@@ -656,15 +854,22 @@ static constexpr bool traps;
 [:en]
 [`true] if, at program startup, there exists a value of the type that would
 cause an arithmetic operation using that value to trap.
+[:zh_CN]
+在程序启动时，若存在该类型的一个值，能够导致使用该值的算术操作陷入陷阱，则为
+[`true]。
 
 [footnote]
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all specializations.
+[:zh_CN]
+对于所有特例有意义。
 [exit:description]
 
 [%@library tinyness_before[!numeric_limits]]
@@ -677,18 +882,26 @@ static constexpr bool tinyness_before;
 [para]
 [:en]
 [`true] if tinyness is detected before rounding.
+[:zh_CN]
+若在舍入之前检测微小量则为 [`true]。
 
 [footnote]
 [:en]
 Refer to IEC 559.
+[:zh_CN]
+参考 IEC 559。
 
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 [exit:description]
 
 [%@library round_style[!numeric_limits]]
@@ -701,19 +914,29 @@ static constexpr float_round_style round_style;
 [para]
 [:en]
 The rounding style for the type.
+[:zh_CN]
+该类型的舍入方式。
 
 [footnote]
 [:en]
 Equivalent to [`FLT_ROUNDS].
+[:zh_CN]
+等价于 [`FLT_ROUNDS]。
 
 [:en]
 Required by LIA-1.
+[:zh_CN]
+由 LIA-1 所规定。
 [footnote:end]
 
 [para]
 [:en]
 Meaningful for all floating point types.
+[:zh_CN]
+对于所有浮点类型有意义。
 
 [:en]
 Specializations for integer types shall return [`round_toward_zero].
+[:zh_CN]
+整数类型的特例应当返回 [`round_toward_zero]。
 [exit:description]

@@ -1,5 +1,6 @@
 ﻿[section#algorithm.stable
     [:en] Requirements for stable algorithms
+    [:zh_CN] 对稳定算法的规定
 ]
 
 [para]
@@ -8,18 +9,26 @@
 [%stable algorithm]
 When the requirements for an algorithm state that it is ["stable] without
 further elaboration, it means:
+[:zh_CN]
+[%算法[!稳定～]]
+[%稳定算法]
+如果对某个算法的规定中称其是“稳定的”但没有进一步详细阐述，则其涵义为：
 
 [list]
 [item]
 [:en] For the [+sort] algorithms the relative order of equivalent elements is
 preserved.
+[:zh_CN] 对于[+排序]算法，保留等价的元素的相对顺序。
 
 [item]
 [:en] For the [+remove] and [+copy] algorithms the relative order of the
 elements that are not removed is preserved.
+[:zh_CN] 对于[+移除]和[+复制]算法，保留未被移除的元素的相对顺序。
 
 [item]
 [:en] For the [+merge] algorithms, for equivalent elements in the original two
 ranges, the elements from the first range (preserving their original order)
 precede the elements from the second range (preserving their original order).
+[:zh_CN] 对于[+归并]算法，对于两个原范围中的等价元素，来自第一个范围的元素先于
+来自第二个范围的元素。
 [list:end]

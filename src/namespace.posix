@@ -1,5 +1,6 @@
 ﻿[section#namespace.posix
     [:en] Namespace [`posix]
+    [:zh_CN] 命名空间 [`posix]
 ]
 
 [para]
@@ -7,7 +8,12 @@
 The behavior of a [=Cpp] program is undefined if it adds declarations or
 definitions to namespace [`posix] or to a namespace within namespace [`posix]
 unless otherwise specified.
+[:zh_CN]
+除非另外指定，否则向命名空间 [`posix] 或命名空间 [`posix] 之中的命名空间中添加
+声明式或定义式的 [=Cpp] 程序的行为是未定义的。
 
 [:en]
 The namespace [`posix] is reserved for use by ISO/IEC 9945 and other POSIX
 standards.
+[:zh_CN]
+命名空间 [`posix] 保留为 ISO/IEC 9945 以及其他 POSIX 标准使用。

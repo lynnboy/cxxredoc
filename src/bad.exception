@@ -1,5 +1,6 @@
 ﻿[section#bad.exception
     [:en] Class [`bad_exception]
+    [:zh_CN] 类 [`bad_exception]
 ]
 
 [%@library bad_exception]
@@ -19,6 +20,8 @@ namespace std {
 [:en]
 The class [`bad_exception] defines the type of objects thrown as described in
 ([#except.unexpected]).
+[:zh_CN]
+[`bad_exception] 类定义了根据 [#except.unexpected] 中的描述所抛出的对象的类型。
 
 [%@library bad_exception[!bad_exception]]
 [codeblock:declaration]
@@ -29,11 +32,15 @@ bad_exception() noexcept;
 [para:effects]
 [:en]
 Constructs an object of class [`bad_exception].
+[:zh_CN]
+构造一个类 [`bad_exception] 的对象。
 
 [para:notes]
 [:en]
 The result of calling [`what()] on the newly constructed object is
 [%implementation-defined] implementation-defined.
+[:zh_CN]
+在新构造的对象上调用 [`what()] 的结果是[%由实现定义的]由实现定义的。
 [exit:description]
 
 [%@library bad_exception[!bad_exception]]
@@ -47,6 +54,8 @@ bad_exception& operator=(const bad_exception&) noexcept;
 [para:effects]
 [:en]
 Copies an object of class [`bad_exception].
+[:zh_CN]
+复制一个类 [`bad_exception] 的对象。
 [exit:description]
 
 [%@library what[!bad_exception]]
@@ -60,10 +69,16 @@ virtual const char* what() const noexcept;
 [%@library bad_exception::what[!implementation-defined]]
 An [%@impldef return value of [`bad_exception::what]] implementation-defined
 [em@sc ntbs].
+[:zh_CN]
+[%@library bad_exception::what[!由实现定义的]]
+一个[%@impldef [`bad_exception::what]的返回值]由实现定义的 [em@sc ntbs]。
 
 [para:notes]
 [:en]
 The message may be a null-terminated multibyte string ([#multibyte.strings]),
 suitable for conversion and display as a [`wstring] ([#string.classes],
 [#locale.codecvt]).
+[:zh_CN]
+该消息可能是个空终结多字节字符串（[#multibyte.strings]），且适于转换并显示为一个
+[`wstring]（[#string.classes]，[#locale.codecvt]）。
 [exit:description]

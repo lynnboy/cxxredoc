@@ -1,5 +1,6 @@
 ﻿[section#new.handler
     [:en] Type [`new_handler]
+    [:zh_CN] 类型 [`new_handler]
 ]
 
 [%@library new_handler]
@@ -13,20 +14,29 @@ typedef void (*new_handler)();
 The type of a [+handler function] to be called by [`operator new()] or
 [`operator new[`]()] ([#new.delete]) when they cannot satisfy a request for
 additional storage.
+[:zh_CN]
+当不能满足对额外存储的请求时由 [`operator new()] 或 [`operator new[`]()]
+（[#new.delete]）调用的[+处理函数]的类型。
 
 [para:required]
 [:en]
 A [`new_handler] shall perform one of the following:
+[:zh_CN]
+[`new_handler] 应当实施如下行为之一：
 
 [list]
 [item]
 [:en] make more storage available for allocation and then return;
+[:zh_CN] 使更多存储可用于分配然后返回；
 [item]
+[%@library bad_alloc]
 [:en] throw an exception of type [`bad_alloc] or a class derived from
-[%@library bad_alloc] [`bad_alloc];
+[`bad_alloc];
+[:zh_CN] 抛出一个 [`bad_alloc] 类型或派生自 [`bad_alloc] 的类类型的异常；
 [item]
-[:en] terminate execution of the program without returning to the caller;
 [%@library abort]
 [%@library exit]
+[:en] terminate execution of the program without returning to the caller;
+[:zh_CN] 终止程序的执行而不返回到调用方；
 [list:end]
 [exit:description]

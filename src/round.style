@@ -1,5 +1,6 @@
 ﻿[section#round.style
     [:en] Type [`float_round_style]
+    [:zh_CN] 类型 [`float_round_style]
 ]
 
 [%@library float_round_style]
@@ -18,26 +19,38 @@ namespace std {
 [para]
 [:en]
 The rounding mode for floating point arithmetic is characterized by the values:
+[:zh_CN]
+如下各值说明浮点算术的舍入模式：
 
 [list]
 [item]
 [%@library round_indeterminate]
 [:en]
 [`round_indeterminate] if the rounding style is indeterminable
+[:zh_CN]
+[`round_indeterminate] 若舍入方式无法确定
 [item]
 [%@library round_toward_zero]
 [:en]
 [`round_toward_zero] if the rounding style is toward zero
+[:zh_CN]
+[`round_toward_zero] 若舍入方式是朝向零的
 [item]
 [%@library round_to_nearest]
 [:en]
 [`round_to_nearest] if the rounding style is to the nearest representable value
+[:zh_CN]
+[`round_to_nearest] 若舍入方式是朝向最接近的可表示值的
 [item]
 [%@library round_toward_infinity]
 [:en]
 [`round_toward_infinity] if the rounding style is toward infinity
+[:zh_CN]
+[`round_toward_infinity] 若舍入方式是朝向无穷的
 [item]
 [%@library round_toward_neg_infinity]
 [:en]
 [`round_toward_neg_infinity] if the rounding style is toward negative infinity
+[:zh_CN]
+[`round_toward_neg_infinity] 若舍入方式是朝向负无穷的
 [list:end]

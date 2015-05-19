@@ -1,11 +1,14 @@
 ﻿[section#constraints.overview
     [:en] Overview
+    [:zh_CN] 概述
 ]
 
 [para]
 [:en]
 This section describes restrictions on [=Cpp] programs that use the facilities
 of the [=Cpp] standard library.
+[:zh_CN]
+本节描述了对使用了 [=Cpp] 标准程序库的设施的 [=Cpp] 程序的约束条件。
 
 [:en]
 The following subclauses specify constraints on the program[=']s use of
@@ -14,3 +17,8 @@ namespaces ([#namespace.std]), its use of various reserved names
 library classes as base classes ([#derived.classes]), its definitions of
 replacement functions ([#replacement.functions]), and its installation of
 handler functions during execution ([#handler.functions]).
+[:zh_CN]
+下列子条款指定了对程序如何使用命名空间（[#namespace.std]），如何使用各种保留的
+名字（[#reserved.names]），如何使用头文件（[#alt.headers]），如何使用标准程序库
+的类作为基类（[#derived.classes]），如何定义替代函数（[#replacement.functions]）
+，以及在执行中如何安装处理函数（[#handler.functions]）的约束条件。

@@ -1,5 +1,6 @@
 ﻿[section#allocator.traits.types
     [:en] Allocator traits member types
+    [:zh_CN] 分配器特征的成员类型
 ]
 
 [%@library allocator_traits[!pointer]]
@@ -12,6 +13,8 @@ typedef [=Seebelow] pointer;
 [para:ctype]
 [:en] [`Alloc::pointer] if the [~qualified-id] [`Alloc::pointer] is valid and
 denotes a type ([#temp.deduct]); otherwise, [`value_type*].
+[:zh_CN] 如果[~限定标识] [`Alloc::pointer] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::pointer]；否则为 [`value_type*]。
 [exit:description]
 
 [%@library allocator_traits[!const_pointer]]
@@ -25,6 +28,9 @@ typedef [=Seebelow] const_pointer;
 [:en] [`Alloc::const_pointer] if the [~qualified-id] [`Alloc::const_pointer] is
 valid and denotes a type ([#temp.deduct]); otherwise,
 [`pointer_traits<pointer>::rebind<const value_type>].
+[:zh_CN] 如果[~限定标识] [`Alloc::const_pointer] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::const_pointer]；否则为
+[`pointer_traits<pointer>::rebind<const value_type>]。
 [exit:description]
 
 [%@library allocator_traits[!void_pointer]]
@@ -38,6 +44,9 @@ typedef [=Seebelow] void_pointer;
 [:en] [`Alloc::void_pointer] if the [~qualified-id] [`Alloc::void_pointer] is
 valid and denotes a type ([#temp.deduct]); otherwise,
 [`pointer_traits<pointer>::rebind<void>].
+[:zh_CN] 如果[~限定标识] [`Alloc::void_pointer] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::void_pointer]；否则为
+[`pointer_traits<pointer>::rebind<void>]。
 [exit:description]
 
 [%@library allocator_traits[!const_void_pointer]]
@@ -51,6 +60,9 @@ typedef [=Seebelow] const_void_pointer;
 [:en] [`Alloc::const_void_pointer] if the [~qualified-id]
 [`Alloc::const_void_pointer] is valid and denotes a type ([#temp.deduct]);
 otherwise, [`pointer_traits<pointer>::rebind<const void>].
+[:zh_CN] 如果[~限定标识] [`Alloc::const_void_pointer] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::const_void_pointer]；否则为
+[`pointer_traits<pointer>::rebind<const void>]。
 [exit:description]
 
 [%@library allocator_traits[!difference_type]]
@@ -64,6 +76,9 @@ typedef [=Seebelow] difference_type;
 [:en] [`Alloc::difference_type] if the [~qualified-id] [`Alloc::difference_type]
 is valid and denotes a type ([#temp.deduct]); otherwise,
 [`pointer_traits<pointer>::difference_type].
+[:zh_CN] 如果[~限定标识] [`Alloc::difference_type] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::difference_type]；否则为
+[`pointer_traits<pointer>::difference_type]。
 [exit:description]
 
 [%@library allocator_traits[!size_type]]
@@ -77,6 +92,9 @@ typedef [=Seebelow] size_type;
 [:en] [`Alloc::size_type] if the [~qualified-id] [`Alloc::size_type] is valid
 and denotes a type ([#temp.deduct]); otherwise,
 [`make_unsigned_t<difference_type>].
+[:zh_CN] 如果[~限定标识] [`Alloc::size_type] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::size_type]；否则为
+[`make_unsigned_t<difference_type>]。
 [exit:description]
 
 [%@library allocator_traits[!propagate_on_container_copy_assignment]]
@@ -90,6 +108,9 @@ typedef [=Seebelow] propagate_on_container_copy_assignment;
 [:en] [`Alloc::propagate_on_container_copy_assignment] if the [~qualified-id]
 [`Alloc::propagate_on_container_copy_assignment] is valid and denotes a type
 ([#temp.deduct]); otherwise [`false_type].
+[:zh_CN] 如果[~限定标识] [`Alloc::propagate_on_container_copy_assignment] 有效
+并且代表某个类型（[#temp.deduct]），则为
+[`Alloc::propagate_on_container_copy_assignment]；否则为 [`false_type]。
 [exit:description]
 
 [%@library allocator_traits[!propagate_on_container_move_assignment]]
@@ -103,6 +124,9 @@ typedef [=Seebelow] propagate_on_container_move_assignment;
 [:en] [`Alloc::propagate_on_container_move_assignment] if the [~qualified-id]
 [`Alloc::propagate_on_container_move_assignment] is valid and denotes a type
 ([#temp.deduct]); otherwise [`false_type].
+[:zh_CN] 如果[~限定标识] [`Alloc::propagate_on_container_move_assignment] 有效
+并且代表某个类型（[#temp.deduct]），则为
+[`Alloc::propagate_on_container_move_assignment]；否则为 [`false_type]。
 [exit:description]
 
 [%@library allocator_traits[!propagate_on_container_swap]]
@@ -116,6 +140,9 @@ typedef [=Seebelow] propagate_on_container_swap;
 [:en] [`Alloc::propagate_on_container_swap] if the [~qualified-id]
 [`Alloc::propagate_on_container_swap] is valid and denotes a type
 ([#temp.deduct]); otherwise [`false_type].
+[:zh_CN] 如果[~限定标识] [`Alloc::propagate_on_container_swap] 有效并且代表某个
+类型（[#temp.deduct]），则为 [`Alloc::propagate_on_container_swap]；否则为
+[`false_type]。
 [exit:description]
 
 [%@library allocator_traits[!is_always_equal]]
@@ -129,6 +156,9 @@ typedef [=Seebelow] is_always_equal;
 [:en] [`Alloc::is_always_equal] if the [~qualified-id] [`Alloc::is_always_equal]
 is valid and denotes a type ([#temp.deduct]); otherwise
 [`is_empty<Alloc>::type].
+[:zh_CN] 如果[~限定标识] [`Alloc::is_always_equal] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::is_always_equal]；否则为
+[`is_empty<Alloc>::type]。
 [exit:description]
 
 [%@library allocator_traits[!rebind_alloc]]
@@ -144,4 +174,8 @@ template <class T> using rebind_alloc = [=Seebelow];
 otherwise, [`Alloc<T, Args>] if [`Alloc] is a class template instantiation of
 the form [`Alloc<U, Args>], where [`Args] is zero or more type arguments;
 otherwise, the instantiation of [`rebind_alloc] is ill-formed.
+[:zh_CN] 如果[~限定标识] [`Alloc::rebind<T>::other] 有效并且代表某个类型
+（[#temp.deduct]），则为 [`Alloc::rebind<T>::other]；否则如果 [`Alloc] 是形式为
+[`Alloc<U, Args>] 的模板实例化，其中 [`Args] 为零或多个类型实参，则为
+[`Alloc<T, Args>]；否则，对 [`rebind_alloc] 的实例化非良构。
 [exit:description]

@@ -1,5 +1,6 @@
 ﻿[section#specialized.algorithms
     [:en] Specialized algorithms
+    [:zh_CN] 专用的算法
 ]
 
 [para]
@@ -7,11 +8,17 @@
 All the iterators that are used as template parameters in the following
 algorithms are required to have their [`operator*] return an object for which
 [`operator&] is defined and returns a pointer to [`T].
+[:zh_CN]
+要求下列算法用作模板形参的所有迭代器，其 [`operator*] 所返回的对象，均应当定义了
+[`operator&] 并返回指向 [`T] 的指针。
 
 [:en]
 In the algorithm [`uninitialized_copy], the template parameter [`InputIterator]
 is required to satisfy the requirements of an input iterator
 ([#input.iterators]).
+[:zh_CN]
+在算法 [`uninitialized_copy] 中，要求其模板形参 [`InputIterator] 满足输入迭代器
+的规定（[#input.iterators]）。
 
 [:en]
 In all of the following algorithms, the template parameter [`ForwardIterator] is
@@ -19,9 +26,15 @@ required to satisfy the requirements of a forward iterator
 ([#forward.iterators]), and is required to have the property that no exceptions
 are thrown from increment, assignment, comparison, or indirection through valid
 iterators.
+[:zh_CN]
+在下列所有算法中，要求其模版形参 [`ForwardIterator] 满足对前向迭代器的规定
+（[#forward.iterators]），并且还被要求具有对有效的迭代器的增量、赋值、比较或间接
+中不抛出异常的性质。
 
 [:en]
 In the following algorithms, if an exception is thrown there are no effects.
+[:zh_CN]
+下列算法中，当抛出异常时它们没有效果。
 
 [include specialized.addressof]
 

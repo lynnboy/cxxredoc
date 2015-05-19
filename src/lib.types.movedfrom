@@ -1,15 +1,22 @@
 ﻿[section#lib.types.movedfrom
     [:en] Moved-from state of library types
+    [:zh_CN] 程序库类型的被移走状态
 ]
 
 [para]
 [:en]
 Objects of types defined in the [=Cpp] standard library may be moved from
 ([#class.copy]).
+[:zh_CN]
+C++ 标准程序库中的类型的对象可以被移走（[#class.copy]）。
 
 [:en]
 Move operations may be explicitly specified or implicitly generated.
+[:zh_CN]
+移动操作可以明确指定或者隐式生成。
 
 [:en]
 Unless otherwise specified, such moved-from objects shall be placed in a valid
 but unspecified state.
+[:zh_CN]
+除非另行说明，这种被移走的对象应当处于某个有效但未指明状态。

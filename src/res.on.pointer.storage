@@ -1,5 +1,6 @@
 ﻿[section#res.on.pointer.storage
     [:en] Restrictions on storage of pointers
+    [:zh_CN] 对指针的存储限制
 ]
 
 [para]
@@ -9,13 +10,24 @@
 Objects constructed by the standard library that may hold a user-supplied
 pointer value or an integer of type [`std::intptr_t] shall store such values in
 a traceable pointer location ([#basic.stc.dynamic.safety]).
+[:zh_CN]
+[%可跟踪指针对象]
+[%指针[!可跟踪对象的～]]
+由标准程序库构造的可保留一个用户提供的指针值或一个 [`std::intptr_t] 类型的整数的
+对象，应当将这种值存储到可跟踪指针位置中（[#basic.stc.dynamic.safety]）。
 
 [enter:note]
 [:en]
 Other libraries are strongly encouraged to do the same, since not doing so may
 result in accidental use of pointers that are not safely derived.
+[:zh_CN]
+强烈鼓励其他库也如此做，这是由于如果不这样的话可能导致意外地使用并非安全衍生的
+指针。
 
 [:en]
 Libraries that store pointers outside the user[=']s address space should make it
 appear that they are stored and retrieved from a traceable pointer location.
+[:zh_CN]
+将指针存储到用户的地址空间之外的库，应当使其表现为将这些指针存储到并获取自可跟踪
+指针位置。
 [exit:note]

@@ -1,5 +1,5 @@
 ﻿[section#uninitialized.copy
-    [:en] [`uninitialized_copy]
+    [`uninitialized_copy]
 ]
 
 [%@library uninitialized_copy]
@@ -18,7 +18,7 @@ for (; first != last; ++result, ++first)
 [codeblock:end]
 
 [para:returns]
-[:en] [`result]
+[`result]
 [exit:description]
 
 [%@library uninitialized_copy_n]
@@ -39,5 +39,5 @@ for ( ; n > 0; ++result, ++first, --n) {
 [codeblock:end]
 
 [para:returns]
-[:en] [`result]
+[`result]
 [exit:description]

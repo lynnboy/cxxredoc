@@ -1,13 +1,18 @@
 ﻿[section#macro.names
     [:en] Macro names
+    [:zh_CN] 宏名
 ]
 
 [para]
-[:en]
 [%[`#undef]]
+[:en]
 [%unit[!translation]]
 A translation unit that includes a standard library header shall not [`#define]
 or [`#undef] names declared in any standard library header.
+[:zh_CN]
+[%单元[!翻译～]]
+包含了某标准程序库头文件的翻译单元不能 [`#define] 或 [`#undef] 在任何标准程序库
+头文件中声明的名字。
 
 [para]
 [:en]
@@ -15,3 +20,8 @@ or [`#undef] names declared in any standard library header.
 A translation unit shall not [`#define] or [`#undef] names lexically identical
 to keywords, to the identifiers listed in Table [#tab:identifiers.special], or
 to the [~attribute-token]s described in [#dcl.attr].
+[:zh_CN]
+[%单元[!翻译～]]
+翻译单元不能 [`#define] 或 [`#undef] 在词法上等同于关键字，等同于表
+[#tab:identifiers.special] 所列出的标示符，或等同于 [#dcl.attr] 中描述的[~特性
+记号]的宏。

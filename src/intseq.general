@@ -1,14 +1,20 @@
 ﻿[section#intseq.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 The library provides a class template that can represent an integer sequence.
+[:zh_CN]
+本程序库提供了用以表示整数的序列的类模板。
 
 [:en]
 When used as an argument to a function template the parameter pack defining the
 sequence can be deduced and used in a pack expansion.
+[:zh_CN]
+当被用作函数模板的实参时，定义一个序列的形参包组可以被推断，也可以被用在包组
+展开式中。
 
 [para]
 [enter:example]
@@ -31,4 +37,6 @@ template<class F, class Tuple>
 [:en]
 The [`index_sequence] alias template is provided for the common case of
 an integer sequence of type [`size_t].
+[:zh_CN]
+别名模板 [`index_sequence] 是为 [`size_t] 类型的整数序列这种常用情况而提供的。
 [exit:note]

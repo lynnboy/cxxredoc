@@ -1,19 +1,26 @@
 ﻿[section#allocator.traits
     [:en] Allocator traits
+    [:zh_CN] 分配器的特征
 ]
 
 [para]
 [:en]
 The class template [`allocator_traits] supplies a uniform interface to all
 allocator types.
+[:zh_CN]
+类模板 [`allocator_traits] 为所有分配器类型提供一种统一的接口。
 
 [:en]
 An allocator cannot be a non-class type, however, even if [`allocator_traits]
 supplies the entire required interface.
+[:zh_CN]
+分配器不能是非类类型，即使以 [`allocator_traits] 提供其所需的完整接口也不行。
 
 [enter:note]
 [:en]
 Thus, it is always possible to create a derived class from an allocator.
+[:zh_CN]
+因此，总是可以从分配器创建派生类。
 [exit:note]
 
 [%@library allocator_traits]

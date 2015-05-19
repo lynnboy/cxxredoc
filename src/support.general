@@ -1,5 +1,6 @@
 ﻿[section#support.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
@@ -7,10 +8,15 @@
 This Clause describes the function signatures that are called implicitly, and
 the types of objects generated implicitly, during the execution of some [=Cpp]
 programs.
+[:zh_CN]
+本条描述了在某些 [=Cpp] 程序的执行过程中被隐式调用的函数签名，以及被隐式生成的
+对象的类型。
 
 [:en]
 It also describes the headers that declare these function signatures and define
 any related types.
+[:zh_CN]
+还描述了声明了这些函数签名并定义了任何相关类型的头文件。
 
 [para]
 [:en]
@@ -20,54 +26,71 @@ termination of a [=Cpp] program, support for dynamic memory management, support
 for dynamic type identification, support for exception processing, support for
 initializer lists, and other runtime support, as summarized in Table
 [#tab:lang.sup.lib.summary].
+[:zh_CN]
+下列子条款描述了在程序库中通篇所用的公共类型的定义，预定义类型的特性，支持
+[=Cpp] 程序的启动和终止的函数，对动态内存管理的支持，对动态类型标识的支持，对
+异常处理的支持，对初始化式列表的支持，以及其他运行时支持，表
+[#tab:lang.sup.lib.summary] 进行了概括：
 
 [table:listing#tab:lang.sup.lib.summary
     [:en] Language support library summary
+    [:zh_CN] 语言支持库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
 ]
 [|] [#support.types]
 [|] [:en] Types
+    [:zh_CN] 类型
 [|] <cstddef>
 
 [|] [#support.limits]
 [|] [:en] Implementation properties
+    [:zh_CN] 实现属性
 [|] <limits> [br] <climits> [br] <cfloat>
 
 [|] [#cstdint]
 [|] [:en] Integer types
+    [:zh_CN] 整数类型
 [|] <cstdint>
 
 [|] [#support.start.term]
 [|] [:en] Start and termination
+    [:zh_CN] 启动和终止
 [|] <cstdlib>
 
 [|] [#support.dynamic]
 [|] [:en] Dynamic memory management
+    [:zh_CN] 动态内存管理
 [|] <new>
 
 [|] [#support.rtti]
 [|] [:en] Type identification
+    [:zh_CN] 类型标识
 [|] <typeinfo>
 
 [|] [#support.exception]
 [|] [:en] Exception handling
+    [:zh_CN] 异常处理
 [|] <exception>
 
 [|] [#support.initlist]
 [|] [:en] Initializer lists
+    [:zh_CN] 初始化式列表
 [|] <initializer_list>
 
 [|] [#support.runtime]
 [|] [:en] Other runtime support
+    [:zh_CN] 其他运行时支持
 [|] <csignal> [br] <csetjmp> [br] <cstdalign> [br] <cstdarg> [br] <cstdbool>
     <cstdlib> [br] <ctime>
 [table:end]

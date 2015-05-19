@@ -1,5 +1,6 @@
 ﻿[section#new.delete.dataraces
     [:en] Data races
+    [:zh_CN] 数据竞争
 ]
 
 [para]
@@ -10,9 +11,17 @@ standard library functions [`calloc] and [`malloc], the library versions of
 [`operator delete], user replacement versions of [`operator delete], the C
 standard library function [`free], and the C standard library function
 [`realloc] shall not introduce a data race ([#res.on.data.races]).
+[:zh_CN]
+为确定数据竞争的存在性，程序库版本的 [`operator new]，用户替换版本的全局
+[`operator new]，C 标准程序库函数 [`calloc] 和 [`malloc]，程序库版本的
+[`operator delete]，用户替换版本的 [`operator delete]，C 标准程序库函数 [`free]
+，以及 C 标准程序库函数 [`realloc]，不应当引入数据竞争（[#res.on.data.races]）。
 
 [:en]
 Calls to these functions that allocate or deallocate a particular unit of
 storage shall occur in a single total order, and each such deallocation call
 shall happen before ([#intro.multithread]) the next allocation (if any) in
 this order.
+[:zh_CN]
+调用这些函数来分配或回收某个特定存储单位，应当以一个单一的全序进行，且这个顺序中
+，每个这种回收调用应当发生早于（[#intro.multithread]）对其下一次分配（如果有）。

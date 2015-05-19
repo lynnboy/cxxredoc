@@ -1,5 +1,6 @@
 ﻿[section#new.delete.array
     [:en] Array forms
+    [:zh_CN] 数组形式
 ]
 
 [%@library new[!operator]]
@@ -13,38 +14,59 @@ void* operator new[](std::size_t size);
 The [+allocation function] ([#basic.stc.dynamic.allocation]) called by the array
 form of a [~new-expression] ([#expr.new]) to allocate [`size] bytes of storage
 suitably aligned to represent any array object of that size or smaller.
+[:zh_CN]
+被 [~new-表达式]的数组形式（[#expr.new]）调用的[+分配函数]
+（[#basic.stc.dynamic.allocation]），以分配 [`size] 个字节的存储，并适当对齐以
+表示该大小或更小的任意数组对象。
 
 [footnote]
 [:en]
 It is not the direct responsibility of [`operator new[`](std::size_t)] or
 [`operator delete[`](void*)] to note the repetition count or element size of the
 array.
+[:zh_CN]
+记录数组的重复个数或元素大小并不是 [`operator new[`](std::size_t)] 或 [`operator
+delete[`](void*)] 的直接责任。
 
 [:en]
 Those operations are performed elsewhere in the array [`new] and [`delete]
 expressions.
+[:zh_CN]
+这些操作是在数组 [`new] 和 [`delete] 表达式中的其他地方实施的。
 
 [:en]
 The array [`new] expression, may, however, increase the [`size] argument to
 [`operator new[`](std::size_t)] to obtain space to store supplemental
 information.
+[:zh_CN]
+然而，数组 [`new] 表达式可能会增加传给 [`operator new[`](std::size_t)] 的
+[`size] 实参以获取用于存储辅助信息的空间。
 [footnote:end]
 
 [para:replaceable]
 [:en]
 a [=Cpp] program can define a function with this function signature that
 displaces the default version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有此函数签名的函数来替代由 [=Cpp] 标准程序库所定义的预置
+版本。
 
 [para:required]
 [:en]
 Same as for [`operator new(std::size_t)].
+[:zh_CN]
+与 [`operator new(std::size_t)] 相同。
 
 [:en]
 This requirement is binding on a replacement version of this function.
+[:zh_CN]
+此函数的替代版本同样遵守此规定。
 
 [para:default]
 [:en]
 Returns [`operator new(size)].
+[:zh_CN]
+返回 [`operator new(size)]。
 [exit:description]
 
 [%@library new[!operator]]
@@ -58,27 +80,45 @@ void* operator new[](std::size_t size, const std::nothrow_t&) noexcept;
 Same as above, except that it is called by a placement version of a
 [~new-expression] when a [=Cpp] program prefers a null pointer result as an
 error indication, instead of a [`bad_alloc] exception.
+[:zh_CN]
+同上，除了当 [=Cpp] 程序更倾向于将空指针结果，而不是 [`bad_alloc] 异常作为错误
+指示时，它将被 [~new-表达式]的放置式版本所调用。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program can define a function with this function signature that
 displaces the default version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有此函数签名的函数来替代由 [=Cpp] 标准程序库所定义的预置
+版本。
 
 [para:required]
 [:en]
 Return a non-null pointer to suitably aligned storage ([#basic.stc.dynamic]),
 or return a null pointer.
+[:zh_CN]
+返回非空的指向适当对齐的存储的指针（[#basic.stc.dynamic]），要么返回空指针。
 
 [:en]
 This requirement is binding on a replacement version of this function.
+[:zh_CN]
+此函数的替代版本同样遵守此规定。
 
 [para:default]
 [:en]
-Calls [`operator new[`](size)]. If the call returns normally, returns the result
-of that call.
+Calls [`operator new[`](size)].
+[:zh_CN]
+调用 [`operator new[`](size)]。
+
+[:en]
+If the call returns normally, returns the result of that call.
+[:zh_CN]
+若该调用正常返回，则返回该调用的结果。
 
 [:en]
 Otherwise, returns a null pointer.
+[:zh_CN]
+否则，返回空指针。
 [exit:description]
 
 [%@library delete[!operator]]
@@ -92,25 +132,39 @@ void operator delete[](void* ptr, std::size_t size) noexcept;
 [:en]
 The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by the
 array form of a [~delete-expression] to render the value of [`ptr] invalid.
+[:zh_CN]
+被 [~delete-表达式]的数组形式调用的[+回收函数]
+（[#basic.stc.dynamic.deallocation]），以使 [`ptr] 的值成为无效的。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program can define a function with signature [`void operator
 delete[`](void* ptr) noexcept] that displaces the default version defined by the
 [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有签名 [`void operator delete[`](void* ptr) noexcept] 的
+函数来替代由 [=Cpp] 标准程序库所定义的预置版本。
 
 [:en]
 If this function (without [`size] parameter) is defined, the program should also
 define [`void operator delete[`](void* ptr, std::size_t size) noexcept].
+[:zh_CN]
+如果定义了这个函数（没有 [`size] 形参），则程序最好同样定义 [`void operator
+delete[`](void* ptr, std::size_t size) noexcept]。
 
 [:en]
 If this function with [`size] parameter is defined, the program shall also
 define the version without the [`size] parameter.
+[:zh_CN]
+如果定义了带有 [`size] 形参的这个函数，则程序应当同样定义没有 [`size] 形参的版本
+。
 
 [enter:note]
 [:en]
 The default behavior below may change in the future, which will require
 replacing both deallocation functions when replacing the allocation function.
+[:zh_CN]
+下文的缺省行为可能于未来被改变为，当替换分配函数时同时要求替换两个回收函数。
 [exit:note]
 
 [para:requires]
@@ -119,32 +173,53 @@ replacing both deallocation functions when replacing the allocation function.
 earlier call to [`operator new[`](std::size_t)] or [`operator
 new[`](std::size_t,const std::nothrow_t&)] which has not been invalidated by an
 intervening call to [`operator delete[`](void*)].
+[:zh_CN]
+[$ptr] 应当为空指针，或者其值应当是从早前对 [`operator new[`](std::size_t)] 或
+[`operator new[`](std::size_t,const std::nothrow_t&)] 的调用所返回的，且未被介于
+其间的对 [`operator delete[`](void*)] 的调用变为无效的值。
 
 [para:requires]
 [:en]
 If present, the [`std::size_t size] argument must equal the size argument passed
 to the allocation function that returned [`ptr].
+[:zh_CN]
+如果存在，则 [`std::size_t size] 实参应当等于对返回 [`ptr] 的分配函数所传递的
+[`size] 实参。
 
 [para:required]
 [:en]
 Calls to [`operator delete[`](void* ptr, std::size_t size)] may be changed to
 calls to [`operator delete[`](void* ptr)] without affecting memory allocation.
+[:zh_CN]
+对 [`operator delete[`](void* ptr, std::size_t size)] 的调用可以被改成对
+[`operator delete[`](void* ptr)] 的调用而不影响内存分配。
 
 [enter:note]
 [:en]
-A conforming implementation is for [`operator delete[`](void* ptr, std::size_t size)} to simply call
-[`operator delete[](void* ptr)}. [exit:note]
+A conforming implementation is for [`operator delete[`](void* ptr, std::size_t
+size)] to simply call [`operator delete[`](void* ptr)].
+[:zh_CN]
+符合标准的一种实现是 [`operator delete[`](void* ptr, std::size_t size)] 只是简单
+地调用 [`operator delete[`](void* ptr)]。
+[exit:note]
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:default]
 [:en]
 [`operator delete[`](void* ptr, std::size_t size)] calls [`operator
 delete[`](ptr)], and [`operator delete[`](void* ptr)] calls [`operator
 delete(ptr)].
+[:zh_CN]
+[`operator delete[`](void* ptr, std::size_t size)] 调用 [`operator
+delete[`](ptr)]，而 [`operator delete[`](void* ptr)] 调用 [`operator
+delete(ptr)]。
 [exit:description]
 
 [%@library delete[!operator]]
@@ -156,54 +231,81 @@ void operator delete[](void* ptr, std::size_t size, const std::nothrow_t&) noexc
 [enter:description]
 [para:effects]
 [:en]
-The
-[+deallocation function] ([#basic.stc.dynamic.deallocation]) called by the
+The [+deallocation function] ([#basic.stc.dynamic.deallocation]) called by the
 implementation to render the value of [`ptr] invalid when the constructor
 invoked from a nothrow placement version of the array [~new-expression] throws
 an exception.
+[:zh_CN]
+当数组 [~new-表达式]的无抛出放置式版本所调用的构造函数抛出异常时被实现调用的
+[+回收函数]（[#basic.stc.dynamic.deallocation]），以使 [`ptr] 的值成为无效的。
 
 [para:replaceable]
 [:en]
 a [=Cpp] program may define a function with signature [`void operator
 delete[`](void* ptr, const std::nothrow_t&) noexcept] that displaces the default
 version defined by the [=Cpp] standard library.
+[:zh_CN]
+[=Cpp] 程序可以定义带有签名 [`void operator delete[`](void* ptr, const
+std::nothrow_t&) noexcept] 的函数来替代由 [=Cpp] 标准程序库所定义的预置版本。
 
 [:en]
 If this function (without [`size] parameter) is defined, the program should also
 define [`void operator delete[`](void* ptr, std::size_t size, const
 std::nothrow_t&) noexcept].
+[:zh_CN]
+如果定义了这个函数（没有 [`size] 形参），则程序最好同样定义 [`void operator
+delete[`]((void* ptr, std::size_t size, const std::nothrow_t&) noexcept]。
 
 [:en]
 If this function with [`size] parameter is defined, the program shall also
 define the version without the [`size] parameter.
+[:zh_CN]
+如果定义了带有 [`size] 形参的这个函数，则程序应当同样定义没有 [`size] 形参的版本
+。
 
 [enter:note]
 [:en]
 The default behavior below may change in the future, which will require
 replacing both deallocation functions when replacing the allocation function.
+[:zh_CN]
+下文的缺省行为可能于未来被改变为，当替换分配函数时同时要求替换两个回收函数。
 [exit:note]
 
 [para:requires]
 [:en]
 If an implementation has strict pointer safety ([#basic.stc.dynamic.safety])
 then [`ptr] shall be a safely-derived pointer.
+[:zh_CN]
+如果实现带有严格指针安全性（[#basic.stc.dynamic.safety]），[`ptr] 应当是安全衍生
+指针。
 
 [para:requires]
 [:en]
 If present, the [`std::size_t size] argument must equal the size argument
 passed to the allocation function that returned [`ptr].
+[:zh_CN]
+如果存在，则 [`std::size_t size] 实参应当等于对返回 [`ptr] 的分配函数所传递的
+[`size] 实参。
 
 [para:required]
 [:en]
 Calls to [`operator delete[`](void* ptr, std::size_t size, const
 std::nothrow_t&)] may be changed to calls to [`operator delete[`](void* ptr,
 const std::nothrow_t&)] without affecting memory allocation.
+[:zh_CN]
+对 [`operator delete[`](void* ptr, std::size_t size, const std::nothrow_t&)] 的
+调用可以被改成对 [`operator delete[`](void* ptr, const std::nothrow_t&)] 的调用
+而不影响内存分配。
 
 [enter:note]
 [:en]
 A conforming implementation is for [`operator delete[`](void* ptr, std::size_t
 size, const std::nothrow_t&)} to simply call [`operator delete[`](void* ptr,
 const std::nothrow_t&)].
+[:zh_CN]
+符合标准的一种实现是 [`operator delete[`](void* ptr, std::size_t size, const
+std::nothrow_t&)] 只是简单地调用 [`operator delete[`](void* ptr, const
+std::nothrow_t&)]。
 [exit:note]
 
 [para:default]
@@ -211,4 +313,8 @@ const std::nothrow_t&)].
 [`operator delete[`](void* ptr, std::size_t size, const std::nothrow_t&)] calls
 [`operator delete[`](ptr, std::nothrow)], and [`operator delete[`](void* ptr,
 const std::nothrow_t&)] calls [`operator delete[`](ptr)].
+[:zh_CN]
+[`operator delete[`](void* ptr, std::size_t size, const std::nothrow_t&)] 调用
+[`operator delete[`](ptr, std::nothrow)]，而 [`operator delete[`](void* ptr,
+const std::nothrow_t&)] 调用 [`operator delete[`](ptr)].
 [exit:description]

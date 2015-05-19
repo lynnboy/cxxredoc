@@ -1,5 +1,5 @@
 ﻿[section#set.terminate
-    [:en] [`set_terminate]
+    [`set_terminate]
 ]
 
 [%@library set_terminate]
@@ -12,13 +12,19 @@ terminate_handler set_terminate(terminate_handler f) noexcept;
 [:en]
 Establishes the function designated by [`f] as the current handler function for
 terminating exception processing.
+[:zh_CN]
+把由 [`f] 所代表的函数设立为异常处理终止的当前的处理函数。
 
 [para:remarks]
 [:en]
 It is unspecified whether a null pointer value designates the default
 [`terminate_handler].
+[:zh_CN]
+是否由空指针值来代表预制的 [`terminate_handler] 是未指明的。
 
 [para:returns]
 [:en]
 The previous [`terminate_handler].
+[:zh_CN]
+前一个 [`terminate_handler]。
 [exit:description]

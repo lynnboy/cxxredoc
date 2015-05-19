@@ -1,5 +1,5 @@
 ﻿[section#get.terminate
-    [:en] [`get_terminate]
+    [`get_terminate]
 ]
 
 [codeblock:declaration]
@@ -10,9 +10,13 @@ terminate_handler get_terminate() noexcept;
 [para:returns]
 [:en]
 The current [`terminate_handler].
+[:zh_CN]
+当前 [`terminate_handler]。
 
 [enter:note]
 [:en]
 This may be a null pointer value.
+[:zh_CN]
+可能为空指针值。
 [exit:note]
 [exit:description]

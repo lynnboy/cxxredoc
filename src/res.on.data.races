@@ -1,19 +1,26 @@
 ﻿[section#res.on.data.races
     [:en] Data race avoidance
+    [:zh_CN] 避免数据竞争
 ]
 
 [para]
 [:en]
 This section specifies requirements that implementations shall meet to prevent
 data races ([#intro.multithread]).
+[:zh_CN]
+对于本节给出的规定，实现应当满足以避免数据竞争（[#intro.multithread]）。
 
 [:en]
 Every standard library function shall meet each requirement unless otherwise
 specified.
+[:zh_CN]
+除非特别指出，每个标准程序库函数均应当符合每一条规定。
 
 [:en]
 Implementations may prevent data races in cases other than those specified
 below.
+[:zh_CN]
+实现可以避免下列情况之外的数据竞争。
 
 [para]
 [:en]
@@ -21,6 +28,10 @@ A [=Cpp] standard library function shall not directly or indirectly access
 objects ([#intro.multithread]) accessible by threads other than the current
 thread unless the objects are accessed directly or indirectly via the
 function[=']s arguments, including [`this].
+[:zh_CN]
+[=Cpp] 标准程序库函数不应直接或间接访问那些，可以从并非当前线程的线程中访问的
+对象（[#intro.multithread]），除非这些对象是通过该函数的实参（包括 [`this]）直接
+或间接访问的。
 
 [para]
 [:en]
@@ -28,6 +39,10 @@ A [=Cpp] standard library function shall not directly or indirectly modify
 objects ([#intro.multithread]) accessible by threads other than the current
 thread unless the objects are accessed directly or indirectly via the
 function[=']s non-const arguments, including [`this].
+[:zh_CN]
+[=Cpp] 标准程序库函数不应直接或间接改动那些，可以从并非当前线程的线程中访问的
+对象（[#intro.multithread]），除非这些对象是通过该函数的非-const 实参（包括
+[`this]）直接或间接访问的。
 
 [para]
 [enter:note]
@@ -35,6 +50,9 @@ function[=']s non-const arguments, including [`this].
 This means, for example, that implementations can[=']t use a static object for
 internal purposes without synchronization because it could cause a data race
 even in programs that do not explicitly share objects between threads.
+[:zh_CN]
+这意味着，比如，实现不能不进行同步地为内部用途使用静态对象，这是因为即使在并未
+明确地在线程间共享对象的程序中，这也可能会导致数据竞争。
 [exit:note]
 
 [para]
@@ -42,33 +60,49 @@ even in programs that do not explicitly share objects between threads.
 A [=Cpp] standard library function shall not access objects indirectly
 accessible via its arguments or via elements of its container arguments except
 by invoking functions required by its specification on those container elements.
+[:zh_CN]
+[=Cpp] 标准程序库函数不能访问那些，能够通过其实参或其容器实参的元素间接访问的
+对象，但可以调用它对容器元素的说明中所规定的函数。
 
 [para]
 [:en]
 Operations on iterators obtained by calling a standard library container or
 string member function may access the underlying container, but shall not modify
 it.
+[:zh_CN]
+对通过调用标准程序库容器或字符串的成员函数所获得的迭代器实施的操作，可以访问其
+底层容器，但不能改动它。
 
 [enter:note]
 [:en]
 In particular, container operations that invalidate iterators conflict with
 operations on iterators associated with that container.
+[:zh_CN]
+尤其是，能够使迭代器无效的容器操作，和与该容器关联的迭代器上的操作之间是冲突的。
 [exit:note]
 
 [para]
 [:en]
 Implementations may share their own internal objects between threads if the
 objects are not visible to users and are protected against data races.
+[:zh_CN]
+如果实现自己的内部对象对于用户不可见，且针对数据竞争进行了保护，实现就可以在线程
+之间共享这些对象。
 
 [para]
 [:en]
 Unless otherwise specified, [=Cpp] standard library functions shall perform all
 operations solely within the current thread if those operations have effects
 that are visible ([#intro.multithread]) to users.
+[:zh_CN]
+除非另行指出，如果 [=Cpp] 标准程序库函数实施的操作对用户可见
+（[#intro.multithread]），则应当仅在当前线程中实施其全部操作。
 
 [para]
 [enter:note]
 [:en]
 This allows implementations to parallelize operations if there are no visible
 [%side effects] side effects.
+[:zh_CN]
+这就允许实现在没有可见的[%副作用]副作用时对操作进行并行化。
 [exit:note]

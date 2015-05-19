@@ -1,17 +1,25 @@
 ﻿[section#numeric.special
     [:en] [`numeric_limits] spcializations
+    [:zh_CN] [`numeric_limits] 的特化式
 ]
 
 [para]
 [:en]
 All members shall be provided for all specializations.
+[:zh_CN]
+应该为所有特化式提供其所有成员。
 
 [:en]
 However, many values are only required to be meaningful under certain conditions
 (for example, [`epsilon()] is only meaningful if [`is_integer] is [`false]).
+[:zh_CN]
+然而，许多值都仅在特定条件下被要求有意义（例如，[`epsilon()] 仅当 [`is_integer]
+为 [`false] 时才有意义）。
 
 [:en]
 Any value that is not ["meaningful] shall be set to 0 or [`false].
+[:zh_CN]
+并非“有意义”的值应当设置为 0 或 [`false]。
 
 [para]
 [enter:example]
@@ -68,6 +76,8 @@ namespace std {
 [para]
 [:en]
 The specialization for [`bool] shall be provided as follows:
+[:zh_CN]
+应当按如下提供对 [`bool] 的特化式：
 
 [%@library numeric_limits<bool>]
 [codeblock:synopsis]

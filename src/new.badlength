@@ -1,8 +1,9 @@
 ﻿[section#new.badlength
-[%@library bad_array_new_length]
     [:en] Class [`bad_array_new_length]
+    [:zh_CN] 类 [`bad_array_new_length]
 ]
 
+[%@library bad_array_new_length]
 [codeblock:synopsis]
 namespace std {
   class bad_array_new_length : public bad_alloc {
@@ -18,6 +19,9 @@ The class [`bad_array_new_length] defines the type of objects thrown as
 exceptions by the implementation to report an attempt to allocate an array of
 size less than zero or greater than an implementation-defined limit
 ([#expr.new]).
+[:zh_CN]
+[`bad_array_new_length] 类定义了当实现报告试图分配大小小于零或大于实现定义的额度
+的数组（[#expr.new]）时所抛出的异常对象的类型。
 
 [%@library bad_array_new_length[!bad_array_new_length]]
 [codeblock:declaration]
@@ -28,9 +32,13 @@ bad_array_new_length() noexcept;
 [para:effects]
 [:en]
 constructs an object of class [`bad_array_new_length].
+[:zh_CN]
+构造类 [`bad_array_new_length] 的对象。
 
 [para:remarks]
 [:en]
 the result of calling [`what()] on the newly constructed object is
 implementation-defined.
+[:zh_CN]
+在新构造的对象上调用 [`what()] 的结果是由实现定义的。
 [exit:description]

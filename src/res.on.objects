@@ -1,20 +1,28 @@
 ﻿[section#res.on.objects
     [:en] Shared objects and the library
+    [:zh_CN] 共享对象和程序库
 ]
 
 [para]
 [:en]
 The behavior of a program is undefined if calls to standard library functions
 from different threads may introduce a data race.
+[:zh_CN]
+如果从不同线程中对标准程序库函数的调用可能导致数据竞争，则程序的行为是未定义的。
 
 [:en]
 The conditions under which this may occur are specified in [#res.on.data.races].
+[:zh_CN]
+[#res.on.data.races] 中说明了这在何种条件下将会发生。
 
 [enter:note]
 [:en]
 Modifying an object of a standard library type that is shared between threads
 risks undefined behavior unless objects of that type are explicitly specified as
 being sharable without data races or the user supplies a locking mechanism.
+[:zh_CN]
+改变某个在线程之间共享的标准程序库类型的对象，除非该类型明确说明是可以无数据竞争
+共享的，或者由用户提供了锁定机制，否则有引发未定义行为的风险。
 [exit:note]
 
 [para]
@@ -26,7 +34,14 @@ happens before any other member function invocation on that object and, unless
 otherwise specified, to ensure that completion of any member function invocation
 other than destruction on such an object happens before destruction of that
 object.
+[:zh_CN]
+特别是，程序需要确保任何具有标准程序库中定义的类类型的对象的构造函数的完成，均
+发生早于对该对象的任何其他成员函数调用，并且除非另外说明，需要确保对这种对象的除
+析构之外的任何成员函数调用的完成，均发生早于该对象的销毁。
 
 [:en]
-This applies even to objects such as mutexes intended for thread synchronization.
+This applies even to objects such as mutexes intended for thread
+synchronization.
+[:zh_CN]
+即使对于互斥体这样的用于线程同步的对象，这也适用。
 [exit:note]

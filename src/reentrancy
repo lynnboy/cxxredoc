@@ -1,5 +1,6 @@
 ﻿[section#reentrancy
     [:en] Reentrancy
+    [:zh_CN] 可重入性
 ]
 
 [para]
@@ -8,3 +9,6 @@ Except where explicitly specified in this standard, it is [%@impldef which
 functions in Standard C++ library may be recursively reentered]
 implementation-defined which functions in the Standard [=Cpp] library may be
 recursively reentered.
+[:zh_CN]
+除非在本标准中明确说明，标准 [=Cpp] 程序库中的哪些函数可以递归地重入是
+[%@impldef 标准 C++ 程序库中的哪些函数可以递归地重入]由实现定义的。
