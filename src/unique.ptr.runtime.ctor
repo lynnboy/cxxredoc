@@ -1,8 +1,9 @@
 ﻿[section#unique.ptr.runtime.ctor
     [:en] [`unique_ptr] constructors
+    [:zh_CN] [`unique_ptr] 的构造函数
 ]
 
-[%@library unique_ptr[!constructor]]
+[%@library unique_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class U> explicit unique_ptr(U p) noexcept;
 template <class U> unique_ptr(U p, [=Seebelow] d) noexcept;
@@ -14,17 +15,22 @@ template <class U> unique_ptr(U p, [=Seebelow] d) noexcept;
 [:en] These constructors behave the same as the constructors that take a
 [`pointer] parameter in the primary template except that they shall not
 participate in overload resolution unless either
+[:zh_CN] 这些构造函数的行为与主模板中接受 [`pointer] 形参的构造函数相同，但它们
+不能参与重载决议，除非
 
 [list]
 [item]
 [:en] [`U] is the same type as [`pointer], or
+[:zh_CN] [`U] 与 [`pointer] 是相同类型，或者
 [item]
 [:en] [`pointer] is the same type as [`element_type*], [`U] is a pointer type
 [`V*], and [`V(*)[`]] is convertible to [`element_type(*)[`]].
+[:zh_CN] [`pointer] 与 [`element_type*] 是相同类型，[`U] 为指针类型 [`V*]，且
+[`V(*)[`]] 可以转换为 [`element_type(*)[`]]。
 [list:end]
 [exit:description]
 
-[%@library unique_ptr[!constructor]]
+[%@library unique_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class U, class E>
   unique_ptr(unique_ptr<U, E>&& u) noexcept;
@@ -36,23 +42,33 @@ template <class U, class E>
 This constructor behaves the same as in the primary template, except that it
 shall not participate in overload resolution unless all of the following
 conditions hold, where [`UP] is [`unique_ptr<U, E>]:
+[:zh_CN] 这个构造函数的行为与主模板中的构造函数相同，但它不能参与重载决议，除非
+符合以下所有条件，其中 [`UP] 为 [`unique_ptr<U, E>]：
 
 [list]
 [item]
 [:en] [`U] is an array type, and
+[:zh_CN] [`U] 为数组类型，并且
 [item]
-[:en] [`pointer] is the same type as {element_type*], and
+[:en] [`pointer] is the same type as [`element_type*], and
+[:zh_CN] [`pointer] 与 [`element_type*] 是相同类型，并且
 [item]
 [:en] [`UP::pointer] is the same type as [`UP::element_type*], and
+[:zh_CN] [`UP::pointer] 与 [`UP::element_type*] 是相同类型，并且
 [item]
 [:en] [`UP::element_type(*)[`]] is convertible to [`element_type(*)[`]], and
+[:zh_CN] [`UP::element_type(*)[`]] 可以转换为 [`element_type(*)[`]]，并且
 [item]
 [:en] either [`D] is a reference type and [`E] is the same type as [`D], or [`D]
 is not a reference type and [`E] is implicitly convertible to [`D].
+[:zh_CN] 要么 [`D] 是引用类型且 [`E] 与 [`D] 类型相同，要么 [`D] 不是引用类型且
+[`E] 可以隐式转换为 [`D]。
 [list:end]
 
 [enter:note]
 [:en]
 this replaces the overload-resolution specification of the primary template
+[:zh_CN]
+这替换了主模板的重载决议的说明。
 [exit:note]
 [exit:description]
