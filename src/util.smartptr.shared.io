@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.io
     [:en] [`shared_ptr] I/O
+    [:zh_CN] [`shared_ptr] 的 I/O
 ]
 
 [%@library operator<<[!shared_ptr]]
@@ -12,7 +13,9 @@ template<class E, class T, class Y>
 [enter:description]
 [para:effects]
 [:en] [`os << p.get();].
+[:zh_CN] [`os << p.get();]。
 
 [para:returns]
 [:en] [`os].
+[:zh_CN] [`os]。
 [exit:description]
