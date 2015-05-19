@@ -1,5 +1,6 @@
 ﻿[section#bitset.hash
     [:en] [`bitset] hash support
+    [:zh_CN] [`bitset] 的散列支持
 ]
 
 [%@library hash_code]
@@ -11,4 +12,5 @@ template <size_t N> struct hash<bitset<N> >;
 [para]
 [:en] The template specialization shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 该模板特化式应当满足类模板 [`hash] 的规定（[#unord.hash]）。
 [exit:description]
