@@ -1,5 +1,5 @@
 ﻿[section#util.smartptr.getdeleter
-    [:en] [`get_deleter]
+    [`get_deleter]
 ]
 
 [%@library shared_ptr[!get_deleter]]
@@ -12,14 +12,21 @@ template<class D, class T> D* get_deleter(const shared_ptr<T>& p) noexcept;
 [para:returns]
 [:en] If [`p] [+owns] a deleter [`d] of type cv-unqualified [`D], returns
 [`std:addressof(d)]; otherwise returns [`nullptr].
+[:zh_CN] 如果 [`p] [+拥有]一个 cv-未限定的 [`D] 类型的删除器 [`d]，则返回
+[`std:addressof(d)]；否则，返回 [`nullptr]。
 
 [:en] The returned pointer remains valid as long as there exists a [`shared_ptr]
 instance that owns [`d].
+[:zh_CN] 所返回的指针，只要存在某个拥有 [`d] 的 [`shared_ptr] 实例，就一直保持
+有效。
 
 [enter:note]
 [:en] It is unspecified whether the pointer remains valid longer than that.
+[:zh_CN] 这个指针保持有效的时期是否长于它是未指明的。
 
 [:en] This can happen if the implementation doesn[=']t destroy the deleter until
 all [`weak_ptr] instances that share ownership with [`p] have been destroyed.
+[:zh_CN] 这可能发生于当实现直到与 [`p] 共享所有权的所有 [`weak_ptr] 实例均被销毁
+之后才销毁其删除器的情况中。
 [exit:note]
 [exit:description]
