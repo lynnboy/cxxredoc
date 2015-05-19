@@ -1,5 +1,6 @@
 ﻿[section#bitset.cons
     [:en] [`bitset] constructors
+    [:zh_CN] [`bitset] 构造函数
 ]
 
 [%@library bitset[!bitset]]
@@ -10,6 +11,7 @@ constexpr bitset() noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`bitset<N>], initializing all bits to zero.
+[:zh_CN] 构造类 [`bitset<N>] 的一个对象，将其所有位初始化为零。
 [exit:description]
 
 [%@library bitset[!bitset]]
@@ -21,11 +23,16 @@ constexpr bitset(unsigned long long val) noexcept;
 [para:effects]
 [:en] Constructs an object of class [`bitset<N>], initializing the first [`M]
 bit positions to the corresponding bit values in [`val].
+[:zh_CN] 构造类 [`bitset<N>] 的一个对象，将其前 [`M] 个位位置初始化为 [`val] 中
+的对应位值。
 
 [:en] [`M] is the smaller of [`N] and the number of bits in the value
 representation ([#basic.types]) of [`unsigned long long].
+[:zh_CN] [`M] 为 [`N] 与 [`unsigned long long] 的值表示（[#basic.types]）中的位
+的数量之间较小的值。
 
 [:en] If [`M < N], the remaining bit positions are initialized to zero.
+[:zh_CN] 若 [`M < N]，则剩余的位位置被初始化为零。
 [exit:description]
 
 [%@library bitset[!bitset]]
@@ -42,41 +49,57 @@ bitset(const basic_string<charT, traits, Allocator>& str,
 [enter:description]
 [para:requires]
 [:en] [`pos <= str.size()].
+[:zh_CN] [`pos <= str.size()]。
 
 [para:throws]
 [:en] [%@library out_of_range] [`out_of_range] if [`pos > str.size()].
+[:zh_CN] 当 [`pos > str.size()] 时抛出[%@library out_of_range] [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the initializing string as the
 smaller of [`n] and [`str.size() - pos].
+[:zh_CN] 将初始化字符串的有效长度 [`rlen] 确定为 [`n] 与 [`str.size() - pos] 中
+较小的值。
 
 [para:~]
 [:en] The function then throws [%@library invalid_argument] [`invalid_argument]
 if any of the [`rlen] characters in [`str] beginning at position [`pos] is
 other than [`zero] or [`one].
+[:zh_CN] 如果 [`str] 中开始于 [`pos] 位置的 [`rlen] 个字符中有任何一个不是
+[`zero] 或 [`one]，则函数抛出 [%@library invalid_argument] [`invalid_argument]。
 
 [:en] The function uses [`traits::eq()] to compare the character values.
+[:zh_CN] 函数利用 [`traits::eq()] 来比较字符的值。
 
 [para:~]
 [:en] Otherwise, the function constructs an object of class [`bitset<N>],
 initializing the first [`M] bit positions to values determined from the
 corresponding characters in the string [`str].
+[:zh_CN] 否则，该函数构造 [`bitset<N>] 类的一个对象，将其前 [`M] 个位位置初始化
+为由字符串 [`str] 中的对应字符所确定的值。
 
 [:en] [`M] is the smaller of [`N] and [`rlen].
+[:zh_CN] [`M] 为 [`N] 与 [`rlen] 之间的较小值。
 
 [para]
 [:en] An element of the constructed object has value zero if the corresponding
 character in [`str], beginning at position [`pos], is [`zero].
+[:zh_CN] 所构造的对象的元素，如果其在 [`str] 中开始于位置 [`pos] 的对应字符为
+[`zero]，则它的值为零。
 
 [:en] Otherwise, the element has the value one.
+[:zh_CN] 否则，该元素的值为一。
 
 [:en] Character position [`pos + M - 1] corresponds to bit position zero.
+[:zh_CN] 字符位置 [`pos + M - 1] 对应于位位置零。
 
 [:en] Subsequent decreasing character positions correspond to increasing bit
 positions.
+[:zh_CN] 随后的字符位置按降序对应于升序的位位置。
 
 [para]
 [:en] If [`M < N], remaining bit positions are initialized to zero.
+[:zh_CN] 若 [`M < N]，则剩余的位位置被初始化为零。
 [exit:description]
 
 [%@library bitset[!bitset]]
@@ -91,6 +114,7 @@ template <class charT>
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`bitset<N>] as if by
+[:zh_CN] 构造类 [`bitset<N>] 的一个对象，如同
 
 [codeblock]
 bitset(
