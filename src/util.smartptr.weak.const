@@ -1,8 +1,9 @@
 ﻿[section#util.smartptr.weak.const
     [:en] [`weak_ptr] constructors
+    [:zh_CN] [`weak_ptr] 的构造函数
 ]
 
-[%@library weak_ptr[!constructor]]
+[%@library weak_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr weak_ptr() noexcept;
 [codeblock:end]
@@ -10,12 +11,14 @@ constexpr weak_ptr() noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an [+empty] [`weak_ptr] object.
+[:zh_CN] 构造一个[+空] [`weak_ptr] 对象。
 
 [para:postconditions]
 [:en] [`use_count() == 0].
+[:zh_CN] [`use_count() == 0]。
 [exit:description]
 
-[%@library weak_ptr[!constructor]]
+[%@library weak_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 weak_ptr(const weak_ptr& r) noexcept;
 template<class Y> weak_ptr(const weak_ptr<Y>& r) noexcept;
@@ -26,17 +29,22 @@ template<class Y> weak_ptr(const shared_ptr<Y>& r) noexcept;
 [para:remark]
 [:en] The second and third constructors shall not participate in overload
 resolution unless [`Y*] is implicitly convertible to [`T*].
+[:zh_CN] 除非 [`Y*] 可以隐式转换为 [`T*]，否则第二和第三个构造函数不能参与重载
+决议。
 
 [para:effects]
 [:en] If [`r] is [+empty], constructs an [+empty] [`weak_ptr] object; otherwise,
 constructs a [`weak_ptr] object that [+shares ownership] with [`r] and stores a
 copy of the pointer stored in [`r].
+[:zh_CN] 如果 [`r] 为[+空]，则构造一个[+空] [`weak_ptr] 对象；否则构造一个与
+[`r] [+共享所有权]并存储 [`r] 所存储的指针的一个副本的 [`weak_ptr] 对象。
 
 [para:postconditions]
 [:en] [`use_count() == r.use_count()].
+[:zh_CN] [`use_count() == r.use_count()]。
 [exit:description]
 
-[%@library weak_ptr[!constructor]]
+[%@library weak_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 weak_ptr(weak_ptr&& r) noexcept;
 template<class Y> weak_ptr(weak_ptr<Y>&& r) noexcept;
@@ -46,14 +54,19 @@ template<class Y> weak_ptr(weak_ptr<Y>&& r) noexcept;
 [para:remark]
 [:en] The second constructor shall not participate in overload resolution unless
 [`Y*] is implicitly convertible to [`T*].
+[:zh_CN] 除非 [`Y*] 可以隐式转换为 [`T*]，否则第二个构造函数不能参与重载决议。
 
 [para:effects]
 [:en] Move-constructs a [`weak_ptr] instance from [`r].
+[:zh_CN] 以 [`r] 移动构造一个 [`weak_ptr] 实例。
 
 [para:postconditions]
 [:en] [`*this] shall contain the old value of [`r].
+[:zh_CN] [`*this] 应当包含 [`r] 的原值。
 
 [:en] [`r] shall be [+empty].
+[:zh_CN] [`r] 应当为[+空]。
 
 [:en] [`r.use_count() == 0].
+[:zh_CN] [`r.use_count() == 0]。
 [exit:description]
