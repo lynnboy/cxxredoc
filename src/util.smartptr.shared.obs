@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.obs
     [:en] [`shared_ptr] observers
+    [:zh_CN] [`shared_ptr] 探察函数
 ]
 
 [%@library shared_ptr[!get]]
@@ -11,6 +12,7 @@ T* get() const noexcept;
 [enter:description]
 [para:returns]
 [:en] the stored pointer.
+[:zh_CN] 所存储的指针。
 [exit:description]
 
 [%@library shared_ptr[!operator*]]
@@ -22,17 +24,22 @@ T& operator*() const noexcept;
 [enter:description]
 [para:requires]
 [:en] [`get() != 0].
+[:zh_CN] [`get() != 0]。
 
 [para:returns]
 [:en] [`*get()].
+[:zh_CN] [`*get()]。
 
 [para:notes]
 [:en] When [`T] is [`void], it is unspecified whether this member function is
 declared.
+[:zh_CN] 若 [`T] 为 [`void]，则是否声明这个成员函数是未指明的。
 
 [:en] If it is declared, it is unspecified what its return type is, except that
 the declaration (although not necessarily the definition) of the function shall
 be well formed.
+[:zh_CN] 若其被声明，则其返回类型是未指明的，但该函数的声明式（虽然它不必是
+定义式）应当是良构的。
 [exit:description]
 
 [%@library shared_ptr[!operator->]]
@@ -44,9 +51,11 @@ T* operator->() const noexcept;
 [enter:description]
 [para:requires]
 [:en] [`get() != 0].
+[:zh_CN] [`get() != 0]。
 
 [para:returns]
 [:en] [`get()].
+[:zh_CN] [`get()]。
 [exit:description]
 
 [%@library shared_ptr[!use_count]]
@@ -59,10 +68,13 @@ long use_count() const noexcept;
 [para:returns]
 [:en] the number of [`shared_ptr] objects, [`*this] included, that [+share
 ownership] with [`*this], or [`0] when [`*this] is [+empty].
+[:zh_CN] 与 [`*this] [+共享所有权]的 [`shared_ptr] 对象（包括 [`*this]）的数量，
+或者当 [`*this] 为[+空]时返回 [`0]。
 
 [para]
 [enter:note]
 [:en] [`use_count()] is not necessarily efficient.
+[:zh_CN] [`use_count()] 不必是高效的。
 [exit:note]
 [exit:description]
 
@@ -75,13 +87,17 @@ bool unique() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`use_count() == 1].
+[:zh_CN] [`use_count() == 1]。
 
 [para]
 [enter:note]
 [:en] [`unique()] may be faster than [`use_count()].
+[:zh_CN] [`unique()] 可能比 [`use_count()] 更快。
 
 [:en] If you are using [`unique()] to implement copy on write, do not rely on a
 specific value when [`get() == nullptr].
+[:zh_CN] 如果要利用 [`unique()] 来实现写时复制，则不要依赖当 [`get() == nullptr]
+时的特定值。
 [exit:note]
 [exit:description]
 
@@ -94,6 +110,7 @@ explicit operator bool() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`get() != 0].
+[:zh_CN] [`get() != 0]。
 [exit:description]
 
 [%@library owner_before[!shared_ptr]]
@@ -106,16 +123,21 @@ template<class U> bool owner_before(weak_ptr<U> const& b) const;
 [enter:description]
 [para:returns]
 [:en] An unspecified value such that
+[:zh_CN] 一个未指明的值，使得
 
 [list]
 [item]
 [:en] [`x.owner_before(y)] defines a strict weak ordering as defined in
 [#alg.sorting];
+[:zh_CN] [`x.owner_before(y)] 定义一种如 [#alg.sorting] 所定义的严格弱序关系；
 
 [item]
 [:en] under the equivalence relation defined by [`owner_before],
 [`!a.owner_before(b) && !b.owner_before(a)], two [`shared_ptr] or [`weak_ptr]
 instances are equivalent if and only if they share ownership or are both empty.
+[:zh_CN] 基于由 [`owner_before] 所定义的等价关系 [`!a.owner_before(b) &&
+!b.owner_before(a)]，当且仅当两个 [`shared_ptr] 或 [`weak_ptr] 实例共享所有权，
+或者均为空时，它们是等价的。
 [list:end]
 
 [exit:description]
