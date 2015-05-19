@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.single.ctor
     [:en] [`unique_ptr] constructors
+    [:zh_CN] [`unique_ptr] 的构造函数
 ]
 
 [%@library unique_ptr[!unique_ptr]]
@@ -11,19 +12,27 @@ constexpr unique_ptr() noexcept;
 [para:requires]
 [:en] [`D] shall satisfy the requirements of [`DefaultConstructible] (Table
 [#defaultconstructible]), and that construction shall not throw an exception.
+[:zh_CN] [`D] 应当满足 [`DefaultConstructible] 的规定
+（表 [#defaultconstructible]），且该构造过程不能抛出任何异常。
 
 [para:effects]
 [:en] Constructs a [`unique_ptr] object that owns nothing, value-initializing
 the stored pointer and the stored deleter.
+[:zh_CN] 构造一个不拥有任何东西的 [`unique_ptr]，值初始化所存储的指针和所存储的
+删除器。
 
 [para:postconditions]
 [:en] [`get() == nullptr].
+[:zh_CN] [`get() == nullptr]。
 
 [:en] [`get_deleter()] returns a reference to the stored deleter.
+[:zh_CN] [`get_deleter()] 返回一个所存储的删除器的引用。
 
 [para:notes]
 [:en] If this constructor is instantiated with a pointer type or reference type
 for the template argument [`D], the program is ill-formed.
+[:zh_CN] 如果这个构造函数以指针类型或引用类型作为模板实参 [`D] 进行实例化，则
+程序非良构。
 [exit:description]
 
 [%@library unique_ptr[!unique_ptr]]
@@ -35,19 +44,27 @@ explicit unique_ptr(pointer p) noexcept;
 [para:requires]
 [:en] [`D] shall satisfy the requirements of [`DefaultConstructible] (Table
 [#defaultconstructible]), and that construction shall not throw an exception.
+[:zh_CN] [`D] 应当满足 [`DefaultConstructible] 的规定
+（表 [#defaultconstructible]），且该构造过程不能抛出任何异常。
 
 [para:effects]
 [:en] Constructs a [`unique_ptr] which owns [`p], initializing the stored
 pointer with [`p] and value-initializing the stored deleter.
+[:zh_CN] 构造一个拥有 [`p] 的 [`unique_ptr]，以 [`p] 初始化所存储的指针，并值
+初始化所存储的删除器。
 
 [para:postconditions]
 [:en] [`get() == p].
+[:zh_CN] [`get() == p]。
 
 [:en] [`get_deleter()] returns a reference to the stored deleter.
+[:zh_CN] [`get_deleter()] 返回一个所存储的删除器的引用。
 
 [para:notes]
 [:en] If this constructor is instantiated with a pointer type or reference type
 for the template argument [`D], the program is ill-formed.
+[:zh_CN] 如果这个构造函数以指针类型或引用类型作为模板实参 [`D] 进行实例化，则
+程序非良构。
 [exit:description]
 
 [%@library unique_ptr[!unique_ptr]]
@@ -60,8 +77,10 @@ unique_ptr(pointer p, [=Seebelow] d2) noexcept;
 [para]
 [:en] The signature of these constructors depends upon whether [`D] is a
 reference type.
+[:zh_CN] 这些构造函数的签名依赖于 [`D] 是否是引用类型。
 
 [:en] If [`D] is non-reference type [`A], then the signatures are:
+[:zh_CN] 若 [`D] 是非引用类型 [`A]，则其签名为：
 
 [codeblock:notation]
 unique_ptr(pointer p, const A& d);
@@ -70,6 +89,7 @@ unique_ptr(pointer p, A&& d);
 
 [para]
 [:en] If [`D] is an lvalue reference type [`A&], then the signatures are:
+[:zh_CN] 若 [`D] 是左值引用类型 [`A&]，则其签名为：
 
 [codeblock:notation]
 unique_ptr(pointer p, A& d);
@@ -78,6 +98,7 @@ unique_ptr(pointer p, A&& d);
 
 [para]
 [:en] If [`D] is an lvalue reference type [`const A&], then the signatures are:
+[:zh_CN] 若 [`D] 为左值引用类型 [`const A&]，则其签名为：
 
 [codeblock:notation]
 unique_ptr(pointer p, const A& d);
@@ -88,66 +109,88 @@ unique_ptr(pointer p, const A&& d);
 [list]
 [item]
 [:en] If [`D] is not an lvalue reference type then
+[:zh_CN] 若 [`D] 不是左值引用类型，则
 
 [list]
 [item]
 [:en] If [`d] is an lvalue or [`const] rvalue then the first constructor of this
 pair will be selected.
+[:zh_CN] 若 [`d] 是左值或 [`const] 右值，则将选择这对构造函数中的第一个。
 
 [:en] [`D] shall satisfy the requirements of [`CopyConstructible] (Table
 [#copyconstructible]), and the copy constructor of [`D] shall not throw an
 exception.
+[:zh_CN] [`D] 应当满足 [`CopyConstructible] 的规定（表 [#copyconstructible]），
+且 [`D] 的复制构造函数不能抛出任何异常。
 
 [:en] This [`unique_ptr] will hold a copy of [`d].
+[:zh_CN] 此 [`unique_ptr] 将持有 [`d] 的副本。
 
 [item]
 [:en] Otherwise, [`d] is a non-const rvalue and the second constructor of this
 pair will be selected.
+[:zh_CN] 否则，[`d] 为非-const 右值并选择这对构造函数中的第二个。
 
 [:en] [`D] shall satisfy the requirements of [`MoveConstructible] (Table
 [#moveconstructible]), and the move constructor of [`D] shall not throw an
 exception.
+[:zh_CN] [`D] 应当满足 [`MoveConstructible] 的规定（表 [#moveconstructible]），
+且 [`D] 的移动构造函数不能抛出任何异常。
 
 [:en] This [`unique_ptr] will hold a value move constructed from [`d].
+[:zh_CN] 此 [`unique_ptr] 将持有移动构造自 [`d] 的值。
 [list:end]
 
 [item]
 [:en] Otherwise [`D] is an lvalue reference type.
+[:zh_CN] 否则 [`D] 为左值引用类型。
 
 [:en] [`d] shall be reference-compatible with one of the constructors.
+[:zh_CN] [`d] 应当引用兼容于这些构造函数之一。
 
 [:en] If [`d] is an rvalue, it will bind to the second constructor of this pair
 and the program is ill-formed.
+[:zh_CN] 若 [`d] 为右值，则它将绑定到这对构造函数中的第二个上，且程序非良构。
 
 [enter:note]
 [:en] The diagnostic could be implemented using a [`static_assert] which assures
 that [`D] is not a reference type.
+[:zh_CN] 此诊断可以使用确保 [`D] 不是引用类型的 [`static_assert] 来实现。
 [exit:note]
 
 [:en] Else [`d] is an lvalue and will bind to the first constructor of this
 pair.
+[:zh_CN] 否则 [`d] 为左值且将绑定到这对构造函数中的第一个上。
 
 [:en] The type which [`D] references need not be [`CopyConstructible] nor
 [`MoveConstructible].
+[:zh_CN] [`D] 所指代的类型不必为 [`CopyConstructible] 或 [`MoveConstructible]。
 
 [:en] This [`unique_ptr] will hold a [`D] which refers to the lvalue [`d].
+[:zh_CN] 此 [`unique_ptr] 将持有指代左值 [`d] 的 [`D]。
 
 [enter:note]
 [:en] [`D] may not be an rvalue reference type.
+[:zh_CN] [`D] 可以不是右值引用类型。
 [exit:note]
 [list:end]
 
 [para:effects]
 [:en] Constructs a [`unique_ptr] object which owns [`p], initializing the stored
 pointer with [`p] and initializing the deleter as described above.
+[:zh_CN] 构造一个拥有 [`p] 的 [`unique_ptr] 对象，以 [`p] 初始化所存储的指针并
+如上文所述初始化删除器。
 
 [para:postconditions]
 [:en] [`get() == p].
+[:zh_CN] [`get() == p]。
 
 [:en] [`get_deleter()] returns a reference to the stored deleter.
+[:zh_CN] [`get_deleter()] 返回一个所存储的删除器的引用。
 
 [:en] If [`D] is a reference type then [`get_deleter()] returns a reference to
 the lvalue [`d].
+[:zh_CN] 若 [`D] 是引用类型，则 [`get_deleter()] 返回一个指代左值 [`d] 的引用。
 
 [para:~]
 [enter:example]
@@ -155,17 +198,22 @@ the lvalue [`d].
 [codeblock]
 D d;
 unique_ptr<int, D> p1(new int, D());        // [:en] [`D] must be [`MoveConstructible]
+                                            // [|:zh_CN] [`D] 必须为 [`MoveConstructible]
 unique_ptr<int, D> p2(new int, d);          // [:en] [`D] must be [`CopyConstructible]
+                                            // [|:zh_CN] [`D] 必须为 [`CopyConstructible]
 unique_ptr<int, D&> p3(new int, d);         // [:en] [`p3] holds a reference to [`d]
+                                            // [|:zh_CN] [`p3] 持有指代 [`d] 的引用
 unique_ptr<int, const D&> p4(new int, D()); // [:en] error: rvalue deleter object combined
+                                            // [|:zh_CN] 错误：右值删除器对象与
                                             // [:en@~] with reference deleter type
+                                            // [|:zh_CN@~] 引用删除器类型的组合
 [codeblock:end]
 
 [exit:example]
 
 [exit:description]
 
-[%@library unique_ptr[!constructor]]
+[%@library unique_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 unique_ptr(unique_ptr&& u) noexcept;
 [codeblock:end]
@@ -174,33 +222,45 @@ unique_ptr(unique_ptr&& u) noexcept;
 [para:requires]
 [:en] If [`D] is not a reference type, [`D] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]).
+[:zh_CN] 若 [`D] 不是引用类型，则 [`D] 应当满足 [`MoveConstructible] 的规定
+（表 [#moveconstructible]）。
 
 [:en] Construction of the deleter from an rvalue of type [`D] shall not throw an
 exception.
+[:zh_CN] 从某个类型 [`D] 的右值构造删除器时不能抛出任何异常。
 
 [para:effects]
 [:en] Constructs a [`unique_ptr] by transferring ownership from [`u] to
 [`*this].
+[:zh_CN] 通过从 [`u] 向 [`*this] 转移所有权构造一个 [`unique_ptr]。
 
 [:en] If [`D] is a reference type, this deleter is copy constructed from
 [`u][=']s deleter; otherwise, this deleter is move constructed from [`u][=']s
 deleter.
+[:zh_CN] 若 [`D] 为引用类型，则该删除器从 [`u] 的删除器进行复制构造；否则，该
+删除器从 [`u] 的删除器进行移动构造。
 
 [enter:note]
 [:en] The deleter constructor can be implemented with [`std::forward<D>].
+[:zh_CN] 删除器的构造函数可以用 [`std::forward<D>] 来实现。
 [exit:note]
 
 [para:postconditions]
 [:en] [`get()] yields the value [`u.get()] yielded before the construction.
+[:zh_CN] [`get()] 产生构造之前 [`u.get()] 曾产生的值。
 
 [:en] [`get_deleter()] returns a reference to the stored deleter that was
 constructed from [`u.get_deleter()].
+[:zh_CN] [`get_deleter()] 返回一个指代其所存储的构造自 [`u.get_deleter()] 的
+删除器的引用。
 
 [:en] If [`D] is a reference type then [`get_deleter()] and [`u.get_deleter()]
 both reference the same lvalue deleter.
+[:zh_CN] 若 [`D] 是引用类型则 [`get_deleter()] 和 [`u.get_deleter()] 都指代相同
+的删除器左值。
 [exit:description]
 
-[%@library unique_ptr[!constructor]]
+[%@library unique_ptr[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class U, class E> unique_ptr(unique_ptr<U, E>&& u) noexcept;
 [codeblock:end]
@@ -209,38 +269,54 @@ template <class U, class E> unique_ptr(unique_ptr<U, E>&& u) noexcept;
 [para:requires]
 [:en] If [`E] is not a reference type, construction of the deleter from an
 rvalue of type [`E] shall be well formed and shall not throw an exception.
+[:zh_CN] 若 [`E] 不是引用类型，则从类型 [`E] 的右值构造删除器应当是良构的，且
+不能抛出任何异常。
 
 [:en] Otherwise, [`E] is a reference type and construction of the deleter from
 an lvalue of type [`E] shall be well formed and shall not throw an exception.
+[:zh_CN] 否则，[`E] 为引用类型，从类型 [`E] 的左值构造删除器应当是良构的，且不能
+抛出任何异常。
 
 [para:remarks]
 [:en] This constructor shall not participate in overload resolution unless:
+[:zh_CN] 该构造函数不能参与重载决议，除非：
 
 [list]
 [item]
 [:en] [`unique_ptr<U, E>::pointer] is implicitly convertible to [`pointer],
+[:zh_CN] [`unique_ptr<U, E>::pointer] 可以隐式转换为 [`pointer]，
 [item]
 [:en] [`U] is not an array type, and
+[:zh_CN] [`U] 不是数组类型，并且
 [item]
 [:en] either [`D] is a reference type and [`E] is the same type as [`D], or
 [`D] is not a reference type and [`E] is implicitly convertible to [`D].
+[:zh_CN] 或者 [`D] 为引用类型且 [`E] 与 [`D] 是相同类型，或者 [`D] 并非引用类型
+且 [`E] 可以隐式转换为 [`D]。
 [list:end]
 
 [para:effects]
 [:en] Constructs a [`unique_ptr] by transferring ownership from [`u] to
 [`*this].
+[:zh_CN] 通过从 [`u] 向 [`*this] 转移所有权构造一个 [`unique_ptr]。
 
 [:en] If [`E] is a reference type, this deleter is copy constructed from
 [`u][=']s deleter; otherwise, this deleter is move constructed from [`u][=']s
 deleter.
+[:zh_CN] 若 [`E] 为引用类型，则该删除器从 [`u] 的删除器进行复制构造；否则，该
+删除器从 [`u] 的删除器进行移动构造。
 
 [enter:note]
 [:en] The deleter constructor can be implemented with [`std::forward<E>].
+[:zh_CN] 删除器的构造函数可以用 [`std::forward<E>] 来实现。
 [exit:note]
 
 [para:postconditions]
 [:en] [`get()] yields the value [`u.get()] yielded before the construction.
+[:zh_CN] [`get()] 产生构造之前 [`u.get()] 曾产生的值。
 
 [:en] [`get_deleter()] returns a reference to the stored deleter that was
 constructed from [`u.get_deleter()].
+[:zh_CN] [`get_deleter()] 返回一个指代其所存储的构造自 [`u.get_deleter()] 的
+删除器的引用。
 [exit:description]
