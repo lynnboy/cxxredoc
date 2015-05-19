@@ -1,13 +1,17 @@
 ﻿[section#util.smartptr.enab
     [:en] Class template [`enable_shared_from_this]
+    [:zh_CN] 类模板 [`enable_shared_from_this]
 ]
 
 [para]
 [%@library enable_shared_from_this]
 [:en]
 A class [`T] can inherit from [`enable_shared_from_this<T>] to inherit the
-[`shared_from_this] member functions that obtain a [+shared_ptr] instance
+[`shared_from_this] member functions that obtain a [`shared_ptr] instance
 pointing to [`*this].
+[:zh_CN]
+类 [`T] 可以继承于 [`enable_shared_from_this<T>]，以继承成员函数
+[`shared_from_this]，用以获取一个指向 [`*this] 的 [`shared_ptr] 实例。
 
 [para]
 [enter:example]
@@ -19,7 +23,8 @@ int main() {
   shared_ptr<X> p(new X);
   shared_ptr<X> q = p->shared_from_this();
   assert(p == q);
-  assert(!p.owner_before(q) && !q.owner_before(p)); // [:en] p and q share ownership
+  assert(!p.owner_before(q) && !q.owner_before(p)); // [:en] [`p] and [`q] share ownership
+                                                    // [|:zh_CN] [`p] 和 [`q] 共享所有权
 }
 [codeblock:end]
 [exit:example]
@@ -43,8 +48,10 @@ namespace std {
 [:en]
 The template parameter [`T] of [`enable_shared_from_this] may be an incomplete
 type.
+[:zh_CN]
+[`enable_shared_from_this] 的模板形参 [`T] 可以是不完整类型。
 
-[%@library enable_shared_from_this[!constructor]]
+[%@library enable_shared_from_this[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr enable_shared_from_this() noexcept;
 enable_shared_from_this(const enable_shared_from_this<T>&) noexcept;
@@ -53,6 +60,7 @@ enable_shared_from_this(const enable_shared_from_this<T>&) noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs an [`enable_shared_from_this<T>] object.
+[:zh_CN] 构造一个 [`enable_shared_from_this<T>] 对象。
 [exit:description]
 
 [%@library enable_shared_from_this[!operator=]]
@@ -64,9 +72,10 @@ enable_shared_from_this<T>& operator=(const enable_shared_from_this<T>&) noexcep
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
-[%@library enable_shared_from_this[!destructor]]
+[%@library enable_shared_from_this[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~enable_shared_from_this();
 [codeblock:end]
@@ -74,6 +83,7 @@ enable_shared_from_this<T>& operator=(const enable_shared_from_this<T>&) noexcep
 [enter:description]
 [para:effects]
 [:en] Destroys [`*this].
+[:zh_CN] 销毁 [`*this]。
 [exit:description]
 
 [%@library shared_ptr]
@@ -87,22 +97,28 @@ shared_ptr<T const> shared_from_this() const;
 [enter:description]
 [para:requires]
 [:en] [`enable_shared_from_this<T>] shall be an accessible base class of [`T].
+[:zh_CN] [`enable_shared_from_this<T>] 应当是 [`T] 的可访问基类。
 
 [:en] [`*this] shall be a subobject of an object [`t] of type [`T].
+[:zh_CN] [`*this] 应当是 [`T] 类型的对象 [`t] 的子对象。
 
 [:en] There shall be at least one [`shared_ptr] instance [`p] that [+owns]
 [`&t].
+[:zh_CN] 应当至少存在一个[+拥有] [`p] 的 [`shared_ptr] 实例。
 
 [para:returns]
 [:en] A [`shared_ptr<T>] object [`r] that [+shares ownership with] [`p].
+[:zh_CN] 与 [`p] [+共享所有权] 的 [`shared_ptr<T>] 对象 [`r]。
 
 [para:postconditions]
 [:en] [`r.get() == this].
+[:zh_CN] [`r.get() == this]。
 [exit:description]
 
 [para]
 [enter:note]
 [:en] A possible implementation is shown below:
+[:zh_CN] 下面是一种可能的实现：
 
 [codeblock]
 template<class T> class enable_shared_from_this {
@@ -124,4 +140,7 @@ public:
 The [`shared_ptr] constructors that create unique pointers can detect the
 presence of an [`enable_shared_from_this] base and assign the newly created
 [`shared_ptr] to its [`__weak_this] member.
+[:zh_CN]
+创建唯一指针的那些 [`shared_ptr] 构造函数可以检测 [`enable_shared_from_this]
+基类的存在与否，并将新创建的 [`shared_ptr] 赋值给其 [`__weak_this] 成员。
 [exit:note]
