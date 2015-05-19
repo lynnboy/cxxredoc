@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.single
     [:en] [`unique_ptr] for single objects
+    [:zh_CN] 单对象 [`unique_ptr]
 ]
 
 [codeblock:synopsis]
@@ -11,6 +12,7 @@ namespace std {
     typedef D deleter_type;
 
     // [:en] [#unique.ptr.single.ctor], constructors
+    // [|:zh_CN] [#unique.ptr.single.ctor]，构造函数
     constexpr unique_ptr() noexcept;
     explicit unique_ptr(pointer p) noexcept;
     unique_ptr(pointer p, [=Seebelow] d1) noexcept;
@@ -22,14 +24,17 @@ namespace std {
       unique_ptr(unique_ptr<U, E>&& u) noexcept;
 
     // [:en] [#unique.ptr.single.dtor], destructor
+    // [|:zh_CN] [#unique.ptr.single.dtor]，析构函数
     ~unique_ptr();
 
     // [:en] [#unique.ptr.single.asgn], assignment
+    // [|:zh_CN] [#unique.ptr.single.asgn]，赋值
     unique_ptr& operator=(unique_ptr&& u) noexcept;
     template <class U, class E> unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept;
     unique_ptr& operator=(nullptr_t) noexcept;
 
     // [:en] [#unique.ptr.single.observers], observers
+    // [|:zh_CN] [#unique.ptr.single.observers]，探察函数
     add_lvalue_reference_t<T> operator*() const;
     pointer operator->() const noexcept;
     pointer get() const noexcept;
@@ -38,11 +43,13 @@ namespace std {
     explicit operator bool() const noexcept;
 
     // [:en] [#unique.ptr.single.modifiers] modifiers
+    // [|:zh_CN] [#unique.ptr.single.modifiers] 改动函数
     pointer release() noexcept;
     void reset(pointer p = pointer()) noexcept;
     void swap(unique_ptr& u) noexcept;
 
     // [:en] disable copy from lvalue
+    // [|:zh_CN] 禁止从左值进行复制
     unique_ptr(const unique_ptr&) = delete;
     unique_ptr& operator=(const unique_ptr&) = delete;
   };
@@ -52,30 +59,50 @@ namespace std {
 [para]
 [:en]
 The default type for the template parameter [`D] is [`default_delete].
+[:zh_CN]
+模板形参 [`D] 的默认类型为 [`default_delete]。
+
 [:en]
 A client-supplied template argument [`D] shall be a function object type
 ([#function.objects]), lvalue reference to function, or lvalue reference to
 function object type for which, given a value [`d] of type [`D] and a value
 [`ptr] of type [`unique_ptr<T, D>::pointer], the expression [`d(ptr)] is valid
 and has the effect of disposing of the pointer as appropriate for that deleter.
+[:zh_CN]
+由客户提供的 [`D] 模板实参应当为这样的函数对象类型（[#function.objects]），指代
+函数的左值引用，或者指代函数对象类型的左值引用，当给定 [`D] 类型的某个值 [`d]
+以及 [`unique_ptr<T, D>::pointer] 类型的值 [`ptr] 时，表达式 [`d(ptr)] 有效且
+具有以对该删除器适当的方式处置该指针的效果。
 
 [para]
 [:en]
 If the deleter[=']s type [`D] is not a reference type, [`D] shall satisfy
 the requirements of [`Destructible] (Table [#destructible]).
+[:zh_CN]
+若删除器的类型 [`D] 并非引用类型，则 [`D] 应当满足 [`Destructible] 的规定
+（表 [#destructible]）。
 
 [para]
 [:en]
 If the [~qualified-id] [`remove_reference_t<D>::pointer] is valid and denotes a
 type ([#temp.deduct]), then [`unique_ptr<T, D>::pointer] shall be a synonym for
 [`remove_reference_t<D>::pointer].
+[:zh_CN]
+如果[~限定标识] [`remove_reference_t<D>::pointer] 有效且代表某个类型
+（[#temp.deduct]），则 [`unique_ptr<T, D>::pointer] 应当为
+[`remove_reference_t<D>::pointer] 的同义词。
 
 [:en]
 Otherwise [`unique_ptr<T, D>::pointer] shall be a synonym for [`element_type*].
+[:zh_CN]
+否则 [`unique_ptr<T, D>::pointer] 应当为 [`element_type*] 的同义词。
 
 [:en]
 The type [`unique_ptr<T, D>::pointer] shall satisfy the requirements of
 [`NullablePointer] ([#nullablepointer.requirements]).
+[:zh_CN]
+类型 [`unique_ptr<T, D>::pointer] 应当满足 [`NullablePointer] 的规定
+（[#nullablepointer.requirements]）。
 
 [para]
 [enter:example]
@@ -84,6 +111,11 @@ Given an allocator type [`X] ([#allocator.requirements]) and letting [`A] be a
 synonym for [`allocator_traits<X>], the types [`A::pointer],
 [`A::const_pointer], [`A::void_pointer], and [`A::const_void_pointer] may be
 used as [`unique_ptr<T, D>::pointer].
+[:zh_CN]
+给定某个分配器类型 [`X]（[#allocator.requirements]）并令 [`A] 为
+[`allocator_traits<X>] 的别名，则类型 [`A::pointer]，[`A::const_pointer]，
+[`A::void_pointer]，以及 [`A::const_void_pointer] 可以用作
+[`unique_ptr<T, D>::pointer]。
 [exit:example]
 
 [include unique.ptr.single.ctor]
