@@ -1,5 +1,6 @@
 ﻿[section#length.error
     [:en] Class [`length_error]
+    [:zh_CN] 类 [`length_error]
 ]
 
 [%@library length_error]
@@ -18,6 +19,8 @@ namespace std {
 The class [`length_error] defines the type of objects thrown as exceptions
 to report an attempt to produce an object whose length exceeds its maximum
 allowable size.
+[:zh_CN] [`length_error] 类定义了作为异常而被抛出的对象的类型，用以报告试图产生
+一个长度超出允许的最大大小的对象。
 
 [%@library length_error[!length_error]]
 [codeblock:declaration]
@@ -27,9 +30,11 @@ length_error(const string& what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`length_error].
+[:zh_CN] 构造一个 [`length_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg.c_str()) == 0].
+[:zh_CN] [`strcmp(what(), what_arg.c_str()) == 0]。
 [exit:description]
 
 [%@library length_error[!length_error]]
@@ -40,7 +45,9 @@ length_error(const char* what_arg);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`length_error].
+[:zh_CN] 构造一个 [`length_error] 类的对象。
 
 [para:postcondition]
 [:en] [`strcmp(what(), what_arg) == 0].
+[:zh_CN] [`strcmp(what(), what_arg) == 0]。
 [exit:description]
