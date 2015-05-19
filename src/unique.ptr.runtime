@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.runtime
     [:en] [`unique_ptr] for array objects with a runtime length
+    [:zh_CN] 具有运行期长度的数组对象的 [`unique_ptr]
 ]
 
 [codeblock:synopsis]
@@ -11,6 +12,7 @@ namespace std {
     typedef D deleter_type;
 
     // [:en] [#unique.ptr.runtime.ctor], constructors
+    // [|:zh_CN] [#unique.ptr.runtime.ctor]，构造函数
     constexpr unique_ptr() noexcept;
     template <class U> explicit unique_ptr(U p) noexcept;
     template <class U> unique_ptr(U p, [=Seebelow] d) noexcept;
@@ -21,15 +23,18 @@ namespace std {
     constexpr unique_ptr(nullptr_t) noexcept : unique_ptr() { }
 
     // [:en] destructor
+    // [|:zh_CN] 析构函数
     ~unique_ptr();
 
     // [:en] assignment
+    // [|:zh_CN] 赋值
     unique_ptr& operator=(unique_ptr&& u) noexcept;
     template <class U, class E>
       unique_ptr& operator=(unique_ptr<U, E>&& u) noexcept;
     unique_ptr& operator=(nullptr_t) noexcept;
 
     // [:en] [#unique.ptr.runtime.observers], observers
+    // [|:zh_CN] [#unique.ptr.runtime.observers]，探察函数
     T& operator[](size_t i) const;
     pointer get() const noexcept;
     deleter_type& get_deleter() noexcept;
@@ -37,12 +42,14 @@ namespace std {
     explicit operator bool() const noexcept;
 
     // [:en] [#unique.ptr.runtime.modifiers] modifiers
+    // [|:zh_CN] [#unique.ptr.runtime.modifiers] 改动函数
     pointer release() noexcept;
     template <class U> void reset(U p) noexcept;
     void reset(nullptr_t = nullptr) noexcept;
     void swap(unique_ptr& u) noexcept;
 
     // [:en] disable copy from lvalue
+    // [|:zh_CN] 禁止从左值进行复制
     unique_ptr(const unique_ptr&) = delete;
     unique_ptr& operator=(const unique_ptr&) = delete;
   };
@@ -52,35 +59,48 @@ namespace std {
 [para]
 [:en]
 A specialization for array types is provided with a slightly altered interface.
+[:zh_CN]
+对数组类型所提供的特化式的接口微有不同。
 
 [list]
 [item]
 [:en] Conversions between different types of [`unique_ptr<T[`], D>] that would
 be disallowed for the corresponding pointer-to-array types, and conversions to
 or from the non-array forms of [`unique_ptr], produce an ill-formed program.
+[:zh_CN] 在不同类型的 [`unique_ptr<T[`], D>] 之间所进行的转换（当禁止其对应的
+数组指针类型之间的转换时），以及在它与非数组形式的 [`unique_ptr] 之间进行转换，
+将产生非良构的程序。
 
 [item]
 [:en] Pointers to types derived from [`T] are rejected by the constructors, and
 by [`reset].
+[:zh_CN] 构造函数和 [`reset] 拒绝接受指向派生自 [`T] 的类型的指针。
 
 [item]
- The observers [`operator*] and [`operator->] are not provided.
+[:en] The observers [`operator*] and [`operator->] are not provided.
+[:zh_CN] 不提供探察函数 [`operator*] 和 [`operator->]。
 
 [item]
 [:en] The indexing observer [`operator[`]] is provided.
+[:zh_CN] 提供了索引探察函数 [`operator[`]]。
 
 [item]
 [:en] The default deleter will call [`delete[`]].
+[:zh_CN] 其默认删除器将会调用 [`delete[`]]。
 [list:end]
 
 [para]
 [:en]
 Descriptions are provided below only for members that differ from the primary
 template.
+[:zh_CN]
+以下将只针对具有与主模板不同的行为的成员函数进行描述。
 
 [para]
 [:en]
 The template argument [`T] shall be a complete type.
+[:zh_CN]
+模板实参 [`T] 应当为完整类型。
 
 [include unique.ptr.runtime.ctor]
 
