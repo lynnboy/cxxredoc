@@ -1,5 +1,5 @@
 ﻿[section#unique.ptr.dltr.dflt1
-    [:en] [`default_delete<T[`]>]
+    [`default_delete<T[`]>]
 ]
 
 [codeblock:synopsis]
@@ -21,10 +21,14 @@ template <class U> default_delete(const default_delete<U[]>& other) noexcept;
 [para:effects]
 [:en] constructs a [`default_delete] object from another [`default_delete<U[`]>]
 object.
+[:zh_CN]
+以另一个 [`default_delete<U[`]>] 对象构造一个 [`default_delete] 对象。
 
 [para:notes]
 [:en] This constructor shall not participate in overload resolution unless
 [`U(*)[`]] is convertible to [`T(*)[`]].
+[:zh_CN]
+除非 [`U(*)[`]] 可以转换为 [`T(*)[`]]，否则该构造函数不能参与重载决议。
 [exit:description]
 
 [%@library operator()[!default_delete]]
@@ -36,10 +40,14 @@ template <class U> void operator()(U* ptr) const;
 [enter:description]
 [para:effects]
 [:en] calls [`delete[`]] on [`ptr].
+[:zh_CN] 对 [`ptr] 调用 [`delete[`]]。
 
 [para:notes]
 [:en] If [`U] is an incomplete type, the program is ill-formed.
+[:zh_CN] 若 [`U] 是不完整类型，则程序非良构。
 
 [:en] This function shall not participate in overload resolution unless
 [`U(*)[`]] is convertible to [`T(*)[`]].
+[:zh_CN]
+除非 [`U(*)[`]] 可以转换为 [`T(*)[`]]，否则该函数不能参与重载决议。
 [exit:description]
