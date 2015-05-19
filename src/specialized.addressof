@@ -1,5 +1,5 @@
 ﻿[section#specialized.addressof
-    [:en] [`addressof]
+    [`addressof]
 ]
 
 [%@library addressof]
@@ -11,4 +11,6 @@ template <class T> T* addressof(T& r) noexcept;
 [para:returns]
 [:en] The actual address of the object or function referenced by [`r], even in
 the presence of an overloaded [`operator&].
+[:zh_CN] 由 [`r] 所指代的对象或函数的实际地址，即使存在重载的 [`operator&] 也是
+如此。
 [exit:description]
