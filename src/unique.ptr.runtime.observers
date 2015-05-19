@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.runtime.observers
     [:en] [`unique_ptr] observers
+    [:zh_CN] [`unique_ptr] 的探察函数
 ]
 
 [%@library operator['][!unique_ptr]]
@@ -12,7 +13,9 @@ T& operator[](size_t i) const;
 [para:requires]
 [:en] [`i <] the number of elements in the array to which the stored pointer
 points.
+[:zh_CN] [`i <] 由存储的指针所指向的数组的元素数量。
 
 [para:returns]
-[:en] [`get()[i]].
+[:en] [`get()[i`]].
+[:zh_CN] [`get()[i`]]。
 [exit:description]
