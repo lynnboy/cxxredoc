@@ -1,5 +1,6 @@
 ﻿[section#tuple.traits
     [:en] Tuple traits
+    [:zh_CN] 元组特征
 ]
 
 [%@library uses_allocator<tuple>]
@@ -11,11 +12,14 @@ template <class... Types, class Alloc>
 [enter:description]
 [para:requires]
 [:en] [`Alloc] shall be an [`Allocator] ([#allocator.requirements]).
+[:zh_CN] [`Alloc] 应当是 [`Allocator]（[#allocator.requirements]）。
 
 [para]
 [enter:note]
 [:en] Specialization of this trait informs other library components that
 [`tuple] can be constructed with an allocator, even though it does not have
 a nested [`allocator_type].
+[:zh_CN] 这个特征的特例向其他程序库组件指出，[`tuple] 可以用分配器来构造，虽然它
+并没有嵌套的 [`allocator_type]。
 [exit:note]
 [exit:description]
