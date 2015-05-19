@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.shared.create
     [:en] [`shared_ptr] creation
+    [:zh_CN] [`shared_ptr] 的创建
 ]
 
 [%@library make_shared]
@@ -15,41 +16,55 @@ template<class T, class A, class... Args>
 [:en] The expression [`::new (pv) T(std::forward<Args>(args)...)], where [`pv]
 has type [`void*] and points to storage suitable to hold an object of type [`T],
 shall be well formed.
+[:zh_CN] 表达式 [`::new (pv) T(std::forward<Args>(args)...)] 应当是良构的，其中
+[`pv] 类型为 [`void*] 且指向适合容纳 [`T] 类型的一个对象的存储。
 
 [:en] [`A] shall be an [+allocator] ([#allocator.requirements]).
+[:zh_CN] [`A] 应当为一中[+分配器]（[#allocator.requirements]）。
 
 [:en] The copy constructor and destructor of [`A] shall not throw exceptions.
+[:zh_CN] [`A] 的复制构造函数和析构函数不能抛出异常。
 
 [para:effects]
 [:en] Allocates memory suitable for an object of type [`T] and constructs an
 object in that memory via the placement [~new-expression] [`::new (pv)
 T(std::forward<Args>(args)...)].
+[:zh_CN] 分配适合于 [`T] 类型的一个对象的内存，并在该内存中通过放置式 [~new-表达
+式] [`::new (pv) T(std::forward<Args>(args)...)] 构造一个对象。
 
 [:en] The template [`allocate_shared] uses a copy of [`a] to allocate memory.
+[:zh_CN] [`allocate_shared] 模板利用 [`a] 的副本进行内存分配。
 
 [:en] If an exception is thrown, the functions have no effect.
+[:zh_CN] 如果抛出了异常，则该函数没有效果。
 
 [para:returns]
 [:en] A [`shared_ptr] instance that stores and owns the address of the newly
 constructed object of type [`T].
+[:zh_CN] 一个存储并拥有新近创建的 [`T] 类型的对象的地址的 [`shared_ptr] 实例。
 
 [para:postconditions]
-[:en] [`get() != 0 && use_count() == 1]
+[`get() != 0 && use_count() == 1]
 
 [para:throws]
 [:en] [`bad_alloc], or an exception thrown from [`A::allocate] or from the
 constructor of [`T].
+[:zh_CN] [`bad_alloc]，或者从 [`A::allocate] 或 [`T] 的构造函数中抛出的异常。
 
 [para:notes]
 [:en] Implementations should perform no more than one memory allocation.
+[:zh_CN] 实现应当进行不多于一次的内存分配。
 
 [enter:note]
 [:en] This provides efficiency equivalent to an intrusive smart pointer.
+[:zh_CN] 这提供了等价于侵入式智能指针的效率。
 [exit:note]
 
 [para]
 [enter:note]
 [:en] These functions will typically allocate more memory than [`sizeof(T)] to
 allow for internal bookkeeping structures such as the reference counts.
+[:zh_CN] 这些函数典型地分配大于 [`sizeof(T)] 的内存，以保存如引用计数这样的内部
+簿记结构。
 [exit:note]
 [exit:description]
