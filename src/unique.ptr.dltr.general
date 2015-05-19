@@ -1,12 +1,17 @@
 ﻿[section#unique.ptr.dltr.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 The class template [`default_delete] serves as the default deleter (destruction
 policy) for the class template [`unique_ptr].
+[:zh_CN]
+类模板 [`default_delete] 用作类模板 [`unique_ptr] 的默认删除器（销毁策略）。
 
 [para]
 [:en]
 The template parameter [`T] of [`default_delete] may be an incomplete type.
+[:zh_CN]
+[`default_delete] 的模板形参 [`T] 可以是不完整类型。
