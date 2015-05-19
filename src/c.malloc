@@ -1,18 +1,25 @@
 ﻿[section#c.malloc
     [:en] C library
+    [:zh_CN] C 程序库
 ]
 
 [para]
+[:en]
 Table [#tab:util.hdr.cstdlib] describes the header [`<cstdlib>].
+[:zh_CN]
+表 [#tab:util.hdr.cstdlib] 描述头文件 [`<cstdlib>]。
 
 [table:listing#tab:util.hdr.cstdlib
     [:en] Header [`<cstdlib>] synopsis
+    [:zh_CN] 头文件 [`<cstdlib>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -32,19 +39,30 @@ Table [#tab:util.hdr.cstdlib] describes the header [`<cstdlib>].
 [:en]
 The contents are the same as the Standard C library header [`<stdlib.h>], with
 the following changes:
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<stdlib.h>] 相同，但带有以下改变：
 
 [para]
 [:en]
 The functions [`calloc()][%@library calloc], [`malloc()][%@library malloc], and
 [`realloc()][%@library realloc] do not attempt to allocate storage by calling
 [%@library new[!operator]] [`::operator new()] ([#support.dynamic]).
+[:zh_CN]
+函数 [`calloc()][%@library calloc]，[`malloc()][%@library malloc] 和
+[`realloc()][%@library realloc] 并不试图通过调用 [%@library new[!operator]]
+[`::operator new()] 来分配存储（[#support.dynamic]）。
 
 [para]
+[:en]
 The function [`free()][%@library free] does not attempt to deallocate storage by
 calling [`::operator delete()][%@library delete[!operator]].
+[:zh_CN]
+函数 [`free()][%@library free] 并不试图通过调用 [`::operator delete()]
+[%@library delete[!operator]] 来回收存储。
 
 [para:xref]
 [:en] ISO C Clause 7.11.2.
+[:zh_CN] ISO C 条款 7.11.2。
 
 [para]
 [:en]
@@ -52,35 +70,53 @@ Storage allocated directly with [`malloc()], [`calloc()], or [`realloc()] is
 implicitly declared reachable (see [#basic.stc.dynamic.safety]) on allocation,
 ceases to be declared reachable on deallocation, and need not cease to be
 declared reachable as the result of an [`undeclare_reachable()] call.
+[:zh_CN]
+直接通过 [`malloc()]，[`calloc()]，或者 [`realloc()] 所分配的存储，是当分配是就
+被隐含地声明为可达的（参见 [#basic.stc.dynamic.safety]），并当回收时结束其声明
+为可达的状态，并且不需要以一次 [`undeclare_reachable()] 调用来结束其声明为可达的
+状态。
 
 [enter:note]
 [:en]
 This allows existing C libraries to remain unaffected by restrictions on
 pointers that are not safely derived, at the expense of providing far fewer
 garbage collection and leak detection options for [`malloc()]-allocated objects.
+[:zh_CN]
+这样就允许现存的 C 程序库保持不受针对非安全衍生指针的限制的影响，但其代价是为由
+[`malloc()] 分配的对象所提供的垃圾收集和泄漏检测的选项要少得多。
 
 [:en]
 It also allows [`malloc()] to be implemented with a separate allocation arena,
 bypassing the normal [`declare_reachable()] implementation.
+[:zh_CN]
+这还允许将 [`malloc()] 实现为一个独立的分配场所，以绕过通常的
+[`declare_reachable()] 实现。
 
 [:en]
 The above functions should never intentionally be used as a replacement for
 [`declare_reachable()], and newly written code is strongly encouraged to treat
 memory allocated with these functions as though it were allocated with
 [`operator new].
+[:zh_CN]
+以上函数不应当被用作 [`declare_reachable()] 的替代品，强烈鼓励新写出的代码将通过
+这些函数所分配的内存如同是由 [`operator new] 所分配的一样对待。
 [exit:note]
 
 [para]
 [:en] Table [#tab:util.hdr.cstring] describes the header [`<cstring>].
+[:zh_CN] 表 [#tab:util.hdr.cstring] 描述头文件 [`<cstring>]。
 
 [table:grid#tab:util.hdr.cstring
     [:en] Header [`<cstring>] synopsis
+    [:zh_CN] 头文件 [`<cstring>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -111,6 +147,10 @@ memory allocated with these functions as though it were allocated with
 [:en]
 The contents are the same as the Standard C library header [`<string.h>], with
 the change to [`memchr()] specified in [#c.strings].
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<string.h>] 相同，但带有在 [#c.strings] 中所指定的
+对 [`memchr()] 的改变。
 
 [para:xref]
 [:en] ISO C Clause 7.11.2.
+[:zh_CN] ISO C 条款 7.11.2。
