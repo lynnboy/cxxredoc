@@ -1,5 +1,6 @@
 ﻿[section#unique.ptr.single.modifiers
     [:en] [`unique_ptr] modifiers
+    [:zh_CN] [`unique_ptr] 的改动函数
 ]
 
 [%@library release[!unique_ptr]]
@@ -11,9 +12,11 @@ pointer release() noexcept;
 [enter:description]
 [para:postcondition]
 [:en] [`get() == nullptr].
+[:zh_CN] [`get() == nullptr]。
 
 [para:returns]
 [:en] The value [`get()] had at the start of the call to [`release].
+[:zh_CN] 在开始调用 [`release] 时 [`get()] 的值。
 [exit:description]
 
 [%@library reset[!unique_ptr]]
@@ -26,22 +29,32 @@ void reset(pointer p = pointer()) noexcept;
 [para:requires]
 [:en] The expression [`get_deleter()(get())] shall be well formed, shall have
 well-defined behavior, and shall not throw exceptions.
+[:zh_CN] 表达式 [`get_deleter()(get())] 应当是良构的，应当具有明确定义的行为，
+并且不能抛出异常。
 
 [para:effects]
 [:en] assigns [`p] to the stored pointer, and then if the old value of the
 stored pointer, [`old_p], was not equal to [`nullptr], calls
 [`get_deleter()(old_p)].
+[:zh_CN] 以 [`p] 对所存储的指针赋值，然后若所存储的指针的原值 [`old_p] 不等于
+[`nullptr]，则调用 [`get_deleter()(old_p)]。
 
 [enter:note]
 [:en] The order of these operations is significant because the call to
 [`get_deleter()] may destroy [`*this].
+[:zh_CN] 这些操作的顺序是重要的，因为对 [`get_deleter()] 的调用可能会销毁
+[`*this]。
 [exit:note]
 
 [para:postconditions]
 [:en] [`get() == p].
+[:zh_CN] [`get() == p]。
+
 [enter:note]
 [:en] The postcondition does not hold if the call to [`get_deleter()] destroys
 [`*this] since [`this->get()] is no longer a valid expression.
+[:zh_CN] 若对 [`get_deleter()] 的调用销毁了 [`*this]，则该后条件并不会保持，这是
+由于 [`this->get()] 不再是有效的表达式。
 [exit:note]
 [exit:description]
 
@@ -55,8 +68,11 @@ void swap(unique_ptr& u) noexcept;
 [para:requires]
 [:en] [`get_deleter()] shall be swappable ([#swappable.requirements]) and shall
 not throw an exception under [`swap].
+[:zh_CN] [`get_deleter()] 应当是可交换的（[#swappable.requirements]），并且不能
+在 [`swap] 中抛出异常。
 
 [para:effects]
 [:en] Invokes [`swap] on the stored pointers and on the stored deleters of
 [`*this] and [`u].
+[:zh_CN] 对 [`*this] 和 [`u] 所存储的指针和所存储的删除器调用 [`swap]。
 [exit:description]
