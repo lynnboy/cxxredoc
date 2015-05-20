@@ -1,5 +1,6 @@
 ﻿[section#meta
     [:en] Metaprogramming and type traits
+    [:zh_CN] 元编程与类型特征
 ]
 
 [para]
@@ -8,21 +9,34 @@ This subclause describes components used by [=Cpp] programs, particularly in
 templates, to support the widest possible range of types, optimise template code
 usage, detect type related user errors, and perform type inference and
 transformation at compile time.
+[:zh_CN]
+本子条款描述了被 [=Cpp] 程序，尤其是模板中使用的组件，以支持尽可能广泛的类型，
+优化模板代码的使用方式，检测与类型有关的用户错误，以及在编译时进行类型推理和类型
+变换。
 
 [:en]
 It includes type classification traits, type property inspection traits, and
 type transformations.
+[:zh_CN]
+其中包括类型分类特征，类型属性探察特征，以及类型变换。
 
 [:en]
 The type classification traits describe a complete taxonomy of all possible
 [=Cpp] types, and state where in that taxonomy a given type belongs.
+[:zh_CN]
+类型分类特征描述了对所有可能的 [=Cpp] 类型的一个完整的分类系统，并指出了某个给定
+类型属于该分类系统的哪个部分。
 
 [:en]
 The type property inspection traits allow important characteristics of types or
 of combinations of types to be inspected.
+[:zh_CN]
+类型属性探察特征允许对类型或类型的组合的重要的性质进行探察。
 
 [:en]
 The type transformations allow certain properties of types to be manipulated.
+[:zh_CN]
+类型变换允许对类型的特定属性进行操纵。
 
 [include meta.rqmts]
 
