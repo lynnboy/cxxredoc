@@ -1,5 +1,6 @@
 ﻿[section#time.traits.specializations
     [:en] Specializations of [`common_type]
+    [:zh_CN] [`common_type] 的特化式
 ]
 
 [%@library common_type]
@@ -15,12 +16,18 @@ struct common_type<chrono::duration<Rep1, Period1>, chrono::duration<Rep2, Perio
 The [`period] of the [`duration] indicated by this specialization of
 [`common_type] shall be the greatest common divisor of [`Period1] and
 [`Period2].
+[:zh_CN]
+这条 [`common_type] 的特化式所指定的 [`duration] 的 [`period] 应当是 [`Period1]
+和 [`Period2] 的最大公约数。
 
 [enter:note]
 [:en]
 This can be computed by forming a ratio of the greatest common divisor of
 [`Period1::num] and [`Period2::num] and the least common multiple of
 [`Period1::den] and [`Period2::den].
+[:zh_CN]
+可以通过构成 [`Period1::num] 与 [`Period2::num] 的最大公约数和 [`Period1::den]
+与 [`Period2::den] 的最小公倍数的比值来计算。
 [exit:note]
 
 [para]
@@ -29,11 +36,17 @@ This can be computed by forming a ratio of the greatest common divisor of
 The [`typedef] name [`type] is a synonym for the [`duration] with the largest
 tick [`period] possible where both [`duration] arguments will convert to it
 without requiring a division operation.
+[:zh_CN]
+[`typedef] 名 [`type] 是 [`duration] 的同义词，它具有最大可能嘀嗒 [`period] 使
+两个 [`duration] 实参向其转换时能够不进行除法运算。
 
 [:en]
 The representation of this type is intended to be able to hold any value
 resulting from this conversion with no truncation error, although floating-point
 durations may have round-off errors.
+[:zh_CN]
+该类型的表示的意图是可以保持这种转换的任何结果值而不引入截断误差，虽然浮点时间段
+还可能具有舍入误差。
 [exit:note]
 
 [%@library common_type]
@@ -48,3 +61,6 @@ struct common_type<chrono::time_point<Clock, Duration1>, chrono::time_point<Cloc
 [:en]
 The common type of two [`time_point] types is a [`time_point] with the same
 clock as the two types and the common type of their two [`duration]s.
+[:zh_CN]
+两个 [`time_point] 类型的公共类型是与这两个类型具有相同时钟，并带有二者的
+[`duration] 的公共类型的 [`time_point]。
