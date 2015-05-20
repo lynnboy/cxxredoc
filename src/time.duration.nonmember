@@ -1,14 +1,19 @@
 ﻿[section#time.duration.nonmember
     [:en] [`duration] non-member arithmetic
+    [:zh_CN] [`duration] 的非成员算术
 ]
 
 [para]
 [:en]
 In the function descriptions that follow, [`CD] represents the return type of
 the function.
+[:zh_CN]
+在以下函数说明中，[`CD] 表示函数的返回类型。
 
 [:en]
 [`CR(A,B)] represents [`common_type_t<A, B>].
+[:zh_CN]
+[`CR(A,B)] 表示 [`common_type_t<A, B>]。
 
 [%@library common_type]
 [codeblock:declaration]
@@ -19,7 +24,8 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 
 [enter:description]
 [para:returns]
-[:en] CD(CD(lhs).count() + CD(rhs).count()).
+[:en] [`CD(CD(lhs).count() + CD(rhs).count())].
+[:zh_CN] [`CD(CD(lhs).count() + CD(rhs).count())]。
 [exit:description]
 
 [%@library common_type]
@@ -31,7 +37,8 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 
 [enter:description]
 [para:returns]
-[:en] CD(CD(lhs).count() - CD(rhs).count()).
+[:en] [`CD(CD(lhs).count() - CD(rhs).count())].
+[:zh_CN] [`CD(CD(lhs).count() - CD(rhs).count())]。
 [exit:description]
 
 [%@library operator*[!duration]]
@@ -46,9 +53,12 @@ template <class Rep1, class Period, class Rep2>
 [para:remarks]
 [:en] This operator shall not participate in overload resolution unless [`Rep2]
 is implicitly convertible to [`CR(Rep1, Rep2)].
+[:zh_CN] 除非 [`Rep2] 可以隐式转换为 [`CR(Rep1, Rep2)]，否则这个运算符不能参与
+重载决议。
 
 [para:returns]
-[:en] CD(CD(d).count() * s).
+[:en] [`CD(CD(d).count() * s)].
+[:zh_CN] [`CD(CD(d).count() * s)]。
 [exit:description]
 
 [%@library operator*[!duration]]
@@ -63,9 +73,12 @@ template <class Rep1, class Rep2, class Period>
 [para:remarks]
 [:en] This operator shall not participate in overload resolution unless [`Rep1]
 is implicitly convertible to [`CR(Rep1, Rep2)].
+[:zh_CN] 除非 [`Rep1] 可以隐式转换为 [`CR(Rep1, Rep2)]，否则这个运算符不能参与
+重载决议。
 
 [para:returns]
 [:en] [`d * s].
+[:zh_CN] [`d * s]。
 [exit:description]
 
 [%@library operator/[!duration]]
@@ -81,9 +94,12 @@ template <class Rep1, class Period, class Rep2>
 [:en] This operator shall not participate in overload resolution unless [`Rep2]
 is implicitly convertible to [`CR(Rep1, Rep2)] and [`Rep2] is not an
 instantiation of [`duration].
+[:zh_CN] 除非 [`Rep2] 可以隐式转换为 [`CR(Rep1, Rep2)]，并且 [`Rep2] 不是
+[`duration] 的实例，否则这个运算符不能参与重载决议。
 
 [para:returns]
-[:en] CD(CD(d).count() / s).
+[:en] [`CD(CD(d).count() / s)].
+[:zh_CN] [`CD(CD(d).count() / s)]。
 [exit:description]
 
 [%@library operator/[!duration]]
@@ -97,6 +113,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`CD(lhs).count() / CD(rhs).count()].
+[:zh_CN] [`CD(lhs).count() / CD(rhs).count()]。
 [exit:description]
 
 [%@library operator%[!duration]]
@@ -112,9 +129,12 @@ template <class Rep1, class Period, class Rep2>
 [:en] This operator shall not participate in overload resolution unless [`Rep2]
 is implicitly convertible to [`CR(Rep1, Rep2)] and [`Rep2] is not an
 instantiation of [`duration].
+[:zh_CN] 除非 [`Rep2] 可以隐式转换为 [`CR(Rep1, Rep2)]，并且 [`Rep2] 不是
+[`duration] 的实例，否则这个运算符不能参与重载决议。
 
 [para:returns]
-[:en] CD(CD(d).count() % s).
+[:en] [`CD(CD(d).count() % s)].
+[:zh_CN] [`CD(CD(d).count() % s)]。
 [exit:description]
 
 [%@library operator%[!duration]]
@@ -127,5 +147,6 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 
 [enter:description]
 [para:returns]
-[:en] CD(CD(lhs).count() % CD(rhs).count()).
+[:en] [`CD(CD(lhs).count() % CD(rhs).count())].
+[:zh_CN] [`CD(CD(lhs).count() % CD(rhs).count())]。
 [exit:description]
