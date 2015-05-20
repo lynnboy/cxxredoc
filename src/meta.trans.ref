@@ -1,15 +1,19 @@
 ﻿[section#meta.trans.ref
     [:en] Reference modifications
+    [:zh_CN] 引用改造
 ]
 
 [table:listing#tab:type-traits.reference
     [:en] Reference modifications
+    [:zh_CN] 引用改造
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -20,6 +24,8 @@ template <class T> [br]
 struct remove_reference;
 [|] [:en] If [`T] has type ["reference to [`T1]] then the member typedef [`type]
     shall name [`T1]; otherwise, [`type] shall name [`T].
+    [:zh_CN] 若 [`T] 的类型为“[`T1] 的引用”，则成员 typedef [`type] 应当指名
+    [`T1]；否则 [`type] 应当指名 [`T]。
 
 [|]
 template <class T> [br]
@@ -28,16 +34,26 @@ struct add_lvalue_reference;
     [`type] shall name [`T&]; otherwise, if [`T] names a type ["rvalue reference
     to [`T1]] then the member typedef [`type] shall name [`T1&]; otherwise,
     [`type] shall name [`T].
+    [:zh_CN] 若 [`T] 指名对象或函数类型，则成员 typedef [`type] 应当指名 [`T&]；
+    否则，若 [`T] 指名类型“[`T1] 的右值引用”，则成员 typedef [`type] 应当指名
+    [`T1&]；否则 [`type] 应当指名 [`T]。
 
 [|]
 template <class T> [br]
 struct add_rvalue_reference;
 [|] [:en] If [`T] names an object or function type then the member typedef
     [`type] shall name [`T&&]; otherwise, [`type] shall name [`T].
+    [:zh_CN] 若 [`T] 指名对象或函数类型，则成员 typedef [`type] 应当指名 [`T&&]
+    ；否则 [`type] 应当指名 [`T]。
+
     [enter:note]
     [:en] This rule reflects the semantics of reference collapsing ([#dcl.ref]).
+    [:zh_CN] 这条规则反映了引用坍缩（[#dcl.ref]）语义。
+
     [:en] For example, when a type [`T] names a type [`T1&], the type
     [`add_rvalue_reference_t<T>] is not an rvalue reference.
+    [:zh_CN] 例如，当某类型 [`T] 指名某类型 [`T1&] 时，类型
+    [`add_rvalue_reference_t<T>] 并不是右值引用。
     [exit:note]
 
 [table:end]
