@@ -1,5 +1,6 @@
 ﻿[section#time.duration.special
     [:en] [`duration] special values
+    [:zh_CN] [`duration] 的特殊值
 ]
 
 [%@library zero[!duration]]
@@ -11,6 +12,7 @@ static constexpr duration zero();
 [enter:description]
 [para:returns]
 [:en] [`duration(duration_values<rep>::zero())].
+[:zh_CN] [`duration(duration_values<rep>::zero())]。
 [exit:description]
 
 [%@library min[!duration]]
@@ -22,6 +24,7 @@ static constexpr duration min();
 [enter:description]
 [para:returns]
 [:en] [`duration(duration_values<rep>::min())].
+[:zh_CN] [`duration(duration_values<rep>::min())]。
 [exit:description]
 
 [%@library max[!duration]]
@@ -33,4 +36,5 @@ static constexpr duration max();
 [enter:description]
 [para:returns]
 [:en] [`duration(duration_values<rep>::max())].
+[:zh_CN] [`duration(duration_values<rep>::max())]。
 [exit:description]
