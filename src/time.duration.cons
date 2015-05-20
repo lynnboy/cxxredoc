@@ -1,8 +1,9 @@
 ﻿[section#time.duration.cons
     [:en] [`duration] constructors
+    [:zh_CN] [`duration] 的构造函数
 ]
 
-[%@library duration[!constructor]]
+[%@library duration[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class Rep2>
   constexpr explicit duration(const Rep2& r);
@@ -12,29 +13,36 @@ template <class Rep2>
 [para:remarks]
 [:en] This constructor shall not participate in overload resolution unless
 [`Rep2] is implicitly convertible to [`rep] and
+[:zh_CN] 除非 [`Rep2] 可以隐式转换为 [`rep]，并且符合以下情况，否则这个构造函数
+不能参与重载决议：
 
 [list]
 [item]
 [:en] [`treat_as_floating_point<rep>::value] is [`true] or
+[:zh_CN] [`treat_as_floating_point<rep>::value] 为 [`true] 或者
 [item]
 [:en] [`treat_as_floating_point<Rep2>::value] is [`false].
+[:zh_CN] [`treat_as_floating_point<Rep2>::value] 为 [`false]。
 [list:end]
 
 [enter:example]
 [codeblock]
 duration<int, milli> d(3);          // OK
 duration<int, milli> d(3.5);        // [:en] error
+                                    // [|:zh_CN] 错误
 [codeblock:end]
 [exit:example]
 
 [para:effects]
 [:en] Constructs an object of type [`duration].
+[:zh_CN] 构造类型 [`duration] 的一个对象。
 
 [para:postcondition]
 [:en] [`count() == static_cast<rep>(r)].
+[:zh_CN] [`count() == static_cast<rep>(r)]。
 [exit:description]
 
-[%@library duration[![:en]constructor]]
+[%@library duration[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class Rep2, class Period2>
   constexpr duration(const duration<Rep2, Period2>& d);
@@ -46,13 +54,20 @@ template <class Rep2, class Period2>
 overflow is induced in the conversion and [`treat_as_floating_point<rep>::value]
 is [`true] or both [`ratio_divide<Period2, period>::den] is [`1] and
 [`treat_as_floating_point<Rep2>::value] is [`false].
+[:zh_CN] 除非转换中不会产生溢出，并且 [`treat_as_floating_point<rep>::value] 为
+[`true] 或者同时有 [`ratio_divide<Period2, period>::den] 为 [`1] 且
+[`treat_as_floating_point<Rep2>::value] 为 [`false]，否则这个构造函数不能参与
+重载决议。
 
 [enter:note]
 [:en] This requirement prevents implicit truncation error when converting
 between integral-based [`duration] types.
+[:zh_CN] 这条规定避免了当在两个基于整型的 [`duration] 类型之间进行转换时发生隐含
+的截断误差。
 
 [:en] Such a construction could easily lead to confusion about the value of the
 [`duration].
+[:zh_CN] 这样的构造可能很容易造成有关 [`duration] 的值的困惑。
 [exit:note]
 
 [enter:example]
@@ -60,10 +75,13 @@ between integral-based [`duration] types.
 duration<int, milli> ms(3);
 duration<int, micro> us = ms;       // OK
 duration<int, milli> ms2 = us;      // [:en] error
+                                    // [|:zh_CN] 错误
 [codeblock:end]
 [exit:example]
 
 [para:effects]
 [:en] Constructs an object of type [`duration], constructing [`rep_] from
 [`duration_cast<duration>(d).count()].
+[:zh_CN] 构造类型 [`duration] 的一个对象，以
+[`duration_cast<duration>(d).count()] 构造 [`rep_]。
 [exit:description]
