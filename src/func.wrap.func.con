@@ -232,7 +232,7 @@ template<class F> function& operator=(reference_wrapper<F> f) noexcept;
 [`*this]
 [exit:description]
 
-[%@library function[!destructor]]
+[%@library function[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~function();
 [codeblock:end]

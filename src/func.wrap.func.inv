@@ -1,8 +1,9 @@
 ﻿[section#func.wrap.func.inv
     [:en] [`function] invocation
+    [:zh_CN] [`function] 的调用
 ]
 
-[%@library function[![:en]invocation]]
+[%@library function[![:en]invocation[:zh_CN]调用]]
 [%@library function[!operator()]]
 [%@library operator()[!function]]
 [codeblock:declaration]
@@ -13,12 +14,18 @@ R operator()(ArgTypes... args) const;
 [para:effects]
 [:en] [`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)] ([#func.require]),
 where [`f] is the target object ([#func.def]) of [`*this].
+[:zh_CN] [`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)]（[#func.require]）
+，其中 [`f] 为 [`*this] 的目标对象（[#func.def]）。
 
 [para:returns]
 [:en] Nothing if [`R] is [`void], otherwise the return value of
 [`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)].
+[:zh_CN] 当 [`R] 为 [`void] 时无返回，否则为
+[`[$INVOKE](f, std::forward<ArgTypes>(args)..., R)] 的返回值。
 
 [para:throws]
 [:en] [`bad_function_call] if [`!*this]; otherwise, any exception thrown by the
 wrapped callable object.
+[:zh_CN] 当 [`!*this] 时抛出 [`bad_function_call]；否则为任何由所包装的可调用
+对象抛出的异常。
 [exit:description]
