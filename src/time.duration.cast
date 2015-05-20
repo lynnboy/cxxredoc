@@ -1,5 +1,5 @@
 ﻿[section#time.duration.cast
-    [:en] [`duration_cast]
+    [`duration_cast]
 ]
 
 [%@library duration_cast]
@@ -12,14 +12,19 @@ template <class ToDuration, class Rep, class Period>
 [para:remarks]
 [:en] This function shall not participate in overload resolution unless
 [`ToDuration] is an instantiation of [`duration].
+[:zh_CN] 除非 [`ToDuration] 是 [`duration] 的实例，否则这个函数不能参与重载决议
+。
 
 [para:returns]
 [:en] Let [`CF] be [`ratio_divide<Period, typename ToDuration::period>], and
 [`CR] be [`common_type<typename ToDuration::rep, Rep, intmax_t>::type].
+[:zh_CN] 令 [`CF] 为  [`ratio_divide<Period, typename ToDuration::period>]，并令
+[`CR] 为 [`common_type<typename ToDuration::rep, Rep, intmax_t>::type]。
 
 [list]
 [item]
 [:en] If [`CF::num == 1] and [`CF::den == 1], returns
+[:zh_CN] 若 [`CF::num == 1] 且 [`CF::den == 1]，则返回
 
 [codeblock:notation]
 ToDuration(static_cast<typename ToDuration::rep>(d.count()))
@@ -27,6 +32,7 @@ ToDuration(static_cast<typename ToDuration::rep>(d.count()))
 
 [item]
 [:en] otherwise, if [`CF::num != 1] and [`CF::den == 1], returns
+[:zh_CN] 否则，若 [`CF::num != 1] 且 [`CF::den == 1]，则返回
 
 [codeblock:notation]
 ToDuration(static_cast<typename ToDuration::rep>(
@@ -35,6 +41,8 @@ ToDuration(static_cast<typename ToDuration::rep>(
 
 [item]
 [:en] otherwise, if [`CF::num == 1] and [`CF::den != 1], returns
+[:zh_CN] 否则，若 [`CF::num == 1] 且 [`CF::den != 1]，则返回
+
 [codeblock:notation]
 ToDuration(static_cast<typename ToDuration::rep>(
   static_cast<CR>(d.count()) / static_cast<CR>(CF::den)))
@@ -42,6 +50,7 @@ ToDuration(static_cast<typename ToDuration::rep>(
 
 [item]
 [:en] otherwise, returns
+[:zh_CN] 否则，返回
 
 [codeblock:notation]
 ToDuration(static_cast<typename ToDuration::rep>(
@@ -52,10 +61,14 @@ ToDuration(static_cast<typename ToDuration::rep>(
 [para:realnotes]
 [:en] This function does not use any implicit conversions; all conversions are
 done with [`static_cast].
+[:zh_CN] 这个函数并不使用任何隐式转换；所有转换都是通过 [`static_cast] 进行的。
 
 [:en] It avoids multiplications and divisions when it is known at compile time
 that one or more arguments is 1.
+[:zh_CN] 这避免了当已知其一个或更多实参为 1 时所进行的乘法和除法。
 
 [:en] Intermediate computations are carried out in the widest representation and
 only converted to the destination representation at the final step.
+[:zh_CN] 其计算的中间结果采用最宽的表示，并且仅在最后一步中才被转换为目标的表示
+。
 [exit:description]
