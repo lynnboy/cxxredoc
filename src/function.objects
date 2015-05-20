@@ -1,5 +1,6 @@
 ﻿[section#function.objects
     [:en] Function objects
+    [:zh_CN] 函数对象
 ]
 
 [para]
@@ -7,35 +8,51 @@
 A [def function object type [% function object[!type]]] is an object type
 ([#basic.types]) that can be the type of the [~postfix-expression] in a function
 call ([#expr.call], [#over.match.call]).
+[:zh_CN]
+[def 函数对象类型[%函数对象[!～类型]]]是可以用作函数调用（[#expr.call，
+[#over.match.call]）中的[~后缀表达式]的类型的对象类型（[#basic.types]）。
 
 [footnote]
 [:en]
 Such a type is a function pointer or a class type which has a member
 [`operator()] or a class type which has a conversion to a pointer to function.
+[:zh_CN]
+这种类型是函数指针，或者带有成员 [`operator()] 的类类型，或者带有向函数指针的
+转换的类类型。
 [footnote:end]
 
 [:en]
 A [def function object] is an object of a function object type.
+[:zh_CN]
+[def 函数对象]是具有函数对象类型的对象。
 
 [:en]
 In the places where one would expect to pass a pointer to a function to an
 algorithmic template (Clause [#algorithms]), the interface is specified to
 accept a function object.
+[:zh_CN]
+在预期可以向算法模板（第 [#algorithms] 条）传递指向某函数的指针之处，该接口就被
+指定为接受一个函数对象。
 
 [:en]
 This not only makes algorithmic templates work with pointers to functions, but
 also enables them to work with arbitrary function objects.
+[:zh_CN]
+这使得算法模板不仅可以用函数指针进行工作，也使它们可以用任意函数对象来工作。
 
 [para] [para:synopsis]
 [:en] Header [`<functional>] synopsis
+[:zh_CN] 头文件 [`<functional>] 纲要
 
 [%@library <functional> [sortas functional]]
 [codeblock:synopsis [special unspecified] ]
 namespace std {
   // [:en] [#func.invoke], invoke:
+  // [|:zh_CN] [#func.invoke]，invoke：
   template <class F, class... Args> result_of_t<F&&(Args&&...)> invoke(F&& f, Args&&... args);
 
   // [:en] [#refwrap], reference_wrapper:
+  // [|:zh_CN] [#refwrap]，reference_wrapper：
   template <class T> class reference_wrapper;
 
   template <class T> reference_wrapper<T> ref(T&) noexcept;
@@ -47,6 +64,7 @@ namespace std {
   template <class T> reference_wrapper<const T> cref(reference_wrapper<T>) noexcept;
 
   // [:en] [#arithmetic.operations], arithmetic operations:
+  // [|:zh_CN] [#arithmetic.operations]，算术操作：
   template <class T = void> struct plus;
   template <class T = void> struct minus;
   template <class T = void> struct multiplies;
@@ -61,6 +79,7 @@ namespace std {
   template <> struct negate<void>;
 
   // [:en] [#comparisons], comparisons:
+  // [|:zh_CN] [#comparisons]，比较：
   template <class T = void> struct equal_to;
   template <class T = void> struct not_equal_to;
   template <class T = void> struct greater;
@@ -75,6 +94,7 @@ namespace std {
   template <> struct less_equal<void>;
 
   // [:en] [#logical.operations], logical operations:
+  // [|:zh_CN] [#logical.operations]，逻辑操作：
   template <class T = void> struct logical_and;
   template <class T = void> struct logical_or;
   template <class T = void> struct logical_not;
@@ -83,6 +103,7 @@ namespace std {
   template <> struct logical_not<void>;
 
   // [:en] [#bitwise.operations], bitwise operations:
+  // [|:zh_CN] [#bitwise.operations]，按位操作：
   template <class T = void> struct bit_and;
   template <class T = void> struct bit_or;
   template <class T = void> struct bit_xor;
@@ -93,6 +114,7 @@ namespace std {
   template <> struct bit_not<void>;
 
   // [:en] [#negators], negators:
+  // [|:zh_CN] [#negators]，求反器：
   template <class Predicate> class unary_negate;
   template <class Predicate>
     constexpr unary_negate<Predicate> not1(const Predicate&);
@@ -101,6 +123,7 @@ namespace std {
     constexpr binary_negate<Predicate> not2(const Predicate&);
 
   // [:en] [#func.bind], bind:
+  // [|:zh_CN] [#func.bind]，bind：
   template<class T> struct is_bind_expression;
   template<class T> struct is_placeholder;
 
@@ -111,6 +134,7 @@ namespace std {
 
   namespace placeholders {
     // [:en] M is the implementation-defined number of placeholders
+    // [|:zh_CN] M 是由实现定义的占位符的数量
     extern unspecified _1;
     extern unspecified _2;
                 .
@@ -120,12 +144,15 @@ namespace std {
   }
 
   // [:en] [#func.memfn], member function adaptors:
+  // [|:zh_CN] [#func.memfn]，成员函数适配器：
   template<class R, class T> unspecified mem_fn(R T::*);
 
   // [:en] [#func.wrap] polymorphic function wrappers:
+  // [|:zh_CN] [#func.wrap] 多态的函数包装器：
   class bad_function_call;
 
   template<class> class function; // [:en] undefined
+                                  // [|:zh_CN] 未定义
   template<class R, class... ArgTypes> class function<R(ArgTypes...)>;
 
   template<class R, class... ArgTypes>
@@ -141,9 +168,11 @@ namespace std {
     bool operator!=(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
 
   // [:en] [#unord.hash], hash function primary template:
+  // [|:zh_CN] [#unord.hash]，hash 函数的主模板：
   template <class T> struct hash;
 
   // [:en] Hash function specializations
+  // [|:zh_CN] hash 函数的特化式
   template <> struct hash<bool>;
   template <> struct hash<char>;
   template <> struct hash<signed char>;
@@ -172,6 +201,8 @@ namespace std {
 [enter:example]
 [:en] If a [=Cpp] program wants to have a by-element addition of two vectors
 [`a] and [`b] containing [`double] and put the result into [`a], it can do:
+[:zh_CN] 若 [=Cpp] 程序想要对包含 [`double] 的两个 [`vector] [`a] 和 [`b] 进行
+逐成员相加并将结果放入 [`a]，则它可以：
 
 [codeblock]
 transform(a.begin(), a.end(), b.begin(), a.begin(), plus<double>());
@@ -181,6 +212,7 @@ transform(a.begin(), a.end(), b.begin(), a.begin(), plus<double>());
 [para]
 [enter:example]
 [:en] To negate every element of [`a]:
+[:zh_CN] 为对 [`a] 的每个元素求反，可以：
 
 [codeblock]
 transform(a.begin(), a.end(), a.begin(), negate<double>());
@@ -195,6 +227,10 @@ one or two arguments many of the function objects in this clause correspondingly
 provide typedefs [`argument_type] and [`result_type] for function objects that
 take one argument and [`first_argument_type], [`second_argument_type], and
 [`result_type] for function objects that take two arguments.
+[:zh_CN]
+为能够使用适配器和操纵带有一个或两个实参的函数对象的其他组件，要求带有一个实参
+的函数对象提供 typedef [`argument_type] 和 [`result_type] 而带有两个实参的函数
+对象提供 [`first_argument_type]、[`second_argument_type] 和 [`result_type]。
 [exit:note]
 
 [include func.def]
