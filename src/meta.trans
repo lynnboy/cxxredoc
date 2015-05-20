@@ -1,15 +1,20 @@
 ﻿[section#meta.trans
     [:en] Transformations between types
+    [:zh_CN] 类型之间的变换
 ]
 [para]
 [:en]
 This sub-clause contains templates that may be used to transform one type to
 another following some predefined rule.
+[:zh_CN]
+本子条款包括可以根据某些预定义的规则把一个类型变换为另一个类型的模板。
 
 [para]
 [:en]
 Each of the templates in this subclause shall be a [+TransformationTrait]
 ([#meta.rqmts]).
+[:zh_CN]
+本子条款中的每个模板均应为 [+TransformationTrait]（[#meta.rqmts]）。
 
 [include meta.trans.cv]
 
