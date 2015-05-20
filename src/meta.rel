@@ -1,29 +1,39 @@
 ﻿[section#meta.rel
     [:en] Relationships between types
+    [:zh_CN] 类型之间的关系
 ]
 
 [para]
 [:en]
 This sub-clause contains templates that may be used to query relationships
 between types at compile time.
+[:zh_CN]
+本子条款包括可在编译时用来查询类型之间的关系的模板。
 
 [para]
 [:en]
 Each of these templates shall be a BinaryTypeTrait ([#meta.rqmts]) with a
 BaseCharacteristic of [`true_type] if the corresponding condition is true,
 otherwise [`false_type].
+[:zh_CN]
+这些模板中的每个都应为 BinaryTypeTrait（[#meta.rqmts]），当其对应条件为真时其
+BaseCharacteristic 为 [`true_type]，否则为 [`false_type]。
 
 [table:listing#tab:type-traits.relationship
     [:en] Type relationship predicates
+    [:zh_CN] 类型关系谓词
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Condition
+            [:zh_CN] 条件
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -33,6 +43,7 @@ otherwise [`false_type].
 template <class T, class U> [br]
 struct is_same;
 [|] [:en] [`T] and [`U] name the same type with the same cv-qualifications
+    [:zh_CN] [`T] 和 [`U] 指名带有相同的 cv-限定性的相同类型
 [|]
 
 [|]
@@ -41,12 +52,18 @@ struct is_base_of;
 [|] [:en] [`Base] is a base class of [`Derived] (Clause [#class.derived])
     without regard to cv-qualifiers or [`Base] and [`Derived] are not unions and
     name the same class type without regard to cv-qualifiers
+    [:zh_CN] [`Base] 是 [`Derived] 的基类（第 [#class.derived] 条）而不管其
+    cv-限定符，或者 [`Base] 和 [`Derived] 不是联合且指明相同的类类型而不管其
+    cv-限定符
 [|] [:en] If [`Base] and [`Derived] are non-union class types and are different
     types (ignoring possible cv-qualifiers) then [`Derived] shall be a complete
     type.
+    [:zh_CN] 若 [`Base] 和 [`Derived] 都是非联合类类型并且是不同的类型（忽略可能
+    的 cv-限定符）则 [`Derived] 应当为完整类型。
     [enter:note]
     [:en] Base classes that are private, protected, or ambiguous are,
     nonetheless, base classes.
+    [:zh_CN] 无论如何，私有、受保护或有歧义的基类也都是基类。
     [exit:note]
 
 [|]
@@ -55,6 +72,8 @@ struct is_convertible;
 [|] [=Seebelow]
 [|] [:en] [`From] and [`To] shall be complete types, arrays of unknown bound, or
     (possibly cv-qualified) [`void] types.
+    [:zh_CN] [`From] 和 [`To] 应当为完整类型，未知边界的数组，或者（可能被
+    cv-限定的）[`void] 类型。
 
 [table:end]
 
@@ -66,22 +85,24 @@ struct B1 : B {};
 struct B2 : B {};
 struct D : private B1, private B2 {};
 
-is_base_of<B, D>::value         // [:en] true
-is_base_of<const B, D>::value   // [:en] true
-is_base_of<B, const D>::value   // [:en] true
-is_base_of<B, const B>::value   // [:en] true
-is_base_of<D, B>::value         // [:en] false
-is_base_of<B&, D&>::value       // [:en] false
-is_base_of<B[3], D[3]>::value   // [:en] false
-is_base_of<int, int>::value     // [:en] false
+is_base_of<B, D>::value         // true
+is_base_of<const B, D>::value   // true
+is_base_of<B, const D>::value   // true
+is_base_of<B, const B>::value   // true
+is_base_of<D, B>::value         // false
+is_base_of<B&, D&>::value       // false
+is_base_of<B[3], D[3]>::value   // false
+is_base_of<int, int>::value     // false
 [codeblock:end]
 [exit:example]
 
 [para]
 [:en]
 Given the following function declaration:
+[:zh_CN]
+给定以下函数原型：
 
-[codeblock]
+[codeblock:notation]
 template <class T>
   add_rvalue_reference_t<T> create() noexcept;
 [codeblock:end]
@@ -91,8 +112,11 @@ the predicate condition for a template specialization [`is_convertible<From,
 To>] shall be satisfied if and only if the return expression in the following
 code would be well-formed, including any implicit conversions to the return type
 of the function:
+[:zh_CN@~]
+当且仅当下列代码中的 return 表达式为良构的（包括向返回类型进行的任何隐式转换），
+模板特例 [`is_convertible<From, To>] 的谓词条件应当被满足：
 
-[codeblock]
+[codeblock:notation]
 To test() {
   return create<From>();
 }
@@ -102,22 +126,33 @@ To test() {
 [:en]
 This requirement gives well defined results for reference types, void types,
 array types, and function types.
+[:zh_CN]
+该规定为引用类型，void 类型，数组类型和函数类型给出了有明确定义的结果。
 [exit:note]
 
 [:en]
 Access checking is performed as if in a context unrelated to [`To] and [`From].
+[:zh_CN]
+如同在与 [`To] 和 [`From] 无关的语境中一样进行访问检查。
 
 [:en]
 Only the validity of the immediate context of the expression of the
 [~return-statement] (including conversions to the return type) is considered.
+[:zh_CN]
+只考察[~返回语句]的表达式（包括向返回类型的转换）的直接语境中的合法性。
 
 [enter:note]
 [:en]
 The evaluation of the conversion can result in side effects such as the
 instantiation of class template specializations and function template
 specializations, the generation of implicitly-defined functions, and so on.
+[:zh_CN]
+对该转换的求值可能造成的副作用包括对类模板特例和函数模板特例的实例化，生成隐式
+定义的函数，等等。
 
 [:en]
 Such side effects are not in the ["immediate context] and can result in the
 program being ill-formed.
+[:zh_CN]
+这种副作用不属于其“直接语境”，且可能导致程序非良构。
 [exit:note]
