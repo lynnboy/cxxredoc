@@ -1,10 +1,15 @@
 ﻿[section#logical.operations
     [:en] Logical operations
+    [:zh_CN] 逻辑运算
 ]
 
 [para]
+[:en]
 The library provides basic function object classes for all of the logical
 operators in the language ([#expr.log.and], [#expr.log.or], [#expr.unary.op]).
+[:zh_CN]
+程序库为语言中的所有逻辑运算符（[#expr.logic.and]，[#expr.logic.or]，
+[#expr.unary.op]）提供了基本的函数对象类。
 
 [%@library logical_and]
 [codeblock:declaration]
@@ -19,6 +24,7 @@ template <class T = void> struct logical_and {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x && y].
+[:zh_CN] [`operator()] 返回 [`x && y]。
 [exit:description]
 
 [%@library logical_or]
@@ -34,6 +40,7 @@ template <class T = void> struct logical_or {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x || y].
+[:zh_CN] [`operator()] 返回 [`x || y]。
 [exit:description]
 
 [%@library logical_not]
@@ -48,6 +55,7 @@ template <class T = void> struct logical_not {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`!x].
+[:zh_CN] [`operator()] 返回 [`!x]。
 [exit:description]
 
 [%@library logical_and<>]
@@ -63,6 +71,7 @@ template <> struct logical_and<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) && std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) && std::forward<U>(u)]。
 [exit:description]
 
 [%@library logical_or<>]
@@ -78,6 +87,7 @@ template <> struct logical_or<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) || std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) || std::forward<U>(u)]。
 [exit:description]
 
 [%@library logical_not<>]
@@ -93,4 +103,5 @@ template <> struct logical_not<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`!std::forward<T>(t)].
+[:zh_CN] [`operator()] 返回 [`!std::forward<T>(t)]。
 [exit:description]
