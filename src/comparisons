@@ -1,11 +1,15 @@
 ﻿[section#comparisons
     [:en] Comparisons
+    [:zh_CN] 比较
 ]
 
 [para]
 [:en]
 The library provides basic function object classes for all of the comparison
 operators in the language ([#expr.rel], [#expr.eq]).
+[:zh_CN]
+程序库为语言中的所有比较运算符（[#expr.rel]，[#expr.eq]）提供了基本的函数对象类
+。
 
 [%@library equal_to]
 [codeblock:declaration]
@@ -20,6 +24,7 @@ template <class T = void> struct equal_to {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x == y].
+[:zh_CN] [`operator()] 返回 [`x == y]。
 [exit:description]
 
 [%@library not_equal_to]
@@ -35,6 +40,7 @@ template <class T = void> struct not_equal_to {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x != y].
+[:zh_CN] [`operator()] 返回 [`x != y]。
 [exit:description]
 
 [%@library greater]
@@ -50,6 +56,7 @@ template <class T = void> struct greater {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x > y].
+[:zh_CN] [`operator()] 返回 [`x > y]。
 [exit:description]
 
 [%@library less]
@@ -65,6 +72,7 @@ template <class T = void> struct less {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x < y].
+[:zh_CN] [`operator()] 返回 [`x < y]。
 [exit:description]
 
 [%@library greater_equal]
@@ -80,6 +88,7 @@ template <class T = void> struct greater_equal {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x >= y].
+[:zh_CN] [`operator()] 返回 [`x >= y]。
 [exit:description]
 
 [%@library less_equal]
@@ -95,6 +104,7 @@ template <class T = void> struct less_equal {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x <= y].
+[:zh_CN] [`operator()] 返回 [`x <= y]。
 [exit:description]
 
 [%@library equal_to<>]
@@ -110,6 +120,7 @@ template <> struct equal_to<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) == std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) == std::forward<U>(u)]。
 [exit:description]
 
 [%@library not_equal_to<>]
@@ -125,6 +136,7 @@ template <> struct not_equal_to<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) != std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) != std::forward<U>(u)]。
 [exit:description]
 
 [%@library greater<>]
@@ -140,6 +152,7 @@ template <> struct greater<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) > std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) > std::forward<U>(u)]。
 [exit:description]
 
 [%@library less<>]
@@ -155,6 +168,7 @@ template <> struct less<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) < std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) < std::forward<U>(u)]。
 [exit:description]
 
 [%@library greater_equal<>]
@@ -170,6 +184,7 @@ template <> struct greater_equal<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) >= std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) >= std::forward<U>(u)]。
 [exit:description]
 
 [%@library less_equal<>]
@@ -185,6 +200,7 @@ template <> struct less_equal<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) <= std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) <= std::forward<U>(u)]。
 [exit:description]
 
 [para]
@@ -192,3 +208,7 @@ template <> struct less_equal<void> {
 For templates [`greater], [`less], [`greater_equal], and [`less_equal], the
 specializations for any pointer type yield a total order, even if the built-in
 operators [`<], [`>], [`<=], [`>=] do not.
+[:zh_CN]
+对于模板 [`greater]、[`less]、[`greater_equal] 和 [`less_equal]，它们对任意指针
+类型的特例均构成一个全序，即使内建的运算符 [`<]、[`>]、[`<=]、[`>=] 并不构成全序
+时也是如此。
