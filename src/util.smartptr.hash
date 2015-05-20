@@ -1,5 +1,6 @@
 ﻿[section#util.smartptr.hash
     [:en] Smart pointer hash support
+    [:zh_CN] 智能制造的散列支持
 ]
 
 [%@library hash]
@@ -11,15 +12,21 @@ template <class T, class D> struct hash<unique_ptr<T, D> >;
 [para]
 [:en] The template specialization shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 该模板特化式应当满足类模板 [`hash] 的规定（[#unord.hash]）。
 
 [:en] For an object [`p] of type [`UP], where [`UP] is [`unique_ptr<T, D>],
 [`hash<UP>()(p)] shall evaluate to the same value as
 [`hash<typename UP::pointer>()(p.get())].
+[:zh_CN] 对于类型 [`UP] 的对象 [`p]，其中 [`UP] 为 [`unique_ptr<T, D>]，
+[`hash<UP>()(p)] 应当求值为与 [`hash<typename UP::pointer>()(p.get())] 相同的值
+。
 
 [para:requires]
 [:en] The specialization [`hash<typename UP::pointer>] shall be well-formed and
 well-defined, and shall meet the requirements of class template [`hash]
 ([#unord.hash]).
+[:zh_CN] 特例 [`hash<typename UP::pointer>] 应当是良构的，且满足类模板 [`hash]
+的规定（[#unord.hash]）。
 [exit:description]
 
 [%@library hash]
@@ -30,7 +37,11 @@ template <class T> struct hash<shared_ptr<T> >;
 [enter:description]
 [para]
 [:en] The template specialization shall meet the requirements of class template
-[`hash] ([#unord.hash]). For an object [`p] of type [`shared_ptr<T>],
-[`hash<shared_ptr<T> >()(p)] shall evaluate to the same value as
-[`hash<T*>()(p.get())].
+[`hash] ([#unord.hash]).
+[:zh_CN] 该模板特化式应当满足类模板 [`hash] 的规定（[#unord.hash]）。
+
+[:en] For an object [`p] of type [`shared_ptr<T>], [`hash<shared_ptr<T> >()(p)]
+shall evaluate to the same value as [`hash<T*>()(p.get())].
+[:zh_CN] 对于类型 [`shared_ptr<T>] 的对象 [`p]，[`hash<shared_ptr<T> >()(p)]
+应当求值为与 [`hash<T*>()(p.get())] 相同的值。
 [exit:description]
