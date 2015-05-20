@@ -1,73 +1,105 @@
 ﻿[section#time.clock.req
     [:en] Clock requirements
+    [:zh_CN] 时钟的规定
 ]
 
 [para]
 [:en]
 A clock is a bundle consisting of a [`duration], a [`time_point], and a function
 [`now()] to get the current [`time_point].
+[:zh_CN]
+时钟是由一种 [`duration]，一种 [`time_point]，以及一个用以获得当前 [`time_point]
+的函数 [`now()] 所构成的组合。
 
 [:en]
 The origin of the clock[=']s [`time_point] is referred to as the clock[=']s
 [def epoch].
+[:zh_CN]
+时钟的 [`time_point] 的原点被称为该时钟的[def 纪元]。
 
 [:en]
 A clock shall meet the requirements in Table [#tab:time.clock].
+[:zh_CN]
+时钟应当满足表 [#tab:time.clock] 中的规定。
 
 [para]
 [:en]
 In Table [#tab:time.clock] [`C1] and [`C2] denote clock types.
+[:zh_CN]
+表 [#tab:time.clock] 中，[`C1] 和 [`C2] 均代表时钟类型。
 
 [:en]
 [`t1] and [`t2] are values returned by [`C1::now()] where the call returning
 [`t1] happens before ([#intro.multithread]) the call returning [`t2] and both of
 these calls occur before [`C1::time_point::max()].
+[:zh_CN]
+[`t1] 和 [`t2] 是由 [`C1::now()] 所返回的值，其中返回 [`t1] 的调用发生早于
+（[#intro.multithread]）返回 [`t2] 的调用，且这些调用均发生早于
+[`C1::time_point::max()]。
 
 [enter:note]
 [:en]
 this means [`C1] did not wrap around between [`t1] and [`t2].
+[:zh_CN]
+其含义为 [`C1] 不会在 [`t1] 和 [`t2] 之间回绕。
 [exit:note]
 
 [table:listing#tab:time.clock
     [:en] Clock requirements
+    [:zh_CN] 时钟规定
     [columns
         [column@code@headercenter
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
     ]
 ]
 
 [|] C1::rep
 [|] [:en] An arithmetic type or a class emulating an arithmetic type
+    [:zh_CN] 算术类型或模仿算术类型的类
 [|] [:en] The representation type of [`C1::duration].
+    [:zh_CN] [`C1::duration] 的表示类型。
 
 [|] C1::period
 [|] [:en] a specialization of [`ratio]
+    [:zh_CN] [`ratio] 的特例
 [|] [:en] The tick period of the clock in seconds.
+    [:zh_CN] 时钟嘀嗒周期（以秒为单位）。
 
 [|] C1::duration
-[|] [:en] [`chrono::duration<C1::rep, C1::period>]
+[|] [`chrono::duration<C1::rep, C1::period>]
 [|] [:en] The [`duration] type of the clock.
+    [:zh_CN] 时钟的 [`duration] 类型。
 
 [|] C1::time_point
 [|] [:en] [`chrono::time_point<C1>] or [`chrono::time_point<C2, C1::duration>]
+    [:zh_CN] [`chrono::time_point<C1>] 或
+    [`chrono::time_point<C2, C1::duration>]
 [|] [:en] The [`time_point] type of the clock.
+    [:zh_CN] 时钟的 [`time_point] 类型。
     [:en] [`C1] and [`C2] shall refer to the same epoch.
+    [:zh_CN] [`C1] 和 [`C2] 应当涉及相同纪元。
 
 [|] C1::is_steady
 [|] [`const bool]
 [|] [:en] [`true] if [`t1 <= t2] is always [`true] and the time between clock
     ticks is constant, otherwise [`false].
+    [:zh_CN] 若 [`t1 <= t2] 总为 [`true] 且时钟嘀嗒之间的时间是常量则为 [`true]
+    ，否则为 [`false]。
 
 [|] C1::now()
 [|] [`C1::time_point]
 [|] [:en] Returns a [`time_point] object representing the current point in time.
+    [:zh_CN] 返回代表当前时间点的 [`time_point] 对象。
 
 [table:end]
 
@@ -76,15 +108,20 @@ this means [`C1] did not wrap around between [`t1] and [`t2].
 [:en]
 The relative difference in durations between those reported by a given clock and
 the SI definition is a measure of the quality of implementation.
+[:zh_CN]
+给定时钟所报出的时间间隔，和 SI 定义之间的相对误差，是实现的质量的度量。
 [exit:note]
 
 [para]
 [:en]
 A type [`TC] meets the [`TrivialClock] requirements if:
+[:zh_CN]
+类型 [`TC] 符合 [`TrivialClock] 的规定，如果：
 
 [list]
 [item]
 [:en] [`TC] satisfies the [`Clock] requirements ([#time.clock.req]),
+[:zh_CN] [`TC] 符合 [`Clock] 的规定（[#time.clock.req]），
 
 [item]
 [:en] the types [`TC::rep], [`TC::duration], and [`TC::time_point] satisfy the
@@ -94,21 +131,33 @@ requirements of [`EqualityComparable] (Table [#equalitycomparable]),
 (Table [#copyconstructible]), [`CopyAssignable] (Table [#copyassignable]),
 [`Destructible] (Table [#destructible]), and the requirements of numeric types
 ([#numeric.requirements]).
+[:zh_CN] 类型 [`TC::rep]、[`TC::duration] 和 [`TC::time_point] 符合
+[`EqualityComparable]（表 [#equalitycomparable]），[`LessThanComparable]
+（表 [#lessthancomparable]），[`DefaultConstructible]
+（表 [#defaultconstructible]），[`CopyConstructible]（表 [#copyconstructible]）
+，[`CopyAssignable]（表 [#copyassignable]），[`Destructible]
+（表 [#destructible]）的规定，以及对数值类型的规定（[#numeric.requirements]）。
 
 [enter:note]
 [:en]
 this means, in particular, that operations on these types will not throw
 exceptions.
+[:zh_CN]
+尤其是，对这些类型的操作不能抛出异常。
 [exit:note]
 
 [item]
 [:en] lvalues of the types [`TC::rep], [`TC::duration], and [`TC::time_point]
 are swappable ([#swappable.requirements]),
+[:zh_CN] 类型 [`TC::rep]、[`TC::duration] 和 [`TC::time_point] 的左值是可交换的
+（[#swappable.requirements]），
 
 [item]
 [:en] the function [`TC::now()] does not throw exceptions, and
+[:zh_CN] 函数 [`TC::now()] 不抛出异常，并且
 
 [item]
 [:en] the type [`TC::time_point::clock] meets the [`TrivialClock] requirements,
 recursively.
+[:zh_CN] 类型 [`TC::time_point::clock] 递归地符合 [`TrivialClock] 的规定。
 [list:end]
