@@ -1,22 +1,33 @@
 ﻿[section#ratio.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
 [%@library ratio]
 [:en]
 This subclause describes the ratio library.
+[:zh_CN]
+本子条款描述 ratio 程序库。
 
 [:en]
 It provides a class template [`ratio] which exactly represents any finite
 rational number with a numerator and denominator representable by compile-time
 constants of type [`intmax_t].
+[:zh_CN]
+它提供类模板 [`ratio]，对任何以类型 [`intmax_t] 的编译期常量能够表示的分子和分母
+构成的有穷的有理数进行精确表示。
 
 [para]
 [:en]
 Throughout this subclause, the names of template parameters are used to express
 type requirements.
+[:zh_CN]
+本子条款全篇中，模板形参的名字用于表达类型规定。
 
 [:en]
 If a template parameter is named [`R1] or [`R2], and the template argument is
 not a specialization of the [`ratio] template, the program is ill-formed.
+[:zh_CN]
+若模板实参的名字为 [`R1] 或 [`R2]，而其模板实参不是 [`ratio] 模板的特例，则程序
+非良构。
