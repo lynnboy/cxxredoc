@@ -1,27 +1,37 @@
 ﻿[section#func.def
     [:en] Definitions
+    [:zh_CN] 定义
 ]
 
 [para]
 [:en] The following definitions apply to this Clause:
+[:zh_CN] 下列定义适用于本条款：
 
 [para]
 [:en] A [def call signature] is the name of a return type followed by a
 parenthesized comma-separated list of zero or more argument types.
+[:zh_CN] [def 调用签名]是返回类型的名字后面跟着带有括号的零个或多个实参类型的
+逗号分隔列表。
 
 [para]
 [:en] A [def callable type] is a function object type ([#function.objects]) or a
 pointer to member.
+[:zh_CN] [def 可调用类型]是函数对象类型（[#function.objects]）或者成员指针。
 
 [para]
 [:en] A [def callable object] is an object of a callable type.
+[:zh_CN] [def 可调用对象]是可调用类型的对象。
 
 [para]
 [:en] A [def call wrapper type [%call wrapper[!type]]] is a type that holds a
 callable object and supports a call operation that forwards to that object.
+[:zh_CN] [def 调用包装器类型[%调用包装器[!～类型]]]是持有一个可调用对象并支持对
+该对象的调用操作进行转发的类型。
 
 [para]
 [:en] A [def call wrapper] is an object of a call wrapper type.
+[:zh_CN] [def 调用包装器]是调用包装器类型的对象。
 
 [para]
 [:en] A [def target object] is the callable object held by a call wrapper.
+[:zh_CN] [def 目标对象]是被调用包装器持有的可调用对象。
