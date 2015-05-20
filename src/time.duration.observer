@@ -1,5 +1,6 @@
 ﻿[section#time.duration.observer
     [:en] [`duration] observer
+    [:zh_CN] [`duration] 探察函数
 ]
 
 [%@library count[!duration]]
@@ -11,4 +12,5 @@ constexpr rep count() const;
 [enter:description]
 [para:returns]
 [:en] [`rep_].
+[:zh_CN] [`rep_]。
 [exit:description]
