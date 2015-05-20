@@ -1,5 +1,5 @@
 ﻿[section#time.traits.duration_values
-    [:en] [`duration_values]
+    [`duration_values]
 ]
 
 [%@library duration_values]
@@ -17,14 +17,22 @@ public:
 [:en]
 The [`duration] template uses the [`duration_values] trait to construct special
 values of the durations representation ([`Rep]).
+[:zh_CN]
+[`duration] 模板利用 [`duration_values] 特征以创建时间段的表示（[`Rep]）的特殊值
+。
 
 [:en]
 This is done because the representation might be a class type with behavior
 which requires some other implementation to return these special values.
+[:zh_CN]
+这样作是由于其表示可能是类类型，并且其行为可能需要从某个其他实现中返回这些特殊值
+。
 
 [:en]
 In that case, the author of that class type should specialize [`duration_values]
 to return the indicated values.
+[:zh_CN]
+这种情况下，该类类型的作者应当特化 [`duration_values] 以返回所指定的值。
 
 [%@library zero[!duration_values]]
 [%@library duration_values[!zero]]
@@ -35,14 +43,18 @@ static constexpr Rep zero();
 [enter:description]
 [para:returns]
 [:en] [`Rep(0)].
+[:zh_CN] [`Rep(0)]。
 
 [enter:note]
 [:en] [`Rep(0)] is specified instead of [`Rep()] because [`Rep()] may have some
 other meaning, such as an uninitialized value.
+[:zh_CN] 指定 [`Rep(0)] 而不是 [`Rep()] 是因为 [`Rep()] 可能带有其他含义，比如
+未初始化的值。
 [exit:note]
 
 [para:remark]
 [:en] The value returned shall be the additive identity.
+[:zh_CN] 所返回的值应当是加法单位元。
 [exit:description]
 
 [%@library min[!duration_values]]
@@ -54,9 +66,11 @@ static constexpr Rep min();
 [enter:description]
 [para:returns]
 [:en] [`numeric_limits<Rep>::lowest()].
+[:zh_CN] [`numeric_limits<Rep>::lowest()]。
 
 [para:remark]
 [:en] The value returned shall compare less than or equal to [`zero()].
+[:zh_CN] 所返回的值应当小于或等于 [`zero()]。
 [exit:description]
 
 [%@library max[!duration_values]]
@@ -68,7 +82,9 @@ static constexpr Rep max();
 [enter:description]
 [para:returns]
 [:en] [`numeric_limits<Rep>::max()].
+[:zh_CN] [`numeric_limits<Rep>::max()]。
 
 [para:remark]
 [:en] The value returned shall compare greater than [`zero()].
+[:zh_CN] 所返回的值应当大于 [`zero()]。
 [exit:description]
