@@ -1,15 +1,19 @@
 ﻿[section#func.bind
     [:en] Function object binders
+    [:zh_CN] 函数对象绑定器
 ]
 
 [%:begin#function.object.binders
     [:en] function object [!binders]
+    [:zh_CN] 函数对象[!绑定器]
 ]
 
 [para]
 [:en]
 This subclause describes a uniform mechanism for binding arguments of callable
 objects.
+[:zh_CN]
+本子条款描述了对可调用对象进行实参绑定的统一机制。
 
 [include func.bind.isbind]
 
