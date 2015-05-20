@@ -1,5 +1,6 @@
 ﻿[section#ratio.ratio
     [:en] Class template [`ratio]
+    [:zh_CN] 类模板 [`ratio]
 ]
 
 [codeblock:synopsis]
@@ -19,15 +20,23 @@ namespace std {
 If the template argument [`D] is zero or the absolute values of either of the
 template arguments [`N] and [`D] is not representable by type [`intmax_t], the
 program is ill-formed.
+[:zh_CN]
+若模板实参 [`D] 为零，或者模板实参 [`N] 和 [`D] 中有任何一个的绝对值无法由类型
+[`intmax_t] 表示，则程序非良构。
 
 [enter:note]
 [:en]
 These rules ensure that infinite ratios are avoided and that for any negative
 input, there exists a representable value of its absolute value which is
 positive.
+[:zh_CN]
+这些规则确保避免了无穷的比值，并且对于任意负输入值，存在一个可表示的值，即其
+绝对值，且为正数。
 
 [:en]
 In a two[=']s complement representation, this excludes the most negative value.
+[:zh_CN]
+在二的补码表示中，最小的负数值被排除在外。
 [exit:note]
 
 [para]
@@ -35,10 +44,15 @@ In a two[=']s complement representation, this excludes the most negative value.
 The static data members [`num] and [`den] shall have the following values,
 where [`gcd] represents the greatest common divisor of the absolute values of
 [`N] and [`D]:
+[:zh_CN]
+静态数据成员 [`num] 和 [`den] 应当具有下述的值，其中 [`gcd] 代表 [`N] 和 [`D] 的
+绝对值的最大公约数。
 
 [list]
 [item]
 [:en] [`num] shall have the value [`sign(N) * sign(D) * abs(N) / gcd].
+[:zh_CN] [`num] 的值应当为 [`sign(N) * sign(D) * abs(N) / gcd]。
 [item]
 [:en] [`den] shall have the value [`abs(D) / gcd].
+[:zh_CN] [`den] 的值应当为 [`abs(D) / gcd]。
 [list:end]
