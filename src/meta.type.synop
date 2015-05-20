@@ -1,14 +1,17 @@
 ﻿[section#meta.type.synop
     [:en] Header [`<type_traits>] synopsis
+    [:zh_CN] 头文件 [`<type_traits>] 纲要
 ]
 [codeblock:synopsis]
 namespace std {
   // [:en] [#meta.help], helper class:
+  // [|:zh_CN] [#meta.help]，辅助类：
   template <class T, T v> struct integral_constant;
   typedef integral_constant<bool, true>  true_type;
   typedef integral_constant<bool, false> false_type;
 
   // [:en] [#meta.unary.cat], primary type categories:
+  // [|:zh_CN] [#meta.unary.cat]，基本类型分类：
   template <class T> struct is_void;
   template <class T> struct is_null_pointer;
   template <class T> struct is_integral;
@@ -25,6 +28,7 @@ namespace std {
   template <class T> struct is_function;
 
   // [:en] [#meta.unary.comp], composite type categories:
+  // [|:zh_CN] [#meta.unary.comp]，组合类型分类：
   template <class T> struct is_reference;
   template <class T> struct is_arithmetic;
   template <class T> struct is_fundamental;
@@ -34,6 +38,7 @@ namespace std {
   template <class T> struct is_member_pointer;
 
   // [:en] [#meta.unary.prop], type properties:
+  // [|:zh_CN] [#meta.unary.prop]，类型属性：
   template <class T> struct is_const;
   template <class T> struct is_volatile;
   template <class T> struct is_trivial;
@@ -83,16 +88,19 @@ namespace std {
   template <class T> struct has_virtual_destructor;
 
   // [:en] [#meta.unary.prop.query], type property queries:
+  // [|:zh_CN] [#meta.unary.prop.query]，类型属性查询：
   template <class T> struct alignment_of;
   template <class T> struct rank;
   template <class T, unsigned I = 0> struct extent;
 
   // [:en] [#meta.rel], type relations:
+  // [|:zh_CN] [#meta.rel]，类型关系：
   template <class T, class U> struct is_same;
   template <class Base, class Derived> struct is_base_of;
   template <class From, class To> struct is_convertible;
 
   // [:en] [#meta.trans.cv], const-volatile modifications:
+  // [|:zh_CN] [#meta.trans.cv]，const-volatile 改造：
   template <class T> struct remove_const;
   template <class T> struct remove_volatile;
   template <class T> struct remove_cv;
@@ -114,6 +122,7 @@ namespace std {
     using add_cv_t          = typename add_cv<T>::type;
 
   // [:en] [#meta.trans.ref], reference modifications:
+  // [|:zh_CN] [#meta.trans.ref]，引用改造：
   template <class T> struct remove_reference;
   template <class T> struct add_lvalue_reference;
   template <class T> struct add_rvalue_reference;
@@ -126,6 +135,7 @@ namespace std {
     using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;
 
   // [:en] [#meta.trans.sign], sign modifications:
+  // [|:zh_CN] [#meta.trans.sign]，符号改造：
   template <class T> struct make_signed;
   template <class T> struct make_unsigned;
 
@@ -135,6 +145,7 @@ namespace std {
     using make_unsigned_t = typename make_unsigned<T>::type;
 
   // [:en] [#meta.trans.arr], array modifications:
+  // [|:zh_CN] [#meta.trans.arr]，数组改造：
   template <class T> struct remove_extent;
   template <class T> struct remove_all_extents;
 
@@ -144,6 +155,7 @@ namespace std {
     using remove_all_extents_t = typename remove_all_extents<T>::type;
 
   // [:en] [#meta.trans.ptr], pointer modifications:
+  // [|:zh_CN] [#meta.trans.ptr]，指针改造：
   template <class T> struct remove_pointer;
   template <class T> struct add_pointer;
 
@@ -153,8 +165,10 @@ namespace std {
     using add_pointer_t    = typename add_pointer<T>::type;
 
   // [:en] [#meta.trans.other], other transformations:
+  // [|:zh_CN] [#meta.trans.other]，其他变换：
   template <std::size_t Len,
             std::size_t Align = default-alignment>   // [:en] see [#meta.trans.other]
+                                                     // [|:zh_CN] 参见 [#meta.trans.other]
     struct aligned_storage;      
   template <std::size_t Len, class... Types> struct aligned_union;
   template <class T> struct decay;
@@ -163,10 +177,12 @@ namespace std {
   template <class... T> struct common_type;
   template <class T> struct underlying_type;
   template <class> class result_of;   // [:en] not defined
+                                      // [|:zh_CN] 未定义
   template <class F, class... ArgTypes> class result_of<F(ArgTypes...)>;
 
   template <std::size_t Len,
             std::size_t Align = default-alignment > // [:en] see [#meta.trans.other]
+                                                    // [|:zh_CN] 参见 [#meta.trans.other]
     using aligned_storage_t = typename aligned_storage<Len,Align>::type;
   template <std::size_t Len, class... Types>
     using aligned_union_t   = typename aligned_union<Len,Types...>::type;
@@ -191,3 +207,5 @@ namespace std {
 [:en]
 The behavior of a program that adds specializations for any of the class
 templates defined in this subclause is undefined unless otherwise specified.
+[:zh_CN] 
+对本子条款中所定义的任何类模板增加特化式的程序的行为是未定义的。
