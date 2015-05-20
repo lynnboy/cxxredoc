@@ -1,14 +1,20 @@
 ﻿[section#func.wrap.func.con
     [:en] [`function] construct/copy/destroy
+    [:zh_CN] [`function] 的构造/复制/销毁
 ]
 
 [para]
 [:en] When any [`function] constructor that takes a first argument of type
 [`allocator_arg_t] is invoked, the second argument shall have a type that conforms
 to the requirements for Allocator (Table [#allocator.requirements]).
+[:zh_CN] 当调用 [`function] 的任何接受第一个 [`allocator_arg_t] 类型的实参的构造
+函数时，第二个实参应当具有符合 Allocator 的规定（表 [#allocator.requirements]）
+的类型。
 
 [:en] A copy of the allocator argument is used to allocate memory, if necessary,
 for the internal data structures of the constructed [`function] object.
+[:zh_CN] 如果需要，分配器实参的一个副本被用于为所构造的 [`function] 对象的内部
+数据结构分配内存。
 
 [%@library function[!function]]
 [codeblock:declaration]
@@ -19,6 +25,7 @@ template <class A> function(allocator_arg_t, const A& a) noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`!*this].
+[:zh_CN] [`!*this]。
 [exit:description]
 
 [%@library function[!function]]
@@ -30,6 +37,7 @@ template <class A> function(allocator_arg_t, const A& a, nullptr_t) noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`!*this].
+[:zh_CN] [`!*this]。
 [exit:description]
 
 [%@library function[!function]]
@@ -41,19 +49,27 @@ template <class A> function(allocator_arg_t, const A& a, const function& f);
 [enter:description]
 [para:postconditions]
 [:en] [`!*this] if [`!f]; otherwise, [`*this] targets a copy of [`f.target()].
+[:zh_CN] 若 [`!f] 则有 [`!*this]；否则 [`*this] 的目标为 [`f.target()] 的一个
+副本。
 
 [para:throws]
 [:en] shall not throw exceptions if [`f][=']s target is a callable object passed
 via [`reference_wrapper] or a function pointer.
+[:zh_CN] 当 [`f] 的目标是以 [`reference_wrapper] 传递的可调用对象，或者函数指针
+时，不应当抛出异常。
 
 [:en] Otherwise, may throw [`bad_alloc] or any exception thrown by the copy
 constructor of the stored callable object.
+[:zh_CN] 否则，可能抛出 [`bad_alloc] 或者任何由所存储的可调用对象的复制构造函数
+所抛出的异常。
 
 [enter:note]
 [:en] Implementations are encouraged to avoid the use of dynamically allocated
 memory for small callable objects, for example, where [`f][=']s target is an
 object holding only a pointer or reference to an object and a member function
 pointer.
+[:zh_CN] 鼓励实现对于小的可调用对象避免使用动态分配的内存，例如，当 [`f] 的目标
+是一种仅保持一个对象指针或引用，以及一个成员函数指针的对象时。
 [exit:note]
 [exit:description]
 
@@ -68,6 +84,8 @@ template <class A> function(allocator_arg_t, const A& a, function&& f);
 [:en] If [`!f], [`*this] has no target; otherwise, move-constructs the target of
 [`f] into the target of [`*this], leaving [`f] in a valid state with an
 unspecified value.
+[:zh_CN] 如果 [`!f]，则 [`*this] 没有目标；否则，将 [`f] 的目标移动构造到
+[`*this] 的目标中，遗留 [`f] 为具有未指明的值的有效状态。
 [exit:description]
 
 [%@library function[!function]]
@@ -79,41 +97,55 @@ template <class F, class A> function(allocator_arg_t, const A& a, F f);
 [enter:description]
 [para:requires]
 [:en] [`F] shall be [`CopyConstructible].
+[:zh_CN] [`F] 应当为 [`CopyConstructible]。
 
 [para:remarks]
 [:en] These constructors shall not participate in overload resolution unless
 [`f] is Callable ([#func.wrap.func]) for argument types [`ArgTypes...] and
 return type [`R].
+[:zh_CN] 除非 [`f] 对于实参类型 [`ArgTypes...] 和返回类型 [`R] 是可调用的
+（[#func.wrap.func]），否则这些构造函数不能参与重载决议。
 
 [para:postconditions]
 [:en] [`!*this] if any of the following hold:
+[:zh_CN] 如果符合以下任何情况则有 [`!*this]：
 
 [list]
 [item]
-[:en@~] [`f] is a null function pointer value.
+[:en] [`f] is a null function pointer value.
+[:zh_CN] [`f] 是空函数指针值。
 [item]
-[:en@~] [`f] is a null member pointer value.
+[:en] [`f] is a null member pointer value.
+[:zh_CN] [`f] 是空成员指针值。
 [item]
-[:en@~] [`F] is an instance of the [`function] class template, and [`!f].
+[:en] [`F] is an instance of the [`function] class template, and [`!f].
+[:zh_CN] [`F] 是类模板 [`function] 的实例，且有 [`!f]。
 [list:end]
 
 [para]
 [:en] Otherwise, [`*this] targets a copy of [`f] initialized with
 [`std::move(f)].
+[:zh_CN] 否则，[`*this] 的目标为以 [`std::move(f)] 初始化的一个 [`f] 的副本。
 
 [enter:note]
 [:en] Implementations are encouraged to avoid the use of dynamically allocated
 memory for small callable objects, for example, where [`f][=']s target is an
 object holding only a pointer or reference to an object and a member function
 pointer.
+[:zh_CN] 鼓励实现对于小的可调用对象避免使用动态分配的内存，例如，当 [`f] 的目标
+是一种仅保持一个对象指针或引用，以及一个成员函数指针的对象时。
 [exit:note]
 
 [para:throws]
 [:en] shall not throw exceptions when [`f] is a function pointer or a
 [`reference_wrapper<T>] for some [`T].
+[:zh_CN] 当 [`f] 是函数指针或者某个 [`T] 的 [`reference_wrapper<T>] 时，不能抛出
+任何异常。
 
 [:en] Otherwise, may throw [`bad_alloc] or any exception thrown by [`F][=']s
 copy or move constructor.
+[:zh_CN] 否则，可能抛出 [`bad_alloc] 或者任何由 [`F] 的复制或移动构造函数所抛出
+的异常。
 [exit:description]
 
 [%@library function[!operator=]]
@@ -124,10 +156,10 @@ function& operator=(const function& f);
 
 [enter:description]
 [para:effects]
-[:en] [`function(f).swap(*this);]
+[`function(f).swap(*this);]
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library function[!operator=]]
@@ -139,9 +171,10 @@ function& operator=(function&& f);
 [enter:description]
 [para:effects]
 [:en] Replaces the target of [`*this] with the target of [`f].
+[:zh_CN] 以 [`f] 的目标替换 [`*this] 的目标。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library function[!operator=]]
@@ -153,12 +186,14 @@ function& operator=(nullptr_t) noexcept;
 [enter:description]
 [para:effects]
 [:en] If [`*this != nullptr], destroys the target of [`this].
+[:zh_CN] 如果 [`*this != nullptr]，则销毁 [`this] 的目标。
 
 [para:postconditions]
 [:en] [`!(*this)].
+[:zh_CN] [`!(*this)]。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library function[!operator=]]
@@ -169,15 +204,18 @@ template<class F> function& operator=(F&& f);
 
 [enter:description]
 [para:effects]
-[:en] [`function(std::forward<F>(f)).swap(*this);]
+[`function(std::forward<F>(f)).swap(*this);]
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 
 [para:remarks]
 [:en] This assignment operator shall not participate in overload resolution
 unless [`declval<typename decay<F>::type&>()] is Callable ([#func.wrap.func])
 for argument types [`ArgTypes...] and return type [`R].
+[:zh_CN] 除非 [`declval<typename decay<F>::type&>()] 对于实参类型 [`ArgTypes...]
+和返回类型 [`R] 是可调用的（[#func.wrap.func]），否则这个赋值运算符不能参与重载
+决议。
 [exit:description]
 
 [%@library function[!operator=]]
@@ -188,10 +226,10 @@ template<class F> function& operator=(reference_wrapper<F> f) noexcept;
 
 [enter:description]
 [para:effects]
-[:en] [`function(f).swap(*this);]
+[`function(f).swap(*this);]
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
 [%@library function[!destructor]]
@@ -202,4 +240,5 @@ template<class F> function& operator=(reference_wrapper<F> f) noexcept;
 [enter:description]
 [para:effects]
 [:en] If [`*this != nullptr], destroys the target of [`this].
+[:zh_CN] 如果 [`*this != nullptr]，则销毁 [`this] 的目标。
 [exit:description]
