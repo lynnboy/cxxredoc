@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.func.alg
     [:en] specialized algorithms
+    [:zh_CN] 特化的算法
 ]
 
 [%@library function[!swap]]
@@ -11,5 +12,5 @@ template<class R, class... ArgTypes>
 
 [enter:description]
 [para:effects]
-[:en] [`f1.swap(f2);]
+[`f1.swap(f2);]
 [exit:description]
