@@ -1,31 +1,43 @@
 ﻿[section#func.bind.bind
     [:en] Function template [`bind]
+    [:zh_CN] 函数模板 [`bind]
 ]
 
 [para]
 [:en]
 In the text that follows, the following names have the following meanings:
+[:zh_CN]
+下文中，下列名字具有以下含义：
 
 [list]
 [item]
 [:en] [`FD] is the type [`decay_t<F>],
+[:zh_CN] [`FD] 为类型 [`decay_t<F>]，
 [item]
 [:en] [`fd] is an lvalue of type [`FD] constructed from [`std::forward<F>(f)],
+[:zh_CN] [`fd] 是以 [`std::forward<F>(f)] 构造的 [`FD] 类型的左值，
 [item]
 [:en] [`Ti] is the [$i[^th]] type in the template parameter pack [`BoundArgs],
+[:zh_CN] [`Ti] 为模板形参包组 [`BoundArgs] 中的第 [$i] 个类型，
 [item]
 [:en] [`TiD] is the type [`decay_t<Ti>],
+[:zh_CN] [`TiD] 为类型 [`decay_t<Ti>]，
 [item]
 [:en] [`ti] is the [$i[^th]] argument in the function parameter pack
 [`bound_args],
+[:zh_CN] [`ti] 为函数形参包组 [`bound_args] 中的第 [$i] 个实参，
 [item]
 [:en] [`tid] is an lvalue of type [`TiD] constructed from
 [`std::forward<Ti>(ti)],
+[:zh_CN] [`tid] 是以 [`std::forward<Ti>(ti)] 构造的 [`TiD] 类型的左值，
 [item]
 [:en] [`Uj] is the [$j[^th]] deduced type of the [`UnBoundArgs&&...] parameter
-  of the forwarding call wrapper, and
+of the forwarding call wrapper, and
+[:zh_CN] [`Uj] 是转发调用包装器的 [`UnBoundArgs&&...] 形参的第 [$j] 个被推断的
+类型，并且
 [item]
 [:en] [`uj] is the [$j[^th]] argument associated with [`Uj].
+[:zh_CN] [`uj] 是与 [`Uj] 关联的第 [$j] 个实参。
 [list:end]
 
 [%@library bind]
@@ -36,39 +48,58 @@ template<class F, class... BoundArgs>
 
 [enter:description]
 [para:requires]
-[:en] [`is_constructible<FD, F>::value] shall be [`true]. For each [`Ti] in
-[`BoundArgs], [`is_constructible<TiD, Ti>::value] shall be [`true].
+[:en] [`is_constructible<FD, F>::value] shall be [`true].
+[:zh_CN] [`is_constructible<FD, F>::value] 应当为 [`true]。
+
+[:en] For each [`Ti] in [`BoundArgs], [`is_constructible<TiD, Ti>::value] shall
+be [`true].
+[:zh_CN] 对于 [`BoundArgs] 中的每个 [`Ti]，[`is_constructible<TiD, Ti>::value]
+应当为 [`true]。
 
 [:en] [`[$INVOKE] (fd, w1, w2, ..., wN)] ([#func.require]) shall be a valid
 expression for some values [$w1, w2, ..., wN], where
 [`N == sizeof...(bound_args)].
+[:zh_CN] [`[$INVOKE] (fd, w1, w2, ..., wN)]（[#func.require]）对于一些值
+[$w1, w2, ..., wN] 应当是有效的表达式，其中 [`N == sizeof...(bound_args)]。
 
 [para:returns]
 [:en] A forwarding call wrapper [`g] with a weak result type ([#func.require]).
+[:zh_CN] 带有弱结果类型（[#func.require]）的转发调用包装器 [`g]。
 
 [:en] The effect of [`g(u1, u2, ..., uM)] shall be [`[$INVOKE](fd,
 std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN),
 result_of_t<FD [$cv] & (V1, V2, ..., VN)>)], where [$cv] represents the
 [$cv]-qualifiers of [`g] and the values and types of the bound arguments
 [`v1, v2, ..., vN] are determined as specified below.
+[:zh_CN] [`g(u1, u2, ..., uM)] 的效果应当为 [`[$INVOKE](fd,
+std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN),
+result_of_t<FD [$cv] & (V1, V2, ..., VN)>)]，其中 [$cv] 代表 [`g] 的 [$cv]-限定
+符，而绑定的实参 [`v1, v2, ..., vN] 是以下述方式确定的。
 
 [:en] The copy constructor and move constructor of the forwarding call wrapper
 shall throw an exception if and only if the corresponding constructor of [`FD]
 or of any of the types [`TiD] throws an exception.
+[:zh_CN] 转发调用包装器的复制构造函数和移动构造函数，当且仅当 [`FD] 的对应构造
+函数或者 [`TiD] 中的任何类型的构造函数抛出异常时，抛出异常。
 
 [para:throws]
 [:en] Nothing unless the construction of [`fd] or of one of the values [`tid]
 throws an exception.
+[:zh_CN] 除非 [`fd] 或 [`tid] 之中的一个值的构造抛出异常，否则不抛出异常。
 
 [para:notes]
 [:en] The return type shall satisfy the requirements of [`MoveConstructible].
+[:zh_CN] 返回类型应当符合 [`MoveConstructible] 的规定。
 
 [:en] If all of [`FD] and [`TiD] satisfy the requirements of
 [`CopyConstructible], then the return type shall satisfy the requirements of
 [`CopyConstructible].
+[:zh_CN] 如果所有的 [`FD] 和 [`TiD] 均符合 [`CopyConstructible] 的规定，则返回
+类型也应当符合 [`CopyConstructible] 的规定。
 
 [enter:note]
 [:en] This implies that all of [`FD] and [`TiD] are [`MoveConstructible].
+[:zh_CN] 这意味着所有的 [`FD] 和 [`TiD] 均为 [`MoveConstructible]。
 [exit:note]
 [exit:description]
 
@@ -81,62 +112,94 @@ template<class R, class F, class... BoundArgs>
 [enter:description]
 [para:requires]
 [:en] [`is_constructible<FD, F>::value] shall be [`true].
+[:zh_CN] [`is_constructible<FD, F>::value] 应当为 [`true]。
 
 [:en] For each [`Ti] in [`BoundArgs], [`is_constructible<TiD, Ti>::value] shall
 be [`true].
+[:zh_CN] 对于 [`BoundArgs] 中的每个 [`Ti]，[`is_constructible<TiD, Ti>::value]
+应当为 [`true]。
 
 [:en] [`[$INVOKE](fd, w1, w2, ..., wN)] shall be a valid expression for some
 values [$w1, w2, ..., wN], where [`N == sizeof...(bound_args)].
+[:zh_CN]
+[:zh_CN] [`[$INVOKE](fd, w1, w2, ..., wN)] 对于一些值 [$w1, w2, ..., wN] 应当是
+有效的表达式，其中 [`N == sizeof...(bound_args)]。
 
 [para:returns]
-[:en] A forwarding call wrapper [`g] with a nested  type [`result_type] defined
+[:en] A forwarding call wrapper [`g] with a nested type [`result_type] defined
 as a synonym for [`R].
+[:en] A forwarding call wrapper [`g] with a weak result type ([#func.require]).
+[:zh_CN] 转发调用包装器 [`g]，带有一个被定义为 [`R] 的同义词的嵌套类型
+[`result_type]。
 
 [:en] The effect of [`g(u1, u2, ..., uM)] shall be [`[$INVOKE](fd,
 std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN), R)],
 where the values and types of the bound arguments [`v1, v2, ..., vN] are
 determined as specified below.
+[:zh_CN] [`g(u1, u2, ..., uM)] 的效果应当为 [`[$INVOKE](fd,
+std::forward<V1>(v1), std::forward<V2>(v2), ..., std::forward<VN>(vN), R)]，其中
+绑定的实参 [`v1, v2, ..., vN] 是以下述方式确定的。
 
 [:en] The copy constructor and move constructor of the forwarding call wrapper
 shall throw an exception if and only if the corresponding constructor of [`FD]
 or of any of the types [`TiD] throws an exception.
+[:zh_CN] 转发调用包装器的复制构造函数和移动构造函数，当且仅当 [`FD] 的对应构造
+函数或者 [`TiD] 中的任何类型的构造函数抛出异常时，抛出异常。
 
 [para:throws]
 [:en] Nothing unless the construction of [`fd] or of one of the values [`tid]
 throws an exception.
+[:zh_CN] 除非 [`fd] 或 [`tid] 之中的一个值的构造抛出异常，否则不抛出异常。
 
 [para:notes]
 [:en] The return type shall satisfy the requirements of [`MoveConstructible].
+[:zh_CN] 返回类型应当符合 [`MoveConstructible] 的规定。
 
 [:en] If all of [`FD] and [`TiD] satisfy the requirements of
 [`CopyConstructible], then the return type shall satisfy the requirements of
 [`CopyConstructible].
+[:zh_CN] 如果所有的 [`FD] 和 [`TiD] 均符合 [`CopyConstructible] 的规定，则返回
+类型也应当符合 [`CopyConstructible] 的规定。
 
 [enter:note]
 [:en] This implies that all of [`FD] and [`TiD] are [`MoveConstructible].
+[:zh_CN] 这意味着所有的 [`FD] 和 [`TiD] 均为 [`MoveConstructible]。
 [exit:note]
 [exit:description]
 
 [para]
-[:en] [%bound arguments]
-The values of the [+bound arguments] [`v1, v2, ..., vN] and their corresponding
-types [`V1, V2, ..., VN] depend on the types [`TiD] derived from the call to
-[`bind] and the [$cv]-qualifiers [$cv] of the call wrapper [`g] as follows:
+[:en]
+The values of the [%bound arguments] [+bound arguments] [`v1, v2, ..., vN] and
+their corresponding types [`V1, V2, ..., VN] depend on the types [`TiD] derived
+from the call to [`bind] and the [$cv]-qualifiers [$cv] of the call wrapper [`g]
+as follows:
+[:zh_CN]
+[+被绑定实参][%被绑定实参]的值 [`v1, v2, ..., vN] 及其对应类型
+[`V1, V2, ..., VN] 以如下方式依赖于从对 [`bind] 的调用中得出的类型 [`TiD]，以及
+调用包装器 [`g] 的 [$cv]-限定符 [$cv]：
 
 [list]
 [item]
 [:en] if [`TiD] is [`reference_wrapper<T>], the argument is [`tid.get()] and its
 type [`Vi] is [`T&];
+[:zh_CN] 若 [`TiD] 为 [`reference_wrapper<T>]，则实参为 [`tid.get()] 而其类型
+[`Vi] 为 [`T&]；
 
 [item]
 [:en] if the value of [`is_bind_expression<TiD>::value] is [`true], the argument
-is [`tid(std::forward<Uj>(uj)...)]  and its type [`Vi] is [`result_of_t<TiD
-[$cv] & (Uj&&...)>&&];
+is [`tid(std::forward<Uj>(uj)...)] and its type [`Vi] is
+[`result_of_t<TiD [$cv] & (Uj&&...)>&&];
+[:zh_CN] 若 [`is_bind_expression<TiD>::value] 的值为 [`true]，则实参为
+[`tid(std::forward<Uj>(uj)...)] 而其类型 [`Vi] 为
+[`result_of_t<TiD [$cv] & (Uj&&...)>&&]；
 
 [item]
 [:en] if the value [`j] of [`is_placeholder<TiD>::value] is not zero, the
 argument is [`std::forward<Uj>(uj)] and its type [`Vi] is [`Uj&&];
+[:zh_CN] 若 [`is_placeholder<TiD>::value] 的值 [`j] 不为零，则实参为
+[`std::forward<Uj>(uj)] 而其类型 [`Vi] 为 [`Uj&&]；
 
 [item]
 [:en] otherwise, the value is [`tid] and its type [`Vi] is [`TiD [$cv] &].
+[:zh_CN] 否则，其值为 [`tid] 而其类型 [`Vi] 为 [`TiD [$cv] &]。
 [list:end]
