@@ -1,5 +1,6 @@
 ﻿[section#ratio.comparison
     [:en] Comparison of [`ratio]s
+    [:zh_CN] [`ratio] 的比较
 ]
 
 [%@library ratio_equal]
@@ -13,6 +14,9 @@ template <class R1, class R2> struct ratio_equal
 [:en] If [`R1::num == R2::num] and [`R1::den == R2::den], [`ratio_equal<R1, R2>]
 shall be derived from [`integral_constant<bool, true>]; otherwise it shall be
 derived from [`integral_constant<bool, false>].
+[:zh_CN] 若 [`R1::num == R2::num] 且 [`R1::den == R2::den]，则
+[`ratio_equal<R1, R2>] 应当派生于 [`integral_constant<bool, true>]；否则它应当
+派生于 [`integral_constant<bool, false>]。
 [exit:description]
 
 [%@library ratio_not_equal]
@@ -32,11 +36,16 @@ template <class R1, class R2> struct ratio_less
 [:en] If [`R1::num * R2::den < R2::num * R1::den], [`ratio_less<R1, R2>] shall
 be derived from [`integral_constant<bool, true>]; otherwise it shall be derived
 from [`integral_constant<bool, false>].
+[:zh_CN] 若 [`R1::num * R2::den < R2::num * R1::den]，则 [`ratio_less<R1, R2>]
+应当派生于 [`integral_constant<bool, true>]；否则它应当派生于
+[`integral_constant<bool, false>]。
 
 [:en] Implementations may use other algorithms to compute this relationship to
 avoid overflow.
+[:zh_CN] 实现可以使用其他算法来计算这些关系以避免溢出。
 
 [:en] If overflow occurs, the program is ill-formed.
+[:zh_CN] 若发生了溢出，则程序非良构。
 [exit:description]
 
 [%@library ratio_less_equal]
