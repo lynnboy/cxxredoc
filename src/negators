@@ -1,11 +1,15 @@
 ﻿[section#negators
     [:en] Negators
+    [:zh_CN] 求反器
 ]
 
 [para]
 [:en]
 Negators [`not1] and [`not2] take a unary and a binary predicate, respectively,
 and return their complements ([#expr.unary.op]).
+[:zh_CN]
+求反器 [`not1] 和 [`not2] 分别接受一元和二元谓词，并返回它们的补
+（[#expr.unary.op]）。
 
 [%@library unary_negate]
 [codeblock:declaration]
@@ -22,6 +26,7 @@ public:
 [enter:description]
 [para]
 [:en] [`operator()] returns [`!pred(x)].
+[:zh_CN] [`operator()] 返回 [`!pred(x)]。
 [exit:description]
 
 [%@library not1]
@@ -33,6 +38,7 @@ template <class Predicate>
 [enter:description]
 [para:returns]
 [:en] [`unary_negate<Predicate>(pred)].
+[:zh_CN] [`unary_negate<Predicate>(pred)]。
 [exit:description]
 
 [%@library binary_negate]
@@ -52,6 +58,7 @@ template <class Predicate>
 [enter:description]
 [para]
 [:en] [`operator()] returns [`!pred(x,y)].
+[:zh_CN] [`operator()] 返回 [`!pred(x,y)]。
 [exit:description]
 
 [%@library not2]
@@ -63,4 +70,5 @@ template <class Predicate>
 [enter:description]
 [para:returns]
 [:en] [`binary_negate<Predicate>(pred)].
+[:zh_CN] [`binary_negate<Predicate>(pred)]。
 [exit:description]
