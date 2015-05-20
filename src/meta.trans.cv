@@ -1,15 +1,19 @@
 ﻿[section#meta.trans.cv
     [:en] Const-volatile modifications
+    [:zh_CN] const-volatile 改造
 ]
 
 [table:listing#tab:type-traits.const-volatile
     [:en] Const-volatile modifications
+    [:zh_CN] const-volatile 改造
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -19,30 +23,45 @@
 template <class T> [br]
 struct remove_const;
 [|] [:en] The member typedef [`type] shall name the same type as [`T] except
-    that any top-level const-qualifier has been removed. [br]
+    that any top-level const-qualifier has been removed.
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层
+    const-限定符均被移除。
+    [br]
     [enter:example]
     [:en] [`remove_const_t<const volatile int>] evaluates to [`volatile int],
     whereas [`remove_const_t<const int*>] evaluates to [`const int*].
+    [:zh_CN] [`remove_const_t<const volatile int>] 求值为 [`volatile int]，而
+    [`remove_const_t<const int*>] 为 [`const int*]。
     [exit:example]
 
 [|]
 template <class T> [br]
 struct remove_volatile;
 [|] [:en] The member typedef [`type] shall name the same type as [`T] except
-    that any top-level volatile-qualifier has been removed. [br]
+    that any top-level volatile-qualifier has been removed.
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层
+    volatile-限定符均被移除。
+    [br]
     [enter:example]
     [:en] [`remove_volatile_t<const volatile int>] evaluates to [`const int],
     whereas [`remove_volatile_t<volatile int*>] evaluates to [`volatile int*].
+    [:zh_CN] [`remove_volatile_t<const volatile int>] 求值为 [`const int]，而
+    [`remove_volatile_t<volatile int*>] 求值为 [`volatile int*]。
     [exit:example]
 
 [|]
 template <class T> [br]
 struct remove_cv;
 [|] [:en] The member typedef [`type] shall be the same as [`T] except that any
-    top-level cv-qualifier has been removed. [br]
+    top-level cv-qualifier has been removed.
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层 cv-限定符
+    均被移除。
+    [br]
     [enter:example]
     [:en] [`remove_cv_t<const volatile int>] evaluates to [`int], whereas
     [`remove_cv_t<const volatile int*>] evaluates to [`const volatile int*].
+    [:zh_CN] [`remove_cv_t<const volatile int>] 求值为 [`int]，而
+    [`remove_cv_t<const volatile int*>] 求值为 [`const volatile int*]。
     [exit:example]
 
 [|]
@@ -50,16 +69,24 @@ template <class T> [br]
 struct add_const;
 [|] [:en] If [`T] is a reference, function, or top-level const-qualified type,
     then [`type] shall name the same type as [`T], otherwise [`T const].
+    [:zh_CN] 若 [`T] 为引用、函数或带有顶层 const-限定的类型，则 [`type] 应当
+    指名 [`T] 的相同类型，否则为 [`T const]。
 
+[|]
 template <class T> [br]
 struct add_volatile;
 [|] [:en] If [`T] is a reference, function, or top-level volatile-qualified
     type, then [`type] shall name the same type as [`T], otherwise
     [`T volatile].
+    [:zh_CN] 若 [`T] 为引用、函数或带有顶层 volatile-限定的类型，则 [`type] 应当
+    指名 [`T] 的相同类型，否则为 [`T volatile]。
+
 [|]
 template <class T>
 struct add_cv;
 [|] [:en] The member typedef [`type] shall name the same type as
     [`add_const_t<add_volatile_t<T>>].
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`add_const_t<add_volatile_t<T>>] 的
+    相同类型。
 
 [table:end]
