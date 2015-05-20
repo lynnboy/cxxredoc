@@ -1,39 +1,61 @@
 ﻿[section#ratio.arithmetic
     [:en] Arithmetic on [`ratio]s
+    [:zh_CN] [`ratio] 的算术
 ]
 
 [para]
 [:en]
 Each of the alias templates [`ratio_add], [`ratio_subtract], [`ratio_multiply],
 and [`ratio_divide] denotes the result of an arithmetic computation on two
-[`ratio]s [`R1] and [`R2]. With [`X] and [`Y] computed (in the absence of
-arithmetic overflow) as specified by Table [#tab:ratio.arithmetic], each alias
-denotes a [`ratio<U, V>] such that [`U] is the same as [`ratio<X, Y>::num] and
-[`V] is the same as [`ratio<X, Y>::den].
+[`ratio]s [`R1] and [`R2].
+[:zh_CN]
+别名模板 [`ratio_add]、[`ratio_subtract]、[`ratio_multiply] 和 [`ratio_divide]
+均代表对两个 [`ratio] [`R1] 和 [`R2] 进行算术运算的结果。
+
+[:en]
+With [`X] and [`Y] computed (in the absence of arithmetic overflow) as specified
+by Table [#tab:ratio.arithmetic], each alias denotes a [`ratio<U, V>] such that
+[`U] is the same as [`ratio<X, Y>::num] and [`V] is the same as
+[`ratio<X, Y>::den].
+[:zh_CN]
+其中对 [`X] 和 [`Y] 的计算（不考虑算术溢出）如表 [#tab:ratio.arithmetic] 所示，
+这些别名均代表一个 [`ratio<U, V>]，使得 [`U] 与 [`ratio<X, Y>::num] 相同，且
+[`V] 与 [`ratio<X, Y>::den] 相同。
 
 [para]
 [:en]
 If it is not possible to represent [`U] or [`V] with [`intmax_t], the program is
 ill-formed.
+[:zh_CN]
+如果 [`U] 或 [`V] 无法由 [`intmax_t] 所表示，则程序非良构。
 
 [:en]
 Otherwise, an implementation should yield correct values of [`U] and [`V].
+[:zh_CN]
+否则，实现应当为 [`U] 和 [`V] 生成正确的值。
 
 [:en]
 If it is not possible to represent [`X] or [`Y] with [`intmax_t], the program is
 ill-formed unless the implementation yields correct values of [`U] and [`V].
+[:zh_CN]
+如果 [`X] 或 [`Y] 无法由 [`intmax_t] 所表示，那么除非实现为 [`U] 和 [`V] 生成了
+正确的值，否则程序非良构。
 
 [table:listing#tab:ratio.arithmetic
     [:en] Expressions used to perform ratio arithmetic
+    [:zh_CN] 用于执行 ratio 算术的表达式
     [columns
         [column@code@headercenter
             [:en] Type
+            [:zh_CN] 类型
         ]
         [column@code@headercenter
             [:en] Value of [`X]
+            [:zh_CN] [`X] 的值
         ]
         [column@code@headercenter
             [:en] Value of [`Y]
+            [:zh_CN] [`Y] 的值
         ]
     ]
 ]
@@ -66,6 +88,7 @@ static_assert(ratio_multiply<ratio<1,3>, ratio<3,2>>::num == 1, "1/3*3/2 == 1/2"
 static_assert(ratio_multiply<ratio<1,3>, ratio<3,2>>::den == 2, "1/3*3/2 == 1/2");
 
   // [:en] The following cases may cause the program to be ill-formed under some implementations
+  // [|:zh_CN] 下列情况在某些实现中可能导致程序非良构
 static_assert(ratio_add<ratio<1,INT_MAX>, ratio<1,INT_MAX>>::num == 2,
   "1/MAX+1/MAX == 2/MAX");
 static_assert(ratio_add<ratio<1,INT_MAX>, ratio<1,INT_MAX>>::den == INT_MAX,
