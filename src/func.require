@@ -1,33 +1,47 @@
 ﻿[section#func.require
     [:en] Requirements
+    [:zh_CN] 规定
 ]
 
 [para]
 [%@library@it INVOKE]
 [:en]
 Define [`[$INVOKE](f, t1, t2, ..., tN)] as follows:
+[:zh_CN]
+定义 [`[$INVOKE](f, t1, t2, ..., tN)] 如下：
 
 [list]
 [item]
 [:en] [`(t1.*f)(t2, ..., tN)] when [`f] is a pointer to a member function of a
 class [`T] and [`t1] is an object of type [`T] or a reference to an object of
 type [`T] or a reference to an object of a type derived from [`T];
+[:zh_CN] [`(t1.*f)(t2, ..., tN)]，当 [`f] 为指向类 [`T] 的成员函数指针，而
+[`t1] 为类型 [`T] 的对象或者指代 [`T] 类型的对象的引用，或者指代派生自 [`T] 的
+类型的对象的引用时；
 
 [item]
 [:en] [`((*t1).*f)(t2, ..., tN)] when [`f] is a pointer to a member function of
 a class [`T] and [`t1] is not one of the types described in the previous item;
+[:zh_CN] [`((*t1).*f)(t2, ..., tN)]，当 [`f] 为指向类 [`T] 的成员函数指针，而
+[`t1] 不是上一条所描述的类型之一时；
 
 [item]
 [:en] [`t1.*f] when [`N == 1] and [`f] is a pointer to member data of a class
 [`T] and [`t1] is an object of type [`T] or a reference to an object of type
 [`T] or a reference to an object of a type derived from [`T];
+[:zh_CN] [`t1.*f]，当 [`N == 1] 且 [`f] 为指向类 [`T] 的成员函数指针，而 [`t1]
+为类型 [`T] 的对象或者指代 [`T] 类型的对象的引用，或者指代派生自 [`T] 的类型的
+对象的引用时；
 
 [item]
 [:en] [`(*t1).*f] when [`N == 1] and [`f] is a pointer to member data of a class
 [`T] and [`t1] is not one of the types described in the previous item;
+[:zh_CN] [`(*t1).*f]，当 [`N == 1] 且 [`f] 为指向类 [`T] 的成员函数指针，而
+[`t1] 不是上一条所描述的类型之一时；
 
 [item]
 [:en] [`f(t1, t2, ..., tN)] in all other cases.
+[:zh_CN] 在所有其他情况下为 [`f(t1, t2, ..., tN)]。
 [list:end]
 
 [para]
@@ -35,6 +49,9 @@ a class [`T] and [`t1] is not one of the types described in the previous item;
 [:en]
 Define [`[$INVOKE](f, t1, t2, ..., tN, R)] as [`[$INVOKE](f, t1, t2, ..., tN)]
 implicitly converted to [`R].
+[:zh_CN]
+定义 [`[$INVOKE](f, t1, t2, ..., tN, R)] 为 [`[$INVOKE](f, t1, t2, ..., tN)]
+隐式转换为 [`R]。
 
 [para]
 [:en]
@@ -44,23 +61,36 @@ implicitly converted to [`R].
 If a call wrapper ([#func.def]) has a [+weak result type] the type of its member
 type [`result_type] is based on the type [`T] of the wrapper[=']s target object
 ([#func.def]):
+[:zh_CN]
+[%弱结果类型]
+[%调用包装器]
+[%目标对象]
+如果调用包装器（[#func.def]）具有[+弱结果类型]，则其成员类型 [`result_type] 的
+类型将基于该表装器的目标对象（[#func.def]）的类型 [`T]：
 
 [list]
 [item]
 [:en] if [`T] is a pointer to function type, [`result_type] shall be a synonym
 for the return type of [`T];
+[:zh_CN] 若 [`T] 为指向函数的指针类型，则 [`result_type] 应当为 [`T] 的返回类型
+的同义词；
 
 [item]
 [:en] if [`T] is a pointer to member function, [`result_type] shall be a synonym
 for the return type of [`T];
+[:zh_CN] 若 [`T] 为成员函数指针，则 [`result_type] 应当为 [`T] 的返回类型的
+同义词；
 
 [item]
 [:en] if [`T] is a class type and the [~qualified-id] [`T::result_type] is valid
 and denotes a type ([#temp.deduct]), then [`result_type] shall be a synonym for
 [`T::result_type];
+[:zh_CN] 若 [`T] 为类类型，且[~限定标识] [`T::result_type] 有效并且代表某个类型
+（[#temp.deduct]），则 [`result_type] 应当为 [`T::result_type] 的同义词；
 
 [item]
 [:en] otherwise [`result_type] shall not be defined.
+[:zh_CN] 否则不应当定义 [`result_type]。
 [list:end]
 
 [para]
@@ -71,25 +101,42 @@ and denotes a type ([#temp.deduct]), then [`result_type] shall be a synonym for
 [%simple call wrapper]
 [%forwarding call wrapper]
 Every call wrapper ([#func.def]) shall be [`MoveConstructible].
+[:zh_CN]
+[%调用包装器]
+[%调用包装器[!简单～]]
+[%调用包装器[!转发～]]
+[%简单调用包装器]
+[%转发调用包装器]
+每个调用包装器（[#func.def]）均应为 [`MoveConstructible]。
 
 [:en]
 A [+simple call wrapper] is a call wrapper that is [`CopyConstructible] and
 [`CopyAssignable] and whose copy constructor, move constructor, and assignment
 operator do not throw exceptions.
+[:zh_CN]
+[+简单调用包装器]是 [`CopyConstructible] 且 [`CopyAssignable] 的调用包装器，且其
+复制构造函数、移动构造函数和赋值运算符并不抛出异常。
 
 [:en]
 A [+forwarding call wrapper] is a call wrapper that can be called with an
 arbitrary argument list and delivers the arguments to the wrapped callable
 object as references.
+[:zh_CN]
+[+转发调用包装器]是可以用任意实参列表调用，并将其实参以引用递交给所包装的可调用
+对象的调用包装器。
 
 [:en]
 This forwarding step shall ensure that rvalue arguments are delivered as rvalue
 references and lvalue arguments are delivered as lvalue references.
+[:zh_CN]
+转发步骤中应当确保右值实参以右值引用递交而左值实参以左值引用递交。
 
 [enter:note]
 [:en]
 In a typical implementation forwarding call wrappers have an overloaded function
 call operator of the form
+[:zh_CN]
+在典型实现中转发调用包装器具有如下形式的重载函数调用运算符
 
 [codeblock:notation]
 template<class... UnBoundArgs>
