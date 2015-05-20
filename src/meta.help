@@ -1,5 +1,6 @@
 ﻿[section#meta.help
     [:en] Helper classes
+    [:zh_CN] 辅助类
 ]
 
 [codeblock:synopsis]
@@ -22,3 +23,7 @@ namespace std {
 The class template [`integral_constant] and its associated typedefs [`true_type]
 and [`false_type] are used as base classes to define the interface for various
 type traits.
+[:zh_CN] 
+类模板 [`integral_constant] 及其关联的 typedef [`true_type] 和 [`false_type] 被
+用作定义各种类型特征的接口时的基类。
+
