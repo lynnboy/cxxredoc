@@ -1,14 +1,18 @@
 ﻿[section#func.wrap
     [:en] Polymorphic function wrappers
+    [:zh_CN] 多态函数包装器
 ]
 [%:begin#function.object.wrapper
     [:en] function object [!wrapper]
+    [:zh_CN] 函数对象[!包装器]
 ]
 
 [para]
 [:en]
 This subclause describes a polymorphic wrapper class that encapsulates arbitrary
 callable objects.
+[:zh_CN]
+本子条款描述了一个可以封装任意可调用对象的多态包装器类。
 
 [include func.wrap.badcall]
 
