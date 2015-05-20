@@ -1,30 +1,50 @@
 ﻿[section#func.bind.isplace
     [:en] Class template [`is_placeholder]
+    [:zh_CN] 类模板 [`is_placeholder]
 ]
 
 [%@library is_placeholder]
 [codeblock:synopsis]
 namespace std {
   template<class T> struct is_placeholder; // [:en] see below
+                                           // [|:zh_CN] 见下文
 }
 [codeblock:end]
 
 [para]
 [:en]
 [`is_placeholder] can be used to detect the standard placeholders [`_1], [`_2],
-and so on. [`bind] uses [`is_placeholder] to detect placeholders.
+and so on.
+[:zh_CN]
+[`is_placeholder] 可被用于检测标准占位符 [`_1], [`_2] 等等。
+
+[:en]
+[`bind] uses [`is_placeholder] to detect placeholders.
+[:zh_CN]
+[`bind] 使用 [`is_placeholder] 来检测占位符。
 
 [para]
 [:en]
 Instantiations of the [`is_placeholder] template shall meet the UnaryTypeTrait
 requirements ([#meta.rqmts]).
+[:zh_CN]
+[`is_placeholder] 模板的实例应当符合 UnaryTypeTrait 的规定
+（[#meta.rqmts]）。
 
 [:en]
 The implementation shall provide a definition that has the BaseCharacteristic of
 [`integral_constant<int, J>] if [`T] is the type of [`std::placeholders::_J],
 otherwise it shall have a BaseCharacteristic of [`integral_constant<int, 0>].
+[:zh_CN]
+实现为其提供的定义，当 [`T] 是 [`std::placeholders::_J] 的类型时应当具有
+BaseCharacteristic [`integral_constant<int, J>]，否则应当具有 BaseCharacteristic
+[`integral_constant<int, 0>]。
 
 [:en]
 A program may specialize this template for a user-defined type [`T] to have a
 BaseCharacteristic of [`integral_constant<int, [$N]>] with [`[$N] > 0] to
 indicate that [`T] should be treated as a placeholder type.
+[:zh_CN]
+程序可以为某个用户定义的类型 [`T] 特化这个模板以具有 BaseCharacteristic
+[`integral_constant<int, [$N]>]（其中 [`[$N] > 0]），用以指出 [`T] 应当被当作
+占位符类型。
