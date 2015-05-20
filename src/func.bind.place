@@ -1,5 +1,6 @@
 ﻿[section#func.bind.place
     [:en] Placeholders
+    [:zh_CN] 占位符
 ]
 
 [%@library placeholders]
@@ -7,6 +8,7 @@
 [codeblock:synopsis [special unspecified] ]
 namespace std::placeholders {
   // [:en] M is the implementation-defined number of placeholders
+  // [|:zh_CN] M 为由实现定义的占位符数量
   extern unspecified _1;
   extern unspecified _2;
               .
@@ -21,11 +23,19 @@ namespace std::placeholders {
 All placeholder types shall be [`DefaultConstructible] and [`CopyConstructible],
 and their default constructors and copy/move constructors shall not throw
 exceptions.
+[:zh_CN]
+所有占位符类型均应为 [`DefaultConstructible] 和 [`CopyConstructible]，并且它们的
+默认构造函数和复制/移动构造函数不能抛出任何异常。
 
 [:en]
 It is [%@impldef assignability of placeholder objects] implementation-defined
 whether placeholder types are [`CopyAssignable].
+[:zh_CN]
+占位符类型是否为 [`CopyAssignable] 是[%@impldef 占位符对象的可赋值性]由实现定义
+的。
 
 [:en]
 [`CopyAssignable] placeholders[='] copy assignment operators shall not throw
 exceptions.
+[:zh_CN]
+[`CopyAssignable] 占位符的复制赋值运算符不能抛出任何异常。
