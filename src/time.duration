@@ -1,21 +1,30 @@
 ﻿[section#time.duration
     [:en] Class template [`duration]
+    [:zh_CN] 类模板 [`duration]
 ]
 
 [para]
 [:en]
 A [`duration] type measures time between two points in time ([`time_point]s).
+[:zh_CN]
+[`duration] 类型测量两个时间点（[`time_point]）之间的时间。
 
 [:en]
 A [`duration] has a representation which holds a count of ticks and a tick
 period.
+[:zh_CN]
+一个 [`duration] 具有一个表示，它持有一个嘀嗒计数和一个嘀嗒周期。
 
 [:en]
 The tick period is the amount of time which occurs from one tick to the next, in
 units of seconds.
+[:zh_CN]
+嘀嗒周期是一个嘀嗒到下一个嘀嗒之间所发生的时间量，并以秒为单位。
 
 [:en]
 It is expressed as a rational constant using the template [`ratio].
+[:zh_CN]
+利用模板 [`ratio] 将其表现为一个有理数常量。
 
 [codeblock:synopsis]
 template <class Rep, class Period = ratio<1>>
@@ -27,6 +36,7 @@ private:
   rep rep_;  // [=Expos]
 public:
   // [:en] [#time.duration.cons], construct/copy/destroy:
+  // [|:zh_CN] [#time.duration.cons]，构造/复制/销毁：
   constexpr duration() = default;
   template <class Rep2>
       constexpr explicit duration(const Rep2& r);
@@ -37,9 +47,11 @@ public:
   duration& operator=(const duration&) = default;
 
   // [:en] [#time.duration.observer], observer:
+  // [|:zh_CN] [#time.duration.observer]，探察函数：
   constexpr rep count() const;
 
   // [:en] [#time.duration.arithmetic], arithmetic:
+  // [|:zh_CN] [#time.duration.arithmetic]，算术：
   constexpr duration  operator+() const;
   constexpr duration  operator-() const;
   duration& operator++();
@@ -56,6 +68,7 @@ public:
   duration& operator%=(const duration& rhs);
 
   // [:en] [#time.duration.special], special values:
+  // [|:zh_CN] [#time.duration.special]，特殊的值：
   static constexpr duration zero();
   static constexpr duration min();
   static constexpr duration max();
@@ -66,36 +79,49 @@ public:
 [para:requires]
 [:en] [`Rep] shall be an arithmetic type or a class emulating an arithmetic
 type.
+[:zh_CN] [`Rep] 应当是算术类型或模仿算术类型的类。
 
 [para:notes]
 [:en] If [`duration] is instantiated with a [`duration] type for the template
 argument [`Rep], the program is ill-formed.
+[:zh_CN] 若 [`duration] 是以 [`duration] 类型作为模板实参 [`Rep] 实例化而得，则
+程序非良构。
 
 [para:notes]
 [:en] If [`Period] is not a specialization of [`ratio], the program is
 ill-formed.
+[:zh_CN] 若 [`Period] 不是 [`ratio] 的特例，则程序非良构。
 
 [para:notes]
 [:en] If [`Period::num] is not positive, the program is ill-formed.
+[:zh_CN] 若 [`Period::num] 不是正数，则程序非良构。
 
 [para:requires]
 [:en] Members of [`duration] shall not throw exceptions other than those thrown
 by the indicated operations on their representations.
+[:zh_CN] 除了在其表示上进行的操作所指定的异常外，[`duration] 的成员不能抛出异常
+。
 
 [para:remarks]
 [:en] The defaulted copy constructor of duration shall be a [`constexpr]
 function if and only if the required initialization of the member [`rep_] for
 copy and move, respectively, would satisfy the requirements for a [`constexpr]
 function.
+[:zh_CN] [`duration] 的预置复制构造函数，当且仅当所需要的成员 [`rep_] 的复制或
+移动初始化，分别能够满足 [`constexpr] 函数的规定时，是 [`constexpr] 函数。
 [exit:description]
 
 [para:~]
 [enter:example]
 [codeblock]
 duration<long, ratio<60>> d0;       // [:en] holds a count of minutes using a [`long]
+                                    // [|:zh_CN] 以 [`long] 持有对分钟的计数
 duration<long long, milli> d1;      // [:en] holds a count of milliseconds using a [`long long]
+                                    // [|:zh_CN] 以 [`long long] 持有对毫秒的计数
 duration<double, ratio<1, 30>>  d2; // [:en] holds a count with a tick period of [$[=frac@1@30]] of a second
+                                    // [|:zh_CN] 以 [`double] 持有对一秒的 [$[=frac@1@30]]（30 Hz）
                                     // [:en@~] (30 Hz) using a [`double]
+                                    // [|:zh_CN@~] 进行的计数
 [codeblock:end]
 [exit:example]
 
