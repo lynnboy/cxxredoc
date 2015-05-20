@@ -1,20 +1,26 @@
 ﻿[section#meta.unary.prop.query
     [:en] Type property queries
+    [:zh_CN] 类型属性查询
 ]
 
 [para]
 [:en]
 This sub-clause contains templates that may be used to query properties of types
 at compile time.
+[:zh_CN]
+本子条款包括可以用于在编译期查询类型的属性的模板。
 
 [table:listing#tab:type-traits.properties.queries
     [:en] Type property queries
+    [:zh_CN] 类型属性查询
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Value
+            [:zh_CN] 值
         ]
     ]
     [border:row@both]
@@ -23,15 +29,19 @@ at compile time.
 [|]
 template <class T> [br]
 struct alignment_of;
-[|] [:en] [`alignof(T)]. [br]
+[|] [:en] [`alignof(T)].
+    [:zh_CN] [`alignof(T)]。
+    [br]
     [:en] [=Precondition] [`alignof(T)] shall be a valid expression
     ([#expr.alignof])
+    [:zh_CN] [=Precondition] [`alignof(T)] 应当是有效的表达式（[#expr.alignof]）
 
 [|]
 template <class T> [br]
 struct rank;
 [|] [:en] If [`T] names an array type, an integer value representing the number
     of dimensions of [`T]; otherwise, 0.
+    [:zh_CN] 若 [`T] 指名某个数组类型，则为表示 [`T] 的维数的整数值；否则为 0。
 
 [|]
 template <class T, [br]
@@ -41,6 +51,9 @@ struct extent;
     [`I], or if [`I] is 0 and [`T] has type ["array of unknown bound of [`U]],
     then 0; otherwise, the bound ([#dcl.array]) of the [`I][=']th dimension of
     [`T], where indexing of [`I] is zero-based
+    [:zh_CN] 若 [`T] 不是数组类型，或者若它的维数小于或等于 [`I]，或者若 [`I] 为
+    0 而 [`T] 的类型为“[`U] 的未知边界的数组”，则为 0；否则为 [`T] 的第 [`I] 维
+    的边界（[#dcl.array]）。
 
 [table:end]
 
@@ -48,11 +61,15 @@ struct extent;
 [:en]
 Each of these templates shall be a [`UnaryTypeTrait] ([#meta.rqmts]) with a
 [`BaseCharacteristic] of [`integral_constant<size_t, Value>].
+[:zh_CN]
+这些模板的每一个均应当为 [`UnaryTypeTrait]（[#meta.rqmts]），且其
+[`BaseCharacteristic] 为 [`integral_constant<size_t, Value>]。
 
 [para]
 [enter:example]
 [codeblock]
 // [:en] the following assertions hold:
+// [|:zh_CN] 下列断言均有效：
 assert(rank<int>::value == 0);
 assert(rank<int[2]>::value == 1);
 assert(rank<int[][4]>::value == 2);
@@ -63,6 +80,7 @@ assert(rank<int[][4]>::value == 2);
 [enter:example]
 [codeblock]
  // [:en] the following assertions hold:
+ // [|:zh_CN] 下列断言均有效：
 assert(extent<int>::value == 0);
 assert(extent<int[2]>::value == 2);
 assert(extent<int[2][4]>::value == 2);
