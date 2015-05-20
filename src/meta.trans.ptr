@@ -1,15 +1,19 @@
 ﻿[section#meta.trans.ptr
     [:en] Pointer modifications
+    [:zh_CN] 指针改造
 ]
 
 [table:listing#tab:type-traits.pointer
     [:en] Pointer modifications
+    [:zh_CN] 指针改造
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -20,11 +24,15 @@ template <class T> [br]
 struct remove_pointer;
 [|] [:en] If [`T] has type ["(possibly cv-qualified) pointer to [`T1]] then the
     member typedef [`type] shall name [`T1]; otherwise, it shall name [`T].
+    [:zh_CN] 若 [`T] 具有类型“[`T1] 的（可能被 cv-限定的）指针”，则成员 typedef
+    [`type] 应当指名 [`T1]；否则，它应当指名 [`T]。
 
 [|]
 template <class T> [br]
 struct add_pointer;
 [|] [:en] The member typedef [`type] shall name the same type as
     [`remove_reference_t<T>*].
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`remove_reference_t<T>*] 的相同类型
+    。
 
 [table:end]
