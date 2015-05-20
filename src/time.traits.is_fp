@@ -1,5 +1,5 @@
 ﻿[section#time.traits.is_fp
-    [:en] [`treat_as_floating_point]
+    [`treat_as_floating_point]
 ]
 
 [%@library treat_as_floating_point]
@@ -13,22 +13,36 @@ template <class Rep> struct treat_as_floating_point
 The [`duration] template uses the [`treat_as_floating_point] trait to help
 determine if a [`duration] object can be converted to another [`duration] with
 a different tick [`period].
+[:zh_CN]
+[`duration] 模板利用 [`treat_as_floating_point] 特征以帮助确定一个 [`duration]
+对象是否可以转换为另一个具有不同嘀嗒 [`period] 的 [`duration]。
 
 [:en]
 If [`treat_as_floating_point<Rep>::value] is true, then implicit conversions are
 allowed among [`duration]s.
+[:zh_CN]
+若 [`treat_as_floating_point<Rep>::value] 为真，则允许在 [`duration] 之间进行
+隐式转换。
 
 [:en]
 Otherwise, the implicit convertibility depends on the tick [`period]s of the
 [`duration]s.
+[:zh_CN]
+否则，可隐式转换能力依赖于这些 [`duration] 的嘀嗒 [`period]。
 
 [enter:note]
 [:en]
 The intention of this trait is to indicate whether a given class behaves like a
 floating-point type, and thus allows division of one value by another with
 acceptable loss of precision.
+[:zh_CN]
+该特征的用意是，指出某个给定类的行为类似浮点类型，因此允许以可接受的精度损失将
+一个值除以另一个值。
 
 [:en]
 If [`treat_as_floating_point<Rep>::value] is [`false], [`Rep] will be treated as
 if it behaved like an integral type for the purpose of these conversions.
+[:zh_CN]
+若 [`treat_as_floating_point<Rep>::value] 为 [`false]，对于这些转换 [`Rep] 将被
+当做行为类似整型类型。
 [exit:note]
