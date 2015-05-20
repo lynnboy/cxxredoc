@@ -64,7 +64,7 @@ namespace std {
   template <class T> reference_wrapper<const T> cref(reference_wrapper<T>) noexcept;
 
   // [:en] [#arithmetic.operations], arithmetic operations:
-  // [|:zh_CN] [#arithmetic.operations]，算术操作：
+  // [|:zh_CN] [#arithmetic.operations]，算术运算：
   template <class T = void> struct plus;
   template <class T = void> struct minus;
   template <class T = void> struct multiplies;
@@ -94,7 +94,7 @@ namespace std {
   template <> struct less_equal<void>;
 
   // [:en] [#logical.operations], logical operations:
-  // [|:zh_CN] [#logical.operations]，逻辑操作：
+  // [|:zh_CN] [#logical.operations]，逻辑运算：
   template <class T = void> struct logical_and;
   template <class T = void> struct logical_or;
   template <class T = void> struct logical_not;
@@ -103,7 +103,7 @@ namespace std {
   template <> struct logical_not<void>;
 
   // [:en] [#bitwise.operations], bitwise operations:
-  // [|:zh_CN] [#bitwise.operations]，按位操作：
+  // [|:zh_CN] [#bitwise.operations]，按位运算：
   template <class T = void> struct bit_and;
   template <class T = void> struct bit_or;
   template <class T = void> struct bit_xor;
