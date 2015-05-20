@@ -1,5 +1,6 @@
 ﻿[section#time.duration.arithmetic
     [:en] [`duration] arithmetic
+    [:zh_CN] [`duration] 算术
 ]
 
 [%@library operator+[!duration]]
@@ -11,6 +12,7 @@ constexpr duration operator+() const;
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator-[!duration]]
@@ -22,6 +24,7 @@ constexpr duration operator-() const;
 [enter:description]
 [para:returns]
 [:en] [`duration(-rep_);].
+[:zh_CN] [`duration(-rep_);]。
 [exit:description]
 
 [%@library operator++[!duration]]
@@ -33,9 +36,11 @@ duration& operator++();
 [enter:description]
 [para:effects]
 [:en] [`++rep_].
+[:zh_CN] [`++rep_]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator++[!duration]]
@@ -47,6 +52,7 @@ duration operator++(int);
 [enter:description]
 [para:returns]
 [:en] [`duration(rep_++);].
+[:zh_CN] [`duration(rep_++);]。
 [exit:description]
 
 [%@library operator--[!duration]]
@@ -58,9 +64,11 @@ duration& operator--();
 [enter:description]
 [para:effects]
 [:en] [`--rep_].
+[:zh_CN] [`--rep_]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator--[!duration]]
@@ -72,6 +80,7 @@ duration operator--(int);
 [enter:description]
 [para:returns]
 [:en] [`duration(rep_--);].
+[:zh_CN] [`duration(rep_--);]。
 [exit:description]
 
 [%@library operator+=[!duration]]
@@ -83,9 +92,11 @@ duration& operator+=(const duration& d);
 [enter:description]
 [para:effects]
 [:en] [`rep_ += d.count()].
+[:zh_CN] [`rep_ += d.cound()]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator-=[!duration]]
@@ -97,9 +108,11 @@ duration& operator-=(const duration& d);
 [enter:description]
 [para:effects]
 [:en] [`rep_ -= d.count()].
+[:zh_CN] [`rep_ -= d.count()]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator*=[!duration]]
@@ -111,9 +124,11 @@ duration& operator*=(const rep& rhs);
 [enter:description]
 [para:effects]
 [:en] [`rep_ *= rhs].
+[:zh_CN] [`rep_ *= rhs]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator/=[!duration]]
@@ -125,9 +140,11 @@ duration& operator/=(const rep& rhs);
 [enter:description]
 [para:effects]
 [:en] [`rep_ /= rhs].
+[:zh_CN] [`rep_ /= rhs]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator%=[!duration]]
@@ -139,9 +156,11 @@ duration& operator%=(const rep& rhs);
 [enter:description]
 [para:effects]
 [:en] [`rep_ %= rhs].
+[:zh_CN] [`rep_ %= rhs]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator%=[!duration]]
@@ -153,7 +172,9 @@ duration& operator%=(const duration& rhs);
 [enter:description]
 [para:effects]
 [:en] [`rep_ %= rhs.count()].
+[:zh_CN] [`rep_ %= rhs.cound()]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
