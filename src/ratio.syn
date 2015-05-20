@@ -1,19 +1,23 @@
 ﻿[section#ratio.syn
     [:en] Header [`<ratio>] synopsis
+    [:zh_CN] 头文件 [`<ratio>] 纲要
 ]
 
 [codeblock:synopsis]
 namespace std {
   // [:en] [#ratio.ratio], class template [`ratio]
+  // [|:zh_CN] [#ratio.ratio]，类模板 [`ratio]
   template <intmax_t N, intmax_t D = 1> class ratio;
 
   // [:en] [#ratio.arithmetic], ratio arithmetic
+  // [|:zh_CN] [#ratio.arithmetic]，ratio 算术
   template <class R1, class R2> using ratio_add = [=Seebelow];
   template <class R1, class R2> using ratio_subtract = [=Seebelow];
   template <class R1, class R2> using ratio_multiply = [=Seebelow];
   template <class R1, class R2> using ratio_divide = [=Seebelow];
 
   // [:en] [#ratio.comparison], ratio comparison
+  // [|:zh_CN] [#ratio.comparison]，ratio 比较
   template <class R1, class R2> struct ratio_equal;
   template <class R1, class R2> struct ratio_not_equal;
   template <class R1, class R2> struct ratio_less;
@@ -22,6 +26,7 @@ namespace std {
   template <class R1, class R2> struct ratio_greater_equal;
 
   // [:en] [#ratio.si], convenience SI typedefs
+  // [|:zh_CN] [#ratio.si]，便利的 SI typedef
   typedef ratio<1, 1'000'000'000'000'000'000'000'000> yocto;  // [=Seebelow]
   typedef ratio<1,     1'000'000'000'000'000'000'000> zepto;  // [=Seebelow]
   typedef ratio<1,         1'000'000'000'000'000'000> atto;
