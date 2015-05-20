@@ -1,18 +1,23 @@
 ﻿[section#meta.trans.other
     [:en] Other transformations
+    [:zh_CN] 其他变换
 ]
 
 [table:listing#tab:type-traits.other
     [:en] Other transformations
+    [:zh_CN] 其他变换
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Condition
+            [:zh_CN] 条件
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -24,43 +29,71 @@ std::size_t Align [br]
 = [$default-alignment]> [br]
 struct aligned_storage;
 [|] [:en] [`Len] shall not be zero.
+    [:zh_CN] [`Len] 不能为零。
+
     [:en] [`Align] shall be equal to [`alignof(T)] for some type [`T] or to
     [$default-alignment].
+    [:zh_CN] [`Align] 应当对某类型 [`T] 等于 [`alignof(T)] 或者等于
+    [$default-alignment]。
 [|] [:en] The value of [$default-alignment] shall be the most stringent
     alignment requirement for any [=Cpp] object type whose size is no greater
     than [`Len] ([#basic.types]).
+    [:zh_CN] [$default-alignment] 的值应当为大小不大于 [`Len] 的任意 [=Cpp] 对象
+    类型中最严格的对齐要求（[#basic.types]）。
+
     [:en] The member typedef [`type] shall be a POD type suitable for use as
     uninitialized storage for any object whose size is at most [`Len] and whose
     alignment is a divisor of [`Align].
+    [:zh_CN] 成员 typedef [`type] 应当为适合用作其大小最大为 [`Len] 且其对齐能够
+    整除 [`Align] 的任意对象的未初始化存储的 POD 类型。
 
 [|]
 template <std::size_t Len, [br]
 class... Types> [br]
 struct aligned_union;
 [|] [:en] At least one type is provided.
+    [:zh_CN] 应当至少提供一个类型。
 [|] [:en] The member typedef [`type] shall be a POD type suitable for use as
     uninitialized storage for any object whose type is listed in [`Types];
     its size shall be at least [`Len].
+    [:zh_CN] 成员 typedef [`type] 应当为适合用作在 [`Types] 中列出的任意类型的
+    未初始化存储的 POD 类型；其大小至少为 [`Len]。
+
     [:en] The static member [`alignment_value] shall be an integral constant of
     type [`std::size_t] whose value is the strictest alignment of all types
     listed in [`Types].
+    [:zh_CN] 静态成员 [`alignment_value] 应当为 [`std::size_t] 类型的整型常量，
+    其值为在 [`Types] 中列出的所有类型中最严格的对齐。
 
 [|]
 template <class T> [br]
 struct decay;
 [|]
 [|] [:en] Let [`U] be [`remove_reference_t<T>].
+    [:zh_CN] 令 [`U] 为 [`remove_reference_t<T>]。
+
     [:en] If [`is_array<U>::value] is [`true], the member typedef [`type] shall
     equal [`remove_extent_t<U>*].
+    [:zh_CN] 若 [`is_array<U>::value] 为 [`true]，则成员 typedef [`type] 应当
+    等于 [`remove_extent_t<U>*]。
+
     [:en] If [`is_function<U>::value] is [`true], the member typedef [`type]
     shall equal [`add_pointer_t<U>].
+    [:zh_CN] 若 [`is_function<U>::value] 为 [`true]，则成员 typedef [`type] 应当
+    等于 [`add_pointer_t<U>]。
+
     [:en] Otherwise the member typedef [`type] equals [`remove_cv_t<U>].
+    [:zh_CN] 否则成员 typedef [`type] 等于 [`remove_cv_t<U>]。
+
     [enter:note]
     [:en] This behavior is similar to the lvalue-to-rvalue ([#conv.lval]),
     array-to-pointer ([#conv.array]), and function-to-pointer ([#conv.func])
     conversions applied when an lvalue expression is used as an rvalue, but also
     strips [$cv]-qualifiers from class types in order to more closely model
     by-value argument passing.
+    [:zh_CN] 这个行为与当左值表达式被用作右值时所施加的左值向右值
+    （[#conv.lval]）、数组向指针（[#conv.array]）和函数向指针（[#conv.func]）
+    转换相似，但还剥除了类类型的 [$cv]-限定符，以更加符合对按值传递实参的情形。
     [exit:note]
 
 [|]
@@ -68,33 +101,50 @@ template <bool B, class T = void> struct enable_if;
 [|]
 [|] [:en] If [`B] is [`true], the member typedef [`type] shall equal [`T];
     otherwise, there shall be no member [`type].
+    [:zh_CN] 若 [`B] 为 [`true]，则成员 typedef [`type] 应当等于 [`T]；否则，
+    不应当具有成员 typedef [`type]。
 
 [|]
 template <bool B, class T, class F> struct conditional;
 [|]
 [|] [:en] If [`B] is [`true], the member typedef [`type] shall equal [`T].
+    [:zh_CN] 若 [`B] 为 [`true]，则成员 typedef [`type] 应当等于 [`T]。
+
     [:en] If [`B] is [`false], the member typedef [`type] shall equal [`F].
+    [:zh_CN] 若 [`B] 为 [`false]，则成员 typedef [`type] 应当等于 [`F]。
 
 [|]
 template <class... T> struct common_type;
 [|]
 [|] [:en] The member typedef [`type] shall be defined or omitted as specified
     below.
+    [:zh_CN] 成员 typedef [`type] 应当按如下方式定义或省略。
+
     [:en] If it is omitted, there shall be no member [`type].
+    [:zh_CN] 若它被省略，则不应当存在成员 [`type]。
+
     [:en] All types in the parameter pack [`T] shall be complete or (possibly
     [$cv]) [`void].
+    [:zh_CN] 形参包组 [`T] 中的所有类型都应当是完整的，或（可能带有 [$cv] 的）
+    [`void]。
+
     [:en] A program may specialize this trait if at least one template parameter
     in the specialization is a user-defined type.
+    [:zh_CN] 若至少有一个模板形参是用户定义的类型，则程序可以特化这个特征。
+
     [enter:note]
     [:en] Such specializations are needed when only explicit conversions are
     desired among the template arguments.
+    [:zh_CN] 当在模板实参之间需要进行显式转换时，这种特化式是必要的。
     [exit:note]
 
 [|]
 template <class T> [br]
 struct underlying_type;
 [|] [:en] [`T] shall be a complete enumeration type ([#dcl.enum])
+    [:zh_CN] [`T] 应当是完整的枚举类型（[#dcl.enum]）
 [|] [:en] The member typedef [`type] shall name the underlying type of [`T].
+    [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的底层类型。
 
 [|]
 template <class Fn, [br]
@@ -102,21 +152,36 @@ class... ArgTypes> struct [br]
 result_of<Fn(ArgTypes...)>;
 [|] [:en] [`Fn] and all types in the parameter pack [`ArgTypes] shall be
     complete types, (possibly cv-qualified) [`void], or arrays of unknown bound.
+    [:zh_CN] [`Fn] 和形参包组 [`ArgTypes] 中的所有类型都应当是完整类型，（可能被
+    cv-限定的）[`void]，或者未知边界的数组。
 [|] [:en] If the expression [`[$INVOKE](declval<Fn>(), declval<ArgTypes>()...)]
     is well formed when treated as an unevaluated operand (Clause [#expr]), the
     member typedef [`type] shall name the type
     [`decltype([$INVOKE](declval<Fn>(), declval<ArgTypes>()...))]; otherwise,
     there shall be no member [`type].
+    [:zh_CN] 如果表达式 [`[$INVOKE](declval<Fn>(), declval<ArgTypes>()...)] 被
+    当作免求值操作数（第 [#expr] 条）时是良构的，则成员 typedef [`type] 应当指名
+    类型 [`decltype([$INVOKE](declval<Fn>(), declval<ArgTypes>()...))]；否则，
+    不应当存在成员 [`type]。
+
     [:en] Access checking is performed as if in a context unrelated to [`Fn] and
     [`ArgTypes].
+    [:zh_CN] 如同在与 [`Fn] 和 [`ArgTypes] 无关的语境中那样进行访问检查。
+
     [:en] Only the validity of the immediate context of the expression is
     considered.
+    [:zh_CN] 仅考察表达式的直接语境的有效性。
+
     [enter:note]
     [:en] The compilation of the expression can result in side effects such as
     the instantiation of class template specializations and function template
     specializations, the generation of implicitly-defined functions, and so on.
+    [:zh_CN] 对表达式进行编译可能造成的副作用包括对类模板特例和函数模板特例的
+    实例化，生成隐式定义的函数，等等。
+
     [:en] Such side effects are not in the ["immediate context] and can result
     in the program being ill-formed.
+    [:zh_CN] 这种副作用并不在其“直接语境”中，且可能导致程序非良构。
     [exit:note]
 
 [table:end]
@@ -124,6 +189,7 @@ result_of<Fn(ArgTypes...)>;
 [para]
 [enter:note]
 [:en] A typical implementation would define [`aligned_storage] as:
+[:zh_CN] 一种典型的实现可能将 [`aligned_storage] 定义为：
 
 [codeblock]
 template <std::size_t Len, std::size_t Alignment>
@@ -138,44 +204,61 @@ struct aligned_storage {
 [para]
 [:en] It is [%@impldef support for extended alignment] implementation-defined
 whether any extended alignment is supported ([#basic.align]).
+[:zh_CN] 是否支持任何扩充对齐（[#basic.align]）是[%@impldef 对扩充对齐的支持]
+由实现定义的。
 
 [para]
 [:en] For the [`common_type] trait applied to a parameter pack [`T] of types,
 the member [`type] shall be either defined or not present as follows:
+[:zh_CN] 对于应用于类型的形参包组 [`T] 的 [`common_type]，其成员 [`type] 应当以
+如下方式定义或不存在：
 
 [list]
 [item]
 [:en] If [`sizeof...(T)] is zero, there shall be no member [`type].
+[:zh_CN] 若 [`sizeof...(T)] 为零，则不应当存在成员 [`type]。
 
 [item]
 [:en] If [`sizeof...(T)] is one, let [`T0] denote the sole type in the pack
 [`T].
+[:zh_CN] 若 [`sizeof...(T)] 为一，令 [`T0] 代表包组 [`T] 中的唯一类型。
 
 [:en] The member typedef [`type] shall denote the same type as [`decay_t<T0>].
+[:zh_CN] 成员 typedef [`type] 应当代表 [`decay_t<T0>] 的相同类型。
 
 [item]
 [:en] If [`sizeof...(T)] is greater than one, let [`T1], [`T2], and [`R],
 respectively, denote the first, second, and (pack of) remaining types comprising
 [`T].
+[:zh_CN] 若 [`sizeof...(T)] 大于一，令 [`T1]，[`T2]，和 [`R] 分别代表构成 [`T]
+的第一个，第二个，以及剩余类型（的包组）。
 
 [enter:note]
 [:en] [`sizeof...(R)] may be zero.
+[:zh_CN] [`sizeof...(R)] 可能为零。
 [exit:note]
 
 [:en] Let [`C] denote the type, if any, of an unevaluated conditional expression
 ([#expr.cond]) whose first operand is an arbitrary value of type [`bool], whose
 second operand is an xvalue of type [`T1], and whose third operand is an xvalue
 of type [`T2].
+[:zh_CN] 令 [`C] 代表一个免求值条件表达式（[#expr.cond]）的类型（如果有），其
+第一个操作数是 [`bool] 类型的任意值，其第二个操作数是类型 [`T1] 的临限值，而其
+第三个操作数是 [`T2] 类型的临限值。
 
 [:en] If there is such a type [`C], the member typedef [`type] shall denote the
 same type, if any, as [`common_type_t<C,R...>].
+[:zh_CN] 如果存在这种类型 [`C]，则成员 typedef [`type] 应当代表
+[`common_type_t<C,R...>] 的相同类型（如果有）。
 
 [:en] Otherwise, there shall be no member [`type].
+[:zh_CN] 否则，不应当存在成员类型 [`type]。
 [list:end]
 
 [para]
 [enter:example]
 [:en] Given these definitions:
+[:zh_CN] 给定以下定义式：
 
 [codeblock]
 typedef bool (&PF1)();
@@ -193,6 +276,7 @@ typedef char S::*PMD;
 [codeblock:end]
 
 [:en@~] the following assertions will hold:
+[:zh_CN@~] 下列断言均有效：
 
 [codeblock]
 static_assert(is_same<result_of_t<S(int)>, short>::value, "Error!");
