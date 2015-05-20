@@ -1,5 +1,6 @@
 ﻿[section#refwrap.access
     [:en] [`reference_wrapper] access
+    [:zh_CN] [`reference_wrapper] 的访问
 ]
 
 [%@library operator T&[!reference_wrapper]]
@@ -11,6 +12,7 @@ operator T& () const noexcept;
 [enter:description]
 [para:returns]
 [:en] The stored reference.
+[:zh_CN] 所存储的引用。
 [exit:description]
 
 [%@library reference_wrapper[!get]]
@@ -22,4 +24,5 @@ T& get() const noexcept;
 [enter:description]
 [para:returns]
 [:en] The stored reference.
+[:zh_CN] 所存储的引用。
 [exit:description]
