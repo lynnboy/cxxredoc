@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.badcall.const
     [:en] [`bad_function_call] constructor
+    [:zh_CN] [`bad_function_call] 的构造函数
 ]
 
 [%@library bad_function_call[!bad_function_call]]
@@ -10,10 +11,13 @@ bad_function_call() noexcept;
 [enter:description]
 [para:effects]
 [:en] constructs a [`bad_function_call] object.
+[:zh_CN] 构造一个 [`bad_function_call] 对象。
 [exit:description]
 
 [enter:description]
 [para:postconditions]
 [:en] [`what()] returns an [%@impldef string returned by [`what()] for
-[`bad_weak_ptr]] implementation-defined NTBS.
+[`bad_function_call]] implementation-defined NTBS.
+[:zh_CN] [`what()] 返回一个[%@impldef [`bad_function_call] 的 [`what()] 所返回的
+字符串]由实现定义的 NTBS。
 [exit:description]

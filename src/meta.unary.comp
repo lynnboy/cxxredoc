@@ -1,28 +1,39 @@
 ﻿[section#meta.unary.comp
     [:en] Composite type traits
+    [:zh_CN] 组合类型特征
 ]
 
 [para]
 [:en]
 These templates provide convenient compositions of the primary type categories,
 corresponding to the descriptions given in section [#basic.types].
+[:zh_CN]
+这些模板提供了便捷的基本类型分类的一些组合，对应于 [#basic.types] 节中给出的说明
+。
 
 [para]
 [:en]
 For any given type [`T], the result of applying one of these templates to
 [`T], and to [$cv-qualified] [`T] shall yield the same result.
+[:zh_CN]
+对于任意给定类型 [`T]，对 [`T] 和被 [$cv]-限定的 [`T] 施加这些模板之一应当产生
+相同的结果。
 
 [table:listing#tab:type-traits.composite
     [:en] Composite type category predicates
+    [:zh_CN] 组合类型分类谓词
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Condition
+            [:zh_CN] 条件
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -32,36 +43,42 @@ For any given type [`T], the result of applying one of these templates to
 template <class T> [br]
 struct is_reference;
 [|] [:en] [`T] is an lvalue reference or an rvalue reference
+    [:zh_CN] [`T] 为左值引用或者右值引用
 [|]
 
 [|]
 template <class T> [br]
 struct is_arithmetic;
 [|] [:en] [`T] is an arithmetic type ([#basic.fundamental])
+    [:zh_CN] [`T] 为算术类型（[#basic.fundamental]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_fundamental;
 [|] [:en] [`T] is a fundamental type ([#basic.fundamental])
+    [:zh_CN] [`T] 为基础类型（[#basic.fundamental]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_object;
 [|] [:en] [`T] is an object type ([#basic.types])
+    [:zh_CN] [`T] 为对象类型（[#basic.types]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_scalar;
 [|] [:en] [`T] is a scalar type ([#basic.types])
+    [:zh_CN] [`T] 为标量类型（[#basic.types]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_compound;
 [|] [:en] [`T] is a compound type ([#basic.compound])
+    [:zh_CN] [`T] 为组合类型（[#basic.compound]）
 [|]
 
 [|]
@@ -69,5 +86,6 @@ template <class T> [br]
 struct is_member_pointer;
 [|] [:en] [`T] is a pointer to non-static data member or non-static member
 function
+    [:zh_CN] [`T] 为指向非静态数据成员或者非静态成员函数的指针
 
 [table:end]

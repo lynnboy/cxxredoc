@@ -1,5 +1,6 @@
 ﻿[section#unord.hash
     [:en] Class template [`hash]
+    [:zh_CN] 类模板 [`hash]
 ]
 
 [para]
@@ -8,11 +9,17 @@
 [%[`hash][!instantiation restrictions]]
 The unordered associative containers defined in [#unord] use specializations of
 the class template [`hash] as the default hash function.
+[:zh_CN]
+[%[`hash][!实例化的限制]]
+[#unord] 中所定义的无序关联容器使用类模板 [`hash] 的特例作为其默认散列函数。
 
 [:en]
 For all object types [`Key] for which there exists a specialization
 [`hash<Key>], and for all enumeration types ([#dcl.enum]) [`Key], the
 instantiation [`hash<Key>] shall:
+[:zh_CN]
+对于所有存在特例 [`hash<Key>] 的对象类型 [`Key]，以及对于所有枚举类型
+（[#dcl.enum]）[`Key]，[`hash<Key>] 的实例化应当：
 
 [list]
 [item]
@@ -20,24 +27,35 @@ instantiation [`hash<Key>] shall:
 the function call argument type, the [`DefaultConstructible] requirements (Table
 [#defaultconstructible]), the [`CopyAssignable] requirements (Table
 [#copyassignable]),
+[:zh_CN] 以 [`Key] 为函数调用实参类型符合 [`Hash] 的规定（[#hash.requirements]）
+，符合 [`DefaultConstructible] 的规定（表 [#defaultconstructible]），符合
+[`CopyAssignable] 的规定（表 [#copyassignable]），
 
 [item]
 [:en] be swappable ([#swappable.requirements]) for lvalues,
+[:zh_CN] 对于左值为可交换的（[#swappable.requirements]），
 
 [item]
 [:en] provide two nested types [`result_type] and [`argument_type] which shall
 be synonyms for [`size_t] and [`Key], respectively,
+[:zh_CN] 提供两个嵌套类型 [`result_type] 和 [`argument_type]，分别应当是
+[`size_t] 和 [`Key] 的同义词，
 
 [item]
 [:en] satisfy the requirement that if [`k1 == k2] is true, [`h(k1) == h(k2)] is
 also true, where [`h] is an object of type [`hash<Key>] and [`k1] and [`k2]
 are objects of type [`Key];
+[:zh_CN] 符合当 [`k1 == k2] 为真时 [`h(k1) == h(k2)] 也为真的规定，其中 [`h] 为
+类型 [`hash<Key>] 的对象而 [`k1] 和 [`k2] 为类型 [`Key] 的对象；
 
 [item]
 [:en] satisfy the requirement that the expression [`h(k)], where [`h] is an
 object of type [`hash<Key>] and [`k] is an object of type [`Key], shall not
 throw an exception unless [`hash<Key>] is a user-defined specialization that
 depends on at least one user-defined type.
+[:zh_CN] 符合表达式 [`h(k)] 除 [`hash<Key>] 是用户定义的特化式且依存于至少一个
+用户定义的类型的情况之外不能抛出异常的规定，其中 [`h] 为类型 [`hash<Key>] 的对象
+而 [`k] 为类型 [`Key] 的对象。
 [list:end]
 
 [%@library hash]
@@ -67,4 +85,5 @@ template <class T> struct hash<T*>;
 [para]
 [:en] The template specializations shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 这些模板特化式应当符合类模板 [`hash] 的规定（[#unord.hash]）。
 [exit:description]

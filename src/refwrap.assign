@@ -1,5 +1,6 @@
 ﻿[section#refwrap.assign
     [:en] [`reference_wrapper] assignment
+    [:zh_CN] [`reference_wrapper] 的赋值
 ]
 
 [%@library operator=[!reference_wrapper]]
@@ -11,4 +12,5 @@ reference_wrapper& operator=(const reference_wrapper& x) noexcept;
 [enter:description]
 [para:postconditions]
 [:en] [`*this] stores a reference to [`x.get()].
+[:zh_CN] [`*this] 存储指代 [`x.get()] 的引用。
 [exit:description]

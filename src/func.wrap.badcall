@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.badcall
     [:en] Class [`bad_function_call]
+    [:zh_CN] 类 [`bad_function_call]
 ]
 [%@library bad_function_call]
 [%@library exception[!bad_function_call]]
@@ -8,12 +9,16 @@
 [:en]
 An exception of type [`bad_function_call] is thrown by [`function::operator()]
 ([#func.wrap.func.inv]) when the function wrapper object has no target.
+[:zh_CN]
+当函数包装器对象没有目标时，[`function::operator()]（[#func.wrap.func.inv]）抛出
+[`bad_function_call] 类型的异常。
 
 [codeblock:synopsis]
 namespace std {
   class bad_function_call : public std::exception {
   public:
     // [:en] [#func.wrap.badcall.const], constructor:
+    // [|:zh_CN]  [#func.wrap.badcall.const]，构造函数：
     bad_function_call() noexcept;
   };
 } // namespace std

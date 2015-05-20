@@ -1,5 +1,6 @@
 ﻿[section#func.invoke
     [:en] Function template [`invoke]
+    [:zh_CN] 函数模板 [`invoke]
 ]
 
 [%@library invoke]
@@ -13,4 +14,6 @@ template <class F, class... Args>
 [para:returns]
 [:en] [`[$INVOKE](std::forward<F>(f), std::forward<Args>(args)...)]
 ([#func.require]).
+[:zh_CN] [`[$INVOKE](std::forward<F>(f), std::forward<Args>(args)...)]
+（[#func.require]）。
 [exit:description]

@@ -1,17 +1,23 @@
 ﻿[section#meta.unary
     [:en] Unary type traits
+    [:zh_CN] 一元类型特征
 ]
 
 [para]
 [:en]
 This sub-clause contains templates that may be used to query the properties of a
 type at compile time.
+[:zh_CN] 
+本子条款包含了可在编译时用于查询某个类型的属性的模板。
 
 [para]
 [:en]
 Each of these templates shall be a UnaryTypeTrait ([#meta.rqmts]) with a
 BaseCharacteristic of [`true_type] if the corresponding condition is true,
 otherwise [`false_type].
+[:zh_CN] 
+这些模板中的每个都应当为 UnaryTypeTrait（[#meta.rqmts]），当其对应条件为真时，其
+具有的 BaseCharacteristic 为 [`true_type]，否则为 [`false_type]。
 
 [include meta.unary.cat]
 

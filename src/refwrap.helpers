@@ -1,5 +1,6 @@
 ﻿[section#refwrap.helpers
     [:en] [`reference_wrapper] helper functions
+    [:zh_CN] [`reference_wrapper] 的辅助函数
 ]
 
 [%@library reference_wrapper[!ref]]
@@ -10,7 +11,7 @@ template <class T> reference_wrapper<T> ref(T& t) noexcept;
 
 [enter:description]
 [para:returns]
-[:en] [`reference_wrapper<T>(t)]
+[`reference_wrapper<T>(t)]
 [exit:description]
 
 [%@library reference_wrapper[!ref]]
@@ -21,7 +22,7 @@ template <class T> reference_wrapper<T> ref(reference_wrapper<T> t) noexcept;
 
 [enter:description]
 [para:returns]
-[:en] [`ref(t.get())]
+[`ref(t.get())]
 [exit:description]
 
 [%@library reference_wrapper[!cref]]
@@ -32,7 +33,7 @@ template <class T> reference_wrapper<const T> cref(const T& t) noexcept;
 
 [enter:description]
 [para:returns]
-[:en] [`reference_wrapper <const T>(t)]
+[`reference_wrapper <const T>(t)]
 [exit:description]
 
 [%@library reference_wrapper[!cref]]
@@ -43,5 +44,5 @@ template <class T> reference_wrapper<const T> cref(reference_wrapper<T> t) noexc
 
 [enter:description]
 [para:returns]
-[:en] [`cref(t.get());]
+[`cref(t.get());]
 [exit:description]

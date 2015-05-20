@@ -1,9 +1,11 @@
 ﻿[section#func.memfn
     [:en] Function template [`mem_fn]
+    [:zh_CN] 函数模板 [`mem_fn]
 ]
 
 [%:begin#function.object.mem_fn
     [:en] function object [![`mem_fn]]
+    [:zh_CN] 函数对象 [![`mem_fn]]
 ]
 
 [%@library mem_fn]
@@ -16,15 +18,23 @@ template<class R, class T> unspecified mem_fn(R T::* pm);
 [:en] A simple call wrapper ([#func.def]) [`fn] such that the expression
 [`fn(t, a2, ..., aN)] is equivalent to [`[$INVOKE](pm, t, a2, ..., aN)]
 ([#func.require]).
+[:zh_CN] 一个简单调用包装器（[#func.def]）[`fn]，使得表达式
+[`fn(t, a2, ..., aN)] 等价于 [`[$INVOKE](pm, t, a2, ..., aN)]（[#func.require]）
+。
 
 [:en] [`fn] shall have a nested type [`result_type] that is a synonym for the
 return type of [`pm] when [`pm] is a pointer to member function.
+[:zh_CN] 当 [`pm] 是成员函数指针时，[`fn] 应当带有嵌套类型 [`result_type]，并且
+是 [`pm] 的返回类型的同义词。
 
 [para]
 [:en] The simple call wrapper shall define two nested types named
 [`argument_type] and [`result_type] as synonyms for [$cv] [`T*] and [`Ret],
 respectively, when [`pm] is a pointer to member function with cv-qualifier [$cv]
 and taking no arguments, where [`Ret] is [`pm][=']s return type.
+[:zh_CN] 当 [`pm] 是指向带有 cv-限定符 [$cv] 且不接受实参的成员函数的指针时，
+简单调用包装器应当定义两个名为 [`argument_type] 和 [`result_type] 的嵌套类型，
+并分别作为 [$cv] [`T*] 和 [`Ret] 的同义词，其中 [`Ret] 是 [`pm] 的返回类型。
 
 [para]
 [:en] The simple call wrapper shall define three nested types named
@@ -32,9 +42,14 @@ and taking no arguments, where [`Ret] is [`pm][=']s return type.
 for [$cv] [`T*], [`T1], and [`Ret], respectively, when [`pm] is a pointer to
 member function with cv-qualifier [$cv] and taking one argument of type [`T1],
 where [`Ret] is [`pm][=']s return type.
+[:zh_CN] 当 [`pm] 是指向带有 cv-限定符 [$cv] 并接受一个 [`T1] 类型的实参的成员
+函数的指针时，简单调用包装器应当定义三个名为 [`first_argument_type]，
+[`second_argument_type] 和 [`result_type] 的嵌套类型，并分别作为 [$cv] [`T*]，
+[`T1] 和 [`Ret] 的同义词，其中 [`Ret] 是 [`pm] 的返回类型。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%:end#function.object.mem_fn]

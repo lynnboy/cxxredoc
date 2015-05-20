@@ -1,24 +1,33 @@
 ﻿[section#func.wrap.func
     [:en] Class template [`function]
+    [:zh_CN] 类模板 [`function]
 ]
 [%@library function]
 
 [codeblock:synopsis]
 namespace std {
   template<class> class function; // [:en] undefined
+                                  // [|:zh_CN] 未定义
 
   template<class R, class... ArgTypes>
   class function<R(ArgTypes...)> {
   public:
     typedef R result_type;
     typedef T1 argument_type;           // [:en] only if [`sizeof...(ArgTypes) == 1] and
+                                        // [|:zh_CN] 仅存在于 [`sizeof...(ArgTypes) == 1] 并且
                                         // [:en@~] the type in [`ArgTypes] is [`T1]
+                                        // [|:zh_CN@~] [`ArgTypes] 中的类型为 [`T1] 时
     typedef T1 first_argument_type;     // [:en] only if [`sizeof...(ArgTypes) == 2] and
+                                        // [|:zh_CN] 仅存在于 [`sizeof...(ArgTypes) == 2] 并且
                                         // [:en@~] [`ArgTypes] contains [`T1] and [`T2]
+                                        // [|:zh_CN@~] [`ArgTypes] 包含 [`T1] 和 [`T2] 时
     typedef T2 second_argument_type;    // [:en] only if [`sizeof...(ArgTypes) == 2] and
+                                        // [|:zh_CN] 仅存在于 [`sizeof...(ArgTypes) == 2] 并且
                                         // [:en@~] [`ArgTypes] contains [`T1] and [`T2]
+                                        // [|:zh_CN@~] [`ArgTypes] 包含 [`T1] 和 [`T2] 时
 
     // [:en] [#func.wrap.func.con], construct/copy/destroy:
+    // [|:zh_CN] [#func.wrap.func.con]，构造/复制/销毁：
     function() noexcept;
     function(nullptr_t) noexcept;
     function(const function&);
@@ -42,16 +51,20 @@ namespace std {
     ~function();
 
     // [:en] [#func.wrap.func.mod], function modifiers:
+    // [|:zh_CN] [#func.wrap.func.mod]，function 的改动函数：
     void swap(function&) noexcept;
     template<class F, class A> void assign(F&&, const A&);
 
     // [:en] [#func.wrap.func.cap], function capacity:
+    // [|:zh_CN] [#func.wrap.func.cap]，function 的能力：
     explicit operator bool() const noexcept;
 
     // [:en] [#func.wrap.func.inv], function invocation:
+    // [|:zh_CN] [#func.wrap.func.inv]，function 的调用：
     R operator()(ArgTypes...) const;
 
     // [:en] [#func.wrap.func.targ], function target access:
+    // [|:zh_CN] [#func.wrap.func.targ]，function 的目标访问：
     const std::type_info& target_type() const noexcept;
     template<class T>       T* target() noexcept;
     template<class T> const T* target() const noexcept;
@@ -59,6 +72,7 @@ namespace std {
   };
 
   // [:en] [#func.wrap.func.nullptr], Null pointer comparisons:
+  // [|:zh_CN] [#func.wrap.func.nullptr]，空指针比较：
   template <class R, class... ArgTypes>
     bool operator==(const function<R(ArgTypes...)>&, nullptr_t) noexcept;
 
@@ -72,6 +86,7 @@ namespace std {
     bool operator!=(nullptr_t, const function<R(ArgTypes...)>&) noexcept;
 
   // [:en] [#func.wrap.func.alg], specialized algorithms:
+  // [|:zh_CN] [#func.wrap.func.alg]，特化的算法：
   template <class R, class... ArgTypes>
     void swap(function<R(ArgTypes...)>&, function<R(ArgTypes...)>&);
 
@@ -85,11 +100,16 @@ namespace std {
 [:en]
 The [`function] class template provides polymorphic wrappers that generalize the
 notion of a function pointer.
+[:zh_CN]
+[`function] 类模板提供了将函数指针概念一般化的多态的包装器。
 
 [:en]
 Wrappers can store, copy, and call arbitrary callable objects ([#func.def]),
 given a call signature ([#func.def]), allowing functions to be first-class
 objects.
+[:zh_CN]
+给定一个调用签名（[#func.def]），包装器可以存储、复制和调用任意可调用对象
+（[#func.def]），并允许将函数作为第一级对象处理。
 
 [para]
 [:en]
@@ -97,11 +117,19 @@ A [%callable object] callable object [`f] of type [`F] is [def Callable] for
 argument types [`ArgTypes] and return type [`R] if the expression
 [`[$INVOKE](f, declval<ArgTypes>()..., R)], considered as an unevaluated operand
 (Clause [#expr]), is well formed ([#func.require]).
+[:zh_CN]
+对于 [`F] 类型的[%可调用对象]可调用对象 [`f]，如果表达式
+[`[$INVOKE](f, declval<ArgTypes>()..., R)] 作为免求值操作数（第 [#expr] 条）是
+良构的（[#func.require]），则它对于实参类型 [`ArgTypes] 和返回类型 [`R] 是
+[def 可调用]的。
 
 [para]
 [:en]
 The [`function] class template is a call wrapper ([#func.def]) whose call
 signature ([#func.def]) is [`R(ArgTypes...)].
+[:zh_CN]
+[`function] 类模板是调用包装器（[#func.def]），其调用签名（[#func.def]）为
+[`R(ArgTypes...)]。
 
 [include func.wrap.func.con]
 

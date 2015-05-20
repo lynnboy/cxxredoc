@@ -1,5 +1,6 @@
 ﻿[section#refwrap
     [:en] Class template [`reference_wrapper]
+    [:zh_CN] 类模板 [`reference_wrapper]
 ]
 
 [%@library reference_wrapper]
@@ -7,30 +8,44 @@
 [%function object[!reference_wrapper]]
 [%unary function]
 [%binary function]
+[:zh_CN]
+[%函数对象[!reference_wrapper]]
+[%一元函数]
+[%二元函数]
 [codeblock:synopsis]
 namespace std {
   template <class T> class reference_wrapper {
   public :
     // [:en] types
+    // [|:zh_CN] 类型
     typedef T type;
     typedef [=Seebelow] result_type;               // [:en] not always defined
+                                                   // [|:zh_CN] 并非总有定义
     typedef [=Seebelow] argument_type;             // [:en] not always defined
+                                                   // [|:zh_CN] 并非总有定义
     typedef [=Seebelow] first_argument_type;       // [:en] not always defined
+                                                   // [|:zh_CN] 并非总有定义
     typedef [=Seebelow] second_argument_type;      // [:en] not always defined
+                                                   // [|:zh_CN] 并非总有定义
 
     // [:en] construct/copy/destroy
+    // [|:zh_CN] 构造/复制/销毁
     reference_wrapper(T&) noexcept;
     reference_wrapper(T&&) = delete;     // [:en] do not bind to temporary objects
+                                         // [|:zh_CN] 不能绑定到临时对象上
     reference_wrapper(const reference_wrapper& x) noexcept;
 
     // [:en] assignment
+    // [|:zh_CN] 赋值
     reference_wrapper& operator=(const reference_wrapper& x) noexcept;
 
     // [:en] access
+    // [|:zh_CN] 访问
     operator T& () const noexcept;
     T& get() const noexcept;
 
     // [:en] invocation
+    // [|:zh_CN] 调用
     template <class... ArgTypes>
     result_of_t<T&(ArgTypes&&...)>
     operator() (ArgTypes&&...) const;
@@ -42,39 +57,59 @@ namespace std {
 [:en]
 [`reference_wrapper<T>] is a [`CopyConstructible] and [`CopyAssignable] wrapper
 around a reference to an object or function of type [`T].
+[:zh_CN]
+[`reference_wrapper<T>] 是为 [`CopyConstructible] 且为 [`CopyAssignable] 的，
+对指代 [`T] 类型的对象或函数的引用进行包装的包装器。
 
 [para]
 [:en]
 [`reference_wrapper<T>] shall be a trivially copyable type ([#basic.types]).
+[:zh_CN]
+[`reference_wrapper<T>] 不能是可平凡复制类型（[#basic.types]）。
 
 [para]
 [:en]
 [`reference_wrapper<T>] has a weak result type ([#func.require]).
+[:zh_CN]
+[`reference_wrapper<T>] 带有弱返回类型（[#func.require]）。
 
 [:en]
 If [`T] is a function type, [`result_type] shall be a synonym for the return
 type of [`T].
+[:zh_CN]
+当 [`T] 为函数类型时，[`result_type] 应当是 [`T] 的返回类型的同义词。
 
 [para]
 [:en]
 The template specialization [`reference_wrapper<T>] shall define a nested type
 named [`argument_type] as a synonym for [`T1] only if the type [`T] is any of
 the following:
+[:zh_CN]
+仅当类型 [`T] 为下列之一时，模板特例 [`reference_wrapper<T>] 中应当定义一个名为
+[`argument_type] 的类型作为 [`T1] 的同义词：
 
 [list]
 [item]
 [:en]
 a function type or a pointer to function type taking one argument of type [`T1]
+[:zh_CN]
+接受一个 [`T1] 类型的实参的函数类型或函数类型的指针
 
 [item]
 [:en]
 a pointer to member function [`R T0::f] [$cv] (where [$cv] represents the
 member function[=']s cv-qualifiers); the type [`T1] is [$cv] [`T0*]
+[:zh_CN]
+指向成员函数 [`R T0::f] [$cv] 的指针（其中 [$cv] 代表该成员函数的 cv-限定符）；
+类型 [`T1] 为 [$cv] [`T0*]
 
 [item]
 [:en]
 a class type where the [~qualified-id] [`T::argument_type] is valid and denotes
 a type ([#temp.deduct]); the type [`T1] is [`T::argument_type].
+[:zh_CN]
+使得[~限定标识] [`T::argument_type] 有效并且代表某个类型（[#temp.deduct]）的类
+类型；类型 [`T1] 为 [`T::argument_type]。
 [list:end]
 
 [para]
@@ -82,21 +117,34 @@ a type ([#temp.deduct]); the type [`T1] is [`T::argument_type].
 The template instantiation [`reference_wrapper<T>] shall define two nested types
 named [`first_argument_type] and [`second_argument_type] as synonyms for [`T1]
 and [`T2], respectively, only if the type [`T] is any of the following:
+[:zh_CN]
+仅当类型 [`T] 为下列之一时，模板特例 [`reference_wrapper<T>] 中应当定义两个名为
+[`first_argument_type] 和 [`second_argument_type] 的类型并分别作为 [`T1] 和
+[`T2] 的同义词：
 
 [list]
 [item]
 [:en] a function type or a pointer to function type taking two arguments of
 types [`T1] and [`T2]
+[:zh_CN]
+接受两个 [`T1] 和 [`T2] 类型的实参的函数类型或函数类型的指针
 
 [item]
 [:en] a pointer to member function [`R T0::f(T2)] [$cv] (where [$cv] represents
 the member function[=']s cv-qualifiers); the type [`T1] is [$cv] [`T0*]
+[:zh_CN]
+指向成员函数 [`R T0::f(T2)] [$cv] 的指针（其中 [$cv] 代表该成员函数的 cv-限定符
+）；类型 [`T1] 为 [$cv] [`T0*]
 
 [item]
 [:en] a class type where the [~qualified-id]s [`T::first_argument_type] and
 [`T::second_argument_type] are both valid and both denote types
 ([#temp.deduct]); the type [`T1] is [`T::first_argument_type] and the type [`T2]
 is [`T::second_argument_type].
+[:zh_CN]
+使得[~限定标识] [`T::first_argument_type] 和 [`T::second_argument_type] 均有效
+并且均代表某个类型（[#temp.deduct]）的类类型；类型 [`T1] 为
+[`T::first_argument_type] 而类型 [`T2] 为 [`T::second_argument_type]。
 [list:end]
 
 [include refwrap.const]

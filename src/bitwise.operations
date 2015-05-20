@@ -1,5 +1,6 @@
 ﻿[section#bitwise.operations
     [:en] Bitwise operations
+    [:zh_CN] 按位运算
 ]
 
 [para]
@@ -7,6 +8,9 @@
 The library provides basic function object classes for all of the bitwise
 operators in the language ([#expr.bit.and], [#expr.or], [#expr.xor],
 [#expr.unary.op]).
+[:zh_CN]
+程序库为语言中的全部按位运算符（[#expr.bit.and]，[#expr.or]，[#expr.xor]，
+[#expr.unary.op]）提供了基本的函数对象类。
 
 [%@library bit_and]
 [codeblock:declaration]
@@ -21,6 +25,7 @@ template <class T = void> struct bit_and {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x & y].
+[:zh_CN] [`operator()] 返回 [`x & y]。
 [exit:description]
 
 [%@library bit_or]
@@ -36,6 +41,7 @@ template <class T = void> struct bit_or {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x | y].
+[:zh_CN] [`operator()] 返回 [`x | y]。
 [exit:description]
 
 [%@library bit_xor]
@@ -51,6 +57,7 @@ template <class T = void> struct bit_xor {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`x ^ y].
+[:zh_CN] [`operator()] 返回 [`x ^ y]。
 [exit:description]
 
 [codeblock:declaration]
@@ -64,6 +71,7 @@ template <class T = void> struct bit_not {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`~x].
+[:zh_CN] [`operator()] 返回 [`~x]。
 [exit:description]
 
 [%@library bit_and<>]
@@ -79,6 +87,7 @@ template <> struct bit_and<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) & std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) & std::forward<U>(u)]。
 [exit:description]
 
 [%@library bit_or<>]
@@ -94,6 +103,7 @@ template <> struct bit_or<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) | std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) | std::forward<U>(u)]。
 [exit:description]
 [%@library bit_xor<>]
 
@@ -109,6 +119,7 @@ template <> struct bit_xor<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`std::forward<T>(t) ^ std::forward<U>(u)].
+[:zh_CN] [`operator()] 返回 [`std::forward<T>(t) ^ std::forward<U>(u)]。
 [exit:description]
 
 [%@library bit_not<>]
@@ -124,4 +135,5 @@ template <> struct bit_not<void> {
 [enter:description]
 [para]
 [:en] [`operator()] returns [`~std::forward<T>(t)].
+[:zh_CN] [`operator()] 返回 [`~std::forward<T>(t)]。
 [exit:description]

@@ -1,35 +1,47 @@
 ﻿[section#meta.unary.cat
     [:en] Primary type categories
+    [:zh_CN] 基本类型分类
 ]
 
 [para]
 [:en]
 The primary type categories correspond to the descriptions given in section
 [#basic.types] of the [=Cpp] standard.
+[:zh_CN]
+基本类型分类对应于 [=Cpp] 标准的 [#basic.types] 节中所给出的说明。
 
 [para]
 [:en]
 For any given type [`T], the result of applying one of these templates to [`T]
 and to [$cv-qualified] [`T] shall yield the same result.
+[:zh_CN]
+对于任意给定类型 [`T]，对 [`T] 和被 [$cv]-限定的 [`T] 施加这些模板之一应当产生
+相同的结果。
 
 [para]
 [enter:note]
 [:en]
 For any given type [`T], exactly one of the primary type categories has a
 [`value] member that evaluates to [`true].
+[:zh_CN]
+对于任意给定类型 [`T]，恰好有一个基本类型分类的 [`value] 成员求值为 [`true]。
 [exit:note]
 
 [table:listing#tab:type-traits.primary
     [:en] Primary type category predicates
+    [:zh_CN] 基本类型分类谓词
     [columns
         [column@headercenter@code
             [:en] Template
+            [:zh_CN] 模板
         ]
         [column@headercenter
             [:en] Condition
+            [:zh_CN] 条件
         ]
         [column@headercenter
             [:en] Comments
+            [:zh_CN] 注释
         ]
     ]
     [border:row@both]
@@ -39,84 +51,100 @@ For any given type [`T], exactly one of the primary type categories has a
 template <class T> [br]
 struct is_void;
 [|] [:en] [`T] is [`void]
+    [:zh_CN] [`T] 为 [`void]
 [|]
 
 [|]
 template <class T> [br]
 struct is_null_pointer;
 [|] [:en] [`T] is [`std::nullptr_t] ([#basic.fundamental])
+    [:zh_CN] [`T] 为 [`std::nullptr_t]（[#basic.fundamental]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_integral;
 [|] [:en] [`T] is an integral type ([#basic.fundamental])
+    [:zh_CN] [`T] 为整型类型（[#basic.fundamental]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_floating_point;
 [|] [:en] [`T] is a floating point type ([#basic.fundamental])
+    [:zh_CN] [`T] 为浮点类型（[#basic.fundamental]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_array;
 [|] [:en] [`T] is an array type ([#basic.compound]) of known or unknown extend
+    [:zh_CN] [`T] 为已知或未知边界的数组类型（[#basic.compound]）
 [|] [:en] Class template [`array] ([#array]) is not an array type.
+    [:zh_CN] 类模板 [`array]（[#array]）不是数组类型。
 
 [|]
 template <class T> [br]
 struct is_pointer;
 [|] [:en] [`T] is a pointer type ([#basic.compound])
+    [:zh_CN] [`T] 为指针类型（[#basic.compound]）
 [|] [:en] Includes pointers to functions but not pointers to non-static members.
+    [:zh_CN] 包括函数指针，但不包括指向非静态成员的指针。
 
 [|]
 template <class T> [br]
 struct is_lvalue_reference;
 [|] [:en] [`T] is an lvalue reference type ([#dcl.ref])
+    [:zh_CN] [`T] 为左值引用类型（[#dcl.ref]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_rvalue_reference;
 [|] [:en] [`T] is an rvalue reference type ([#dcl.ref])
+    [:zh_CN] [`T] 为右值引用类型（[#dcl.ref]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_member_object_pointer;
 [|] [:en] [`T] is a pointer to non-static data member
+    [:zh_CN] [`T] 为指向非静态数据成员的指针
 [|]
 
 [|]
 template <class T> [br]
 struct is_member_function_pointer;
 [|] [:en] [`T] is a pointer to non-static member function
+    [:zh_CN] [`T] 为指向非静态成员函数的指针
 [|]
 
 [|]
 template <class T> [br]
 struct is_enum;
 [|] [:en] [`T] is an enumeration type ([#basic.compound])
+    [:zh_CN] [`T] 为枚举类型（[#basic.compound]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_union;
 [|] [:en] [`T] is a union type ([#basic.compound])
+    [:zh_CN] [`T] 为联合类型（[#basic.compound]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_class;
 [|] [:en] [`T] is a class type but not a union type ([#basic.compound])
+    [:zh_CN] [`T] 为不是联合类型的类类型（[#basic.compound]）
 [|]
 
 [|]
 template <class T> [br]
 struct is_function;
 [|] [:en] [`T] is a function type ([#basic.compound])
+    [:zh_CN] [`T] 为函数类型（[#basic.compound]）
 [|]
 
 [table:end]

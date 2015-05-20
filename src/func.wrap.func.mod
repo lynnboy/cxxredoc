@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.func.mod
     [:en] [`function] modifiers
+    [:zh_CN] [`function] 的改动函数
 ]
 
 [%@library function[!swap]]
@@ -11,6 +12,7 @@ void swap(function& other) noexcept;
 [enter:description]
 [para:effects]
 [:en] interchanges the targets of [`*this] and [`other].
+[:zh_CN] 互换 [`*this] 和 [`other] 的目标。
 [exit:description]
 
 [%@library function[!assign]]
@@ -22,5 +24,5 @@ template<class F, class A>
 
 [enter:description]
 [para:effects]
-[:en] [`function(allocator_arg, a, std::forward<F>(f)).swap(*this)]
+[`function(allocator_arg, a, std::forward<F>(f)).swap(*this)]
 [exit:description]

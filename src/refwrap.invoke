@@ -1,5 +1,6 @@
 ﻿[section#refwrap.invoke
     [:en] [`reference_wrapper] invocation
+    [:zh_CN] [`reference_wrapper] 的调用
 ]
 
 [%@library reference_wrapper[!operator()]]
@@ -12,16 +13,20 @@ template <class... ArgTypes>
 
 [enter:description]
 [para:returns]
-[:en] [`[$INVOKE](get(), std::forward<ArgTypes>(args)...)].
-
-[:en] ([#func.require])
+[:en] [`[$INVOKE](get(), std::forward<ArgTypes>(args)...)]. ([#func.require])
+[:zh_CN][`[$INVOKE](get(), std::forward<ArgTypes>(args)...)]（[#func.require]）
+。
 
 [para:note]
 [:en] [`operator()] is described for exposition only.
+[:zh_CN] [`operator()] 仅为阐释目的而进行说明。
 
 [:en] Implementations are not required to provide an actual
 [`reference_wrapper::operator()].
+[:zh_CN] 实现不必实际提供一个 [`reference_wrapper::operator()]。
 
 [:en] Implementations are permitted to support [`reference_wrapper] function
 invocation through multiple overloaded operators or through other means.
+[:zh_CN] 允许实现通过提供多个重载运算符或者通过其他方式来支持
+[`reference_wrapper] 的函数调用。
 [exit:description]

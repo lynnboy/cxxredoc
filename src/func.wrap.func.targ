@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.func.targ
     [:en] [`function] target access
+    [:zh_CN] [`function] 的目标访问
 ]
 
 [%@library function[!target_type]]
@@ -12,6 +13,8 @@ const std::type_info& target_type() const noexcept;
 [para:returns]
 [:en] If [`*this] has a target of type [`T], [`typeid(T)]; otherwise,
 [`typeid(void)].
+[:zh_CN] 如果 [`*this] 具有目标类型 [`T] 则为 [`typeid(T)]；否则为
+[`typeid(void)]。
 [exit:description]
 
 [%@library function[!target]]
@@ -25,8 +28,12 @@ template<class T> const T* target() const noexcept;
 [para:requires]
 [:en] [`T] shall be a type that is Callable ([#func.wrap.func]) for parameter
 types [`ArgTypes] and return type [`R].
+[:zh_CN] [`T] 应当为对于形参类型 [`ArgTypes] 和返回类型 [`R] 可调用
+（[#func.wrap.func]）的类型。
 
 [para:returns]
 [:en] If [`target_type() == typeid(T)] a pointer to the stored function target;
 otherwise a null pointer.
+[:zh_CN] 如果 [`target_type() == typeid(T)]，则为指向所存储的函数目标的指针；
+否则为空指针。
 [exit:description]
