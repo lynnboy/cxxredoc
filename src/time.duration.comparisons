@@ -1,11 +1,15 @@
 ﻿[section#time.duration.comparisons
     [:en] [`duration] comparisons
+    [:zh_CN] [`duration] 的比较
 ]
 
 [para]
 [:en]
 In the function descriptions that follow, [`CT] represents [`common_type_t<A,
 B>], where [`A] and [`B] are the types of the two arguments to the function.
+[:zh_CN]
+在以下函数说明中，[`CT] 表示 [`common_type_t<A, B>]，其中 [`A] 和 [`B] 是函数的
+两个实参的类型。
 
 [%@library operator==[!duration]]
 [%@library duration[!operator==]]
@@ -17,6 +21,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`CT(lhs).count() == CT(rhs).count()].
+[:zh_CN] [`CT(lhs).count() == CT(rhs).count()]。
 [exit:description]
 
 [%@library operator!=[!duration]]
@@ -29,6 +34,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`!(lhs == rhs)].
+[:zh_CN] [`!(lhs == rhs)]。
 [exit:description]
 
 [%@library operator<[!duration]]
@@ -41,6 +47,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`CT(lhs).count() < CT(rhs).count()].
+[:zh_CN] [`CT(lhs).count() < CT(rhs).count()]。
 [exit:description]
 
 [%@library operator<=[!duration]]
@@ -53,6 +60,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`!(rhs < lhs)].
+[:zh_CN] [`!(rhs < lhs)]。
 [exit:description]
 
 [%@library operator>[!idxl]]
@@ -65,6 +73,7 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`rhs < lhs].
+[:zh_CN] [`rhs < lhs]。
 [exit:description]
 
 [%@library operator>=[!duration]]
@@ -77,4 +86,5 @@ template <class Rep1, class Period1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`!(lhs < rhs)].
+[:zh_CN] [`!(lhs < rhs)]。
 [exit:description]
