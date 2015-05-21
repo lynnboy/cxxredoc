@@ -1,19 +1,25 @@
 ﻿[section#date.time
     [:en] Date and time functions
+    [:zh_CN] 日期与时间函数
 ]
 
 [para]
 [:en]
 Table [#tab:util.hdr.ctime] describes the header [`<ctime>].
+[:zh_CN]
+表 [#tab:util.hdr.ctime] 描述了头文件 [`<ctime>]。
 
 [table:listing#tab:util.hdr.ctime
     [:en] Header [`<ctime>] synopsis
+    [:zh_CN] 头文件 [`<ctime>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
         [column@header~@code]
@@ -55,17 +61,26 @@ Table [#tab:util.hdr.ctime] describes the header [`<ctime>].
 [para]
 [:en]
 The contents are the same as the Standard C library header [`<time.h>].
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<time.h>] 相同。
 
 [footnote]
 [:en]
 [`strftime] supports the C conversion specifiers [`C], [`D], [`e], [`F], [`g],
 [`G], [`h], [`r], [`R], [`t], [`T], [`u], [`V], and [`z], and the modifiers [`E]
 and [`O].
+[:zh_CN]
+[`strftime] 支持 C 转换说明符 [`C]，[`D]，[`e]，[`F]，[`g]，[`G]，[`h]，[`r]，
+[`R]，[`t]，[`T]，[`u]，[`V]，和 [`z]，以及修饰符 [`E] 和 [`O]。
 [footnote:end]
 
 [:en]
 The functions [`asctime], [`ctime], [`gmtime], and [`localtime] are not required
 to avoid data races ([#res.on.data.races]).
+[:zh_CN]
+不要求函数 [`asctime]，[`ctme]，[`gmtime]，和 [`localtime] 避免数据竞争
+（[#res.on.data.races]）。
 
 [para:xref]
 [:en] ISO C Clause 7.12, Amendment 1 Clause 4.6.4.
+[:zh_CN] ISO C 条款 7.12，修订 1 条款 4.6.4。
