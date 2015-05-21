@@ -1,8 +1,9 @@
 ﻿[section#allocator.adaptor.cnstr
     [:en] Scoped allocator adaptor constructors
+    [:zh_CN] 有范围分配器适配器的构造函数
 ]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 scoped_allocator_adaptor();
 [codeblock:end]
@@ -11,9 +12,10 @@ scoped_allocator_adaptor();
 [para:effects]
 [:en] value-initializes the [`OuterAlloc] base class and the [`inner] allocator
 object.
+[:zh_CN] 对 [`OuterAlloc] 基类以及 [`inner] 分配器对象进行值初始化。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class OuterA2>
   scoped_allocator_adaptor(OuterA2&& outerAlloc,
@@ -23,15 +25,19 @@ template <class OuterA2>
 [enter:description]
 [para:requires]
 [:en] [`OuterAlloc] shall be constructible from [`OuterA2].
+[:zh_CN] [`OuterAlloc] 应当可以从 [`OuterA2] 进行构造。
 
 [para:effects]
 [:en] initializes the [`OuterAlloc] base class with
 [`std::forward<OuterA2>(outerAlloc)] and [`inner] with [`innerAllocs...] (hence
 recursively initializing each allocator within the adaptor with the
 corresponding allocator from the argument list).
+[:zh_CN] 以 [`std::forward<OuterA2>(outerAlloc)] 初始化 [`OuterAlloc] 基类，并以
+[`innerAllocs...] 初始化 [`inner]（由此，对该分配器中的每个分配器，都递归地以
+实参列表中的对应分配器进行了初始化）。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 scoped_allocator_adaptor(const scoped_allocator_adaptor& other) noexcept;
 [codeblock:end]
@@ -40,9 +46,10 @@ scoped_allocator_adaptor(const scoped_allocator_adaptor& other) noexcept;
 [para:effects]
 [:en] initializes each allocator within the adaptor with the corresponding
 allocator from [`other].
+[:zh_CN] 以 [`other] 中的对应分配器对该分配器中的每个分配器进行初始化。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 scoped_allocator_adaptor(scoped_allocator_adaptor&& other) noexcept;
 [codeblock:end]
@@ -51,9 +58,10 @@ scoped_allocator_adaptor(scoped_allocator_adaptor&& other) noexcept;
 [para:effects]
 [:en] move constructs each allocator within the adaptor with the corresponding
 allocator from [`other].
+[:zh_CN] 以 [`other] 中的对应分配器对该分配器中的每个分配器进行复制构造。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class OuterA2>
   scoped_allocator_adaptor(const scoped_allocator_adaptor<OuterA2,
@@ -63,13 +71,15 @@ template <class OuterA2>
 [enter:description]
 [para:requires]
 [:en] [`OuterAlloc] shall be constructible from [`OuterA2].
+[:zh_CN] [`OuterAlloc] 应当可以从 [`OuterA2] 进行构造。
 
 [para:effects]
 [:en] initializes each allocator within the adaptor with the corresponding
 allocator from [`other].
+[:zh_CN] 以 [`other] 中的对应分配器对该分配器中的每个分配器进行初始化。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[!constructor]]
+[%@library scoped_allocator_adaptor[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class OuterA2>
   scoped_allocator_adaptor(scoped_allocator_adaptor<OuterA2,
@@ -79,8 +89,10 @@ template <class OuterA2>
 [enter:description]
 [para:requires]
 [:en] [`OuterAlloc] shall be constructible from [`OuterA2].
+[:zh_CN] [`OuterAlloc] 应当可以从 [`OuterA2] 进行构造。
 
 [para:effects]
 [:en] initializes each allocator within the adaptor with the corresponding
 allocator rvalue from [`other].
+[:zh_CN] 以 [`other] 中的对应分配器右值对该分配器中的每个分配器进行初始化。
 [exit:description]
