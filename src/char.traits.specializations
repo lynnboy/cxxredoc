@@ -1,5 +1,6 @@
 ﻿[section#char.traits.specializations
     [:en] [`char_traits] specializations
+    [:zh_CN] [`char_traits] 的特化式
 ]
 
 [%@library char_traits]
@@ -17,11 +18,17 @@ namespace std {
 The header [`<string>] shall define four specializations of the template struct
 [`char_traits]: [`char_traits<char>], [`char_traits<char16_t>],
 [`char_traits<char32_t>], and [`char_traits<wchar_t>].
+[:zh_CN]
+头文件 [`<string>] 应当为模板结果 [`char_traits] 定义四个特化式：
+[`char_traits<char>]，[`char_traits<char16_t>]，[`char_traits<char32_t>]，以及
+[`char_traits<wchar_t>]。
 
 [para]
 [:en]
 The requirements for the members of these specializations are given in
 Clause [#char.traits.require].
+[:zh_CN]
+对这些特化式的成员的规定在条款 [#char.traits.require] 中给出。
 
 [include char.traits.specializations.char]
 
