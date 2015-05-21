@@ -1,5 +1,6 @@
 ﻿[section#allocator.adaptor.members
     [:en] Scoped allocator adaptor members
+    [:zh_CN] 有范围分配器适配器的成员
 ]
 
 [para]
@@ -8,17 +9,28 @@ In the [`construct] member functions, [`[$OUTERMOST](x)] is [`x] if [`x] does
 not have an [`outer_allocator()] member function and
 [`[$OUTERMOST](x.outer_allocator())] otherwise; [`[$OUTERMOST_ALLOC_TRAITS](x)]
 is [`allocator_traits<decltype([$OUTERMOST](x))>].
+[:zh_CN]
+成员函数 [`construct] 中，若 [`x] 没有成员函数 [`outer_allocator()] 则
+[`[$OUTERMOST](x)] 为 [`x]，否则为 [`[$OUTERMOST](x.outer_allocator())]；
+[`[$OUTERMOST_ALLOC_TRAITS](x)] 为
+[`allocator_traits<decltype([$OUTERMOST](x))>]。
 
 [enter:note]
 [:en]
 [`[$OUTERMOST](x)] and [`[$OUTERMOST_ALLOC_TRAITS](x)] are recursive operations.
+[:zh_CN]
+[`[$OUTERMOST](x)] 和 [`[$OUTERMOST_ALLOC_TRAITS](x)] 是递归操作。
 
 [:en]
 It is incumbent upon the definition of [`outer_allocator()] to ensure that the
 recursion terminates.
+[:zh_CN]
+确保该递归终止的职责在于 [`outer_allocator()] 的定义式。
 
 [:en]
 It will terminate for all instantiations of [`scoped_allocator_adaptor].
+[:zh_CN]
+所有 [`scoped_allocator_adaptor] 的实例化均会终止该递归。
 [exit:note]
 
 [%@library scoped_allocator_adaptor[!inner_allocator]]
@@ -31,6 +43,7 @@ const inner_allocator_type& inner_allocator() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`*this] if [`sizeof...(InnerAllocs)] is zero; otherwise, [`inner].
+[:zh_CN] 如果 [`sizeof...(InnerAllocs)] 为零，则为 [`*this]；否则为 [`inner]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!outer_allocator]]
@@ -42,6 +55,7 @@ outer_allocator_type& outer_allocator() noexcept;
 [enter:description]
 [para:returns]
 [:en] [`static_cast<OuterAlloc&>(*this)].
+[:zh_CN] [`static_cast<OuterAlloc&>(*this)]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!outer_allocator]]
@@ -53,6 +67,7 @@ const outer_allocator_type& outer_allocator() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`static_cast<const OuterAlloc&>(*this)].
+[:zh_CN] [`static_cast<const OuterAlloc&>(*this)]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!allocate]]
@@ -64,6 +79,7 @@ pointer allocate(size_type n);
 [enter:description]
 [para:returns]
 [:en] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n)].
+[:zh_CN] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n)]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!allocate]]
@@ -75,6 +91,7 @@ pointer allocate(size_type n, const_void_pointer hint);
 [enter:description]
 [para:returns]
 [:en] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n, hint)].
+[:zh_CN] [`allocator_traits<OuterAlloc>::allocate(outer_allocator(), n, hint)]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!deallocate]]
@@ -86,6 +103,7 @@ void deallocate(pointer p, size_type n) noexcept;
 [enter:description]
 [para:effects]
 [:en] [`allocator_traits<OuterAlloc>::deallocate(outer_allocator(), p, n)];
+[:zh_CN] [`allocator_traits<OuterAlloc>::deallocate(outer_allocator(), p, n)]；
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!max_size]]
@@ -97,6 +115,7 @@ size_type max_size() const;
 [enter:description]
 [para:returns]
 [:en] [`allocator_traits<OuterAlloc>::max_size(outer_allocator())].
+[:zh_CN] [`allocator_traits<OuterAlloc>::max_size(outer_allocator())]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!construct]]
@@ -115,6 +134,10 @@ template <class T, class... Args>
 [`is_constructible<T, Args...>::value] is [`true], calls
 [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
 std::forward<Args>(args)...)].
+[:zh_CN] 若 [`uses_allocator<T, inner_allocator_type>::value] 为 [`false] 并且
+[`is_constructible<T, Args...>::value] 为 [`true]，则调用
+[`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+std::forward<Args>(args)...)]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T, inner_allocator_type>::value] is [`true]
@@ -122,22 +145,35 @@ and [`is_constructible<T, allocator_arg_t, inner_allocator_type,
 Args...>::value] is [`true], calls
 [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
 allocator_arg, inner_allocator(), std::forward<Args>(args)...)].
+[:zh_CN] 否则，若 [`uses_allocator<T, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T, allocator_arg_t, inner_allocator_type,
+Args...>::value] 为 [`true]，则调用
+[`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+allocator_arg, inner_allocator(), std::forward<Args>(args)...)]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T, inner_allocator_type>::value] is [`true]
 and [`is_constructible<T, Args..., inner_allocator_type>::value] is [`true],
 calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
 std::forward<Args>(args)..., inner_allocator())].
+[:zh_CN] 否则，若 [`uses_allocator<T, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T, Args..., inner_allocator_type>::value] 为 [`true]，
+则调用 [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+std::forward<Args>(args)..., inner_allocator())].
 
 [item]
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 
 [enter:note]
 [:en] An error will result if [`uses_allocator] evaluates to true but the
 specific constructor does not take an allocator.
+[:zh_CN] 若 [`uses_allocator] 求值为真，但所指定的构造函数并不接受分配器，则会
+导致出错。
 
 [:en] This definition prevents a silent failure to pass an inner allocator to a
 contained element.
+[:zh_CN] 本条定义防止将內部分配器传给被包含的某个元素而导致的静默的失败。
 [exit:note]
 [list:end]
 [exit:description]
@@ -154,14 +190,19 @@ template <class T1, class T2, class... Args1, class... Args2>
 [para:requires]
 [:en] all of the types in [`Args1] and [`Args2] shall be [`CopyConstructible]
 (Table [#copyconstructible]).
+[:zh_CN] [`Args1] 和 [`Args2] 中的所有类型均应当为 [`CopyConstructible]
+（表 [#copyconstructible]）。
 
 [para:effects]
 [:en] Constructs a [`tuple] object [`xprime] from [`x] by the following rules:
+[:zh_CN] 根据以下规则以 [`x] 构造一个 [`tuple] 对象 [`xprime]：
 
 [list]
 [item]
 [:en] If [`uses_allocator<T1, inner_allocator_type>::value] is [`false] and
 [`is_constructible<T1, Args1...>::value] is [`true], then [`xprime] is [`x].
+[:zh_CN] 若 [`uses_allocator<T1, inner_allocator_type>::value] 为 [`false] 并且
+[`is_constructible<T1, Args1...>::value] 为 [`true]，则 [`xprime] 为 [`x]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T1, inner_allocator_type>::value] is
@@ -169,24 +210,38 @@ template <class T1, class T2, class... Args1, class... Args2>
 Args1...>::value] is [`true], then [`xprime] is
 [`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
 inner_allocator()), std::move(x))].
+[:zh_CN] 否则，若 [`uses_allocator<T1, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T1, allocator_arg_t, inner_allocator_type,
+Args1...>::value] 为 [`true]，则 [`xprime] 为
+[`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
+inner_allocator()), std::move(x))]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T1, inner_allocator_type>::value] is
 [`true] and [`is_constructible<T1, Args1..., inner_allocator_type>::value] is
 [`true], then [`xprime] is [`tuple_cat(std::move(x),
 tuple<inner_allocator_type&>(inner_allocator()))].
+[:zh_CN] 否则，若 [`uses_allocator<T1, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T1, Args1..., inner_allocator_type>::value] 为 [`true]，
+则 [`xprime] 为 [`tuple_cat(std::move(x),
+tuple<inner_allocator_type&>(inner_allocator()))]。
 
 [item]
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 [list:end]
 
 [:en]
 and constructs a [`tuple] object [`yprime] from [`y] by the following rules:
+[:zh_CN]
+并根据以下规则以 [`y] 构造一个 [`tuple] 对象 [`yprime]：
 
 [list]
 [item]
 [:en] If [`uses_allocator<T2, inner_allocator_type>::value] is [`false] and
 [`is_constructible<T2, Args2...>::value] is [`true], then [`yprime] is [`y].
+[:zh_CN] 若 [`uses_allocator<T2, inner_allocator_type>::value] 为 [`false] 并且
+[`is_constructible<T2, Args2...>::value] 为 [`true]，则 [`yprime] 为 [`y]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T2, inner_allocator_type>::value] is
@@ -194,20 +249,33 @@ and constructs a [`tuple] object [`yprime] from [`y] by the following rules:
 Args2...>::value] is [`true], then [`yprime] is
 [`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
 inner_allocator()), std::move(y))].
+[:zh_CN] 否则，若 [`uses_allocator<T2, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T2, allocator_arg_t, inner_allocator_type,
+Args2...>::value] 为 [`true]，则 [`yprime] 为
+[`tuple_cat(tuple<allocator_arg_t, inner_allocator_type&>(allocator_arg,
+inner_allocator()), std::move(y))]。
 
 [item]
 [:en] Otherwise, if [`uses_allocator<T2, inner_allocator_type>::value] is
 [`true] and [`is_constructible<T2, Args2..., inner_allocator_type>::value] is
 [`true], then [`yprime] is [`tuple_cat(std::move(y),
 tuple<inner_allocator_type&>(inner_allocator()))].
+[:zh_CN] 否则，若 [`uses_allocator<T2, inner_allocator_type>::value] 为 [`true]
+并且 [`is_constructible<T2, Args2..., inner_allocator_type>::value] 为 [`true]，
+则 [`yprime] 为 [`tuple_cat(std::move(y),
+tuple<inner_allocator_type&>(inner_allocator()))]。
 
 [item]
 [:en] Otherwise, the program is ill-formed.
+[:zh_CN] 否则，程序非良构。
 [list:end]
 
 [:en]
 then calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
 piecewise_construct, std::move(xprime), std::move(yprime))].
+[:zh_CN]
+然后再调用 [`[$OUTERMOST_ALLOC_TRAITS](*this)::construct([$OUTERMOST](*this), p,
+piecewise_construct, std::move(xprime), std::move(yprime))]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!construct]]
@@ -221,6 +289,8 @@ template <class T1, class T2>
 [para:effects]
 [:en] Equivalent to [`this->construct(p, piecewise_construct, tuple<>(),
 tuple<>())].
+[:zh_CN] 等价于 [`this->construct(p, piecewise_construct, tuple<>(), tuple<>())]
+。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!construct]]
@@ -234,6 +304,8 @@ template <class T1, class T2, class U, class V>
 [para:effects]
 [:en] Equivalent to [`this->construct(p, piecewise_construct,
 forward_as_tuple(std::forward<U>(x)), forward_as_tuple(std::forward<V>(y)))].
+[:zh_CN] 等价于 [`this->construct(p, piecewise_construct,
+forward_as_tuple(std::forward<U>(x)), forward_as_tuple(std::forward<V>(y)))]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!construct]]
@@ -247,6 +319,8 @@ template <class T1, class T2, class U, class V>
 [para:effects]
 [:en] Equivalent to [`this->construct(p, piecewise_construct,
 forward_as_tuple(x.first), forward_as_tuple(x.second))].
+[:zh_CN] 等价于 [`this->construct(p, piecewise_construct,
+forward_as_tuple(x.first), forward_as_tuple(x.second))]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!construct]]
@@ -261,9 +335,12 @@ template <class T1, class T2, class U, class V>
 [:en] Equivalent to [`this->construct(p, piecewise_construct,
 forward_as_tuple(std::forward<U>(x.first)),
 forward_as_tuple(std::forward<V>(x.second)))].
+[:zh_CN] 等价于 [`this->construct(p, piecewise_construct,
+forward_as_tuple(std::forward<U>(x.first)),
+forward_as_tuple(std::forward<V>(x.second)))]。
 [exit:description]
 
-[%@library scoped_allocator_adaptor[![:en]destructor]]
+[%@library scoped_allocator_adaptor[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 template <class T>
   void destroy(T* p);
@@ -273,6 +350,8 @@ template <class T>
 [para:effects]
 [:en] calls [`[$OUTERMOST_ALLOC_TRAITS](*this)::destroy([$OUTERMOST](*this),
 p)].
+[:zh_CN] 调用 [`[$OUTERMOST_ALLOC_TRAITS](*this)::destroy([$OUTERMOST](*this),
+p)]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!select_on_container_copy_construction]]
@@ -283,8 +362,12 @@ scoped_allocator_adaptor select_on_container_copy_construction() const;
 
 [enter:description]
 [para:returns]
-[:en] A new scoped_allocator_adaptor object where each allocator [`A] in the
+[:en] A new [`scoped_allocator_adaptor] object where each allocator [`A] in the
 adaptor is initialized from the result of calling
 [`allocator_traits<A>::select_on_container_copy_construction()] on the
 corresponding allocator in [`*this].
+[:zh_CN] 一个新的 [`scoped_allocator_adaptor] 对象，该适配器中的每个分配器 [`A]
+是以对 [`*this] 中的对应分配器调用
+[`allocator_traits<A>::select_on_container_copy_construction()] 的结果进行初始化
+的。
 [exit:description]
