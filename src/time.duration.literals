@@ -1,32 +1,47 @@
 ﻿[section#time.duration.literals
     [:en] Suffixes for duration literals
+    [:zh_CN] 时长字面量的后缀
 ]
 
 [para]
 [:en]
 This section describes literal suffixes for constructing duration literals.
+[:zh_CN]
+本节说明了用以构造时长字面量的字面量后缀。
 
 [:en]
 The suffixes [`h], [`min], [`s], [`ms], [`us], [`ns] denote duration values of
 the corresponding types [`hours], [`minutes], [`seconds], [`milliseconds],
 [`microseconds], and [`nanoseconds] respectively if they are applied to integral
 literals.
+[:zh_CN]
+后缀 [`h]、[`min]、[`s]、[`ms]、[`us] 和 [`ns]，当被施加于整型字面量时，分别代表
+类型 [`hours]、[`minutes]、[`seconds]、[`milliseconds]、[`microseconds] 和
+[`nanoseconds] 的时长值。
 
 [para]
 [:en]
 If any of these suffixes are applied to a floating point literal the result is a
 [`chrono::duration] literal with an unspecified floating point representation.
+[:zh_CN]
+当对浮点字面量施加这些后缀的任何一个时，其结果是一个具有未指明的浮点表示的
+[`chrono::duration] 字面量。
 
 [para]
 [:en]
 If any of these suffixes are applied to an integer literal and the resulting
 [`chrono::duration] value cannot be represented in the result type because of
 overflow, the program is ill-formed.
+[:zh_CN]
+如果对整型字面量施加这些后缀的任何一个，而其结果 [`chrono::duration] 值由于溢出
+而无法以其结果类型进行表示，则程序非良构。
 
 [para]
 [enter:example]
 [:en]
 The following code shows some duration literals.
+[:zh_CN]
+下列代码展示一些时长字面量。
 
 [codeblock]
 using namespace std::chrono_literals;
@@ -44,6 +59,7 @@ constexpr chrono::duration<unspecified, ratio<3600,1>>  operator "" h(long doubl
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`hours] hours.
+[:zh_CN] 代表 [`hours] 个小时的 [`duration] 字面量。
 [exit:description]
 
 [codeblock:declaration [special unspecified] ]
@@ -54,6 +70,7 @@ constexpr chrono::duration<unspecified, ratio<60,1>>  operator "" min(long doubl
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`minutes] minutes.
+[:zh_CN] 代表 [`minutes] 个分钟的 [`duration] 字面量。
 [exit:description]
 
 [codeblock:declaration [special unspecified] ]
@@ -64,12 +81,15 @@ constexpr chrono::duration<unspecified>  operator "" s(long double sec);
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`sec] seconds.
+[:zh_CN] 代表 [`sec] 个秒的 [`duration] 字面量。
 
 [para]
 [enter:note]
 [:en] The same suffix [`s] is used for [`basic_string] but there is no conflict,
 since duration suffixes apply to numbers and string literal suffixes apply to
 character array literals.
+[:zh_CN] 同一个后缀 [`s] 也用于 [`basic_string]，但这并没有冲突，因为时长后缀仅
+施加于数字，而字符串字面量后缀仅施加于字符数组字面量。
 [exit:note]
 
 [exit:description]
@@ -81,6 +101,7 @@ constexpr chrono::duration<unspecified, milli>  operator "" ms(long double msec)
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`msec] milliseconds.
+[:zh_CN] 代表 [`msec] 个毫秒的 [`duration] 字面量。
 [exit:description]
 
 [codeblock:declaration [special unspecified] ]
@@ -91,6 +112,7 @@ constexpr chrono::duration<unspecified, micro>  operator "" us(long double usec)
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`usec] microseconds.
+[:zh_CN] 代表 [`usec] 个微秒的 [`duration] 字面量。
 [exit:description]
 
 [codeblock:declaration [special unspecified] ]
@@ -101,4 +123,5 @@ constexpr chrono::duration<unspecified, nano>  operator "" ns(long double nsec);
 [enter:description]
 [para:returns]
 [:en] A [`duration] literal representing [`nsec] nanoseconds.
+[:zh_CN] 代表 [`nsec] 个纳秒的 [`duration] 字面量。
 [exit:description]
