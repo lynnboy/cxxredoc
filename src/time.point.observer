@@ -1,5 +1,6 @@
 ﻿[section#time.point.observer
     [:en] [`time_point] observer
+    [:zh_CN] [`time_point] 的探察函数
 ]
 
 [%@library time_point[!time_since_epoch]]
@@ -11,4 +12,5 @@ constexpr duration time_since_epoch() const;
 [enter:description]
 [para:returns]
 [:en] [`d_].
+[:zh_CN] [`d_]。
 [exit:description]
