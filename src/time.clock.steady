@@ -1,5 +1,6 @@
 ﻿[section#time.clock.steady
     [:en] Class [`steady_clock]
+    [:zh_CN] 类 [`steady_clock]
 ]
 
 [para]
@@ -7,9 +8,14 @@
 Objects of class [`steady_clock] represent clocks for which values of
 [`time_point] never decrease as physical time advances and for which values of
 [`time_point] advance at a steady rate relative to real time.
+[:zh_CN]
+类 [`steady_clock] 的对象表示当物理时间前进时其 [`time_point] 的值永远不会减少的
+时钟，其 [`time_point] 值以相对真实时间稳定的速率增长。
 
 [:en]
 That is, the clock may not be adjusted.
+[:zh_CN]
+就是说，此时钟不需要校正。
 
 [codeblock:synopsis [special unspecified] ]
 class steady_clock {
