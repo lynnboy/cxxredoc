@@ -1,5 +1,6 @@
 ﻿[section#time.point.comparisons
     [:en] [`time_point] comparisons
+    [:zh_CN] [`time_point] 的比较
 ]
 
 [%@library operator==[!time_point]]
@@ -12,6 +13,7 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`lhs.time_since_epoch() == rhs.time_since_epoch()].
+[:zh_CN] [`lhs.time_since_epoch() == rhs.time_since_epoch()]。
 [exit:description]
 
 [%@library operator!=[!time_point]]
@@ -24,6 +26,7 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`!(lhs == rhs)].
+[:zh_CN] [`!(lhs == rhs)]。
 [exit:description]
 
 [%@library operator<[!time_point]]
@@ -36,6 +39,7 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`lhs.time_since_epoch() < rhs.time_since_epoch()].
+[:zh_CN] [`lhs.time_since_epoch() < rhs.time_since_epoch()]。
 [exit:description]
 
 [%@library operator<=[!time_point]]
@@ -48,6 +52,7 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`!(rhs < lhs)].
+[:zh_CN] [`!(rhs < lhs)]。
 [exit:description]
 
 [%@library operator>[!time_point]]
@@ -60,6 +65,7 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`rhs < lhs].
+[:zh_CN] [`rhs < lhs]。
 [exit:description]
 
 [%@library operator>=[!time_point]]
@@ -72,4 +78,5 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`!(lhs < rhs)].
+[:zh_CN] [`!(lhs < rhs)]。
 [exit:description]
