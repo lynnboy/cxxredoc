@@ -1,8 +1,9 @@
 ﻿[section#time.point.cons
     [:en] [`time_point] constructors
+    [:zh_CN] [`time_point] 的构造函数
 ]
 
-[%@library time_point[![:en]constructor]]
+[%@library time_point[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr time_point();
 [codeblock:end]
@@ -11,11 +12,14 @@ constexpr time_point();
 [para:effects]
 [:en] Constructs an object of type [`time_point], initializing [`d_] with
 [`duration::zero()].
+[:zh_CN] 构造类型 [`time_point] 的一个对象，以 [`duration::zero()] 初始化
+[`d_]。
 
 [:en] Such a [`time_point] object represents the epoch.
+[:zh_CN] 这种 [`time_point] 对象代表纪元。
 [exit:description]
 
-[%@library time_point[!constructor]]
+[%@library time_point[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr explicit time_point(const duration& d);
 [codeblock:end]
@@ -23,11 +27,13 @@ constexpr explicit time_point(const duration& d);
 [enter:description]
 [para:effects]
 [:en] Constructs an object of type [`time_point], initializing [`d_] with [`d].
+[:zh_CN] 构造类型 [`time_point] 的一个对象，以 [`d] 初始化 [`d_]。
 
 [:en] Such a [`time_point] object represents the epoch [`+ d].
+[:zh_CN] 这种 [`time_point] 对象代表纪元 [`+ d]。
 [exit:description]
 
-[%@library time_point[!constructor]]
+[%@library time_point[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class Duration2>
   constexpr time_point(const time_point<clock, Duration2>& t);
@@ -37,8 +43,12 @@ template <class Duration2>
 [para:remarks]
 [:en] This constructor shall not participate in overload resolution unless
 [`Duration2] is implicitly convertible to [`duration].
+[:zh_CN] 除非 [`Duration2] 可以隐式转换为 [`duration]，否则这个构造函数不能参与
+重载决议。
 
 [para:effects]
 [:en] Constructs an object of type [`time_point], initializing [`d_] with
 [`t.time_since_epoch()].
+[:zh_CN] 构造类型 [`time_point] 的一个对象，以 [`t.time_since_epoch()] 初始化
+[`d_]。
 [exit:description]
