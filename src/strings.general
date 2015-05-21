@@ -1,46 +1,61 @@
 ﻿[section#strings.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 This Clause describes components for manipulating sequences of any non-array POD
 ([#basic.types]) type.
+[:zh_CN]
+本条描述了用于操纵任何非数组 POD 类型（[#basic.types]）的序列的组件。
 
 [:en]
 In this Clause such types are called [%char-like type][+char-like types], and
 objects of char-like types are called [+char-like objects][%char-like object] or
 simply [+characters].
+[:zh_CN]
+这种类型在本条中被称为[%字符式类型][+字符式类型]，而字符式类型的对象被称为[%字符
+式对象][+字符式对象]或简称为[+字符]。
 
 [para]
 [:en]
 The following subclauses describe a character traits class, a string class, and
 null-terminated sequence utilities, as summarized in Table
 [#tab:strings.lib.summary].
+[:zh_CN]
+下列子条款描述了一种字符特征类，一种字符串类，以及用于空终结序列的工具，并总结于
+表 [#tab.strings.lib.summary] 中。
 
 [table:listing#tab:strings.lib.summary
     [:en] Strings library summary
+    [:zh_CN] 字符串库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
 ]
 [|] [#char.traits]
 [|] [:en] Character traits
+    [:zh_CN] 字符特征
 [|] <string>
 
 [|] [#string.classes]
 [|] [:en] String classes
+    [:zh_CN] 字符串类
 [|] <string>
 
 [|] [#c.strings]
 [|] [:en] Null-terminated sequence utilities
+    [:zh_CN] 空终结序列的工具
 [|] <cctype> [br] <cwctype> [br] <cstring> [br] <cwchar> [br] <cstdlib> [br]
     <cuchar>
 
