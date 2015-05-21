@@ -1,5 +1,6 @@
 ﻿[section#type.index.overview
     [:en] [`type_index] overview
+    [:zh_CN] [`type_index] 概要
 ]
 
 [codeblock:synopsis]
@@ -18,8 +19,11 @@ namespace std {
   private:
     const type_info* target;    // [=Expos]
     // [:en] Note that the use of a pointer here, rather than a reference,
+    // [|:zh_CN] 注意此处使用了指针，而不是引用，
     // [:en@~] means that the default copy/move constructor and assignment
+    // [|:zh_CN@~] 因此默认的复制/移动构造函数和赋值操作符
     // [:en@~] operators will be provided and work as expected.
+    // [|:zh_CN@~] 将按照预期被提供并正常工作。
   };
 }
 [codeblock:end]
@@ -29,3 +33,6 @@ namespace std {
 The class [`type_index] provides a simple wrapper for [`type_info] which can be
 used as an index type in associative containers ([#associative]) and in
 unordered associative containers ([#unord]).
+[:zh_CN]
+类 [`type_index] 提供了对 [`type_info] 的简单封装，可以用作关联容器
+（[#associative]）的索引类型，也可以用在无序关联容器（[#unord]）中。
