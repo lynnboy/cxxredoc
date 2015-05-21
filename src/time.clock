@@ -1,11 +1,14 @@
 ﻿[section#time.clock
     [:en] Clocks
+    [:zh_CN] 时钟
 ]
 
 [para]
 [:en]
 The types defined in this subclause shall satisfy the [`TrivialClock]
 requirements ([#time.clock.req]).
+[:zh_CN]
+本子条款中所定义的类型应当满足 [`TrivialClock] 的规定（[#time.clock.req]）。
 
 [include time.clock.system]
 
