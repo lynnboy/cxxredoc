@@ -1,5 +1,6 @@
 ﻿[section#time.point.arithmetic
     [:en] [`time_point] arithmetic
+    [:zh_CN] [`time_point] 的算术
 ]
 
 [%@library operator+=[!time_point]]
@@ -11,9 +12,11 @@ time_point& operator+=(const duration& d);
 [enter:description]
 [para:effects]
 [:en] [`d_ += d].
+[:zh_CN] [`d_ += d]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator-=[!time_point]]
@@ -25,7 +28,9 @@ time_point& operator-=(const duration& d);
 [enter:description]
 [para:effects]
 [:en] [`d_ -= d].
+[:zh_CN] [`d_ -= d]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
