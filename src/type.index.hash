@@ -1,5 +1,6 @@
 ﻿[section#type.index.hash
     [:en] Hash support
+    [:zh_CN] 散列支持
 ]
 
 [%@library hash]
@@ -10,7 +11,11 @@ template <> struct hash<type_index>;
 [enter:description]
 [para]
 [:en] The template specialization shall meet the requirements of class template
-[`hash] ([#unord.hash]). For an object [`index] of type [`type_index],
-[`hash<type_index>()(index)] shall evaluate to the same result as
-[`index.hash_code()].
+[`hash] ([#unord.hash]).
+[:zh_CN] 该模板特化式应当满足类模板 [`hash] 的规定（[#unord.hash]）。
+
+[:en] For an object [`index] of type [`type_index], [`hash<type_index>()(index)]
+shall evaluate to the same result as [`index.hash_code()].
+[:zh_CN] 对于 [`type_index] 类型的对象 [`index]，[`hash<type_index>()(index)]
+的求值结果应当与 [`index.hash_code()] 相同。
 [exit:description]
