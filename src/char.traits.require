@@ -1,5 +1,6 @@
 ﻿[section#char.traits.require
     [:en] Character traits requirements
+    [:zh_CN] 字符特征的规定
 ]
 
 [para]
@@ -11,24 +12,38 @@ values of type [`CharT]; [`p] and [`q] denote values of type [`const CharT*];
 type [`std::size_t]; [`e] and [`f] denote values of type [`X::int_type]; [`pos]
 denotes a value of type [`X::pos_type]; [`state] denotes a value of type
 [`X::state_type]; and [`r] denotes an lvalue of type [`CharT].
+[:zh_CN]
+在表 [#tab:char.traits.require] 中，[`X] 代表为字符容器类型 [`CharT] 定义了类型
+和函数的 Traits 类；[`c] 和 [`d] 代表 [`CharT] 类型的值；[`p] 和 [`q] 代表
+[`const CharT*] 类型的值；[`s] 代表 [`CharT*] 类型的值；[`n]、[`i] 和 [`j] 代表
+[`std::size_t] 类型的值；[`e] 和 [`f] 代表 [`X::int_type] 类型的值；[`pos] 代表
+[`X::pos_type] 类型的值；[`state] 代表 [`X::state_type] 类型的值；而 [`r] 代表
+[`CharT] 类型的左值。
 
 [:en]
 Operations on Traits shall not throw exceptions.
+[:zh_CN]
+对 Traits 的任何操作都不能抛出异常。
 
 [table:listing#tab:char.traits.require
     [:en] Character traits requirements
+    [:zh_CN] 字符特征的规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter@code
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 [br] 前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
 ]
@@ -36,37 +51,51 @@ Operations on Traits shall not throw exceptions.
 [|] X::char_type
 [|] charT
 [|] [:en] (described in [#char.traits.typedefs])
-[|] compile-time
+    [:zh_CN] （[#char.traits.typedefs] 中说明）
+[|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [|] X::int_type
 [|] 
 [|] [:en] (described in [#char.traits.typedefs])
-[|] compile-time
+    [:zh_CN] （[#char.traits.typedefs] 中说明）
+[|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [|] X::off_type
 [|] 
 [|] [:en] (described in [#char.traits.typedefs])
-[|] compile-time
+    [:zh_CN] （[#char.traits.typedefs] 中说明）
+[|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [|] X::pos_type
 [|] 
 [|] [:en] (described in [#char.traits.typedefs])
-[|] compile-time
+    [:zh_CN] （[#char.traits.typedefs] 中说明）
+[|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [|] X::state_type
 [|] 
 [|] [:en] (described in [#char.traits.typedefs])
-[|] compile-time
+    [:zh_CN] （[#char.traits.typedefs] 中说明）
+[|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [|] X::eq(c,d)
 [|] bool
 [|] [:en] yields: whether [`c] is to be treated as equal to [`d].
-[|] constant
+    [:zh_CN] 产生：[`c] 是否被当作等于 [`d]。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::lt(c,d)
 [|] bool
 [|] [:en] yields: whether [`c] is to be treated as less than [`d].
-[|] constant
+    [:zh_CN] 产生：[`c] 是否被当作小于 [`d]。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::compare(p,q,n)
 [|] int
@@ -74,61 +103,94 @@ Operations on Traits shall not throw exceptions.
     true; else, a negative value if, for some [`j] in [`[0,n)],
     [`X::lt(p[j`],q[j`])] is true and for each [`i] in [`[0,j)]
     [`X::eq(p[i`],q[i`])] is true; else a positive value.
-[|] linear
+    [:zh_CN] 产生：若对于 [`[0,n)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真
+    ，则为 [`0]；或者若对于 [`[0,n)] 中的某个 [`j] 有 [`X::lt(p[j`],q[j`])] 为真
+    并且对于 [`[0,j)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真，则为负数；
+    否则为正数。
+[|] [:en] linear
+    [:zh_CN] 线性
 
 [|] X::length(p)
 [|] std::size_t
 [|] [:en] yields: the smallest [`i] such that [`X::eq(p[i`],charT())] is true.
-[|] linear
+    [:zh_CN] 产生：能够使 [`X::eq(p[i`],charT())] 为真的最小的 [`i]。
+[|] [:en] linear
+    [:zh_CN] 线性
 
 [|] X::find(p,n,c)
 [|] const X::char_type*
 [|] [:en] yields: the smallest [`q] in [`[p,p+n)] such that [`X::eq(*q,c)] is
     true, zero otherwise.
-[|] linear
+    [:zh_CN] 产生：[`[p,p+n)] 中能够使 [`X::eq(*q,c)] 为真的最小的 [`q]，否则为
+    零。
+[|] [:en] linear
+    [:zh_CN] 线性
 
 [|] X::move(s,p,n)
 [|] X::char_type*
 [|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],p[i`])].
+    [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],p[i`])]。
     [:en] Copies correctly even where the ranges [`[p,p+n)] and [`[s,s+n)]
-    overlap. yields: [`s].
-[|] linear
+    overlap.
+    [:zh_CN] 即使范围 [`[p,p+n)] 与范围 [`[s,s+n)] 有重叠也应当正确进行复制。
+    [:en] yields: [`s].
+    [:zh_CN] 产生: [`s]。
+[|] [:en] linear
+    [:zh_CN] 线性
 
 [|] X::copy(s,p,n)
 [|] X::char_type*
 [|] [:en] pre: [`p] not in [`[s,s+n)].
+    [:zh_CN] 前条件：[`p] 不在 [`[s,s+n)] 中。
     [:en] yields: [`s].
-    [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i],p[i])].
-[|] linear
+    [:zh_CN] 产生：[`s]。
+    [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],p[i`])].
+    [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],p[i`])]。
+[|] [:en] linear
+    [:zh_CN] 线性
 
 [|] X::assign(r,d)
-[|] [:en] [$(not used)]
+[|] [:en] [em (not used)]
+    [:zh_CN] [em （未使用）]
 [|] [:en] assigns [`r=d].
-[|] constant
+    [:zh_CN] 赋值 [`r=d]。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::assign(s,n,c)
 [|] X::char_type*
 [|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],c)].
+    [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],c)]。
     [:en] yields: [`s].
+    [:zh_CN] 产生：[`s]。
 [|] linear
 
 [|] X::not_eof(e)
 [|] int_type
 [|] [:en] yields: [`e] if [`X::eq_int_type(e,X::eof())] is false, otherwise a
     value [`f] such that [`X::eq_int_type(f,X::eof())] is false.
-[|] constant
+    [:zh_CN] 产生：若 [`X::eq_int_type(e,X::eof())] 为假则为 [`e]，否则某个使得
+    [`X::eq_int_type(f,X::eof())] 为假的值 [`f]。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::to_char_type(e)
 [|] X::char_type
 [|] [:en] yields: if for some [`c], [`X::eq_int_type(e,X::to_int_type(c))]
     is true, [`c]; else some unspecified value.
-[|] constant
+    [:zh_CN] 产生：如果对于某个 [`c] 有 [`X::eq_int_type(e,X::to_int_type(c))]
+    为真，则为 [`c]；否则为某个未指明的值。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::to_int_type(c)
 [|] X::int_type
 [|] [:en] yields: some value [`e], constrained by the definitions of
     [`to_char_type] and [`eq_int_type].
-[|] constant
+    [:zh_CN] 产生：某个由 [`to_char_type] 和 [`eq_int_type] 的定义所约束的值
+    [`e]。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::eq_int_type(e,f)
 [|] bool
@@ -137,25 +199,37 @@ Operations on Traits shall not throw exceptions.
     true if [`e] and [`f] are both copies of [`X::eof()]; otherwise, yields
     false if one of [`e] and [`f] is a copy of [`X::eof()] and the other is not;
     otherwise the value is unspecified.
-[|] constant
+    [:zh_CN] 产生：对于所有 [`c] 和 [d]，[`X::eq(c,d)] 等于
+    [`X::eq_int_type(X::to_int_type(c), X::to_int_type(d))]；否则，当 [`e] 和
+    [`f] 均为 [`X::eof()] 的副本时产生真；否则，当 [`e] 和 [`f] 中一个为
+    [`X::eof()] 的副本而另一个不是时产生假；否则其值是未指明的。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [|] X::eof()
 [|] X::int_type
 [|] [:en] yields: a value [`e] such that [`X::eq_int_type(e,X::to_int_type(c))]
     is false for all values [`c].
-[|] constant
+    [:zh_CN] 产生：某个值 [`e]，使得对于所有 [`c] 值
+    [`X::eq_int_type(e,X::to_int_type(c))] 均为假。
+[|] [:en] constant
+    [:zh_CN] 常量
 
 [table:end]
 
 [para]
 [:en]
 The struct template
+[:zh_CN]
+结构模板
 
 [%@library char_traits]
-[codeblock]
+[codeblock:declaration]
 template<class charT> struct char_traits;
 [codeblock:end]
 
 [:en@~]
 shall be provided in the header [`<string>] as a basis for explicit
 specializations.
+[:zh_CN@~]
+应当在头文件 [`<string>] 中提供，以作为显式特化式的基础。
