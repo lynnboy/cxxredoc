@@ -1,5 +1,6 @@
 ﻿[section#char.traits
     [:en] Character traits
+    [:zh_CN] 字符特征
 ]
 
 [para]
@@ -9,19 +10,31 @@ and defines a class template [`char_traits<charT>], along with four
 specializations, [`char_traits<char>], [`char_traits<char16_t>],
 [`char_traits<char32_t>], and [`char_traits<wchar_t>], that satisfy those
 requirements.
+[:zh_CN]
+本子条款定义了有关表示[+字符特征]的类的规定，并定义了满足这些规定的类模板
+[`char_traits<charT>] 及其四个特化式 [`char_traits<char>]、
+[`char_traits<char16_t>]、[`char_traits<char32_t>] 和 [`char_traits<wchar_t>]。
 
 [para]
 [:en]
 Most classes specified in Clauses [#string.classes] and [#input.output] need a
 set of related types and functions to complete the definition of their
 semantics.
+[:zh_CN]
+第 [#string.classes] 到第 [#input.output] 条中所给出的大多数类，都需要一组相关的
+类型和函数，以完成对它们的语义的定义。
 
 [:en]
 These types and functions are provided as a set of member typedefs and functions
 in the template parameter ["traits] used by each such template.
+[:zh_CN]
+这些类型和函数是以各个模板所使用的模板形参“traits”中的一组成员 typedef 和函数的
+方式提供的。
 
 [:en]
 This subclause defines the semantics of these members.
+[:zh_CN]
+本子条款定义了这些成员的语义。
 
 [para]
 [:en]
@@ -29,9 +42,15 @@ To specialize those templates to generate a string or iostream class to handle a
 particular character container type [`CharT], that and its related character
 traits class [`Traits] are passed as a pair of parameters to the string or
 iostream template as parameters [`charT] and [`traits].
+[:zh_CN]
+当对这些模板进行特化以产生处理某种特定的字符容器类型 [`CharT] 的字符串或 I/O 流
+时，将这个类型及其相关的类型特征类 [`Traits] 作为一对形参，指定为字符串或 I/O 流
+模板的 [`charT] 和 [`traits] 形参。
 
 [:en]
 [`Traits::char_type] shall be the same as [`CharT].
+[:zh_CN]
+[`Traits::char_type] 应当与 [`Chart] 相同。
 
 [para]
 [:en]
@@ -39,6 +58,10 @@ This subclause specifies a struct template, [`char_traits<charT>], and four
 explicit specializations of it, [`char_traits<char>], [`char_traits<char16_t>],
 [`char_traits<char32_t>], and [`char_traits<wchar_t>], all of which appear in
 the header [`<string>] and satisfy the requirements below.
+[:zh_CN]
+本子条款给出一种结构模板 [`char_traits<charT>]，以及它的四个显式特化式
+[`char_traits<char>]，[`char_traits<char16_t>]，[`char_traits<char32_t>]，和
+ [`char_traits<wchar_t>]，它们都包含于头文件 [`<string>] 中，并且满足下述规定。
 
 [include char.traits.require]
 
