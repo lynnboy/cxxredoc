@@ -1,5 +1,6 @@
 ﻿[section#time.point.special
     [:en] [`time_point] special values
+    [:zh_CN] [`time_point] 的特殊值
 ]
 
 [%@library min[!time_point]]
@@ -11,6 +12,7 @@ static constexpr time_point min();
 [enter:description]
 [para:returns]
 [:en] [`time_point(duration::min())].
+[:zh_CN] [`time_point(duration::min())]。
 [exit:description]
 
 [%@library max[!time_point]]
@@ -22,4 +24,5 @@ static constexpr time_point max();
 [enter:description]
 [para:returns]
 [:en] [`time_point(duration::max())].
+[:zh_CN] [`time_point(duration::max())]。
 [exit:description]
