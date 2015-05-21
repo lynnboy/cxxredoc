@@ -1,10 +1,12 @@
 ﻿[section#allocator.adaptor.syn
     [:en] Header [`<scoped_allocator>] synopsis
+    [:zh_CN] 头文件 [`<scoped_allocator>] 纲要
 ]
 
 [%@library <scoped_allocator> [sortas scoped_allocator]]
 [codeblock:synopsis]
   // [:en] scoped allocator adaptor
+  // [|:zh_CN] 有范围分配器适配器
   template <class OuterAlloc, class... InnerAlloc>
     class scoped_allocator_adaptor;
   template <class OuterA1, class OuterA2, class... InnerAllocs>
@@ -21,32 +23,52 @@ The class template [`scoped_allocator_adaptor] is an allocator template that
 specifies the memory resource (the outer allocator) to be used by a container
 (as any other allocator does) and also specifies an inner allocator resource to
 be passed to the constructor of every element within the container.
+[:zh_CN]
+类模板 [`scoped_allocator_adaptor] 是一个分配器模板，既（与任何其他分配器一样）
+指定了由容器所使用的内存资源（其外部分配器），也指定了向容器中的每个元素的构造
+函数所传递的内存资源（其内部分配器）。
 
 [:en]
 This adaptor is instantiated with one outer and zero or more inner allocator
 types.
+[:zh_CN]
+这个适配器是以一个外部分配器类型和零或更多个内部分配器类型所实例化的。
 
 [:en]
 If instantiated with only one allocator type, the inner allocator becomes the
 [`scoped_allocator_adaptor] itself, thus using the same allocator resource for
 the container and every element within the container and, if the elements
 themselves are containers, each of their elements recursively.
+[:zh_CN]
+若仅以一个分配器类型实例化，则其内部分配器即为该 [`scoped_allocator_adaptor]
+自身，这样，容器和容器中的每个元素均使用相同的内存资源，而且当这些元素自身也是
+容器时，它们的每个元素也递归地使用它。
 
 [:en]
 If instantiated with more than one allocator, the first allocator is the outer
 allocator for use by the container, the second allocator is passed to the
 constructors of the container[=']s elements, and, if the elements themselves are
 containers, the third allocator is passed to the elements' elements, and so on.
+[:zh_CN]
+若以多个分配器实例化，则第一个分配器为由容器所使用的外部分配器，第二个分配器被
+传递给该容器的元素的构造函数，而且当这些元素自身也是容器时，第三个分配器被传递给
+元素的元素，以此类推。
 
 [:en]
 If containers are nested to a depth greater than the number of allocators, the
 last allocator is used repeatedly, as in the single-allocator case, for any
 remaining recursions.
+[:zh_CN]
+若容器嵌套的深度大于分配器的数量，则（如单分配器情形一样）所有剩余递归重复使用
+最后一个分配器。
 
 [enter:note]
 [:en]
 The [`scoped_allocator_adaptor] is derived from the outer allocator type so it
 can be substituted for the outer allocator type in most expressions.
+[:zh_CN]
+[`scoped_allocator_adaptor] 派生于其外部分配器类型，以在大多数表达式中可以替换
+外部分配器类型。
 [exit:note]
 
 [codeblock:synopsis]
