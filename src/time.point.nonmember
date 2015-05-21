@@ -1,5 +1,6 @@
 ﻿[section#time.point.nonmember
     [:en] [`time_point] non-member arithmetic
+    [:zh_CN] [`time_point] 的非成员算术
 ]
 
 [%@library operator+[!time_point]]
@@ -16,6 +17,7 @@ template <class Clock, class Duration1, class Rep2, class Period2>
 [para:returns]
 [:en] [`CT(lhs.time_since_epoch() + rhs)], where [`CT] is the type of the return
 value.
+[:zh_CN] [`CT(lhs.time_since_epoch() + rhs)]，其中 [`CT] 为其返回类型。
 [exit:description]
 
 [%@library operator+[!time_point]]
@@ -31,6 +33,7 @@ template <class Rep1, class Period1, class Clock, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`rhs + lhs].
+[:zh_CN] [`rhs + lhs]。
 [exit:description]
 
 [%@library operator-[!time_point]]
@@ -46,6 +49,7 @@ template <class Clock, class Duration1, class Rep2, class Period2>
 [enter:description]
 [para:returns]
 [:en] [`lhs + (-rhs)].
+[:zh_CN] [`lhs + (-rhs)]。
 [exit:description]
 
 [%@library operator-[!time_point]]
@@ -59,4 +63,5 @@ template <class Clock, class Duration1, class Duration2>
 [enter:description]
 [para:returns]
 [:en] [`lhs.time_since_epoch() - rhs.time_since_epoch()].
+[:zh_CN] [`lhs.time_since_epoch() - rhs.time_since_epoch()]。
 [exit:description]
