@@ -1,5 +1,5 @@
 ﻿[section#time.point.cast
-    [:en] [`time_point_cast]
+    [`time_point_cast]
 ]
 
 [%@library time_point_cast]
@@ -13,8 +13,12 @@ template <class ToDuration, class Clock, class Duration>
 [para:remarks]
 [:en] This function shall not participate in overload resolution unless
 [`ToDuration] is an instantiation of [`duration].
+[:zh_CN] 除非 [`ToDuration] 是 [`duration] 的实例，否则这个函数不能参与重载决议
+。
 
 [para:returns]
 [:en] [`time_point<Clock,
 ToDuration>(duration_cast<ToDuration>(t.time_since_epoch()))].
+[:zh_CN] [`time_point<Clock,
+ToDuration>(duration_cast<ToDuration>(t.time_since_epoch()))]。
 [exit:description]
