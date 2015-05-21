@@ -1,5 +1,6 @@
 ﻿[section#scoped.adaptor.operators
     [:en] Scoped allocator operators
+    [:zh_CN] 有范围分配器的运算符
 ]
 
 [%@library scoped_allocator_adaptor[!operator==]]
@@ -15,6 +16,9 @@ template <class OuterA1, class OuterA2, class... InnerAllocs>
 [:en] [`a.outer_allocator() == b.outer_allocator()] if [`sizeof...(InnerAllocs)]
 is zero; otherwise, [`a.outer_allocator() == b.outer_allocator() &&
 a.inner_allocator() == b.inner_allocator()].
+[:zh_CN] 若 [`sizeof...(InnerAllocs)] 为零则返回 [`a.outer_allocator() ==
+b.outer_allocator()]；否则返回 [`a.outer_allocator() == b.outer_allocator() &&
+a.inner_allocator() == b.inner_allocator()]。
 [exit:description]
 
 [%@library scoped_allocator_adaptor[!operator!=]]
@@ -28,4 +32,5 @@ template <class OuterA1, class OuterA2, class... InnerAllocs>
 [enter:description]
 [para:returns]
 [:en] [`!(a == b)].
+[:zh_CN] [`!(a == b)]。
 [exit:description]
