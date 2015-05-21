@@ -1,11 +1,14 @@
 ﻿[section#time.clock.system
     [:en] Class [`system_clock]
+    [:zh_CN] 类 [`system_clock]
 ]
 
 [para]
 [:en]
 Objects of class [`system_clock] represent wall clock time from the system-wide
 realtime clock.
+[:zh_CN]
+类 [`system_clock] 的对象代表来自系统级的实时时钟的挂钟时间。
 
 [codeblock:synopsis [special unspecified] ]
 class system_clock {
@@ -19,6 +22,7 @@ public:
   static time_point now() noexcept;
 
   // [:en] Map to C API
+  // [|:zh_CN] 映射到 C API
   static time_t      to_time_t  (const time_point& t) noexcept;
   static time_point  from_time_t(time_t t) noexcept;
 };
@@ -34,9 +38,12 @@ typedef unspecified system_clock::rep;
 [para:requires]
 [:en] [`system_clock::duration::min() < system_clock::duration::zero()] shall be
 [`true].
+[:zh_CN] [`system_clock::duration::min() < system_clock::duration::zero()] 应当
+为 [`true]。
 
 [enter:note]
 [:en] This implies that [`rep] is a signed type.
+[:zh_CN] 这意味着 [`rep] 是有符号类型。
 [exit:note]
 [exit:description]
 
@@ -50,11 +57,16 @@ static time_t to_time_t(const time_point& t) noexcept;
 [:en] A [`time_t] object that represents the same point in time as [`t] when
 both values are restricted to the coarser of the precisions of [`time_t] and
 [`time_point].
+[:zh_CN] 一个 [`time_t] 对象，在 [`time_t] 和 [`time_point] 的精度粗略性限制下，
+代表与 [`t] 相同的时间点。
 
 [:en] [%@impldef whether values are rounded or truncated to the required
 precision when converting between [`time_t] values and [`time_point] objects.]
+[:zh_CN] [%@impldef 当在 [`time_t] 的值和 [`time_point] 对象之间进行转换时对所需
+精度进行舍入还是截断]
 [:en] It is implementation defined whether values are rounded or truncated to
 the required precision.
+[:zh_CN] 对所需精度进行舍入还是截断是由实现定义的。
 
 [exit:description]
 [%@library from_time_t]
@@ -67,9 +79,14 @@ static time_point from_time_t(time_t t) noexcept;
 [:en] A [`time_point] object that represents the same point in time as [`t] when
 both values are restricted to the coarser of the precisions of [`time_t] and
 [`time_point].
+[:zh_CN] 一个 [`time_point] 对象，在 [`time_t] 和 [`time_point] 的精度粗略性限制
+下，代表与 [`t] 相同的时间点。
 
 [:en] [%@impldef whether values are rounded or truncated to the required
 precision when converting between [`time_t] values and [`time_point] objects.]
+[:zh_CN] [%@impldef 当在 [`time_t] 的值和 [`time_point] 对象之间进行转换时对所需
+精度进行舍入还是截断]
 [:en] It is implementation defined whether values are rounded or truncated to
 the required precision.
+[:zh_CN] 对所需精度进行舍入还是截断是由实现定义的。
 [exit:description]
