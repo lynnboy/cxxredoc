@@ -1,5 +1,6 @@
 ﻿[section#char.traits.typedef
     [:en] traits typedefs
+    [:zh_CN] 特征的 typedef
 ]
 
 [%@library char_type[!char_traits]]
@@ -14,6 +15,9 @@ typedef CHAR_T char_type;
 The type [`char_type] is used to refer to the character container type in the
 implementation of the library classes defined in [#string.classes] and Clause
 [#input.output].
+[:zh_CN]
+类型 [`char_type] 用于在 [#string.classes] 和第 [#input.output] 条中所定义的
+程序库类的实现中指代字符容器类型。
 [exit:description]
 
 [%@library int_type[!char_traits]]
@@ -28,14 +32,21 @@ typedef INT_T int_type;
 type [`INT_T] shall be a type or class which can represent all of the valid
 characters converted from the corresponding [`char_type] values, as well as an
 end-of-file value, [`eof()].
+[:zh_CN] 对于某中字符容器类型 [`char_type]，其相关的容器类型 [`INT_T] 应当为类型
+或类，并且可以表示其对应 [`char_type] 值所转换成的所有有效字符（以及文件结束值
+[`eof()]）。
 
 [:en] The type [`int_type] represents a character container type which can hold
 end-of-file to be used as a return type of the iostream class member functions.
+[:zh_CN] [`int_type] 类型代表可以持有“文件结束”值的字符容器类型，以用作 I/O 类
+的成员函数的返回类型。
 
 [footnote]
 [:en]
 If [`eof()] can be held in [`char_type] then some iostreams operations may give
 surprising results.
+[:zh_CN]
+如果 [`eof()] 可以由 [`char_type] 持有，则某些 I/O 流操作可能会给出奇怪的结果。
 [footnote:end]
 [exit:description]
 
@@ -52,6 +63,8 @@ typedef implementation-defined pos_type;
 [para:requires]
 [:en] Requirements for [`off_type] and [`pos_type] are described in
 [#iostreams.limits.pos] and [#iostream.forward].
+[:zh_CN] 有关 [`off_type] 和 [`pos_type] 的规定在 [#iostreams.limits.pos]
+和 [#iostream.forward] 中说明。
 [exit:description]
 
 [%@library state_type[!char_traits]]
@@ -62,8 +75,10 @@ typedef STATE_T state_type;
 
 [enter:description]
 [para:requires]
-[:en] [`state_type]
-shall meet the requirements of [`CopyAssignable] (Table [#copyassignable]),
-[`CopyConstructible] (Table [#copyconstructible]), and [`DefaultConstructible]
-(Table [#defaultconstructible]) types.
+[:en] [`state_type] shall meet the requirements of [`CopyAssignable] (Table
+[#copyassignable]), [`CopyConstructible] (Table [#copyconstructible]), and
+[`DefaultConstructible] (Table [#defaultconstructible]) types.
+[:zh_CN] [`state_type] 应当符合 [`CopyAssignable]（表 [#copyassignable]）、
+[`CopyConstructible]（表 [#copyconstructible]）和
+[`DefaultConstructible]（表 [#defaultconstructible]）类型的规定。
 [exit:description]
