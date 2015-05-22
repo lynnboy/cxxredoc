@@ -1,9 +1,10 @@
 ﻿[section#string.access
     [:en] [`basic_string] element access
+    [:zh_CN] [`basic_string] 的元素访问
 ]
 
-[%@library basic_string[!operator[]]]
-[%@library operator[][!basic_string]]
+[%@library basic_string[!operator[']]]
+[%@library operator['][!basic_string]]
 [codeblock:declaration]
 const_reference operator[](size_type pos) const;
 reference       operator[](size_type pos);
@@ -12,18 +13,24 @@ reference       operator[](size_type pos);
 [enter:description]
 [para:requires]
 [:en] [`pos <= size()].
+[:zh_CN] [`pos <= size()]。
 
 [para:returns]
 [:en] [`*(begin() + pos)] if [`pos < size()].
+[:zh_CN] 当 [`pos < size()] 时返回 [`*(begin() + pos)]。
 
 [:en] Otherwise, returns a reference to an object of type [`charT] with value
 [`charT()], where modifying the object leads to undefined behavior.
+[:zh_CN] 否则，返回指代值为 [`charT()] 的 [`charT] 类型的对象的引用，而对该对象
+进行改动将引发未定义行为。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:complexity]
 [:en] Constant time.
+[:zh_CN] 常量时间。
 [exit:description]
 
 [%@library basic_string[!at]]
@@ -36,9 +43,11 @@ reference       at(size_type pos);
 [enter:description]
 [para:throws]
 [:en] [`out_of_range] if [`pos >= size()].
+[:zh_CN] 当 [`pos >= size()] 时抛出 [`out_of_range]。
 
 [para:returns]
 [:en] [`operator[`](pos)].
+[:zh_CN] [`operator[`](pos)]。
 [exit:description]
 
 [%@library basic_string[!front]]
@@ -50,10 +59,11 @@ charT& front();
 
 [enter:description]
 [para:requires]
-[:en] [`!empty()]
+[`!empty()]
 
 [para:effects]
 [:en] Equivalent to [`operator[`](0)].
+[:zh_CN] 等价于 [`operator[`](0)]。
 [exit:description]
 
 [%@library basic_string[!back]]
@@ -65,8 +75,9 @@ charT& back();
 
 [enter:description]
 [para:requires]
-[:en] [`!empty()]
+[`!empty()]
 
 [para:effects]
 [:en] Equivalent to [`operator[`](size() - 1)].
+[:zh_CN] 等价于 [`operator[`](size() - 1)]。
 [exit:description]
