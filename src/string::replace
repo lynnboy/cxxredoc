@@ -1,5 +1,5 @@
 ﻿[section#string::replace
-    [:en] [`basic_string::replace]
+    [`basic_string::replace]
 ]
 
 [%@library basic_string[!replace]]
@@ -13,15 +13,19 @@ basic_string&
 [enter:description]
 [para:requires]
 [:en] [`pos1 <= size()].
+[:zh_CN] [`pos1 <= size()]。
 
 [para:throws]
 [:en] [`out_of_range] if [`pos1 > size()].
+[:zh_CN] 当 [`pos1 > size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Calls [`replace(pos1, n1, str.data(), str.size())].
+[:zh_CN] 调用 [`replace(pos1, n1, str.data(), str.size())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -36,17 +40,22 @@ basic_string&
 [enter:description]
 [para:requires]
 [:en] [`pos1 <= size()] and [`pos2 <= str.size()].
+[:zh_CN] [`pos1 <= size()] 并且 [`pos2 <= str.size()]。
 
 [para:throws]
 [:en] [`out_of_range] if [`pos1 > size()] or [`pos2 > str.size()].
+[:zh_CN] 当 [`pos1 > size()] 或者 [`pos2 > str.size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the string to be inserted
 as the smaller of [`n2] and [`str.size() - pos2] and calls
 [`replace(pos1, n1, str.data() + pos2, rlen)].
+[:zh_CN] 确定所要插入的字符串的有效长度 [`rlen] 为 [`n2] 和 [`str.size() - pos]
+中的较小值，并调用 [`replace(pos1, n1, str.data() + pos2, rlen)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -60,26 +69,38 @@ basic_string&
 [para:requires]
 [:en] [`pos1 <= size()] and [`s] points to an array of at least [`n2] elements
 of [`charT].
+[:zh_CN] [`pos1 <= size()]，并且 [`s] 指向 [`charT] 的至少有 [`n2] 个元素的数组
+。
 
 [para:throws]
 [:en] [`out_of_range] if [`pos1 > size()] or [`length_error] if the length of
 the resulting string would exceed [`max_size()] (see below).
+[:zh_CN] 当 [`pos1 > size()] 时抛出 [`out_of_range]，或者当其结果字符串的长度
+可能超出 [`max_size()] 时，抛出 [`length_error]（见下文）。
 
 [para:effects]
 [:en] Determines the effective length [`xlen] of the string to be removed as the
 smaller of [`n1] and [`size() - pos1].
+[:zh_CN] 确定所要删除的字符串的有效长度 [`xlen] 为 [`n1] 和 [`size() - pos1] 中
+的较小值。
 
 [:en] If [`size() - xlen >= max_size() - n2] throws [`length_error].
+[:zh_CN] 如果 [`size() - xlen >= max_size() - n2] 则抛出 [`length_error]。
 
-[:en] Otherwise, the function replaces the string controlled by *[`this] with a
+[:en] Otherwise, the function replaces the string controlled by [`*this] with a
 string of length [`size() - xlen + n2] whose first [`pos1] elements are a copy
 of the initial elements of the original string controlled by [`*this], whose
 next [`n2] elements are a copy of the initial [`n2] elements of [`s], and whose
 remaining elements are a copy of the elements of the original string controlled
 by [`*this] beginning at position [`pos + xlen].
+[:zh_CN] 否则，该函数将由 [`*this] 所控制的字符串替换为长度为 [`size() - xlen +
+n2] 的字符串，其前 [`pos1] 个元素为由 [`*this] 所控制的原字符串的开头元素的副本
+，接下来 [`n2] 个元素为 [`s] 的开头 [`n2] 个元素的副本，而其剩余元素为由
+[`*this] 所控制的原字符串中开始于位置 [`pos + xlen] 的元素的副本。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -93,12 +114,16 @@ basic_string&
 [para:requires]
 [:en] [`pos <= size()] and [`s] points to an array of at least
 [`traits::length(s) + 1] elements of [`charT].
+[:zh_CN] [`pos <= size()]，并且 [`s] 指向 [`charT] 的至少
+[`traits::length(s) + 1] 个元素的数组。
 
 [para:effects]
 [:en] Calls [`replace(pos, n, s, traits::length(s))].
+[:zh_CN] 调用 [`replace(pos, n, s, traits::length(s))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library basic_string[!replace]]
@@ -112,9 +137,11 @@ basic_string&
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`replace(pos1, n1, basic_string(n2, c))].
+[:zh_CN] 等价于 [`replace(pos1, n1, basic_string(n2, c))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -126,12 +153,15 @@ basic_string& replace(const_iterator i1, const_iterator i2, const basic_string& 
 [enter:description]
 [para:requires]
 [:en] [=range[begin(),i1)] and [=range[i1,i2)] are valid ranges.
+[:zh_CN] [=range[begin(),i1)] 和 [=range[i1,i2)] 均为有效的范围。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, str)].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, str)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -145,12 +175,16 @@ basic_string&
 [para:requires]
 [:en] [=range[begin(),i1)] and [=range[i1,i2)] are valid ranges and [`s] points
 to an array of at least [`n] elements of [`charT].
+[:zh_CN] [=range[begin(),i1)] 和 [=range[i1,i2)] 均为有效的范围，并且 [`s] 指向
+[`charT] 的至少 [`n] 个元素的数组。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, s, n)].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, s, n)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -163,12 +197,16 @@ basic_string& replace(const_iterator i1, const_iterator i2, const charT* s);
 [para:requires]
 [:en] [=range[begin(),i1)] and [=range[i1,i2)] are valid ranges and [`s] points
 to an array of at least [`traits::length(s) + 1] elements of [`charT].
+[:zh_CN] [=range[begin(),i1)] 和 [=range[i1,i2)] 均为有效的范围，并且 [`s] 指向
+[`charT] 的至少 [`traits::length(s) + 1] 个元素的数组。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, s, traits::length(s))].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, s, traits::length(s))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -181,12 +219,15 @@ basic_string& replace(const_iterator i1, const_iterator i2, size_type n,
 [enter:description]
 [para:requires]
 [:en] [=range[begin(),i1)] and [=range[i1,i2)] are valid ranges.
+[:zh_CN] [=range[begin(),i1)] 和 [=range[i1,i2)] 均为有效的范围。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, basic_string(n, c))].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, basic_string(n, c))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -201,12 +242,16 @@ template<class InputIterator>
 [para:requires]
 [:en] [=range[begin(),i1)], [=range[i1,i2)] and [=range[j1,j2)] are valid
 ranges.
+[:zh_CN] [=range[begin(),i1)]，[=range[i1,i2)] 和 [=range[j1,j2)] 均为有效的范围
+。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, basic_string(j1, j2))].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, basic_string(j1, j2))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library replace[!basic_string]]
@@ -219,10 +264,13 @@ basic_string& replace(const_iterator i1, const_iterator i2,
 [enter:description]
 [para:requires]
 [:en] [=range[begin(),i1)] and [=range[i1,i2)] are valid ranges.
+[:zh_CN] [=range[begin(),i1)] 和 [=range[i1,i2)] 均为有效的范围。
 
 [para:effects]
 [:en] Calls [`replace(i1 - begin(), i2 - i1, il.begin(), il.size())].
+[:zh_CN] 调用 [`replace(i1 - begin(), i2 - i1, il.begin(), il.size())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
