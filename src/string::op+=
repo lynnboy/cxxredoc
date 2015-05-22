@@ -1,5 +1,5 @@
 ﻿[section#string::op+=
-    [:en] [`basic_string::operator+=]
+    [`basic_string::operator+=]
 ]
 
 [%@library basic_string[!operator+=]]
@@ -12,9 +12,11 @@ basic_string&
 [enter:description]
 [para:effects]
 [:en] Calls [`append(str)].
+[:zh_CN] 调用 [`append(str)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator+=[!basic_string]]
@@ -26,9 +28,11 @@ basic_string& operator+=(const charT* s);
 [enter:description]
 [para:effects]
 [:en] Calls [`append(s)].
+[:zh_CN] 调用 [`append(s)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library basic_string[!operator+=]]
@@ -40,9 +44,11 @@ basic_string& operator+=(charT c);
 [enter:description]
 [para:effects]
 [:en] Calls [`push_back(c)];
+[:zh_CN] 调用 [`push_back(c)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator+=[!basic_string]]
@@ -54,7 +60,9 @@ basic_string& operator+=(initializer_list<charT> il);
 [enter:description]
 [para:effects]
 [:en] Calls [`append(il)].
+[:zh_CN] 调用 [`append(il)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
