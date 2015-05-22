@@ -1,5 +1,5 @@
 ﻿[section#string::substr
-    [:en] [`basic_string::substr]
+    [`basic_string::substr]
 ]
 
 [%@library basic_string[!substr]]
@@ -10,15 +10,19 @@ basic_string substr(size_type pos = 0, size_type n = npos) const;
 
 [enter:description]
 [para:requires]
-[:en] [`pos <= size()]
+[`pos <= size()]
 
 [para:throws]
 [:en] [`out_of_range] if [`pos > size()].
+[:zh_CN] 当 [`pos > size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the string to copy as the
 smaller of [`n] and [`size() - pos].
+[:zh_CN] 确定所要复制的字符串的有效长度 [`rlen] 为 [`n] 和 [`size() - pos] 中的
+较小值。
 
 [para:returns]
 [:en] [`basic_string(data()+pos,rlen)].
+[:zh_CN] [`basic_string(data()+pos,rlen)]。
 [exit:description]
