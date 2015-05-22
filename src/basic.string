@@ -1,5 +1,6 @@
 ﻿[section#basic.string
     [:en] Class template [`basic_string]
+    [:zh_CN] 类模板 [`basic_string]
 ]
 
 [%@library basic_string]
@@ -8,49 +9,70 @@
 The class template [`basic_string] describes objects that can store a sequence
 consisting of a varying number of arbitrary char-like objects with the first
 element of the sequence at position zero.
+[:zh_CN]
+类模板 [`basic_string] 描述的对象能够存储由可变数量的任意字符式对象构成的序列，
+序列的第一个元素处于位置零。
 
 [:en]
 Such a sequence is also called a ["string] if the type of the char-like objects
 that it holds is clear from context.
+[:zh_CN]
+如果字符式对象的类型在其语境中是明确的，则这种序列也被称作“字符串”。
 
 [:en]
 In the rest of this Clause, the type of the char-like objects held in a
 [`basic_string] object is designated by [`charT].
+[:zh_CN]
+本条款的余下部分中，[`basic_string] 对象所持有的字符式对象的类型被表示为
+[`charT]。
 
 [para]
 [:en]
 The member functions of [`basic_string] use an object of the [`Allocator] class
 passed as a template parameter to allocate and free storage for the contained
 char-like objects.
+[:zh_CN]
+[`basic_string] 的成员函数，使用作为模板形参所传递的 [`Allocator] 类的一个对象来
+为所包含的字符式对象分配和释放存储。
 
 [footnote]
 [:en]
 [`Allocator::value_type] must name the same type as [`charT]
 ([#string.require]).
+[:zh_CN]
+[`Allocator::value_type] 必须指名 [`charT] 相同的类型（[#string.require]）。
 [footnote:end]
 
 [para]
 [:en]
 A [`basic_string] is a contiguous container ([#container.requirements.general]).
+[:zh_CN]
+[`basic_string] 是连续容器（[#container.requirements.general]）。
 
 [para]
 [:en]
 In all cases, [`size() <= capacity()].
+[:zh_CN]
+所有情况下，均有 [`size() <= capacity()]。
 
 [para]
 [:en]
 The functions described in this Clause can report two kinds of errors, each
 associated with an exception type:
+[:zh_CN]
+本条款中所描述的函数，可以报告两种错误，每种都关联为一种异常类型：
 
 [list]
 [item]
 [%@library length_error]
 [:en] a [+length] error is associated with exceptions of type [`length_error]
 ([#length.error]);
+[:zh_CN] [+长度]错误与 [`length_error] 类型（[#length.error]）的异常相关联；
 [item]
 [%@library out_of_range]
 [:en] an [+out-of-range] error is associated with exceptions of type
 [`out_of_range] ([#out.of.range]).
+[:zh_CN] [+越界]错误与 [`out_of_range] 类型（[#out.of.range]）的异常相关联。
 [list:end]
 
 [%@library basic_string]
@@ -61,6 +83,7 @@ namespace std {
   class basic_string {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef          traits                                         traits_type;
     typedef typename traits::char_type                              value_type;
     typedef          Allocator                                      allocator_type;
@@ -73,12 +96,15 @@ namespace std {
     typedef typename allocator_traits<Allocator>::const_pointer     const_pointer;
 
     typedef implementation-defined              iterator;       // [:en] See [#container.requirements]
+                                                                // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined              const_iterator; // [:en] See [#container.requirements]
+                                                                // [|:zh_CN] 参见 [#container.requirements]
     typedef std::reverse_iterator<iterator> reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     static const size_type npos = -1;
 
     // [:en] [#string.cons], construct/copy/destroy:
+    // [|:zh_CN] [#string.cons]，构造/复制/销毁：
     basic_string() noexcept : basic_string(Allocator()) { }
     explicit basic_string(const Allocator& a) noexcept;
     basic_string(const basic_string& str);
@@ -106,6 +132,7 @@ namespace std {
     basic_string& operator=(initializer_list<charT>);
 
     // [:en] [#string.iterators], iterators:
+    // [|:zh_CN] [#string.iterators]，迭代器：
     iterator       begin() noexcept;
     const_iterator begin() const noexcept;
     iterator       end() noexcept;
@@ -122,6 +149,7 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] [#string.capacity], capacity:
+    // [|:zh_CN] [#string.capacity]，容量：
     size_type size() const noexcept;
     size_type length() const noexcept;
     size_type max_size() const noexcept;
@@ -134,6 +162,7 @@ namespace std {
     bool empty() const noexcept;
 
     // [:en] [#string.access], element access:
+    // [|:zh_CN] [#string.access]，元素访问：
     const_reference operator[](size_type pos) const;
     reference       operator[](size_type pos);
     const_reference at(size_type n) const;
@@ -145,6 +174,7 @@ namespace std {
     charT& back();
 
     // [:en] [#string.modifiers], modifiers:
+    // [|:zh_CN] [#string.modifiers]，改动函数：
     basic_string& operator+=(const basic_string& str);
     basic_string& operator+=(const charT* s);
     basic_string& operator+=(charT c);
@@ -218,6 +248,7 @@ namespace std {
                allocator_traits<Allocator>::is_always_equal::value);
 
     // [:en] [#string.ops], string operations:
+    // [|:zh_CN] [#string.ops]，字符操作：
     const charT* c_str() const noexcept;
     const charT* data() const noexcept;
     allocator_type get_allocator() const noexcept;
