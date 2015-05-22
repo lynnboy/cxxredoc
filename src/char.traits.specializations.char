@@ -1,5 +1,5 @@
 ﻿[section#char.traits.specializations.char
-    [:en] [`struct char_traits<char>]
+    [`struct char_traits<char>]
 ]
 
 [%@library char_traits]
@@ -37,18 +37,27 @@ namespace std {
 [:en]
 The defined types for [`int_type], [`pos_type], [`off_type], and [`state_type]
 shall be [`int], [`streampos], [`streamoff], and [`mbstate_t] respectively.
+[:zh_CN]
+为 [`int_type]、[`pos_type]、[`off_type] 和 [`state_type] 定义的类型应当分别为
+[`int]、[`streampos]、[`streamoff] 和 [`mbstate_t]。
 
 [para]
 [:en]
 The type [`streampos] shall be an [%@impldef type of [`streampos]]
 implementation-defined type that satisfies the requirements for [`pos_type] in
 [#iostreams.limits.pos] and [#iostream.forward].
+[:zh_CN]
+[`streampos] 类型应当为 [%@impldef [`streampos]的类型]由实现定义的类型，并满足
+[#iostreams.limits.pos] 和 [#iostream.forward] 中对 [`pos_type] 的规定。
 
 [para]
 [:en]
 The type [`streamoff] shall be an [%@impldef type of [`streamoff]]
 implementation-defined type that satisfies the requirements for [`off_type] in
 [#iostreams.limits.pos] and [#iostream.forward].
+[:zh_CN]
+[`streamoff] 类型应当为 [%@impldef [`streamoff]的类型]由实现定义的类型，并满足
+[#iostreams.limits.pos] 和 [#iostream.forward] 中对 [`off_type] 的规定。
 
 [para]
 [:en]
@@ -56,16 +65,27 @@ The type [`mbstate_t] is defined in [`<cwchar>] and can represent any of the
 conversion states that can occur in an [%@impldef supported multibyte character
 encoding rules] implementation-defined set of supported multibyte character
 encoding rules.
+[:zh_CN]
+类型 [`mbstate_t] 是在 [`<cwchar>] 中定义的，并可以表示在 [%@impldef 受支持的
+多字节字符编码规则] 由实现定义的受支持的多字节字符编码规则的集合中所发生的任何
+转换状态。
 
 [para]
 [:en]
 The two-argument member [`assign] shall be defined identically to the built-in
 operator [`=].
+[:zh_CN]
+具有两个实参的成员 [`assign] 应当被定义为等同于内建运算符 [`=]。
 
 [:en]
 The two-argument members [`eq] and [`lt] shall be defined identically to the
 built-in operators [`==] and [`<] for type [`unsigned char].
+[:zh_CN]
+具有两个实参的成员 [`eq] 和 [`lt] 应当被定义为等同于 [`unsigned char] 类型的内建
+运算符 [`==] 和 [`<]。
 
 [para]
 [:en]
 The member [`eof()] shall return [`EOF].
+[:zh_CN]
+成员 [`eof()] 应当返回 [`EOF]。
