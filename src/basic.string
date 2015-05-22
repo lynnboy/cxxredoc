@@ -248,7 +248,7 @@ namespace std {
                allocator_traits<Allocator>::is_always_equal::value);
 
     // [:en] [#string.ops], string operations:
-    // [|:zh_CN] [#string.ops]，字符操作：
+    // [|:zh_CN] [#string.ops]，字符串操作：
     const charT* c_str() const noexcept;
     const charT* data() const noexcept;
     allocator_type get_allocator() const noexcept;
