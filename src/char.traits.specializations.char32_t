@@ -1,5 +1,5 @@
 ﻿[section#char.traits.specializations.char32_t
-    [:en] [`struct char_traits<char32_t>]
+    [`struct char_traits<char32_t>]
 ]
 
 [%@library char_traits]
@@ -36,16 +36,25 @@ namespace std {
 [para]
 [:en]
 The type [`u32streampos] shall be an [%@impldef type of [`u32streampos]]
-implementation-defined type that satisfies the requirements for pos_type in
+implementation-defined type that satisfies the requirements for [`pos_type] in
 [#iostreams.limits.pos] and [#iostream.forward].
+[:zh_CN]
+[`u32streampos] 类型应当为 [%@impldef [`u32streampos]的类型]由实现定义的类型，
+并满足 [#iostreams.limits.pos] 和 [#iostream.forward] 中对 [`pos_type] 的规定。
 
 [para]
 [:en]
 The two-argument members [`assign], [`eq], and [`lt] shall be defined
 identically to the built-in operators [`=], [`==], and [`<] respectively.
+[:zh_CN]
+具有两个实参的成员 [`assign]、[`eq] 和 [`lt] 应当分别被定义为等同于内建运算符
+[=]、[`==] 和 [`<]。
 
 [para]
 [:en]
 The member [`eof()] shall return an [%@impldef return value of
 [`char_traits<char32_t>::eof]] implementation-defined constant that cannot
 appear as a Unicode code point.
+[:zh_CN]
+成员 [`eof()] 应当返回 [%@impldef [`char_traits<char32_t>::eof] 的返回值]
+由实现定义的不能作为有效 Unicode 代码点的常量。
