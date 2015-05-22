@@ -1,16 +1,19 @@
 ﻿[section#locale.syn
     [:en] Header [`<locale>] synopsis
+    [:zh_CN] 头文件 [`<locale>] 纲要
 ]
 
 [%@library <locale> [sortas locale]]
 [codeblock:synopsis]
 namespace std {
   // [:en] [#locale], locale:
+  // [|:zh_CN] [#locale]，区域：
   class locale;
   template <class Facet> const Facet& use_facet(const locale&);
   template <class Facet> bool         has_facet(const locale&) noexcept;
 
   // [:en] [#locale.convenience], convenience interfaces:
+  // [|:zh_CN] [#locale.convenience]，便利接口：
   template <class charT> bool isspace (charT c, const locale& loc);
   template <class charT> bool isprint (charT c, const locale& loc);
   template <class charT> bool iscntrl (charT c, const locale& loc);
@@ -32,25 +35,30 @@ namespace std {
      class Tr = char_traits<Elem>> class wbuffer_convert;
 
   // [:en] [#category.ctype], ctype:
+  // [|:zh_CN] [#category.ctype]，ctype：
   class ctype_base;
   template <class charT> class ctype;
   template <>            class ctype<char>;             // [:en] specialization
+                                                        // [|:zh_CN] 特化式
   template <class charT> class ctype_byname;
   class codecvt_base;
   template <class internT, class externT, class stateT> class codecvt;
   template <class internT, class externT, class stateT> class codecvt_byname;
 
   // [:en] [#category.numeric], numeric:
+  // [|:zh_CN] [#category.numeric]，数值：
   template <class charT, class InputIterator = istreambuf_iterator<charT> >  class num_get;
   template <class charT, class OutputIterator = ostreambuf_iterator<charT> > class num_put;
   template <class charT> class numpunct;
   template <class charT> class numpunct_byname;
 
   // [:en] [#category.collate], collation:
+  // [|:zh_CN] [#category.collate]，校排：
   template <class charT> class collate;
   template <class charT> class collate_byname;
 
   // [:en] [#category.time], date and time:
+  // [|:zh_CN] [#category.time]，日期与时间：
   class time_base;
   template <class charT, class InputIterator = istreambuf_iterator<charT> >
     class time_get;
@@ -62,6 +70,7 @@ namespace std {
     class time_put_byname;
 
   // [:en] [#category.monetary], money:
+  // [|:zh_CN] [#category.monetary]，货币：
   class money_base;
   template <class charT, class InputIterator = istreambuf_iterator<charT> >  class money_get;
   template <class charT, class OutputIterator = ostreambuf_iterator<charT> > class money_put;
@@ -69,6 +78,7 @@ namespace std {
   template <class charT, bool Intl = false> class moneypunct_byname;
 
   // [:en] [#category.messages], message retrieval:
+  // [|:zh_CN] [#category.messages]，消息检索：
   class messages_base;
   template <class charT> class messages;
   template <class charT> class messages_byname;
@@ -79,9 +89,15 @@ namespace std {
 [:en]
 The header [`<locale>] defines classes and declares functions that encapsulate
 and manipulate the information peculiar to a locale.
+[:zh_CN]
+头文件 [`<locale>] 定义了一些类并声明了一些函数，用以封装和操纵区域所特有的信息
+。
 
 [footnote]
 [:en]
 In this subclause, the type name [`struct tm] is an incomplete type that is
 defined in [%@library <ctime> [sortas ctime]] [`<ctime>].
+[:zh_CN]
+在本子条款中，类型名 [`struct tm] 是在 [%@library <ctime> [sortas ctime]]
+[`<ctime>] 中所定义的不完整类型。
 [footnote:end]
