@@ -1,5 +1,6 @@
 ﻿[section#string.iterators
     [:en] [`basic_string] iterator support
+    [:zh_CN] [`basic_string] 的迭代器支持
 ]
 
 [%@library basic_string[!begin]]
@@ -15,6 +16,7 @@ const_iterator cbegin() const noexcept;
 [enter:description]
 [para:returns]
 [:en] An iterator referring to the first character in the string.
+[:zh_CN] 指代字符串的第一个字符的迭代器。
 [exit:description]
 
 [%@library end[!basic_string]]
@@ -30,6 +32,7 @@ const_iterator cend() const noexcept;
 [enter:description]
 [para:returns]
 [:en] An iterator which is the past-the-end value.
+[:zh_CN] 具有超过结尾值的迭代器。
 [exit:description]
 
 [%@library rbegin[!basic_string]]
@@ -46,6 +49,7 @@ const_reverse_iterator crbegin() const noexcept;
 [para:returns]
 [:en] An iterator which is semantically equivalent to
 [`reverse_iterator(end())].
+[:zh_CN] 语义上等价于 [`reverse_iterator(end())] 的迭代器。
 [exit:description]
 
 [%@library rend[!basic_string]]
@@ -62,4 +66,5 @@ const_reverse_iterator crend() const noexcept;
 [para:returns]
 [:en] An iterator which is semantically equivalent to
 [`reverse_iterator(begin())].
+[:zh_CN] 语义上等价于 [`reverse_iterator(begin())] 的迭代器。
 [exit:description]
