@@ -1,5 +1,5 @@
 ﻿[section#string::operator==
-    [:en] [`operator==]
+    [`operator==]
 ]
 
 [%@library basic_string[!operator==]]
@@ -13,6 +13,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`lhs.compare(rhs) == 0].
+[:zh_CN] [`lhs.compare(rhs) == 0]。
 [exit:description]
 
 [%@library operator==[!basic_string]]
@@ -26,6 +27,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`rhs == lhs].
+[:zh_CN] [`rhs == lhs]。
 [exit:description]
 
 [%@library operator==[!basic_string]]
@@ -41,7 +43,9 @@ template<class charT, class traits, class Allocator>
 [%@library length[!char_traits]]
 [:en] [`rhs] points to an array of at least [`traits::length(rhs) + 1] elements
 of [`charT].
+[:zh_CN] [`rhs] 指向 [`charT] 的至少 [`traits::length(rhs) + 1] 个元素的数组。
 
 [para:returns]
 [:en] [`lhs.compare(rhs) == 0].
+[:zh_CN] [`lhs.compare(rhs) == 0]。
 [exit:description]
