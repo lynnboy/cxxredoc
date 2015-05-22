@@ -1,5 +1,5 @@
 ﻿[section#string::copy
-    [:en] [`basic_string::copy]
+    [`basic_string::copy]
 ]
 
 [%@library basic_string[!copy]]
@@ -10,26 +10,34 @@ size_type copy(charT* s, size_type n, size_type pos = 0) const;
 
 [enter:description]
 [para:requires]
-[:en] [`pos <= size()]
+[`pos <= size()]
 
 [para:throws]
 [:en] [`out_of_range] if [`pos > size()].
+[:zh_CN] 当 [`pos > size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the string to copy as the
 smaller of [`n] and [`size() - pos].
+[:zh_CN] 确定所要复制的字符串的有效长度 [`rlen] 为 [`n] 和 [`size() - pos] 中的
+较小值。
 
 [:en] [`s] shall designate an array of at least [`rlen] elements.
+[:zh_CN] [`s] 应当代表至少 [`rlen] 个元素的数组。
 
 [para:~]
 [:en] The function then replaces the string designated by [`s] with a string of
 length [`rlen] whose elements are a copy of the string controlled by [`*this]
 beginning at position [`pos].
+[:zh_CN] 该函书随即将由 [`s] 所代表的字符串替换为长度为 [`rlen] 的字符串，其元素
+为由 [`*this] 所控制的字符串中开始于位置 [`pos] 的元素的副本。
 
 [para:~]
 [:en] The function does not append a null object to the string designated by
 [`s].
+[:zh_CN] 该函数不会向 [`s] 所代表的字符串追加一个空对象。
 
 [para:returns]
 [:en] [`rlen].
+[:zh_CN] [`rlen]。
 [exit:description]
