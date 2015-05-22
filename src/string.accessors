@@ -1,5 +1,6 @@
 ﻿[section#string.accessors
     [:en] [`basic_string] accessors
+    [:zh_CN] [`basic_string] 的访问器
 ]
 
 [%@library c_str[!basic_string]]
@@ -13,13 +14,17 @@ const charT* data() const noexcept;
 [para:returns]
 [:en] A pointer [`p] such that [`p + i == &operator[`](i)] for each [`i] in
 [=crange[0,size()]].
+[:zh_CN] 指针 [`p]，使得对 [=crange[0,size()]] 中的每个 [`i]，均有
+[`p + i == &operator[`](i)]。
 
 [para:complexity]
 [:en] Constant time.
+[:zh_CN] 常量时间。
 
 [para:requires]
 [:en] The program shall not alter any of the values stored in the character
 array.
+[:zh_CN] 程序不能改动该字符数组中存储的任何值。
 [exit:description]
 
 [%@library get_allocator[!basic_string]]
@@ -32,4 +37,6 @@ allocator_type get_allocator() const noexcept;
 [para:returns]
 [:en] A copy of the [`Allocator] object used to construct the string or, if that
 allocator has been replaced, a copy of the most recent replacement.
+[:zh_CN] 用于构造字符串的 [`Allocator] 对象的副本，或者若这个分配器已被替换，则
+返回最近所替换的副本。
 [exit:description]
