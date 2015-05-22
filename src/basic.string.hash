@@ -1,5 +1,6 @@
 ﻿[section#basic.string.hash
     [:en] Hash support
+    [:zh_CN] 散列支持
 ]
 
 [%@library hash]
@@ -14,4 +15,5 @@ template <> struct hash<wstring>;
 [para]
 [:en] The template specializations shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 这些模板特化式应当满足类模板 [`hash] 的规定（[#unord.hash]）。
 [exit:description]
