@@ -1,5 +1,5 @@
 ﻿[section#string::erase
-    [:en] [`basic_string::erase]
+    [`basic_string::erase]
 ]
 
 [%@library basic_string[!erase]]
@@ -10,14 +10,17 @@ basic_string& erase(size_type pos = 0, size_type n = npos);
 
 [enter:description]
 [para:requires]
-[:en] [`pos <= size()]
+[`pos <= size()]
 
 [para:throws]
 [:en] [`out_of_range] if [`pos > size()].
+[:zh_CN] 当 [`pos > size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`xlen] of the string to be removed as the
 smaller of [`n] and [`size() - pos].
+[:zh_CN] 确定所要移除的字符串的有效长度 [`xlen] 为 [`n] 和 [`size() - pos] 中的
+较小值。
 
 [para]
 [:en] The function then replaces the string controlled by [`*this] with a string
@@ -25,9 +28,13 @@ of length [`size() - xlen] whose first [`pos] elements are a copy of the initial
 elements of the original string controlled by [`*this], and whose remaining
 elements are a copy of the elements of the original string controlled by
 [`*this] beginning at position [`pos + xlen].
+[:zh_CN] 该函数随即将由 [`*this] 所控制的字符串替换为长度为 [`size() - xlen] 的
+字符串，其前 [`pos] 个元素为由 [`*this] 所控制的原字符串的开头元素的副本，而其
+剩余元素为由 [`*this] 所控制的原字符串开始于位置 [`pos + xlen] 的元素的副本。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library erase[!basic_string]]
@@ -39,15 +46,19 @@ iterator erase(const_iterator p);
 [enter:description]
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无
 
 [para:effects]
 [:en] removes the character referred to by [`p].
+[:zh_CN] 移除由 [`p] 所指代的字符。
 
 [para:returns]
 [:en] An iterator which points to the element immediately following [`p] prior
 to the element being erased.
+[:zh_CN] 指向该元素被移除前紧跟 [`p] 之后的元素的迭代器。
 
 [:en] If no such element exists, [`end()] is returned.
+[:zh_CN] 如果不存在这样的元素，则返回 [`end()]。
 [exit:description]
 
 [%@library erase[!basic_string]]
@@ -60,18 +71,24 @@ iterator erase(const_iterator first, const_iterator last);
 [para:requires]
 [:en] [`first] and [`last] are valid iterators on [`*this], defining a range
 [`[first,last)].
+[:zh_CN] [`first] 和 [`last] 均为 [`*this] 的有效迭代器，并定义一个范围
+[`[first,last)]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:effects]
 [:en] removes the characters in the range [`[first,last)].
+[:zh_CN] 移除 [`[first,last)] 中的字符。
 
 [para:returns]
 [:en] An iterator which points to the element pointed to by [`last] prior to
 the other elements being erased.
+[:zh_CN] 指向其他元素被移除前由 [`last] 所指向的元素的迭代器。
 
 [:en] If no such element exists, [`end()] is returned.
+[:zh_CN] 如果不存在这样的元素，则返回 [`end()]。
 [exit:description]
 
 [%@library basic_string[!pop_back]]
@@ -82,11 +99,13 @@ void pop_back();
 
 [enter:description]
 [para:requires]
-[:en] [`!empty()]
+[`!empty()]
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:effects]
 [:en] Equivalent to [`erase(size() - 1, 1)].
+[:zh_CN] 等价于 [`erase(size() - 1, 1)]。
 [exit:description]
