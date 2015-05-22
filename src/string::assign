@@ -1,5 +1,5 @@
 ﻿[section#string::assign
-    [:en] [`basic_string::assign]
+    [`basic_string::assign]
 ]
 
 [%@library basic_string[!assign]]
@@ -11,9 +11,11 @@ basic_string& assign(const basic_string& str);
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`assign(str, 0, npos)].
+[:zh_CN] 等价于 [`assign(str, 0, npos)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -27,13 +29,17 @@ basic_string& assign(basic_string&& str) noexcept;
 [:en] The function replaces the string controlled by [`*this] with a string of
 length [`str.size()] whose elements are a copy of the string controlled by
 [`str].
+[:zh_CN] 该函数将由 [`*this] 所控制的字符串替换为长度为 [`str.size()] 的字符串，
+其元素是由 [`str] 所控制的字符串的副本。
 
 [enter:note]
 [:en] A valid implementation is [`swap(str)].
+[:zh_CN] 一种有效的实现为 [`swap(str)]。
 [exit:note]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -46,18 +52,22 @@ basic_string&
 
 [enter:description]
 [para:requires]
-[:en] [`pos <= str.size()]
+[`pos <= str.size()]
 
 [para:throws]
 [:en] [`out_of_range] if [`pos > str.size()].
+[:zh_CN] 当 [`pos > str.size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the string to assign as the
 smaller of [`n] and [`str.size() - pos] and calls [`assign(str.data() + pos,
 rlen)].
+[:zh_CN] 确定用以赋值的字符串的有效长度 [`rlen] 为 [`n] 和 [`str.size() - pos]
+的较小值，然后调用 [`assign(str.data() + pos, rlen)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -69,16 +79,21 @@ basic_string& assign(const charT* s, size_type n);
 [enter:description]
 [para:requires]
 [:en] [`s] points to an array of at least [`n] elements of [`charT].
+[:zh_CN] [`s] 指向 [`charT] 的至少 [`n] 个元素的数组。
 
 [para:throws]
 [:en] [`length_error] if [`n > max_size()].
+[:zh_CN] 当 [`n > max_size()] 时抛出 [`length_error]。
 
 [para:effects]
 [:en] Replaces the string controlled by [`*this] with a string of length [`n]
 whose elements are a copy of those pointed to by [`s].
+[:zh_CN] 将由 [`*this] 所控制的字符串替换为长度为 [`n] 的字符串，其元素是 [`s]
+所指向的元素的副本。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -91,12 +106,15 @@ basic_string& assign(const charT* s);
 [para:requires]
 [:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
 [`charT].
+[:zh_CN] [`s] 指向 [`charT] 的至少 [`traits::length(s) + 1] 个元素的数组。
 
 [para:effects]
 [:en] Calls [`assign(s, traits::length(s))].
+[:zh_CN] 调用 [`assign(s, traits::length(s))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -108,9 +126,11 @@ basic_string& assign(initializer_list<charT> il);
 [enter:description]
 [para:effects]
 [:en] Calls [`assign(il.begin(), il.size())].
+[:zh_CN] 调用 [`assign(il.begin(), il.size())]。
 
 [para]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library length[!char_traits]]
@@ -121,9 +141,11 @@ basic_string& assign(size_type n, charT c);
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`assign(basic_string(n, c))].
+[:zh_CN] 等价于 [`assign(basic_string(n, c))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library assign[!basic_string]]
@@ -136,7 +158,9 @@ template<class InputIterator>
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`assign(basic_string(first, last))].
+[:zh_CN] 等价于 [`assign(basic_string(first, last))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
