@@ -13,7 +13,7 @@ size_type rfind(const basic_string& str,
 [para:effects]
 [:en] Determines the highest position [`xpos], if possible, such that both of
 the following conditions obtain:
-[:zh_CN] 如果可能，就确定最高的位置 [`xpos]，使得以下条件均可以达成：
+[:zh_CN] 如果可能，就确定一个最高位置 [`xpos]，使得以下条件均可达成：
 
 [list]
 [item]
