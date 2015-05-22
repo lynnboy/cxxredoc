@@ -1,32 +1,45 @@
 ﻿[section#localization.general
-    [:en] Localization library
+    [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 This Clause describes components that [=Cpp] programs may use to encapsulate
 (and therefore be more portable when confronting) cultural differences.
+[:zh_CN]
+本条描述了可被 [=Cpp] 程序用于封装（并因此可以在进行处理时更加可移植）文化差异
+的组件。
 
 [:en]
 The locale facility includes internationalization support for character
 classification and string collation, numeric, monetary, and date/time formatting
 and parsing, and message retrieval.
+[:zh_CN]
+其区域设施中包括为字符分类和字符串排序，数值，货币，以及日期/时间的格式化和解析
+，以及消息检索而提供的国际化支持
 
 [para]
 [:en]
 The following subclauses describe components for locales themselves, the
 standard facets, and facilities from the ISO C library, as summarized in Table
 [#tab:localization.lib.summary].
+[:zh_CN]
+下列子条款描述了区域自身，标准刻面，以及来自 ISO C 程序库的设施等组件，如表
+[#tab:localization.lib.summary] 的总结。
 
 [table:listing#tab:localization.lib.summary
     [:en] Localization library summary
+    [:zh_CN] 本地化库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:group@both]
@@ -35,19 +48,23 @@ standard facets, and facilities from the ISO C library, as summarized in Table
 [-]
 [|] [#locales]
 [|] [:en] Locales
+    [:zh_CN] 区域
 [|@rowspan=2] <locale>
 
 [|] [#locale.categories]
 [|] [:en] Standard [`locale] Categories
+    [:zh_CN] 标准 [`locale] 范畴
 
 [-]
 [|] [#locale.stdcvt]
 [|] [:en] Standard code conversion facets
+    [:zh_CN] 标准代码转换刻面
 [|] <codecvt>
 
 [-]
 [|] [#c.locales]
 [|] [:en] C library locales
+    [:zh_CN] C 程序库的区域
 [|] <clocale>
 
 [table:end]
