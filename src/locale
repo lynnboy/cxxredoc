@@ -1,5 +1,6 @@
 ﻿[section#locale
     [:en] Class [`locale]
+    [:zh_CN] 类 [`locale]
 ]
 
 [%@library <locale> [sortas locale]]
@@ -8,10 +9,12 @@ namespace std {
   class locale {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     class facet;
     class id;
     typedef int category;
     static const category   // [:en] values assigned here are for exposition only
+                            // [|:zh_CN] 这里所给出的值仅用于阐释
       none     = 0,
       collate  = 0x010, ctype    = 0x020,
       monetary = 0x040, numeric  = 0x080,
@@ -19,6 +22,7 @@ namespace std {
       all = collate | ctype | monetary | numeric | time  | messages;
 
     // [:en] construct/copy/destroy:
+    // [|:zh_CN] 构造/复制/销毁：
     locale() noexcept;
     locale(const locale& other) noexcept;
     explicit locale(const char* std_name);
@@ -28,10 +32,12 @@ namespace std {
     template <class Facet> locale(const locale& other, Facet* f);
     locale(const locale& other, const locale& one, category);
     ~locale();                  // [:en] not virtual
+                                // [|:zh_CN] 非虚函数
     const locale& operator=(const locale& other) noexcept;
     template <class Facet> locale combine(const locale& other) const;
 
     // [:en] locale operations:
+    // [|:zh_CN] locale 的操作：
     basic_string<char>                  name() const;
 
     bool operator==(const locale& other) const;
@@ -42,6 +48,7 @@ namespace std {
                       const basic_string<charT,traits,Allocator>& s2) const;
 
     // [:en] global locale objects:
+    // [|:zh_CN] 全局 locale 对象：
     static       locale  global(const locale&);
     static const locale& classic();
   };
@@ -52,25 +59,37 @@ namespace std {
 [:en]
 Class [`locale] implements a type-safe polymorphic set of facets, indexed by
 facet [+type].
+[:zh_CN]
+类 [`locale] 实现了一组类型安全的多态的刻面，以刻面的[+类型]为其索引。
 
 [:en]
 In other words, a facet has a dual role: in one sense, it[=']s just a class
 interface; at the same time, it[=']s an index into a locale[=']s set of facets.
+[:zh_CN]
+换句话说，刻面具有两个角色：一方面它就是一种类接口；同时，它还是区域的刻面集合
+的索引。
 
 [para]
 [:en]
 Access to the facets of a [`locale] is via two function templates,
 [`use_facet<>] and [`has_facet<>].
+[:zh_CN]
+访问 [`locale] 的刻面是通过两个函数模板 [`use_facet<>] 和 [`has_facet<>] 来进行
+的。
 
 [para]
 [enter:example]
 [:en]
 An iostream [`operator<<] might be implemented as:
+[:zh_CN]
+一种 I/O 流的 [`operator<<] 可能这样实现：
 
 [footnote]
 [:en]
 Note that in the call to [`put] the stream is implicitly converted to an
 [`ostreambuf_iterator<charT,traits>].
+[:zh_CN]
+注意在对 [`put] 的调用中，流被隐式转换为 [`ostreambuf_iterator<charT,traits>]。
 [footnote:end]
 
 [codeblock]
@@ -84,6 +103,7 @@ operator<< (basic_ostream<charT,traits>& s, Date d) {
     use_facet< time_put<charT,ostreambuf_iterator<charT,traits> > >(
       s.getloc()).put(s, s, s.fill(), err, &tmbuf, 'x');
     s.setstate(err);            // [:en] might throw
+                                // [|:zh_CN] 可能会抛出
   }
   return s;
 }
@@ -94,24 +114,37 @@ operator<< (basic_ostream<charT,traits>& s, Date d) {
 [:en]
 In the call to [`use_facet<Facet>(loc)], the type argument chooses a facet,
 making available all members of the named type.
+[:zh_CN]
+在调用 [`use_facet<Facet>(loc)] 中，类型实参选择了一种刻面，并使所指名的类型的
+所有成员可用。
 
 [:en]
 If [`Facet] is not present in a locale, it throws the standard exception
 [`bad_cast].
+[:zh_CN]
+若 [`Facet] 在区域中不存在，则抛出标准异常 [`bad_cast]。
 
 [:en]
 A [=Cpp] program can check if a locale implements a particular facet with the
 function template [`has_facet<Facet>()].
+[:zh_CN]
+[=Cpp] 程序可以用函数模板 [`has_facet<Facet>()] 来检查区域是否实现了某个特定的
+刻面。
 
 [:en]
 User-defined facets may be installed in a locale, and used identically as may
 standard facets ([#facets.examples]).
+[:zh_CN]
+区域中也可以按照用户定义的刻面，并以与标准刻面同等的方式进行使用
+（[#facets.examples]）。
 
 [para]
 [enter:note]
 [:en]
 All locale semantics are accessed via [`use_facet<>] and [`has_facet<>], except
 that:
+[:zh_CN]
+所有区域语义均是通过 [`use_facet<>] 和 [`has_facet<>] 访问的，除了：
 
 [list]
 [item]
@@ -119,15 +152,23 @@ that:
 A member operator template [`operator()(const basic_string<C, T, A>&, const
 basic_string<C, T, A>&)] is provided so that a locale may be used as a predicate
 argument to the standard collections, to collate strings.
+[:zh_CN]
+提供成员运算符模板 [`operator()(const basic_string<C, T, A>&, const
+basic_string<C, T, A>&)]，使得区域可被用作标准集合的谓词实参，以校排字符串。
 
 [item]
 [:en]
 Convenient global interfaces are provided for traditional [`ctype] functions
 such as [`isdigit()] and [`isspace()], so that given a locale object [`loc] a
 [=Cpp] program can call [`isspace(c,loc)].
+[:zh_CN]
+还为如 [`isdigit()] 和 [`isspace()] 这样的传统 [`ctype] 提供了便利的全局接口，
+使得 [=Cpp] 程序可以对给定的区域对象 [`loc] 调用 [`isspace(c,loc)]。
 
 [:en]
 (This eases upgrading existing extractors ([#istream.formatted]).)
+[:zh_CN]
+（这简化了对现存抽取器（[#istream.formatted]）的升级。）
 [exit:note]
 [list:end]
 
@@ -137,37 +178,57 @@ Once a facet reference is obtained from a locale object by calling
 [`use_facet<>], that reference remains usable, and the results from member
 functions of it may be cached and re-used, as long as some locale object refers
 to that facet.
+[:zh_CN]
+一旦通过调用 [`use_facet<>] 从区域对象中获得了刻面的引用，这个引用就一直可用，
+而且其成员函数的结果可能被缓存并进行重用，只要某个区域对象仍涉及到该刻面。
 
 [para]
 [:en]
 In successive calls to a locale facet member function on a facet object
 installed in the same locale, the returned result shall be identical.
+[:zh_CN]
+对安装与相同区域中的某个刻面对象，相继调用区域刻面成员函数应当返回同样的结果。
 
 [para]
 [:en]
 A [`locale] constructed from a name string (such as [`"POSIX"]), or from parts
 of two named locales, has a name; all others do not.
+[:zh_CN]
+从某个名字字符串（如 [`"POSIX"]）所构造的，或者从两个有名字的区域的部分所构造的
+[`locale] 具有名字；其他的均没有名字。
 
 [:en]
 Named locales may be compared for equality; an unnamed locale is equal only to
 (copies of) itself.
+[:zh_CN]
+有名字的区域可以进行相等性比较；无名的区域仅与其自身（的副本）相等。
 
 [:en]
 For an unnamed locale, [`locale::name()] returns the string [`"*"].
+[:zh_CN]
+无名区域的 [`locale::name()] 返回字符串 [`"*"]。
 
 [para]
 [:en]
 Whether there is one global locale object for the entire program or one global
 locale object per thread is [%@impldef whether locale object is global or
 per-thread] implementation-defined.
+[:zh_CN]
+是程序整体具有一个全局的区域对象，还是每个线程具有一个全局的区域对象是
+[%@impldef 区域对象是全局的还是每个线程的]由实现定义的。
 
 [:en]
 Implementations should provide one global locale object per thread.
+[:zh_CN]
+实现最好为每个线程提供一个全局的区域对象。
 
 [:en]
 If there is a single global locale object for the entire program,
 implementations are not required to avoid data races on it
 ([#res.on.data.races]).
+[:zh_CN]
+如果程序整体具有单个的区域对象，则实现不必为其避免数据竞争
+（[#res.on.data.races]）。
 
 [include locale.types]
 
