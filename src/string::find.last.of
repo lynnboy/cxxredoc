@@ -1,5 +1,5 @@
 ﻿[section#string::find.last.of
-    [:en] [`basic_string::find_last_of]
+    [`basic_string::find_last_of]
 ]
 
 [%@library basic_string[!find_last_of]]
@@ -14,22 +14,30 @@ size_type
 [para:effects]
 [:en] Determines the highest position [`xpos], if possible, such that both of
 the following conditions obtain:
+[:zh_CN] 如果可能，就确定其最高位置 [`xpos]，使得以下条件均可达成：
 
 [list]
 [item]
 [:en] [`xpos <= pos] and [`xpos < size()];
+[:zh_CN] [`xpos <= pos] 并且 [`xpos < size()]；
 [item]
-[:en] [%@library eq[!char_traits]] [`traits::eq(at(xpos), str.at(I))] for some
-element [`I] of the string controlled by [`str].
+[%@library eq[!char_traits]]
+[:en] [`traits::eq(at(xpos), str.at(I))] for some element [`I] of the string
+controlled by [`str].
+[:zh_CN] 对于由 [`str] 所控制的字符串的某个元素 [`I]，有
+[`traits::eq(at(xpos+I), str.at(I))]。
 [list:end]
 
 [para:returns]
 [:en] [`xpos] if the function can determine such a value for [`xpos].
+[:zh_CN] 如果该函数可以确定这样的 [`xpos] 值则为 [`xpos]。
 
 [:en] Otherwise, returns [`npos].
+[:zh_CN] 否则，返回 [`npos]。
 
 [para:notes]
 [:en] Uses [`traits::eq()].
+[:zh_CN] 使用 [`traits::eq()]。
 [exit:description]
 
 [%@library find_last_of[!basic_string]]
@@ -41,6 +49,7 @@ size_type find_last_of(const charT* s, size_type pos, size_type n) const;
 [enter:description]
 [para:returns]
 [:en] [`find_last_of(basic_string(s, n), pos)].
+[:zh_CN] [`find_last_of(basic_string(s, n), pos)]。
 [exit:description]
 
 [%@library find_last_of[!basic_string]]
@@ -53,9 +62,11 @@ size_type find_last_of(const charT* s, size_type pos = npos) const;
 [para:requires]
 [:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
 [`charT].
+[:zh_CN] [`s] 指向 [`charT] 的至少 [`traits::length(s) + 1] 个元素的数组。
 
 [para:returns]
 [:en] [`find_last_of(basic_string(s), pos)].
+[:zh_CN] [`find_last_of(basic_string(s), pos)]。
 [exit:description]
 
 [%@library basic_string[!find_last_of]]
@@ -67,4 +78,5 @@ size_type find_last_of(charT c, size_type pos = npos) const;
 [enter:description]
 [para:returns]
 [:en] [`find_last_of(basic_string(1,c),pos)].
+[:zh_CN] [`find_last_of(basic_string(1,c),pos)]。
 [exit:description]
