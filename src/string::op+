@@ -1,5 +1,5 @@
 ﻿[section#string::op+
-    [:en] [`operator+]
+    [`operator+]
 ]
 
 [%@library basic_string[!operator+]]
@@ -13,7 +13,7 @@ template<class charT, class traits, class Allocator>
 
 [enter:description]
 [para:returns]
-[:en] [`basic_string<charT,traits,Allocator>(lhs).append(rhs)]
+[`basic_string<charT,traits,Allocator>(lhs).append(rhs)]
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -27,7 +27,7 @@ template<class charT, class traits, class Allocator>
 
 [enter:description]
 [para:returns]
-[:en] [`std::move(lhs.append(rhs))]
+[`std::move(lhs.append(rhs))]
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -41,7 +41,7 @@ template<class charT, class traits, class Allocator>
 
 [enter:description]
 [para:returns]
-[:en] [`std::move(rhs.insert(0, lhs))]
+[`std::move(rhs.insert(0, lhs))]
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -55,10 +55,11 @@ template<class charT, class traits, class Allocator>
 
 [enter:description]
 [para:returns]
-[:en] [`std::move(lhs.append(rhs))]
+[`std::move(lhs.append(rhs))]
 
 [enter:note]
 [:en] Or equivalently [`std::move(rhs.insert(0, lhs))]
+[:zh_CN] 或者等价地，[`std::move(rhs.insert(0, lhs))]
 [exit:note]
 [exit:description]
 
@@ -74,9 +75,11 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`basic_string<charT,traits,Allocator>(lhs) + rhs].
+[:zh_CN] [`basic_string<charT,traits,Allocator>(lhs) + rhs]。
 
 [para:notes]
 [:en] Uses [`traits::length()].
+[:zh_CN] 使用 [`traits::length()]。
 [exit:description]
 
 [%@library operator+[!basic_string]]
@@ -91,9 +94,11 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`std::move(rhs.insert(0, lhs))].
+[:zh_CN] [`std::move(rhs.insert(0, lhs))]。
 
 [para:notes]
 [:en] Uses [`traits::length()].
+[:zh_CN] 使用 [`traits::length()]。
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -108,6 +113,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`basic_string<charT,traits,Allocator>(1,lhs) + rhs].
+[:zh_CN] [`basic_string<charT,traits,Allocator>(1,lhs) + rhs]。
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -122,6 +128,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`std::move(rhs.insert(0, 1, lhs))].
+[:zh_CN] [`std::move(rhs.insert(0, 1, lhs))]。
 [exit:description]
 
 [%@library operator+[!basic_string]]
@@ -136,9 +143,11 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`lhs + basic_string<charT,traits,Allocator>(rhs)].
+[:zh_CN] [`lhs + basic_string<charT,traits,Allocator>(rhs)]。
 
 [para:notes]
 [:en] Uses [`traits::length()].
+[:zh_CN] 使用 [`traits::length()]。
 [exit:description]
 
 [%@library operator+[!basic_string]]
@@ -153,9 +162,11 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`std::move(lhs.append(rhs))].
+[:zh_CN] [`std::move(lhs.append(rhs))]。
 
 [para:notes]
 [:en] Uses [`traits::length()].
+[:zh_CN] 使用 [`traits::length()]。
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -170,6 +181,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`lhs + basic_string<charT,traits,Allocator>(1,rhs)].
+[:zh_CN] [`lhs + basic_string<charT,traits,Allocator>(1,rhs)]。
 [exit:description]
 
 [%@library basic_string[!operator+]]
@@ -184,4 +196,5 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`std::move(lhs.append(1, rhs))].
+[:zh_CN] [`std::move(lhs.append(1, rhs))]。
 [exit:description]
