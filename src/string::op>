@@ -1,5 +1,5 @@
 ﻿[section#string::op>
-    [:en] [`operator>]
+    [`operator>]
 ]
 
 [%@library operator>[!basic_string]]
@@ -13,6 +13,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`lhs.compare(rhs) > 0].
+[:zh_CN] [`lhs.compare(rhs) > 0]。
 [exit:description]
 
 [%@library operator>[!basic_string]]
@@ -26,6 +27,7 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`rhs.compare(lhs) < 0].
+[:zh_CN] [`rhs.compare(lhs) < 0]。
 [exit:description]
 
 [%@library operator>[!basic_string]]
@@ -39,4 +41,5 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:returns]
 [:en] [`lhs.compare(rhs) > 0].
+[:zh_CN] [`lhs.compare(rhs) > 0]。
 [exit:description]
