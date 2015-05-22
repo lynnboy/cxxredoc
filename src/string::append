@@ -1,5 +1,5 @@
 ﻿[section#string::append
-    [:en] [`basic_string::append]
+    [`basic_string::append]
 ]
 
 [%@library basic_string[!append]]
@@ -12,9 +12,11 @@ basic_string&
 [enter:description]
 [para:effects]
 [:en] Calls [`append(str.data(), str.size())].
+[:zh_CN] 调用 [`append(str.data(), str.size())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library append[!basic_string]]
@@ -26,18 +28,22 @@ basic_string&
 
 [enter:description]
 [para:requires]
-[:en] [`pos <= str.size()]
+[`pos <= str.size()]
 
 [para:throws]
 [:en] [`out_of_range] if [`pos > str.size()].
+[:zh_CN] 当 [`pos > str.size()] 时抛出 [`out_of_range]。
 
 [para:effects]
 [:en] Determines the effective length [`rlen] of the string to append as the
 smaller of [`n] and [`str.size() - pos] and calls [`append(str.data() + pos,
 rlen)].
+[:zh_CN] 确定要追加的字符串的有效长度 [`rlen] 为 [`n] 和 [`str.size() - pos] 的
+较小值，然后调用 [`append(str.data() + pos, rlen)]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library append[!basic_string]]
@@ -50,18 +56,24 @@ basic_string&
 [enter:description]
 [para:requires]
 [:en] [`s] points to an array of at least [`n] elements of [`charT].
+[:zh_CN] [`s] 指向 [`charT] 的至少 [`n] 个元素的数组。
 
 [para:throws]
 [:en] [`length_error] if [`size() + n > max_size()].
+[:zh_CN] 当 [`size() + n > max_size()] 时抛出 [`length_error]。
 
 [para:effects]
 [:en] The function replaces the string controlled by [`*this] with a string of
 length [`size() + n] whose first [`size()] elements are a copy of the original
 string controlled by [`*this] and whose remaining elements are a copy of the
 initial [`n] elements of [`s].
+[:zh_CN] 该函数将由 [`*this] 所控制的字符串替换为长度为 [`size() + n] 的字符串，
+其前 [`size()] 个元素为由 [`*this] 所控制的原字符串的副本，而剩余元素是 [`s] 的
+开头 [`n] 个元素。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library append[!basic_string]]
@@ -74,12 +86,15 @@ basic_string& append(const charT* s);
 [para:requires]
 [:en] [`s] points to an array of at least [`traits::length(s) + 1] elements of
 [`charT].
+[:zh_CN] [`s] 指向 [`charT] 的至少 [`traits::length(s) + 1] 个元素的数组。
 
 [para:effects]
 [:en] Calls [`append(s, traits::length(s))].
+[:zh_CN] 调用 [`append(s, traits::length(s))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library basic_string[!append]]
@@ -91,9 +106,11 @@ basic_string& append(size_type n, charT c);
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`append(basic_string(n, c))].
+[:zh_CN] 等价于 [`append(basic_string(n, c))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library append[!basic_string]]
@@ -106,12 +123,15 @@ template<class InputIterator>
 [enter:description]
 [para:requires]
 [:en] [=range[first,last)] is a valid range.
+[:zh_CN] [=range[first,last)] 是有效的范围。
 
 [para:effects]
 [:en] Equivalent to [`append(basic_string(first, last))].
+[:zh_CN] 等价于 [`append(basic_string(first, last))]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library append[!basic_string]]
@@ -123,9 +143,11 @@ basic_string& append(initializer_list<charT> il);
 [enter:description]
 [para:effects]
 [:en] Calls [`append(il.begin(), il.size())].
+[:zh_CN] 调用 [`append(il.begin(), il.size())]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library push_back[!basic_string]]
@@ -137,4 +159,5 @@ void push_back(charT c);
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`append(static_cast<size_type>(1), c)].
+[:zh_CN] 等价于 [`append(static_cast<size_type>(1), c)]。
 [exit:description]
