@@ -1,5 +1,5 @@
 ﻿[section#string::compare
-    [:en] [`basic_string::compare]
+    [`basic_string::compare]
 ]
 
 [%@library basic_string[!compare]]
@@ -12,23 +12,33 @@ int compare(const basic_string& str) const noexcept;
 [para:effects]
 [:en] Determines the effective length [$rlen] of the strings to compare as the
 smallest of [`size()] and [`str.size()].
+[:zh_CN] 确定所要比较的字符串的有效长度 [$rlen] 为 [`size()] 和 [`str.size()] 中
+的较小值。
 
 [:en] The function then compares the two strings by calling
 [`traits::compare(data(), str.data(), rlen)].
+[:zh_CN] 该函数随即通过调用 [`traits::compare(data(), str.data(), rlen)] 来比较
+这两个字符串。
 
 [para:returns]
 [:en] The nonzero result if the result of the comparison is nonzero.
+[:zh_CN] 若比较的结果为非零值则返回非零值。
 
 [:en] Otherwise, returns a value as indicated in Table [#tab:strings.compare].
+[:zh_CN] 否则，按照表 [#tab:strings.compare] 所指定的方式返回值。
 
 [table:listing#tab:strings.compare
     [:en] [`compare()] results
+    [:zh_CN] [`compare()] 的结果
+
     [columns
         [column@code@headercenter
             [:en] Condition
+            [:zh_CN] 条件
         ]
         [column@code@headercenter
             [:en] Return Value
+            [:zh_CN] 返回值
         ]
     ]
     [border:cell@none]
@@ -52,6 +62,7 @@ int compare(size_type pos1, size_type n1,
 [enter:description]
 [para:returns]
 [:en] [`basic_string(*this,pos1,n1).compare(str)].
+[:zh_CN] [`basic_string(*this,pos1,n1).compare(str)]。
 [exit:description]
 
 [%@library compare[!basic_string]]
@@ -65,6 +76,7 @@ int compare(size_type pos1, size_type n1,
 [enter:description]
 [para:returns]
 [:en] [`basic_string(*this, pos1, n1).compare(basic_string(str, pos2, n2))].
+[:zh_CN] [`basic_string(*this, pos1, n1).compare(basic_string(str, pos2, n2))]。
 [exit:description]
 
 [%@library compare[!basic_string]]
@@ -76,6 +88,7 @@ int compare(const charT* s) const;
 [enter:description]
 [para:returns]
 [:en] [`compare(basic_string(s))].
+[:zh_CN] [`compare(basic_string(s))]。
 [exit:description]
 
 [%@library compare[!basic_string]]
@@ -88,6 +101,7 @@ int compare(size_type pos, size_type n1,
 [enter:description]
 [para:returns]
 [:en] [`basic_string(*this, pos, n1).compare(basic_string(s))].
+[:zh_CN] [`basic_string(*this, pos, n1).compare(basic_string(s))]。
 [exit:description]
 
 [%@library compare[!basic_string]]
@@ -100,4 +114,5 @@ int compare(size_type pos, size_type n1,
 [enter:description]
 [para:returns]
 [:en] [`basic_string(*this, pos, n1).compare(basic_string(s, n2))].
+[:zh_CN] [`basic_string(*this, pos, n1).compare(basic_string(s, n2))]。
 [exit:description]
