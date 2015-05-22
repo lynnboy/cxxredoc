@@ -1,5 +1,5 @@
 ﻿[section#string.special
-    [:en] [`swap]
+    [`swap]
 ]
 
 [%@library basic_string[!swap]]
@@ -14,4 +14,5 @@ template<class charT, class traits, class Allocator>
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`lhs.swap(rhs);]
+[:zh_CN] 等价于 [`lhs.swap(rhs);]
 [exit:description]
