@@ -1,50 +1,77 @@
 ﻿[section#string.require
     [:en] [`basic_string] general requirements
+    [:zh_CN] [`basic_string] 的一般规定
 ]
 
 [para]
 [:en]
 If any operation would cause [`size()] to exceed [`max_size()], that operation
 shall throw an exception object of type [`length_error].
+[:zh_CN]
+如果有任何操作将导致 [`size()] 超出 [`max_size()]，则该操作应当抛出
+[`length_error] 类型的异常对象。
 
 [para]
 [:en]
 If any member function or operator of [`basic_string] throws an exception, that
 function or operator shall have no other effect.
+[:zh_CN]
+如果 [`basic_string] 的任何成员函数或运算符抛出了异常，则该函数或运算符不能有
+任何效果。
 
 [para]
 [:en]
 In every specialization [`basic_string<charT, traits, Allocator>], the type
 [`allocator_traits<Allocator>::value_type] shall name the same type as [`charT].
+[:zh_CN]
+[`basic_string<charT, traits, Allocator>] 的每个特例中，类型
+[`allocator_traits<Allocator>::value_type] 都应当指名 [`charT] 的相同类型。
 
 [:en]
 Every object of type [`basic_string<charT, traits, Allocator>] shall use an
 object of type [`Allocator] to allocate and free storage for the contained
 [`charT] objects as needed.
+[:zh_CN]
+每个 [`basic_string<charT, traits, Allocator>] 类型的对象在需要时，都应当利用
+一个 [`Allocator] 类型的对象来为其所包含的 [`charT] 对象分配和释放存储。
 
 [:en]
 The [`Allocator] object used shall be obtained as described in
 [#container.requirements.general].
+[:zh_CN]
+所使用的 [`Allocator] 对象应当以 [#container.requirements.general] 所述的方式
+获得。
 
 [para]
 [:en]
 References, pointers, and iterators referring to the elements of a
 [`basic_string] sequence may be invalidated by the following uses of that
 [`basic_string] object:
+[:zh_CN]
+指代 [`basic_string] 序列的某个元素的引用、指针和迭代器，可能会因为这个
+[`basic_string] 对象的如下用法而失效：
 
 [list]
 [item]
 [:en] as an argument to any standard library function taking a reference to
 non-const [`basic_string] as an argument.
+[:zh_CN] 作为实参来调用任何接受指代非 const [`basic_string] 的引用的实参的标准
+程序库函数。
 
 [footnote]
 [:en]
 For example, as an argument to non-member functions [`swap()]
 ([#string.special]), [`operator>>()] ([#string.io]), and [`getline()]
 ([#string.io]), or as an argument to [`basic_string::swap()]
+[:zh_CN]
+例如，作为实参来调用非成员函数 [`swap()]（[#string.special]），[`operator>>()]
+（[#string.io]），以及 [`getline()]（[#string.io]），或者作为
+[`basic_string::swap()] 的实参。
 [footnote:end]
 
 [item]
 [:en] Calling non-const member functions, except [`operator[`]], [`at],
 [`front], [`back], [`begin], [`rbegin], [`end], and [`rend].
+[:zh_CN] 调用除 [`operator[`]]、[`at]、[`front]、[`back]、[`begin]、[`rbegin]、
+[`end] 和 [`rend] 之外的非 const 成员函数。
 [list:end]
