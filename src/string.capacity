@@ -1,5 +1,6 @@
 ﻿[section#string.capacity
     [:en] [`basic_string] capacity
+    [:zh_CN] [`basic_string] 的容量
 ]
 
 [%@library basic_string[!size]]
@@ -11,9 +12,11 @@ size_type size() const noexcept;
 [enter:description]
 [para:returns]
 [:en] A count of the number of char-like objects currently in the string.
+[:zh_CN] 对当前字符串中的字符式对象个数的计数。
 
 [para:complexity]
 [:en] Constant time.
+[:zh_CN] 常量时间。
 [exit:description]
 
 [%@library length[!basic_string]]
@@ -25,6 +28,7 @@ size_type length() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`size()].
+[:zh_CN] [`size()]。
 [exit:description]
 
 [%@library basic_string[!max_size]]
@@ -37,7 +41,9 @@ size_type max_size() const noexcept;
 [para:returns]
 [:en] The size of the largest possible string.
 
-[para:complexity] Constant time.
+[para:complexity]
+[:en] Constant time.
+[:zh_CN] 常量时间。
 [exit:description]
 
 [%@library basic_string[!resize]]
@@ -48,25 +54,32 @@ void resize(size_type n, charT c);
 
 [enter:description]
 [para:requires]
-[:en] [`n <= max_size()]
+[`n <= max_size()]
 
 [para:throws]
 [:en] [`length_error] if [`n > max_size()].
+[:zh_CN] 当 [`n > max_size()] 时抛出 [`length_error]。
 
 [para:effects]
 [:en] Alters the length of the string designated by [`*this] as follows:
+[:zh_CN] 以如下方式改变由 [`*this] 所代表的字符串的长度：
 
 [list]
 [item]
 [:en] If [`n <= size()], the function replaces the string designated by [`*this]
 with a string of length [`n] whose elements are a copy of the initial elements
 of the original string designated by [`*this].
+[:zh_CN] 如果 [`n <= size()]，则该函数把由 [`*this] 所代表的字符串替换为长度为
+[`n] 的字符串，其元素是由 [`*this] 所代表的原字符串的开头元素的副本。
 
 [item]
 [:en] If [`n > size()], the function replaces the string designated by [`*this]
 with a string of length [`n] whose first [`size()] elements are a copy of the
 original string designated by [`*this], and whose remaining elements are all
 initialized to [`c].
+[:zh_CN] 如果 [`n > size()]，则该函数把由 [`*this] 所代表的字符串替换为长度为
+[`n] 的字符串，其前 [`size()] 个元素是由 [`*this] 所代表的原字符串的副本，而剩余
+元素被初始化为 [`c]。
 [list:end]
 [exit:description]
 
@@ -79,6 +92,7 @@ void resize(size_type n);
 [enter:description]
 [para:effects]
 [:en] [`resize(n,charT())].
+[:zh_CN] [`resize(n,charT())]。
 [exit:description]
 
 [%@library basic_string[!capacity]]
@@ -90,6 +104,7 @@ size_type capacity() const noexcept;
 [enter:description]
 [para:returns]
 [:en] The size of the allocated storage in the string.
+[:zh_CN] 字符串中已分配存储的大小。
 [exit:description]
 
 [%@library basic_string[!reserve]]
@@ -103,26 +118,38 @@ void reserve(size_type res_arg=0);
 [:en] The member function [`reserve()] is a directive that informs a
 [`basic_string] object of a planned change in size, so that it can manage the
 storage allocation accordingly.
+[:zh_CN] 成员函数 [`reserve()] 是用以告知 [`basic_string] 对象进行按计划的大小
+调整的指令，使其能够据此管理存储分配。
 
 [para:effects]
 [:en] After [`reserve()], [`capacity()] is greater or equal to the argument of
 [`reserve].
+[:zh_CN] 
+[`reserve()] 之后，[`capacity()] 大于或等于 [`reserve] 的实参。
 
 [enter:note]
 [:en] Calling [`reserve()] with a [`res_arg] argument less than [`capacity()]
 is in effect a non-binding shrink request.
+[:zh_CN] 以小于 [`capacity()] 的实参 [`res_arg] 调用 [`reserve()] 的效果是一种
+不具有约束力的收缩请求。
 
 [:en] A call with [`res_arg <= size()] is in effect a non-binding shrink-to-fit
 request.
+[:zh_CN] 以 [`res_arg <= size()] 进行调用的效果是一种不具有约束力的收缩至合适
+大小的请求。
 [exit:note]
 
 [para:throws]
 [:en] [`length_error] if [`res_arg > max_size()].
+[:zh_CN] 当 [`res_arg > max_size()] 时抛出 [`length_error]。
 
 [footnote]
 [:en]
 [`reserve()] uses [`allocator_traits<Allocator>::allocate()] which may throw an
 appropriate exception.
+[:zh_CN] 
+[`reserve()] 使用 [`allocator_traits<Allocator>::allocate()]，并可能抛出适当的
+异常。
 [footnote:end]
 [exit:description]
 
@@ -136,10 +163,13 @@ void shrink_to_fit();
 [para:notes]
 [:en] [`shrink_to_fit] is a non-binding request to reduce [`capacity()] to
 [`size()].
+[:zh_CN] [`shrink_to_fit] 是一种不具有约束力的将 [`capacity()] 缩减至 [`size()]
+的请求。
 
 [enter:note]
 [:en] The request is non-binding to allow latitude for implementation-specific
 optimizations.
+[:zh_CN] 该请求不具约束力，以允许进行特定于实现的优化。
 [exit:note]
 [exit:description]
 
@@ -152,8 +182,9 @@ void clear() noexcept;
 [enter:description]
 [para:effects]
 [:en] Behaves as if the function calls:
+[:zh_CN] 其行为如同进行函数调用：
 
-[codeblock]
+[codeblock:notation]
 erase(begin(), end());
 [codeblock:end]
 [exit:description]
@@ -167,4 +198,5 @@ bool empty() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`size() == 0].
+[:zh_CN] [`size() == 0]。
 [exit:description]
