@@ -1,8 +1,9 @@
 ﻿[section#facet.ctype.char.dtor
     [:en] [`ctype<char>] destructor
+    [:zh_CN] [`ctype<char>] 的析构函数
 ]
 
-[%@library ctype<char>[![:en]destructor]]
+[%@library ctype<char>[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~ctype();
 [codeblock:end]
@@ -11,4 +12,6 @@
 [para:effects]
 [:en] If the constructor[=']s first argument was nonzero, and its second
 argument was true, does [`delete [`] table()].
+[:zh_CN] 如果构造函数的第一个实参不为零，且其第二个实参为真，则执行
+[`delete[`] table()]。
 [exit:description]
