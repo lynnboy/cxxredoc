@@ -1,5 +1,6 @@
 ﻿[section#classification
     [:en] Character classification
+    [:zh_CN] 字符分类
 ]
 
 [%@library isspace]
@@ -32,6 +33,7 @@ template <class charT> bool isblank (charT c, const locale& loc);
 [para]
 [:en] Each of these functions [`is[$@bi F]] returns the result of the
 expression:
+[:zh_CN] 这些函数中的每一个，[`is[$@bi F]]，返回以下表达式的结果：
 
 [codeblock:notation [special@bi F] ]
 use_facet< ctype<charT> >(loc).is(ctype_base::F, c)
@@ -39,9 +41,14 @@ use_facet< ctype<charT> >(loc).is(ctype_base::F, c)
 
 [:en@~] where [`[$@bi F]] is the [`ctype_base::mask] value corresponding to that
 function ([#category.ctype]).
+[:zh_CN@~] 其中 [`[$@bi F]] 为对应于该函数的 [`ctype_base::mask] 值
+（[#category.ctype]）。
 
 [footnote]
 [:en]
 When used in a loop, it is faster to cache the [`ctype<>] facet and use it
 directly, or use the vector form of [`ctype<>::is].
+[:zh_CN]
+当被用在循环中时，将 [`ctype<>] 刻面缓存并直接使用，或使用 [`ctype<>::is] 的向量
+形式将会更快。
 [footnote:end]
