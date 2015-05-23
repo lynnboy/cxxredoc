@@ -1,5 +1,6 @@
 ﻿[section#facet.ctype.char.virtuals
     [:en] [`ctype<char>] virtual functions
+    [:zh_CN] [`ctype<char>] 的虚函数
 ]
 
 [%@library ctype<char>[!do_toupper]]
@@ -29,3 +30,6 @@ virtual const char* do_narrow(const char* low,
 [:en]
 These functions are described identically as those members of the same name in
 the [`ctype] class template ([#locale.ctype.members]).
+[:zh_CN]
+这些函数的描述与 [`ctype] 类模板中的同名成员的描述相同
+（[#locale.ctype.members]）。
