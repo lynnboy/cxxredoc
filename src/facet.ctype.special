@@ -1,5 +1,6 @@
 ﻿[section#facet.ctype.special
     [:en] [`ctype] specializations
+    [:zh_CN] [`ctype] 的特化式
 ]
 
 [%@library ctype<char>]
@@ -60,20 +61,31 @@ namespace std {
 [:en]
 A specialization [`ctype<char>] is provided so that the member functions on type
 [`char] can be implemented [`inline].
+[:zh_CN]
+提供了特化式 [`ctype<char>]，以使对于类型 [`char] 的成员函数可以实现为 [`inline]
+。
 
 [footnote]
 [:en]
 Only the [`char] (not [`unsigned char] and [`signed char]) form is provided.
+[:zh_CN]
+仅提供了 [`char] 的形式（而不是 [`unsigned char] 和 [`signed char]）。
 
 [:en]
 The specialization is specified in the standard, and not left as an
 implementation detail, because it affects the derivation interface for
 [`ctype<char>].
+[:zh_CN]
+该特化式是在标准中指定的，而不是作为实现的细节，这是因为它影响了 [`ctype<char>]
+的派生接口。
 [footnote:end]
 
 [:en]
 The [%@impldef value of [`ctype<char>::table_size]] implementation-defined value
 of member [`table_size] is at least 256.
+[:zh_CN]
+[%@impldef [`ctype<char>::table_size] 的值]有时限定义的 [`table_size] 成员的值
+至少为 256。
 
 [include facet.ctype.char.dtor]
 
