@@ -1,5 +1,6 @@
 ﻿[section#locale.ctype.virtuals
     [:en] [`ctype] virtual functions
+    [:zh_CN] [`ctype] 的虚函数
 ]
 
 [%@library ctype[!do_is]]
@@ -13,18 +14,25 @@ const charT* do_is(const charT* low, const charT* high,
 [enter:description]
 [para:effects]
 [:en] Classifies a character or sequence of characters.
+[:zh_CN] 分类一个字符或字符的序列。
 
 [:en] For each argument character, identifies a value [`M] of type
 [`ctype_base::mask].
+[:zh_CN] 对于每个实参字符，指定一个 [`ctype_base::mask] 类型的值。
 
 [:en] The second form identifies a value [`M] of type [`ctype_base::mask] for
 each [`*p] where [`(low<=p && p<high)], and places it into [`vec[p-low`]].
+[:zh_CN] 第二种形式为 [`(low<=p && p<high)] 的每个 [`p] 指定一个
+[`ctype_base::mask] 类型的值 [`M]，并将其置于 [`vec[p-low`]] 之中。
 
 [para:returns]
 [:en] The first form returns the result of the expression [`(M & m) != 0]; i.e.,
 [`true] if the character has the characteristics specified.
+[:zh_CN] 第一种形式返回表达式 [`(M & m) != 0] 的结果；亦即，当表达式具有所指定的
+特征时为 [`true]。
 
 [:en] The second form returns [`high].
+[:zh_CN] 第二种形式返回 [`high]。
 [exit:description]
 
 [%@library ctype_base[!do_scan_is]]
@@ -37,10 +45,13 @@ const charT* do_scan_is(mask m,
 [enter:description]
 [para:effects]
 [:en] Locates a character in a buffer that conforms to a classification [`m].
+[:zh_CN] 定位缓冲区中符合分类 [`m] 的字符。
 
 [para:returns]
 [:en] The smallest pointer [`p] in the range [`[low, high)] such that
 [`is(m,*p)] would return [`true]; otherwise, returns [`high].
+[:zh_CN] 范围 [`[low, high)] 中最小的指针 [`p]，使得 [`is(m,*p)] 能够返回
+[`true]；否则返回 [`high]。
 [exit:description]
 
 [%@library ctype[!do_scan_not]]
@@ -54,10 +65,13 @@ const charT* do_scan_not(mask m,
 [para:effects]
 [:en] Locates a character in a buffer that fails to conform to a classification
 [`m].
+[:zh_CN] 定位缓冲区中无法符合分类 [`m] 的字符。
 
 [para:returns]
 [:en] The smallest pointer [`p], if any, in the range [=range[low,high)] such
 that [`is(m,*p)] would return [`false]; otherwise, returns [`high].
+[:zh_CN] 范围 [=range[low,high)] 中最小的指针 [`p]（如果有），使得 [`is(m,*p)]
+能够返回 [`false]；否则返回 [`high]。
 [exit:description]
 
 [%@library ctype[!do_toupper]]
@@ -70,16 +84,21 @@ const charT* do_toupper(charT* low, const charT* high) const;
 [enter:description]
 [para:effects]
 [:en] Converts a character or characters to upper case.
+[:zh_CN] 将字符转换为大写。
 
 [:en] The second form replaces each character [`*p] in the range
 [=range[low,high)] for which a corresponding upper-case character exists, with
 that character.
+[:zh_CN] 第二种形式将范围 [=range[low,high)] 中的每个存在其对应大写字符的字符
+[`*p] 替换为大写字符。
 
 [para:returns]
 [:en] The first form returns the corresponding upper-case character if it is
 known to exist, or its argument if not.
+[:zh_CN] 第一种形式，如果存在则返回其对应大写字符，否则返回其实参。
 
 [:en] The second form returns [`high].
+[:zh_CN] 第二种形式返回 [`high]。
 [exit:description]
 
 [%@library ctype[!do_tolower]]
@@ -92,16 +111,21 @@ const charT* do_tolower(charT* low, const charT* high) const;
 [enter:description]
 [para:effects]
 [:en] Converts a character or characters to lower case.
+[:zh_CN] 将字符转换为小写。
 
 [:en] The second form replaces each character [`*p] in the range
 [=range[low,high)] and for which a corresponding lower-case character exists,
 with that character.
+[:zh_CN] 第二种形式将范围 [=range[low,high)] 中的每个存在其对应小写字符的字符
+[`*p] 替换为小写字符。
 
 [para:returns]
 [:en] The first form returns the corresponding lower-case character if it is
 known to exist, or its argument if not.
+[:zh_CN] 第一种形式，如果存在则返回其对应小写字符，否则返回其实参。
 
 [:en] The second form returns [`high].
+[:zh_CN] 第二种形式返回 [`high]。
 [exit:description]
 
 [%@library ctype[!do_widen]]
@@ -116,33 +140,47 @@ const char*  do_widen(const char* low, const char* high,
 [para:effects]
 [:en] Applies the simplest reasonable transformation from a [`char] value or
 sequence of [`char] values to the corresponding [`charT] value or values.
+[:zh_CN] 实施从一个 [`char] 值或 [`char] 值的序列向其对应 [`charT] 值或其序列的
+最简的合理的变换。
 
 [footnote]
 [:en] The char argument of [`do_widen] is intended to accept values derived from
 character literals for conversion to the locale[=']s encoding.
+[:zh_CN] [`do_widen] 的字符实参预期接受从字符字面量获得的值以转换为该区域的编码
+。
 [footnote:end]
 
 [:en] The only characters for which unique transformations are required are
 those in the basic source character set ([#lex.charset]).
+[:zh_CN] 要求进行唯一的变换的字符仅包括基本源字符集中的字符（[#lex.charset]）。
 
 [para:~]
 [:en] For any named [`ctype] category with a [`ctype<charT>] facet [`ctc] and
 valid [`ctype_base::mask] value [`M], [`(ctc.is(M, c) || !is(M, do_widen(c)) )]
 is [`true].
+[:zh_CN] 对于任何带有 [`ctype<charT>] 刻面 [`ctc] 的有名字的 [`ctype] 范畴，以及
+有效的 [`ctype_base::mask] 值 [`M]，[`(ctc.is(M, c) || !is(M, do_widen(c)) )] 为
+[`true]。
 
 [footnote]
 [:en] In other words, the transformed character is not a member of any character
 classification that [`c] is not also a member of.
+[:zh_CN] 换句话说，如果 [`c] 不是某个字符分类的成员，则转换后的字符也不是其成员
+。
 [footnote:end]
 
 [para:~]
 [:en] The second form transforms each character [`*p] in the range
 [=range[low,high)], placing the result in [`dest[p-low`]].
+[:zh_CN] 第二种形式对范围 [=range[low,high)] 中的每个字符 [`*p] 进行变换，并将
+其结果置于 [`dest[p-low`]] 之中。
 
 [para:returns]
 [:en] The first form returns the transformed value.
+[:zh_CN] 第一种形式返回变换后的值。
 
 [:en] The second form returns [`high].
+[:zh_CN] 第二种形式返回 [`high]。
 [exit:description]
 
 [%@library ctype[!do_narrow]]
@@ -157,10 +195,13 @@ const charT* do_narrow(const charT* low, const charT* high,
 [para:effects]
 [:en] Applies the simplest reasonable transformation from a [`charT] value or
 sequence of [`charT] values to the corresponding [`char] value or values.
+[:zh_CN] 实施从一个 [`charT] 值或 [`charT] 值的序列向其对应 [`char] 值或其序列的
+最简的合理的变换。
 
 [para:~]
 [:en] For any character [`c] in the basic source character set ([#lex.charset])
 the transformation is such that
+[:zh_CN] 对于基本源字符集（[#lex.charset]）中的任何字符 [`c]，其变换为
 
 [codeblock:notation]
 do_widen(do_narrow(c,0)) == c
@@ -168,23 +209,32 @@ do_widen(do_narrow(c,0)) == c
 
 [:en] For any named [`ctype] category with a [`ctype<char>] facet [`ctc]
 however, and [`ctype_base::mask] value [`M],
+[:zh_CN] 对于任何带有 [`ctype<char>] 刻面 [`ct] 的有名字的 [`ctype] 范畴，以及
+[`ctype_base::mask] 值 [`M]
 
 [codeblock:notation]
 (is(M,c) || !ctc.is(M, do_narrow(c,dfault)) )
 [codeblock:end]
 
 [:en@~] is [`true] (unless [`do_narrow] returns [`dfault]).
+[:zh_CN@~] 为 [`true]（除非 [`do_narrow] 返回 [`dfault]）。
 
 [:en] In addition, for any digit character [`c], the expression [`(do_narrow(c,
 dfault) - '0')] evaluates to the digit value of the character.
+[:zh_CN] 此外，对于任意数字字符 [`c]，表达式 [`(do_narrow(c, dfault) - '0')]
+求值为该字符的数字值。
 
 [:en] The second form transforms each character [`*p] in the range
 [=range[low,high)], placing the result (or [`dfault] if no simple transformation
 is readily available) in [`dest[p-low`]].
+[:zh_CN] 第二种形式对范围 [=range[low,high)] 中的每个字符 [`*p] 进行变换，并将
+其结果（或者当不存在简易的变换时，为 [`dfault]）置于 [`dest[p-low`]] 之中。
 
 [para:returns]
 [:en] The first form returns the transformed value; or [`dfault] if no mapping
 is readily available.
+[:zh_CN] 第一种形式返回变换后的值；或者没有简易的映射时为 [`dfault]。
 
 [:en] The second form returns [`high].
+[:zh_CN] 第二种形式返回 [`high]。
 [exit:description]
