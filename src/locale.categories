@@ -1,15 +1,21 @@
 ﻿[section#locale.categories
     [:en] Standard [`locale] categories
+    [:zh_CN] 标准 [`locale] 范畴
 ]
 
 [para]
 [:en]
 Each of the standard categories includes a family of facets.
+[:zh_CN]
+每个标准范畴都包含一族刻面。
 
 [:en]
 Some of these implement formatting or parsing of a datum, for use by standard or
 users[='] iostream operators [`<<] and [`>>], as members [`put()] and [`get()],
 respectively.
+[:zh_CN]
+其中的一些刻面通过成员 [`put()] 和 [`get()] 实现了对数据的格式化或解析，以用于
+标准的或用户的 I/O 流运算符 [`<<] 和 [`>>]。
 
 [:en]
 Each such member function takes an [%@library flags[!ios_base]] [`ios_base&]
@@ -17,31 +23,49 @@ argument whose members [%@library flags[!ios_base]] [`flags()],
 [%@library precision[!ios_base]] [`precision()], and
 [%@library width[!ios_base]] [`width()], specify the format of the corresponding
 datum ([#ios.base]).
+[:zh_CN]
+每个这种成员函数都接受一个 [%@library flags[!ios_base]] [`ios_base&] 实参，其
+成员 [%@library flags[!ios_base]] [`flags()]、[%@library precision[!ios_base]]
+[`precision()] 和 [%@library width[!ios_base]] [`width()] 指定了其对应数据的格式
+（[#ios.base]）。
 
 [:en]
 Those functions which need to use other facets call its member [`getloc()]
 to retrieve the locale imbued there.
+[:zh_CN]
+需要利用其它刻面的函数，均通过调用成员 [`getloc()] 来获得其所浸染的区域。
 
 [:en]
 Formatting facets use the character argument [`fill] to fill out the specified
 width where necessary.
+[:zh_CN]
+如果需要，格式化刻面使用字符形参 [`fill] 来填充所需要的宽度。
 
 [para]
 [:en]
 The [`put()] members make no provision for error reporting.
+[:zh_CN]
+[`put()] 成员不提供任何报错方式。
 
 [:en]
-(Any failures of the OutputIterator argument must be extracted from the returned
-iterator.)
+(Any failures of the [`OutputIterator] argument must be extracted from the
+returned iterator.)
+[:zh_CN]
+（[`OutputIterator] 实参上的任何故障，必须从所返回的迭代器中抽取。）
 
 [:en]
 The [`get()] members take an [`ios_base::iostate&] argument whose value they
 ignore, but set to [`ios_base::failbit] in case of a parse error.
+[:zh_CN]
+[`get()] 成员接受一个 [`ios_base::iostate&] 实参，其值将被忽略，但当发生解析错误
+时将被设为 [`ios_base::failbit]。
 
 [para]
 [:en]
 Within this clause it is unspecified whether one virtual function calls another
 virtual function.
+[:zh_CN]
+在本条款中，虚函数是否会调用另一个虚函数是未指明的。
 
 [include category.ctype]
 
