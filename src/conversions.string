@@ -123,9 +123,9 @@ An object of this class template stores:
 [item]
 [:en] [`cvtptr] [=--] a pointer to the allocated conversion object (which is
 freed when the [`wstring_convert] object is destroyed)
-[:zh_CN]
-[item] [`cvtptr] —— 指向所分配的转换对象的指针（该对象将与 [`wstring_convert]
+[:zh_CN] [`cvtptr] —— 指向所分配的转换对象的指针（该对象将与 [`wstring_convert]
 对象销毁时被释放）
+[item]
 [:en] [`cvtstate] [=--] a conversion state object
 [:zh_CN] [`cvtstate] —— 转换状态对象
 [item]

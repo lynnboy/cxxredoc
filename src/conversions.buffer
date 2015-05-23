@@ -1,5 +1,6 @@
 ﻿[section#conversions.buffer
     [:en] Buffer conversions
+    [:zh_CN] 缓冲区转换
 ]
 
 [para]
@@ -7,13 +8,20 @@
 Class template [`wbuffer_convert] looks like a wide stream buffer, but performs
 all its I/O through an underlying byte stream buffer that you specify when you
 construct it.
+[:zh_CN]
+类模板 [`wbuffer_convert] 形似一种宽流缓冲区，但它通过被构造时所指定的底层字节流
+缓冲区实施其所有的 I/O 操作。
 
 [:en]
 Like class template [`wstring_convert], it lets you specify a code conversion
 facet to perform the conversions, without affecting any streams or locales.
+[:zh_CN]
+与类模板 [`wstring_convert] 相似，它允许指定用以实施转换的代码转换刻面，而不必
+影响任何的流或区域。
 
 [para] [para:synopsis]
 [:en] Class template [`wbuffer_convert] synopsis
+[:zh_CN] 类模板 [`wbuffer_convert] 纲要
 
 [%@library wbuffer_convert]
 [codeblock:synopsis]
@@ -53,24 +61,37 @@ template<class Codecvt,
 The class template describes a stream buffer that controls the transmission of
 elements of type [`Elem], whose character traits are described by the class
 [`Tr], to and from a byte stream buffer of type [`std::streambuf].
+[:zh_CN]
+该类模板描述一种流缓冲区，控制对 [`Elem] 类型的元素（其字节特征通过类 [`Tr] 描述
+），向或者从一个 [`std::streambuf] 类型的字节流缓冲区所进行的传送。
 
 [:en]
 Conversion between a sequence of [`Elem] values and multibyte sequences is
 performed by an object of class [`Codecvt], which shall meet the requirements of
 the standard code-conversion facet [`std::codecvt<Elem, char, std::mbstate_t>].
+[:zh_CN]
+在 [`Elem] 值的序列和多字节序列之间所进行的转换，是通过 [`Codecvt] 类的一个对象
+进行的，它应当符合对于标准代码转换刻面 [`std::codecvt<Elem, char,
+std::mbstate_t>] 的规定。
 
 [para]
 [:en]
 An object of this class template stores:
+[:zh_CN]
+这种类模板的对象中存储：
 
 [list]
 [item]
 [:en] [`bufptr] [=--] a pointer to its underlying byte stream buffer
+[:zh_CN] [`bufptr] —— 指向其底层字节流缓冲区的指针
 [item]
 [:en] [`cvtptr] [=--] a pointer to the allocated conversion object (which is
 freed when the [`wbuffer_convert] object is destroyed)
+[:zh_CN] [`cvtptr] —— 指向所分配的转换对象的指针（该对象将与 [`wstring_convert]
+对象销毁时被释放）
 [item]
 [:en] [`cvtstate] [=--] a conversion state object
+[:zh_CN] [`cvtstate] —— 转换状态对象
 [list:end]
 
 [%@library state[!wbuffer_convert]]
@@ -82,6 +103,7 @@ state_type state() const;
 [enter:description]
 [para:returns]
 [:en] [`cvtstate].
+[:zh_CN] [`cvtstate]。
 [exit:description]
 
 [%@library rdbuf[!wbuffer_convert]]
@@ -93,6 +115,7 @@ std::streambuf* rdbuf() const;
 [enter:description]
 [para:returns]
 [:en] [`bufptr].
+[:zh_CN] [`bufptr]。
 [exit:description]
 
 [%@library rdbuf[!wbuffer_convert]]
@@ -104,9 +127,11 @@ std::streambuf* rdbuf(std::streambuf* bytebuf);
 [enter:description]
 [para:effects]
 [:en] stores [`bytebuf] in [`bufptr].
+[:zh_CN] 将 [`bytebuf] 存储于 [`bufptr] 中。
 
 [para:returns]
 [:en] The previous value of [`bufptr].
+[:zh_CN] [`bufptr] 之前的值。
 [exit:description]
 
 [%@library state_type[!wbuffer_convert]]
@@ -118,9 +143,10 @@ typedef typename Codecvt::state_type state_type;
 [enter:description]
 [para]
 [:en] The type shall be a synonym for [`Codecvt::state_type].
+[:zh_CN] 该类型应当是 [`Codecvt::state_type] 的同义词。
 [exit:description]
 
-[%@library wbuffer_convert}!constructor}%
+[%@library wbuffer_convert[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 explicit wbuffer_convert(std::streambuf* bytebuf = 0,
     Codecvt* pcvt = new Codecvt, state_type state = state_type());
@@ -129,14 +155,17 @@ explicit wbuffer_convert(std::streambuf* bytebuf = 0,
 [enter:description]
 [para:requires]
 [:en] [`pcvt != nullptr].
+[:zh_CN] [`pcvt != nullptr]。
 
 [para:effects]
 [:en] The constructor constructs a stream buffer object, initializes [`bufptr]
 to [`bytebuf], initializes [`cvtptr] to [`pcvt], and initializes [`cvtstate] to
 [`state].
+[:zh_CN] 该构造函数构造一个流缓冲区对象，将 [`bufptr] 初始化为 [`bytebuf]，将
+[`cvtptr] 初始化为 [`pcvt]，将 [`cvtstate] 初始化为 [`state]。
 [exit:description]
 
-[%@library wbuffer_convert[![:en]destructor]]
+[%@library wbuffer_convert[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~wbuffer_convert();
 [codeblock:end]
@@ -144,4 +173,5 @@ to [`bytebuf], initializes [`cvtptr] to [`pcvt], and initializes [`cvtstate] to
 [enter:description]
 [para:effects]
 [:en] The destructor shall delete [`cvtptr].
+[:zh_CN] 该析构函数应当删除 [`cvtptr]。
 [exit:description]
