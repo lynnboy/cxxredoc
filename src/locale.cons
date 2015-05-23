@@ -1,8 +1,9 @@
 ﻿[section#locale.cons
     [:en] [`locale] constructors and destructor
+    [:zh_CN] [`locale] 的构造函数和析构函数
 ]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 locale() noexcept;
 [codeblock:end]
@@ -10,19 +11,25 @@ locale() noexcept;
 [enter:description]
 [para]
 [:en] Default constructor: a snapshot of the current global locale.
+[:zh_CN] 默认构造函数：当前全局区域的一个快照。
 
 [para:effects]
 [:en] Constructs a copy of the argument last passed to
 [`locale::global(locale&)], if it has been called; else, the resulting facets
 have virtual function semantics identical to those of [`locale::classic()].
+[:zh_CN] 为最后传递给 [`locale::global(locale&)] 的实参构造一个副本（如果曾经
+进行过调用）；否则，其结果的各刻面具有与 [`locale::classic()] 中的刻面等同的虚
+函数语义。
 
 [enter:note]
 [:en] This constructor is commonly used as the default value for arguments
 of functions that take a [`const locale&] argument.
+[:zh_CN] 这个构造函数通常用作那些接受一个  [`const locale&] 实参的函数的默认实参
+值。
 [exit:note]
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 locale(const locale& other) noexcept;
 [codeblock:end]
@@ -30,9 +37,10 @@ locale(const locale& other) noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs a locale which is a copy of [`other].
+[:zh_CN] 构造一个区域，作为 [`other] 的副本。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 explicit locale(const char* std_name);
 [codeblock:end]
@@ -40,19 +48,24 @@ explicit locale(const char* std_name);
 [enter:description]
 [para:effects]
 [:en] Constructs a locale using standard C locale names, e.g., [`"POSIX"].
+[:zh_CN] 用标准 C 区域的名字（如 [`"POSIX"]）构造一个区域。
 
 [:en] The resulting locale implements semantics defined to be associated with
 that name.
+[:zh_CN] 其结果区域实现了被定义为与该名字相关联的语义。
 
 [para:throws]
 [:en] [`runtime_error] if the argument is not valid, or is null.
+[:zh_CN] 当其实参无效或者为空时抛出 [`runtime_error]。
 
 [para:notes]
 [:en] The set of valid string argument values is [`"C"], [`""], and any
 [%@impldef locale names] implementation-defined values.
+[:zh_CN] 有效的字符串实参值的集合包括 [`"C"]，[`""]，以及任何[%@impldef 区域的
+名字]由实现定义的值。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 explicit locale(const string& std_name);
 [codeblock:end]
@@ -60,9 +73,10 @@ explicit locale(const string& std_name);
 [enter:description]
 [para:effects]
 [:en] The same as [`locale(std_name.c_str())].
+[:zh_CN] 与 [`locale(std_name.c_str())] 相同。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 locale(const locale& other, const char* std_name, category);
 [codeblock:end]
@@ -72,15 +86,19 @@ locale(const locale& other, const char* std_name, category);
 [:en] Constructs a locale as a copy of [`other] except for the facets identified
 by the [`category] argument, which instead implement the same semantics as
 [`locale(std_name)].
+[:zh_CN] 构造一个 [`other] 的副本，但其中由 [`category] 实参所指定的刻面改为实现
+与 [`locale(std_name)] 相同的语义。
 
 [para:throws]
 [:en] [`runtime_error] if the argument is not valid, or is null.
+[:zh_CN] 如果实参无效或为空则抛出 [`runtime_error]。
 
 [para:notes]
 [:en] The locale has a name if and only if [`other] has a name.
+[:zh_CN] 当且仅当 [`other] 有名字时这个区域具有名字。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 locale(const locale& other, const string& std_name, category cat);
 [codeblock:end]
@@ -88,9 +106,10 @@ locale(const locale& other, const string& std_name, category cat);
 [enter:description]
 [para:effects]
 [:en] The same as [`locale(other, std_name.c_str(), cat)].
+[:zh_CN] 与 [`locale(other, std_name.c_str(), cat)] 相同。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 template <class Facet> locale(const locale& other, Facet* f);
 [codeblock:end]
@@ -100,14 +119,18 @@ template <class Facet> locale(const locale& other, Facet* f);
 [:en] Constructs a locale incorporating all facets from the first argument
 except that of type [`Facet], and installs the second argument as the remaining
 facet.
+[:zh_CN] 构造一个包含来自其第一个实参的除了类型 [`Facet] 之外的所有刻面的区域，
+并将其第二个实参安装为剩余的刻面。
 
 [:en] If [`f] is null, the resulting object is a copy of [`other].
+[:zh_CN] 若 [`f] 为空，则结果对象即为 [`other] 的副本。
 
 [para:notes]
 [:en] The resulting locale has no name.
+[:zh_CN] 结果区域没有名字。
 [exit:description]
 
-[%@library locale[![:en]constructor]]
+[%@library locale[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 locale(const locale& other, const locale& one, category cats);
 [codeblock:end]
@@ -117,10 +140,13 @@ locale(const locale& other, const locale& one, category cats);
 [:en] Constructs a locale incorporating all facets from the first argument
 except those that implement [`cats], which are instead incorporated from the
 second argument.
+[:zh_CN] 构造一个包含来自其第一个实参的所有刻面的区域，但其中实现 [`cats] 的刻面
+改为由其第二个实参所包含的刻面。
 
 [para:notes]
 [:en] The resulting locale has a name if and only if the first two arguments
 have names.
+[:zh_CN] 当且仅当其前两个实参具有名字时，结果区域具有名字。
 [exit:description]
 
 [%@library operator=[!locale]]
@@ -132,12 +158,13 @@ const locale& operator=(const locale& other) noexcept;
 [enter:description]
 [para:effects]
 [:en] Creates a copy of [`other], replacing the current value.
+[:zh_CN] 创建 [`other] 的副本，并以之替换其当前值。
 
 [para:returns]
-[:en] [`*this]
+[`*this]
 [exit:description]
 
-[%@library locale[![:en]destructor]]
+[%@library locale[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~locale();
 [codeblock:end]
@@ -145,4 +172,5 @@ const locale& operator=(const locale& other) noexcept;
 [enter:description]
 [para]
 [:en] A non-virtual destructor that throws no exceptions.
+[:zh_CN] 一个不会抛出任何异常的非虚析构函数。
 [exit:description]
