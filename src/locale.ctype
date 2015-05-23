@@ -1,5 +1,6 @@
 ﻿[section#locale.ctype
     [:en] Class template [`ctype]
+    [:zh_CN] 类模板 [`ctype]
 ]
 
 [%@library ctype]
@@ -57,16 +58,24 @@ namespace std {
 [para]
 [:en]
 Class [`ctype] encapsulates the C library [`<cctype>] features.
+[:zh_CN]
+类 [`ctype] 封装了 C 程序库 [`<cctype>] 的功能特性。
 
 [:en]
 [`istream] members are required to use [`ctype<>] for character classing during
 input parsing.
+[:zh_CN]
+要求 [`istream] 的成员在进行输入解析中使用 [`ctype<>] 以进行字符分类。
 
 [para]
 [:en]
 The specializations required in Table [#tab:localization.category.facets]
 ([#locale.category]), namely [`ctype<char>] and [`ctype<wchar_t>], implement
 character classing appropriate to the implementation[=']s native character set.
+[:zh_CN]
+在表 [#tab:localization.category.facets] 中所要求的特例（[#locale.category]），
+亦即 [`ctype<char>] 和 [`ctype<wchar_t]，实现了该实现的本地字符集的适当的类型
+分类。
 
 [include locale.ctype.members]
 
