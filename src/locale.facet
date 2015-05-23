@@ -1,5 +1,6 @@
 ﻿[section#locale.facet
     [:en] Class [`locale::facet]
+    [:zh_CN] 类 [`locale::facet]
 ]
 
 [%@library locale[!facet]]
@@ -20,19 +21,29 @@ namespace std {
 [:en]
 Template parameters in this Clause which are required to be facets are those
 named [`Facet] in declarations.
+[:zh_CN]
+本条款中规定作为刻面的模板形参，在声明式中被命名为 [`Facet]。
 
 [:en]
 A program that passes a type that is [em not] a facet, or a type that refers to
 a volatile-qualified facet, as an (explicit or deduced) template parameter to a
-locale function expecting a facet, is ill-formed.
+[`locale] function expecting a facet, is ill-formed.
+[:zh_CN]
+将[em 并非]刻面的类型，或者代表被 volatile-限定的刻面的类型，作为（显式或被推断
+的）模板形参传递给预期刻面的 [`locale] 函数，这样的程序是非良构的。
 
 [:en]
-A const-qualified facet is a valid template argument to any locale function that
-expects a Facet template parameter.
+A const-qualified facet is a valid template argument to any [`locale] function
+that expects a [`Facet] template parameter.
+[:zh_CN]
+对于预期 [`Facet] 模板形参的任意 [`locale] 函数，被 const-限定的刻面是有效的模板
+实参。
 
 [para]
 [:en]
 The [`refs] argument to the constructor is used for lifetime management.
+[:zh_CN]
+构造函数的 [`refs] 实参用于进行生存期管理。
 
 [list]
 [item]
@@ -41,33 +52,54 @@ For [`refs == 0], the implementation performs
 [`delete static_cast<locale::facet*>(f)] (where [`f] is a pointer to the facet)
 when the last [`locale] object containing the facet is destroyed; for
 [`refs == 1], the implementation never destroys the facet.
+[:zh_CN]
+若 [`refs == 0]，则当最后一个包含该刻面的 [`locale] 对象被销毁时，实现将实施
+[`delete static_cast<locale::facet*>(f)]（其中 [`f] 为指向该刻面的指针）；若
+[`refs == 1]，则实现不会销毁该刻面。
 [list:end]
 
 [para]
 [:en]
 Constructors of all facets defined in this Clause take such an argument and pass
 it along to their [`facet] base class constructor.
+[:zh_CN]
+定义与本条款中的所有刻面的构造函数，接受这样的实参并将其传递给它们的 [`facet]
+基类构造函数。
 
 [:en]
 All one-argument constructors defined in this Clause are [+explicit], preventing
 their participation in automatic conversions.
+[:zh_CN]
+本条款中定义的所有单实参构造函数都是[+显式]的，以防止它们参与自动的转换。
 
 [para]
 [:en]
 For some standard facets a standard ["[=ldots][`_byname]] class, derived from
 it, implements the virtual function semantics equivalent to that facet of the
 locale constructed by [`locale(const char*)] with the same name.
+[:zh_CN]
+一些标准刻面具有一个从其派生的标准的“[=ldots][`_byname]”类，其所实现的虚函数语义
+等价于以相同的名字通过 [`locale(const char*)] 所构造的区域中的这个刻面。
 
 [:en]
 Each such facet provides a constructor that takes a [`const char*] argument,
 which names the locale, and a [`refs] argument, which is passed to the base
 class constructor.
+[:zh_CN]
+每个这种刻面都提供接受一个用以指名其区域 [`const char*] 实参，以及一个被传递给
+基类构造函数的 [`refs] 实参的构造函数。
 
 [:en]
 Each such facet also provides a constructor that takes a [`string] argument
 [`str] and a [`refs] argument, which has the same effect as calling the first
 constructor with the two arguments [`str.c_str()] and [`refs].
+[:zh_CN]
+每个这种刻面还提供接受一个 [`string] 实参和一个 [`refs] 实参的构造函数，并与以
+两个实参 [`str.c_str()] 和 [`refs] 对第一种实参进行调用具有相同的效果。
 
 [:en]
 If there is no ["[=ldots][`_byname]] version of a facet, the base class
 implements named locale semantics itself by reference to other facets.
+[:zh_CN]
+如果没有某个刻面的“[=ldots][`_byname]”版本，则其基类自身通过引用其他刻面来实现
+具名区域的语义。
