@@ -1,5 +1,6 @@
 ﻿[section#category.ctype
     [:en] The [`ctype] category
+    [:zh_CN] [`ctype] 范畴
 ]
 
 [%@library ctype_base]
@@ -10,6 +11,7 @@ namespace std {
     typedef T mask;
 
     // [:en] numeric values are for exposition only.
+    // [|:zh_CN] 以下数值仅用于阐释
     static const mask space = 1 << 0;
     static const mask print = 1 << 1;
     static const mask cntrl = 1 << 2;
@@ -29,6 +31,8 @@ namespace std {
 [para]
 [:en]
 The type [`mask] is a bitmask type ([#bitmask.types]).
+[:zh_CN]
+类型 [`mask] 是一种掩码类型（[#bitmask.types]）。
 
 [include locale.ctype]
 
