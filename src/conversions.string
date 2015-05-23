@@ -1,21 +1,30 @@
 ﻿[section#conversions.string
     [:en] [`string] conversions
+    [:zh_CN] [`string] 的转换
 ]
 
 [para]
 [:en]
 Class template [`wstring_convert] performs conversions between a wide string and
 a byte string.
+[:zh_CN]
+类模板 [`wstring_convert] 在宽字符串和字节字符串之间实施转换。
 
 [:en]
 It lets you specify a code conversion facet (like class template [`codecvt]) to
 perform the conversions, without affecting any streams or locales.
+[:zh_CN]
+允许为其提供一个用来实施转换的代码转换刻面（比如类模板 [`codecvt]），而不必影响
+任何的流或者区域。
 
 [enter:example]
 [:en]
 If you want to use the code conversion facet [`codecvt_utf8] to output to
 [`cout] a UTF-8 multibyte sequence corresponding to a wide string, but you
 don[=']t want to alter the locale for [`cout], you can write something like:
+[:zh_CN]
+如果想要使用代码转换刻面 [`codecvt_utf8]，将对应于宽字符串的 UTF-8 多字节序列
+输出到 [`cout]，但又不想改变 [`cout] 的区域，则可以写类似这样的代码：
 
 [codeblock]
 wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
@@ -26,6 +35,7 @@ std::cout << mbstring;
 
 [para] [para:synopsis]
 [:en] Class template [`wstring_convert] synopsis
+[:zh_CN] 类模板 [`wstring_convert] 纲要
 
 [%@library wstring_convert]
 [codeblock:synopsis]
@@ -76,33 +86,51 @@ The class template describes an object that controls conversions between wide
 string objects of class [`std::basic_string<Elem, char_traits<Elem>,
 Wide_alloc>] and byte string objects of class [`std::basic_string<char,
 char_traits<char>, Byte_alloc>].
+[:zh_CN]
+该类模板描述一种对象，控制在 [`std::basic_string<Elem, char_traits<Elem>,
+Wide_alloc>] 类的宽字符串对象，和 [`std::basic_string<char, char_traits<char>,
+Byte_alloc>] 类的字节字符串对象之间的转换。
 
 [:en]
 The class template defines the types [`wide_string] and [`byte_string] as
 synonyms for these two types.
+[:zh_CN]
+该类模板定义类型 [`wide_string] 和 [`byte_string] 作为这两种类型的别名。
 
 [:en]
 Conversion between a sequence of [`Elem] values (stored in a [`wide_string]
 object) and multibyte sequences (stored in a [`byte_string] object) is performed
 by an object of class [`Codecvt], which meets the requirements of the standard
 code-conversion facet [`std::codecvt<Elem, char, std::mbstate_t>].
+[:zh_CN]
+在 [`Elem] 值的序列（存储于 [`wide_string] 对象中）和多字节序列（存储于
+[`byte_string] 对象中）之间所进行的转换，是通过 [`Codecvt] 类的一个对象进行的，
+它符合对于标准代码转换刻面 [`std::codecvt<Elem, char, std::mbstate_t>] 的规定。
 
 [para]
 [:en]
 An object of this class template stores:
+[:zh_CN]
+这种类模板的对象中存储：
 
 [list]
 [item]
 [:en] [`byte_err_string] [=--] a byte string to display on errors
+[:zh_CN] [`byte_err_string] —— 发生错误时显示的字节字符串
 [item]
 [:en] [`wide_err_string] [=--] a wide string to display on errors
+[:zh_CN] [`wide_err_string] —— 发生错误时显示的宽字符串
 [item]
 [:en] [`cvtptr] [=--] a pointer to the allocated conversion object (which is
 freed when the [`wstring_convert] object is destroyed)
-[item]
+[:zh_CN]
+[item] [`cvtptr] —— 指向所分配的转换对象的指针（该对象将与 [`wstring_convert]
+对象销毁时被释放）
 [:en] [`cvtstate] [=--] a conversion state object
+[:zh_CN] [`cvtstate] —— 转换状态对象
 [item]
 [:en] [`cvtcount] [=--] a conversion count
+[:zh_CN] [`cvtcount] —— 转换计数器
 [list:end]
 
 [%@library byte_string[!wstring_convert]]
@@ -115,6 +143,8 @@ typedef std::basic_string<char, char_traits<char>, Byte_alloc> byte_string;
 [para]
 [:en] The type shall be a synonym for [`std::basic_string<char,
 char_traits<char>, Byte_alloc>]
+[:zh_CN] 该类型应当是 [`std::basic_string<char, char_traits<char>, Byte_alloc>]
+的同义词
 [exit:description]
 
 [%@library converted[!wstring_convert]]
@@ -126,6 +156,7 @@ size_t converted() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`cvtcount].
+[:zh_CN] [`cvtcount]。
 [exit:description]
 
 [%@library from_bytes[!wstring_convert]]
@@ -141,41 +172,55 @@ wide_string from_bytes(const char* first, const char* last);
 [para:effects]
 [:en] The first member function shall convert the single-element sequence
 [`byte] to a wide string.
+[:zh_CN] 第一个成员函数应当将单元素序列 [`byte] 转换为宽字符串。
 
 [:en] The second member function shall convert the null-terminated sequence
 beginning at [`ptr] to a wide string.
+[:zh_CN] 第二个成员函数应当将以 [`ptr] 开始的空终结序列转换为宽字符串。
 
 [:en] The third member function shall convert the sequence stored in [`str] to
 a wide string.
+[:zh_CN] 第三个成员函数应当将存储于 [`str] 中的序列转换为宽字符串。
 
 [:en] The fourth member function shall convert the sequence defined by the range
 [=range[first,last)] to a wide string.
+[:zh_CN] 第四个成员函数应当将由范围 [=range[first,last)] 所定义的序列转换为宽
+字符串。
 
 [para]
 [:en] In all cases:
+[:zh_CN] 所有情况中：
 
 [list]
 [item]
 [:en] If the [`cvtstate] object was not constructed with an explicit value, it
 shall be set to its default value (the initial conversion state) before the
 conversion begins.
+[:zh_CN] 如果 [`cvtstate] 对象并未以明确的值构造，则它应当在转换开始前被设为其
+默认值（初始转换状态）。
 
 [:en] Otherwise it shall be left unchanged.
+[:zh_CN] 否则不改动它的值。
 
 [item]
 [:en] The number of input elements successfully converted shall be stored in
 [`cvtcount].
+[:zh_CN] 成功进行了转换的输入元素的数量被存储于 [`cvtcont] 中。
 [list:end]
 
 [para:returns]
 [:en] If no conversion error occurs, the member function shall return the
 converted wide string.
+[:zh_CN] 如果未发生转换错误，则成员函数应当返回所转换的宽字符串。
 
 [:en] Otherwise, if the object was constructed with a wide-error string, the
 member function shall return the wide-error string.
+[:zh_CN] 否则，如果该对象被构造为带有一个宽报错字符串，则成员函数应当返回这个
+宽报错字符串。
 
 [:en] Otherwise, the member function throws an object of class
 [`std::range_error].
+[:zh_CN] 否则，该成员函数抛出 [`std::range_error] 的一个对象。
 [exit:description]
 
 [%@library int_type[!wstring_convert]]
@@ -186,6 +231,7 @@ typedef typename wide_string::traits_type::int_type int_type;
 
 [enter:description]
 [:en] The type shall be a synonym for [`wide_string::traits_type::int_type].
+[:zh_CN] 该类型应当是 [`wide_string::traits_type::int_type] 的同义词。
 [exit:description]
 
 [%@library state[!wstring_convert]]
@@ -197,6 +243,7 @@ state_type state() const;
 [enter:description]
 [para]
 [:en] returns [`cvtstate].
+[:zh_CN] 返回 [`cvtstate]。
 [exit:description]
 
 [%@library state_type[!wstring_convert]]
@@ -208,6 +255,7 @@ typedef typename Codecvt::state_type state_type;
 [enter:description]
 [para]
 [:en] The type shall be a synonym for [`Codecvt::state_type].
+[:zh_CN] 该类型应当是 [`Codecvt::state_type] 的同义词。
 [exit:description]
 
 [%@library to_bytes[!wstring_convert]]
@@ -223,41 +271,57 @@ byte_string to_bytes(const Elem* first, const Elem* last);
 [para:effects]
 [:en] The first member function shall convert the single-element sequence
 [`wchar] to a byte string.
+[:zh_CN] 第一个成员函数应当将单元素序列 [`wchar] 转换为字节字符串。
 
 [:en] The second member function shall convert the null-terminated sequence
 beginning at [`wptr] to a byte string.
+[:zh_CN] 第二个成员函数应当将以 [`wptr] 开始的空终结序列转换为字节字符串。
 
 [:en] The third member function shall convert the sequence stored in [`wstr] to
 a byte string.
+[:zh_CN] 第三个成员函数应当将存储于 [`wstr] 中的序列转换为字节字符串。
 
 [:en] The fourth member function shall convert the sequence defined by the range
 [=range[first,last)] to a byte string.
+[:zh_CN] 第四个成员函数应当将由范围 [=range[first,last)] 所定义的序列转换为字节
+字符串。
 
 [para]
 [:en] In all cases:
+[:zh_CN] 所有情况中：
 
 [list]
 [item]
 [:en] If the [`cvtstate] object was not constructed with an explicit value, it
 shall be set to its default value (the initial conversion state) before the
 conversion begins.
+[:zh_CN] 如果 [`cvtstate] 对象并未以明确的值构造，则它应当在转换开始前被设为其
+默认值（初始转换状态）。
 
 [:en] Otherwise it shall be left unchanged.
+[:zh_CN] 否则不改动它的值。
 
 [item]
 [:en] The number of input elements successfully converted shall be stored in
 [`cvtcount].
+[:zh_CN] 成功进行了转换的输入元素的数量被存储于 [`cvtcont] 中。
 [list:end]
 
 [para:returns]
 [:en] If no conversion error occurs, the member function shall return the
 converted byte string.
+[:en] If no conversion error occurs, the member function shall return the
+converted wide string.
+[:zh_CN] 如果未发生转换错误，则成员函数应当返回所转换的字节字符串。
 
 [:en] Otherwise, if the object was constructed with a byte-error string, the
 member function shall return the byte-error string.
+[:zh_CN] 否则，如果该对象被构造为带有一个字节报错字符串，则成员函数应当返回这个
+字节报错字符串。
 
 [:en] Otherwise, the member function shall throw an object of class
 [`std::range_error].
+[:zh_CN] 否则，该成员函数应当抛出 [`std::range_error] 的一个对象。
 [exit:description]
 
 [%@library wide_string[!wstring_convert]]
@@ -270,9 +334,11 @@ typedef std::basic_string<Elem, char_traits<Elem>, Wide_alloc> wide_string;
 [para]
 [:en] The type shall be a synonym for [`std::basic_string<Elem,
 char_traits<Elem>, Wide_alloc>].
+[:zh_CN] 该类型应当是 [`std::basic_string<Elem, char_traits<Elem>, Wide_alloc>]
+的同义词。
 [exit:description]
 
-[%@library wstring_convert[![:en]constructor]]
+[%@library wstring_convert[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 explicit wstring_convert(Codecvt* pcvt = new Codecvt);
 wstring_convert(Codecvt* pcvt, state_type state);
@@ -283,22 +349,31 @@ explicit wstring_convert(const byte_string& byte_err,
 [enter:description]
 [para:requires]
 [:en] For the first and second constructors, [`pcvt != nullptr].
+[:zh_CN] 对于第一个和第二个构造函数，[`pcvt != nullptr]。
 
 [para:effects]
 [:en] The first constructor shall store [`pcvt] in [`cvtptr] and default values
 in [`cvtstate], [`byte_err_string], and [`wide_err_string].
+[:zh_CN] 第一个构造函数应当将 [`pcvt] 存储于 [`cvtptr] 中，并为 [`cvtstate]、
+[`byte_err_string] 和 [`wide_err_string] 存储默认值。
 
 [:en] The second constructor shall store [`pcvt] in [`cvtptr], [`state] in
 [`cvtstate], and default values in [`byte_err_string] and [`wide_err_string];
 moreover the stored state shall be retained between calls to [`from_bytes] and
 [`to_bytes].
+[:zh_CN] 第二个构造函数应当将 [`pcvt] 存储于 [`cvtptr] 中，将 [`state] 存储于
+[`cvtstate] 中，并为 [`byte_err_string] 和 [`wide_err_string] 存储默认值；所存储
+的状态应当在 [`from_bytes] 和 [`to_bytes] 的调用之间保持。
 
 [:en] The third constructor shall store [`new Codecvt] in [`cvtptr],
 [`state_type()] in [`cvtstate], [`byte_err] in [`byte_err_string], and
 [`wide_err] in [`wide_err_string].
+[:zh_CN] 第三个构造函数应当将 [`new Codecvt] 存储于 [`cvtptr] 中，将
+[`state_type()] 存储于 [`cvtstate] 中，将 [`byte_err] 存储于 [`byte_err_string]
+中，并将 [`wide_err] 存储于 [`wide_err_string] 中。
 [exit:description]
 
-[%@library wstring_convert[![:en]destructor]]
+[%@library wstring_convert[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~wstring_convert();
 [codeblock:end]
@@ -306,4 +381,5 @@ moreover the stored state shall be retained between calls to [`from_bytes] and
 [enter:description]
 [para:effects]
 [:en] The destructor shall delete [`cvtptr].
+[:zh_CN] 该析构函数应当删除 [`cvtptr]。
 [exit:description]
