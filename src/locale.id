@@ -1,5 +1,6 @@
 ﻿[section#locale.id
     [:en] Class [`locale::id]
+    [:zh_CN] 类 [`locale::id]
 ]
 
 [%@library locale[!id]]
@@ -17,20 +18,31 @@ namespace std {
 
 [para]
 [:en]
-The class locale::id provides identification of a locale facet interface, used
-as an index for lookup and to encapsulate initialization.
+The class [`locale::id] provides identification of a locale facet interface,
+used as an index for lookup and to encapsulate initialization.
+[:zh_CN]
+类 [`locale::id] 为区域刻面的接口提供标识，用作进行查找时的索引，以及封装其
+初始化。
 
 [para]
 [enter:note]
 [:en]
 Because facets are used by iostreams, potentially while static constructors are
 running, their initialization cannot depend on programmed static initialization.
+[:zh_CN]
+因为刻面可能是被 I/O 流，于执行静态的构造函数过程中使用，它们的初始化不能依赖于
+程序中指定的静态初始化。
 
 [:en]
 One initialization strategy is for [`locale] to initialize each facet[=']s [`id]
 member the first time an instance of the facet is installed into a locale.
+[:zh_CN]
+一种 [`locale] 的初始化策略，是为每个刻面的 [`id] 成员，在每当该刻面的一个实例
+第一次被安装到某个区域中时进行初始化。
 
 [:en]
 This depends only on static storage being zero before constructors run
 ([#basic.start.init]).
+[:zh_CN]
+这只依赖于静态存储在执行构造函数之前应当具有零值（[#basic.start.init]）。
 [exit:note]
