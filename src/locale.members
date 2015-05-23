@@ -1,5 +1,6 @@
 ﻿[section#locale.members
     [:en] [`locale] members
+    [:zh_CN] [`locale] 的成员
 ]
 
 [%@library locale[!combine]]
@@ -12,15 +13,20 @@ template <class Facet> locale combine(const locale& other) const;
 [para:effects]
 [:en] Constructs a locale incorporating all facets from [`*this] except for that
 one facet of [`other] that is identified by [`Facet].
+[:zh_CN] 构造一个包括 [`*this] 中的所有刻面的区域，但由 [`Facet] 所指定的刻面
+来自 [`other]。
 
 [para:returns]
 [:en] The newly created locale.
+[:zh_CN] 新创建的区域。
 
 [para:throws]
 [:en] [`runtime_error] if [`has_facet<Facet>(other)] is false.
+[:zh_CN] 当 [`has_facet<Facet>(other)] 为假时抛出 [`runtime_error]。
 
 [para:notes]
 [:en] The resulting locale has no name.
+[:zh_CN] 其结果区域没有名字。
 [exit:description]
 
 [%@library locale[!name]]
@@ -32,10 +38,13 @@ basic_string<char> name() const;
 [enter:description]
 [para:returns]
 [:en] The name of [`*this], if it has one; otherwise, the string [`"*"].
+[:zh_CN] 如果 [`*this] 有名字则为其名字；否则为字符串 [`"*"]。
 
 [:en] If [`*this] has a name, then [`locale(name().c_str())] is equivalent to
 [`*this].
+[:zh_CN] 如果 [`*this] 有名字，则 [`locale(name().c_str())] 等价于 [`*this]。
 
 [:en] Details of the contents of the resulting string are otherwise
 [%implementation-defined] implementation-defined.
+[:zh_CN] 其结果字符串的内容细节是另[%由实现定义的]由实现定义的。
 [exit:description]
