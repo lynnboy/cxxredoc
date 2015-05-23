@@ -1,5 +1,6 @@
 ﻿[section#locale.category
     [:en] Type [`locale::category]
+    [:zh_CN] 类型 [`locale::category]
 ]
 
 [%@library locale[!category]]
@@ -13,13 +14,21 @@ typedef int category;
 [+Valid] [`category] values include the [`locale] member bitmask elements
 [`collate], [`ctype], [`monetary], [`numeric], [`time], and [`messages], each of
 which represents a single locale category.
+[:zh_CN]
+[+有效]的 [`category] 值包括 [`locale] 的成员掩码元素 [`collate]，[`ctype]，
+[`monetary]，[`numeric]，[`time]，以及 [`message]，它们每一个都代表一种区域范畴
+。
 
 [:en]
 In addition, [`locale] member bitmask constant [`none] is defined as zero and
 represents no category.
+[:zh_CN]
+此外，[`locale] 成员掩码常量 [`none] 被定义为零并且表示无范畴。
 
 [:en]
 And [`locale] member bitmask constant [`all] is defined such that the expression
+[:zh_CN]
+而 [`locale] 成员掩码常量 [`all] 被定义为使得表达式
 
 [codeblock:notation]
 (collate | ctype | monetary | numeric | time | messages | all) == all
@@ -27,31 +36,46 @@ And [`locale] member bitmask constant [`all] is defined such that the expression
 
 [:en@~]
 is [`true], and represents the union of all categories.
+[:zh_CN@~]
+为 [`true]，并用于代表所有范畴的联合。
 
 [:en]
 Further, the expression [`(X | Y)], where [`X] and [`Y] each represent a single
 category, represents the union of the two categories.
+[:zh_CN]
+此外，若 [`X] 和 [`Y] 各自表示一种范畴，则表达式 [`(X | Y)] 表示两种范畴的联合。
 
 [para]
 [:en]
 [`locale] member functions expecting a [`category] argument require one of the
 [`category] values defined above, or the union of two or more such values.
+[:zh_CN]
+[`locale] 的成员函数预期其 [`category] 实参为上述所定义的 [`category] 值之一，
+或者是两个或更多这种值的联合。
 
 [:en]
 Such a [`category] value identifies a set of locale categories.
+[:zh_CN]
+这种 [`category] 值确定一组区域范畴。
 
 [:en]
 Each locale category, in turn, identifies a set of locale facets, including at
 least those shown in Table [#tab:localization.category.facets].
+[:zh_CN]
+每种区域范畴各自确定一组区域刻面，其中至少包括表
+[#tab:localization.category.facets] 中所示的这些。
 
 [table:listing#tab:localization.category.facets
     [:en] Locale category facets
+    [:zh_CN] 区域范畴的刻面
     [columns
         [column@headercenter
             [:en] Category
+            [:zh_CN] 范畴
         ]
         [column@headercenter
             [:en] Includes facets
+            [:zh_CN] 包含的刻面
         ]
     ]
     [border:row@both]
@@ -88,25 +112,38 @@ least those shown in Table [#tab:localization.category.facets].
 For any locale [`loc] either constructed, or returned by [`locale::classic()],
 and any facet [`Facet] shown in Table [#tab:localization.category.facets],
 [`has_facet<Facet>(loc)] is true.
+[:zh_CN]
+对于构造成的，或者从 [`locale::classic()] 所返回的任何区域 [`loc]，以及表
+[#tab:localization.category.facets] 所示的任何刻面 [`Facet]，
+[`has_facet<Facet>(loc)] 均为真。
 
 [:en]
 Each [`locale] member function which takes a [`locale::category] argument
 operates on the corresponding set of facets.
+[:zh_CN]
+每个接受一个 [`locale::category] 实参的 [`locale] 成员函数，都在其所对应的刻面组
+上进行操作。
 
 [para]
 [:en]
 An implementation is required to provide those specializations for facet
 templates identified as members of a category, and for those shown in Table
 [#tab:localization.required.specializations].
+[:zh_CN]
+实现必须为所指定为某个范畴的成员的刻面模板，以及展示于表
+[#tab:localization.required.specializations] 中的刻面提供特化式。
 
 [table:listing#tab:localization.required.specializations
     [:en] Required specializations
+    [:zh_CN]
     [columns
         [column@headercenter
             [:en] Category
+            [:zh_CN] 范畴
         ]
         [column@headercenter
             [:en] Includes facets
+            [:zh_CN] 所包含的刻面
         ]
     ]
     [border:row@both]
@@ -151,6 +188,11 @@ The provided implementation of members of facets [`num_get<charT>] and
 [`num_put<charT>] calls [`use_facet<F>(l)] only for facet [`F] of types
 [`numpunct<charT>] and [`ctype<charT>], and for locale [`l] the value obtained
 by calling member [`getloc()] on the [`ios_base&] argument to these functions.
+[:zh_CN]
+为 [`num_get<charT>] 和 [`num_put<charT>] 的成员所提供的实现，所调用的
+[`use_facet<F>(l)]，只会涉及类型 [`numpunct<charT>] 和 [`ctype<charT>] 的刻面
+[`F]，以及通过对这些函数的 [`ios_base&] 实参调用成员 [`getloc()] 所获得的区域
+[`l]。
 
 [para]
 [:en]
@@ -158,13 +200,23 @@ In declarations of facets, a template parameter with name [`InputIterator] or
 [`OutputIterator] indicates the set of all possible specializations on
 parameters that satisfy the requirements of an Input Iterator or an Output
 Iterator, respectively ([#iterator.requirements]).
+[:zh_CN]
+在刻面的各个声明式中，名为 [`InputIterator] 或 [`OutputIterator] 模板形参，分别
+指定能够满足对输入迭代器和输出迭代器的规定（[#iterator.requirements]）的所有可能
+特例的集合。
 
 [:en]
 A template parameter with name [`C] represents the set of types containing
 [`char], [`wchar_t], and any other implementation-defined character types that
 satisfy the requirements for a character on which any of the iostream components
 can be instantiated.
+[:zh_CN]
+名为 [`C] 的模板形参代表一个类型集合，包括 [`char]，[`wchar_t]，以及其他由实现
+定义的任何字符类型，并能够满足对字符的规定：可以以之为任何 I/O 流组件进行实例化
+。
 
 [:en]
 A template parameter with name [`International] represents the set of all
 possible specializations on a bool parameter.
+[:zh_CN]
+名为 [`International] 的模板形参代表对于 [`bool] 形参的所有可能特例的集合。
