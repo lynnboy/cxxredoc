@@ -1,5 +1,6 @@
 ﻿[section#facet.ctype.char.statics
     [:en] [`ctype<char>] static members
+    [:zh_CN] [`ctype<char>] 的静态成员
 ]
 
 [%@library ctype<char>[!classic_table]]
@@ -12,4 +13,6 @@ static const mask* classic_table() noexcept;
 [para:returns]
 [:en] A pointer to the initial element of an array of size [`table_size] which
 represents the classifications of characters in the "C" locale.
+[:zh_CN] 指向大小为 [`table_size] 的数组的开头元素的指针，该数组代表字符在 "C"
+区域中的分类。
 [exit:description]
