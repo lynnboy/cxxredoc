@@ -1,5 +1,6 @@
 ﻿[section#locale.ctype.members
     [:en] [`ctype] members
+    [:zh_CN] [`ctype] 的成员
 ]
 
 [%@library ctype[!is]]
@@ -13,6 +14,7 @@ const charT* is(const charT* low, const charT* high,
 [enter:description]
 [para:returns]
 [:en] [`do_is(m,c)] or [`do_is(low,high,vec)]
+[:zh_CN] [`do_is(m,c)] 或 [`do_is(low,high,vec)]
 [exit:description]
 
 [%@library ctype[!scan_is]]
@@ -24,7 +26,7 @@ const charT* scan_is(mask m,
 
 [enter:description]
 [para:returns]
-[:en] [`do_scan_is(m,low,high)]
+[`do_scan_is(m,low,high)]
 [exit:description]
 
 [%@library ctype[!scan_not]]
@@ -36,7 +38,7 @@ const charT* scan_not(mask m,
 
 [enter:description]
 [para:returns]
-[:en] [`do_scan_not(m,low,high)]
+[`do_scan_not(m,low,high)]
 [exit:description]
 
 [%@library ctype[!toupper]]
@@ -49,6 +51,7 @@ const charT* toupper(charT* low, const charT* high) const;
 [enter:description]
 [para:returns]
 [:en] [`do_toupper(c)] or [`do_toupper(low,high)]
+[:zh_CN] [`do_toupper(c)] 或 [`do_toupper(low,high)]
 [exit:description]
 
 [%@library ctype[!tolower]]
@@ -61,6 +64,7 @@ const charT* tolower(charT* low, const charT* high) const;
 [enter:description]
 [para:returns]
 [:en] [`do_tolower(c)] or [`do_tolower(low,high)]
+[:zh_CN] [`do_tolower(c)] 或 [`do_tolower(low,high)]
 [exit:description]
 
 [%@library ctype[!widen]]
@@ -73,6 +77,7 @@ const char* widen(const char* low, const char* high, charT* to) const;
 [enter:description]
 [para:returns]
 [:en] [`do_widen(c)] or [`do_widen(low,high,to)]
+[:zh_CN] [`do_widen(c)] 或 [`do_widen(low,high,to)]
 [exit:description]
 
 [%@library ctype[!narrow]]
@@ -86,4 +91,5 @@ const charT* narrow(const charT* low, const charT*, char dfault,
 [enter:description]
 [para:returns]
 [:en] [`do_narrow(c,dfault)] or [`do_narrow(low,high,dfault,to)]
+[:zh_CN] [`do_narrow(c,dfault)] 或 [`do_narrow(low,high,dfault,to)]
 [exit:description]
