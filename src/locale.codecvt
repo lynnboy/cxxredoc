@@ -1,5 +1,6 @@
 ﻿[section#locale.codecvt
     [:en] Class template [`codecvt]
+    [:zh_CN] 类模板 [`codecvt]
 ]
 
 [%@library codecvt]
@@ -59,41 +60,64 @@ namespace std {
 The class [`codecvt<internT,externT,stateT>] is for use when converting from one
 character encoding to another, such as from wide characters to multibyte
 characters or between wide character encodings such as Unicode and EUC.
+[:zh_CN]
+类 [`codecvt<internT,externT,stateT>] 用于从一种字符编码向另一种进行转换，比如从
+宽字符向多字节字符，或者在如 Unicode 和 EUC 这样的宽字符编码之间的转换。
 
 [para]
 [:en]
 The [`stateT] argument selects the pair of character encodings being mapped
 between.
+[:zh_CN]
+[`stateT] 实参选择了在其中进行映射的一对字符编码。
 
 [para]
 [:en]
 The specializations required in Table [#tab:localization.category.facets]
 ([#locale.category]) convert the implementation-defined native character set.
+[:zh_CN]
+在表 [#tab:localization.category.facets] 中所要求的特例（[#locale.category]），
+对由实现定义的本地字符集进行转换。
 
 [:en]
 [`codecvt<char, char, mbstate_t>] implements a degenerate conversion; it does
 not convert at all.
+[:zh_CN]
+[`codecvt<char, char, mbstate_t>] 实现退化的转换；它并不进行任何转换。
 
 [:en]
 The specialization [`codecvt<char16_t, char, mbstate_t>] converts between the
 UTF-16 and UTF-8 encoding forms, and the specialization [`codecvt <char32_t,
 char, mbstate_t>] converts between the UTF-32 and UTF-8 encoding forms.
+[:zh_CN]
+特例 [`codecvt<char16_t, char, mbstate_t>] 在 UTF-16 和 UTF-8 编码形式之间进行
+转换，而特例 [`codecvt<char32_t, char, mbstate_t>] 在 UTF-32 和 UTF-8 编码形式
+之间进行转换。
 
 [:en]
 [`codecvt<wchar_t,char,mbstate_t>] converts between the native character sets
 for narrow and wide characters.
+[:zh_CN]
+[`codecvt<wchar_t,char,mbstate_t>] 在窄字符和宽字符的本地字符集之间进行转换。
 
 [:en]
 Specializations on [`mbstate_t] perform conversion between encodings known to
 the library implementer.
+[:zh_CN]
+对于 [`mbstate_t] 的特例实施对于程序库的实现者已知的编码之间的转换。
 
 [:en]
 Other encodings can be converted by specializing on a user-defined [`stateT]
 type.
+[:zh_CN]
+其他的编码可以通过以用户定义的 [`stateT] 类型进行的特化来进行转换。
 
 [:en]
 Objects of type [`stateT] can contain any state that is useful to communicate to
 or from the specialized [`do_in] or [`do_out] members.
+[:zh_CN]
+类型 [`stateT] 的对象可以包含任何状态，以便于与特化的 [`do_in] 或 [`do_out] 成员
+之间进行通信。
 
 [include locale.codecvt.members]
 
