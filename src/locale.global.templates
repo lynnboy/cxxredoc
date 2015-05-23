@@ -1,5 +1,6 @@
 ﻿[section#locale.global.templates
     [:en] [`locale] globals
+    [:zh_CN] [`locale] 的全局函数
 ]
 
 [%@library locale[!use_facet]]
@@ -12,16 +13,21 @@ template <class Facet> const Facet& use_facet(const locale& loc);
 [para:requires]
 [:en] [`Facet] is a facet class whose definition contains the public static
 member [`id] as defined in [#locale.facet].
+[:zh_CN] [`Facet] 是一个刻面类，其定义式中包含如 [#locale.facet] 中所定义的公用
+静态成员 [`id]。
 
 [para:returns]
 [:en] A reference to the corresponding facet of [`loc], if present.
+[:zh_CN] 指代 [`loc] 中的对应刻面的引用（如果存在）。
 
 [para:throws]
 [:en] [`bad_cast] if [`has_facet<Facet>(loc)] is [`false].
+[:zh_CN] 当 [`has_facet<Facet>(loc)] 为 [`false] 时抛出 [`bad_cast]。
 
 [para:notes]
 [:en] The reference returned remains valid at least as long as any copy of
 [`loc] exists.
+[:zh_CN] 所返回的引用，只要存在 [`loc] 的任何副本就持续有效。
 [exit:description]
 
 [%@library locale[!has_facet]]
@@ -33,4 +39,5 @@ template <class Facet> bool has_facet(const locale& loc) noexcept;
 [enter:description]
 [para:returns]
 [:en] True if the facet requested is present in [`loc]; otherwise false.
+[:zh_CN] 如果所请求的刻面存在于 [`loc] 中则为真；否则为假。
 [exit:description]
