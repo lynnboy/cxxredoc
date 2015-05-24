@@ -1,5 +1,6 @@
 ﻿[section#facet.num.get.members
     [:en] [`num_get] members
+    [:zh_CN] [`num_get] 的成员
 ]
 
 [%@library num_get[!get]]
@@ -32,4 +33,5 @@ iter_type get(iter_type in, iter_type end, ios_base& str,
 [enter:description]
 [para:returns]
 [:en] [`do_get(in, end, str, err, val)].
+[:zh_CN] [`do_get(in, end, str, err, val)]。
 [exit:description]
