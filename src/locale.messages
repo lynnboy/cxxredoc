@@ -39,6 +39,8 @@ namespace std {
 [para]
 [:en] Values of type [`messages_base::catalog] usable as arguments to members
 [`get] and [`close] can be obtained only by calling member [`open].
+[:zh_CN] [`messages_base::catalog] 类型的值，可以用作成员 [`get] 和 [`close] 的
+实参，但只能通过调用成员 [`open] 而获得。
 
 [include locale.messages.members]
 
