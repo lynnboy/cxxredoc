@@ -1,5 +1,6 @@
 ﻿[section#locale.money.get.members
     [:en] [`money_get] members
+    [:zh_CN] [`money_get] 的成员
 ]
 
 [%@library money_get[!get]]
@@ -14,5 +15,5 @@ iter_type get(s, iter_type end, bool intl, ios_base&f,
 
 [enter:description]
 [para:returns]
-[:en] [`do_get(s, end, intl, f, err, quant)]
+[`do_get(s, end, intl, f, err, quant)]
 [exit:description]
