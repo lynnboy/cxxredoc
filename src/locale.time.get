@@ -1,5 +1,6 @@
 ﻿[section#locale.time.get
     [:en] Class template [`time_get]
+    [:zh_CN] 类模板 [`time_get]
 ]
 
 [%@library time_get]
@@ -60,32 +61,48 @@ namespace std {
 [:en]
 [`time_get] is used to parse a character sequence, extracting components of a
 time or date into a [`struct tm] record.
+[:zh_CN]
+[`time_get] 用于解析字符序列，抽取时间或日期的成分到 [`struct tm] 记录中。
 
 [:en]
 Each [`get] member parses a format as produced by a corresponding format
 specifier to [`time_put<>::put].
+[:zh_CN]
+每个 [`get] 成员均解析一种对应于 [`time_put<>::put] 的一种格式说明符所产生的格式
+。
 
 [:en]
 If the sequence being parsed matches the correct format, the corresponding
 members of the [`struct tm] argument are set to the values used to produce the
 sequence; otherwise either an error is reported or unspecified values are
 assigned.
+[:zh_CN]
+如果所解析的序列匹配正确的格式，则 [`struct tm] 实参的对应成员被设置为用于产生
+该序列的各个值；否则要么进行报错要么被赋值为未指明的值。
 
 [footnote]
 [:en]
 In other words, user confirmation is required for reliable parsing of
 user-entered dates and times, but machine-generated formats can be parsed
 reliably.
+[:zh_CN]
+换句话说，对于用户输入的日期和时间，需要用户的确认才能进行可靠的解析，但由机器
+生成的格式可以进行可靠的解析。
 
 [:en]
 This allows parsers to be aggressive about interpreting user variations on
 standard formats.
+[:zh_CN]
+这就允许解析器对于用户对标准格式的变动采取积极的解释方式。
 [footnote:end]
 
 [para]
 [:en]
 If the end iterator is reached during parsing by any of the [`get()] member
 functions, the member sets [`ios_base::eofbit] in [`err].
+[:zh_CN]
+如果在任何 [`get()] 成员函数的解析过程中达到了结尾迭代器，则该成员在 [`err] 中
+设置 [`ios_base::eofbit]。
 
 [include locale.time.get.members]
 
