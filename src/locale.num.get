@@ -1,5 +1,6 @@
 ﻿[section#locale.num.get
     [:en] Class template [`num_get]
+    [:zh_CN] 类模板 [`num_get]
 ]
 
 [%@library num_get]
@@ -70,6 +71,8 @@ namespace std {
 [:en]
 The facet [`num_get] is used to parse numeric values from an input sequence such
 as an istream.
+[:zh_CN]
+刻面 [`num_get] 用于从 istream 这样的输入序列中解析数值。
 
 [include facet.num.get.members]
 
