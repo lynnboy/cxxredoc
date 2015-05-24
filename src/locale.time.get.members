@@ -1,5 +1,6 @@
 ﻿[section#locale.time.get.members
     [:en] [`time_get] members
+    [:zh_CN] [`time_get] 的成员
 ]
 
 [%@library time_get[!date_order]]
@@ -10,7 +11,7 @@ dateorder date_order() const;
 
 [enter:description]
 [para:returns]
-[:en] [`do_date_order()]
+[`do_date_order()]
 [exit:description]
 
 [%@library time_get[!get_time]]
@@ -22,7 +23,7 @@ iter_type get_time(iter_type s, iter_type end, ios_base& str,
 
 [enter:description]
 [para:returns]
-[:en] [`do_get_time(s, end, str, err, t)]
+[`do_get_time(s, end, str, err, t)]
 [exit:description]
 
 [%@library time_get[!get_date]]
@@ -34,7 +35,7 @@ iter_type get_date(iter_type s, iter_type end, ios_base& str,
 
 [enter:description]
 [para:returns]
-[:en] [`do_get_date(s, end, str, err, t)]
+[`do_get_date(s, end, str, err, t)]
 [exit:description]
 
 [%@library time_get[!get_weekday]]
@@ -52,6 +53,8 @@ iter_type get_monthname(iter_type s, iter_type end, ios_base& str,
 [para:returns]
 [:en] [`do_get_weekday(s, end, str, err, t)] or
 [`do_get_monthname(s, end, str, err, t)]
+[:zh_CN] [`do_get_weekday(s, end, str, err, t)] 或
+[`do_get_monthname(s, end, str, err, t)]
 [exit:description]
 
 [%@library time_get[!get_year]]
@@ -63,7 +66,7 @@ iter_type get_year(iter_type s, iter_type end, ios_base& str,
 
 [enter:description]
 [para:returns]
-[:en] [`do_get_year(s, end, str, err, t)]
+[`do_get_year(s, end, str, err, t)]
 [exit:description]
 
 [%@library get[!time_get]]
@@ -75,7 +78,7 @@ iter_type get(iter_type s, iter_type end, ios_base& f,
 
 [enter:description]
 [para:returns]
-[:en] [`do_get(s, end, f, err, t, format, modifier)]
+[`do_get(s, end, f, err, t, format, modifier)]
 [exit:description]
 
 [%@library get[!time_get]]
@@ -88,66 +91,95 @@ iter_type get(iter_type s, iter_type end, ios_base& f,
 [enter:description]
 [para:requires]
 [:en] [=range[fmt,fmtend)] shall be a valid range.
+[:zh_CN] [=range[fmt,fmtend)] 应当是有效的范围。
 
 [para:effects]
 [:en] The function starts by evaluating [`err = ios_base::goodbit].
+[:zh_CN] 该函数以求值 [`err = ios_base::goodbit] 开始。
 
 [:en] It then enters a loop, reading zero or more characters from [`s] at each
 iteration.
+[:zh_CN] 然后进入一个循环，每次重复时从 [`s] 中读取零个或更多字符。
 
 [:en] Unless otherwise specified below, the loop terminates when the first of
 the following conditions holds:
+[:zh_CN] 除非在下文中另行说明，否则一旦出现下列条件就终止这个循环：
 
 [list]
 [item]
 [:en] The expression [`fmt == fmtend] evaluates to true.
+[:zh_CN] 表达式 [`fmt == fmtend] 求值为真。
 
 [item]
 [:en] The expression [`err == ios_base::goodbit] evaluates to false.
+[:zh_CN] 表达式 [`err == ios_base::goodbit] 求值为假。
 
 [item]
 [:en] The expression [`s == end] evaluates to true, in which case the function
 evaluates [`err = ios_base::eofbit | ios_base::failbit].
+[:zh_CN] 表达式 [`s == end] 求值为真，这种情况下函数求值
+[`err = ios_base::eofbit | ios_base::failbit]。
 
 [item]
 [:en] The next element of [`fmt] is equal to [`'%'], optionally followed by a
 modifier character, followed by a conversion specifier character, [`format],
 together forming a conversion specification valid for the ISO/IEC 9945 function
 [`strptime].
+[:zh_CN] [`fmt] 的下一个元素等于 [`'%']，可选地跟着一个修饰符，跟着一个转换
+说明符字符 [`format]，一起构成对于 ISO/IEC 9945 函数 [`strptime] 有效的转换说明
+。
 
 [:en] If the number of elements in the range [=range[fmt,fmtend)] is not
 sufficient to unambiguously determine whether the conversion specification is
 complete and valid, the function evaluates [`err = ios_base::failbit].
+[:zh_CN] 如果范围 [=range[fmt,fmtend)] 中的元素数量不足以无歧义地确定该转换说明
+是否完整并有效，则函数求值 [`err = ios_base::failbit]。
 
 [:en] Otherwise, the function evaluates [`s = do_get(s, end, f, err, t, format,
 modifier)], where the value of [`modifier] is [`'\0'] when the optional modifier
 is absent from the conversion specification.
+[:zh_CN] 否则，该函数求值 [`s = do_get(s, end, f, err, t, format, modifier)]，
+其中当转换说明中不存在可选的修饰符时 [`modifier] 的值为 [`'\0']。
 
 [:en] If [`err == ios_base::goodbit] holds after the evaluation of the
 expression, the function increments [`fmt] to point just past the end of the
 conversion specification and continues looping.
+[:zh_CN] 如果表达式的求值之后有 [`err == ios_base::goodbit]，则函数增加 [`fmt]
+以指向紧跟转换说明之后的位置，然后继续循环。
 
 [item]
 [:en] The expression [`isspace(*fmt, f.getloc())] evaluates to true, in which
 case the function first increments [`fmt] until [`fmt == fmtend ||
 !isspace(*fmt, f.getloc())] evaluates to true, then advances [`s] until
 [`s == end || !isspace(*s, f.getloc())] is true, and finally resumes looping.
+[:zh_CN] 表达式 [`isspace(*fmt, f.getloc())] 求值为真，这种情况下函数首先增加
+[`fmt] 直到 [`fmt == fmtend || !isspace(*fmt, f.getloc())] 求值为真，然后推进
+[`s] 直到 [`s == end || !isspace(*s, f.getloc())] 求值为真，最后继续循环。
 
 [item]
 [:en] The next character read from [`s] matches the element pointed to by [`fmt]
 in a case-insensitive comparison, in which case the function evaluates
-[`++fmt, ++s] and continues looping. Otherwise, the function evaluates
-[`err = ios_base::failbit].
+[`++fmt, ++s] and continues looping.
+[:zh_CN] 从 [`s] 读取的下一个字符以大小写不敏感的比较与由 [`fmt] 所指向的元素相
+匹配，这种情况下函数求值 [`++fmt, ++s] 并继续循环。
+
+[:en] Otherwise, the function evaluates [`err = ios_base::failbit].
+[:zh_CN] 否则，函数求值 [`err = ios_base::failbit]。
 [list:end]
 
 [para]
 [enter:note]
 [:en] The function uses the [`ctype<charT>] facet installed in [`f][=']s locale
-to determine valid whitespace characters. It is unspecified by what means the
-function performs case-insensitive comparison or whether multi-character
-sequences are considered while doing so.
+to determine valid whitespace characters.
+[:zh_CN] 该函数使用安装于 [`f] 的区域中的 [`ctype<charT>] 刻面来确定有效的空白
+字符。
+
+[:en] It is unspecified by what means the function performs case-insensitive
+comparison or whether multi-character sequences are considered while doing so.
+[:zh_CN] 该函数以何种方式实施大小写不敏感的比较，以及其中是否考虑多字节序列是
+未指明的。
 [exit:note]
 
 [para:returns]
-[:en] [`s]
+[`s]
 [exit:description]
