@@ -1,5 +1,6 @@
 ﻿[section#locale.time.put.members
     [:en] [`time_put] members
+    [:zh_CN] [`time_put] 的成员
 ]
 
 [%@library time_put[!put]]
@@ -15,42 +16,60 @@ iter_type put(iter_type s, ios_base& str, char_type fill, const tm* t,
 [para:effects]
 [:en] The first form steps through the sequence from [`pattern] to [`pat_end],
 identifying characters that are part of a format sequence.
+[:zh_CN] 第一种形式逐个处理从 [`pattern] 到 [`pat_end] 之间的序列，以识别属于
+一个格式序列的成分的字符。
 
 [:en] Each character that is not part of a format sequence is written to [`s]
 immediately, and each format sequence, as it is identified, results in a call to
 [`do_put]; thus, format elements and other characters are interleaved in the
 output in the order in which they appear in the pattern.
+[:zh_CN] 每个不是格式序列一部分的字符均被立即写入 [`s]，而每个格式序列，当它被
+识别时，导致对 [`do_put] 的一次调用；由此，格式元素和其他字符，在输出中是以它们
+在模式中的出现顺序交错出现的。
 
 [:en] Format sequences are identified by converting each character [`c] to a
 [`char] value as if by [`ct.narrow(c,0)], where [`ct] is a reference to
 [`ctype<charT>] obtained from [`str.getloc()].
+[:zh_CN] 格式序列是通过将每个字符 [`c] 如同使用 [`ct.narrow(c,0] 来转换为
+[`char] 值而进行识别的，其中 [`ct] 是指代通过 [`str.getloc()] 所获得的
+[`ctype<charT>] 的引用。
 
 [:en] The first character of each sequence is equal to [`'%'], followed by an
 optional modifier character [`mod]
+[:zh_CN] 每个序列中的第一个字符都等于 [`'%']，其后跟着可选的修饰字符 [`mod]
 
 [footnote]
 [:en] Although the C programming language defines no modifiers, most vendors do.
+[:zh_CN] 虽然 C 程序设计语言并未定义修饰符，但大多数提供商都提供了。
 [footnote:end]
 
 [:en@~] and a format specifier character [`spec] as defined for the function
 [`strftime].
+[:zh_CN@~] 以及一个格式说明字符 [`spec]，如同对于函数 [`strftime] 的定义。
 
 [:en] If no modifier character is present, [`mod] is zero.
+[:zh_CN] 如果不存在修饰字符，则 [`mod] 为零。
 
 [:en] For each valid format sequence identified, calls
 [`do_put(s, str, fill, t, spec, mod)].
+[:zh_CN] 对于每个识别出的有效格式序列，调用
+[`do_put(s, str, fill, t, spec, mod)]。
 
 [para]
 [:en] The second form calls [`do_put(s, str, fill, t, format, modifier)].
+[:zh_CN] 第二种形式调动 [`do_put(s, str, fill, t, format, modifier)]。
 
 [para]
 [enter:note]
 [:en] The [`fill] argument may be used in the implementation-defined formats or
 by derivations.
+[:zh_CN] [`fill] 实参可能被用于由实现定义的格式或者变体中。
 
 [:en] A space character is a reasonable default for this argument.
+[:zh_CN] 空格字符是这个实参的合理的默认值。
 [exit:note]
 
 [para:returns]
 [:en] An iterator pointing immediately after the last character produced.
+[:zh_CN] 指向紧跟最后一个产生的字符之后的位置的迭代器。
 [exit:description]
