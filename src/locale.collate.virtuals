@@ -1,5 +1,6 @@
 ﻿[section#locale.collate.virtuals
     [:en] [`collate] virtual functions
+    [:zh_CN] [`collate] 的虚函数
 ]
 
 [%@library collate[!do_compare]]
@@ -13,10 +14,14 @@ int do_compare(const charT* low1, const charT* high1,
 [para:returns]
 [:en] [`1] if the first string is greater than the second, [`-1] if less, zero
 otherwise.
+[:zh_CN] 当第一个字符串大于第二个时为 [`1]，当小于时为 [`-1]，否则为零。
 
 [:en] The specializations required in Table [#tab:localization.category.facets]
 ([#locale.category]), namely [`collate<char>] and [`collate<wchar_t>], implement
 a lexicographical comparison ([#alg.lex.comparison]).
+[:zh_CN] 表 [#tab:localization.category.facets]（[#locale.category]）所要求的
+特例，亦即 [`collate<char>] 和 [`collate<wchar_t>]，实现字典序比较
+（[#alg.lex.comparison]）。
 [exit:description]
 
 [%@library collate[!do_transform]]
@@ -30,10 +35,14 @@ string_type do_transform(const charT* low, const charT* high) const;
 [:en] A [`basic_string<charT>] value that, compared lexicographically with the
 result of calling [`transform()] on another string, yields the same result as
 calling [`do_compare()] on the same two strings.
+[:zh_CN] 一个 [`basic_string<charT>] 值，当与对另一个字符串调用 [`transform()]
+的结果之间进行字典序比较时，产生的结果与对相同的两个字符串调用 [`do_compare()]
+的结果相同。
 
 [footnote]
 [:en] This function is useful when one string is being compared to many other
 strings.
+[:zh_CN] 这个函数对于当字符串被与大量其他字符串进行比较时是有用的。
 [footnote:end]
 [exit:description]
 
@@ -47,10 +56,14 @@ long do_hash(const charT* low, const charT* high) const;
 [para:returns]
 [:en] An integer value equal to the result of calling [`hash()] on any other
 string for which [`do_compare()] returns 0 (equal) when passed the two strings.
+[:zh_CN] 一个整数值，等于对满足当传递两个字符串时 [`do_compare()] 将返回 0
+（相等）的任何其他字符串调用 [`hash()] 的结果。
 
 [enter:note]
 [:en] The probability that the result equals that for another string which does
 not compare equal should be very small, approaching
 [`(1.0/numeric_limits<unsigned long>::max())].
+[:zh_CN] 其结果等于对与其比较时并不相等的其他字符串的结果的概率，最好非常小，
+趋近于 [`(1.0/numeric_limits<unsigned long>::max())]。
 [exit:note]
 [exit:description]
