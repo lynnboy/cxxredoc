@@ -1,5 +1,6 @@
 ﻿[section#facet.num.put.members
     [:en] [`num_put] members
+    [:zh_CN] [`num_put] 的成员
 ]
 
 [%@library num_put[!put]]
@@ -26,4 +27,5 @@ iter_type put(iter_type out, ios_base& str, char_type fill,
 [enter:description]
 [para:returns]
 [:en] [`do_put(out, str, fill, val)].
+[:zh_CN] [`do_put(out, str, fill, val)]。
 [exit:description]
