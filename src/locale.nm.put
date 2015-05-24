@@ -1,5 +1,6 @@
 ﻿[section#locale.nm.put
     [:en] Class template [`num_put]
+    [:zh_CN] 类模板 [`num_put]
 ]
 
 [%@library num_put]
@@ -54,6 +55,7 @@ namespace std {
 [para]
 [:en] The facet [`num_put] is used to format numeric values to a character
 sequence such as an ostream.
+[:zh_CN] 刻面 [`num_put] 用于将数值格式化到如 ostream 这样的字符序列中。
 
 [include facet.num.put.members]
 
