@@ -1,5 +1,6 @@
 ﻿[section#locale.money.put.members
     [:en] [`money_put] members
+    [:zh_CN] [`money_put] 的成员
 ]
 
 [%@library money_put[!put]]
@@ -13,5 +14,5 @@ iter_type put(iter_type s, bool intl, ios_base& f, char_type fill,
 
 [enter:description]
 [para:returns]
-[:en] [`do_put(s, intl, f, loc, quant)]
+[`do_put(s, intl, f, loc, quant)]
 [exit:description]
