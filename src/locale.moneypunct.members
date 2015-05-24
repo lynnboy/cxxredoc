@@ -1,5 +1,6 @@
 ﻿[section#locale.moneypunct.members
     [:en] [`moneypunct] members
+    [:zh_CN] [`moneypunct] 的成员
 ]
 
 [%@library moneypunct[!decimal_point]]
@@ -36,3 +37,5 @@ pattern      neg_format()    const;
 [:en]
 Each of these functions [`F] returns the result of calling the corresponding
 virtual member function [`do_][$@bi F][`()].
+[:zh_CN]
+这些函数中的每一个 [`F] 均返回调用其对应虚成员函数 [`do_][$@bi F][`()] 的结果。
