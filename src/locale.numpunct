@@ -1,5 +1,6 @@
 ﻿[section#locale.numpunct
     [:en] Class template [`numpunct]
+    [:zh_CN] 类模板 [`numpunct]
 ]
 
 [%@library numpunct]
@@ -23,32 +24,44 @@ namespace std {
 
   protected:
    ~numpunct();                 // [:en] virtual
+                                // [|:zh_CN] 虚函数
     virtual char_type    do_decimal_point() const;
     virtual char_type    do_thousands_sep() const;
     virtual string       do_grouping()      const;
     virtual string_type  do_truename()      const;      // [:en] for [`bool]
+                                                        // [|:zh_CN] 用于 [`bool]
     virtual string_type  do_falsename()     const;      // [:en] for [`bool]
+                                                        // [|:zh_CN] 用于 [`bool]
   };
 }
 [codeblock:end]
 
 [para]
 [:en] [`numpunct<>] specifies numeric punctuation.
+[:zh_CN] [`numpunct<>] 指定数值的标点。
 
 [:en] The specializations required in Table [#tab:localization.category.facets]
 ([#locale.category]), namely [`numpunct<wchar_t>] and [`numpunct<char>], provide
 classic [`"C"] numeric formats, i.e., they contain information equivalent to
 that contained in the [`"C"] locale or their wide character counterparts as if
 obtained by a call to [`widen].
+[:zh_CN] 由表 [#tab:localization.category.facets]（[#locale.category]）所要求的
+特例，亦即 [`numpunct<wchar_t] 和 [`numpunct<char>]，提供经典 [`"C"] 的数值格式
+，就是说，它们包含等价于 [`"C"] 区域中所包含的信息，或者如同经过 [`widen] 的调用
+所获得的宽字符对应物。
 
 [para]
 [:en] The syntax for number formats is as follows, where [`digit] represents the
 radix set specified by the [`fmtflags] argument value, and [`thousands-sep] and
 [`decimal-point] are the results of corresponding [`numpunct<charT>] members.
+[:zh_CN] 数字格式的语法如下文，其中 [`digit] 代表由 [`fmtflags] 实参值所指定的
+基数集合，而 [`thousands-sep] 和 [`decimal-point] 是 [`numpunct<charT>] 的对应
+成员的结果。
 
 [:en] Integer values have the format:
+[:zh_CN] 整数值的格式为：
 
-[codeblock]
+[codeblock:notation]
 integer   ::= [sign] units
 sign      ::= plusminus
 plusminus ::= '+' | '-'
@@ -57,8 +70,9 @@ digits    ::= digit [digits]
 [codeblock:end]
 
 [:en@~] and floating-point values have:
+[:zh_CN@~] 浮点值的格式为：
 
-[codeblock]
+[codeblock:notation]
 floatval ::= [sign] units [decimal-point [digits]] [e [sign] digits] |
              [sign]        decimal-point  digits   [e [sign] digits]
 e        ::= 'e' | 'E'
@@ -66,9 +80,11 @@ e        ::= 'e' | 'E'
 
 [:en@~] where the number of digits between [`thousands-sep]s is as specified by
 [`do_grouping()].
+[:zh_CN@~] 其中 [`thousands-sep] 之间的数字个数由 [`do_grouping()] 指定。
 
 [:en] For parsing, if the [`digits] portion contains no thousands-separators, no
 grouping constraint is applied.
+[:zh_CN] 进行解析时，如果 [`digits] 部分不包含千位分隔符，则不实施分组约束条件。
 
 [include facet.numpunct.members]
 
