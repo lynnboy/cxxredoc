@@ -1,18 +1,25 @@
 ﻿[section#c.locales
     [:en] C library locales
+    [:zh_CN] C 程序库的区域
 ]
 
 [para]
 [:en]
 Table [#tab:localization.hdr.clocale] describes header [`<clocale>].
+[:zh_CN]
+表 [#tab:localization.hdr.clocale] 描述头文件 [`<clocale>]。
 
 [table:listing@horizontal#tab:localization.hdr.clocale
+    [:en] Header [`<clocale>] synopsis
+    [:zh_CN] 头文件 [`<clocale>] 纲要
     [columns
         [column@headercenter
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
     ]
     [border:group@both]
@@ -42,14 +49,22 @@ Table [#tab:localization.hdr.clocale] describes header [`<clocale>].
 [para]
 [:en]
 The contents are the same as the Standard C library header [`<locale.h>].
+[:zh_CN]
+其内容与标准 C 程序库头文件 [`<locale.h>] 相同。
 
 [para]
 [:en]
 Calls to the function [`setlocale] may introduce a data race
 ([#res.on.data.races]) with other calls to [`setlocale] or with calls to
 the functions listed in Table [#tab:setlocale.data.races].
+[:zh_CN]
+调用函数 [`setlocale] 可能与其他的 [`setlocale] 调用之间，或者对表
+[#tab:setlocale.data.races] 所列出的函数的调用之间引入数据竞争
+（[#res.on.data.races]）。
 
 [table:listing@simple#tab:setlocale.data.races
+    [:en] Potential [`setlocale] data races
+    [:zh_CN] 潜在的 [`setlocale] 数据竞争
     [columns@repeated=5]
 ]
 
@@ -107,3 +122,4 @@ the functions listed in Table [#tab:setlocale.data.races].
 
 [para:xref]
 [:en] ISO C Clause 7.4.
+[:zh_CN] ISO C 条款 7.4。
