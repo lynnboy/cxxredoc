@@ -1,5 +1,6 @@
 ﻿[section#locale.numpunct.byname
     [:en] Class template [`numpunct_byname]
+    [:zh_CN] 类模板 [`numpunct_byname]
 ]
 
 [%@library numpunct_byname]
@@ -8,6 +9,7 @@ namespace std {
   template <class charT>
   class numpunct_byname : public numpunct<charT> {
   // [:en] this class is specialized for [`char] and [`wchar_t].
+  // [|:zh_CN] 这个类为 [`char] 和 [`wchar_t] 进行了特化。
   public:
     typedef charT                char_type;
     typedef basic_string<charT>  string_type;
