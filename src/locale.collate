@@ -1,5 +1,6 @@
 ﻿[section#locale.collate
     [:en] Class template [`collate]
+    [:zh_CN] 类模板 [`collate]
 ]
 
 [%@library collate]
@@ -33,18 +34,26 @@ namespace std {
 [para]
 [:en] The class [`collate<charT>] provides features for use in the collation
 (comparison) and hashing of strings.
+[:zh_CN] 类 [`collate<charT>] 提供的功能特性，用于对字符串进行校排（比较）和散列
+。
 
 [:en] A locale member function template, [`operator()], uses the collate facet
 to allow a locale to act directly as the predicate argument for standard
 algorithms (Clause [#algorithms]) and containers operating on strings.
+[:zh_CN] 区域的一个成员函数模板 [`operator()] 使用了校排刻面，以使得区域可以直接
+用作标准算法（第 [#algorithms] 条）和用于操作字符串的容器上的谓词实参。
 
 [:en] The specializations required in Table [#tab:localization.category.facets]
 ([#locale.category]), namely [`collate<char>] and [`collate<wchar_t>], apply
 lexicographic ordering ([#alg.lex.comparison]).
+[:zh_CN] 表 [#tab:localization.category.facets]（[#locale.category]）中所要求的
+特例，以及 [`collate<char>] 和 [`collate<wchar_t]，实施字典序的排序
+（[#alg.lex.comparison]）。
 
 [para]
 [:en] Each function compares a string of characters [`*p] in the range
 [=range[low,high)].
+[:zh_CN] 各个函数均对范围 [=range[low,high)] 中的字符串 [`*p] 进行比较。
 
 [include locale.collate.members]
 
