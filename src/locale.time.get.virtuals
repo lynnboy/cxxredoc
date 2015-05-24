@@ -1,5 +1,6 @@
 ﻿[section#locale.time.get.virtuals
     [:en] [`time_get] virtual functions
+    [:zh_CN] [`time_get] 的虚函数
 ]
 
 [%@library time_get[!do_date_order]]
@@ -12,14 +13,20 @@ dateorder do_date_order() const;
 [para:returns]
 [:en] An enumeration value indicating the preferred order of components for
 those date formats that are composed of day, month, and year.
+[:zh_CN] 一个枚举值，以指定对由日期、月份和年份组成的日期格式中各个组件的首选
+顺序。
 
 [footnote]
 [:en] This function is intended as a convenience only, for common formats, and
 may return [`no_order] in valid locales.
+[:zh_CN] 这个函数仅用于方便目的，对于常见格式，并且可能在有效的区域中返回
+[`no_order]。
 [footnote:end]
 
 [:en] Returns [`no_order] if the date format specified by [`'x'] contains other
 variable components (e.g., Julian day, week number, week day).
+[:zh_CN] 如果由 [`'x'] 所指定的日期格式中包含其他变量成分，则返回 [`no_order]
+（比如儒略日、星期数、星期日期等）。
 [exit:description]
 
 [%@library time_get[!do_get_time]]
@@ -35,10 +42,14 @@ iter_type do_get_time(iter_type s, iter_type end, ios_base& str,
 [`struct tm] members, and remaining format characters, used by
 [`time_put<>::put] to produce the format specified by [`"%H:%M:%S"], or until it
 encounters an error or end of sequence.
+[:zh_CN] 读取开始于 [`s] 的字符，直到抽取了由 [`time_put<>::put] 用于产生以
+[`"%H:%M:%S"] 所指定的格式的 [`struct tm] 的成员以及其余格式字符，或者直到遇到
+某个错误或者序列末尾。
 
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized
 as possibly part of a valid time.
+[:zh_CN] 指向紧跟最后一个被识别为有效时间的可能成分的字符之后的位置的迭代器。
 [exit:description]
 
 [%@library time_get[!do_get_date]]
@@ -54,18 +65,25 @@ iter_type do_get_date(iter_type s, iter_type end, ios_base& str,
 [`struct tm] members and remaining format characters used by
 [`time_put<>::put] to produce one of the following formats, or until it
 encounters an error.
+[:zh_CN] 读取开始于 [`s] 的字符，直到抽取了由 [`time_put<>::put] 用于产生下列
+格式之一的 [`struct tm] 的成员以及其余格式字符，或者直到遇到某个错误。
+[:zh_CN]
 
 [:en] The format depends on the value returned by [`date_order()] as shown in
 Table [#tab:lib.locale.time.get.virtuals.dogetdate].
+[:zh_CN] 格式依赖于 [`date_order()] 的返回值，如表
+[#tab:lib.locale.time.get.virtuals.dogetdate] 所示。
 
 [table:listing#tab:lib.locale.time.get.virtuals.dogetdate
     [:en] [`do_get_date] effects
+    [:zh_CN] [`do_get_date] 的效果
     [columns
         [column@code
-            [:en] [`date_order()]
+            [`date_order()]
         ]
         [column@headercenter@code
             [:en] Format
+            [:zh_CN] 格式
         ]
     ]
     [border:cell@none]
@@ -91,10 +109,13 @@ Table [#tab:lib.locale.time.get.virtuals.dogetdate].
 [para]
 [:en] An implementation may also accept additional [%@impldef additional formats
 for [`time_get::do_get_date]] implementation-defined formats.
+[:zh_CN] 实现还可以接受其他[%@impldef 其他 [`time_get::do_get_date] 的格式]
+由实现定义的格式。
 
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized
 as possibly part of a valid date.
+[:zh_CN] 指向紧跟最后一个被识别为有效日期的可能成分的字符之后的位置的迭代器。
 [exit:description]
 
 [%@library time_get[!do_get_weekday]]
@@ -112,16 +133,21 @@ iter_type do_get_monthname(iter_type s, iter_type end, ios_base& str,
 [para:effects]
 [:en] Reads characters starting at [`s] until it has extracted the (perhaps
 abbreviated) name of a weekday or month.
+[:zh_CN] 读取开始于 [`s] 的字符，直到抽取了（可能缩略的）星期日期或月份的名字。
 
 [:en] If it finds an abbreviation that is followed by characters that could
 match a full name, it continues reading until it matches the full name or
 fails.
+[:zh_CN] 如果它找到了缩略名但其后跟着能够匹配全名的字符，则继续读取直到它匹配了
+这个全名或者失败。
 
 [:en] It sets the appropriate [`struct tm] member accordingly.
+[:zh_CN] 它相应地设置 [`struct tm] 的适当成员。
 
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized
 as part of a valid name.
+[:zh_CN] 指向紧跟最后一个被识别为有效名字的成分的字符之后的位置的迭代器。
 [exit:description]
 
 [%@library time_get[!do_get_year]]
@@ -135,16 +161,21 @@ iter_type do_get_year(iter_type s, iter_type end, ios_base& str,
 [para:effects]
 [:en] Reads characters starting at [`s] until it has extracted an unambiguous
 year identifier.
+[:zh_CN] 读取开始于 [`s] 的字符，直到抽取了无歧义的年份标识。
 
 [:en] It is [%@impldef whether [`time_get::do_get_year] accepts two-digit year
 numbers] implementation-defined whether two-digit year numbers are accepted,
 and (if so) what century they are assumed to lie in.
+[:zh_CN] 是否接受双数字的年号，以及（如果接受）它们被假定属于哪个世纪是
+[%@impldef [`time_get::do_get_year] 是否接受双数字年号]由实现定义的。
 
 [:en] Sets the [`t->tm_year] member accordingly.
+[:zh_CN] 相应地设置 [`t->tm_year] 成员。
 
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized
 as part of a valid year identifier.
+[:zh_CN] 指向紧跟最后一个被识别为有效年份标识的成分的字符之后的位置的迭代器。
 [exit:description]
 
 [%@library do_get[!time_get]]
@@ -157,40 +188,60 @@ iter_type do_get(iter_type s, iter_type end, ios_base& f,
 [enter:description]
 [para:requires]
 [:en] [`t] shall point to an object.
+[:zh_CN] [`t] 应当指向一个对象。
 
 [para:effects]
 [:en] The function starts by evaluating [`err = ios_base::goodbit].
+[:zh_CN] 该函数开始于求值 [`err = ios_base::goodbit]。
 
 [:en] It then reads characters starting at [`s] until it encounters an error, or
 until it has extracted and assigned those [`struct tm] members, and any
 remaining format characters, corresponding to a conversion directive appropriate
 for the ISO/IEC 9945 function [`strptime], formed by concatenating [`'%'], the
 [`modifier] character, when non-NUL, and the [`format] character.
+[:zh_CN] 它随即读取开始于 [`s] 的字符，直到抽取了由通过拼接 [`'%']，[`modifier]
+字符（如果不为 NUL 字符），以及 [`format] 字符所构成的适用于 ISO/IEC 9945 函数
+[`strptime] 的转换指令所对应的 [`struct tm] 的成员（并进行赋值）以及其余格式字符
+。
 
 [:en] When the concatenation fails to yield a complete valid directive the
 function leaves the object pointed to by [`t] unchanged and evaluates
 [`err |= ios_base::failbit].
+[:zh_CN] 如果这种拼接无法产生完整并有效的指令，则该函数余留 [`t] 所指向的对象不
+被改动，并求值 [`err |= ios_base::failbit]。
 
 [:en] When [`s == end] evaluates to true after reading a character the function
 evaluates [`err |= ios_base::eofbit].
+[:zh_CN] 如果读取字符之后 [`s == end] 求值为真，则函数求值
+[`err |= ios_base::eofbit]。
 
 [para]
 [:en] For complex conversion directives such as [`%c], [`%x], or [`%X], or
 directives that involve the optional modifiers [`E] or [`O], when the function
 is unable to unambiguously determine some or all [`struct tm] members from the
 input sequence [=range[s,end)], it evaluates [`err |= ios_base::eofbit].
+[:zh_CN] 对于如 [`%c]、[`%x] 或 [`%X] 这样的复杂转换指令，或者涉及可选的修饰符
+[`E] 或 [`O] 的指令，当函数无法无歧义地从输入序列 [=range[s,end)] 中确定某些或
+全部 [`struct tm] 成员时，它求值 [`err |= ios_base::eofbit]。
 
 [:en] In such cases the values of those [`struct tm] members are unspecified
 and may be outside their valid range.
+[:zh_CN] 这些情况下，这些 [`struct tm] 成员的值是未指明的，并且可能处于它们的
+有效范围之外。
 
 [para:note]
 [:en] It is unspecified whether multiple calls to [`do_get()] with the address
 of the same [`struct tm] object will update the current contents of the object
 or simply overwrite its members.
+[:zh_CN] 对 [`do_get()] 以同一个 [`struct tm] 对象的地址进行多次调用将会更新该
+对象的当前内容，还是仅仅覆盖其成员是未指明的。
 
 [:en] Portable programs must zero out the object before invoking the function.
+[:zh_CN] 可移植的程序必须在调用这个函数之前将对象清零。
 
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized as
 possibly part of a valid input sequence for the given [`format] and [`modifier].
+[:zh_CN] 指向紧跟最后一个被识别为对于给定 [`format] 和 [`modifier] 的有效输入
+序列的可能成分的字符之后的位置的迭代器。
 [exit:description]
