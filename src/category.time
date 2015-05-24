@@ -1,22 +1,33 @@
 ﻿[section#category.time
     [:en] The time category
+    [:zh_CN] 时间范畴
 ]
 
 [para]
 [:en]
 Templates [`time_get<charT,InputIterator>] and [`time_put<charT,OutputIterator>]
 provide date and time formatting and parsing.
+[:zh_CN]
+模板 [`time_get<charT,InputIterator>] 和 [`time_put<charT,OutputIterator>] 提供
+了日期和时间的格式化和解析功能。
 
 [:en]
 All specifications of member functions for [`time_put] and [`time_get] in the
 subclauses of [#category.time] only apply to the specializations required in
 Tables [#tab:localization.category.facets] and
 [#tab:localization.required.specializations] ([#locale.category]).
+[:zh_CN]
+[#category.time] 的子条款中对 [`time_put] 和 [`time_get] 的成员函数的特化式仅
+适用于表 [#tab:localization.category.facets] 和表
+[#tab:localization.required.specializations]（[#locale.category]）所要求的特例。
 
 [:en]
 Their members use their [`ios_base&], [`ios_base::iostate&], and [`fill]
 arguments as described in ([#locale.categories]), and the [`ctype<>] facet, to
 determine formatting details.
+[:zh_CN]
+它们的成员中，根据 [#locale.categories] 所述使用其 [`ios_base&]、
+[`ios_base::iostate&] 和 [`fill] 实参来确定格式化的细节。
 
 [include locale.time.get]
 
