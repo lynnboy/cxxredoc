@@ -1,5 +1,6 @@
 ﻿[section#facet.numpunct.virtuals
     [:en] [`numpunct] virtual functions
+    [:zh_CN] [`numpunct] 的虚函数
 ]
 
 [%@library numpunct[!do_decimal_point]]
@@ -11,8 +12,10 @@ char_type do_decimal_point() const;
 [enter:description]
 [para:returns]
 [:en] A character for use as the decimal radix separator.
+[:zh_CN] 一个用作十进制计数分隔符的字符。
 
 [:en] The required specializations return [`'.'] or [`L'.'].
+[:zh_CN] 所要求的特例返回 [`'.'] 或 [`L'.']。
 [exit:description]
 
 [%@library numpunct[!do_thousands_sep]]
@@ -24,8 +27,10 @@ char_type do_thousands_sep() const;
 [enter:description]
 [para:returns]
 [:en] A character for use as the digit group separator.
+[:zh_CN] 用作数字分组分隔符的字符。
 
 [:en] The required specializations return [`','] or [`L','].
+[:zh_CN] 所要求的特例返回 [`','] 或 [`L',']。
 [exit:description]
 
 [%@library numpunct[!do_grouping]]
@@ -36,25 +41,33 @@ string do_grouping() const;
 
 [enter:description]
 [para:returns]
-[:en] A basic_string<char> [`vec] used as a vector of integer values, in which
-each element [`vec[i`]] represents the number of digits
+[:en] A [`basic_string<char>] [`vec] used as a vector of integer values, in
+which each element [`vec[i`]] represents the number of digits
+[:zh_CN] 一个 [`basic_string<char>] [`vec]，用作一个整数值的向量，其中每个元素
+[`vec[i`]] 代表处于位置 [`i] 的分组中的数字个数
 
 [footnote]
 [:en] Thus, the string [`"\003"] specifies groups of 3 digits each, and [`"3"]
 probably indicates groups of 51 (!) digits each, because 51 is the ASCII value
 of [`"3"].
+[:zh_CN] 因此，字符串 [`"\003"] 指定每三个数字的分组，而 [`"3"] 可能指定每 51 个
+数字的分组！这是由于 51 就是 [`"3"] 的 ASCII 值.
 [footnote:end]
 
 [:en@~] in the group at position [`i], starting with position 0 as the rightmost
 group.
+[:zh_CN@~] ，其中最右侧的分组具有位置 0。
 
 [:en] If [`vec.size() <= i], the number is the same as group [`(i-1)]; if
 [`(i<0 || vec[i`]<=0 || vec[i`]==CHAR_MAX)], the size of the digit group is
 unlimited.
+[:zh_CN] 如果 [`vec.size() <= i]，则其数量与分组 [`(i-1)] 的相同；如果
+[`(i<0 || vec[i`]<=0 || vec[i`]==CHAR_MAX)]，则数字分组的大小是无限的。
 
 [para]
 [:en] The required specializations return the empty string, indicating
 no grouping.
+[:zh_CN] 所要求的特例返回空字符串，以指定不进行分组。
 [exit:description]
 
 [%@library numpunct[!do_truename]]
@@ -70,8 +83,11 @@ string_type do_falsename() const;
 [para:returns]
 [:en] A string representing the name of the boolean value [`true] or [`false],
 respectively.
+[:zh_CN] 分别代表布尔值 [`true] 或 [`false] 的名字的字符串。
 
 [para]
 [:en] In the base class implementation these names are [`"true"] and [`"false"],
 or [`L"true"] and [`L"false"].
+[:zh_CN] 基类的实现中，这些名字为 [`"true"] 和 [`"false]，或者 [`L"true"] 和
+[`L"false"]。
 [exit:description]
