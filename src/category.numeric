@@ -1,22 +1,32 @@
 ﻿[section#category.numeric
     [:en] The numeric category
+    [:zh_CN] 数值范畴
 ]
 
 [para]
 [:en]
 The classes [`num_get<>] and [`num_put<>] handle numeric formatting and parsing.
+[:zh_CN]
+类 [`num_get<>] 和 [`num_put<>] 处理数值格式化和解析。
 
 [:en]
 Virtual functions are provided for several numeric types.
+[:zh_CN]
+为不同数值类型提供了虚函数。
 
 [:en]
 Implementations may (but are not required to) delegate extraction of smaller
 types to extractors for larger types.
+[:zh_CN]
+实现可以（但并不必须）将对较小类型的抽取委派给较大类型的抽取器。
 
 [footnote]
 [:en]
 Parsing [`"-1"] correctly into, e.g., an [`unsigned short] requires that the
 corresponding member [`get()] at least extract the sign before delegating.
+[:zh_CN]
+例如，正确解析 [`"-1"] 时，[`unsigned short] 要求其对应的 [`get()] 成员在进行
+委派之前至少先将符号抽取掉。
 [footnote:end]
 
 [para]
@@ -27,18 +37,32 @@ Tables [#tab:localization.category.facets] and
 [#tab:localization.required.specializations] ([#locale.category]), namely
 [`num_get<char>], [`num_get<wchar_t>], [`num_get<C, InputIterator>],
 [`num_put<char>], [`num_put<wchar_t>], and [`num_put<C,OutputIterator>].
+[:zh_CN]
+[#category.numeric] 的子条款中 [`num_put] 和 [`num_get] 的成员函数的所有特化式，
+只适用于表 [#tab:localization.category.facets] 和
+[#tab:localization.required.specializations]（[#locale.category]）所要求的特例，
+亦即 [`num_get<char>]，[`num_get<wchar_t>]，[`num_get<C, InputIterator>]，
+[`num_put<char>]，[`num_put<wchar_t>]，和 [`num_put<C,OutputIterator>]。
+
 
 [:en]
 These specializations refer to the [`ios_base&] argument for formatting
 specifications ([#locale.categories]), and to its imbued locale for the
 [`numpunct<>] facet to identify all numeric punctuation preferences, and also
 for the [`ctype<>] facet to perform character classification.
+[:zh_CN]
+这些特化式依据 [`ios_base&] 实参的格式化说明（[#locale.categories]），并依据其所
+浸染的区域来获得 [`numpunct<>] 刻面以指定所有数值标点的偏好，并获得 [`ctype<>]
+刻面以进行字符分类。
 
 [para]
 [:en]
 Extractor and inserter members of the standard iostreams use [`num_get<>] and
 [`num_put<>] member functions for formatting and parsing numeric values
 ([#istream.formatted.reqmts], [#ostream.formatted.reqmts]).
+[:zh_CN]
+标准 I/O 流的抽取器和插入器成员，利用 [`num_get<>] 和 [`num_put<>] 成员函数进行
+数值的格式化和解析（[#istream.formatted.reqmts]，[#ostream.formatted.reqmts]）。
 
 [include locale.num.get]
 
