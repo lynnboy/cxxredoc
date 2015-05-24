@@ -1,5 +1,6 @@
 ﻿[section#facet.num.put.virtuals
     [:en] [`num_put] virtual functions
+    [:zh_CN] [`num_put] 的虚函数
 ]
 
 [%@library num_put[!do_put]]
@@ -24,55 +25,70 @@ iter_type do_put(iter_type out, ios_base& str, char_type fill,
 [enter:description]
 [para:effects]
 [:en] Writes characters to the sequence [`out], formatting [`val] as desired.
+[:zh_CN] 向序列 [`out] 中写入字符，并根据需要对 [`val] 进行格式化。
 
 [:en] In the following description, a local variable initialized with
+[:zh_CN] 在以下说明中，初始化一个局部变量：
 
-[codeblock]
+[codeblock:notation]
 locale loc = str.getloc();
 [codeblock:end]
 
 [para]
 [:en] The details of this operation occur in several stages:
+[:zh_CN] 其操作的细节以几个阶段来进行：
 
 [list]
 [item]
-[:en] Stage 1: Determine a printf conversion specifier [`spec] and determining
-the characters that would be printed by [`printf] ([#c.files]) given this
-conversion specifier for
+[:en] Stage 1: Determine a [`printf] conversion specifier [`spec] and
+determining the characters that would be printed by [`printf] ([#c.files]) given
+this conversion specifier for
+[:zh_CN] 阶段 1：确定一个 [`printf] 转换说明符 [`spec]，并确定由 [`printf]
+（[#c.file]）当给定这个转换说明符时所能打印的字符：
 
-[codeblock]
+[codeblock:notation]
 printf(spec, val )
 [codeblock:end]
 
 [:en@~] assuming that the current locale is the [`"C"] locale.
+[:zh_CN@~] 其中假定当前的区域是 [`"C"] 区域。
 
 [item]
 [:en] Stage 2: Adjust the representation by converting each [`char] determined
 by stage 1 to a [`charT] using a conversion and values returned by members of
 [`use_facet< numpunct<charT> >(str.getloc())]
+[:zh_CN] 阶段 2：调整其表示，通过对阶段 1 中所确定的每个 [`char]，使用一次转换和
+由 [`use_facet< numpunct<charT> >(str.getloc())] 的成员所返回的值，转换为一个
+[`charT]
 
 [item]
 [:en] Stage 3: Determine where padding is required.
+[:zh_CN] 阶段 3：确定需要填充的位置。
 
 [item]
 [:en] Stage 4: Insert the sequence into the [`out].
+[:zh_CN] 阶段 4：将序列插入到 [`out] 中。
 [list:end]
 
 [para]
 [:en] Detailed descriptions of each stage follow.
+[:zh_CN] 以下为各个阶段的细节说明。
 
 [para:returns]
 [:en] [`out].
+[:zh_CN] [`out]。
 
 [para]
 [enter:description]
 [:en] [em@bf Stage 1] The first action of stage 1 is to determine a conversion
 specifier.
+[:zh_CN] [em@bf 阶段 1] 阶段 1 的第一个动作是一个转换说明符。
 
 [:en] The tables that describe this determination use the following local
 variables
+[:zh_CN] 说明这个确定过程的表格中使用了下列局部变量
 
-[codeblock]
+[codeblock:notation]
 fmtflags flags = str.flags() ;
 fmtflags basefield =  (flags & (ios_base::basefield));
 fmtflags uppercase =  (flags & (ios_base::uppercase));
@@ -82,25 +98,33 @@ fmtflags showbase =   (flags & (ios_base::showbase));
 [codeblock:end]
 
 [:en] All tables used in describing stage 1 are ordered.
+[:zh_CN] 用以描述阶段 1 的所有表格都是有序的。
 
 [:en] That is, the first line whose condition is true applies.
+[:zh_CN] 就是说，采纳条件为真的第一行。
 
 [:en] A line without a condition is the default behavior when none of the
 earlier lines apply.
+[:zh_CN] 不带有条件的行，是当其上的各行均不使用时的缺省行为。
 
 [para:~]
 [:en] For conversion from an integral type other than a character type, the
 function determines the integral conversion specifier as indicated in
 Table [#tab:localization.integer.conversions.out].
+[:zh_CN] 对于除字符类型之外的整型类型的转换，函数所确定的整型转换说明符如表
+[#tab:localization.integer.conversions.out] 所确定。
 
 [table:listing#tab:localization.integer.conversions.out
     [:en] Integer conversions
+    [:zh_CN] 整数转换
     [columns
         [column@headercenter
             [:en] State
+            [:zh_CN] 状态
         ]
         [column@headercenter@code@center
             [:en] [`stdio] equivalent
+            [:zh_CN] [`stdio] 的等价物
         ]
     ]
     [border:row@both]
@@ -116,9 +140,11 @@ Table [#tab:localization.integer.conversions.out].
 [|] %X
 
 [|] [:en] for a [`signed] integral type
+    [:zh_CN] 对于 [`signed] 整型类型
 [|] %d
 
 [|] [:en] for an [`unsigned] integral type
+    [:zh_CN] 对于 [`unsigned] 整型类型
 [|] %u
 
 [table:end]
@@ -127,15 +153,20 @@ Table [#tab:localization.integer.conversions.out].
 For conversion from a floating-point type, the function determines the
 floating-point conversion specifier as indicated in
 Table [#tab:localization.fp.conversions.out].
+[:zh_CN] 对于浮点类型的转换，函数所确定的浮点转换说明符如表
+[#tab:localization.fp.conversions.out] 所确定。
 
 [table:listing#tab:localization.fp.conversions.out
     [:en] Floating-point conversions
+    [:zh_CN] 浮点转换
     [columns
         [column@headercenter
             [:en] State
+            [:zh_CN] 状态
         ]
         [column@headercenter@code@center
             [:en] [`stdio] equivalent
+            [:zh_CN] [`stdio] 的等价物
         ]
     ]
     [border:row@both]
@@ -159,7 +190,8 @@ Table [#tab:localization.fp.conversions.out].
 [|] [`!uppercase]
 [|] %g
 
-[|] [:en] [$otherwise]
+[|] [:en] [em@it otherwise]
+    [:zh_CN] [em@it 否则]
 [|] %G
 
 [table:end]
@@ -168,15 +200,20 @@ Table [#tab:localization.fp.conversions.out].
 For conversions from an integral or floating-point type a length modifier is
 added to the conversion specifier as indicated in
 Table [#tab:localization.length.modifier.out].
+[:zh_CN] 对于整型或浮点类型的转换，向转换说明符中添加的长度修饰符如表
+[#tab:localization.length.modifier.out] 所确定。
 
 [table:listing#tab:localization.length.modifier.out
     [:en] Length modifier
+    [:zh_CN] 长度修饰符
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 类型
         ]
         [column@headercenter@code@center
             [:en] Length modifier
+            [:zh_CN] 长度修饰符
         ]
     ]
     [border:row@both]
@@ -197,33 +234,42 @@ Table [#tab:localization.length.modifier.out].
 [|] long double
 [|] L
 
-[|] [$otherwise]
-[|] [$none]
+[|] [:en] [em@it otherwise]
+    [:zh_CN] [em@it 否则]
+[|] [:en] [em@it none]
+    [:zh_CN] [em@it 无]
 
 [table:end]
 
 [:en]
 The conversion specifier has the following optional additional qualifiers
 prepended as indicated in Table [#tab:localization.numeric.conversions].
+[:zh_CN] 转换说明符前面还添加了以下可选的其他限定符，如表
+[#tab:localization.numeric.conversions] 所确定。
 
 [table:listing#tab:localization.numeric.conversions
     [:en] Numeric conversions
+    [:zh_CN] 数值转换
     [columns
         [column@headercenter
             [:en] Type(s)
+            [:zh_CN] 类型
         ]
         [column@headercenter@code
             [:en] State
+            [:zh_CN] 状态
         ]
         [column@headercenter@code@center
             [:en] [`stdio] equivalent
+            [:zh_CN] [`stdio] 的等价物
         ]
     ]
     [border:group@both]
 ]
 
 [-]
-[|] an integral type
+[|] [:en] an integral type
+    [:zh_CN] 整型类型
 [|] flags & showpos
 [|] +
 
@@ -232,7 +278,8 @@ prepended as indicated in Table [#tab:localization.numeric.conversions].
 [|] #
 
 [-]
-[|] a floating-point type
+[|] [:en] a floating-point type
+    [:zh_CN] 浮点类型
 [|] flags & showpos
 [|] +
 
@@ -243,32 +290,47 @@ prepended as indicated in Table [#tab:localization.numeric.conversions].
 [table:end]
 
 [:en]
-For conversion from a floating-point type,
-if [`floatfield != (ios_base::fixed | ios_base::scientific)], [`str.precision()]
-is specified as precision in the conversion specification.
+For conversion from a floating-point type, if [`floatfield != (ios_base::fixed |
+ios_base::scientific)], [`str.precision()] is specified as precision in the
+conversion specification.
+[:zh_CN]
+对于为浮点类型进行的转换，如果 [`floatfield != (ios_base::fixed |
+ios_base::scientific)]，则将 [`str.precision()] 指定为转换说明中的精度。
 
 [:en]
 Otherwise, no precision is specified.
+[:zh_CN]
+否则，不指定精度。
  
 [para:~]
 [:en]
 For conversion from [`void*] the specifier is [`%p].
+[:zh_CN]
+对于为 [`void*] 进行的转换，其说明符为 [`%p]。
  
 [para:~]
 [:en]
 The representations at the end of stage 1 consists of the [`char][=']s that
 would be printed by a call of [`printf(s, val)] where [`s] is the conversion
 specifier determined above.
+[:zh_CN]
+阶段 1 结束时的表示，由调用 [`printf(s, val)] 所能打印出的各个 [`char] 构成，
+其中 [`s] 为上文所确定的转换说明符。
 
 [:en]
 [em@bf Stage 2] Any character [`c] other than a decimal point(.) is converted to
 a [`charT] via [`use_facet<ctype<charT> >(loc).widen( c )]
+[:zh_CN]
+[em@bf 阶段 2] 除了小数点（[`.]）之外的任何字符 [`c]，均通过
+[`use_facet<ctype<charT> >(loc).widen( c )] 被转换为一个 [`charT]。
 
 [para:~]
 [:en]
 A local variable [`punct] is initialized via
+[:zh_CN]
+以下进行局部变量 [`punct] 的初始化
 
-[codeblock]
+[codeblock:notation]
 const numpunct<charT>& punct = use_facet< numpunct<charT> >(str.getloc());
 [codeblock:end]
 
@@ -276,37 +338,54 @@ const numpunct<charT>& punct = use_facet< numpunct<charT> >(str.getloc());
 For arithmetic types, [`punct.thousands_sep()] characters are inserted into the
 sequence as determined by the value returned by [`punct.do_grouping()] using the
 method described in [#facet.numpunct.virtuals]
+[:zh_CN]
+对于算术类型，使用 [#facet.numpunct.virtuals] 中说明的方法，基于
+[`punct.do_grouping()] 的返回值决定如何将 [`punct.thousands_sep()] 字符插入到
+序列中。
  
 [:en]
 Decimal point characters(.) are replaced by [`punct.decimal_point()]
+[:zh_CN]
+小数点字符（[`.]）被替换为 [`punct.decimal_point()]。
 
 [:en]
 [em@bf Stage 3] A local variable is initialized as
+[:zh_CN]
+[em@bf 阶段 3] 初始化一个局部变量：
 
-[codeblock]
+[codeblock:notation]
 fmtflags adjustfield=   (flags & (ios_base::adjustfield));
 [codeblock:end]
  
 [:en]
 The location of any padding
+[:zh_CN]
+填充
 
 [footnote]
 [:en]
 The conversion specification [`#o] generates a leading [`0] which is [em not]
 a padding character.
+[:zh_CN]
+转换说明 [`#o] 产生的前导 [`0] [em 不是]填充字符。
 [footnote:end]
 
 [:en@~]
 is determined according to Table [#tab:localization.fill.padding].
+[:zh_CN@~]
+的位置是根据表 [#tab:localization.fill.padding] 来确定的。
 
 [table:listing#tab:localization.fill.padding
     [:en] Fill padding
+    [:zh_CN] 填充
     [columns
         [column@headercenter
             [:en] State
+            [:zh_CN] 状态
         ]
         [column@headercenter
             [:en] Location
+            [:zh_CN] 位置
         ]
     ]
     [border:row@both]
@@ -314,19 +393,27 @@ is determined according to Table [#tab:localization.fill.padding].
 
 [|] [`adjustfield == ios_base::left]
 [|] [:en] pad after
+    [:zh_CN] 前填充
 
 [|] [`adjustfield == ios_base::right]
 [|] [:en] pad before
+    [:zh_CN] 后填充
 
-[|] [`adjustfield == internal] and a sign occurs in the representation
+[|] [:en] [`adjustfield == internal] and a sign occurs in the representation
+    [:zh_CN] [`adjustfield == internal] 且表示中出现了符号
 [|] [:en] pad after the sign
+    [:zh_CN] 填充于符号之后
 
-[|] [`adjustfield == internal] and representation after stage 1 began with 0x or
-    0X
-[|] [:en] pad after x or X
+[|] [:en] [`adjustfield == internal] and representation after stage 1 began with
+    [`0x] or [`0X]
+    [:zh_CN] [`adjustfield == internal] 且阶段 1 之后的表示开始于 [`0x] 或 [`0X]
+[|] [:en] pad after [`x] or [`X]
+    [:zh_CN] 填充于 [`x] 或 [`X] 之后
 
-[|] [:en][$otherwise]
+[|] [:en] [em@it otherwise]
+    [:zh_CN] [em@it 否则]
 [|] [:en] pad before
+    [:zh_CN] 前填充
 
 [table:end]
 
@@ -335,16 +422,24 @@ If [`str.width()] is nonzero and the number of [`charT][=']s in the sequence
 after stage 2 is less than [`str.width()], then enough [`fill] characters are
 added to the sequence at the position indicated for padding to bring the length
 of the sequence to [`str.width()].
- 
+[:zh_CN]
+如果 [`str.width()] 非零，且阶段 2 之后的序列中 [`charT] 的数量小于
+[`str.width()]，则向序列中所指定的填充位置添加足够的 [`fill] 字符，以将序列的
+长度变为 [`str.width()]。
+
 [para:~]
 [:en]
 [`str.width(0)] is called.
+[:zh_CN]
+调用 [`str.width(0)]。
 
 [:en]
 [em@bf Stage 4] The sequence of [`charT][=']s at the end of stage 3 are output
 via
+[:zh_CN]
+[em@bf 阶段 4] 阶段 3 结尾处的 [`charT] 序列被输出：
 
-[codeblock]
+[codeblock:notation]
 *out++ = c
 [codeblock:end]
 [exit:description]
@@ -361,6 +456,8 @@ iter_type do_put(iter_type out, ios_base& str, char_type fill,
 [para:returns]
 [:en] If [`(str.flags() & ios_base::boolalpha) == 0] returns [`do_put(out, str,
 fill, (int)val)], otherwise obtains a string [`s] as if by
+[:zh_CN] 如果 [`(str.flags() & ios_base::boolalpha) == 0] 则返回 [`do_put(out,
+str, fill, (int)val)]，否则如同通过
 
 [codeblock]
 string_type s =
@@ -370,4 +467,6 @@ string_type s =
 
 [:en@~] and then inserts each character [`c] of [`s] into [`out] via
 [`*out++ = c] and returns [`out].
+[:zh_CN@~] 来获得一个字符串 [`s]，再将 [`s] 中的每个字符 [`c] 通过 [`*out++ = c]
+插入到 [`out] 中，再返回 [`out]。
 [exit:description]
