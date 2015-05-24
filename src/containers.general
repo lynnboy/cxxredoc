@@ -1,27 +1,36 @@
 ﻿[section#containers.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en]
 This Clause describes components that [=Cpp] programs may use to organize
 collections of information.
+[:zh_CN]
+本条款描述在 [=Cpp] 程序中可以用于组织信息的集合的组件。
 
 [para]
 [:en]
 The following subclauses describe container requirements, and components for
 sequence containers and associative containers, as summarized in
 Table [#tab:containers.lib.summary].
+[:zh_CN]
+下列子条款描述了容器的规定，以及序列容器和关联容器的组件，总结于表
+[#tab:containers.lib.summary]。
 
 [table:listing#tab:containers.lib.summary
     [:en] Containers library summary
+    [:zh_CN] 容器库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
@@ -29,22 +38,27 @@ Table [#tab:containers.lib.summary].
 
 [|] [#container.requirements]
 [|] [:en] Requirements
+    [:zh_CN] 规定
 [|] 
 
 [|] [#sequences]
 [|] [:en] Sequence containers
+    [:zh_CN] 序列容器
 [|] <array> [br] <deque> [br] <forward_list> [br] <list> [br] <vector>
 
 [|] [#associative]
 [|] [:en] Associative containers
+    [:zh_CN] 关联容器
 [|] <map> [br] <set>
 
 [|] [#unord]
 [|] [:en] Unordered associative containers
+    [:zh_CN] 无序关联容器
 [|] <unordered_map> [br] <unordered_set>
 
 [|] [#container.adaptors]
 [|] [:en] Container adaptors
+    [:zh_CN] 容器适配器
 [|] <queue> [br] <stack>
 
 [table:end]
