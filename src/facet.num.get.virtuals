@@ -1,5 +1,6 @@
 ﻿[section#facet.num.get.virtuals
     [:en] [`num_get] virtual functions
+    [:zh_CN] [`num_get] 的虚函数
 ]
 
 [%@library num_get[!do_get]]
@@ -32,27 +33,37 @@ iter_type do_get(iter_type in, iter_type end, ios_base& str,
 [:en] Reads characters from [`in], interpreting them according to
 [`str.flags()], [`use_facet<ctype<charT> >(loc)], and
 [`use_facet< numpunct<charT> >(loc)], where [`loc] is [`str.getloc()].
+[:zh_CN] 从 [`in] 中读取字符，根据 [`str.flags()]，
+[`use_facet<ctype<charT> >(loc)]，以及 [`use_facet< numpunct<charT> >(loc)] 对其
+进行解释，其中 [`loc] 为 [`str.getloc()]。
 
 [para]
 [:en] The details of this operation occur in three stages
+[:zh_CN] 这个操作的细节以三个阶段进行
 
 [list]
 [item]
 [:en] Stage 1: Determine a conversion specifier
+[:zh_CN] 阶段 1：确定一个转换说明符
 [item]
 [:en] Stage 2: Extract characters from [`in] and determine a corresponding
 [`char] value for the format expected by the conversion specification determined
 in stage 1.
+[:zh_CN] 阶段 2：从 [`in] 中抽取字符，并确定在阶段 1 中所确定的转换说明所期望的
+一个对应 [`char] 值。
 [item]
 [:en] Stage 3: Store results
+[:zh_CN] 阶段 3：保存其结果
 [list:end]
 
 [para]
 [:en] The details of the stages are presented below.
+[:zh_CN] 各个阶段的细节在下文给出。
 
 [enter:description]
 [:en]
 [em@bf Stage 1] The function initializes local variables via
+[:zh_CN] [em@bf 阶段 1] 函数进行这样的局部变量初始化
 
 [codeblock:notation]
 fmtflags flags = str .flags();
@@ -65,21 +76,31 @@ fmtflags boolalpha = (flags & ios_base::boolalpha);
 For conversion to an integral type, the function determines the integral
 conversion specifier as indicated in
 Table [#tab:localization.integer.conversions.in].
+[:zh_CN]
+对于向整型类型的转换，函数确定表 [#tab:localization.integer.conversions.in] 所
+给定的整型转换说明符。
 
 [:en]
 The table is ordered.
+[:zh_CN]
+这个表是有序的。
 
 [:en]
 That is, the first line whose condition is true applies.
+[:zh_CN]
+就是说，采用条件为真的第一行。
 
 [table:listing#tab:localization.integer.conversions.in
     [:en] Integer conversions
+    [:zh_CN] 整数转换
     [columns
         [column@headercenter
             [:en] State
+            [:zh_CN] 状态
         ]
         [column@headercenter@code@center
             [:en] [`stdio] equivalent
+            [:zh_CN] [`stdio] 等价物
         ]
     ]
     [border:row@both]
@@ -106,25 +127,35 @@ That is, the first line whose condition is true applies.
 [table:end]
 
 [:en]
-For conversions to a  floating type the specifier is [`%g].
+For conversions to a floating type the specifier is [`%g].
+[:zh_CN]
+对于向浮点类型的转换，其说明符为 [`%g]。
 
 [para:~]
 [:en]
 For conversions to [`void*] the specifier is [`%p].
+[:zh_CN]
+对于向 [`void*] 的转换，其说明符为 [`%p]。
 
 [para:~]
 [:en]
 A length modifier is added to the conversion specification, if needed,
 as indicated in Table [#tab:localization.length.modifier.in].
+[:zh_CN]
+如果需要，就根据表 [#tab:localization.length.modifier.in] 向转换说明中添加长度
+修饰符。
 
 [table:listing#tab:localization.length.modifier.in
     [:en] Length modifier
+    [:zh_CN] 长度修饰符
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 类型
         ]
         [column@headercenter@code@center
             [:en] Length modifier
+            [:zh_CN] 长度修饰符
         ]
     ]
     [border:row@both]
@@ -158,12 +189,16 @@ as indicated in Table [#tab:localization.length.modifier.in].
 
 [:en]
 [em@bf Stage 2] If [`in==end] then stage 2 terminates.
+[:zh_CN]
+[em@bf 阶段 2] 如果 [`in==end] 则阶段 2 结束。
 
 [:en]
 Otherwise a [`charT] is taken from [`in] and local variables are initialized as
 if by
+[:zh_CN]
+否则就从 [`in] 中获得一个 [`charT]，并进行局部变量的初始化如下
 
-[codeblock]
+[codeblock:notation]
 char_type ct = *in ;
 char c = src[find(atoms, atoms + sizeof(src) - 1, ct) - atoms];
 if (ct ==  use_facet<numpunct<charT> >(loc).decimal_point())
@@ -175,8 +210,10 @@ bool discard =
 
 [:en@~]
 where the values [`src] and [`atoms] are defined as if by:
+[:zh_CN@~]
+其中的 [`src] 和 [`atoms] 是如同这样定义的值：
 
-[codeblock]
+[codeblock:notation]
 static const char src[] = "0123456789abcdefxABCDEFX+-";
 char_type atoms[sizeof(src)];
 use_facet<ctype<charT> >(loc).widen(src, src + sizeof(src), atoms);
@@ -184,88 +221,127 @@ use_facet<ctype<charT> >(loc).widen(src, src + sizeof(src), atoms);
 
 [:en@~]
 for this value of [`loc].
+[:zh_CN@~]
+且针对于 [`loc] 的当前值。
 
 [para:~]
 [:en]
 If [`discard] is true, then if [`'.'] has not yet been accumulated, then the
 position of the character is remembered, but the character is otherwise ignored.
+[:zh_CN]
+如果 [`discard] 为真，则当未收集到 [`'.'] 时，记住该字符的位置，但忽略该字符。
 
 [:en]
 Otherwise, if [`'.'] has already been accumulated, the character is discarded
 and Stage 2 terminates.
+[:zh_CN]
+否则，当已经收集到 [`'.'] 时，丢弃这个字符并结束阶段 2。
 
 [:en]
 If it is not discarded, then a check is made to determine if [`c] is allowed as
 the next character of an input field of the conversion specifier returned by
 Stage 1.
+[:zh_CN]
+如果不进行丢弃，则进行检查以确定根据阶段 1 所返回的转换说明符，[`c] 是否允许作为
+输入字段的下一个字符。
 
 [:en]
 If so, it is accumulated.
+[:zh_CN]
+如果允许则将其收集。
 
 [para:~]
 [:en]
 If the character is either discarded or accumulated then [`in] is advanced by
 [`++in] and processing returns to the beginning of stage 2.
+[:zh_CN]
+如果该字符或者被丢弃或者被收集，则通过 [`++in] 推进 [`in]，而处理回到阶段 2 的
+开始。
 
 [:en]
 [em@bf Stage 3] The sequence of [`char]s accumulated in stage 2 (the field) is
 converted to a numeric value by the rules of one of the functions declared in
 the header [`<cstdlib>]:
+[:zh_CN]
+[em@bf 阶段 3] 在阶段 2 中收集的 [`char] 序列（即为其字段），根据声明与头文件
+[`<cstdlib>] 中的函数之一的规则转换为一个数值：
 
 [list]
 [item]
 [:en] For a signed integer value, the function [`strtoll].
+[:zh_CN] 对于有符号整数值，使用函数 [`strtoll]。
 
 [item]
 [:en] For an unsigned integer value, the function [`strtoull].
+[:zh_CN] 对于无符号整数值，使用函数 [`strtoull]。
 
 [item]
 [:en] For a floating-point value, the function [`strtold].
+[:zh_CN] 对于浮点值，使用函数 [`strtold]。
 [list:end]
 
 [:en]
 The numeric value to be stored can be one of:
+[:zh_CN]
+被存储的数值可以是以下各项之一：
 
 [list]
 [item]
 [:en] zero, if the conversion function fails to convert the entire field.
+[:zh_CN] 如果转换函数无法转换整个字段，则为零。
 
 [:en] [`ios_base::failbit] is assigned to [`err].
+[:zh_CN] 将 [`ios_base::failbit] 赋值给 [`err]。
 
 [item]
 [:en] the most positive representable value, if the field represents a value too
 large positive to be represented in [`val].
+[:zh_CN] 如果字段对于 [`val] 的表示是一个过大的正数值，则为一个最大的可表示正数
+值。
 
 [:en] [`ios_base::failbit] is assigned to [`err].
+[:zh_CN] 将 [`ios_base::failbit] 赋值给 [`err]。
 
 [item]
 [:en] the most negative representable value or zero for an unsigned integer
 type, if the field represents a value too large negative to be represented in
 [`val].
+[:zh_CN] 如果字段对于 [`val] 的表示是一个过小的负数值，则为一个最小的可表示负数
+值。
 
 [:en] [`ios_base::failbit] is assigned to [`err].
+[:zh_CN] 将 [`ios_base::failbit] 赋值给 [`err]。
 
 [item]
 [:en] the converted value, otherwise.
+[:zh_CN] 否则为转换后的值。
 [list:end]
 
 [:en]
 The resultant numeric value is stored in [`val].
+[:zh_CN]
+其结果数值被存储于 [`val] 中。
 
 [exit:description]
 
 [para]
 [:en] Digit grouping is checked.
+[:zh_CN] 检查数字的分组。
 
 [:en] That is, the positions of discarded separators is examined for consistency
 with [`use_facet<numpunct<charT> >(loc).grouping()].
+[:zh_CN] 就是说，被丢弃的分隔符的位置与
+[`use_facet<numpunct<charT> >(loc).grouping()] 之间检查一致性。
 
 [:en] If they are not consistent then [`ios_base::failbit] is assigned to
 [`err].
+[:zh_CN] 如果它们不一致，则将 [`ios_base::failbit] 赋值给 [`err]。
 
 [para]
 [:en] In any case, if stage 2 processing was terminated by the test for
 [`in==end] then [`err |=ios_base::eofbit] is performed.
+[:zh_CN] 任何情况下，如果阶段 2 的处理以测试 [`in==end] 而终止，则实施
+[`err |=ios_base::eofbit]。
 [exit:description]
 
 [%@library do_get[!num_get]]
@@ -280,56 +356,81 @@ iter_type do_get(iter_type in, iter_type end, ios_base& str,
 [:en] If [`(str.flags()&ios_base::boolalpha)==0] then input proceeds as it would
 for a [`long] except that if a value is being stored into [`val], the value is
 determined according to the following:
+[:zh_CN] 如果 [`(str.flags()&ios_base::boolalpha)==0]，则根据 [`long] 的情况处理
+输入，但当将值存储到 [`val] 中时，其值是以下述方式确定的：
 
 [:en] If the value to be stored is 0 then [`false] is stored.
+[:zh_CN] 如果要存储的值为 0，则存储 [`false]。
 
 [:en] If the value is 1 then [`true] is stored.
+[:zh_CN] 如果值为 1，则存储 [`true]。
 
 [:en] Otherwise [`true] is stored and [`ios_base::failbit] is assigned to
 [`err].
+[:zh_CN] 否则存储 [`true]，并将 [`ios_base::failbit] 赋值给 [`err]。
 
 [para]
 [:en] Otherwise target sequences are determined ["as if] by calling the members
 [`falsename()] and [`truename()] of the facet obtained by
 [`use_facet<numpunct<charT> >(str.getloc())].
+[:zh_CN] 否则“如同”通过对 [`use_facet<numpunct<charT> >(str.getloc())] 所获得的
+刻面调用 [`falsename()] 和 [`truename()] 成员那样来确定其目标序列。
 
 [:en] Successive characters in the range [=range[in,end)] (see
 [#sequence.reqmts]) are obtained and matched against corresponding positions in
 the target sequences only as necessary to identify a unique match.
+[:zh_CN] 仅进行必须的操作来获得范围 [=range[in,end)] 中的后续字符
+（参见 [#sequence.reqmts]），并将其与目标序列中的对应位置进行匹配以识别一个唯一
+的匹配。
 
 [:en] The input iterator [`in] is compared to [`end] only when necessary to
 obtain a character.
+[:zh_CN] 仅当对于获得一个字符为必要时，将输入迭代器 [`in] 与 [`end] 进行比较。
 
 [:en] If a target sequence is uniquely matched, [`val] is set to the
 corresponding value.
+[:zh_CN] 如果唯一匹配了一个目标序列，则 [`val] 被设为其对应值。
 
 [:en] Otherwise [`false] is stored and [`ios_base::failbit] is assigned to
 [`err].
+[:zh_CN] 否则就存储 [`false]，并将 [`ios_base::failbit] 赋值给 [`err]。
 
 [para]
 [:en] The [`in] iterator is always left pointing one position beyond the last
 character successfully matched.
+[:zh_CN] [`in] 迭代器总被遗留为指向成功匹配的最后一个字符之后一个位置。
 
 [:en] If [`val] is set, then [`err] is set to [`str.goodbit]; or to
 [`str.eofbit] if, when seeking another character to match, it is found that
 [`(in == end)].
+[:zh_CN] 如果 [`val] 被设置，则 [`err] 被设为 [`str.goodbit]；或者当寻找另一个
+用以匹配的字符时遇到 [`(in == end)] 的情况时，[`err] 被设置为 [`str.eofbit()]。
 
 [:en] If [`val] is not set, then [`err] is set to [`str.failbit]; or to
 [`(str.failbit|str.eofbit)] if the reason for the failure was that
 [`(in == end)].
+[:zh_CN] 如果 [`val] 未被设置，则 [`err] 被设为 [`str.failbit]；或者当出错发生于
+[`(in == end)] 的情况时，[`err] 被设置为 [`(str.failbit|str.eofbit)]。
 
 [enter:example]
 [:en] For targets [`true]: [`"a"] and [`false]: [`"abb"], the input sequence
 [`"a"] yields [`val == true] and [`err == str.eofbit]; the input sequence
 [`"abc"] yields [`err = str.failbit], with [`in] ending at the [`'c'] element.
+[:zh_CN] 目标 [`true] 为 [`"a"] 而目标 [`false] 为 [`"abb"]，则输入序列 [`"a"]
+产生 [`val == true] 和 [`err == str.eofbit]；输入序列 [`"abc"] 产生
+[`err = str.failbit]，其 [`in] 终止于元素 [`'c']。
 
 [:en] For targets [`true]: [`"1"] and [`false]: [`"0"], the input sequence
 [`"1"] yields [`val == true] and [`err == str.goodbit].
+[:zh_CN] 目标 [`true] 为 [`"1"] 而目标 [`false] 为 [`"0"]，则输入序列 [`"1"]
+产生 [`val == true] 和 [`err == str.goodbit]。
 
 [:en] For empty targets [`("")], any input sequence yields
 [`err == str.failbit].
+[:zh_CN] 对于空目标 [`("")]，任何输入序列均产生 [`err == str.failbit]。
 [exit:example]
 
 [para:returns]
 [:en] [`in].
+[:zh_CN] [`in]。
 [exit:description]
