@@ -1,5 +1,6 @@
 ﻿[section#locale.money.put.virtuals
     [:en] [`money_put] virtual functions
+    [:zh_CN] [`money_put] 的虚函数
 ]
 
 [%@library money_put[!do_put]]
@@ -17,51 +18,74 @@ iter_type do_put(iter_type s, bool intl, ios_base& str,
 [`moneypunct<charT,Intl>] facet reference [`mp] and the character mapping
 specified by a [`ctype<charT>] facet reference [`ct] obtained from the locale
 returned by [`str.getloc()], and [`str.flags()].
+[:zh_CN] 向 [`s] 中写入字符，根据由通过 [`str.getloc()] 所返回的区域上所获得的
+[`moneypunct<charT,Intl>] 刻面引用 [`mp] 所指定的格式，和 [`ctype<charT>] 刻面
+引用 [`ct] 所指定的字符映射，以及 [`str.flags()] 进行。
 
 [:en] The argument [`units] is transformed into a sequence of wide characters as
 if by
+[:zh_CN] [`units] 实参如同为字符缓冲区 [`buf1] 和 [`buf2] 通过
 
-[codeblock]
+[codeblock:notation]
 ct.widen(buf1, buf1 + sprintf(buf1, "%.0Lf", units), buf2)
 [codeblock:end]
 
 [:en@~] for character buffers [`buf1] and [`buf2].
+[:zh_CN@~] 转换为宽字符的序列。
 
 [:en] If the first character in [`digits] or [`buf2] is equal to
 [`ct.widen('-')], then the pattern used for formatting is the result of
 [`mp.neg_format()]; otherwise the pattern is the result of [`mp.pos_format()].
+[:zh_CN] 如果 [`digits] 或 [`buf2] 中的第一个字符等于 [`ct.widen('-')]，则用于
+格式化的模式是 [`mp.neg_format()] 的结果；否则其模式是 [`mp.pos_format()] 的结果
+。
 
 [:en] Digit characters are written, interspersed with any thousands separators
 and decimal point specified by the format, in the order they appear (after the
 optional leading minus sign) in [`digits] or [`buf2].
+[:zh_CN] 以各数字字符在 [`digits] 或 [`buf2] 中的出现顺序，（在可选的前导减号
+之后）被写出，并根据其格式点缀以千位分隔符和小数点。
 
 [:en] In [`digits], only the optional leading minus sign and the immediately
 subsequent digit characters (as classified according to [`ct]) are used; any
 trailing characters (including digits appearing after a non-digit character) are
 ignored.
+[:zh_CN] 在 [`digits] 中，只有可选的前导负号和紧跟其后的连续数字字符（根据 [`ct]
+的分类）被使用；任何余下的字符（包括出现于非数字字符之后的数字）均被忽略。
 
 [:en] Calls [`str.width(0)].
+[:zh_CN] 调用 [`str.width(0)]。
 
 [para:notes]
 [/% issues 22-021, 22-030, 22-034 from 97-0058/N1096, 97-0036/N1074/]
 [:en] The currency symbol is generated if and only if
 [`(str.flags() & str.showbase)] is nonzero.
+[:zh_CN] 当且仅当 [`(str.flags() & str.showbase)] 非零时，生成货币符号。
 
 [:en] If the number of characters generated for the specified format is less
 than the value returned by [`str.width()] on entry to the function, then copies
 of [`fill] are inserted as necessary to pad to the specified width.
+[:zh_CN] 如果为指定格式所生成的字符个数少于进入函数时 [`str.width()] 的返回值，
+则根据需要复制 [`fill] 以填充到所要求的宽度。
 
 [:en] For the value [`af] equal to [`(str.flags() & str.adjustfield)], if
 [`(af == str.internal)] is true, the fill characters are placed where [`none] or
 [`space] appears in the formatting pattern; otherwise if [`(af == str.left)]
 is true, they are placed after the other characters; otherwise, they are placed
 before the other characters.
+[:zh_CN] 对于等于 [`(str.flags() & str.adjustfield)] 的值 [`af]，如果
+[`(af == str.internal)] 为真，则填充字符被置于格式模式中出现 [`none] 或 [`space]
+的位置；否则如果 [`(af == str.left)] 为真，则它们被置于其他字符之后；否则它们被
+置于其他字符之前。
 
 [enter:note]
 [:en] It is possible, with some combinations of format patterns and flag values,
 to produce output that cannot be parsed using [`num_get<>::get].
+[:zh_CN] 对于某些格式模式和标记值的组合，产生无法用 [`num_get<>::get] 进行解析
+的输出是可能的。
 [exit:note]
 
 [para:returns]
 [:en] An iterator pointing immediately after the last character produced.
+[:zh_CN] 指向紧跟最后一个所产生的字符之后的位置的迭代器。
 [exit:description]
