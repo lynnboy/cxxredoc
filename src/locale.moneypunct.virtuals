@@ -1,5 +1,6 @@
 ﻿[section#locale.moneypunct.virtuals
     [:en] [`moneypunct] virtual functions
+    [:zh_CN] [`moneypunct] 的虚函数
 ]
 
 [%@library moneypunct[!do_decimal_point]]
@@ -12,9 +13,11 @@ charT do_decimal_point() const;
 [para:returns]
 [:en] The radix separator to use in case [`do_frac_digits()] is greater than
 zero.
+[:zh_CN] 用作当 [`do_frac_digits()] 大于零时的基数分隔符。
 
 [footnote]
 [:en] In common U.S. locales this is [`'.'].
+[:zh_CN] 在普通的美国区域中，这是 [`'.']。
 [footnote]
 [exit:description]
 
@@ -28,9 +31,11 @@ charT do_thousands_sep() const;
 [para:returns]
 [:en] The digit group separator to use in case [`do_grouping()] specifies a
 digit grouping pattern.
+[:zh_CN] 用作当 [`do_grouping()] 指定某种数字分组模式时的数字分组分隔符。
 
 [footnote]
 [:en] In common U.S. locales this is [`','].
+[:zh_CN] 在普通的美国区域中，这是 [`',']。
 [footnote:end]
 [exit:description]
 
@@ -44,9 +49,12 @@ string do_grouping() const;
 [para:returns]
 [:en] A pattern defined identically as, but not necessarily equal to, the result
 of [`numpunct<charT>::do_grouping()].
+[:zh_CN] 定义为与 [`numpunct<charT>::do_grouping()] 相同，但不必等于其结果的一个
+模式。
 
 [footnote]
 [:en] To specify grouping by 3s, the value is [`"\003"] [em not] [`"3"].
+[:zh_CN] 为指定按三个进行分组，其值应当为 [`"\003"] 而[em 不是] [`"3"]。
 [footnote:end]
 [exit:description]
 
@@ -59,10 +67,13 @@ string_type do_curr_symbol() const;
 [enter:description]
 [para:returns]
 [:en] A string to use as the currency identifier symbol.
+[:zh_CN] 用作货币标识符号的字符串。
 
 [footnote]
 [:en] For international specializations (second template parameter [`true]) this
 is typically four characters long, usually three letters and a space.
+[:zh_CN] 对于国际化特例（第二个模板形参为 [`true]），这通常具有四个字符，一般是
+三个字母和一个空格。
 [footnote:end]
 [exit:description]
 
@@ -79,13 +90,16 @@ string_type do_negative_sign() const;
 [para:returns]
 [:en] [`do_positive_sign()] returns the string to use to indicate a positive
 monetary value;
+[:zh_CN] [`do_positive_sign()] 返回用于指定正货币值的字符串；
 
 [footnote]
 [:en] This is usually the empty string.
+[:zh_CN] 这通常是空字符串。
 [footnote:end]
 
 [:en] [`do_negative_sign()] returns the string to use to indicate a negative
 value.
+[:zh_CN] [`do_negative_sign()] 返回用于指定负货币值。
 [exit:description]
 
 [%@library moneypunct[!do_frac_digits]]
@@ -97,9 +111,11 @@ int do_frac_digits() const;
 [enter:description]
 [para:returns]
 [:en] The number of digits after the decimal radix separator, if any.
+[:zh_CN] 十进制基数分隔符之后的数字个数（如果有）。
 
 [footnote]
 [:en] In common U.S. locales, this is 2.
+[:zh_CN] 在普通的美国区域中，这是 2。
 [footnote:end]
 [exit:description]
 
@@ -119,9 +135,15 @@ pattern do_neg_format() const;
 [`moneypunct<char>], [`moneypunct<wchar_t>], [`moneypunct<char,true>], and
 [`moneypunct<wchar_t,true>], return an object of type [`pattern] initialized to
 [`{ symbol, sign, none, value }].
+[:zh_CN] 表 [#tab:localization.required.specializations]（[#locale.category]）
+中所要求的特例，亦即 [`moneypunct<char>]，[`moneypunct<wchar_t>]，
+[`moneypunct<char,true>] 和 [`moneypunct<wchar_t,true>]，返回被初始化为
+[`{ symbol, sign, none, value }] 的 [`pattern] 类型的对象。
 
 [footnote]
 [:en] Note that the international symbol returned by [`do_curr_sym()] usually
 contains a space, itself; for example, [`"USD "].
+[:zh_CN] 注意由 [`do_curr_sym()] 所返回的国际化符号通常自身就包含一个空格；例如
+[`"USD "]。
 [footnote:end]
 [exit:description]
