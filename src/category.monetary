@@ -1,22 +1,32 @@
 ﻿[section#category.monetary
     [:en] The monetary category
+    [:zh_CN] 货币范畴
 ]
 
 [para]
 [:en] These templates handle monetary formats.
+[:zh_CN] 这些模板用于处理货币格式。
 
 [:en] A template parameter indicates whether local or international monetary
 formats are to be used.
+[:zh_CN] 一个模板形参用于指定使用本地还是国际性货币格式。
 
 [para]
 [:en] All specifications of member functions for [`money_put] and [`money_get]
 in the subclauses of [#category.monetary] only apply to the specializations
 required in Tables [#tab:localization.category.facets] and
 [#tab:localization.required.specializations] ([#locale.category]).
+[:zh_CN] [#category.monetary] 的子条款中的 [`money_put] 和 [`money_get] 的成员
+函数的所有特例仅适用于在表 [#tab:localization.category.facets] 和
+[#tab:localization.required.specializations]（[#locale.category]）中所要求的特例
+。
 
 [:en] Their members use their [`ios_base&], [`ios_base::iostate&], and [`fill]
 arguments as described in ([#locale.categories]), and the [`moneypunct<>] and
 [`ctype<>] facets, to determine formatting details.
+[:zh_CN] 它们的成员根据 [#locale.categories] 所述使用其 [`ios_base&]、
+[`ios_base::iostate&] 和 [`fill] 实参，以及 [`moneypunct<>] 和 [`ctype<>] 刻面，
+以确定格式的细节。
 
 [include locale.money.get]
 
