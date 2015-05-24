@@ -1,5 +1,6 @@
 ﻿[section#locale.time.put
     [:en] Class template [`time_put]
+    [:zh_CN] 类模板 [`time_put]
 ]
 
 [%@library time_put]
@@ -14,6 +15,7 @@ namespace std {
     explicit time_put(size_t refs = 0);
 
     // [:en] the following is implemented in terms of other member functions.
+    // [|:zh_CN] 以下函数是以其他成员函数实现的。
     iter_type put(iter_type s, ios_base& f, char_type fill, const tm* tmb,
                   const charT* pattern, const charT* pat_end) const;
     iter_type put(iter_type s, ios_base& f, char_type fill,
