@@ -1,5 +1,6 @@
 ﻿[section#locale.money.get.virtuals
     [:en] [`money_get] virtual functions
+    [:zh_CN] [`money_get] 的虚函数
 ]
 
 [%@library money_get[!do_get]]
@@ -19,43 +20,67 @@ iter_type do_get(iter_type s, iter_type end, bool intl,
 according to the format specified by a [`moneypunct<charT,Intl>] facet reference
 [`mp] and the character mapping specified by a [`ctype<charT>] facet reference
 [`ct] obtained from the locale returned by [`str.getloc()], and [`str.flags()].
+[:zh_CN] 从 [`s] 中读取字符，以解析并构造一个货币值，根据由通过 [`str.getloc()]
+所返回的区域上所获得的 [`moneypunct<charT,Intl>] 刻面引用 [`mp] 所指定的格式，和
+[`ctype<charT>] 刻面引用 [`ct] 所指定的字符映射，以及 [`str.flags()] 进行。
 
 [:en] If a valid sequence is recognized, does not change [`err]; otherwise, sets
 [`err] to [`(err|str.failbit)], or [`(err|str.failbit|str.eofbit)] if no more
 characters are available, and does not change [`units] or [`digits].
+[:zh_CN] 如果识别出有效的序列，则不改变 [`err]；否则设置 [`err] 为
+[`(err|str.failbit)]，或者当没有更多字符时设置为 [`(err|str.failbit|str.eofbit)]
+，且并不改变 [`units] 或 [`digits]。
 
 [:en] Uses the pattern returned by [`mp.neg_format()] to parse all values.
+[:zh_CN] 使用由 [`mp.neg_format()] 所返回的模式来解析所有的值。
 
 [:en] The result is returned as an integral value stored in [`units] or as a
 sequence of digits possibly preceded by a minus sign (as produced by
 [`ct.widen(c)] where [`c] is [`'-'] or in the range from [`'0'] through [`'9'],
 inclusive) stored in [`digits].
+[:zh_CN] 其结果以一个存储于 [`units] 中的整型值返回，或者以一个存储于 [`digits]
+中的可能带有一个负号的数字序列（以 [`ct.widen(c)] 产生，其中 [`c] 为 [`'-'] 或者
+处于从 [`'0'] 到 [`'9'] 的范围（内含）之中）返回。
 
 [enter:example]
 [:en] The sequence [`$1,056.23] in a common United States locale would yield,
 for [`units], [`105623], or, for [`digits], [`"105623"].
+[:zh_CN] 序列 [`$1,056.23] 在普通美国区域中将会为 [`units] 产生 [`105623]，或为
+[`digits] 产生 [`"105623"]。
 [exit:example]
 
 [:en] If [`mp.grouping()] indicates that no thousands separators are permitted,
 any such characters are not read, and parsing is terminated at the point where
 they first appear.
+[:zh_CN] 如果 [`mp.grouping()] 指定不允许千位分隔符，则任何这种字符均不被读取，
+且其解析终止于第一次出现它们的位置。
 
 [:en] Otherwise, thousands separators are optional; if present, they are checked
 for correct placement only after all format components have been read.
+[:zh_CN] 否则，千位分隔符是可选的；如果存在，就在全部格式成分都被读取之后，检查
+它们是否处于正确位置。
 
 [para]
 [:en] Where [`money_base::space] or [`money_base::none] appears as the last
 element in the format pattern, no white space is consumed.
+[:zh_CN] 当 [`money_base::space] 或 [`money_base::none] 作为格式模式的最后一个
+元素时，不会消耗空白。
 
 [:en] Otherwise, where [`money_base::space] appears in any of the initial
 elements of the format pattern, at least one white space character is required.
+[:zh_CN] 否则，当 [`money_base::space] 作为格式模式中的任何开头元素时，至少需要
+一个空白字符。
 
 [:en] Where [`money_base::none] appears in any of the initial elements of the
 format pattern, white space is allowed but not required.
+[:zh_CN] 当 [`money_base::none] 作为格式模式中的任何开头元素时，允许但不要求出现
+空白。
 
 [:en] If [`(str.flags() & str.showbase)] is false, the currency symbol is
 optional and is consumed only if other characters are needed to complete the
 format; otherwise, the currency symbol is required.
+[:zh_CN] 如果 [`(str.flags() & str.showbase)] 为假，则货币符号是可选的，且仅当
+需要其他字符以完成格式时才被消耗；否则，货币符号是必须的。
 
 [para]
 [:en] If the first character (if any) in the string [`pos] returned by
@@ -63,36 +88,54 @@ format; otherwise, the currency symbol is required.
 recognized in the position indicated by [`sign] in the format pattern, it is
 consumed and any remaining characters in the string are required after all the
 other format components.
+[:zh_CN] 如果由 [`mp.positive_sign()] 所返回的字符串 [`pos] 和由
+[`mp.negative_sign()] 所返回的字符串 [`neg] 的第一个字符（如果有），在格式模式
+中由 [`sign] 所指定的位置被识别，则它被消耗，而该字符串中的任何剩余字符，都在
+所有其他格式成分之后是必须的。
 
 [enter:example]
 [:en] If [`showbase] is off, then for a [`neg] value of [`"()"] and a currency
 symbol of [`"L"], in [`"(100 L)"] the [`"L"] is consumed; but if [`neg] is
 [`"-"], the [`"L"] in [`"-100 L"] is not consumed.
+[:zh_CN] 如果 [`showbase] 被关闭，则对于值为 [`"()"] 的 [`neg]，以及货币符号
+[`"L"]，[`"(100 L)"] 中的 [`"L"] 被消耗；但如果 [`neg] 为 [`"-"]，则 [`"-100 L"]
+中的 [`"L"] 不被消耗。
 [exit:example]
 
 [:en] If [`pos] or [`neg] is empty, the sign component is optional, and if no
 sign is detected, the result is given the sign that corresponds to the source of
 the empty string.
+[:zh_CN] 如果 [`pos] 或 [`neg] 为空，则符号成分是可选的，且当未检测到符号时，
+以对应于空字符串的来源的符号作为其结果的符号。
 
 [:en] Otherwise, the character in the indicated position must match the first
 character of [`pos] or [`neg], and the result is given the corresponding sign.
+[:zh_CN] 否则，指定位置的字符必须匹配 [`pos] 或 [`neg] 的第一个字符，且以其对应
+的符号作为其结果的符号。
 
 [:en] If the first character of [`pos] is equal to the first character of
 [`neg], or if both strings are empty, the result is given a positive sign.
+[:zh_CN] 如果 [`pos] 的第一个字符等于 [`neg] 的第一个字符，或者如果两个字符串均
+为空，则结果具有正号。
 
 [para]
 [:en] Digits in the numeric monetary component are extracted and placed in
 [`digits], or into a character buffer [`buf1] for conversion to produce a value
 for [`units], in the order in which they appear, preceded by a minus sign if and
 only if the result is negative.
+[:zh_CN] 数值货币成分中的数字，以它们出现的顺序，（并当且仅当其结果为负数时前面
+带有减号），被抽取并被置于 [`digits] 中，或者置于某个字符缓冲区 [`buf1] 中以进行
+转换来产生 [`units] 的值。
 
 [:en] The value [`units] is produced as if by
+[:zh_CN] [`units] 的值如同这样产生
 
 [footnote]
 [:en] The semantics here are different from [`ct.narrow].
+[:zh_CN] 此处的语义与 [`ct.narrow] 有所不同。
 [footnote:end]
 
-[codeblock]
+[codeblock:notation]
 for (int i = 0; i < n; ++i)
   buf2[i] = src[find(atoms, atoms+sizeof(src), buf1[i]) - atoms];
 buf2[n] = 0;
@@ -101,8 +144,10 @@ sscanf(buf2, "%Lf", &units);
 
 [:en@~] where [`n] is the number of characters placed in [`buf1], [`buf2] is a
 character buffer, and the values [`src] and [`atoms] are defined as if by
+[:zh_CN@~] 其中 [`n] 为置于 [`buf1] 中的字符个数，[`buf2] 为字符缓冲区，而
+[`src] 和 [`atoms] 的值是如同这样获得的
 
-[codeblock]
+[codeblock:notation]
 static const char src[] = "0123456789-";
 charT atoms[sizeof(src)];
 ct.widen(src, src + sizeof(src) - 1, atoms);
@@ -111,4 +156,5 @@ ct.widen(src, src + sizeof(src) - 1, atoms);
 [para:returns]
 [:en] An iterator pointing immediately beyond the last character recognized
 as part of a valid monetary quantity.
+[:zh_CN] 指向紧跟最后一个被识别为有效货币数量的成分的字符之后的位置的迭代器。
 [exit:description]
