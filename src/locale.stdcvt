@@ -1,14 +1,18 @@
 ﻿[section#locale.stdcvt
     [:en] Standard code conversion facets
+    [:zh_CN] 标准代码转换刻面
 ]
 
 [para]
 [:en]
 The header [`<codecvt>] provides code conversion facets for various character
 encodings.
+[:zh_CN]
+头文件 [`<codecvt>] 为各种字符编码提供了代码转换刻面。
 
 [para] [para:synopsis]
 [:en] Header [`<codecvt>] synopsis
+[:zh_CN] 头文件 [`<codecvt>] 纲要
 
 [%@library codecvt]
 [codeblock:synopsis]
@@ -51,68 +55,95 @@ namespace std {
 [para]
 [:en] For each of the three code conversion facets [`codecvt_utf8],
 [`codecvt_utf16], and [`codecvt_utf8_utf16]:
+[:zh_CN] 对于三种代码转换刻面 [`codecvt_utf8]、[`codecvt_utf16] 和
+[`codecvt_utf8_utf16] 中的每一种：
 
 [list]
 [item]
 [:en] [`Elem] is the wide-character type, such as [`wchar_t], [`char16_t], or
 [`char32_t].
+[:zh_CN] [`Elem] 为宽字符类型，如 [`wchar_t]、[`char16_t] 或 [`char32_t]。
 [item]
 [:en] [`Maxcode] is the largest wide-character code that the facet will read or
 write without reporting a conversion error.
+[:zh_CN] [`Maxcode] 为该刻面可以不报告转换错误而读取或写入的最大的宽字符代码。
 [item]
 [:en] If [`(Mode & consume_header)], the facet shall consume an initial header
 sequence, if present, when reading a multibyte sequence to determine the
 endianness of the subsequent multibyte sequence to be read.
+[:zh_CN] 如果 [`(Mode & consume_header)] 为真，则该刻面应当在读取一个多字节序列
+时消耗其初始头部序列（如果存在），以确定其后续读取的多字节序列的字节序。
 [item]
 [:en] If [`(Mode & generate_header)], the facet shall generate an initial header
 sequence when writing a multibyte sequence to advertise the endianness of the
 subsequent multibyte sequence to be written.
+[:zh_CN] 如果 [`(Mode & generate_header)] 为真，则该刻面应当在写入一个多字节序列
+时生成一个初始头部序列，以通告其后续写出的多字节序列的字节序。
 [item]
 [:en] If [`(Mode & little_endian)], the facet shall generate a multibyte
 sequence in little-endian order, as opposed to the default big-endian order.
+[:zh_CN] 如果 [`(Mode & little_endian)] 为真，则该刻面应当以小端字节序，而不是
+默认的大端字节序，生成多字节序列。
 [list:end]
 
 [para]
 [:en] For the facet [`codecvt_utf8]:
+[:zh_CN] 对于 [`codecvt_utf8] 刻面：
 
 [list]
 [item]
 [:en] The facet shall convert between UTF-8 multibyte sequences and UCS2 or UCS4
 (depending on the size of [`Elem]) within the program.
+[:zh_CN] 该刻面应当在程序中进行 UTF-8 多字节序列和 UCS2 或 UCS4（依赖于 [`Elem]
+的大小）之间的转换。
 [item]
 [:en] Endianness shall not affect how multibyte sequences are read or written.
+[:zh_CN] 字节序不能影响如何读取或写入多字节序列。
 [item]
 [:en] The multibyte sequences may be written as either a text or a binary file.
+[:zh_CN] 多字节序列可以作为文本或二进制文件而写出。
 [list:end]
 
 [para]
 [:en] For the facet [`codecvt_utf16]:
+[:zh_CN] 对于 [`codecvt_utf16] 刻面：
 
 [list]
 [item]
 [:en] The facet shall convert between UTF-16 multibyte sequences and UCS2 or
 UCS4 (depending on the size of [`Elem]) within the program.
+[:zh_CN] 该刻面应当在程序中进行 UTF-16 多字节序列和 UCS2 或 UCS4（依赖于 [`Elem]
+的大小）之间的转换。
 [item]
 [:en] Multibyte sequences shall be read or written according to the [`Mode]
 flag, as set out above.
+[:zh_CN] 多字节序列应当根据上文所设立的方式，根据 [`Mode] 标记进行读取和写出。
 [item]
 [:en] The multibyte sequences may be written only as a binary file.
+[:zh_CN] 多字节序列只能被写出到二进制文件中。
 
 [:en] Attempting to write to a text file produces undefined behavior.
+[:zh_CN] 试图向文本文件中写出将导致未定义行为。
 [list:end]
 
 [para]
 [:en] For the facet [`codecvt_utf8_utf16]:
+[:zh_CN] 对于 [`codecvt_utf8_utf16] 刻面：
 
 [list]
 [item]
 [:en] The facet shall convert between UTF-8 multibyte sequences and UTF-16 (one
 or two 16-bit codes) within the program.
+[:zh_CN] 该刻面应当在程序中进行 UTF-8 多字节序列和 UTF-16（一个或两个 16-位 代码
+）之间的转换。
 [item]
 [:en] Endianness shall not affect how multibyte sequences are read or written.
+[:zh_CN] 字节序不能影响如何读取或写入多字节序列。
 [item]
 [:en] The multibyte sequences may be written as either a text or a binary file.
+[:zh_CN] 多字节序列可以作为文本或二进制文件而写出。
 [list:end]
 
 [para:xref]
 [:en] ISO/IEC 10646-1:1993.
+[:zh_CN] ISO/IEC 10646-1:1993。
