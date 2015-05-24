@@ -1,20 +1,29 @@
 ﻿[section#container.requirements.dataraces
     [:en] Container data races
+    [:zh_CN] 容器的数据竞争
 ]
 
 [para]
 [:en]
-For purposes of avoiding data races ([#res.on.data.races]), implementations shall
-consider the following functions to be [`const]: [`begin], [`end], [`rbegin],
-[`rend], [`front], [`back], [`data], [`find], [`lower_bound], [`upper_bound],
-[`equal_range], [`at] and, except in associative or unordered associative
-containers, [`operator[`]].
+For purposes of avoiding data races ([#res.on.data.races]), implementations
+shall consider the following functions to be [`const]: [`begin], [`end],
+[`rbegin], [`rend], [`front], [`back], [`data], [`find], [`lower_bound],
+[`upper_bound], [`equal_range], [`at] and, except in associative or unordered
+associative containers, [`operator[`]].
+[:zh_CN]
+为避免数据竞争（[#res.on.data.races]），实现应当将下列函数当作 [`const]：
+[`begin]，[`end]，[`rbegin]，[`rend]，[`front]，[`back]，[`data]，[`find]，
+[`lower_bound]，[`upper_bound]，[`equal_range]，[`at]，以及（除了关联或无序关联
+容器外）[`operator[`]]。
 
 [para]
 [:en]
 Notwithstanding ([#res.on.data.races]), implementations are required to avoid
 data races when the contents of the contained object in different elements in
 the same container, excepting [`vector<bool>], are modified concurrently.
+[:zh_CN]
+尽管如此（[#res.on.data.races]），当对同一个（除了 [`vector<bool>] 之外的）容器
+中的不同元素中所包含的对象的内容进行并发的改动时，要求实现避免数据竞争。
 
 [para]
 [enter:note]
@@ -22,7 +31,12 @@ the same container, excepting [`vector<bool>], are modified concurrently.
 [`*x.begin() = 10] can be executed concurrently without a data race, but
 [`x[0`] = 5] and [`*x.begin() = 10] executed concurrently may result in a data
 race.
+[:zh_CN] 对于大小大于一的 [`vector<int> x]，[`x[1`] = 5] 和 [`*x.begin() = 10]
+可以没有数据竞争地并发执行，但并发执行的 [`x[0`] = 5] 和 [`*x.begin() = 10] 可能
+导致数据竞争。
 
 [:en] As an exception to the general rule, for a [`vector<bool> y],
 [`y[0`] = true] may race with [`y[1`] = true].
+[:zh_CN] 作为一般规则的例外，对于 [`vector<bool> y]，[`y[0`] = true] 可能与
+[`y[1`] = true] 相互竞争。
 [exit:note]
