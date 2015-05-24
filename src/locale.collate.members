@@ -1,5 +1,6 @@
 ﻿[section#locale.collate.members
     [:en] [`collate] members
+    [:zh_CN] [`collate] 的成员函数
 ]
 
 [%@library collate[!compare]]
@@ -11,7 +12,7 @@ int compare(const charT* low1, const charT* high1,
 
 [enter:description]
 [para:returns]
-[:en] [`do_compare(low1, high1, low2, high2)]
+[`do_compare(low1, high1, low2, high2)]
 [exit:description]
 
 [%@library collate[!transform]]
@@ -22,7 +23,7 @@ string_type transform(const charT* low, const charT* high) const;
 
 [enter:description]
 [para:returns]
-[:en] [`do_transform(low, high)]
+[`do_transform(low, high)]
 [exit:description]
 
 [%@library collate[!hash]]
@@ -33,5 +34,5 @@ long hash(const charT* low, const charT* high) const;
 
 [enter:description]
 [para:returns]
-[:en] [`do_hash(low, high)]
+[`do_hash(low, high)]
 [exit:description]
