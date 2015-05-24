@@ -1,5 +1,6 @@
 ﻿[section#locale.messages.members
     [:en] [`messages] members
+    [:zh_CN] [`messages] 的成员
 ]
 
 [%@library messages[!open]]
@@ -11,6 +12,7 @@ catalog open(const basic_string<char>& name, const locale& loc) const;
 [enter:description]
 [para:returns]
 [:en] [`do_open(name, loc)].
+[:zh_CN] [`do_open(name, loc)]。
 [exit:description]
 
 [%@library messages[!get]]
@@ -23,6 +25,7 @@ string_type get(catalog cat, int set, int msgid,
 [enter:description]
 [para:returns]
 [:en] [`do_get(cat, set, msgid, dfault)].
+[:zh_CN] [`do_get(cat, set, msgid, dfault)]。
 [exit:description]
 
 [%@library messages[!close]]
@@ -34,4 +37,5 @@ void  close(catalog cat) const;
 [enter:description]
 [para:effects]
 [:en] Calls [`do_close(cat)].
+[:zh_CN] 调用 [`do_close(cat)]。
 [exit:description]
