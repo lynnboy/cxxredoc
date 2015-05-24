@@ -1,24 +1,32 @@
 ﻿[section#facets.examples
     [:en] Program-defined facets
+    [:zh_CN] 由程序定义的刻面
 ]
 
 [para]
 [:en]
 A [=Cpp] program may define facets to be added to a locale and used identically
 as the built-in facets.
+[:zh_CN]
+[=Cpp] 程序可以定义刻面并添加到区域中，并以内建刻面相同的方式使用。
 
 [:en]
 To create a new facet interface, [=Cpp] programs simply derive from
 [`locale::facet] a class containing a static member: [`static locale::id id].
+[:zh_CN]
+为创建新的刻面接口，[=Cpp] 程序只需从 [`locale::facet] 继承一个类，并包含一个
+静态成员 [`static locale::id id]。
 
 [para]
 [enter:note]
 [:en] The locale member function templates verify its type and storage class.
+[:zh_CN] 区域的成员函数模板将验证它的类型及其存储类。
 [exit:note]
 
 [para]
 [enter:example]
 [:en] Traditional global localization is still easy:
+[:zh_CN] 进行传统的全局本地化仍然简单：
 
 [codeblock]
 #include <iostream>
@@ -26,7 +34,9 @@ To create a new facet interface, [=Cpp] programs simply derive from
 int main(int argc, char** argv) {
   using namespace std;
   locale::global(locale(""));           // [:en] set the global locale
+                                        // [|:zh_CN] 设置全局区域
                                         // [:en@~] imbue it on all the std streams
+                                        // [|:zh_CN@~] 将其浸染到所有标准流中
   cin.imbue(locale());
   cout.imbue(locale());
   cerr.imbue(locale());
@@ -42,6 +52,7 @@ int main(int argc, char** argv) {
 [para]
 [enter:example]
 [:en] Greater flexibility is possible:
+[:zh_CN] 也可以获得更多的灵活性：
 
 [codeblock]
 #include <iostream>
@@ -49,6 +60,7 @@ int main(int argc, char** argv) {
 int main() {
   using namespace std;
   cin.imbue(locale(""));        // [:en] the user[=']s preferred locale
+                                // [|:zh_CN] 用户首选的区域
   cout.imbue(locale::classic());
   double f;
   while (cin >> f) cout << f << endl;
@@ -57,15 +69,19 @@ int main() {
 [codeblock:end]
 
 [:en] In a European locale, with input [`3.456,78], output is [`3456.78].
+[:zh_CN] 在欧洲区域中，输入 [`3.456,78] 将输出 [`3456.78]。
 [exit:example]
 
 [para]
 [:en] This can be important even for simple programs, which may need to write a
 data file in a fixed format, regardless of a user[=']s preference.
+[:zh_CN] 这对于一些简单的程序也是重要的，它们可能需要以固定的格式向数据文件中
+写入，而不管用户的首选项。
 
 [para]
 [enter:example]
 [:en] Here is an example of the use of locales in a library interface.
+[:zh_CN] 这是在程序库的接口中使用区域的一个例子。
 
 [codeblock]
 // file: [`Date.h]
@@ -85,19 +101,25 @@ std::ostream& operator<<(std::ostream& s, Date d);
 
 [para]
 [:en] This example illustrates two architectural uses of class [`locale].
+[:zh_CN] 这个例子演示了 [`locale] 类的两种架构性用法。
 
 [para]
 [:en] The first is as a default argument in [`Date::asString()], where the
 default is the global (presumably user-preferred) locale.
+[:zh_CN] 第一中是作为 [`Date::asString()] 中的默认实参，其默认值是全局的（假定为
+用户首选的）区域。
 
 [para]
 [:en] The second is in the operators [`<<] and [`>>], where a locale
 ["hitchhikes] on another object, in this case a stream, to the point where it
 is needed.
+[:zh_CN] 第二种是在运算符 [`<<] 和 [`>>] 中，其中区域在另一个对象（这种情况中为
+流）中“搭便车”到其所需的位置。
 
 [codeblock]
 // file: [`Date.C]
 #include "Date"                 // [:en] includes [`<ctime>]
+                                // [|:zh_CN] 包含了 [`<ctime>]
 #include <sstream>
 std::string Date::asString(const std::locale& l) {
   using namespace std;
@@ -124,14 +146,21 @@ std::istream& operator>>(std::istream& s, Date& d) {
 [:en]
 A locale object may be extended with a new facet simply by constructing it with
 an instance of a class derived from [`locale::facet].
+[:zh_CN]
+可以仅通过以一个派生自 [`locale::facet] 的类的实例进行构造，就对区域对象用新刻面
+进行扩展。
 
 [:en]
 The only member a [=Cpp] program must define is the static member [`id], which
 identifies your class interface as a new facet.
+[:zh_CN]
+[=Cpp] 程序必须定义的唯一成员就是静态成员 [`id]，它将这个类接口确认为一个新的
+刻面。
 
 [para]
 [enter:example]
 [:en] Classifying Japanese characters:
+[:zh_CN] 分类日语字符：
 
 [codeblock]
 // file: [`<jctype>]
@@ -141,6 +170,7 @@ namespace My {
   class JCtype : public locale::facet {
   public:
     static locale::id id;       // [:en] required for use as a new locale facet
+                                // [|:zh_CN] 为用作新的区域刻面是必须的
     bool is_kanji (wchar_t c) const;
     JCtype() { }
   protected:
@@ -152,13 +182,17 @@ namespace My {
 #include <iostream>
 #include <locale>
 #include "jctype"               // [:en] above
+                                // [|:zh_CN] 上一个文件
 std::locale::id My::JCtype::id; // [:en] the static [`JCtype] member declared above.
+                                // [|:zh_CN] 以上所声明的静态 [`JCtype] 成员
 
 int main() {
   using namespace std;
   typedef ctype<wchar_t> wctype;
   locale loc(locale(""),        // [:en] the user[=']s preferred locale ...
+                                // [|:zh_CN] 用户的首选区域 ...
          new My::JCtype);       // [:en] and a new feature ...
+                                // [|:zh_CN] 以及一个新功能特性 ...
   wchar_t c = use_facet<wctype>(loc).widen('!');
   if (!use_facet<My::JCtype>(loc).is_kanji(c))
     cout << "no it isn't!" << endl;
@@ -168,14 +202,18 @@ int main() {
 
 [para]
 [:en] The new facet is used exactly like the built-in facets.
+[:zh_CN] 新刻面是以内建刻面完全相同的方式使用的。
 [exit:example]
 
 [para]
 [enter:example]
 [:en] Replacing an existing facet is even easier.
+[:zh_CN] 替换一个现存刻面更简单。
 
 [:en] The code does not define a member [`id] because it is reusing the
 [`numpunct<charT>] facet interface:
+[:zh_CN] 这个代码中并未定义 [`id] 成员，这是由于它重用了 [`numpunct<charT>] 刻面
+接口：
 
 [codeblock]
 // file: [`my_bool.C]
@@ -198,6 +236,7 @@ namespace My {
 int main(int argc, char** argv) {
   using namespace std;
   // [:en] make the user[=']s preferred locale, except for...
+  // [|:zh_CN] 使用用户的首选区域，但除了 ...
   locale loc(locale(""), new My::BoolNames(""));
   cout.imbue(loc);
   cout << boolalpha << "Any arguments today? " << (argc > 1) << endl;
