@@ -1,5 +1,6 @@
 ﻿[section#locale.moneypunct
     [:en] Class template [`moneypunct]
+    [:zh_CN] 类模板 [`moneypunct]
 ]
 
 [%@library moneypunct]
@@ -50,64 +51,88 @@ namespace std {
 [para]
 [:en] The [`moneypunct<>] facet defines monetary formatting parameters used by
 [`money_get<>] and [`money_put<>].
+[:zh_CN] [`moneypunct<>] 刻面定义被 [`money_get<>] 和 [`money_put<>] 所使用的
+货币格式化参数。
 
 [:en] A monetary format is a sequence of four components, specified by a
 [`pattern] value [`p], such that the [`part] value
 [`static_cast<part>(p.field[i`])] determines the [`i]th component of the format
+[:zh_CN] 货币格式是四个成分的序列，被指定为 [`pattern] 的值 [`p]，使得 [`part]
+值 [`static_cast<part>(p.field[i`])] 分别确定第 [`i] 个格式成分。
 
 [footnote]
 [:en] An array of [`char], rather than an array of [`part], is specified for
 [`pattern::field] purely for efficiency.
+[:zh_CN] 单纯处于效率原因，为 [`pattern::field] 指定 [`char] 的数组，而不是
+[`part] 的数组。
 [footnote:end]
 
 [:en] In the [`field] member of a [`pattern] object, each value [`symbol],
 [`sign], [`value], and either [`space] or [`none] appears exactly once.
+[:zh_CN] 在 [`pattern] 对象的 [`field] 成员中，[`symbol]，[`sign]，[`value]，
+以及 [`space] 或 [`none] 的各个值，各自恰好出现一次。
 
 [:en] The value [`none], if present, is not first; the value [`space], if
 present, is neither first nor last.
+[:zh_CN] [`none] 值（如果出现）不能是第一个；[`space] 值（如果存在）不能是第一个
+或最后一个。
 
 [para]
 [:en] Where [`none] or [`space] appears, white space is permitted in the format,
 except where [`none] appears at the end, in which case no white space is
 permitted.
+[:zh_CN] 出现 [`none] 或 [`space] 的位置，格式中允许出现空白，但不包括出现于末尾
+的 [`none]，这种情况不允许空白。
 
 [:en] The value [`space] indicates that at least one space is required at that
 position.
+[:zh_CN] [`space] 值指定在这个位置至少需要一个空格。
 
 [:en] Where [`symbol] appears, the sequence of characters returned by
 [`curr_symbol()] is permitted, and can be required.
+[:zh_CN] 出现 [`symbol] 的位置，允许出现 [`curr_symbol()] 所返回的字符序列，并且
+可以要求其出现。
 
 [:en] Where [`sign] appears, the first (if any) of the sequence of characters
 returned by [`positive_sign()] or [`negative_sign()] (respectively as the
 monetary value is non-negative or negative) is required.
+[:zh_CN] 出现 [`sign] 的位置，由 [`positive_sign()] 或 [`negative_sign()]（根据
+货币值为非负数还是负数）所返回的字符序列中的第一个字符（如果有），是要求出现的。
 
 [:en] Any remaining characters of the sign sequence are required after all other
 format components.
+[:zh_CN] 符号序列中剩余的任何字符都是在所有其他格式成分之后要求出现的。
 
 [:en] Where [`value] appears, the absolute numeric monetary value is required.
+[:zh_CN] 在出现 [`value] 的位置，要求出现货币值的绝对值。
 
 [para]
 [:en] The format of the numeric monetary value is a decimal number:
+[:zh_CN] 数值货币值的格式是十进制数字：
 
-[codeblock]
+[codeblock:notation]
 value ::= units [ decimal-point [ digits ]] |
   decimal-point digits
 [codeblock:end]
 
 [:en@~] if [`frac_digits()] returns a positive value, or
+[:zh_CN@~] 此时 [`frac_digits()] 返回正数值，否则为
 
-[codeblock]
+[codeblock:notation]
 value ::= units
 [codeblock:end]
 
 [:en@~] otherwise.
+[:zh_CN@~] 。
 
 [:en] The symbol [`decimal-point] indicates the character returned by
 [`decimal_point()].
+[:zh_CN] 符号 [`decimal-point] 代表由 [`decimal_point()] 所返回的字符。
 
 [:en] The other symbols are defined as follows:
+[:zh_CN] 其他符号这样定义：
 
-[codeblock]
+[codeblock:notation]
 units ::= digits [ thousands-sep units ]
 digits ::= adigit [ digits ]
 [codeblock:end]
@@ -116,22 +141,31 @@ digits ::= adigit [ digits ]
 [`ct.widen(c)] for [`c] in the range [`'0'] through [`'9'], inclusive, and [`ct]
 is a reference of type [`const ctype<charT>&] obtained as described in the
 definitions of [`money_get<>] and [`money_put<>].
+[:zh_CN] 在所说明的语法中，符号 [`adigit] 是对于从 [`'0'] 到 [`'9'] 的范围
+（内含）中的 [`c] 的任意值 [`ct.widen(c)]，而 [`ct] 指代是根据 [`money_get<>] 和
+[`money_put<>] 的定义中所述获得的 [`const ctype<charT>&] 类型的引用。
 
 [:en] The symbol [`thousands-sep] is the character returned by
 [`thousands_sep()].
+[:zh_CN] 符号 [`thousands-sep] 是由 [`thousands_sep()] 所返回的字符。
 
 [:en] The space character used is the value [`ct.widen(' ')].
+[:zh_CN] 所使用的空格字符是 [`ct.widen(' ')] 的值。
 
 [:en] White space characters are those characters [`c] for which
 [`ci.is(space,c)] returns [`true].
+[:zh_CN] 空白字符时使得 [`ci.is(space,c)] 返回 [`true] 的字符 [`c]。
 
 [:en] The number of digits required after the decimal point (if any) is exactly
 the value returned by [`frac_digits()].
+[:zh_CN] 小数点之后所需要的数组个数（如果有）等于 [`frac_digits()] 所返回的值。
 
 [para]
 [:en] The placement of thousands-separator characters (if any) is determined by
 the value returned by [`grouping()], defined identically as the member
 [`numpunct<>::do_grouping()].
+[:zh_CN] 千位分隔符字符（如果有）的位置是由 [`grouping()] 的返回值所决定的，其
+定义等同于成员 [`numpunct<>::do_grouping()]。
 
 [include locale.moneypunct.members]
 
