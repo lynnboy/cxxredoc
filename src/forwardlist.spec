@@ -1,5 +1,6 @@
 ﻿[section#forwardlist.spec
     [:en] [`forward_list] specialized algorithms
+    [:zh_CN] [`forward_list] 的特化算法
 ]
 
 [%@library swap[!forward_list]]
@@ -12,5 +13,5 @@ template <class T, class Allocator>
 
 [enter:description]
 [para:effects]
-[:en] [`x.swap(y)]
+[`x.swap(y)]
 [exit:description]
