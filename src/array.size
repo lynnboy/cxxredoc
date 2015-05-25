@@ -1,5 +1,5 @@
 ﻿[section#array.size
-    [:en] [`array::size]
+    [`array::size]
 ]
 
 [%@library array[!size]]
@@ -10,5 +10,5 @@ template <class T, size_t N> constexpr size_type array<T, N>::size() const noexc
 
 [enter:description]
 [para:returns]
-[:en] [`N]
+[`N]
 [exit:description]
