@@ -1,5 +1,5 @@
 ﻿[section#array.data
-    [:en] [`array::data]
+    [`array::data]
 ]
 
 [%@library array[!data]]
@@ -12,4 +12,5 @@ const T* data() const noexcept;
 [enter:description]
 [para:returns]
 [:en] [`elems].
+[:zh_CN] [`elems]。
 [exit:description]
