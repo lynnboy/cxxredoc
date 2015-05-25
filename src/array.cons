@@ -1,5 +1,6 @@
 ﻿[section#array.cons
     [:en] [`array] constructors, copy, and assignment
+    [:zh_CN] [`array] 的构造函数、复制和复制
 ]
 
 [para]
@@ -7,11 +8,19 @@
 [%[`array][!initialization]]
 [%requirements[!container]]
 The conditions for an aggregate ([#dcl.init.aggr]) shall be met.
+[:zh_CN]
+[%[`array][!初始化]]
+[%规定[!容器]]
+有关聚合（[#dcl.init.aggr]）的条件应当被满足。
 
 [:en] Class [`array] relies on the implicitly-declared special member functions
 ([#class.ctor], [#class.dtor], and [#class.copy]) to conform to the container
 requirements table in [#container.requirements].
+[:zh_CN] 类 [`array] 依赖于隐式声明的特殊成员函数（[#class.ctor]，[#class.dtor]
+，和 [#class.copy]）以便符合 [#container.requirements] 中的容器规定的表格。
 
 [:en] In addition to the requirements specified in the container requirements
 table, the implicit move constructor and move assignment operator for [`array]
 require that [`T] be [`MoveConstructible] or [`MoveAssignable], respectively.
+[:zh_CN] 除了在容器规定的表格所指定的规定之外，[`array] 的隐式移动构造函数和移动
+赋值运算符分别要求 [`T] 为 [`MoveConstructible] 或者 [`MoveAssignable]。
