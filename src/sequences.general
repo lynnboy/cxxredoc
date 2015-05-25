@@ -1,18 +1,24 @@
 ﻿[section#sequences.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en] The headers [`<array>], [`<deque>], [`<forward_list>], [`<list>], and
 [`<vector>] define template classes that meet the requirements for sequence
 containers.
+[:zh_CN] 头文件 [`<array>]，[`<deque>]，[`<forward_list>]，[`<list>]，以及
+[`<vector>] 定义了符合序列容器的规定的模板类。
 
 [para]
 [:en] The headers [`<queue>] and [`<stack>] define container adaptors
 ([#container.adaptors]) that also meet the requirements for sequence containers.
+[:zh_CN] 头文件 [`<queue>] 和 [`<stack>] 定义了同样符合序列容器的规定的容器
+适配器（[#container.adaptors]）。
 
 [para:synopsis]
 [:en] Header [`<array>] synopsis
+[:zh_CN] 头文件 [`<array>] 纲要
 
 [%@library <array> [sortas array]]
 [codeblock:synopsis]
@@ -52,6 +58,7 @@ namespace std {
 
 [para:synopsis]
 [:en] Header [`<deque>] synopsis
+[:zh_CN] 头文件 [`<deque>] 纲要
 
 [%@library <deque> [sortas deque]]
 
@@ -80,6 +87,7 @@ namespace std {
 
 [para:synopsis]
 [:en] Header [`<forward_list>] synopsis
+[:zh_CN] 头文件 [`<forward_list>] 纲要
 
 [%@library <forward_list> [sortas forward_list]]
 
@@ -108,6 +116,7 @@ namespace std {
 
 [para:synopsis]
 [:en] Header [`<list>] synopsis
+[:zh_CN] 头文件 [`<list>] 纲要
 
 [%@library <list> [sortas list]]
 
@@ -136,6 +145,7 @@ namespace std {
 
 [para:synopsis]
 [:en] Header [`<vector>] synopsis
+[:zh_CN] 头文件 [`<vector>] 纲要
 
 [%@library <vector> [sortas vector]]
 
@@ -163,6 +173,7 @@ namespace std {
   template <class Allocator> class vector<bool,Allocator>;
 
   // [:en] hash support
+  // [|:zh_CN] hash 支持
   template <class T> struct hash;
   template <class Allocator> struct hash<vector<bool, Allocator> >;
 }
