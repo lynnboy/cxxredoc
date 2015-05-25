@@ -1,5 +1,6 @@
 ﻿[section#array.overview
     [:en] Class template [`array] overview
+    [:zh_CN] 类模板 [`array] 概要
 ]
 
 [para]
@@ -7,11 +8,17 @@
 [%[`array][!contiguous storage]]
 The header [`<array>] defines a class template for storing fixed-size sequences
 of objects.
+[:zh_CN]
+[%[`array][!连续存储]]
+头文件 [`<array>] 定义一种用于存储固定大小的对象序列的类模板。
 
 [:en] An [`array] is a contiguous container ([#container.requirements.general]).
+[:zh_CN] [`array] 是一种连续容器（[#container.requirements.general]）。
 
 [:en] An instance of [`array<T, N>] stores [`N] elements of type [`T], so that
 [`size() == N] is an invariant.
+[:zh_CN] [`array<T, N>] 的一个实例存储 [`N] 个 [`T] 类型的元素，由此
+[`size() == N] 是一个不变式。
 
 [para]
 [:en]
@@ -19,6 +26,10 @@ of objects.
 [%[`array][!as aggregate]]
 An [`array] is an aggregate ([#dcl.init.aggr]) that can be initialized with the
 syntax
+[:zh_CN]
+[%[`array][!初始化]]
+[%[`array][!作为聚合]]
+[`array] 是可以用以下语法进行初始化的聚合（[#dcl.init.aggr]）
 
 [codeblock:notation]
 array<T, N> a = { [~initializer-list] };
@@ -26,6 +37,8 @@ array<T, N> a = { [~initializer-list] };
 
 [:en@~] where [~initializer-list] is a comma-separated list of up to [`N]
 elements whose types are convertible to [`T].
+[:zh_CN@~] 其中的[~初始化式列表]是最多 [`N] 个元素的逗号分隔列表，其元素类型可以
+转换为 [`T]。
 
 [para]
 [:en]
@@ -33,13 +46,20 @@ elements whose types are convertible to [`T].
 An [`array] satisfies all of the requirements of a container and of a reversible
 container ([#container.requirements]), except that a default constructed
 [`array] object is not empty and that [`swap] does not have constant complexity.
+[:zh_CN]
+[%规定[!容器]]
+[`array] 符合容器和可反向容器的所有规定（[#container.requirements]），但默认构造
+的 [`array] 对象不为空，且 [`swap] 不具有常量复杂度。
 
 [:en] An [`array] satisfies some of the requirements of a sequence container
 ([#sequence.reqmts]).
+[:zh_CN] [`array] 符合序列容器的某些规定（[#sequence.reqmts]）。
 
 [:en] Descriptions are provided here only for operations on [`array] that are
 not described in one of these tables and for operations where there is
 additional semantic information.
+[:zh_CN] 此处给出的说明仅包括未被这些表格之一所描述的操作，以及具有额外的语义
+信息的操作。
 
 [%@library array]
 [%@library array[!begin]]
@@ -50,13 +70,16 @@ additional semantic information.
 [%@library size[!array]]
 [%@library array[!max_size]]
 [%@library max_size[!array]]
-[%@impldef type of [`array::iterator]]
-[%@impldef type of [`array::const_iterator]]
+[%@impldef [:en] type of [`array::iterator]
+ [:zh_CN] [`array::iterator] 的类型 ]
+[%@impldef [:en] type of [`array::const_iterator]
+ [:zh_CN] [`array::const_iterator] 的类型 ]
 [codeblock:synopsis [special implementation-defined] ]
 namespace std {
   template <class T, size_t N>
   struct array {
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef T&                                    reference;
     typedef const T&                              const_reference;
     typedef implementation-defined                iterator;
@@ -72,11 +95,13 @@ namespace std {
     T       elems[N];           // [=Expos]
 
     // [:en] no explicit construct/copy/destroy for aggregate type
+    // [|:zh_CN] 没有聚合类型的显式构造/复制/销毁
 
     void fill(const T& u);
     void swap(array&) noexcept(noexcept(swap(declval<T&>(), declval<T&>())));
 
     // [:en] iterators:
+    // [|:zh_CN] 迭代器：
     iterator               begin() noexcept;
     const_iterator         begin() const noexcept;
     iterator               end() noexcept;
@@ -93,11 +118,13 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] capacity:
+    // [|:zh_CN] 容量：
     constexpr bool      empty() const noexcept;
     constexpr size_type size() const noexcept;
     constexpr size_type max_size() const noexcept;
 
     // [:en] element access:
+    // [|:zh_CN] 元素访问：
     reference                 operator[](size_type n);
     constexpr const_reference operator[](size_type n) const;
     reference                 at(size_type n);
@@ -117,6 +144,8 @@ namespace std {
 [enter:note]
 [:en] The member variable [`elems] is shown for exposition only, to emphasize
 that [`array] is a class aggregate.
+[:zh_CN] 成员变量 [`elems] 仅为阐释目的而给出，以强调 [`array] 是一种类聚合。
 
 [:en] The name [`elems] is not part of [`array][=']s interface.
+[:zh_CN] 名字 [`elems] 不是 [`array] 的接口的一部分。
 [exit:note]
