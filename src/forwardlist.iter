@@ -1,5 +1,6 @@
 ﻿[section#forwardlist.iter
     [:en] [`forward_list] iterators
+    [:zh_CN] [`forward_list] 的迭代器
 ]
 
 [%@library before_begin[!forward_list]]
@@ -16,11 +17,15 @@ const_iterator cbefore_begin() const noexcept;
 [para:returns]
 [:en] A non-dereferenceable iterator that, when incremented, is equal to the
 iterator returned by [`begin()].
+[:zh_CN] 不可解引用的迭代器，当被增量时，将等于 [`begin()] 所返回的迭代器。
 
 [para:effects]
 [:en] [`cbefore_begin()] is equivalent to
 [`const_cast<forward_list const&>(*this).before_begin()].
+[:zh_CN] [`cbefore_begin()] 等价于
+[`const_cast<forward_list const&>(*this).before_begin()].
 
 [para:remarks]
 [:en] [`before_begin() == end()] shall equal [`false].
+[:zh_CN] [`before_begin() == end()] 应当等于 [`false]。
 [exit:description]
