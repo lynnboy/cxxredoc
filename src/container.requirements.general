@@ -109,7 +109,7 @@ non-const rvalue of type [`X].
 [|]
 [|] [:en] [=Requires] [`T] is [`Erasable] from [`X] (see
     [#container.requirements.general], below)
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中的 [`Erasable]（参见
+    [:zh_CN] [=Requires] [`T] 为从 [`X] 中 [`Erasable]（参见
     [#container.requirements.general]，下文）
 [|] [:en] compile time
     [:zh_CN] 编译期
@@ -189,7 +189,7 @@ non-const rvalue of type [`X].
 [|]
 [|]
 [|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below).
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中的 [`CopyInsertable]（见下文）。
+    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
     [br]
     [:en] post: [`a == X(a)].
     [:zh_CN] 后条件：[`a == X(a)]。
@@ -200,7 +200,7 @@ non-const rvalue of type [`X].
 [|]
 [|]
 [|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below).
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中的 [`CopyInsertable]（见下文）。
+    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
     [br]
     [:en] post: [`u == a]
     [:zh_CN] 后条件：[`u == a]
@@ -795,7 +795,7 @@ specializations of [`std::allocator<T>] are not instantiated:
 [item]
 [:en] [`T] is [def [`DefaultInsertable] into [`X]] means that the following
 expression is well-formed:
-[:zh_CN] [`T] 为 [def [`X] 中 [`DefaultInsertable]] 的含义为以下表达式良构：
+[:zh_CN] [`T] 为 [def 向 [`X] 中 [`DefaultInsertable]] 的含义为以下表达式良构：
 
 [codeblock:notation]
 allocator_traits<A>::construct(m, p)
@@ -817,7 +817,7 @@ allocated within [`X].
 [item]
 [:en] [`T] is [def [`MoveInsertable] into [`X]] means that the following
 expression is well-formed:
-[:zh_CN] [`T] 为 [def [`X] 中 [`MoveInsertable]] 的含义为以下表达式良构：
+[:zh_CN] [`T] 为 [def 向 [`X] 中 [`MoveInsertable]] 的含义为以下表达式良构：
 
 [codeblock:notation]
 allocator_traits<A>::construct(m, p, rv)
@@ -841,8 +841,8 @@ evaluation.
 [item]
 [:en] [`T] is [def [`CopyInsertable] into [`X]] means that, in addition to [`T]
 being [`MoveInsertable] into [`X], the following expression is well-formed:
-[:zh_CN] [`T] 为 [def [`X] 中 [`CopyInsertable]] 的含义为，除了 [`T] 为 [`X] 中
-[`MoveInsertable] 之外，以下表达式也是良构的：
+[:zh_CN] [`T] 为 [def 向 [`X] 中 [`CopyInsertable]] 的含义为，除了 [`T] 为向
+[`X] 中 [`MoveInsertable] 之外，以下表达式也是良构的：
 
 [codeblock:notation]
 allocator_traits<A>::construct(m, p, v)
@@ -857,8 +857,8 @@ allocator_traits<A>::construct(m, p, v)
 [item]
 [:en] [`T] is [def [`EmplaceConstructible] into [`X] from [`args]], for zero
 or more arguments [`args], means that the following expression is well-formed:
-[:zh_CN] 对于零或更多实参 [`args]，[`T] 为 [def [`X] 中 [`EmplaceConstructible]]
-的含义为以下表达式良构：
+[:zh_CN] 对于零或更多实参 [`args]，[`T] 为 [def 以 [`args] 向 [`X] 中
+[`EmplaceConstructible]] 的含义为以下表达式良构：
 
 [codeblock:notation]
 allocator_traits<A>::construct(m, p, args)
@@ -867,7 +867,7 @@ allocator_traits<A>::construct(m, p, args)
 [item]
 [:en] [`T] is [def [`Erasable] from [`X]] means that the following expression is
 well-formed:
-[:zh_CN] [`T] 为 [def [`X] 中 [`Erasable]] 的含义为以下表达式良构：
+[:zh_CN] [`T] 为 [def 从 [`X] 中 [`Erasable]] 的含义为以下表达式良构：
 
 [codeblock:notation]
 allocator_traits<A>::destroy(m, p)
@@ -955,7 +955,7 @@ rvalue of type [`X], and [`m] is a value of type [`A].
 [|] X(t, m) [br] X u(t, m);
 [|]
 [|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中 [`CopyInsertable]。
+    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]。
     [br]
     [:en] post: [`u == t], [`u.get_allocator() == m]
     [:zh_CN] 后条件：[`u == t]，[`u.get_allocator() == m]
@@ -978,7 +978,7 @@ rvalue of type [`X], and [`m] is a value of type [`A].
 [|] X(rv, m) [br] X u(rv, m);
 [|]
 [|] [:en] [=Requires] [`T] is [`MoveInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中 [`MoveInsertable]。
+    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`MoveInsertable]。
     [br]
     [:en] post: [`u] shall have the same elements, or copies of the elements,
     that [`rv] had before this construction, [`u.get_allocator() == m]
@@ -990,7 +990,7 @@ rvalue of type [`X], and [`m] is a value of type [`A].
 [|] a = t
 [|] X&
 [|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
-    [:zh_CN] [=Requires] [`T] 为 [`X] 中 [`CopyInsertable]，且为
+    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]，且为
     [`CopyAssignable]。
     [br]
     [:en] post: [`a == t]
@@ -1004,7 +1004,7 @@ rvalue of type [`X], and [`m] is a value of type [`A].
     ::propagate_on_container_move_assignment::value] is [`false], [`T] is
     [`MoveInsertable] into [`X] and [`MoveAssignable].
     [:zh_CN] [=Requires] 如果 [`allocator_traits<allocator_type>
-    ::propagate_on_container_move_assignment::value] 为 [`false]，则由 [`T] 为
+    ::propagate_on_container_move_assignment::value] 为 [`false]，则有 [`T] 为向
     [`X] 中 [`MoveInsertable]，且为 [`MoveAssignable]。
     [:en] All existing elements of [`a] are either move assigned to or
     destroyed.
