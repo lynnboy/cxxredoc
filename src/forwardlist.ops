@@ -1,5 +1,6 @@
 ﻿[section#forwardlist.ops
     [:en] [`forward_list] operations
+    [:zh_CN] [`forward_list] 的操作
 ]
 
 [%@library splice_after[!forward_list]]
@@ -13,24 +14,35 @@ void splice_after(const_iterator position, forward_list&& x);
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [:en] [`get_allocator() == x.get_allocator()].
+[:zh_CN] [`get_allocator() == x.get_allocator()]。
 
 [:en] [`&x != this].
+[:zh_CN] [`&x != this]。
 
 [para:effects]
 [:en] Inserts the contents of [`x] after [`position], and [`x] becomes empty.
+[:zh_CN] 在 [`position] 之后插入 [`x] 的内容，而 [`x] 变为空。
 
 [:en] Pointers and references to the moved elements of [`x] now refer to those
 same elements but as members of [`*this].
+[:zh_CN] 指代 [`x] 的被移动元素的指针和引用随后仍指代相同的元素，但它们变为
+[`*this] 的成员。
 
 [:en] Iterators referring to the moved elements will continue to refer to their
 elements, but they now behave as iterators into [`*this], not into [`x].
+[:zh_CN] 指代被移动元素的迭代器将继续指代其元素，但它们现在表现为 [`*this] 而
+不是 [`x] 中的迭代器。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
-[para:complexity] [$[=bigoh]([`distance(x.begin(), x.end())])]
+[para:complexity]
+[$[=bigoh]([`distance(x.begin(), x.end())])]
 [exit:description]
 
 [%@library splice_after[!forward_list]]
@@ -44,25 +56,37 @@ void splice_after(const_iterator position, forward_list&& x, const_iterator i);
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [:en] The iterator following [`i] is a dereferenceable iterator in [`x].
+[:zh_CN] [`i] 之后的迭代器是 [`x] 中的可解引用迭代器。
 
 [:en] [`get_allocator() == x.get_allocator()].
+[:zh_CN] [`get_allocator() == x.get_allocator()]。
 
 [para:effects]
 [:en] Inserts the element following [`i] into [`*this], following [`position],
 and removes it from [`x].
+[:zh_CN] 将跟在 [`i] 之后的元素插入到 [`*this] 中并位于 [`position] 之后，并将其
+从 [`x] 中移除。
 
 [:en] The result is unchanged if [`position == i] or [`position == ++i].
+[:zh_CN] 如果 [`position == i] 或 [`position == ++i] 则其结果不进行改动。
 
 [:en] Pointers and references to [`*++i] continue to refer to the same element
 but as a member of [`*this].
+[:zh_CN] 指代 [`*++i] 的指针和引用随后仍指代相同的元素，但它们变为 [`*this] 的
+成员。
 
 [:en] Iterators to [`*++i] continue to refer to the same element, but now behave
 as iterators into [`*this], not into [`x].
+[:zh_CN] 指代 [`*++i] 的迭代器将继续指代相同元素，但它们现在表现为 [`*this] 而
+不是 [`x] 中的迭代器。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:complexity]
 [$[=bigoh](1)]
@@ -81,23 +105,35 @@ void splice_after(const_iterator position, forward_list&& x,
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [:en] [=orange(first,last)] is a valid range in [`x], and all iterators in the
 range [=orange(first,last)] are dereferenceable.
+[:zh_CN] [=orange(first,last)] 是 [`x] 中的有效范围，而范围
+[=orange(first,last)] 中的所有迭代器均可解引用。
 
 [:en] [`position] is not an iterator in the range [=orange(first,last)].
+[:zh_CN] [`position] 不是范围 [=orange(first,last)] 中的迭代器。
 
 [:en] [`get_allocator() == x.get_allocator()].
+[:zh_CN] [`get_allocator() == x.get_allocator()]。
 
 [para:effects]
 [:en] Inserts elements in the range [=orange(first,last)] after [`position] and
 removes the elements from [`x].
+[:zh_CN] 将范围 [=orange(first,last)] 中的元素插入到 [`position] 之后，并将其
+从 [`x] 中移除。
 
 [:en] Pointers and references to the moved elements of [`x] now refer to those
 same elements but as members of [`*this].
+[:zh_CN] 指代 [`x] 的被移动元素的指针和引用随后仍指代相同的元素，但它们变为
+[`*this] 的成员。
 
 [:en] Iterators referring to the moved elements will continue to refer to their
 elements, but they now behave as iterators into [`*this], not into [`x].
+[:zh_CN] 指代被移动元素的迭代器将继续指代其元素，但它们现在表现为 [`*this] 而
+不是 [`x] 中的迭代器。
 
 [para:complexity]
 [$[=bigoh]([`distance(first, last)])]
@@ -117,19 +153,26 @@ template <class Predicate> void remove_if(Predicate pred);
 [:en] Erases all the elements in the list referred by a list iterator [`i] for
 which the following conditions hold: [`*i == value] (for [`remove()]),
 [`pred(*i)] is true (for [`remove_if()]).
+[:zh_CN] 清除列表中的所有由列表的迭代器 [`i] 所指代的元素，其中以下条件有效：
+[`*i == value]（对于 [`remove()]），或者 [`pred(*i)] 为真（对于 [`remove_if()]）
+。
 
 [:en] Invalidates only the iterators and references to the erased elements.
+[:zh_CN] 仅使指代所清除的元素的迭代器和引用失效。
 
 [para:throws]
 [:en] Nothing unless an exception is thrown by the equality comparison or the
 predicate.
+[:zh_CN] 除非相等比较或者谓词抛出了异常，否则不抛出异常。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 
 [para:complexity]
 [:en] Exactly [`distance(begin(), end())] applications of the corresponding
 predicate.
+[:zh_CN] 恰好实施 [`distance(begin(), end())] 次对应的谓词。
 [exit:description]
 
 [%@library unique[!forward_list]]
@@ -145,17 +188,24 @@ template <class BinaryPredicate> void unique(BinaryPredicate pred);
 elements referred to by the iterator [`i] in the range [=range[first + 1,last)]
 for which [`*i == *(i-1)] (for the version with no arguments) or [`pred(*i, *(i
 - 1))] (for the version with a predicate argument) holds.
+[:zh_CN] 清除每个相等元素的连续组中除第一个元素外的所有元素，其中元素为由范围
+[=range[first + 1,last)] 中的迭代器 [`i] 所指代的，且（对于无实参版本）有
+[`*i == *(i-1)]，或（对于带有谓词实参的版本）[`pred(*i, *(i - 1))]。
 
 [:en] Invalidates only the iterators and references to the erased elements.
+[:zh_CN] 仅使指代所清除的元素的迭代器和引用失效。
 
 [para:throws]
 [:en] Nothing unless an exception is thrown by the equality comparison or the
 predicate.
+[:zh_CN] 除非相等比较或者谓词抛出了异常，否则不抛出异常。
 
 [para:complexity]
 [:en] If the range [=range[first,last)] is not empty, exactly [`(last - first)
 - 1] applications of the corresponding predicate, otherwise no applications of
 the predicate.
+[:zh_CN] 如果范围 [=range[first,last)] 非空，则恰好实施 [`(last - first) - 1]
+次对应的谓词，否则不实施谓词。
 [exit:description]
 
 [%@library merge[!forward_list]]
@@ -171,30 +221,46 @@ template <class Compare> void merge(forward_list&& x, Compare comp);
 [para:requires]
 [:en] [`comp] defines a strict weak ordering ([#alg.sorting]), and [`*this] and
 [`x] are both sorted according to this ordering.
+[:zh_CN] [`comp] 定义一种严格弱序（[#alg.sorting]），而 [`*this] 和 [`x] 均为
+依据这种顺序为有序的。
 
 [:en] [`get_allocator() == x.get_allocator()].
+[:zh_CN] [`get_allocator() == x.get_allocator()]。
 
 [para:effects]
 [:en] Merges the two sorted ranges [`[begin(), end())] and [`[x.begin(),
 x.end())].
+[:zh_CN] 归并两个有序范围 [`[begin(), end())] 和 [`[x.begin(), x.end())]。
 
 [:en] [`x] is empty after the merge.
+[:zh_CN] 归并之后 [`x] 为空。
 
 [:en] If an exception is thrown other than by a comparison there are no effects.
+[:zh_CN] 如果除了比较之外抛出了异常，则没有效果。
 
 [:en] Pointers and references to the moved elements of [`x] now refer to those
 same elements but as members of [`*this].
+[:zh_CN] 指代 [`x] 的被移动元素的指针和引用随后仍指代相同的元素，但它们变为
+[`*this] 的成员。
 
 [:en] Iterators referring to the moved elements will continue to refer to their
 elements, but they now behave as iterators into [`*this], not into [`x].
+[:zh_CN] 指代被移动元素的迭代器将继续指代其元素，但它们现在表现为 [`*this] 而
+不是 [`x] 中的迭代器。
 
 [para:remarks]
-[:en] Stable ([#algorithm.stable]). The behavior is undefined if
+[:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
+
+[:en] The behavior is undefined if
 [`this->get_allocator() != x.get_allocator()].
+[:zh_CN] 如果 [`this->get_allocator() != x.get_allocator()]，则其行为未定义。
 
 [para:complexity]
 [:en] At most [`distance(begin(), end()) + distance(x.begin(), x.end()) - 1]
 comparisons.
+[:zh_CN] 最多 [`distance(begin(), end()) + distance(x.begin(), x.end()) - 1] 次
+比较。
 [exit:description]
 
 [%@library sort[!forward_list]]
@@ -209,22 +275,29 @@ template <class Compare> void sort(Compare comp);
 [:en] [`operator<] (for the version with no arguments) or [`comp] (for the
 version with a comparison argument) defines a strict weak ordering
 ([#alg.sorting]).
+[:zh_CN] [`operator<]（对于无实参版本）或 [`comp]（对于具有比较实参的版本）定义
+一种严格弱序（[#alg.sorting]）。
 
 [para:effects]
 [:en] Sorts the list according to the [`operator<] or the [`comp] function
 object.
+[:zh_CN] 根据 [`operator<] 或 [`comp] 函数对象对列表进行排序。
 
 [:en] If an exception is thrown the order of the elements in [`*this] is
 unspecified.
+[:zh_CN] 如果抛出了异常，则 [`*this] 中元素的顺序是未指明的。
 
 [:en] Does not affect the validity of iterators and references.
+[:zh_CN] 不会影响迭代器和引用的有效性。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 
 [para:complexity]
 [:en] Approximately [$N [=log] N] comparisons, where [$N] is [`distance(begin(),
 end())].
+[:zh_CN] 大约 [$N [=log] N] 次比较，其中 [$N] 为 [`distance(begin(), end())]。
 [exit:description]
 
 [%@library reverse[!forward_list]]
@@ -236,9 +309,12 @@ void reverse() noexcept;
 [enter:description]
 [para:effects]
 [:en] Reverses the order of the elements in the list.
+[:zh_CN] 反转列表中元素的顺序。
 
 [:en] Does not affect the validity of iterators and references.
+[:zh_CN] 不会影响迭代器和引用的有效性。
 
 [para:complexity]
 [:en] Linear time.
+[:zh_CN] 线性时间。
 [exit:description]
