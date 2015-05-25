@@ -1,5 +1,6 @@
 ﻿[section#forwardlist.access]
     [:en] [`forward_list] element access
+    [:zh_CN] [`forward_list] 的元素访问
 ]
 
 [%@library front[!forward_list]]
@@ -11,5 +12,5 @@ const_reference front() const;
 
 [enter:description]
 [para:returns]
-[:en] [`*begin()]
+[`*begin()]
 [exit:description]
