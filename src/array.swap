@@ -1,5 +1,5 @@
 ﻿[section#array.swap
-    [:en] [`array::swap]
+    [`array::swap]
 ]
 
 [%@library array[!swap]]
@@ -10,13 +10,16 @@ void swap(array& y) noexcept(noexcept(swap(declval<T&>(), declval<T&>())));
 
 [enter:description]
 [para:effects]
-[:en] [`swap_ranges(begin(), end(), y.begin())]
+[`swap_ranges(begin(), end(), y.begin())]
 
 [para:throws]
-[:en] Nothing unless one of the element-wise swap calls throws an exception.
+[:en] Nothing unless one of the element-wise [`swap] calls throws an exception.
+[:zh_CN] 除非按元素的 [`swap] 调用中抛出了异常，否则不抛出异常。
 
 [para:realnote]
 [:en] Unlike the [`swap] function for other containers, [`array::swap] takes
 linear time, may exit via an exception, and does not cause iterators to become
 associated with the other container.
+[:zh_CN] 与其他容器的 [`swap] 函数不同，[`array::swap] 花费线性时间，可能以异常
+退出，并且不会导致迭代器变为与另一个容器关联。
 [exit:description]
