@@ -1,5 +1,6 @@
 ﻿[section#forwardlist.cons
     [:en] [`forward_list] constructors, copy, assignment
+    [:zh_CN] [`forward_list] 的构造函数、复制和赋值
 ]
 
 [%@library forward_list[!forward_list]]
@@ -11,9 +12,11 @@ explicit forward_list(const Allocator&);
 [enter:description]
 [para:effects]
 [:en] Constructs an empty [`forward_list] object using the specified allocator.
+[:zh_CN] 构造一个空的 [`forward_list] 对象，并使用所指定的分配器。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library forward_list[!forward_list]]
@@ -26,12 +29,16 @@ explicit forward_list(size_type n, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs a [`forward_list] object with [`n] default-inserted elements
 using the specified allocator.
+[:zh_CN] 构造一个具有 [`n] 个默认插入的元素的 [`forward_list] 对象，并使用所指定
+的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library forward_list[!forward_list]]
@@ -44,12 +51,16 @@ forward_list(size_type n, const T& value, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs a [`forward_list] object with [`n] copies of [`value] using the
 specified allocator.
+[:zh_CN] 构造一个具有 [`n] 个 [`value] 的副本的 [`forward_list] 对象，并使用所
+指定的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library forward_list[!forward_list]]
@@ -63,7 +74,9 @@ template <class InputIterator>
 [para:effects]
 [:en] Constructs a [`forward_list] object equal to the range
 [=range[first,last)].
+[:zh_CN] 构造一个等于范围 [=range[first,last)] 的 [`forward_list] 对象。
 
 [para:complexity]
 [:en] Linear in [`distance(first, last)].
+[:zh_CN] 对于 [`distance(first, last)] 为线性。
 [exit:description]
