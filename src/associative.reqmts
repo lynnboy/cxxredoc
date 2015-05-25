@@ -1,66 +1,99 @@
 ﻿[section#associative.reqmts
     [:en] Associative containers
+    [:zh_CN] 关联容器
 ]
 
 [para]
 [:en] Associative containers provide fast retrieval of data based on keys.
+[:zh_CN] 关联容器提供基于健快速检索数据的能力。
 
 [:en] The library provides four basic kinds of associative containers: [`set],
 [`multiset], [`map] and [`multimap].
+[:zh_CN] 程序库提供了四种基本关联容器：[`set]，[`multiset]，[`map]，和
+[`multimap]。
 
 [para]
 [:en] Each associative container is parameterized on [`Key] and an ordering
 relation [`Compare] that induces a strict weak ordering ([#alg.sorting]) on
 elements of [`Key].
+[:zh_CN] 每种关联容器均以 [`Key] 和归纳了 [`Key] 上的一种严格弱序
+（[#alg.sorting]）的排序关系 [`Compare] 所参数化。
 
 [:en] In addition, [`map] and [`multimap] associate an arbitrary [+mapped type]
 [`T] with the [`Key].
+[:zh_CN] 此外 [`map] 和 [`multimap] 还为 [`Key] 关联任意一种[+映射类型] [`T]。
 
 [:en] The object of type [`Compare] is called the [+comparison object] of a
 container.
+[:zh_CN] [`Compare] 类型的对象被称为容器的[+比较对象]。
 
 [para]
 [:en] The phrase ["equivalence of keys] means the equivalence relation imposed
 by the comparison and [em not] the [`operator==] on keys.
+[:zh_CN] 术语“键的等价”的含义是由比较而[em 不是]键上的 [`operator==] 所提供的
+等价关系。
 
 [:en]
 That is, two keys [`k1] and [`k2] are considered to be equivalent if for the
 comparison object [`comp], [`comp(k1, k2) == false && comp(k2, k1) == false].
+[:zh_CN]
+就是说，两个键 [`k1] 和 [`k2]，当对于比较对象 [`comp] 有
+[`comp(k1, k2) == false && comp(k2, k1) == false] 时认为它们等价。
 
 [:en] For any two keys [`k1] and [`k2] in the same container, calling
 [`comp(k1, k2)] shall always return the same value.
+[:zh_CN] 对于同一个容器中的任意两个键 [`k1] 和 [`k2]，调用 [`comp(k1, k2)] 应当
+总是返回相同的值。
 
 [para]
 [:en] An associative container supports [+unique keys] if it may contain at
-most one element for each key. Otherwise, it supports [+equivalent keys].
+most one element for each key.
+[:zh_CN] 如果关联容器为每个键最多可以包含一个元素，则它支持[+唯一键]。
+
+[:en] Otherwise, it supports [+equivalent keys].
+[:zh_CN] 否则，它支持[+等价键]。
 
 [:en] The [`set] and [`map] classes support unique keys; the [`multiset] and
 [`multimap] classes support equivalent keys.
+[:zh_CN] [`set] 和 [`map] 类支持唯一键；[`multiset] 和 [`multimap] 类支持等价键
+。
 
 [:en] For [`multiset] and [`multimap], [`insert], [`emplace], and [`erase]
 preserve the relative ordering of equivalent elements.
+[:zh_CN] 对于 [`multiset] 和 [`multimap]，其 [`insert]、[`emplace] 和 [`erase]
+将保持等价元素之间的相对顺序。
 
 [para]
 [:en] For [`set] and [`multiset] the value type is the same as the key type.
+[:zh_CN] 对于 [`set] 和 [`multiset]，其值类型与键类型相同。
 
 [:en] For [`map] and [`multimap] it is equal to [`pair<const Key, T>].
+[:zh_CN] 对于 [`map] 和 [`multimap]，值类型等于 [`pair<const Key, T>]。
 
 [para]
 [:en] [`iterator] of an associative container is of the bidirectional iterator
 category.
+[:zh_CN] 关联容器的 [`iterator] 属于双向迭代器范畴。
 
 [:en] For associative containers where the value type is the same as the key
 type, both [`iterator] and [`const_iterator] are constant iterators.
+[:zh_CN] 对于值类型与键类型相同的关联容器，[`iterator] 和 [`const_iterator] 都是
+常量迭代器。
 
 [:en] It is unspecified whether or not [`iterator] and [`const_iterator] are the
 same type.
+[:zh_CN] [`iterator] 和 [`const_iterator] 是否是相同类型是未指明的。
 
 [enter:note]
 [:en] [`iterator] and [`const_iterator] have identical semantics in this case,
 and [`iterator] is convertible to [`const_iterator].
+[:zh_CN] 这种情况下 [`iterator] 和 [`const_iterator] 具有相同的语义，而且
+[`iterator] 可以转换为 [`const_iterator]。
 
 [:en] Users can avoid violating the One Definition Rule by always using
 [`const_iterator] in their function parameter lists.
+[:zh_CN] 用户可以通过在其函数形参列表中总是使用 [`const_iterator] 来避免对唯一
+定义原则的违反。
 [exit:note]
 
 [para]
@@ -69,11 +102,17 @@ containers ([#container.requirements.general]), except that for [`map] and
 [`multimap], the requirements placed on [`value_type] in Table
 [#tab:containers.container.requirements] apply instead to [`key_type] and
 [`mapped_type].
+[:zh_CN] 关联容器满足对分配器感知容器的规定（[#container.requirements.general]）
+，但对于 [`map] 和 [`multimap]，在表 [#tab:containers.container.requirements] 中
+对 [`value_type] 的规定代之以针对 [`key_type] 和 [`mapped_type]。
 
 [enter:note]
 [:en] For example, in some cases [`key_type] and [`mapped_type] are required to
 be [`CopyAssignable] even though the associated [`value_type],
 [`pair<const key_type, mapped_type>], is not [`CopyAssignable].
+[:zh_CN] 例如，某些情况下 [`key_type] 和 [`mapped_type] 被要求为
+[`CopyAssignable]，虽然其所关联的 [`value_type]（[`pair<const key_type,
+mapped_type>]）可能不为 [`CopyAssignable]。
 [exit:note]
 
 [para]
@@ -95,25 +134,46 @@ const iterators in [`a], [`il] designates an object of type
 and [`e] in [`a]; [`ku] is a value such that [`a] is partitioned with respect to
 [`!c(ku, r)]; [`ke] is a value such that [`a] is partitioned with respect to
 [`c(r, ke)] and [`!c(ke, r)], with [`c(r, ke)] implying [`!c(ke, r)].
+[:zh_CN] 表 [#tab:containers.associative.requirements] 中，[`X] 代表一种关联容器
+类，[`a] 代表 [`X] 类型的值，[`u] 代表所声明的变量的名字，[`a_uniq] 代表当 [`X]
+支持唯一键时 [`X] 类型的值，[`a_eq] 代表当 [`X] 支持多重键时 [`X] 类型的值，
+[`a_tran] 代表当[~限定标识] [`X::key_compare::is_transparent] 有效且代表某个类型
+（[#temp.deduct]）时 [`X] 类型的值，[`i] 和 [`j] 满足输入迭代器的规定并且指代
+可以隐式转换为 [`value_type] 的元素，[=range[i,j)] 代表有效的范围，[`p] 代表
+[`a] 的有效 const 迭代器，[`q] 代表 [`a] 的有效可解引用 const 迭代器，
+[`[q1, q2)] 代表 [`a] 中 const 迭代器的有效范围，[`il] 代表
+[`initializer_list<value_type>] 类型的对象，[`t] 代表 [`X::value_type] 类型的
+对象，[`k] 代表 [`X::key_type] 类型的对象，而 [`c] 代表 [`X::key_compare] 类型的
+对象；[`kl] 是使得 [`a] 根据 [`c(r, kl)] 进行分区（[#alg.sorting]）的值，其中
+[`r] 为 [`e] 的键值而 [`e] 处于 [`a] 中；[`ku] 是使得 [`a] 根据 [`!c(ku, r)]
+进行分区的值；[`ke] 是使得 [`a] 根据 [`c(r, ke)] 和 [`!c(ke, r)] 进行分区的值，
+其中 [`c(r, ke)] 蕴含 [`!c(ke, r)]。
 
 [:en] [`A] denotes the storage allocator used by [`X], if any, or
 [`std::allocator<X::value_type>] otherwise, and [`m] denotes an allocator of a
 type convertible to [`A].
+[:zh_CN] [`A] 代表由 [`X] 所使用的存储分配器（如果有），否则为
+[`std::allocator<X::value_type>]，而 [`m] 代表其类型可以转换为 [`A] 的分配器。
 
 [table:listing#tab:containers.associative.requirements
     [:en] Associative container requirements (in addition to container)
+    [:zh_CN] 关联容器（除容器以外）的规定
     [columns
         [column@headercenter
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 [br] 前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
     [border:row@both]
@@ -123,270 +183,426 @@ type convertible to [`A].
 [|] [`Key]
 [|]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`mapped_type] ([`map] and [`multimap] only)
+    [:zh_CN] [`mapped_type]（仅对于 [`map] 和 [`multimap]）
 [|] [`T]
 [|]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`X::value_type] ([`set] and [`multiset] only)
+    [:zh_CN] [`X::value_type]（仅对于 [`set] 和 [`multiset]）
 [|] [`Key]
 [|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [=Requires] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`X::value_type] ([`map] and [`multimap] only)
+    [:zh_CN] [`X::value_type]（仅对于 [`map] 和 [`multimap]）
 [|] [`pair<const Key, T>]
 [|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [=Requires] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [`X::key_compare]
 [|] [`Compare]
 [|] [:en] defaults to [`less<key_type>]
+    [:zh_CN] 默认为 [`less<key_type>]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [`X::value_compare]
 [|] [:en] a binary predicate type
+    [:zh_CN] 二元谓词类型
 [|] [:en] is the same as [`key_compare] for [`set] and [`multiset]; is an
     ordering relation on pairs induced by the first component (i.e., [`Key]) for
     [`map] and [`multimap].
+    [:zh_CN] 对于 [`set] 和 [`multiset]，与 [`key_compare] 相同；对于 [`map] 和
+    [`multimap]，是以对偶的第一部分（亦即 [`Key]）归纳的对偶之间的排序关系。
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [`X(c)] [br] [`X u(c);]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible]. [br]
+[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible].
+    [:zh_CN] [=Requires] [`key_compare] 为 [`CopyConstructible]。
+    [br]
     [:en] [=Effects] Constructs an empty container.
+    [:zh_CN] [=Effects] 构造一个空容器。
     [:en] Uses a copy of [`c] as a comparison object.
+    [:zh_CN] 使用 [`c] 的副本作为比较对象。
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`X()] [br] [`X u;]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible]. [br]
+[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible].
+    [:zh_CN] [=Requires] [`key_compare] 为 [`DefaultConstructible]。
+    [br]
     [:en] [=Effects] Constructs an empty container.
+    [:zh_CN] [=Effects] 构造一个空容器。
     [:en] Uses [`Compare()] as a comparison object
+    [:zh_CN] 使用 [`Compare()] 作为比较对象。
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`X(i,j,c)] [br] [`X u(i,j,c);]
 [|]
 [|] [:en] [=Requires] [`key_compare] is [`CopyConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:zh_CN] [=Requires] [`key_compare] 为 [`CopyConstructible]。
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+    [br]
     [:en] [=Effects] Constructs an empty container and inserts elements from the
     range [`[i, j)] into it; uses [`c] as a comparison object.
+    [:zh_CN] [=Effects] 构造一个空容器，并将范围 [`[i, j)] 中的元素插入其中；
+    使用 [`c] 作为比较对象。
 [|] [:en] [$N [=log] N] in general ([$N] has the value [`distance(i, j)]);
     linear if [`[i, j)] is sorted with [`value_comp()]
+    [:zh_CN] 一般为 [$N [=log] N]（[$N] 的值为 [`distance(i, j)]）；当 [`[i, j)]
+    以 [`value_comp()] 进行了排序时为线性。
 
 [|] [`X(i,j)] [br] [`X u(i,j);]
 [|]
 [|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
+    [:zh_CN] [=Requires] [`key_compare] 为 [`DefaultConstructible]。
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+    [br]
     [:en] [=Effects] Same as above, but uses [`Compare()] as a comparison object
+    [:zh_CN] [=Effects] 同上，但使用 [`Compare()] 作为比较对象
 [|] [:en] same as above
+    [:zh_CN] 同上
 
 [|] [`X(il);]
 [|]
 [|] [:en] Same as [`X(il.begin(), il.end())].
+    [:zh_CN] 与 [`X(il.begin(), il.end())] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end())].
+    [:zh_CN] 与 [`X(il.begin(), il.end())] 相同。
 
 [|] [`X(il,c);]
 [|]
 [|] [:en] Same as [`X(il.begin(), il.end(), c)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), c)] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end(), c)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), c)] 相同。
 
 [|] [`a = il]
 [|] [`X&]
 [|] [:en] [=Requires] [`value_type] is [`CopyInsertable] into [`X] and
-    [`CopyAssignable]. [br]
-[|] [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [`CopyAssignable].
+    [:zh_CN] [=Requires] [`value_type] 为向 [`X] 中 [`CopyInsertable]，并且为
+    [`CopyAssignable]。
+    [br]
+    [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:zh_CN] [=Effects] 将范围 [=range[il.begin(),il.end())] 赋值到[`a] 中。
     [:en] All existing elements of [`a] are either assigned to or destroyed.
-[|] [$N [=log] N] in general (where [$N] has the value [`il.size() + a.size()]);
-    linear if [=range[il.begin(),il.end())] is sorted with [`value_comp()].
+    [:zh_CN] [`a] 的所有现存元素要么被赋值要么被销毁。
+[|] [:en] [$N [=log] N] in general (where [$N] has the value
+    [`il.size() + a.size()]); linear if [=range[il.begin(),il.end())] is sorted
+    with [`value_comp()].
+    [:zh_CN] 一般为 [$N [=log] N]（其中 [$N] 的值为 [`il.size() + a.size()]）；
+    当 [=range[il.begin(),il.end())] 以 [`value_comp()] 进行了排序时为线性。
 
 [|] [`a.key_comp()]
 [|] [`X::key_compare]
 [|] [:en] returns the comparison object out of which [`a] was constructed.
+    [:zh_CN] 返回用于构造 [`a] 的比较对象。
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`a.value_comp()]
 [|] [`X::value_compare]
 [|] [:en] returns an object of [`value_compare] constructed out of the
     comparison object
+    [:zh_CN] 返回从比较对象构造的 [`value_compare] 对象
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`a_uniq.emplace(args)]
 [|] [`pair<iterator, bool>]
 [|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args]. [br]
+    from [`args].
+    [:zh_CN] [=Requires] [`value_type] 应当为以 [`args] 向 [`X] 中
+    [`EmplaceConstructible]。
+    [br]
     [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] if and only if there is no element in the
     container with key equivalent to the key of [`t].
+    [:zh_CN] [=Effects] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入以
+    [`std::forward<Args>(args)...] 构造的 [`value_type] 对象 [`t]。
     [:en] The [`bool] component of the returned pair is true if and only if the
-    insertion takes place, and the iterator component of the pair points to the
-    element with key equivalent to the key of [`t].
+    insertion takes place, and the [`iterator] component of the pair points to
+    the element with key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当发生了插入时，所返回的对偶的 [`bool] 成分为真；对偶的
+    [`iterator] 成分指向其键等价于 [`t] 的键的元素。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_eq.emplace(args)]
 [|] [`iterator]
 [|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args]. [br]
+    from [`args].
+    [:zh_CN] [=Requires] [`value_type] 应当为以 [`args] 向 [`X] 中
+    [`EmplaceConstructible]。
+    [br]
     [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] and returns the iterator pointing
     to the newly inserted element.
+    [:zh_CN] [=Effects] 插入以 [`std::forward<Args>(args)...] 构造的
+    [`value_type] 对象 [`t]，并返回指向新插入元素的迭代器。
     [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
     [`t] is inserted at the end of that range.
+    [:zh_CN] 如果 [`a_eq] 中存在包含等价于 [`t] 的元素的范围，则 [`t] 被插入到
+    该范围的末尾。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a.emplace_hint(p, args)]
 [|] [`iterator]
 [|] [:en] equivalent to [`a.emplace(std::forward<Args>(args)...)].
+    [:zh_CN] 等价于 [`a.emplace(std::forward<Args>(args)...)]。
     [:en] Return value is an iterator pointing to the element with the key
     equivalent to the newly inserted element.
+    [:zh_CN] 返回值是指向其键等价于新插入的元素的元素的迭代器。
     [:en] The element is inserted as close as possible to the position just
     prior to [`p].
+    [:zh_CN] 元素被插入到与紧接 [`p] 之前的位置尽可能靠近。
 [|] [:en] logarithmic in general, but amortized constant if the element is
     inserted right before [`p]
+    [:zh_CN] 通常为对数，但当元素被插入到紧接 [`p] 之前时为摊销常量
 
 [|] [`a_uniq.insert(t)]
 [|] [`pair<iterator, bool>]
 [|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
     shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
+    [`CopyInsertable] into [`X].
+    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
+    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
+    [`CopyInsertable]。
+    [br]
     [:en] [=Effects] Inserts [`t] if and only if there is no element in the
     container with key equivalent to the key of [`t].
+    [:zh_CN] [=Effects] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入
+    [`t]。
     [:en] The [`bool] component of the returned pair is true if and only if the
     insertion takes place, and the [`iterator] component of the pair points to
     the element with key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当发生了插入时，所返回的对偶的 [`bool] 成分为真；对偶的
+    [`iterator] 成分指向其键等价于 [`t] 的键的元素。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_eq.insert(t)]
 [|] [`iterator]
 [|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
     shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
+    [`CopyInsertable] into [`X].
+    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
+    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
+    [`CopyInsertable]。
+    [br]
     [:en] [=Effects] Inserts [`t] and returns the iterator pointing to the newly
     inserted element.
+    [:zh_CN] [=Effects] 插入 [`t]，并返回指向新插入元素的迭代器。
     [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
     [`t] is inserted at the end of that range.
+    [:zh_CN] 如果 [`a_eq] 中存在包含等价于 [`t] 的元素的范围，则 [`t] 被插入到
+    该范围的末尾。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a.insert(p, t)]
 [|] [`iterator]
 [|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
     shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
+    [`CopyInsertable] into [`X].
+    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
+    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
+    [`CopyInsertable]。
+    [br]
     [:en] [=Effects] Inserts [`t] if and only if there is no element with key
     equivalent to the key of [`t] in containers with unique keys; always inserts
     [`t] in containers with equivalent keys.
+    [:zh_CN] [=Effects] 当且仅当具有唯一键的容器中不存在其键等价于 [`t] 的键的
+    元素时，插入 [`t]；总是向具有等价键的容器中插入 [`t]。
     [:en] Always returns the iterator pointing to the element with key
     equivalent to the key of [`t].
+    [:zh_CN] 总是返回指向其键等价于 [`t] 的键的元素的迭代器。
     [:en] [`t] is inserted as close as possible to the position just prior to
     [`p].
+    [:zh_CN] [`t] 被插入到与紧接 [`p] 之前的位置尽可能靠近。
 [|] [:en] logarithmic in general, but amortized constant if [`t] is inserted
     right before [`p].
+    [:zh_CN] 通常为对数，但当 [`t] 被插入到紧接 [`p] 之前时为摊销常量
 
 [|] [`a.insert(i, j)]
 [|] [`void]
 [|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`*i]. [br]
+    from [`*i].
+    [:zh_CN] [=Requires] [`value_type] 应当为以 [`*i] 向 [`X] 中
+    [`EmplaceConstructible]。
+    [br]
     [:en] pre: [`i], [`j] are not iterators into [`a].
+    [:zh_CN] 前条件：[`i] 和 [`j] 不是 [`a] 中的迭代器。
     [:en] inserts each element from the range [=range[i,j)] if and only if there
     is no element with key equivalent to the key of that element in containers
     with unique keys; always inserts that element in containers with equivalent
     keys.
-[|] [:en] [$N [=log]([`a.size()] + N)] ([$N] has the value [`distance(i, j)]
+    [:zh_CN] 对于范围 [=range[i,j)] 中的每个元素，当且仅当具有唯一键的容器中不
+    存在其键等价于该元素的键的元素时，插入该元素；总是向具有等价键的容器中插入
+    该元素。
+[|] [:en] [$N [=log]([`a.size()] + N)] ([$N] has the value [`distance(i, j)])
+    [:zh_CN] [$N [=log]([`a.size()] + N)]（[$N] 的值为 [`distance(i, j)]）
 
 [|] [`a.insert(il)]
 [|] [`void]
 [|] [:en] Equivalent to [`a.insert(il.begin(), il.end())].
+    [:zh_CN] 等价于 [`a.insert(il.begin(), il.end())]。
 [|]
 
 [|] [`a.erase(k)]
 [|] [`size_type]
 [|] [:en] erases all elements in the container with key equivalent to [`k].
+    [:zh_CN] 清除容器中具有等价于 [`k] 的键的所有元素。
     [:en] returns the number of erased elements.
-[|] [:en] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
+    [:zh_CN] 返回所清除的元素数量。
+[|] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
 
 [|] [`a.erase(q)]
 [|] [`iterator]
 [|] [:en] erases the element pointed to by [`q].
+    [:zh_CN] 清除由 [`q] 所指向的元素。
     [:en] Returns an iterator pointing to the element immediately following [`q]
     prior to the element being erased.
+    [:zh_CN] 返回指向元素被清除前紧跟 [`q] 之后的元素的迭代器。
     [:en] If no such element exists, returns [`a.end()].
+    [:zh_CN] 如果不存在这种元素，则返回 [`a.end()]。
 [|] [:en] amortized constant
+    [:zh_CN] 摊销常量
 
 [|] [`a.erase(q1, q2)]
 [|] [`iterator]
 [|] [:en] erases all the elements in the range [=range[q1,q2)].
-    [:en] Returns an iterator pointing to the element pointed to by q2 prior to
-    any elements being erased.
+    [:zh_CN] 清除范围 [=range[q1,q2)] 中的所有元素。
+    [:en] Returns an iterator pointing to the element pointed to by [`q2] prior
+    to any elements being erased.
+    [:zh_CN] 返回指向任何元素被清除前紧跟 [`q2] 之后的元素的迭代器。
     [:en] If no such element exists, [`a.end()] is returned.
+    [:zh_CN] 如果不存在这种元素，则返回 [`a.end()]。
 [|] [:en] [$[=log]([`a.size()]) + N] where [$N] has the value
     [`distance(q1, q2)].
+    [:zh_CN] [$[=log]([`a.size()]) + N]，其中 [$N] 的值为 [`distance(q1, q2)]。
 
 [|] [`a.clear()]
 [|] [`void]
-[|] [:en] [`a.erase(a.begin(),a.end())] [br]
+[|] [`a.erase(a.begin(),a.end())]
+    [br]
     [:en] post: [`a.empty()] returns [`true]
+    [:zh_CN] 后条件：[`a.empty()] 返回 [`true]
 [|] [:en] linear in [`a.size()].
+    [:zh_CN] 对于 [`a.size()] 为线性。
 
 [|] [`a.find(k)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+    [:zh_CN] [`iterator]；对于常量 [`a] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to an element with the key equivalent to
     [`k], or [`a.end()] if such an element is not found
+    [:zh_CN] 返回指向其键等价于 [`k] 的元素的迭代器，如果无法找到这种元素则返回
+    [`a.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_tran.find(ke)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+    [:zh_CN] [`iterator]；对于常量 [`a_tran] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to an element with key [`r] such that
     [`!c(r, ke) && !c(ke, r)], or [`a_tran.end()] if such an element is not
     found
+    [:zh_CN] 返回指向具有键 [`r] 并使得 [`!c(r, ke) && !c(ke, r)] 的元素的迭代器
+    ，如果无法找到这种元素则返回 [`a.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a.count(k)]
 [|] [`size_type]
 [|] [:en] returns the number of elements with key equivalent to [`k]
-[|] [:en] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
+    [:zh_CN] 返回具有等价于 [`k] 的键的元素数量
+[|] [$[=log]([`a.size()]) + [`a.count(]k[`)]]
 
 [|] [`a_tran.count(ke)]
 [|] [`size_type]
 [|] [:en] returns the number of elements with key [`r] such that
     [`!c(r, ke) && !c(ke, r)]
-[|] [:en] [$[=log]([`a_tran.size()]) + [`a_tran.count(]ke[`)]]
+    [:zh_CN] 返回具有键 [`r] 并使得 [`!c(r, ke) && !c(ke, r)] 的元素数量
+[|] [$[=log]([`a_tran.size()]) + [`a_tran.count(]ke[`)]]
 
 [|] [`a.lower_bound(k)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+    [:zh_CN] [`iterator]；对于常量 [`a] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to the first element with key not less
     than [`k], or [`a.end()] if such an element is not found.
+    [:zh_CN] 返回指向其键不小于 [`k] 的第一个元素的迭代器，如果无法找到这种元素
+    则返回 [`a.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_tran.lower_bound(kl)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+    [:zh_CN] [`iterator]；对于常量 [`a_tran] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to the first element with key [`r] such
     that [`!c(r, kl)], or [`a_tran.end()] if such an element is not found.
+    [:zh_CN] 返回指向具有键 [`r] 并使得 [`!c(r, kl)] 的第一个元素的迭代器，如果
+    无法找到这种元素则返回 [`a_tran.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a.upper_bound(k)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a].
+    [:zh_CN] [`iterator]；对于常量 [`a] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to the first element with key greater
     than [`k], or [`a.end()] if such an element is not found.
+    [:zh_CN] 返回指向其键大于 [`k] 的第一个元素的迭代器，如果无法找到这种元素
+    则返回 [`a.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_tran.upper_bound(ku)]
 [|] [:en] [`iterator]; [`const_iterator] for constant [`a_tran].
+    [:zh_CN] [`iterator]；对于常量 [`a_tran] 为 [`const_iterator]。
 [|] [:en] returns an iterator pointing to the first element with key [`r] such
     that [`c(ku, r)], or [`a_tran.end()] if such an element is not found.
+    [:zh_CN] 返回指向具有键 [`r] 并使得 [`c(ku, r)] 的第一个元素的迭代器，如果
+    无法找到这种元素则返回 [`a_tran.end()]
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a.equal_range(k)]
 [|] [:en] [`pair<iterator, iterator>]; [`pair<const_iterator, const_iterator>]
     for constant [`a].
+    [:zh_CN] [`pair<iterator, iterator>]；对于常量 [`a] 为
+    [`pair<const_iterator, const_iterator>]。
 [|] [:en] equivalent to [`make_pair(a.lower_bound(k), a.upper_bound(k))].
+    [:zh_CN] 等价于 [`make_pair(a.lower_bound(k), a.upper_bound(k))]。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [|] [`a_tran.equal_range(ke)]
 [|] [:en] [`pair<iterator, iterator>]; [`pair<const_iterator, const_iterator>]
     for constant [`a_tran].
+    [:zh_CN] [`pair<iterator, iterator>]；对于常量 [`a_tran] 为
+    [`pair<const_iterator, const_iterator>]。
 [|] [:en] equivalent to [`make_pair(a_tran.lower_bound(ke),
     a_tran.upper_bound(ke))].
+    [:zh_CN] 等价于 [`make_pair(a_tran.lower_bound(ke), a_tran.upper_bound(ke))]
+    。
 [|] [:en] logarithmic
+    [:zh_CN] 对数
 
 [table:end]
 
@@ -394,14 +610,20 @@ type convertible to [`A].
 [:en] The [`insert] and [`emplace] members shall not affect the validity of
 iterators and references to the container, and the [`erase] members shall
 invalidate only iterators and references to the erased elements.
+[:zh_CN] [`insert] 和 [`emplace] 成员不能影响容器的迭代器和引用的有效性，而
+[`erase] 成员只能无效化指代被清除的元素的迭代器和引用。
 
 [para]
 [:en] The fundamental property of iterators of associative containers is that
 they iterate through the containers in the non-descending order of keys where
 non-descending is defined by the comparison that was used to construct them.
+[:zh_CN] 关联容器的迭代器的基本性质是，它们以键的非降序方式对容器进行迭代，其中
+的非降序是以用于构造它们的比较对象所定义的。
 
 [:en] For any two dereferenceable iterators [`i] and [`j] such that distance
 from [`i] to [`j] is positive,
+[:zh_CN] 对于任意两个可解引用的迭代器 [`i] 和 [`j]，且有从 [`i] 到 [`j] 的距离
+为正，则有
 
 [codeblock:notation]
 value_comp(*j, *i) == false
@@ -409,6 +631,7 @@ value_comp(*j, *i) == false
 
 [para]
 [:en] For associative containers with unique keys the stronger condition holds,
+[:zh_CN] 对于具有唯一键的关联容器，更强的条件是有效的，有
 
 [codeblock:notation]
 value_comp(*i, *j) != false.
@@ -418,16 +641,24 @@ value_comp(*i, *j) != false.
 [:en] When an associative container is constructed by passing a comparison
 object the container shall not store a pointer or reference to the passed
 object, even if that object is passed by reference.
+[:zh_CN] 当传递一个比较对象来构造关联容器时，容器不能存储所传递的对象的指针或
+引用，即使这个对象是以引用方式传递也是如此。
 
 [:en] When an associative container is copied, either through a copy constructor
 or an assignment operator, the target container shall then use the comparison
 object from the container being copied, as if that comparison object had been
 passed to the target container in its constructor.
+[:zh_CN] 当关联容器被复制时，无论是通过复制构造函数还是赋值运算符进行，目标容器
+应当随即使用被复制容器的比较对象，如同这个比较对象是在目标容器的构造函数中被传递
+一样。
 
 [para]
 [:en] The member function templates [`find], [`count], [`lower_bound],
 [`upper_bound], and [`equal_range] shall not participate in overload resolution
 unless the [~qualified-id] [`Compare::is_transparent] is valid and denotes a
 type ([#temp.deduct]).
+[:zh_CN] 成员函数模板 [`find]，[`count]，[`lower_bound]，[`upper_bound]，和
+[`equal_range]，除非[~限定标识] [`Compare::is_transparent] 有效且代表某个类型
+（[#temp.deduct]），否则它们不能参与重载决议。
 
 [include associative.reqmts.except]
