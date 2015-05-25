@@ -1,20 +1,28 @@
 ﻿[section#forwardlist.modifiers
     [:en] [`forward_list] modifiers
+    [:zh_CN] [`forward_list] 的改动函数
 ]
 
 [para]
 [:en] None of the overloads of [`insert_after] shall affect the validity of
 iterators and references, and [`erase_after] shall invalidate only iterators and
 references to the erased elements.
+[:zh_CN] [`insert_after] 的重载都不能影响迭代器和引用的有效性，而 [`erase_after]
+只能使指代所清除的元素的迭代器和引用失效。
 
 [:en] If an exception is thrown during [`insert_after] there shall be no effect.
+[:zh_CN] 如果 [`insert_after] 之中抛出了异常，则它应当没有效果。
 
 [:en] Inserting [`n] elements into a [`forward_list] is linear in [`n], and the
 number of calls to the copy or move constructor of [`T] is exactly equal to
 [`n].
+[:zh_CN] 向 [`forward_list] 中插入 [`n] 个元素对于 [`n] 为线性，且对 [`T] 的复制
+或移动构造函数的调用次数应当恰好等于 [`n]。
 
 [:en] Erasing [`n] elements from a [`forward_list] is linear in [`n] and the
 number of calls to the destructor of type [`T] is exactly equal to [`n].
+[:zh_CN] 从 [`forward_list] 中清除 [`n] 个元素对于 [`n] 为线性，且对 [`T] 的析构
+函数的调用次数应当恰好等于 [`n]。
 
 [%@library emplace_front[!forward_list]]
 [%@library forward_list[!emplace_front]]
@@ -26,6 +34,8 @@ template <class... Args> void emplace_front(Args&&... args);
 [para:effects]
 [:en] Inserts an object of type [`value_type] constructed with
 [`value_type(std::forward<Args>(args)...)] at the beginning of the list.
+[:zh_CN] 在列表的开头插入以 [`value_type(std::forward<Args>(args)...)] 构造的
+[`value_type] 类型的对象。
 [exit:description]
 
 [%@library push_front[!forward_list]]
@@ -38,6 +48,7 @@ void push_front(T&& x);
 [enter:description]
 [para:effects]
 [:en] Inserts a copy of [`x] at the beginning of the list.
+[:zh_CN] 在列表的开头插入 [`x] 的一个副本。
 [exit:description]
 
 
@@ -49,7 +60,7 @@ void pop_front();
 
 [enter:description]
 [para:effects]
-[:en] [`erase_after(before_begin())]
+[`erase_after(before_begin())]
 [exit:description]
 
 [%@library insert_after[!forward_list]]
@@ -63,12 +74,16 @@ iterator insert_after(const_iterator position, T&& x);
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [para:effects]
 [:en] Inserts a copy of [`x] after [`position].
+[:zh_CN] 在 [`position] 之后插入 [`x] 的一个副本。
 
 [para:returns]
 [:en] An iterator pointing to the copy of [`x].
+[:zh_CN] 指向 [`x] 的副本的迭代器。
 [exit:description]
 
 [%@library insert_after[!forward_list]]
@@ -81,13 +96,17 @@ iterator insert_after(const_iterator position, size_type n, const T& x);
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [para:effects]
 [:en] Inserts [`n] copies of [`x] after [`position].
+[:zh_CN] 在 [`position] 之后插入 [`n] 个 [`x] 的副本。
 
 [para:returns]
 [:en] An iterator pointing to the last inserted copy of [`x] or [`position] if
 [`n == 0].
+[:zh_CN] 指向最后插入的 [`x] 的副本的迭代器，或者当 [`n == 0] 时为 [`position]。
 [exit:description]
 
 [%@library insert_after[!forward_list]]
@@ -101,15 +120,20 @@ template <class InputIterator>
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [:en] [`first] and [`last] are not iterators in [`*this].
+[:zh_CN] [`first] 和 [`last] 不是 [`*this] 中的迭代器。
 
 [para:effects]
 [:en] Inserts copies of elements in [=range[first,last)] after [`position].
+[:zh_CN] 在 [`position] 之后插入 [=range[first,last)] 中的元素的副本。
 
 [para:returns]
 [:en] An iterator pointing to the last inserted element or [`position] if
 [`first == last].
+[:zh_CN] 指向最后插入的元素的迭代器，或者当 [`first == last] 时为 [`position]。
 [exit:description]
 
 [%@library insert_after[!forward_list]]
@@ -121,10 +145,12 @@ iterator insert_after(const_iterator position, initializer_list<T> il);
 [enter:description]
 [para:effects]
 [:en] [`insert_after(p, il.begin(), il.end())].
+[:zh_CN] [`insert_after(p, il.begin(), il.end())]。
 
 [para:returns]
 [:en] An iterator pointing to the last inserted element or [`position] if [`il]
 is empty.
+[:zh_CN] 指向最后插入的元素的迭代器，或者当 [`il] 为空时为 [`position]。
 [exit:description]
 
 
@@ -139,13 +165,19 @@ template <class... Args>
 [para:requires]
 [:en] [`position] is [`before_begin()] or is a dereferenceable iterator in the
 range [=range[begin(),end())].
+[:zh_CN] [`position] 为 [`before_begin()]，或者是范围 [=range[begin(),end())] 中
+的可解引用迭代器。
 
 [para:effects]
 [:en] Inserts an object of type [`value_type] constructed with
 [`value_type(std::forward<Args>(args)...)] after [`position].
+[:zh_CN] 在 [`position] 之后插入以 [`value_type(std::forward<Args>(args)...)]
+构造的 [`value_type] 类型的对象。
+[:zh_CN]
 
 [para:returns]
 [:en] An iterator pointing to the new object.
+[:zh_CN] 指向新对象的迭代器。
 [exit:description]
 
 [%@library erase_after[!forward_list]]
@@ -157,16 +189,21 @@ iterator erase_after(const_iterator position);
 [enter:description]
 [para:requires]
 [:en] The iterator following [`position] is dereferenceable.
+[:zh_CN] [`position] 之后的迭代器是可解引用的。
 
 [para:effects]
 [:en] Erases the element pointed to by the iterator following [`position].
+[:zh_CN] 清除由跟在 [`position] 之后的迭代器所指向的元素。
 
 [para:returns]
 [:en] An iterator pointing to the element following the one that was erased, or
 [`end()] if no such element exists.
+[:zh_CN] 指向跟在所清除的元素后面的元素的迭代器，或者当不存在这种元素时返回
+[`end()]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library erased[!forward_list]]
@@ -178,15 +215,19 @@ iterator erase_after(const_iterator position, const_iterator last);
 [enter:description]
 [para:requires]
 [:en] All iterators in the range [=orange(position,last)] are dereferenceable.
+[:zh_CN] 范围 [=orange(position,last)] 中的迭代器都是可解引用的。
 
 [para:effects]
 [:en] Erases the elements in the range [=orange(position,last)].
+[:zh_CN] 清除范围 [=orange(position,last)] 中的元素。
 
 [para:returns]
 [:en] [`last].
+[:zh_CN] [`last]。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 [exit:description]
 
 [%@library resize[!forward_list]]
@@ -199,12 +240,17 @@ void resize(size_type sz);
 [para:effects]
 [:en] If [`sz < distance(begin(), end())], erases the last [`distance(begin(),
 end()) - sz] elements from the list.
+[:zh_CN] 如果 [`sz < distance(begin(), end()]，则清除列表中的最后
+[`distance(begin(), end()) - sz] 个元素。
 
 [:en] Otherwise, inserts [`sz - distance(begin(), end())] default-inserted
 elements at the end of the list.
+[:zh_CN] 否则，在列表的末尾插入 [`sz - distance(begin(), end())] 个默认插入的
+元素。
 
 [para:requires]
 [:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`DefaultInsertable]。
 [exit:description]
 
 [codeblock:declaration]
@@ -214,14 +260,22 @@ void resize(size_type sz, const value_type& c);
 [enter:description]
 [para:effects]
 [:en] If [`sz < distance(begin(), end())], erases the last [`distance(begin(),
-end()) - sz] elements from the list. Otherwise, inserts [`sz - distance(begin(),
-end())] elements at the end of the list such that each new element, [`e], is
-initialized by a method equivalent to calling
-[`allocator_traits<allocator_type>::construct(get_allocator(),
+end()) - sz] elements from the list.
+[:zh_CN] 如果 [`sz < distance(begin(), end()]，则清除列表中的最后
+[`distance(begin(), end()) - sz] 个元素。
+
+[:en] Otherwise, inserts [`sz - distance(begin(), end())] elements at the end of
+the list such that each new element, [`e], is initialized by a method equivalent
+to calling [`allocator_traits<allocator_type>::construct(get_allocator(),
 std::addressof(e), c)].
+[:zh_CN] 否则，在列表的末尾插入 [`sz - distance(begin(), end())] 个元素，其中
+每个新元素 [`e]，均是以等价于调用
+[`allocator_traits<allocator_type>::construct(get_allocator(),
+std::addressof(e), c)] 的方式进行初始化的。
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 [exit:description]
 
 [%@library clear[!forward_list]]
@@ -233,7 +287,9 @@ void clear() noexcept;
 [enter:description]
 [para:effects]
 [:en] Erases all elements in the range [=range[begin(),end())].
+[:zh_CN] 清除范围 [=range[begin(),end())] 中的所有元素。
 
 [para:remarks]
 [:en] Does not invalidate past-the-end iterators.
+[:zh_CN] 并不使越过末尾迭代器失效。
 [exit:description]
