@@ -1,45 +1,66 @@
 ﻿[section#forwardlist.overview
     [:en] Class template [`forward_list] overview
+    [:zh_CN] 类模板 [`forward_list] 概要
 ]
 
 [para]
 [:en] A [`forward_list] is a container that supports forward iterators and
 allows constant time insert and erase operations anywhere within the sequence,
 with storage management handled automatically.
+[:zh_CN] [`forward_list] 是一种容器，支持前向迭代器，并允许在序列中的任何位置
+进行常量时间的插入和清除操作，并且具有被自动处理的存储管理。
 
 [:en] Fast random access to list elements is not supported.
+[:zh_CN] 不支持对列表元素进行快速的随机访问。
 
 [enter:note]
 [:en] It is intended that [`forward_list] have zero space or time overhead
 relative to a hand-written C-style singly linked list.
+[:zh_CN] 其意图是使 [`forward_list] 相对于手写的 C 风格的单链表的空间和时间开销
+为零。
 
 [:en] Features that would conflict with that goal have been omitted.
+[:zh_CN] 可能会与这个目标向矛盾的功能特性都已被忽略。
 [exit:note]
 
 [para]
 [:en] A [`forward_list] satisfies all of the requirements of a container
 (Table [#tab:containers.container.requirements]), except that the [`size()]
 member function is not provided and [`operator==] has linear complexity.
+[:zh_CN] [`forward_list] 符合容器的所有规定
+（表 [#tab:containers.container.requirements]），但未提供 [`size()] 成员函数，
+且其 [`operator==] 具有线性复杂度。
 
 [:en] A [`forward_list] also satisfies all of the requirements for an
 allocator-aware container (Table [#tab:containers.allocatoraware]).
+[:zh_CN] [`forward_list] 也符合分配器感知容器的所有规定
+（表 [#tab:containers.allocatoraware]）。
 
 [:en] In addition, a [`forward_list] provides the [`assign] member functions
 (Table [#tab:containers.sequence.requirements]) and several of the optional
 container requirements (Table [#tab:containers.sequence.optional]).
+[:zh_CN] 此外，[`forward_list] 提供 [`assign] 成员函数
+（表 [#tab:containers.sequence.requirements]），以及集中可选的容器规定
+（表 [#tab:containers.sequence.optional]）。
 
 [:en] Descriptions are provided here only for operations on [`forward_list] that
 are not described in that table or for operations where there is additional
 semantic information.
+[:zh_CN] 此处给出的说明仅包括未被这个表格所描述的 [`forward_list] 的操作，以及
+具有额外的语义信息的操作。
 
 [para]
 [enter:note]
 [:en] Modifying any list requires access to the element preceding the first
 element of interest, but in a [`forward_list] there is no constant-time way to
 access a preceding element.
+[:zh_CN] 对列表的任何改动，都需要访问处于感兴趣的原始之前的元素，但在
+[`forward_list] 中不存在耗费常量时间的访问前一个元素的方式。
 
 [:en] For this reason, ranges that are modified, such as those supplied to
 [`erase] and [`splice], must be open at the beginning.
+[:zh_CN] 由于这个原因，被改动的范围，比如提供给 [`erase] 和 [`splice] 的那些，
+必须在其开头是打开的。
 [exit:note]
 
 [codeblock:synopsis [special implementation-defined] ]
@@ -48,18 +69,24 @@ namespace std {
   class forward_list {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef value_type&                                           reference;
     typedef const value_type&                                     const_reference;
     typedef implementation-defined iterator;       // [:en] See [#container.requirements]
+                                                   // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined const_iterator; // [:en] See [#container.requirements]
+                                                   // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined size_type;      // [:en] See [#container.requirements]
+                                                   // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined difference_type;// [:en] See [#container.requirements]
+                                                   // [|:zh_CN] 参见 [#container.requirements]
     typedef T value_type;
     typedef Allocator allocator_type;
     typedef typename allocator_traits<Allocator>::pointer         pointer;
     typedef typename allocator_traits<Allocator>::const_pointer   const_pointer;
 
     // [:en] [#forwardlist.cons], construct/copy/destroy:
+    // [|:zh_CN] [#forwardlist.cons]，构造/复制/销毁：
     forward_list() : forward_list(Allocator()) { }
     explicit forward_list(const Allocator&);
     explicit forward_list(size_type n, const Allocator& = Allocator());
@@ -85,6 +112,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] [#forwardlist.iter], iterators:
+    // [|:zh_CN] [#forwardlist.iter]，迭代器：
     iterator before_begin() noexcept;
     const_iterator before_begin() const noexcept;
     iterator begin() noexcept;
@@ -97,14 +125,17 @@ namespace std {
     const_iterator cend() const noexcept;
 
     // [:en] capacity:
+    // [|:zh_CN] 容量：
     bool empty() const noexcept;
     size_type max_size() const noexcept;
 
     // [:en] [#forwardlist.access], element access:
+    // [|:zh_CN] [#forwardlist.access]，元素访问：
     reference front();
     const_reference front() const;
 
     // [:en] [#forwardlist.modifiers], modifiers:
+    // [|:zh_CN] [#forwardlist.modifiers]，改动函数：
     template <class... Args> void emplace_front(Args&&... args);
     void push_front(const T& x);
     void push_front(T&& x);
@@ -129,6 +160,7 @@ namespace std {
     void clear() noexcept;
 
     // [:en] [#forwardlist.ops], forward_list operations:
+    // [|:zh_CN] [#forwardlist.ops]，forward_list 的操作：
     void splice_after(const_iterator position, forward_list& x);
     void splice_after(const_iterator position, forward_list&& x);
     void splice_after(const_iterator position, forward_list& x,
@@ -158,6 +190,7 @@ namespace std {
   };
 
   // [:en] Comparison operators
+  // [|:zh_CN] 比较运算符
   template <class T, class Allocator>
     bool operator==(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
   template <class T, class Allocator>
@@ -172,6 +205,7 @@ namespace std {
     bool operator<=(const forward_list<T, Allocator>& x, const forward_list<T, Allocator>& y);
 
   // [:en] [#forwardlist.spec], specialized algorithms:
+  // [|:zh_CN] [#forwardlist.spec]，特化的算法：
   template <class T, class Allocator>
     void swap(forward_list<T, Allocator>& x, forward_list<T, Allocator>& y)
       noexcept(noexcept(x.swap(y)));
