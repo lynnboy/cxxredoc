@@ -1,5 +1,6 @@
 ﻿[section#deque.capacity
     [:en] [`deque] capacity
+    [:zh_CN] [`deque] 的容量
 ]
 
 [%@library resize[!deque]]
@@ -11,12 +12,15 @@ void resize(size_type sz);
 [para:effects]
 [:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
 times.
+[:zh_CN] 如果 [`sz <= size()]，则等价于 [`size() - sz] 次调用 [`pop_back()]。
 
 [:en] If [`size() < sz], appends [`sz - size()] default-inserted elements to the
 sequence.
+[:zh_CN] 如果 [`size() < sz]，则向序列中追加 [`sz - size()] 个默认插入的元素。
 
 [para:requires]
 [:en] [`T] shall be [`MoveInsertable] and [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`MoveInsertable] 且 [`DefaultInsertable]。
 [exit:description]
 
 [%@library resize[!deque]]
@@ -28,11 +32,14 @@ void resize(size_type sz, const T& c);
 [para:effects]
 [:en] If [`sz <= size()], equivalent to calling [`pop_back()] [`size() - sz]
 times.
+[:zh_CN] 如果 [`sz <= size()]，则等价于 [`size() - sz] 次调用 [`pop_back()]。
 
 [:en] If [`size() < sz], appends [`sz - size()] copies of [`c] to the sequence.
+[:zh_CN] 如果 [`size() < sz]，则向序列中追加 [`sz - size()] 个 [`c] 的副本。
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 [exit:description]
 
 [%@library shrink_to_fit[!deque]]
@@ -44,16 +51,20 @@ void shrink_to_fit();
 [enter:description]
 [para:requires]
 [:en] [`T] shall be [`MoveInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`MoveInsertable]。
 
 [para:complexity]
 [:en] Linear in the size of the sequence.
+[:zh_CN] 对于序列的大小为线性。
 
 [para:remarks]
 [:en] [`shrink_to_fit] is a non-binding request to reduce memory use but does
 not change the size of the sequence.
+[:zh_CN] [`shrink_to_fit] 是不具有约束力的请求以缩减内存用量但不改变序列的大小。
 
 [enter:note]
 [:en] The request is non-binding to allow latitude for implementation-specific
 optimizations.
+[:zh_CN] 该请求不具约束力，以允许进行特定于实现的优化。
 [exit:note]
 [exit:description]
