@@ -1,20 +1,28 @@
 ﻿[section#array.zero
     [:en] Zero sized arrays
+    [:zh_CN] 零大小的数组
 ]
 
-[%[`array][!zero sized]]
+[%[:en] [`array][!zero sized]
+  [:zh_CN] [`array][!零大小的] ]
 [para]
 [:en] [`array] shall provide support for the special case [`N == 0].
+[:zh_CN] [`array] 应当为 [`N == 0] 的特殊情况提供支持。
 
 [para]
 [:en] In the case that [`N == 0], [`begin() == end() ==] unique value.
+[:zh_CN] 当 [`N == 0] 时，有 [`begin() == end() ==] 某个唯一值。
 
 [:en] The return value of [`data()] is unspecified.
+[:zh_CN] [`data()] 的返回值是未指明的。
 
 [para]
 [:en] The effect of calling [`front()] or [`back()] for a zero-sized array is
 undefined.
+[:zh_CN] 对零大小的数组调用 [`front()] 或 [`back()] 的效果是未定义的。
 
 [para]
 [:en] Member function [`swap()] shall have a [~noexcept-specification] which is
 equivalent to [`noexcept(true)].
+[:zh_CN] 成员函数 [`swap()] 应当具有等价于 [`noexcept(true)] 的 [~noexcept-说明]
+。
