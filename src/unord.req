@@ -1,24 +1,37 @@
 ﻿[section#unord.req
     [:en] Unordered associative containers
+    [:zh_CN] 无序关联容器
 ]
 
 [%:begin#unordered.associative.containers
     [:en] unordered associative containers
+    [:zh_CN] 无序关联容器
 ]
+[:en]
 [%associative containers[!unordered][see unordered associative containers]]
 [%hash tables[see unordered associative containers]]
+[:zh_CN]
+[%关联容器[!无序～][see 无序关联容器]]
+[%散列表[see 无序关联容器]]
 
 [para]
-[%unordered associative containers[!complexity]]
 [:en] Unordered associative containers provide an ability for fast retrieval of
 data based on keys.
+[:zh_CN] 无序关联容器提供基于键快速检索数据的能力。
 
-[:en] The worst-case complexity for most operations is linear, but the average
+[:en]
+[%unordered associative containers[!complexity]]
+The worst-case complexity for most operations is linear, but the average
 case is much faster.
+[:zh_CN]
+[%无序关联容器[!复杂度]]
+大多数操作的最差复杂度是线性的，但其平均情况下要快得多。
 
 [:en] The library provides four unordered associative containers:
 [`unordered_set], [`unordered_map], [`unordered_multiset], and
 [`unordered_multimap].
+[:zh_CN] 程序库中提供了四种无序关联容器：[`unordered_set]，[`unordered_map]，
+[`unordered_multiset]，以及 [`unordered_multimap]。
 
 [para]
 [:en]
@@ -28,6 +41,12 @@ case is much faster.
 Unordered associative containers conform to the requirements for Containers
 ([#container.requirements]), except that the expressions [`a == b] and [`a != b]
 have different semantics than for the other container types.
+[:zh_CN]
+[%无序关联容器[!缺少比较运算符]]
+[%无序关联容器[!规定]]
+[%规定[!容器[!无序关联容器所不需要的～]]]
+无序关联容器符合对于容器的规定（[#container.requirements]），但表达式 [`a == b]
+和 [`a != b] 具有与其它容器类型不同的语义。
 
 [para]
 [:en] Each unordered associative container is parameterized by [`Key], by a
@@ -35,9 +54,14 @@ function object type [`Hash] that meets the [`Hash] requirements
 ([#hash.requirements]) and acts as a hash function for argument values of type
 [`Key], and by a binary predicate [`Pred] that induces an equivalence relation
 on values of type [`Key].
+[:zh_CN] 每种无序关联容器均以 [`Key]，符合 [`Hash] 规定（[#hash.requirements]）
+的一种函数对象类型 [`Hash]（表现为对于 [`Key] 类型的实参值的一种散列函数），以及
+一种二元谓词 [`Pred]（归纳 [`Key] 类型的值之间的一种等价关系）所参数化。
 
 [:en] Additionally, [`unordered_map] and [`unordered_multimap] associate an
 arbitrary [+mapped type] [`T] with the [`Key].
+[:zh_CN] 此外，[`unordered_map] 和 [`unordered_multimap] 还为 [`Key] 关联任意
+一种[+映射类型] [`T]。
 
 [para]
 [:en]
@@ -45,30 +69,46 @@ arbitrary [+mapped type] [`T] with the [`Key].
 [%hash function]
 The container[=']s object of type [`Hash] [=--] denoted by [`hash] [=--] is
 called the [+hash function] of the container.
+[:zh_CN]
+[%无序关联容器[!散列函数]]
+[%散列函数]
+容器中 [`Hash] 类型的对象（由 [`hash] 代表），被称为该容器的[+散列函数]。
 
 [:en] The container[=']s object of type [`Pred] [=--] denoted by [`pred] [=--]
 is called the [+key equality predicate] of the container.
+[:zh_CN]
+容器中 [`Pred] 类型的对象（由 [`pred] 代表），被称为该容器的[+相等性谓词]。
 
 [para]
 [:en]
 [%unordered associative containers[!equality function]]
 Two values [`k1] and [`k2] of type [`Key] are considered equivalent if the
 container[=']s key equality predicate returns [`true] when passed those values.
+[:zh_CN]
+[%无序关联容器[!相等函数]]
+两个键 [`k1] 和 [`k2]，如果将这些值传递给容器的键相等性谓词时返回 [`true]，则
+认为它们等价。
 
 [:en] If [`k1] and [`k2] are equivalent, the container[=']s hash function shall
 return the same value for both.
+[:zh_CN] 如果 [`k1] 和 [`k2] 等价，则该容器的散列函数应当为二者返回相同的值。
 
 [enter:note]
 [:en] Thus, when an unordered associative container is instantiated with
 a non-default [`Pred] parameter it usually needs a non-default [`Hash] parameter
 as well.
+[:zh_CN] 因此，当以非默认的 [`Pred] 形参来实例化无序关联容器时，通常也需要非默认
+的 [`Hash] 形参。
 [exit:note]
 
 [:en] For any two keys [`k1] and [`k2] in the same container, calling
 [`pred(k1, k2)] shall always return the same value.
+[:zh_CN] 对于同一个容器中的任意两个键 [`k1] 和 [`k2]，调用 [`pred(k1, k2)] 应当
+总是返回相同的值。
 
 [:en] For any key [`k] in a container, calling [`hash(k)] shall always return
 the same value.
+[:zh_CN] 对于容器中的任意键 [`k]，调用 [`hash(k)] 应当总是返回相同的值。
 
 [para]
 [:en]
@@ -76,43 +116,65 @@ the same value.
 [%unordered associative containers[!equivalent keys]]
 An unordered associative container supports [+unique keys] if it may contain at
 most one element for each key.
+[:zh_CN]
+[%无序关联容器[!唯一键]]
+[%无序关联容器[!等价键]]
+如果关联容器为每个键最多可以包含一个元素，则它支持[+唯一键]。
 
 [:en] Otherwise, it supports [+equivalent keys].
+[:zh_CN] 否则，它支持[+等价键]。
 
 [:en] [`unordered_set] and [`unordered_map] support unique keys.
+[:zh_CN] [`unordered_set] 和 [`unordered_map] 支持唯一键。
 
 [:en] [`unordered_multiset] and [`unordered_multimap] support equivalent keys.
+[:zh_CN] [`unordered_multiset] 和 [`unordered_multimap] 支持等价键。
 
 [:en] In containers that support equivalent keys, elements with equivalent keys
 are adjacent to each other in the iteration order of the container.
+[:zh_CN] 在支持等价键的容器中，具有等价的键的元素在该容器的迭代顺序中相邻。
 
 [:en] Thus, although the absolute order of elements in an unordered container is
 not specified, its elements are grouped into [def equivalent-key group]s such
 that all elements of each group have equivalent keys.
+[:zh_CN] 因此，虽然无序容器中的元素的绝对顺序是未指明的，但元素被分组到[def 等价
+键组]中，使得每个组中的元素均具有等价的键。
 
 [:en] Mutating operations on unordered containers shall preserve the relative
 order of elements within each equivalent-key group unless otherwise specified.
+[:zh_CN] 除非另行说明，无序容器上的改动操作应当保持元素在各自的等价键组之内的
+相对顺序。
 
 [para]
 [:en] For [`unordered_set] and [`unordered_multiset] the value type is the same
 as the key type.
+[:zh_CN] 对于 [`unordered_set] 和 [`unordered_multiset]，其值类型与键类型相同。
 
 [:en] For [`unordered_map] and [`unordered_multimap] it is
 [`std::pair<const Key, T>].
+[:zh_CN] 对于 [`unordered_map] 和 [`unordered_multimap]，值类型为
+[`std::pair<const Key, T>]。
 
 [para]
 [:en] For unordered containers where the value type is the same as the key type,
 both [`iterator] and [`const_iterator] are constant iterators.
+[:zh_CN] 对于值类型与键类型相同的无序容器，[`iterator] 和 [`const_iterator] 都是
+常量迭代器。
 
 [:en] It is unspecified whether or not [`iterator] and [`const_iterator] are the
 same type.
+[:zh_CN] [`iterator] 和 [`const_iterator] 是否是相同类型是未指明的。
 
 [enter:note]
 [:en] [`iterator] and [`const_iterator] have identical semantics in this case,
 and [`iterator] is convertible to [`const_iterator].
+[:zh_CN] 这种情况下 [`iterator] 和 [`const_iterator] 具有相同的语义，而且
+[`iterator] 可以转换为 [`const_iterator]。
 
 [:en] Users can avoid violating the One Definition Rule by always using
 [`const_iterator] in their function parameter lists.
+[:zh_CN] 用户可以通过在其函数形参列表中总是使用 [`const_iterator] 来避免对唯一
+定义原则的违反。
 [exit:note]
 
 [para]
@@ -121,19 +183,30 @@ and [`iterator] is convertible to [`const_iterator].
 [%hash code]
 The elements of an unordered associative container are organized into
 [+buckets].
+[:zh_CN]
+[%桶]
+[%散列码]
+无序关联容器的元素被组织到各个[+桶]中。
 
 [:en] Keys with the same hash code appear in the same bucket.
+[:zh_CN] 具有相同散列码的键处于相同的桶中。
 
 [:en] The number of buckets is automatically increased as elements are added to
 an unordered associative container, so that the average number of elements per
 bucket is kept below a bound.
+[:zh_CN] 桶的数量是当向无序关联容器中添加元素时自动增长的，这样每个桶的平均元素
+数量被保持低于一个界限。
 
 [:en] Rehashing invalidates iterators, changes ordering between elements, and
 changes which buckets elements appear in, but does not invalidate pointers or
 references to elements.
+[:zh_CN] 重散列将会无效化迭代器，改变元素之间的顺序，并改变元素出现于哪个桶中，
+但不会无效化指代元素的指针或引用。
 
 [:en] For [`unordered_multiset] and [`unordered_multimap], rehashing preserves
 the relative ordering of equivalent elements.
+[:zh_CN] 对于 [`unordered_multiset] 和 [`unordered_multimap]，重散列时保持等价
+元素之间的相对顺序。
 
 [para]
 [:en] The unordered associative containers meet all the requirements of
@@ -141,11 +214,18 @@ Allocator-aware containers ([#container.requirements.general]), except that for
 [`unordered_map] and [`unordered_multimap], the requirements placed on
 [`value_type] in Table [#tab:containers.container.requirements] apply instead to
 [`key_type] and [`mapped_type].
+[:zh_CN] 无序关联容器满足对分配器感知容器的所有规定
+（[#container.requirements.general]），但对于 [`unordered_map] 和
+[`unordered_multimap]，表 [#tab:containers.container.requirements] 中对
+[`value_type] 的规定被代之以针对 [`key_type] 和 [`mapped_type]。
 
 [enter:note]
 [:en] For example, [`key_type] and [`mapped_type] are sometimes required to be
 [`CopyAssignable] even though the associated [`value_type], [`pair<const
 key_type, mapped_type>], is not [`CopyAssignable].
+[:zh_CN] 例如，某些情况下 [`key_type] 和 [`mapped_type] 被要求为
+[`CopyAssignable]，虽然其所关联的 [`value_type]（[`pair<const key_type,
+mapped_type>]）可能不为 [`CopyAssignable]。
 [exit:note]
 
 [para]
@@ -169,473 +249,926 @@ an object of type [`initializer_list<value_type>], [`t] denotes a value of type
 possibly const value of type [`hasher], [`eq] denotes a possibly const value of
 type [`key_equal], [`n] denotes a value of type [`size_type], and [`z] denotes a
 value of type [`float].
+[:zh_CN]
+[%无序关联容器]
+[%无序关联容器[!规定]]
+[%规定[!无序关联容器]]
+[%无序关联容器[!唯一键]]
+[%无序关联容器[!等价键]]
+[%规定[!容器]]
+表 [#tab:HashRequirements] 中：[`X] 代表某个无序关联容器类，[`a] 代表 [`X] 类型
+的值，[`b] 代表 [`X] 类型的可能为 const 的值，[`a_uniq] 代表当 [`X] 支持唯一键时
+[`X] 类型的值，[`a_eq] 代表当 [`X] 支持多重键时 [`X] 类型的值，[`i] 和 [`j] 代表
+指代 [`value_type] 的输入迭代器，[`[i, j)] 代表有效的范围，[`p] 和 [`q2] 代表
+[`a] 的有效 const 迭代器，[`q] 和 [`q1] 代表 [`a] 的有效可解引用 const 迭代器，
+[`[q1, q2)] 代表 [`a] 中的有效范围，[`il] 代表 [`initializer_list<value_type>]
+类型的对象，[`t] 代表 [`X::value_type] 类型的对象，[`k] 代表 [`X::key_type] 类型
+的对象，[`hf] 代表 [`hasher] 类型的可能为 const 的对象，[`eq] 代表 [`key_equal]
+类型的可能为 const 的对象，[`n] 代表 [`size_type] 类型的值，而 [`z] 代表
+[`float] 类型的值。
 
 [table:listing#tab:HashRequirements
     [:en] Unordered associative container requirements (in addition to
         container)
+    [:zh_CN] 无序关联容器（除容器以外）的规定
     [columns
         [column@headercenter
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Assertion/note pre-/post-condition
+            [:zh_CN] 断言/注解，前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
     [border:row@both]
 ]
 
-[|] [`X::key_type]
-[|]
+[-]
+[:en]
 [%unordered associative containers[![`key_type]]]
 [%[`key_type][!unordered associative containers]]
-    [`Key]
+[:zh_CN]
+[%无序关联容器[![`key_type]]]
+[%[`key_type][!无序关联容器]]
+[|] [`X::key_type]
+[|] [`Key]
 [|]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`X::mapped_type] ([`unordered_map] and [`unordered_multimap] only)
+    [:zh_CN] [`X::mapped_type]（仅对于 [`unordered_map] 和
+    [`unordered_multimap]）
 [|] [`T]
 [|]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`X::value_type] ([`unordered_set] and [`unordered_multiset] only)
+    [:zh_CN] [`X::mapped_type]（仅对于 [`unordered_set] 和
+    [`unordered_multiset]）
 [|] [`Key]
-[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [para:requires]
+    [:en] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [:en] [`X::value_type] ([`unordered_map] and [`unordered_multimap] only)
+    [:zh_CN] [`X::mapped_type]（仅对于 [`unordered_map] 和
+    [`unordered_multimap]）
 [|] [`pair<const Key, T>]
-[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
+[|] [para:requires]
+    [:en] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
+[-]
+[:en]
+[%unordered associative containers[![`hasher]]]
+[%[`hasher][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`hasher]]]
+[%[`hasher][!无序关联容器]]
 [|] [`X::hasher]
 [|] [`Hash]
 [|] [:en] [`Hash] shall be a unary function object type such that the expression
     [`hf(k)] has type [`std::size_t].
-    [%unordered associative containers[![`hasher]]]
-    [%[`hasher][!unordered associative containers]]
+    [:zh_CN] [`Hash] 应当为一元函数对象类型，并使表达式 [`hf(k)] 的类型为
+    [`std::size_t]。
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
+[-]
+[:en]
+[%unordered associative containers[![`key_equal]]]
+[%[`key_equal][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`key_equal]]]
+[%[`key_equal][!无序关联容器]]
 [|] [`X::key_equal]
 [|] [`Pred]
 [|] [:en] [`Pred] shall be a binary predicate that takes two arguments of type
     [`Key].
-    [:en] [`Pred] is an equivalence relation.
-    [%unordered associative containers[![`key_equal]]]
-    [%[`key_equal][!unordered associative containers]]
-[|] [:en] compile time
+    [:zh_CN] [`Pred] 应当为接受两个 [`Key] 类型的实参的二元谓词。
 
+    [:en] [`Pred] is an equivalence relation.
+    [:zh_CN] [`Pred] 为一种等价关系。
+[|] [:en] compile time
+    [:zh_CN] 编译期
+
+[-]
+[%[`local_iterator]]
+[:en]
+[%unordered associative containers[![`local_iterator]]]
+[%[`local_iterator][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`local_iterator]]]
+[%[`local_iterator][!无序关联容器]]
 [|] [`X::local_iterator]
 [|] [:en] An iterator type whose category, value type, difference type, and
     pointer and reference types are the same as [`X::iterator][=']s.
-    [%[`local_iterator]]
+    [:zh_CN] 具有与 [`X::iterator] 相同的范畴，值类型，差类型，以及指针和引用
+    类型的迭代器类型。
 [|] [:en] A [`local_iterator] object may be used to iterate through a single
     bucket, but may not be used to iterate across buckets.
-    [%unordered associative containers[![`local_iterator]]]
-    [%[`local_iterator][!unordered associative containers]]
+    [:zh_CN] [`local_iterator] 对象可被用于在一个桶中迭代，但不能用于跨越不同桶
+    的迭代。
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
+[-]
+[%[`const_local_iterator]]
+[:en]
+[%unordered associative containers[![`const_local_iterator]]]
+[%[`const_local_iterator][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`const_local_iterator]]]
+[%[`const_local_iterator][!无序关联容器]]
 [|] [`X::const_local_iterator]
 [|] [:en] An iterator type whose category, value type, difference type, and
     pointer and reference types are the same as [`X::const_iterator][=']s.
-    [%[`const_local_iterator]]
+    [:zh_CN] 具有与 [`X::const_iterator] 相同的范畴，值类型，差类型，以及指针和
+    引用类型的迭代器类型。
 [|] [:en] A [`const_local_iterator] object may be used to iterate through a
     single bucket, but may not be used to iterate across buckets.
-    [%unordered associative containers[![`const_local_iterator]]]
-    [%[`const_local_iterator][!unordered associative containers]]
+    [:zh_CN] [`const_local_iterator] 对象可被用于在一个桶中迭代，但不能用于跨越
+    不同桶的迭代。
 [|] [:en] compile time
+    [:zh_CN] 编译期
 
 [|] [`X(n, hf, eq)] [br] [`X a(n, hf, eq)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`CopyConstructible]. [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hf] as the hash function and [`eq] as the key equality predicate.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`CopyConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`CopyConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using [`hf]
+    as the hash function and [`eq] as the key equality predicate.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hf] 作为其散列函数，并
+    使用 [`eq] 作为其键相等性谓词。
 [|] [$[=bigoh](n)]
 
 [|] [`X(n, hf)] [br] [`X a(n, hf)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] is [`CopyConstructible] and [`key_equal]
-    is [`DefaultConstructible]. [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hf] as the hash function and [`key_equal()] as the key equality
-    predicate.
+[|] [para:requires]
+    [:en] [`hasher] is [`CopyConstructible] and [`key_equal] is
+    [`DefaultConstructible].
+    [:zh_CN] [`hasher] 为 [`CopyConstructible] 且 [`key_equal] 为
+    [`DefaultConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using [`hf]
+    as the hash function and [`key_equal()] as the key equality predicate.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hf] 作为其散列函数，并
+    使用 [`key_equal()] 作为其键相等性谓词。
+    [:zh_CN]
 [|] [$[=bigoh](n)]
 
 [|] [`X(n)] [br] [`X a(n)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
-    [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hasher()] as the hash function and [`key_equal()] as the key
-    equality predicate.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`DefaultConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using
+    [`hasher()] as the hash function and [`key_equal()] as the key equality
+    predicate.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hasher()] 作为其散列函数
+    ，并使用 [`key_equal()] 作为其键相等性谓词。
 [|] [$[=bigoh](n)]
 
 [|] [`X()] [br] [`X a]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
-    [br]
-    [:en] [=Effects] Constructs an empty container with an unspecified number of
-    buckets, using [`hasher()] as the hash function and [`key_equal()] as the
-    key equality predicate.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`DefaultConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with an unspecified number of buckets,
+    using [`hasher()] as the hash function and [`key_equal()] as the key
+    equality predicate.
+    [:zh_CN] 构造一个具有未指明的桶数的空容器，使用 [`hasher()] 作为其散列函数
+    ，并使用 [`key_equal()] 作为其键相等性谓词。
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`X(i, j, n, hf, eq)] [br] [`X a(i, j, n, hf, eq)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`CopyConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hf] as the hash function and [`eq] as the key equality predicate,
-    and inserts elements from [`[i, j)] into it.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`CopyConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`CopyConstructible]。
+
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using [`hf]
+    as the hash function and [`eq] as the key equality predicate, and inserts
+    elements from [`[i, j)] into it.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hf] 作为其散列函数，并
+    使用 [`eq] 作为其键相等性谓词，并且将 [`[i, j)] 中的元素插入其中。
 [|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+    [:zh_CN] 平均情况为 [$[=bigoh](N)]（[$N] 为 [`distance(i, j)]），最差情况为
     [$[=bigoh](N[^2])]
 
 [|] [`X(i, j, n, hf)] [br] [`X a(i, j, n, hf)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] is [`CopyConstructible] and [`key_equal]
-    is [`DefaultConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hf] as the hash function and [`key_equal()] as the key equality
-    predicate, and inserts elements from [`[i, j)] into it.
+[|] [para:requires]
+    [:en] [`hasher] is [`CopyConstructible] and [`key_equal] is
+    [`DefaultConstructible].
+    [:zh_CN] [`hasher] 为 [`CopyConstructible] 且 [`key_equal] 为
+    [`DefaultConstructible]。
+
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using [`hf]
+    as the hash function and [`key_equal()] as the key equality predicate, and
+    inserts elements from [`[i, j)] into it.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hf] 作为其散列函数，并
+    使用 [`key_equal()] 作为其键相等性谓词，并且将 [`[i, j)] 中的元素插入其中。
 [|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+    [:zh_CN] 平均情况为 [$[=bigoh](N)]（[$N] 为 [`distance(i, j)]），最差情况为
     [$[=bigoh](N[^2])]
 
 [|] [`X(i, j, n)] [br] [`X a(i, j, n)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
-    [:en] [=Effects] Constructs an empty container with at least [`n] buckets,
-    using [`hasher()] as the hash function and [`key_equal()] as the key
-    equality predicate, and inserts elements from [`[i, j)] into it.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`DefaultConstructible]。
+
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with at least [`n] buckets, using
+    [`hasher()] as the hash function and [`key_equal()] as the key equality
+    predicate, and inserts elements from [`[i, j)] into it.
+    [:zh_CN] 构造一个具有至少 [`n] 个桶的空容器，使用 [`hasher()] 作为其散列函数
+    ，并使用 [`key_equal()] 作为其键相等性谓词，并且将 [`[i, j)] 中的元素插入
+    其中。
 [|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+    [:zh_CN] 平均情况为 [$[=bigoh](N)]（[$N] 为 [`distance(i, j)]），最差情况为
     [$[=bigoh](N[^2])]
 
 [|] [`X(i, j)] [br] [`X a(i, j)]
 [|] [`X]
-[|] [:en] [=Requires] [`hasher] and [`key_equal] are [`DefaultConstructible].
-    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i]. [br]
-    [:en] [=Effects] Constructs an empty container with an unspecified number of
-    buckets, using [`hasher()] as the hash function and [`key_equal()] as the
-    key equality predicate, and inserts elements from [`[i, j)] into it.
+[|] [para:requires]
+    [:en] [`hasher] and [`key_equal] are [`DefaultConstructible].
+    [:zh_CN] [`hasher] 和 [`key_equal] 均为 [`DefaultConstructible]。
+
+    [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container with an unspecified number of buckets,
+    using [`hasher()] as the hash function and [`key_equal()] as the key
+    equality predicate, and inserts elements from [`[i, j)] into it.
+    [:zh_CN] 构造一个具有未指明的桶数的空容器，使用 [`hasher()] 作为其散列函数，
+    并使用 [`key_equal()] 作为其键相等性谓词，并且将 [`[i, j)] 中的元素插入其中
+    。
 [|] [:en] Average case [$[=bigoh](N)] ([$N] is [`distance(i, j)]), worst case
+    [$[=bigoh](N[^2])]
+    [:zh_CN] 平均情况为 [$[=bigoh](N)]（[$N] 为 [`distance(i, j)]），最差情况为
     [$[=bigoh](N[^2])]
 
 [|] [`X(il)]
 [|] [`X]
 [|] [:en] Same as [`X(il.begin(), il.end())].
+    [:zh_CN] 与 [`X(il.begin(), il.end())] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end())].
+    [:zh_CN] 与 [`X(il.begin(), il.end())] 相同。
 
 [|] [`X(il, n)]
 [|] [`X]
 [|] [:en] Same as [`X(il.begin(), il.end(), n)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n)] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end(), n)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n)] 相同。
 
 [|] [`X(il, n, hf)]
 [|] [`X]
 [|] [:en] Same as [`X(il.begin(), il.end(), n, hf)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n, hf)] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end(), n, hf)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n, hf)] 相同。
 
 [|] [`X(il, n, hf, eq)]
 [|] [`X]
 [|] [:en] Same as [`X(il.begin(), il.end(), n, hf, eq)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n, hf, eq)] 相同。
 [|] [:en] Same as [`X(il.begin(), il.end(), n, hf, eq)].
+    [:zh_CN] 与 [`X(il.begin(), il.end(), n, hf, eq)] 相同。
 
 [|] [`X(b)] [br] [`X a(b)]
 [|] [`X]
 [|] [:en] Copy constructor.
+    [:zh_CN] 复制构造函数。
+
     [:en] In addition to the requirements of Table
     [#tab:containers.container.requirements], copies the hash function,
     predicate, and maximum load factor.
+    [:zh_CN] 除了表 [#tab:containers.container.requirements] 中的规定外，还复制
+    散列函数，谓词，以及最大负载系数。
 [|] [:en] Average case linear in [`b.size()], worst case quadratic.
+    [:zh_CN] 平均情况下对于 [`b.size()] 线性，最差情况为平方阶。
 
 [|] [`a = b]
 [|] [`X&]
 [|] [:en] Copy assignment operator.
-[|] [:en] In addition to the requirements of Table
+    [:zh_CN] 复制赋值运算符。
+
+    [:en] In addition to the requirements of Table
     [#tab:containers.container.requirements], copies the hash function,
     predicate, and maximum load factor.
+    [:zh_CN] 除了表 [#tab:containers.container.requirements] 中的规定外，还复制
+    散列函数，谓词，以及最大负载系数。
 [|] [:en] Average case linear in [`b.size()], worst case quadratic.
+    [:zh_CN] 平均情况下对于 [`b.size()] 线性，最差情况为平方阶。
 
 [|] [`a = il]
 [|] [`X&]
-[|] [:en] [=Requires] [`value_type] is [`CopyInsertable] into [`X] and
-    [`CopyAssignable]. [br]
-    [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
-    [:en] All existing elements of [`a] are either assigned to or destroyed.
-[|] [:en] Same as [`a = X(il)].
+[|] [para:requires]
+    [:en] [`value_type] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`value_type] 为向 [`X] 中 [`CopyInsertable]，且为
+    [`CopyAssignable]。
 
+    [para:effects]
+    [:en] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:zh_CN] 将范围 [=range[il.begin(),il.end())] 赋值到 [`a] 中。
+
+    [:en] All existing elements of [`a] are either assigned to or destroyed.
+    [:zh_CN] [`a] 的所有现存元素要么被赋值要么被销毁。
+[|] [:en] Same as [`a = X(il)].
+    [:zh_CN] 与 [`a = X(il)] 相同。
+
+[-]
+[:en]
+[%unordered associative containers[![`hash_function]]]
+[%[`hash_function][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`hash_function]]]
+[%[`hash_function][!无序关联容器]]
 [|] [`b.hash_function()]
 [|] [`hasher]
 [|] [:en] Returns [`b][=']s hash function.
-    [%unordered associative containers[![`hash_function]]]
-    [%[`hash_function][!unordered associative containers]]
+    [:zh_CN] 返回 [`b] 的散列函数。
 [|] [:en] constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`key_eq]]]
+[%[`key_eq][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`key_eq]]]
+[%[`key_eq][!无序关联容器]]
 [|] [`b.key_eq()]
 [|] [`key_equal]
 [|] [:en] Returns [`b][=']s key equality predicate.
-    [%unordered associative containers[![`key_eq]]]
-    [%[`key_eq][!unordered associative containers]]
+    [:zh_CN] 返回 [`b] 的键相等性谓词。
 [|] [:en] constant
+    [:zh_CN] 常量
 
 [|] [`a_uniq.emplace(args)]
 [|] [`pair<iterator, bool>]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args]. [br]
-    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`value_type] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] if and only if there is no element in the
     container with key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入以
+    [`std::forward<Args>(args)...] 构造的 [`value_type] 对象 [`t]。
+
     [:en] The [`bool] component of the returned pair is true if and only if the
-    insertion takes place, and the iterator
-    [:en] component of the pair points to the element with key equivalent to the
-    key of [`t].
+    insertion takes place, and the [`iterator] component of the pair points to
+    the element with key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当发生了插入时，所返回的对偶的 [`bool] 成分为真；对偶的
+    [`iterator] 成分指向其键等价于 [`t] 的键的元素。
 [|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_uniq.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a_uniq.size()])]
+    。
 
 [|] [`a_eq.emplace(args)]
 [|] [`iterator]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args]. [br]
-    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`value_type] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] and returns the iterator pointing to the
     newly inserted element.
+    [:zh_CN] 插入以 [`std::forward<Args>(args)...] 构造的 [`value_type] 对象
+    [`t]，并返回指向新插入元素的迭代器。
 [|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_eq.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a_eq.size()])]。
 
 [|] [`a.emplace_hint(p, args)]
 [|] [`iterator]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args]. [br]
-    [:en] [=Effects] Equivalent to [`a.emplace(std::forward<Args>(args)...)].
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`value_type] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Equivalent to [`a.emplace(std::forward<Args>(args)...)].
+    [:zh_CN] 等价于 [`a.emplace(std::forward<Args>(args)...)]。
+
     [:en] Return value is an iterator pointing to the element with the key
     equivalent to the newly inserted element.
+    [:zh_CN] 返回值是指向其键等价于新插入的元素的元素的迭代器。
+
     [:en] The [`const_iterator p] is a hint pointing to where the search should
     start.
-    [:en] Implementations are permitted to ignore the hint.
-[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] [`const_iterator p] 是对最好从何处开始搜索的提示。
 
+    [:en] Implementations are permitted to ignore the hint.
+    [:zh_CN] 允许实现忽略这个提示。
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a.size()])]。
+
+[-]
+[:en]
+[%unordered associative containers[![`insert]]]
+[%[`insert][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`insert]]]
+[%[`insert][!无序关联容器]]
 [|] [`a_uniq.insert(t)]
-[|] [:en] [`pair<iterator, bool>]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
-    [:en] [=Effects] Inserts [`t] if and only if there is no element in the
-    container with key equivalent to the key of [`t].
+[|] [`pair<iterator, bool>]
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X].
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:effects]
+    [:en] Inserts [`t] if and only if there is no element in the container with
+    key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入 [`t]。
+
     [:en] The [`bool] component of the returned pair indicates whether the
     insertion takes place, and the [`iterator] component points to the element
     with key equivalent to the key of [`t].
-    [%unordered associative containers[![`insert]]]
-    [%[`insert][!unordered associative containers]]
+    [:zh_CN] 所返回的对偶的 [`bool] 成分指出是否发生了插入，而 [`iterator] 成分
+    指向其键等价于 [`t] 的键的元素。
 [|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_uniq.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a_uniq.size()])]
+    。
 
+[-]
+[:en]
+[%unordered associative containers[![`insert]]]
+[%[`insert][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`insert]]]
+[%[`insert][!无序关联容器]]
 [|] [`a_eq.insert(t)]
 [|] [`iterator]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
-    [:en] [=Effects] Inserts [`t], and returns an iterator pointing to the newly
-    inserted element.
-    [%unordered associative containers[![`insert]]]
-    [%[`insert][!unordered associative containers]]
-[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_eq.size()])].
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X].
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
 
+    [para:effects]
+    [:en] Inserts [`t] and returns the iterator pointing to the newly inserted
+    element.
+    [:zh_CN] 插入 [`t]，并返回指向新插入元素的迭代器。
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a_eq.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a_eq.size()])]。
+
+[-]
+[:en]
+[%unordered associative containers[![`insert]]]
+[%[`insert][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`insert]]]
+[%[`insert][!无序关联容器]]
 [|] [`a.insert(q, t)]
 [|] [`iterator]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
-    [`CopyInsertable] into [`X]. [br]
-    [:en] [=Effects] Equivalent to [`a.insert(t)].
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+    [`CopyInsertable] into [`X].
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:effects]
+    [:en] Equivalent to [`a.insert(t)].
+    [:zh_CN] 等价于 [`a.insert(t)]。
+
     [:en] Return value is an iterator pointing to the element with the key
     equivalent to that of [`t].
-    [:en] The iterator [`q] is a hint pointing to where the search should start.
-    [:en] Implementations are permitted to ignore the hint.
-    [%unordered associative containers[![`insert]]]
-    [%[`insert][!unordered associative containers]]
-[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 返回值是指向其键等价于 [`t] 的键的元素的迭代器。
 
+    [:en] The iterator [`q] is a hint pointing to where the search should start.
+    [:zh_CN] 迭代器 [`q] 是对最好从何处开始搜索的提示。
+
+    [:en] Implementations are permitted to ignore the hint.
+    [:zh_CN] 允许实现忽略这个提示。
+[|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a.size()])]。
+
+[-]
+[:en]
+[%unordered associative containers[![`insert]]]
+[%[`insert][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`insert]]]
+[%[`insert][!无序关联容器]]
 [|] [`a.insert(i, j)]
 [|] [`void]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`*i]. [br]
-    [:en] Pre: [`i] and [`j] are not iterators in [`a].
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:pre]
+    [:en] [`i], [`j] are not iterators into [`a].
+    [:zh_CN] [`i] 和 [`j] 不是 [`a] 中的迭代器。
+
+    [para]
     [:en] Equivalent to [`a.insert(t)] for each element in [`[i,j)].
-    [%unordered associative containers[![`insert]]]
-    [%[`insert][!unordered associative containers]]
+    [:zh_CN] 等价于对 [`[i,j)] 中的每个元素执行 [`a.insert(t)]。
 [|] [:en] Average case [$[=bigoh](N)], where [$N] is [`distance(i, j)].
+    [:zh_CN] 平均情况为 [$[=bigoh](N)]，其中 [$N] 为 [`distance(i, j)]。
     [:en] Worst case [$[=bigoh](N * [`(a.size()) + N])].
+    [:zh_CN] 最差情况为 [$[=bigoh](N * [`(a.size()) + N])]。
 
 [|] [`a.insert(il)]
 [|] [`void]
 [|] [:en] Same as [`a.insert(il.begin(), il.end())].
+    [:zh_CN] 与 [`a.insert(il.begin(), il.end())] 相同。
 [|] [:en] Same as [`a.insert(il.begin(), il.end())].
+    [:zh_CN] 与 [`a.insert(il.begin(), il.end())] 相同。
 
 [|] [`a.erase(k)]
 [|] [`size_type]
 [|] [:en] Erases all elements with key equivalent to [`k].
-    [:en] Returns the number of elements erased.
-[|] [:en] Average case [$[=bigoh]([`a.count(k)])].
-    [:en] Worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 清除具有等价于 [`k] 的键的所有元素。
 
+    [:en] Returns the number of elements erased.
+    [:zh_CN] 返回所清除的元素数量。
+[|] [:en] Average case [$[=bigoh]([`a.count(k)])].
+    [:zh_CN] 平均情况为 [$[=bigoh]([`a.count(k)])]。
+    [:en] Worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 最差情况为 [$[=bigoh]([`a.size()])]。
+
+[-]
+[:en]
+[%unordered associative containers[![`erase]]]
+[%[`erase][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`erase]]]
+[%[`erase][!无序关联容器]]
 [|] [`a.erase(q)]
 [|] [`iterator]
 [|] [:en] Erases the element pointed to by [`q].
+    [:zh_CN] 清除由 [`q] 所指向的元素。
+
     [:en] Return value is the iterator immediately following [`q] prior to the
     erasure.
-    [%unordered associative containers[![`erase]]]
-    [%[`erase][!unordered associative containers]]
+    [:zh_CN] 返回值是指向进行清除前紧跟 [`q] 之后的迭代器。
 [|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`a.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`a.size()])]。
 
+[-]
+[:en]
+[%unordered associative containers[![`erase]]]
+[%[`erase][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`erase]]]
+[%[`erase][!无序关联容器]]
 [|] [`a.erase(q1, q2)]
 [|] [`iterator]
 [|] [:en] Erases all elements in the range [`[q1, q2)].
+    [:zh_CN] 清除范围 [`[q1, q2)] 中的所有元素。
+
     [:en] Return value is the iterator immediately following the erased elements
     prior to the erasure.
-    [%unordered associative containers[![`erase]]]
-    [%[`erase][!unordered associative containers]]
+    [:zh_CN] 返回值是指向进行清除前紧跟所清除的元素之后的迭代器。
 [|] [:en] Average case linear in [`distance(q1, q2)], worst case
     [$[=bigoh]([`a.size()])].
+    [:zh_CN] 平均情况对于 [`distance(q1, q2)] 线性，最差情况为
+    [$[=bigoh]([`a.size()])]。
 
+[-]
+[:en]
+[%unordered associative containers[![`clear]]]
+[%[`clear][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`clear]]]
+[%[`clear][!无序关联容器]]
 [|] [`a.clear()]
 [|] [`void]
 [|] [:en] Erases all elements in the container.
-    [:en] Post: [`a.empty()] returns [`true]
-    [%unordered associative containers[![`clear]]]
-    [%[`clear][!unordered associative containers]]
-[|] [:en] Linear.
+    [:zh_CN] 清除容器中的所有元素。
 
+    [para:post]
+    [:en] [`a.empty()] returns [`true]
+    [:zh_CN] [`a.empty()] 返回 [`true]
+[|] [:en] Linear.
+    [:zh_CN] 线性。
+
+[-]
+[:en]
+[%unordered associative containers[![`find]]]
+[%[`find][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`find]]]
+[%[`find][!无序关联容器]]
 [|] [`b.find(k)]
-[|] [:en] [`iterator]; [br] [`const_iterator] for const [`b].
+[|] [:en] [`iterator]; [`const_iterator] for const [`b].
+    [:zh_CN] [`iterator]；对于常量 [`b] 为 [`const_iterator]。
 [|] [:en] Returns an iterator pointing to an element with key equivalent to
     [`k], or [`b.end()] if no such element exists.
-    [%unordered associative containers[![`find]]]
-    [%[`find][!unordered associative containers]]
+    [:zh_CN] 返回指向其键等价于 [`k] 的元素的迭代器，如果不存在这种元素则返回
+    [`b.end()]。
 [|] [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`b.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`b.size()])]。
 
+[-]
+[:en]
+[%unordered associative containers[![`count]]]
+[%[`count][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`count]]]
+[%[`count][!无序关联容器]]
 [|] [`b.count(k)]
 [|] [`size_type]
 [|] [:en] Returns the number of elements with key equivalent to [`k].
-    [%unordered associative containers[![`count]]]
-    [%[`count][!unordered associative containers]]
+    [:zh_CN] 返回具有等价于 [`k] 的键的元素数量
 [|] [:en] Average case [$[=bigoh]([`b.count(k)])], worst case
     [$[=bigoh]([`b.size()])].
+    [:zh_CN] 平均情况为 [$[=bigoh]([`b.count(k)])]，最差情况为
+    [$[=bigoh]([`b.size()])]。
 
+[-]
+[:en]
+[%unordered associative containers[![`equal_range]]]
+[%[`equal_range][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`equal_range]]]
+[%[`equal_range][!无序关联容器]]
 [|] [`b.equal_range(k)]
-[|] [`pair<iterator, iterator>]; [br]
-    [`pair<const_iterator, const_iterator>] for const [`b].
+[|] [:en] [`pair<iterator, iterator>]; [`pair<const_iterator, const_iterator>]
+    for const [`b].
+    [:zh_CN] [`pair<iterator, iterator>]；对于常量 [`b] 为
+    [`pair<const_iterator, const_iterator>]。
 [|] [:en] Returns a range containing all elements with keys equivalent to [`k].
-    [:en] Returns [`make_pair(b.end(), b.end())] if no such elements exist.
-    [%unordered associative containers[![`equal_range]]]
-    [%[`equal_range][!unordered associative containers]]
-[|] [:en] Average case [$[=bigoh]([`b.count(k)])].
-    [:en] Worst case [$[=bigoh]([`b.size()])].
+    [:zh_CN] 返回一个包含全部具有等价于 [`k] 的键的元素的范围。
 
+    [:en] Returns [`make_pair(b.end(), b.end())] if no such elements exist.
+    [:zh_CN] 如果不存在这种元素则返回 [`make_pair(b.end(), b.end())]。
+[|] [:en] Average case [$[=bigoh]([`b.count(k)])].
+    [:zh_CN] 平均情况为 [$[=bigoh]([`b.count(k)])]。
+    [:en] Worst case [$[=bigoh]([`b.size()])].
+    [:zh_CN] 最差情况为 [$[=bigoh]([`b.size()])]。
+
+[-]
+[:en]
+[%unordered associative containers[![`bucket_count]]]
+[%[`bucket_count][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`bucket_count]]]
+[%[`bucket_count][!无序关联容器]]
 [|] [`b.bucket_count()]
 [|] [`size_type]
 [|] [:en] Returns the number of buckets that [`b] contains.
-    [%unordered associative containers[![`bucket_count]]]
-    [%[`bucket_count][!unordered associative containers]]
+    [:zh_CN] 返回 [`b] 所包含的桶数。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`max_bucket_count]]]
+[%[`max_bucket_count][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`max_bucket_count]]]
+[%[`max_bucket_count][!无序关联容器]]
 [|] [`b.max_bucket_count()]
 [|] [`size_type]
 [|] [:en] Returns an upper bound on the number of buckets that [`b] might ever
     contain.
-    [%unordered associative containers[![`max_bucket_count]]]
-    [%[`max_bucket_count][!unordered associative containers]]
+    [:zh_CN] 返回 [`b] 可能包含的桶数的上界。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`bucket]]]
+[%[`bucket][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`bucket]]]
+[%[`bucket][!无序关联容器]]
 [|] [`b.bucket(k)]
 [|] [`size_type]
-[|] [:en] Pre: [`b.bucket_count() > 0]. [br]
+[|] [para:pre]
+    [:en] [`b.bucket_count() > 0].
+    [:zh_CN] [`b.bucket_count() > 0]。
+
+    [para]
     [:en] Returns the index of the bucket in which elements with keys equivalent
     to [`k] would be found, if any such element existed.
-    [:en] Post: the return value shall be in the range [`[0, b.bucket_count())].
-    [%unordered associative containers[![`bucket]]]
-    [%[`bucket][!unordered associative containers]]
-[|] [:en] Constant
+    [:zh_CN] 返回桶的索引，在其中将能找到具有等价于 [`k] 的键的元素（如果这种
+    元素存在）。
 
+    [para:post]
+    [:en] the return value shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] 返回值应当处于范围 [`[0, b.bucket_count())] 之内。
+[|] [:en] Constant
+    [:zh_CN] 常量
+
+[-]
+[:en]
+[%unordered associative containers[![`bucket_size]]]
+[%[`bucket_size][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`bucket_size]]]
+[%[`bucket_size][!无序关联容器]]
 [|] [`b.bucket_size(n)]
 [|] [`size_type]
-[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+[|] [para:pre]
+    [:en] [`n] shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] [`n] 应当处于范围 [`[0, b.bucket_count())] 之内。
+
+    [para]
     [:en] Returns the number of elements in the [$n][^th] bucket.
-    [%unordered associative containers[![`bucket_size]]]
-    [%[`bucket_size][!unordered associative containers]]
+    [:zh_CN] 返回第 [$n] 个桶中的元素数量。
 [|] [$[=bigoh]([`b.bucket_size(n)])]
 
+[-]
+[:en]
+[%unordered associative containers[![`begin]]]
+[%[`begin][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`begin]]]
+[%[`begin][!无序关联容器]]
 [|] [`b.begin(n)]
-[|] [:en] [`local_iterator]; [br] [`const_local_iterator] for const [`b].
-[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+[|] [:en] [`local_iterator]; [`const_local_iterator] for const [`b].
+    [:zh_CN] [`local_iterator]；对于常量 [`b] 为 [`const_local_iterator]。
+[|] [para:pre]
+    [:en] [`n] shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] [`n] 应当处于范围 [`[0, b.bucket_count())] 之内。
+
+    [para]
     [:en] [`b.begin(n)] returns an iterator referring to the first element in
     the bucket.
-    [:en] If the bucket is empty, then [`b.begin(n) == b.end(n)].
-    [%unordered associative containers[![`begin]]]
-    [%[`begin][!unordered associative containers]]
-[|] [:en] Constant
+    [:zh_CN] [`b.begin(n)] 返回指代这个桶中的第一个元素的迭代器。
 
+    [:en] If the bucket is empty, then [`b.begin(n) == b.end(n)].
+    [:zh_CN] 如果该桶为空，则有 [`b.begin(n) == b.end(n)]。
+[|] [:en] Constant
+    [:zh_CN] 常量
+
+[-]
+[:en]
+[%unordered associative containers[![`end]]]
+[%[`end][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`end]]]
+[%[`end][!无序关联容器]]
 [|] [`b.end(n)]
-[|] [:en] [`local_iterator]; [br] [`const_local_iterator] for const [`b].
-[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
+[|] [:en] [`local_iterator]; [`const_local_iterator] for const [`b].
+    [:zh_CN] [`local_iterator]；对于常量 [`b] 为 [`const_local_iterator]。
+[|] [para:pre]
+    [:en] [`n] shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] [`n] 应当处于范围 [`[0, b.bucket_count())] 之内。
+
+    [para]
     [:en] [`b.end(n)] returns an iterator which is the past-the-end value for
     the bucket.
-    [%unordered associative containers[![`end]]]
-    [%[`end][!unordered associative containers]]
+    [:zh_CN] [`b.end(n)] 返回这个桶中的越过末尾迭代器。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`cbegin]]]
+[%[`cbegin][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`cbegin]]]
+[%[`cbegin][!无序关联容器]]
 [|] [`b.cbegin(n)]
 [|] [`const_local_iterator]
-[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
-    [:en] Note: [`[b.cbegin(n), b.cend(n))] is a valid range containing all of
-    the elements in the [$n][^th] bucket.
-    [%unordered associative containers[![`cbegin]]]
-    [%[`cbegin][!unordered associative containers]]
-[|] [:en] Constant
+[|] [para:pre]
+    [:en] [`n] shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] [`n] 应当处于范围 [`[0, b.bucket_count())] 之内。
 
+    [para:note]
+    [:en] [`[b.cbegin(n), b.cend(n))] is a valid range containing all of the
+    elements in the [$n][^th] bucket.
+    [:zh_CN] [`[b.cbegin(n), b.cend(n))] 是包含第 [$n] 个桶中的全部元素的有效
+    范围。
+[|] [:en] Constant
+    [:zh_CN] 常量
+
+[-]
+[:en]
+[%unordered associative containers[![`cend]]]
+[%[`cend][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`cend]]]
+[%[`cend][!无序关联容器]]
 [|] [`b.cend(n)]
 [|] [`const_local_iterator]
-[|] [:en] Pre: [`n] shall be in the range [`[0, b.bucket_count())].
-    [%unordered associative containers[![`cend]]]
-    [%[`cend][!unordered associative containers]]
+[|] [para:pre]
+    [:en] [`n] shall be in the range [`[0, b.bucket_count())].
+    [:zh_CN] [`n] 应当处于范围 [`[0, b.bucket_count())] 之内。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`load_factor]]]
+[%[`load_factor][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`load_factor]]]
+[%[`load_factor][!无序关联容器]]
 [|] [`b.load_factor()]
 [|] [`float]
 [|] [:en] Returns the average number of elements per bucket.
-    [%unordered associative containers[![`load_factor]]]
-    [%[`load_factor][!unordered associative containers]]
+    [:zh_CN] 返回每个桶的平均元素数量。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`max_load_factor]]]
+[%[`max_load_factor][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`max_load_factor]]]
+[%[`max_load_factor][!无序关联容器]]
 [|] [`b.max_load_factor()]
 [|] [`float]
 [|] [:en] Returns a positive number that the container attempts to keep the load
     factor less than or equal to.
+    [:zh_CN] 返回一个正数，该容器试图保持其负载系数小于或等于这个值。
+
     [:en] The container automatically increases the number of buckets as
     necessary to keep the load factor below this number.
-    [%unordered associative containers[![`max_load_factor]]]
-    [%[`max_load_factor][!unordered associative containers]]
+    [:zh_CN] 容器将自动增加桶数，以保持负载系数低于这个数值。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
 [|] [`a.max_load_factor(z)]
 [|] [`void]
-[|] [:en] Pre: [`z] shall be positive.
+[|] [para:pre]
+    [:en] [`z] shall be positive.
+    [:zh_CN] [`z] 应当为正数。
+
+    [para]
     [:en] May change the container[=']s maximum load factor, using [`z] as a
     hint.
+    [:zh_CN] 可能改变容器的最大负载系数，[`z] 被用作一个提示。
 [|] [:en] Constant
+    [:zh_CN] 常量
 
+[-]
+[:en]
+[%unordered associative containers[![`rehash]]]
+[%[`rehash][!unordered associative containers]]
+[:zh_CN]
+[%无序关联容器[![`rehash]]]
+[%[`rehash][!无序关联容器]]
 [|] [`a.rehash(n)]
 [|] [`void]
-[|] [:en] Post: [`a.bucket_count() > a.size() / a.max_load_factor()] and
+[|] [para:post]
+    [:en] [`a.bucket_count() > a.size() / a.max_load_factor()] and
     [`a.bucket_count() >= n].
-    [%unordered associative containers[![`rehash]]]
-    [%[`rehash][!unordered associative containers]]
+    [:zh_CN] [`a.bucket_count() > a.size() / a.max_load_factor()] 并且
+    [`a.bucket_count() >= n]。
 [|] [:en] Average case linear in [`a.size()], worst case quadratic.
+    [:zh_CN] 平均情况对于 [`a.size()] 为线性，最差情况为平方阶。
 
 [|] [`a.reserve(n)]
 [|] [`void]
 [|] [:en] Same as [`a.rehash(ceil(n / a.max_load_factor()))].
+    [:zh_CN] 与 [`a.rehash(ceil(n / a.max_load_factor()))] 相同。
 [|] [:en] Average case linear in [`a.size()], worst case quadratic.
+    [:zh_CN] 平均情况对于 [`a.size()] 为线性，最差情况为平方阶。
 
 [table:end]
 
@@ -645,17 +1178,20 @@ b.size()] and, for every equivalent-key group [=range[Ea1,Ea2)] obtained from
 [`a.equal_range(Ea1)], there exists an equivalent-key group [=range[Eb1,Eb2)]
 obtained from [`b.equal_range(Ea1)], such that [`is_permutation(Ea1, Ea2, Eb1,
 Eb2)] returns [`true].
+[:zh_CN]
 
 [:en] For [`unordered_set] and [`unordered_map], the complexity of [`operator==]
 (i.e., the number of calls to the [`==] operator of the [`value_type], to the
 predicate returned by [`key_equal()], and to the hasher returned by
 [`hash_function()]) is proportional to [$N] in the average case and to [$N[^2]]
 in the worst case, where [$N] is [`a.size()].
+[:zh_CN]
 
 [:en] For [`unordered_multiset] and [`unordered_multimap], the complexity of
 [`operator==] is proportional to [$[=sum]E[_i][^2]] in the average case and to
 [$N[^2]] in the worst case, where [$N] is [`a.size()], and [$E[_i]] is the size
 of the [$i[^th]] equivalent-key group in [`a].
+[:zh_CN]
 
 [:en] However, if the respective elements of each corresponding pair of
 equivalent-key groups [$Ea[_i]] and [$Eb[_i]] are arranged in the same order
@@ -663,37 +1199,45 @@ equivalent-key groups [$Ea[_i]] and [$Eb[_i]] are arranged in the same order
 same container), then the average-case complexity for [`unordered_multiset] and
 [`unordered_multimap] becomes proportional to [$N] (but worst-case complexity
 remains [$[=bigoh](N[^2])], e.g., for a pathologically bad hash function).
+[:zh_CN]
 
 [:en] The behavior of a program that uses [`operator==] or [`operator!=] on
 unordered containers is undefined unless the [`Hash] and [`Pred] function
 objects respectively have the same behavior for both containers and the equality
 comparison operator for [`Key] is a refinement
+[:zh_CN]
 
 [footnote]
 [:en] Equality comparison is a refinement of partitioning if no two objects that
 compare equal fall into different partitions.
+[:zh_CN]
 [footnote:end]
 
 [:en@~] of the partition into equivalent-key groups produced by [`Pred].
+[:zh_CN@~]
 
 [para]
 [:en]
 [%unordered associative containers[!iterators]]
 The iterator types [`iterator] and [`const_iterator] of an unordered associative
 container are of at least the forward iterator category.
+[:zh_CN]
 
 [:en] For unordered associative containers where the key type and value type are
 the same, both [`iterator] and [`const_iterator] are const iterators.
+[:zh_CN]
 
 [para]
 [:en]
 [%unordered associative containers[!iterator invalidation]]
 The [`insert] and [`emplace] members shall not affect the validity of references
 to container elements, but may invalidate all iterators to the container.
+[:zh_CN]
 
 [:en] The [`erase] members shall invalidate only iterators and references to the
 erased elements, and preserve the relative order of the elements that are not
 erased.
+[:zh_CN]
 
 [para]
 [:en]
@@ -703,5 +1247,6 @@ The [`insert] and [`emplace] members shall not affect the validity of iterators
 if [`(N+n) < z * B], where [`N] is the number of elements in the container prior
 to the insert operation, [`n] is the number of elements inserted, [`B] is the
 container[=']s bucket count, and [`z] is the container[=']s maximum load factor.
+[:zh_CN]
 
 [include unord.req.except]
