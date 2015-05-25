@@ -1,5 +1,5 @@
 ﻿[section#array.fill
-    [:en] [`array::fill]
+    [`array::fill]
 ]
 
 [%@library array[!fill]]
@@ -10,5 +10,5 @@ void fill(const T& u);
 
 [enter:description]
 [para:effects]
-[:en] [`fill_n(begin(), N, u)]
+[`fill_n(begin(), N, u)]
 [exit:description]
