@@ -26,7 +26,7 @@ struct remove_const;
     that any top-level const-qualifier has been removed.
     [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层
     const-限定符均被移除。
-    [br]
+    [para]
     [enter:example]
     [:en] [`remove_const_t<const volatile int>] evaluates to [`volatile int],
     whereas [`remove_const_t<const int*>] evaluates to [`const int*].
@@ -41,7 +41,7 @@ struct remove_volatile;
     that any top-level volatile-qualifier has been removed.
     [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层
     volatile-限定符均被移除。
-    [br]
+    [para]
     [enter:example]
     [:en] [`remove_volatile_t<const volatile int>] evaluates to [`const int],
     whereas [`remove_volatile_t<volatile int*>] evaluates to [`volatile int*].
@@ -56,7 +56,7 @@ struct remove_cv;
     top-level cv-qualifier has been removed.
     [:zh_CN] 成员 typedef [`type] 应当指名 [`T] 的相同类型，但任何顶层 cv-限定符
     均被移除。
-    [br]
+    [para]
     [enter:example]
     [:en] [`remove_cv_t<const volatile int>] evaluates to [`int], whereas
     [`remove_cv_t<const volatile int*>] evaluates to [`const volatile int*].

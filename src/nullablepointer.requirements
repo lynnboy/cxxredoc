@@ -111,15 +111,12 @@ non-[`const] lvalue of type [`P], [`a] and [`b] denote values of type (possibly
     [border:row@none]
 ]
 [|] P u(np); [br] P u = np;
-        [|]     [|] [:en] post: [`u == nullptr]
-                    [:zh_CN] 后条件：[`u == nullptr]
+        [|]     [|] [para:post] [`u == nullptr]
 [|] P(np)
-        [|]     [|] [:en] post: [`P(np) == nullptr]
-                    [:zh_CN] 后条件：[`P(np) == nullptr]
+        [|]     [|] [para:post] [`P(np) == nullptr]
 [|] t = np
         [|] [`P&]
-                [|] [:en] post: [`t == nullptr]
-                    [:zh_CN] 后条件：[`t == nullptr]
+                [|] [para:post] [`t == nullptr]
 [|] a != b
         [|] [:en] contextually convertible to [`bool]
             [:zh_CN] 按语境转换为 [`bool]

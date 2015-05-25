@@ -275,12 +275,12 @@ template <class T> [br]
 struct is_destructible;
 [|] [:en] For reference types, [`is_destructible<T>::value] is [`true].
     [:zh_CN] 对于引用类型，[`is_destructible<T>::value] 为 [`true]。
-    [br]
+    [para]
     [:en] For incomplete types and function types, [`is_destructible<T>::value]
     is [`false].
     [:zh_CN] 对于不完整类型和函数类型，[`is_destructible<T>::value] 为 [`false]
     。
-    [br]
+    [para]
     [:en] For object types and given [`U] equal to [`remove_all_extents_t<T>],
     if the expression [`std::declval<U&>().~U()] is well-formed when treated as
     an unevaluated operand (Clause [#expr]), then [`is_destructible<T>::value]

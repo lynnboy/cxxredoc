@@ -31,10 +31,9 @@ template <class T> [br]
 struct alignment_of;
 [|] [:en] [`alignof(T)].
     [:zh_CN] [`alignof(T)]。
-    [br]
-    [:en] [=Precondition] [`alignof(T)] shall be a valid expression
-    ([#expr.alignof])
-    [:zh_CN] [=Precondition] [`alignof(T)] 应当是有效的表达式（[#expr.alignof]）
+    [para:precondition]
+    [:en] [`alignof(T)] shall be a valid expression ([#expr.alignof])
+    [:zh_CN] [`alignof(T)] 应当是有效的表达式（[#expr.alignof]）
 
 [|]
 template <class T> [br]

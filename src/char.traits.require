@@ -85,44 +85,48 @@ Operations on Traits shall not throw exceptions.
 
 [|] X::eq(c,d)
 [|] bool
-[|] [:en] yields: whether [`c] is to be treated as equal to [`d].
-    [:zh_CN] 产生：[`c] 是否被当作等于 [`d]。
+[|] [para:yields]
+    [:en] whether [`c] is to be treated as equal to [`d].
+    [:zh_CN] [`c] 是否被当作等于 [`d]。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X::lt(c,d)
 [|] bool
-[|] [:en] yields: whether [`c] is to be treated as less than [`d].
-    [:zh_CN] 产生：[`c] 是否被当作小于 [`d]。
+[|] [para:yields]
+    [:en] whether [`c] is to be treated as less than [`d].
+    [:zh_CN] [`c] 是否被当作小于 [`d]。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X::compare(p,q,n)
 [|] int
-[|] [:en] yields: [`0] if for each [`i] in [`[0,n)], [`X::eq(p[i`],q[i`])] is
-    true; else, a negative value if, for some [`j] in [`[0,n)],
-    [`X::lt(p[j`],q[j`])] is true and for each [`i] in [`[0,j)]
-    [`X::eq(p[i`],q[i`])] is true; else a positive value.
-    [:zh_CN] 产生：若对于 [`[0,n)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真
-    ，则为 [`0]；或者若对于 [`[0,n)] 中的某个 [`j] 有 [`X::lt(p[j`],q[j`])] 为真
-    并且对于 [`[0,j)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真，则为负数；
-    否则为正数。
+[|] [para:yields]
+    [:en] [`0] if for each [`i] in [`[0,n)], [`X::eq(p[i`],q[i`])] is true;
+    else, a negative value if, for some [`j] in [`[0,n)], [`X::lt(p[j`],q[j`])]
+    is true and for each [`i] in [`[0,j)] [`X::eq(p[i`],q[i`])] is true; else a
+    positive value.
+    [:zh_CN] [`[0,n)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真，则为 [`0]；
+    或者若对于 [`[0,n)] 中的某个 [`j] 有 [`X::lt(p[j`],q[j`])] 为真，并且对于
+    [`[0,j)] 中的每个 [`i] 均有 [`X::eq(p[i`],q[i`])] 为真，则为负数；否则为正数
+    。
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] X::length(p)
 [|] std::size_t
-[|] [:en] yields: the smallest [`i] such that [`X::eq(p[i`],charT())] is true.
-    [:zh_CN] 产生：能够使 [`X::eq(p[i`],charT())] 为真的最小的 [`i]。
+[|] [para:yields]
+    [:en] the smallest [`i] such that [`X::eq(p[i`],charT())] is true.
+    [:zh_CN] 能够使 [`X::eq(p[i`],charT())] 为真的最小的 [`i]。
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] X::find(p,n,c)
 [|] const X::char_type*
-[|] [:en] yields: the smallest [`q] in [`[p,p+n)] such that [`X::eq(*q,c)] is
-    true, zero otherwise.
-    [:zh_CN] 产生：[`[p,p+n)] 中能够使 [`X::eq(*q,c)] 为真的最小的 [`q]，否则为
-    零。
+[|] [para:yields]
+    [:en] the smallest [`q] in [`[p,p+n)] such that [`X::eq(*q,c)] is true, zero
+    otherwise.
+    [:zh_CN] [`[p,p+n)] 中能够使 [`X::eq(*q,c)] 为真的最小的 [`q]，否则为零。
 [|] [:en] linear
     [:zh_CN] 线性
 
@@ -130,20 +134,27 @@ Operations on Traits shall not throw exceptions.
 [|] X::char_type*
 [|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],p[i`])].
     [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],p[i`])]。
+
     [:en] Copies correctly even where the ranges [`[p,p+n)] and [`[s,s+n)]
     overlap.
     [:zh_CN] 即使范围 [`[p,p+n)] 与范围 [`[s,s+n)] 有重叠也应当正确进行复制。
-    [:en] yields: [`s].
-    [:zh_CN] 产生: [`s]。
+
+    [para:yields]
+    [:en] [`s].
+    [:zh_CN] [`s]。
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] X::copy(s,p,n)
 [|] X::char_type*
-[|] [:en] pre: [`p] not in [`[s,s+n)].
-    [:zh_CN] 前条件：[`p] 不在 [`[s,s+n)] 中。
-    [:en] yields: [`s].
-    [:zh_CN] 产生：[`s]。
+[|] [para:pre]
+    [:en] [`p] not in [`[s,s+n)].
+    [:zh_CN] [`p] 不在 [`[s,s+n)] 中。
+
+    [para:yields]
+    [:en] [`s].
+    [:zh_CN] [`s]。
+
     [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],p[i`])].
     [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],p[i`])]。
 [|] [:en] linear
@@ -161,45 +172,51 @@ Operations on Traits shall not throw exceptions.
 [|] X::char_type*
 [|] [:en] for each [`i] in [`[0,n)], performs [`X::assign(s[i`],c)].
     [:zh_CN] 对于 [`[0,n)] 中的每个 [`i]，实施 [`X::assign(s[i`],c)]。
-    [:en] yields: [`s].
-    [:zh_CN] 产生：[`s]。
+
+    [para:yields]
+    [:en] [`s].
+    [:zh_CN] [`s]。
 [|] linear
 
 [|] X::not_eof(e)
 [|] int_type
-[|] [:en] yields: [`e] if [`X::eq_int_type(e,X::eof())] is false, otherwise a
-    value [`f] such that [`X::eq_int_type(f,X::eof())] is false.
-    [:zh_CN] 产生：若 [`X::eq_int_type(e,X::eof())] 为假则为 [`e]，否则某个使得
+[|] [para:yields]
+    [:en] [`e] if [`X::eq_int_type(e,X::eof())] is false, otherwise a value [`f]
+    such that [`X::eq_int_type(f,X::eof())] is false.
+    [:zh_CN] 若 [`X::eq_int_type(e,X::eof())] 为假则为 [`e]，否则某个使得
     [`X::eq_int_type(f,X::eof())] 为假的值 [`f]。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X::to_char_type(e)
 [|] X::char_type
-[|] [:en] yields: if for some [`c], [`X::eq_int_type(e,X::to_int_type(c))]
-    is true, [`c]; else some unspecified value.
-    [:zh_CN] 产生：如果对于某个 [`c] 有 [`X::eq_int_type(e,X::to_int_type(c))]
+[|] [para:yields]
+    [:en] if for some [`c], [`X::eq_int_type(e,X::to_int_type(c))] is true,
+    [`c]; else some unspecified value.
+    [:zh_CN] 如果对于某个 [`c] 有 [`X::eq_int_type(e,X::to_int_type(c))]
     为真，则为 [`c]；否则为某个未指明的值。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X::to_int_type(c)
 [|] X::int_type
-[|] [:en] yields: some value [`e], constrained by the definitions of
-    [`to_char_type] and [`eq_int_type].
-    [:zh_CN] 产生：某个由 [`to_char_type] 和 [`eq_int_type] 的定义所约束的值
+[|] [para:yields]
+    [:en] some value [`e], constrained by the definitions of [`to_char_type] and
+    [`eq_int_type].
+    [:zh_CN] 某个由 [`to_char_type] 和 [`eq_int_type] 的定义所约束的值
     [`e]。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X::eq_int_type(e,f)
 [|] bool
-[|] [:en] yields: for all [`c] and [`d], [`X::eq(c,d)] is equal to
+[|] [para:yields]
+    [:en] for all [`c] and [`d], [`X::eq(c,d)] is equal to
     [`X::eq_int_type(X::to_int_type(c), X::to_int_type(d))]; otherwise, yields
     true if [`e] and [`f] are both copies of [`X::eof()]; otherwise, yields
     false if one of [`e] and [`f] is a copy of [`X::eof()] and the other is not;
     otherwise the value is unspecified.
-    [:zh_CN] 产生：对于所有 [`c] 和 [d]，[`X::eq(c,d)] 等于
+    [:zh_CN] 对于所有 [`c] 和 [d]，[`X::eq(c,d)] 等于
     [`X::eq_int_type(X::to_int_type(c), X::to_int_type(d))]；否则，当 [`e] 和
     [`f] 均为 [`X::eof()] 的副本时产生真；否则，当 [`e] 和 [`f] 中一个为
     [`X::eof()] 的副本而另一个不是时产生假；否则其值是未指明的。
@@ -208,9 +225,10 @@ Operations on Traits shall not throw exceptions.
 
 [|] X::eof()
 [|] X::int_type
-[|] [:en] yields: a value [`e] such that [`X::eq_int_type(e,X::to_int_type(c))]
-    is false for all values [`c].
-    [:zh_CN] 产生：某个值 [`e]，使得对于所有 [`c] 值
+[|] [para:yields]
+    [:en] a value [`e] such that [`X::eq_int_type(e,X::to_int_type(c))] is false
+    for all values [`c].
+    [:zh_CN] 某个值 [`e]，使得对于所有 [`c] 值
     [`X::eq_int_type(e,X::to_int_type(c))] 均为假。
 [|] [:en] constant
     [:zh_CN] 常量

@@ -195,16 +195,18 @@ type convertible to [`A].
 [|] [:en] [`X::value_type] ([`set] and [`multiset] only)
     [:zh_CN] [`X::value_type]（仅对于 [`set] 和 [`multiset]）
 [|] [`Key]
-[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
-    [:zh_CN] [=Requires] [`value_type] 为从 [`X] 中 [`Erasable]
+[|] [para:requires]
+    [:en] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
     [:zh_CN] 编译期
 
 [|] [:en] [`X::value_type] ([`map] and [`multimap] only)
     [:zh_CN] [`X::value_type]（仅对于 [`map] 和 [`multimap]）
 [|] [`pair<const Key, T>]
-[|] [:en] [=Requires] [`value_type] is [`Erasable] from [`X]
-    [:zh_CN] [=Requires] [`value_type] 为从 [`X] 中 [`Erasable]
+[|] [para:requires]
+    [:en] [`value_type] is [`Erasable] from [`X]
+    [:zh_CN] [`value_type] 为从 [`X] 中 [`Erasable]
 [|] [:en] compile time
     [:zh_CN] 编译期
 
@@ -228,11 +230,14 @@ type convertible to [`A].
 
 [|] [`X(c)] [br] [`X u(c);]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible].
-    [:zh_CN] [=Requires] [`key_compare] 为 [`CopyConstructible]。
-    [br]
-    [:en] [=Effects] Constructs an empty container.
-    [:zh_CN] [=Effects] 构造一个空容器。
+[|] [para:requires]
+    [:en] [`key_compare] is [`CopyConstructible].
+    [:zh_CN] [`key_compare] 为 [`CopyConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container.
+    [:zh_CN] 构造一个空容器。
+
     [:en] Uses a copy of [`c] as a comparison object.
     [:zh_CN] 使用 [`c] 的副本作为比较对象。
 [|] [:en] constant
@@ -240,11 +245,14 @@ type convertible to [`A].
 
 [|] [`X()] [br] [`X u;]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible].
-    [:zh_CN] [=Requires] [`key_compare] 为 [`DefaultConstructible]。
-    [br]
-    [:en] [=Effects] Constructs an empty container.
-    [:zh_CN] [=Effects] 构造一个空容器。
+[|] [para:requires]
+    [:en] [`key_compare] is [`DefaultConstructible].
+    [:zh_CN] [`key_compare] 为 [`DefaultConstructible]。
+
+    [para:effects]
+    [:en] Constructs an empty container.
+    [:zh_CN] 构造一个空容器。
+
     [:en] Uses [`Compare()] as a comparison object
     [:zh_CN] 使用 [`Compare()] 作为比较对象。
 [|] [:en] constant
@@ -252,15 +260,18 @@ type convertible to [`A].
 
 [|] [`X(i,j,c)] [br] [`X u(i,j,c);]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`CopyConstructible].
-    [:zh_CN] [=Requires] [`key_compare] 为 [`CopyConstructible]。
+[|] [para:requires]
+    [:en] [`key_compare] is [`CopyConstructible].
+    [:zh_CN] [`key_compare] 为 [`CopyConstructible]。
+
     [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
     [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
-    [br]
-    [:en] [=Effects] Constructs an empty container and inserts elements from the
-    range [`[i, j)] into it; uses [`c] as a comparison object.
-    [:zh_CN] [=Effects] 构造一个空容器，并将范围 [`[i, j)] 中的元素插入其中；
-    使用 [`c] 作为比较对象。
+
+    [para:effects]
+    [:en] Constructs an empty container and inserts elements from the range
+    [`[i, j)] into it; uses [`c] as a comparison object.
+    [:zh_CN] 构造一个空容器，并将范围 [`[i, j)] 中的元素插入其中；使用 [`c] 作为
+    比较对象。
 [|] [:en] [$N [=log] N] in general ([$N] has the value [`distance(i, j)]);
     linear if [`[i, j)] is sorted with [`value_comp()]
     [:zh_CN] 一般为 [$N [=log] N]（[$N] 的值为 [`distance(i, j)]）；当 [`[i, j)]
@@ -268,13 +279,16 @@ type convertible to [`A].
 
 [|] [`X(i,j)] [br] [`X u(i,j);]
 [|]
-[|] [:en] [=Requires] [`key_compare] is [`DefaultConstructible].
-    [:zh_CN] [=Requires] [`key_compare] 为 [`DefaultConstructible]。
+[|] [para:requires]
+    [:en] [`key_compare] is [`DefaultConstructible].
+    [:zh_CN] [`key_compare] 为 [`DefaultConstructible]。
+
     [:en] [`value_type] is [`EmplaceConstructible] into [`X] from [`*i].
     [:zh_CN] [`value_type] 为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
-    [br]
-    [:en] [=Effects] Same as above, but uses [`Compare()] as a comparison object
-    [:zh_CN] [=Effects] 同上，但使用 [`Compare()] 作为比较对象
+
+    [para:effects]
+    [:en] Same as above, but uses [`Compare()] as a comparison object
+    [:zh_CN] 同上，但使用 [`Compare()] 作为比较对象
 [|] [:en] same as above
     [:zh_CN] 同上
 
@@ -294,13 +308,15 @@ type convertible to [`A].
 
 [|] [`a = il]
 [|] [`X&]
-[|] [:en] [=Requires] [`value_type] is [`CopyInsertable] into [`X] and
-    [`CopyAssignable].
-    [:zh_CN] [=Requires] [`value_type] 为向 [`X] 中 [`CopyInsertable]，并且为
+[|] [para:requires]
+    [:en] [`value_type] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`value_type] 为向 [`X] 中 [`CopyInsertable]，并且为
     [`CopyAssignable]。
-    [br]
-    [:en] [=Effects] Assigns the range [=range[il.begin(),il.end())] into [`a].
-    [:zh_CN] [=Effects] 将范围 [=range[il.begin(),il.end())] 赋值到[`a] 中。
+
+    [para:effects]
+    [:en] Assigns the range [=range[il.begin(),il.end())] into [`a].
+    [:zh_CN] 将范围 [=range[il.begin(),il.end())] 赋值到[`a] 中。
+
     [:en] All existing elements of [`a] are either assigned to or destroyed.
     [:zh_CN] [`a] 的所有现存元素要么被赋值要么被销毁。
 [|] [:en] [$N [=log] N] in general (where [$N] has the value
@@ -326,16 +342,17 @@ type convertible to [`A].
 
 [|] [`a_uniq.emplace(args)]
 [|] [`pair<iterator, bool>]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args].
-    [:zh_CN] [=Requires] [`value_type] 应当为以 [`args] 向 [`X] 中
-    [`EmplaceConstructible]。
-    [br]
-    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`value_type] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] if and only if there is no element in the
     container with key equivalent to the key of [`t].
-    [:zh_CN] [=Effects] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入以
+    [:zh_CN] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入以
     [`std::forward<Args>(args)...] 构造的 [`value_type] 对象 [`t]。
+
     [:en] The [`bool] component of the returned pair is true if and only if the
     insertion takes place, and the [`iterator] component of the pair points to
     the element with key equivalent to the key of [`t].
@@ -346,16 +363,17 @@ type convertible to [`A].
 
 [|] [`a_eq.emplace(args)]
 [|] [`iterator]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`args].
-    [:zh_CN] [=Requires] [`value_type] 应当为以 [`args] 向 [`X] 中
-    [`EmplaceConstructible]。
-    [br]
-    [:en] [=Effects] Inserts a [`value_type] object [`t] constructed with
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`value_type] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:effects]
+    [:en] Inserts a [`value_type] object [`t] constructed with
     [`std::forward<Args>(args)...] and returns the iterator pointing
     to the newly inserted element.
-    [:zh_CN] [=Effects] 插入以 [`std::forward<Args>(args)...] 构造的
-    [`value_type] 对象 [`t]，并返回指向新插入元素的迭代器。
+    [:zh_CN] 插入以 [`std::forward<Args>(args)...] 构造的 [`value_type] 对象
+    [`t]，并返回指向新插入元素的迭代器。
+
     [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
     [`t] is inserted at the end of that range.
     [:zh_CN] 如果 [`a_eq] 中存在包含等价于 [`t] 的元素的范围，则 [`t] 被插入到
@@ -367,9 +385,11 @@ type convertible to [`A].
 [|] [`iterator]
 [|] [:en] equivalent to [`a.emplace(std::forward<Args>(args)...)].
     [:zh_CN] 等价于 [`a.emplace(std::forward<Args>(args)...)]。
+
     [:en] Return value is an iterator pointing to the element with the key
     equivalent to the newly inserted element.
     [:zh_CN] 返回值是指向其键等价于新插入的元素的元素的迭代器。
+
     [:en] The element is inserted as close as possible to the position just
     prior to [`p].
     [:zh_CN] 元素被插入到与紧接 [`p] 之前的位置尽可能靠近。
@@ -379,17 +399,18 @@ type convertible to [`A].
 
 [|] [`a_uniq.insert(t)]
 [|] [`pair<iterator, bool>]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
     [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
-    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
-    [`CopyInsertable]。
-    [br]
-    [:en] [=Effects] Inserts [`t] if and only if there is no element in the
-    container with key equivalent to the key of [`t].
-    [:zh_CN] [=Effects] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入
-    [`t]。
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:effects]
+    [:en] Inserts [`t] if and only if there is no element in the container with
+    key equivalent to the key of [`t].
+    [:zh_CN] 当且仅当容器中不存在其键等价于 [`t] 的键的元素时，插入 [`t]。
+
     [:en] The [`bool] component of the returned pair is true if and only if the
     insertion takes place, and the [`iterator] component of the pair points to
     the element with key equivalent to the key of [`t].
@@ -400,16 +421,18 @@ type convertible to [`A].
 
 [|] [`a_eq.insert(t)]
 [|] [`iterator]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
     [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
-    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
-    [`CopyInsertable]。
-    [br]
-    [:en] [=Effects] Inserts [`t] and returns the iterator pointing to the newly
-    inserted element.
-    [:zh_CN] [=Effects] 插入 [`t]，并返回指向新插入元素的迭代器。
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:effects]
+    [:en] Inserts [`t] and returns the iterator pointing to the newly inserted
+    element.
+    [:zh_CN] 插入 [`t]，并返回指向新插入元素的迭代器。
+
     [:en] If a range containing elements equivalent to [`t] exists in [`a_eq],
     [`t] is inserted at the end of that range.
     [:zh_CN] 如果 [`a_eq] 中存在包含等价于 [`t] 的元素的范围，则 [`t] 被插入到
@@ -419,21 +442,24 @@ type convertible to [`A].
 
 [|] [`a.insert(p, t)]
 [|] [`iterator]
-[|] [:en] [=Requires] If [`t] is a non-const rvalue expression, [`value_type]
-    shall be [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
+[|] [para:requires]
+    [:en] If [`t] is a non-const rvalue expression, [`value_type] shall be
+    [`MoveInsertable] into [`X]; otherwise, [`value_type] shall be
     [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当
-    为向 [`X] 中 [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中
-    [`CopyInsertable]。
-    [br]
-    [:en] [=Effects] Inserts [`t] if and only if there is no element with key
-    equivalent to the key of [`t] in containers with unique keys; always inserts
-    [`t] in containers with equivalent keys.
-    [:zh_CN] [=Effects] 当且仅当具有唯一键的容器中不存在其键等价于 [`t] 的键的
-    元素时，插入 [`t]；总是向具有等价键的容器中插入 [`t]。
+    [:zh_CN] 如果 [`t] 是非 const 右值表达式，则 [`value_type] 应当为向 [`X] 中
+    [`MoveInsertable]；否则 [`value_type] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:effects]
+    [:en] Inserts [`t] if and only if there is no element with key equivalent to
+    the key of [`t] in containers with unique keys; always inserts [`t] in
+    containers with equivalent keys.
+    [:zh_CN] 当且仅当具有唯一键的容器中不存在其键等价于 [`t] 的键的元素时，插入
+    [`t]；总是向具有等价键的容器中插入 [`t]。
+
     [:en] Always returns the iterator pointing to the element with key
     equivalent to the key of [`t].
     [:zh_CN] 总是返回指向其键等价于 [`t] 的键的元素的迭代器。
+
     [:en] [`t] is inserted as close as possible to the position just prior to
     [`p].
     [:zh_CN] [`t] 被插入到与紧接 [`p] 之前的位置尽可能靠近。
@@ -443,13 +469,15 @@ type convertible to [`A].
 
 [|] [`a.insert(i, j)]
 [|] [`void]
-[|] [:en] [=Requires] [`value_type] shall be [`EmplaceConstructible] into [`X]
-    from [`*i].
-    [:zh_CN] [=Requires] [`value_type] 应当为以 [`*i] 向 [`X] 中
-    [`EmplaceConstructible]。
-    [br]
-    [:en] pre: [`i], [`j] are not iterators into [`a].
-    [:zh_CN] 前条件：[`i] 和 [`j] 不是 [`a] 中的迭代器。
+[|] [para:requires]
+    [:en] [`value_type] shall be [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`value_type] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
+    [para:pre]
+    [:en] [`i], [`j] are not iterators into [`a].
+    [:zh_CN] [`i] 和 [`j] 不是 [`a] 中的迭代器。
+
+    [para]
     [:en] inserts each element from the range [=range[i,j)] if and only if there
     is no element with key equivalent to the key of that element in containers
     with unique keys; always inserts that element in containers with equivalent
@@ -478,9 +506,11 @@ type convertible to [`A].
 [|] [`iterator]
 [|] [:en] erases the element pointed to by [`q].
     [:zh_CN] 清除由 [`q] 所指向的元素。
+
     [:en] Returns an iterator pointing to the element immediately following [`q]
     prior to the element being erased.
     [:zh_CN] 返回指向元素被清除前紧跟 [`q] 之后的元素的迭代器。
+
     [:en] If no such element exists, returns [`a.end()].
     [:zh_CN] 如果不存在这种元素，则返回 [`a.end()]。
 [|] [:en] amortized constant
@@ -490,9 +520,11 @@ type convertible to [`A].
 [|] [`iterator]
 [|] [:en] erases all the elements in the range [=range[q1,q2)].
     [:zh_CN] 清除范围 [=range[q1,q2)] 中的所有元素。
+
     [:en] Returns an iterator pointing to the element pointed to by [`q2] prior
     to any elements being erased.
     [:zh_CN] 返回指向任何元素被清除前紧跟 [`q2] 之后的元素的迭代器。
+
     [:en] If no such element exists, [`a.end()] is returned.
     [:zh_CN] 如果不存在这种元素，则返回 [`a.end()]。
 [|] [:en] [$[=log]([`a.size()]) + N] where [$N] has the value
@@ -502,9 +534,10 @@ type convertible to [`A].
 [|] [`a.clear()]
 [|] [`void]
 [|] [`a.erase(a.begin(),a.end())]
-    [br]
-    [:en] post: [`a.empty()] returns [`true]
-    [:zh_CN] 后条件：[`a.empty()] 返回 [`true]
+
+    [para:post]
+    [:en] [`a.empty()] returns [`true]
+    [:zh_CN] [`a.empty()] 返回 [`true]
 [|] [:en] linear in [`a.size()].
     [:zh_CN] 对于 [`a.size()] 为线性。
 

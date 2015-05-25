@@ -100,32 +100,35 @@ parameter pack with the pattern [`Args&&].
 
 [|] X(n, t) [br] X u(n, t)
 [|]
-[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
-    [br]
-    [:en] post: [`distance(begin(), end()) == n]
-    [:zh_CN] 后条件：[`distance(begin(), end()) == n]
-    [br]
+[|] [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:post] [`distance(begin(), end()) == n]
+
+    [para]
     [:en] Constructs a sequence container with [`n] copies of [`t]
     [:zh_CN] 构造具有 [`n] 个 [`t] 的副本的序列容器
 
 [|] X(i, j) [br] X u(i, j)
 [|]
-[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
-    [`*i].
-    [:zh_CN] [=Requires] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]
-    。
+[|] [para:requires]
+    [:en] [`T] shall be [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
     [:en] For [`vector], if the iterator does not meet the forward iterator
     requirements ([#forward.iterators]), [`T] shall also be [`MoveInsertable]
     into [`X].
     [:zh_CN] 对于 [`vector]，如果迭代器不满足前向迭代器的规定
     （[#forward.iterators]），则 [`T] 也应当为向 [`X] 中 [`MoveInsertable]。
+
     [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
     once.
     [:zh_CN] 范围 [=range[i,j)] 中的每个迭代器都应当可以恰好进行一次解引用。
-    [br]
-    [:en] post: [`distance(begin(), end()) == distance(i, j)]
-    [:zh_CN] 后条件：[`distance(begin(), end()) == distance(i, j)]
+
+    [para:post] [`distance(begin(), end()) == distance(i, j)]
+
+    [para]
     [:en] Constructs a sequence container equal to the range [`[i, j)]
     [:zh_CN] 构造等于范围 [`[i, j)] 的一个序列容器
 
@@ -136,79 +139,95 @@ parameter pack with the pattern [`Args&&].
 
 [|] a = il;
 [|] X&
-[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]，且为
-    [`CopyAssignable]。
+[|] [para:requires]
+    [:en] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`T] 为向 [`X] 中 [`CopyInsertable]，且为 [`CopyAssignable]。
+
     [:en] Assigns the range [=range[il.begin(),il.end())] into [`a].
     [:zh_CN] 将范围 [=range[il.begin(),il.end())] 赋值到 [`a] 中。
+
     [:en] All existing elements of [`a] are either assigned to or destroyed.
     [:zh_CN] [`a] 的所有现存元素要么被赋值要么被销毁。
-    [br]
-    [:en] [=Returns] [`*this].
-    [:zh_CN] [=Returns] [`*this]。
+
+    [para:returns]
+    [:en] [`*this].
+    [:zh_CN] [`*this]。
 
 [|] a.emplace(p, args);
 [|] iterator
-[|] [:en] [=Requires] [`T] is [`EmplaceConstructible] into [`X] from [`args].
-    [:zh_CN] [=Requires] [`T] 为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+[|] [para:requires]
+    [:en] [`T] is [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`T] 为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
     [:en] For [`vector] and [`deque], [`T] is also [`MoveInsertable] into [`X]
     and [`MoveAssignable].
     [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 也为向 [`X] 中 [`MoveInsertable]
     和 [`MoveAssignable]。
-    [:en] [=Effects] Inserts an object of type [`T] constructed with
+
+    [para:effects]
+    [:en] Inserts an object of type [`T] constructed with
     [`std::forward<Args>(args)...] before [`p].
-    [:zh_CN] [=Effects] 在 [`p] 之前插入一个以 [`std::forward<Args>(args)...]
-    构造的 [`T] 类型的对象。
+    [:zh_CN] 在 [`p] 之前插入一个以 [`std::forward<Args>(args)...] 构造的 [`T]
+    类型的对象。
 
 [|] a.insert(p,t)
 [|] iterator
-[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
+[|] [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
+
     [:en] For [`vector] and [`deque], [`T] shall also be [`CopyAssignable].
     [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 应当也为 [`CopyAssignable]。
-    [br]
-    [:en] [=Effects] Inserts a copy of [`t] before [`p].
-    [:zh_CN] [=Effects] 在 [`p] 之前插入 [`t] 的一个副本。
+
+    [para:effects]
+    [:en] Inserts a copy of [`t] before [`p].
+    [:zh_CN] 在 [`p] 之前插入 [`t] 的一个副本。
 
 [|] a.insert(p,rv)
 [|] iterator
-[|] [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
+[|] [para:requires]
+    [:en] [`T] shall be [`MoveInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
+
     [:en] For [`vector] and [`deque], [`T] shall also be [`MoveAssignable].
     [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 应当也为 [`MoveAssignable]。
-    [br]
-    [:en] [=Effects] Inserts a copy of [`rv] before [`p].
-    [:zh_CN] [=Effects] 在 [`p] 之前插入 [`rv] 的一个副本。
+
+    [para:effects]
+    [:en] Inserts a copy of [`rv] before [`p].
+    [:zh_CN] 在 [`p] 之前插入 [`rv] 的一个副本。
 
 [|] a.insert(p,n,t)
 [|] iterator
-[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X] and
-    [`CopyAssignable].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable] 且为
-    [`CopyAssignable]。
-    [br]
+[|] [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable] 且为 [`CopyAssignable]。
+
+    [para]
     [:en] Inserts [`n] copies of [`t] before [`p].
     [:zh_CN] 在 [`p] 之前插入 [`n] 个 [`t] 的副本。
 
 [|] a.insert(p,i,j)
 [|] iterator
-[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
-    [`*i].
-    [:zh_CN] [=Requires] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]
-    。
+[|] [para:requires]
+    [:en] [`T] shall be [`EmplaceConstructible] into [`X] from [`*i].
+    [:zh_CN] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]。
+
     [:en] For [`vector] and [`deque], [`T] shall also be [`MoveInsertable] into
     [`X], [`MoveConstructible], [`MoveAssignable], and swappable
     ([#swappable.requirements]).
     [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 应当也为向 [`X] 中
     [`MoveInsertable]，[`MoveConstructible]，[`MoveAssignable]，以及可交换的
     （[#swappable.requirements]）。
+
     [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
     once.
     [:zh_CN] 范围 [=range[i,j)] 中的每个迭代器都应当恰好进行一次解引用。
-    [br]
-    [:en] pre: [`i] and [`j] are not iterators into [`a].
-    [:zh_CN] 前条件：[`i] 和 [`j] 不是 [`a] 中的迭代器。
-    [br]
+
+    [para:pre]
+    [:en] [`i] and [`j] are not iterators into [`a].
+    [:zh_CN] [`i] 和 [`j] 不是 [`a] 中的迭代器。
+
+    [para]
     [:en] Inserts copies of elements in [`[i, j)] before [`p]
     [:zh_CN] 在 [`p] 之前插入 [`[i, j)] 中的元素的副本
 
@@ -218,23 +237,23 @@ parameter pack with the pattern [`Args&&].
 
 [|] a.erase(q)
 [|] iterator
-[|] [:en] [=Requires] For [`vector] and [`deque], [`T] shall be
-    [`MoveAssignable].
-    [:zh_CN] [=Requires] 对于 [`vector] 和 [`deque]，[`T] 应当为
-    [`MoveAssignable]。
-    [br]
-    [:en] [=Effects] Erases the element pointed to by [`q]
-    [:zh_CN] [=Effects] 清除由 [`q] 所指向的元素
+[|] [para:requires]
+    [:en] For [`vector] and [`deque], [`T] shall be [`MoveAssignable].
+    [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 应当为 [`MoveAssignable]。
+
+    [para:effects]
+    [:en] Erases the element pointed to by [`q]
+    [:zh_CN] 清除由 [`q] 所指向的元素
 
 [|] a.erase(q1,q2)
 [|] iterator
-[|] [:en] [=Requires] For [`vector] and [`deque], [`T] shall be
-    [`MoveAssignable].
-    [:zh_CN] [=Requires] 对于 [`vector] 和 [`deque]，[`T] 应当为
-    [`MoveAssignable]。
-    [br]
-    [:en] [=Effects] Erases the elements in the range [`[q1, q2)].
-    [:zh_CN] [=Effects] 清除范围 [`[q1, q2)] 中的元素。
+[|] [para:requires]
+    [:en] For [`vector] and [`deque], [`T] shall be [`MoveAssignable].
+    [:zh_CN] 对于 [`vector] 和 [`deque]，[`T] 应当为 [`MoveAssignable]。
+
+    [para:effects]
+    [:en] Erases the elements in the range [`[q1, q2)].
+    [:zh_CN] 清除范围 [`[q1, q2)] 中的元素。
 
 [|] a.clear()
 [|] void
@@ -244,32 +263,39 @@ parameter pack with the pattern [`Args&&].
     elements of [`a] and may invalidate the past-the-end iterator.
     [:zh_CN] 无效化指代 [`a] 中的元素的所有引用、指针和迭代器，并可能无效化越过
     末尾迭代器。
-    [br]
-    [:en] post: [`a.empty()] returns [`true].
-    [:zh_CN] 后条件：[`a.empty()] 返回 [`true]。
-    [br]
-    [:en] [=Complexity] Linear.
-    [:zh_CN] [=Complexity] 线性。
+
+    [para:post]
+    [:en] [`a.empty()] returns [`true].
+    [:zh_CN] [`a.empty()] 返回 [`true]。
+
+    [para:complexity]
+    [:en] Linear.
+    [:zh_CN] 线性。
 
 [|] a.assign(i,j)
 [|] void
-[|] [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from [`*i]
-    and assignable from [`*i].
-    [:zh_CN] [=Requires] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]
-    ，并且可以以 [`*i] 进行赋值。
+[|] [para:requires]
+    [:en] [`T] shall be [`EmplaceConstructible] into [`X] from [`*i] and
+    assignable from [`*i].
+    [:zh_CN] [`T] 应当为以 [`*i] 向 [`X] 中 [`EmplaceConstructible]，并且可以以
+    [`*i] 进行赋值。
+
     [:en] For [`vector], if the iterator does not meet the forward iterator
     requirements ([#forward.iterators]), [`T] shall also be [`MoveInsertable]
     into [`X].
     [:zh_CN] 对于 [`vector]，如果迭代器不满足前向迭代器的规定
     （[#forward.iterators]），则 [`T] 还应当为向 [`X] 中 [`MoveInsertable]。
-    [br]
+
+    [para]
     [:en] Each iterator in the range [=range[i,j)] shall be dereferenced exactly
     once.
     [:zh_CN] 范围 [=range[i,j)] 中的每个迭代器都应当恰好进行一次解引用。
-    [br]
-    [:en] pre: [`i], [`j] are not iterators into [`a].
-    [:zh_CN] 前条件：[`i] 和 [`j] 不是 [`a] 中的迭代器。
-    [br]
+
+    [para:pre]
+    [:en] [`i], [`j] are not iterators into [`a].
+    [:zh_CN] [`i] 和 [`j] 不是 [`a] 中的迭代器。
+
+    [para]
     [:en] Replaces elements in [`a] with a copy of [`[i, j)].
     [:zh_CN] 将 [`a] 中的元素替换为 [`[i, j)] 的副本。
 
@@ -279,14 +305,15 @@ parameter pack with the pattern [`Args&&].
 
 [|] a.assign(n,t)
 [|] void
-[|] [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X] and
-    [`CopyAssignable].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable]，并且为
-    [`CopyAssignable]。
-    [br]
-    [:en] pre: [`t] is not a reference into [`a].
-    [:zh_CN] 前条件：[`t] 不是 [`a] 中的引用。
-    [br]
+[|] [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable]，并且为 [`CopyAssignable]。
+
+    [para:pre]
+    [:en] [`t] is not a reference into [`a].
+    [:zh_CN] [`t] 不是 [`a] 中的引用。
+
+    [para]
     [:en] Replaces elements in [`a] with [`n] copies of [`t].
     [:zh_CN] 将 [`a] 中的元素替换为 [`n] 个 [`t] 的副本。
 
@@ -457,11 +484,10 @@ amortized constant time.
     [`std::forward<Args>(args)...].
     [:zh_CN] 在前面添加一个以 [`std::forward<Args>(args)...] 构造的 [`T] 类型的
     对象。
-    [br]
-    [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
-    [`args].
-    [:zh_CN] [=Requires] [`T] 应当为以 [`args] 向 [`X] 中
-    [`EmplaceConstructible]。
+
+    [para:requires]
+    [:en] [`T] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`T] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
 [|] [`deque], [`forward_list], [`list]
 
 [|] a.emplace_back(args)
@@ -469,11 +495,11 @@ amortized constant time.
 [|] [:en] Appends an object of type [`T] constructed with
     [`std::forward<Args>(args)...].
     [:zh_CN] 追加一个以 [`std::forward<Args>(args)...] 构造的 [`T] 类型的对象。
-    [br]
-    [:en] [=Requires] [`T] shall be [`EmplaceConstructible] into [`X] from
-    [`args].
-    [:zh_CN] [=Requires] [`T] 应当为以 [`args] 向 [`X] 中
-    [`EmplaceConstructible]。
+
+    [para:requires]
+    [:en] [`T] shall be [`EmplaceConstructible] into [`X] from [`args].
+    [:zh_CN] [`T] 应当为以 [`args] 向 [`X] 中 [`EmplaceConstructible]。
+
     [:en] For [`vector], [`T] shall also be [`MoveInsertable] into [`X].
     [:zh_CN] 对于 [`vector]，[`T] 还应当为向 [`X] 中 [`MoveInsertable]。
 [|] [`deque], [`list], [`vector]
@@ -482,54 +508,60 @@ amortized constant time.
 [|] [`void]
 [|] [:en] Prepends a copy of [`t].
     [:zh_CN] 在前面添加一个 [`t] 的副本。
-    [br]
-    [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
 [|] [`deque], [`forward_list], [`list]
 
 [|] a.push_front(rv)
 [|] [`void]
 [|] [:en] Prepends a copy of [`rv].
     [:zh_CN] 在前面添加一个 [`rv] 的副本。
-    [br]
-    [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
+
+    [para:requires]
+    [:en] [`T] shall be [`MoveInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
 [|] [`deque], [`forward_list], [`list]
 
 [|] a.push_back(t)
 [|] [`void]
 [|] [:en] Appends a copy of [`t].
     [:zh_CN] 追加一个 [`t] 的副本。
-    [br]
-    [:en] [=Requires] [`T] shall be [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
+
+    [para:requires]
+    [:en] [`T] shall be [`CopyInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`CopyInsertable]。
 [|] [`basic_string], [`deque], [`list], [`vector]
 
 [|] a.push_back(rv)
 [|] [`void]
 [|] [:en] Appends a copy of [`rv].
     [:zh_CN] 追加一个 [`rv] 的副本。
-    [br]
-    [:en] [=Requires] [`T] shall be [`MoveInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
+
+    [para:requires]
+    [:en] [`T] shall be [`MoveInsertable] into [`X].
+    [:zh_CN] [`T] 应当为向 [`X] 中 [`MoveInsertable]。
 [|] [`basic_string], [`deque], [`list], [`vector]
 
 [|] a.pop_front()
 [|] [`void]
 [|] [:en] Destroys the first element.
     [:zh_CN] 销毁第一个元素。
-    [br]
-    [:en] [=Requires] [`a.empty()] shall be [`false].
-    [:zh_CN] [=Requires] [`a.empty()] 应当为 [`false]。
+
+    [para:requires]
+    [:en] [`a.empty()] shall be [`false].
+    [:zh_CN] [`a.empty()] 应当为 [`false]。
 [|] [`deque], [`forward_list], [`list]
 
 [|] a.pop_back()
 [|] [`void]
 [|] [:en] Destroys the last element.
     [:zh_CN] 销毁最后一个元素。
-    [br]
-    [:en] [=Requires] [`a.empty()] shall be [`false].
-    [:zh_CN] [=Requires] [`a.empty()] 应当为 [`false]。
+
+    [para:requires]
+    [:en] [`a.empty()] shall be [`false].
+    [:zh_CN] [`a.empty()] 应当为 [`false]。
 [|] [`basic_string], [`deque], [`list], [`vector]
 
 [|] a[n]

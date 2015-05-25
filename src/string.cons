@@ -361,9 +361,9 @@ value.
 [:zh_CN] 第二种形式中，[`str] 被遗留处于具有为指明的值的有效状态。
 
 [table:listing#tab:string.ctr.6
-    [:en] [`basic_string(const basic_string&, const Allocator&)] and [br]
+    [:en] [`basic_string(const basic_string&, const Allocator&)] and
         [`basic_string(basic_string&&, const Allocator&)] effects
-    [:zh_CN] [`basic_string(const basic_string&, const Allocator&)] 和 [br]
+    [:zh_CN] [`basic_string(const basic_string&, const Allocator&)] 和
         [`basic_string(basic_string&&, const Allocator&)] 的效果
 
     [columns

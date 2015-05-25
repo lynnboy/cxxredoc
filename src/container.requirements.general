@@ -107,9 +107,10 @@ non-const rvalue of type [`X].
 [|] X::value_type
 [|] [`T]
 [|]
-[|] [:en] [=Requires] [`T] is [`Erasable] from [`X] (see
+[|] [para:requires]
+    [:en] [`T] is [`Erasable] from [`X] (see
     [#container.requirements.general], below)
-    [:zh_CN] [=Requires] [`T] 为从 [`X] 中 [`Erasable]（参见
+    [:zh_CN] [`T] 为从 [`X] 中 [`Erasable]（参见
     [#container.requirements.general]，下文）
 [|] [:en] compile time
     [:zh_CN] 编译期
@@ -135,6 +136,7 @@ non-const rvalue of type [`X].
 [|]
 [|] [:en] any iterator category that meets the forward iterator requirements.
     [:zh_CN] 满足前向迭代器规定的任何迭代器范畴。
+
     [:en] convertible to [`X::const_iterator].
     [:zh_CN] 可以转换为 [`X::const_iterator]。
 [|] [:en] compile time
@@ -172,47 +174,48 @@ non-const rvalue of type [`X].
 [|] X u;
 [|]
 [|]
-[|] [:en] post: [`u.empty()]
-    [:zh_CN] 后条件：[`u.empty()]
+[|] [para:post] [`u.empty()]
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X()
 [|]
 [|]
-[|] [:en] post: [`X().empty()]
-    [:zh_CN] 后条件：[`X().empty()]
+[|] [para:post] [`X().empty()]
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X(a)
 [|]
 [|]
-[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below).
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
-    [br]
-    [:en] post: [`a == X(a)].
-    [:zh_CN] 后条件：[`a == X(a)]。
+[|] [para:requires]
+    [:en] [`T] is [`CopyInsertable] into [`X] (see below).
+    [:zh_CN] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
+
+    [para:post]
+    [:en] [`a == X(a)].
+    [:zh_CN] [`a == X(a)]。
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] X u(a) [br] X u = a;
 [|]
 [|]
-[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] (see below).
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
-    [br]
-    [:en] post: [`u == a]
-    [:zh_CN] 后条件：[`u == a]
+[|] [para:requires]
+    [:en] [`T] is [`CopyInsertable] into [`X] (see below).
+    [:zh_CN] [`T] 为向 [`X] 中 [`CopyInsertable]（见下文）。
+
+    [para:post] [`u == a]
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] X u(rv) [br] X u = rv
 [|]
 [|]
-[|] [:en] post: [`u] shall be equal to the value that [`rv] had before this
+[|] [para:post]
+    [:en] [`u] shall be equal to the value that [`rv] had before this
     construction
-    [:zh_CN] 后条件：[`u] 应当等于 [`rv] 在这个构造之前的值
+    [:zh_CN] [`u] 应当等于 [`rv] 在这个构造之前的值
 [|] [:en] (Note B)
     [:zh_CN] （注 B）
 
@@ -228,9 +231,10 @@ non-const rvalue of type [`X].
 [|] (&a)->~X()
 [|] [`void]
 [|]
-[|] [:en] note: the destructor is applied to every element of [`a]; any memory
+[|] [para:note]
+    [:en] the destructor is applied to every element of [`a]; any memory
     obtained is deallocated.
-    [:zh_CN] 注：对 [`a] 的每个元素实施析构函数；获得过的任何内存都被回收。
+    [:zh_CN] 对 [`a] 的每个元素实施析构函数；获得过的任何内存都被回收。
 [|] [:en] linear
     [:zh_CN] 线性
 
@@ -269,10 +273,12 @@ non-const rvalue of type [`X].
     [:zh_CN] 可以转换为 [`bool]
 [|] [:en] [`==] is an equivalence relation.
     [:zh_CN] [`==] 是等价关系。
-    [br]
+
+    [para]
     [`equal(a.begin(), a.end(), b.begin(), b.end())]
-[|] [:en] [=Requires] [`T] is [`EqualityComparable]
-    [:zh_CN] [=Requires] [`T] 为 [`EqualityComparable]
+[|] [para:requires]
+    [:en] [`T] is [`EqualityComparable]
+    [:zh_CN] [`T] 为 [`EqualityComparable]
 [|] [:en] Constant if [`a.size() != b.size()], linear otherwise
     [:zh_CN] 如果 [`a.size() != b.size()] 则为常量，否则为线性
 
@@ -303,8 +309,9 @@ non-const rvalue of type [`X].
 [|] r = a
 [|] [`X&]
 [|]
-[|] [:en] post: [`r == a].
-    [:zh_CN] 后条件：[`r == a]。
+[|] [para:post]
+    [:en] [`r == a].
+    [:zh_CN] [`r == a]。
 [|] [:en] linear
     [:zh_CN] 线性
 
@@ -722,9 +729,11 @@ otherwise stated.
 [|] [:en] convertible to [`bool]
     [:zh_CN] 可以转换为 [`bool]
 [|] lexicographical_compare( a.begin(), a.end(), b.begin(), b.end())
-[|] [:en] pre: [`<] is defined for values of [`T].
-    [:zh_CN] 前条件：[`<] 对 [`T] 的值有定义。
-    [`<] is a total ordering relationship.
+[|] [para:pre]
+    [:en] [`<] is defined for values of [`T].
+    [:zh_CN] [`<] 对 [`T] 的值有定义。
+
+    [:en] [`<] is a total ordering relationship.
     [:zh_CN] [`<] 是全序关系。
 [|] [:en] linear
     [:zh_CN] 线性
@@ -923,9 +932,9 @@ rvalue of type [`X], and [`m] is a value of type [`A].
 
 [|] allocator_type
 [|] A
-[|] [:en] [=Requires] [`allocator_type::value_type] is the same as
-    [`X::value_type].
-    [:zh_CN] [=Requires] [`allocator_type::value_type] 与 [`X::value_type] 相同
+[|] [para:requires]
+    [:en] [`allocator_type::value_type] is the same as [`X::value_type].
+    [:zh_CN] [`allocator_type::value_type] 与 [`X::value_type] 相同
 [|] [:en] compile time
     [:zh_CN] 编译期
 
@@ -937,82 +946,93 @@ rvalue of type [`X], and [`m] is a value of type [`A].
 
 [|] X() [br] X u;
 [|]
-[|] [:en] [=Requires] [`A] is [`DefaultConstructible].
-    [:zh_CN] [=Requires] [`A] 为 [`DefaultConstructible]。
-    [br]
-    [:en] post: [`u.empty()] returns [`true], [`u.get_allocator() == A()]
-    [:zh_CN] 后条件：[`u.empty()] 返回 [`true]，[`u.get_allocator() == A()]
+[|] [para:requires]
+    [:en] [`A] is [`DefaultConstructible].
+    [:zh_CN] [`A] 为 [`DefaultConstructible]。
+
+    [para:post]
+    [:en] [`u.empty()] returns [`true], [`u.get_allocator() == A()]
+    [:zh_CN] [`u.empty()] 返回 [`true]，[`u.get_allocator() == A()]
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X(m) [br] X u(m);
 [|]
-[|] [:en] post: [`u.empty()] returns [`true], [`u.get_allocator() == m]
-    [:zh_CN] 后条件：[`u.empty()] 返回 [`true]，[`u.get_allocator() == m]
+[|] [para:post]
+    [:en] [`u.empty()] returns [`true], [`u.get_allocator() == m]
+    [:zh_CN] [`u.empty()] 返回 [`true]，[`u.get_allocator() == m]
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X(t, m) [br] X u(t, m);
 [|]
-[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]。
-    [br]
-    [:en] post: [`u == t], [`u.get_allocator() == m]
-    [:zh_CN] 后条件：[`u == t]，[`u.get_allocator() == m]
+[|] [para:requires]
+    [:en] [`T] is [`CopyInsertable] into [`X].
+    [:zh_CN] [`T] 为向 [`X] 中 [`CopyInsertable]。
+
+    [para:post]
+    [:en] [`u == t], [`u.get_allocator() == m]
+    [:zh_CN] [`u == t]，[`u.get_allocator() == m]
 [|] [:en] linear
      [:zh_CN] 线性
 
 [|] X(rv) [br] X u(rv)
 [|]
-[|] [:en] [=Requires] move construction of [`A] shall not exit via an exception.
-    [:zh_CN] [=Requires] [`A] 的移动构造不能以异常退出。
-    [br]
-    [:en] post: [`u] shall have the same elements as [`rv] had before this
+[|] [para:requires]
+    [:en] move construction of [`A] shall not exit via an exception.
+    [:zh_CN] [`A] 的移动构造不能以异常退出。
+
+    [para:post]
+    [:en] [`u] shall have the same elements as [`rv] had before this
     construction; the value of [`u.get_allocator()] shall be the same as the
     value of [`rv.get_allocator()] before this construction.
-    [:zh_CN] 后条件：[`u] 应当具有 [`rv] 在这次构造前相同的元素；
-    [`u.get_allocator()] 应当与 [`rv.get_allocator()] 在这次构造之前的值相同。
+    [:zh_CN] [`u] 应当具有 [`rv] 在这次构造前相同的元素；[`u.get_allocator()]
+    应当与 [`rv.get_allocator()] 在这次构造之前的值相同。
 [|] [:en] constant
     [:zh_CN] 常量
 
 [|] X(rv, m) [br] X u(rv, m);
 [|]
-[|] [:en] [=Requires] [`T] is [`MoveInsertable] into [`X].
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`MoveInsertable]。
-    [br]
-    [:en] post: [`u] shall have the same elements, or copies of the elements,
-    that [`rv] had before this construction, [`u.get_allocator() == m]
-    [:zh_CN] 后条件：[`u] 应当具有 [`rv] 在这次构造之前相同的元素，或其元素的
-    副本，[`u.get_allocator() == m]
+[|] [para:requires]
+    [:en] [`T] is [`MoveInsertable] into [`X].
+    [:zh_CN] [`T] 为向 [`X] 中 [`MoveInsertable]。
+
+    [para:post]
+    [:en] [`u] shall have the same elements, or copies of the elements, that
+    [`rv] had before this construction, [`u.get_allocator() == m]
+    [:zh_CN] [`u] 应当具有 [`rv] 在这次构造之前相同的元素，或其元素的副本，
+    [`u.get_allocator() == m]
 [|] [:en] constant if [`m == rv.get_allocator()], otherwise linear
     [:zh_CN] 当 [`m == rv.get_allocator()] 时为常量，否则为线性
 
 [|] a = t
 [|] X&
-[|] [:en] [=Requires] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
-    [:zh_CN] [=Requires] [`T] 为向 [`X] 中 [`CopyInsertable]，且为
-    [`CopyAssignable]。
-    [br]
-    [:en] post: [`a == t]
-    [:zh_CN] 后条件：[`a == t]
+[|] [para:requires]
+    [:en] [`T] is [`CopyInsertable] into [`X] and [`CopyAssignable].
+    [:zh_CN] [`T] 为向 [`X] 中 [`CopyInsertable]，且为 [`CopyAssignable]。
+
+    [para:post] [`a == t]
 [|] [:en] linear
     [:zh_CN] 线性
 
 [|] a = rv
 [|] X&
-[|] [:en] [=Requires] If [`allocator_traits<allocator_type>
+[|] [para:requires]
+    [:en] If [`allocator_traits<allocator_type>
     ::propagate_on_container_move_assignment::value] is [`false], [`T] is
     [`MoveInsertable] into [`X] and [`MoveAssignable].
-    [:zh_CN] [=Requires] 如果 [`allocator_traits<allocator_type>
+    [:zh_CN] 如果 [`allocator_traits<allocator_type>
     ::propagate_on_container_move_assignment::value] 为 [`false]，则有 [`T] 为向
     [`X] 中 [`MoveInsertable]，且为 [`MoveAssignable]。
+
     [:en] All existing elements of [`a] are either move assigned to or
     destroyed.
     [:zh_CN] [`a] 的所有现存元素要么被移动赋值要么被销毁。
-    [br]
-    [:en] post: [`a] shall be equal to the value that [`rv] had before this
+
+    [para:post]
+    [:en] [`a] shall be equal to the value that [`rv] had before this
     assignment.
-    [:zh_CN] 后条件：[`a] 应当等于 [`rv] 在这次赋值之前的值。
+    [:zh_CN] [`a] 应当等于 [`rv] 在这次赋值之前的值。
 [|] [:en] linear
     [:zh_CN] 线性
 

@@ -199,6 +199,7 @@ and [`std::forward], respectively.
 [|]
 [|] [:en] [`X::pointer] is convertible to [`X::void_pointer].
     [:zh_CN] [`X::pointer] 可以转换为 [`X::void_pointer]
+
     [:en] [`X::void_pointer] and [`Y::void_pointer] are the same type.
     [:zh_CN] [`X::void_pointer] 和 [`Y::void_pointer] 是相同类型
 [|] [`pointer_traits<X::pointer>::rebind<void>]
@@ -209,6 +210,7 @@ and [`std::forward], respectively.
     convertible to [`X::const_void_pointer].
     [:zh_CN] [`X::pointer]，[`X::const_pointer]，和 [`X::void_pointer] 可以转换
     为 [`X::const_void_pointer].
+
     [:en] [`X::const_void_pointer] and [`Y::const_void_pointer] are the same
     type.
     [:zh_CN] [`X::const_void_pointer] 和 [`Y::const_void_pointer] 是相同类型。
@@ -259,15 +261,17 @@ and [`std::forward], respectively.
 [|] p->m
 [|] [:en] type of [`T::m]
     [:zh_CN] [`T::m] 的类型
-[|] [:en] [=Pre] [`(*p).m] is well-defined. equivalent to [`(*p).m]
-    [:zh_CN] [=Pre] [`(*p).m] 良构。等价于 [`(*p).m]
+[|] [para:pre]
+    [:en] [`(*p).m] is well-defined. equivalent to [`(*p).m]
+    [:zh_CN] [`(*p).m] 良构。等价于 [`(*p).m]
 [|]
 
 [|] q->m
 [|] [:en] type of [`T::m]
     [:zh_CN] [`T::m] 的类型
-[|] [:en] [=Pre] [`(*q).m] is well-defined. equivalent to [`(*q).m]
-    [:zh_CN] [=Pre] [`(*q).m] 良构。等价于 [`(*q).m]
+[|] [para:pre]
+    [:en] [`(*q).m] is well-defined. equivalent to [`(*q).m]
+    [:zh_CN] [`(*q).m] 良构。等价于 [`(*q).m]
 [|]
 
 [|] static_cast<X::pointer>(w)]
@@ -285,17 +289,21 @@ and [`std::forward], respectively.
 [|] [:en] Memory is allocated for [`n] objects of type [`T] but objects are not
     constructed.
     [:zh_CN] 为 [`n] 个类型 [`T] 的对象分配内存，但并未构造这些对象。
+
     [:en] [`allocate] may raise an appropriate exception.
     [:zh_CN] [`allocate] 可以给出一个适当的异常。
+
     [footnote]
     [:en] It is intended that [`a.allocate] be an efficient means of allocating
     a single object of type [`T], even when [`sizeof(T)] is small.
     [:zh_CN] 其目的是使得 [`a.allocate] 成为分配 [`T] 类型的单个对象的高效方式，
     而无论 [`sizeof(T)] 是否很小。
+
     [:en] That is, there is no need for a container to maintain its own free
     list.
     [:zh_CN] 就是说，容器不需要维护其自己的自由表。
     [footnote:end]
+
     [enter:note]
     [:en] If [`n == 0], the return value is unspecified.
     [:zh_CN] 若 [`n == 0]，则未指明其返回值。
@@ -317,11 +325,14 @@ and [`std::forward], respectively.
 [|] [:en] All [`n T] objects in the area pointed to by [`p] shall be destroyed
     prior to this call.
     [:zh_CN] [`p] 所指向的区域中的全部 [`n] 个 [`T] 对象应当在该调用前已经销毁。
+
     [:en] [`n] shall match the value passed to [`allocate] to obtain this
     memory.
     [:zh_CN] [`n] 应当与用以获得这段内存的 [`allocate] 所传递的值相匹配。
+
     [:en] Does not throw exceptions.
     [:zh_CN] 不会抛出异常。
+
     [enter:note]
     [:en] [`p] shall not be singular.
     [:zh_CN]
@@ -339,6 +350,7 @@ and [`std::forward], respectively.
 [|] [:en] returns [`true] only if storage allocated from each can be deallocated
     via the other.
     [:zh_CN] 仅当其中任意一个所分配的存储都可以以另一个进行回收时返回 [`true]。
+
     [:en] [`operator==] shall be reflexive, symmetric, and transitive, and shall
     not exit via an exception.
     [:zh_CN] [`operator==] 应当是自反的，对称的，和可传递的，且不能以异常退出。
@@ -366,48 +378,52 @@ and [`std::forward], respectively.
 [|]
 [|] [:en] Shall not exit via an exception.
     [:zh_CN] 不能以异常退出。
-    [br]
-    [=Post] [`a1 == a]
+
+    [para:post] [`a1 == a]
 [|]
 
 [|] X u(b);
 [|]
 [|] [:en] Shall not exit via an exception.
     [:zh_CN] 不能以异常退出。
-    [br]
-    [=Post] [`Y(a) == b], [`a == X(b)]
+
+    [para:post] [`Y(a) == b], [`a == X(b)]
 [|]
 
 [|] X u(move(a)); [br] X u = move(a);
 [|]
 [|] [:en] Shall not exit via an exception.
     [:zh_CN] 不能以异常退出。
-    [br]
-    [:en] [=Post] [`a1] equals the prior value of [`a].
-    [:zh_CN] [=Post] [`a1] 等于 [`a] 之前的值。
+
+    [para:post]
+    [:en] [`a1] equals the prior value of [`a].
+    [:zh_CN] [`a1] 等于 [`a] 之前的值。
 [|]
 
 [|] X u(move(b));
 [|]
 [|] [:en] Shall not exit via an exception.
     [:zh_CN] 不能以异常退出。
-    [br]
-    [:en] [=Post] [`a] equals the prior value of [`X(b)].
-    [:zh_CN] [=Post] [`a] 等于 [`X(b)] 之前的值。
+
+    [para:post]
+    [:en] [`a] equals the prior value of [`X(b)].
+    [:zh_CN] [`a] 等于 [`X(b)] 之前的值。
 [|]
 
 [|] a.construct(c, args)
 [|] [:en] (not used)
     [:zh_CN] （未使用）
-[|] [:en] [=Effect] Constructs an object of type [`C] at [`c]
-    [:zh_CN] [=Effect] 在 [`c] 处构造类型 [`C] 的一个对象
+[|] [para:effect]
+    [:en] Constructs an object of type [`C] at [`c]
+    [:zh_CN] 在 [`c] 处构造类型 [`C] 的一个对象
 [|] [`::new ((void*)c) C(forward<Args>(args)...)]
 
 [|] a.destroy(c)
 [|] [:en] (not used)
     [:zh_CN] （未使用）
-[|] [:en] [=Effect] Destroys the object at [`c]
-    [:zh_CN] [=Effect] 销毁 [`c] 处的对象
+[|] [para:effect]
+    [:en] Destroys the object at [`c]
+    [:zh_CN] 销毁 [`c] 处的对象
 [|] [`c->~C()]
 
 [|] a.select_on_container_copy_construction()
@@ -423,8 +439,9 @@ and [`std::forward], respectively.
     the client container is copy-assigned.
     [:zh_CN] 当客户容器被复制赋值时，仅当类型 [`X] 的一个分配器应当被复制时，为
     [`true_type]。
+
     [:en] See Note B, below.
-    [:zh_CN]
+    [:zh_CN] 见表后的注解 B。
 [|] [`false_type]
 
 [|] X::propagate_on_container_move_assignment
@@ -434,6 +451,7 @@ and [`std::forward], respectively.
     the client container is move-assigned.
     [:zh_CN] 当客户容器被移动赋值时，仅当类型 [`X] 的一个分配器应当被移动时，为
     [`true_type]。
+
     [:en] See Note B, below.
     [:zh_CN] 见表后的注解 B。
 [|] [`false_type]
@@ -445,6 +463,7 @@ and [`std::forward], respectively.
     the client container is swapped.
     [:zh_CN] 当客户容器被交换时，仅当类型 [`X] 的一个分配器应当被交换时，为
     [`true_type]。
+
     [:en] See Note B, below.
     [:zh_CN] 见表后的注解 B。
 [|] [`false_type]
