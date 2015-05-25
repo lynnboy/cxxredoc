@@ -1,5 +1,6 @@
 ﻿[section#deque.modifiers
     [:en] [`deque] modifiers
+    [:zh_CN] [`deque] 的改动函数
 ]
 
 [%@library insert[!deque]]
@@ -28,28 +29,41 @@ void push_back(T&& x);
 [para:effects]
 [:en] An insertion in the middle of the deque invalidates all the iterators and
 references to elements of the deque.
+[:zh_CN] 在 [`deque] 中间进行的插入使指代该 [`deque] 的元素的所有迭代器和引用
+失效。
 
 [:en] An insertion at either end of the deque invalidates all the iterators to
 the deque, but has no effect on the validity of references to elements of the
 deque.
+[:zh_CN] 在 [`deque] 任何一端进行的插入使指代该 [`deque] 的元素的所有迭代器失效
+，但对指代该 [`deque] 的元素的引用的有效性没有效果。
 
 [para:notes]
 [:en] If an exception is thrown other than by the copy constructor, move
 constructor, assignment operator, or move assignment operator of [`T] there are
 no effects.
+[:zh_CN] 如果除了 [`T] 的复制构造函数、移动构造函数、赋值运算符或移动赋值运算符
+之外抛出了异常，则函数没有效果。
 
 [:en] If an exception is thrown while inserting a single element at either end,
 there are no effects.
+[:zh_CN] 如果在任何一端插入单个元素时抛出了异常，则函数没有效果。
 
 [:en] Otherwise, if an exception is thrown by the move constructor of a
 non-[`CopyInsertable] [`T], the effects are unspecified.
+[:zh_CN] 否则，如果由并非 [`CopyInsertable] 的 [`T] 的移动构造函数抛出了异常，则
+其效果是未指明的。
 
 [para:complexity]
 [:en] The complexity is linear in the number of elements inserted plus the
 lesser of the distances to the beginning and end of the deque.
+[:zh_CN] 复杂度对于所插入的元素数量，加上到 [`deque] 的开头和结尾的距离的较小值
+是线性的。
 
 [:en] Inserting a single element either at the beginning or end of a deque
 always takes constant time and causes a single call to a constructor of [`T].
+[:zh_CN] 在 [`deque] 的开头或末尾插入单个元素总是耗费常量时间，并导致对 [`T] 的
+构造函数的单次调用。
 [exit:description]
 
 [%@library erase[!deque]]
@@ -63,21 +77,31 @@ iterator erase(const_iterator first, const_iterator last);
 [:en] An erase operation that erases the last element of a deque invalidates
 only the past-the-end iterator and all iterators and references to the erased
 elements.
+[:zh_CN] 清除 [`deque] 的最后一个元素的清除操作，仅会使其越过末尾迭代器，以及
+所有指代所清除的元素的迭代器和引用失效。
 
 [:en] An erase operation that erases the first element of a deque but not the
 last element invalidates only the erased elements.
+[:zh_CN] 清除 [`deque] 的第一个元素而不是最后一个元素的清除操作，仅会使所清除的
+元素失效。
 
 [:en] An erase operation that erases neither the first element nor the last
 element of a deque invalidates the past-the-end iterator and all iterators and
 references to all the elements of the deque.
+[:zh_CN] 清除 [`deque] 的既不是第一个元素也不是最后一个元素的清除操作，使其越过
+末尾迭代器，以及所有指代该 [`deque] 的任何元素的迭代器和引用失效。
 
 [para:complexity]
 [:en] The number of calls to the destructor is the same as the number of
 elements erased, but the number of calls to the assignment operator is no more
 than the lesser of the number of elements before the erased elements and the
 number of elements after the erased elements.
+[:zh_CN] 对析构函数的调用次数与所清除的元素数量相同，但对赋值运算符的调用次数
+不大于所清除的元素前面的元素数量和所清除的元素后面的元素数量的较小值。
 
 [para:throws]
 [:en] Nothing unless an exception is thrown by the copy constructor, move
 constructor, assignment operator, or move assignment operator of [`T].
+[:zh_CN] 除非 [`T] 的复制构造函数、移动构造函数、赋值运算符或移动赋值运算符抛出
+了异常，否则不抛出异常。
 [exit:description]
