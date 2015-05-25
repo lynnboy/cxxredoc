@@ -1,5 +1,6 @@
 ﻿[section#unord.req.except
     [:en] Exception safety guarantees
+    [:zh_CN] 异常安全性保证
 ]
 
 [para]
@@ -8,19 +9,29 @@
 [%unordered associative containers[!requirements]]
 For unordered associative containers, no [`clear()] function throws an
 exception.
+[:zh_CN]
+[%无序关联容器[!异常安全性]]
+[%无序关联容器[!规定]]
+无序关联容器的 [`clear()] 函数都不能抛出任何异常。
 
 [:en] [`erase(k)] does not throw an exception unless that exception is thrown by
 the container[=']s [`Hash] or [`Pred] object (if any).
+[:zh_CN] [`erase(k)] 不能抛出任何异常，除非该异常是由容器的 [`Hash] 或 [`Pred]
+对象（如果有）所抛出的。
 
 [para]
 [:en] For unordered associative containers, if an exception is thrown by any
 operation other than the container[=']s hash function from within an [`insert]
 or [`emplace] function inserting a single element, the insertion has no effect.
+[:zh_CN] 对于无序关联容器，如果插入单个元素时从 [`insert] 或 [`emplace] 中的除该
+容器的散列函数之外的任何操作抛出了异常，则这次插入没有效果。
 
 [para]
 [:en] For unordered associative containers, no [`swap] function throws
 an exception unless that exception is thrown by the swap of the container[=']s
-Hash or Pred object (if any).
+[`Hash] or [`Pred] object (if any).
+[:zh_CN] 对于无序关联容器，[`swap] 函数都不能抛出任何异常，除非该异常是由容器的
+[`Hash] 或 [`Pred] 对象（如果有）的 [`swap] 所抛出的。
 
 [para]
 [:en]
@@ -29,3 +40,8 @@ Hash or Pred object (if any).
 For unordered associative containers, if an exception is thrown from within a
 [`rehash()] function other than by the container[=']s hash function or
 comparison function, the [`rehash()] function has no effect.
+[:zh_CN]
+[%无序关联容器[!异常安全性]]
+[%无序关联容器[!规定]]
+对于无序关联容器，如果从 [`rehash()] 函数中的抛出了除了来自该容器的散列函数或
+比较函数之外的异常，则 [`rehash()] 函数没有效果。
