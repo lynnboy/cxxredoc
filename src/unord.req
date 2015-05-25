@@ -1178,20 +1178,28 @@ b.size()] and, for every equivalent-key group [=range[Ea1,Ea2)] obtained from
 [`a.equal_range(Ea1)], there exists an equivalent-key group [=range[Eb1,Eb2)]
 obtained from [`b.equal_range(Ea1)], such that [`is_permutation(Ea1, Ea2, Eb1,
 Eb2)] returns [`true].
-[:zh_CN]
+[:zh_CN] 两个无序容器 [`a] 和 [`b]，如果 [`a.size() == b.size()]，并且对于以
+[`a.equal_range(Ea1)] 获得的每个等价键组 [=range[Ea1,Ea2)]，都存在一个以
+[`b.equal_range(Ea1)] 获得的等价键组 [=range[Eb1,Eb2)]，使得
+[`is_permutation(Ea1, Ea2, Eb1, Eb2)] 返回 [`true]，则两个容器比较为相等。
 
 [:en] For [`unordered_set] and [`unordered_map], the complexity of [`operator==]
 (i.e., the number of calls to the [`==] operator of the [`value_type], to the
 predicate returned by [`key_equal()], and to the hasher returned by
 [`hash_function()]) is proportional to [$N] in the average case and to [$N[^2]]
 in the worst case, where [$N] is [`a.size()].
-[:zh_CN]
+[:zh_CN] 对于 [`unordered_set] 和 [`unordered_map]，[`operator==] 的复杂度（亦即
+[`value_type] 的 [`==] 运算符的调用次数，[`key_equal()] 所返回的谓词的调用次数，
+以及 [`hash_function()] 所返回的散列函数的调用次数），在平均情况下正比于 [$N]，
+而在最差情况下正比于 [$N[^2]]，其中 [$N] 为 [`a.size()]。
 
 [:en] For [`unordered_multiset] and [`unordered_multimap], the complexity of
 [`operator==] is proportional to [$[=sum]E[_i][^2]] in the average case and to
 [$N[^2]] in the worst case, where [$N] is [`a.size()], and [$E[_i]] is the size
 of the [$i[^th]] equivalent-key group in [`a].
-[:zh_CN]
+[:zh_CN] 对于 [`unordered_multiset] 和 [`unordered_multimap]，[`operator==] 的
+复杂度在平均情况下正比于 [$[=sum]E[_i][^2]]，而在最差情况下正比于 [$N[^2]]，其中
+[$N] 为 [`a.size()]，而 [$E[_i]] 为 [`a] 中的第 [$i] 个等价键组的大小。
 
 [:en] However, if the respective elements of each corresponding pair of
 equivalent-key groups [$Ea[_i]] and [$Eb[_i]] are arranged in the same order
@@ -1199,22 +1207,28 @@ equivalent-key groups [$Ea[_i]] and [$Eb[_i]] are arranged in the same order
 same container), then the average-case complexity for [`unordered_multiset] and
 [`unordered_multimap] becomes proportional to [$N] (but worst-case complexity
 remains [$[=bigoh](N[^2])], e.g., for a pathologically bad hash function).
-[:zh_CN]
+[:zh_CN] 然而，如果每个对应的等价键组对 [$Ea[_i]] 和 [$Eb[_i]] 的各个元素都是以
+相同顺序排列的（比如当 [`a] 和 [`b] 都是同一个容器的未改动过的副本时，通常为这种
+情况），[`unordered_multiset] 和 [`unordered_multimap] 的平均情况的复杂度将变为
+正比于 [$N]（但其最差情况的复杂度仍为 [$[=bigoh](N[^2])]，比如当具有一个极差的
+散列函数时）。
 
 [:en] The behavior of a program that uses [`operator==] or [`operator!=] on
 unordered containers is undefined unless the [`Hash] and [`Pred] function
 objects respectively have the same behavior for both containers and the equality
 comparison operator for [`Key] is a refinement
-[:zh_CN]
+[:zh_CN] 对无序容器使用 [`operator==] 或 [`operator!=] 的程序的行为是未定义的，
+除非其 [`Hash] 和 [`Pred] 函数对象分别对两个容器具有相同的行为，并且 [`Key] 的
+相等性比较运算符是对由 [`Pred] 所产生的等价键组分区的提炼
 
 [footnote]
 [:en] Equality comparison is a refinement of partitioning if no two objects that
 compare equal fall into different partitions.
-[:zh_CN]
+[:zh_CN] 如果没有相等的两个对象被分到不同分区，则相等性比较就是对分区的提炼。
 [footnote:end]
 
 [:en@~] of the partition into equivalent-key groups produced by [`Pred].
-[:zh_CN@~]
+[:zh_CN@~] 。
 
 [para]
 [:en]
@@ -1222,10 +1236,14 @@ compare equal fall into different partitions.
 The iterator types [`iterator] and [`const_iterator] of an unordered associative
 container are of at least the forward iterator category.
 [:zh_CN]
+[%无序关联容器[!迭代器]]
+无序关联容器的迭代器类型 [`iterator] 和 [`const_iterator] 至少属于前向迭代器范畴
+。
 
 [:en] For unordered associative containers where the key type and value type are
 the same, both [`iterator] and [`const_iterator] are const iterators.
-[:zh_CN]
+[:zh_CN] 键类型和值类型相同的无序关联容器的 [`iterator] 和 [`const_iterator]
+都是 const 迭代器。
 
 [para]
 [:en]
@@ -1233,11 +1251,15 @@ the same, both [`iterator] and [`const_iterator] are const iterators.
 The [`insert] and [`emplace] members shall not affect the validity of references
 to container elements, but may invalidate all iterators to the container.
 [:zh_CN]
+[%无序关联容器[!迭代器失效]]
+[`insert] 和 [`emplace] 成员不能影响指代容器元素的引用的有效性，但可能无效化指代
+该容器的所有迭代器。
 
 [:en] The [`erase] members shall invalidate only iterators and references to the
 erased elements, and preserve the relative order of the elements that are not
 erased.
-[:zh_CN]
+[:zh_CN] [`erase] 成员只能使指代所清除的元素的迭代器和引用，并保持未被清除的元素
+之间的相对顺序。
 
 [para]
 [:en]
@@ -1248,5 +1270,10 @@ if [`(N+n) < z * B], where [`N] is the number of elements in the container prior
 to the insert operation, [`n] is the number of elements inserted, [`B] is the
 container[=']s bucket count, and [`z] is the container[=']s maximum load factor.
 [:zh_CN]
+[%无序关联容器[!迭代器失效]]
+[%无序关联容器[!规定]]
+当 [`(N+n) < z * B] 时，[`insert] 和 [`emplace] 成员不能影响迭代器的有效性，其中
+[`N] 为该容器在插入操作之前的元素数量，[`n] 为所插入元素的数量，[`B] 为该容器的
+桶数，而 [`z] 为该容器的最大负载系数。
 
 [include unord.req.except]
