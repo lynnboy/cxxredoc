@@ -5,7 +5,7 @@
 
 [para]
 [:en] Associative containers provide fast retrieval of data based on keys.
-[:zh_CN] 关联容器提供基于健快速检索数据的能力。
+[:zh_CN] 关联容器提供基于键快速检索数据的能力。
 
 [:en] The library provides four basic kinds of associative containers: [`set],
 [`multiset], [`map] and [`multimap].
@@ -102,9 +102,10 @@ containers ([#container.requirements.general]), except that for [`map] and
 [`multimap], the requirements placed on [`value_type] in Table
 [#tab:containers.container.requirements] apply instead to [`key_type] and
 [`mapped_type].
-[:zh_CN] 关联容器满足对分配器感知容器的规定（[#container.requirements.general]）
-，但对于 [`map] 和 [`multimap]，在表 [#tab:containers.container.requirements] 中
-对 [`value_type] 的规定代之以针对 [`key_type] 和 [`mapped_type]。
+[:zh_CN] 关联容器满足对分配器感知容器的所有规定
+（[#container.requirements.general]），但对于 [`map] 和 [`multimap]，表
+[#tab:containers.container.requirements] 中对 [`value_type] 的规定被代之以针对
+[`key_type] 和 [`mapped_type]。
 
 [enter:note]
 [:en] For example, in some cases [`key_type] and [`mapped_type] are required to
@@ -369,8 +370,8 @@ type convertible to [`A].
 
     [para:effects]
     [:en] Inserts a [`value_type] object [`t] constructed with
-    [`std::forward<Args>(args)...] and returns the iterator pointing
-    to the newly inserted element.
+    [`std::forward<Args>(args)...] and returns the iterator pointing to the
+    newly inserted element.
     [:zh_CN] 插入以 [`std::forward<Args>(args)...] 构造的 [`value_type] 对象
     [`t]，并返回指向新插入元素的迭代器。
 
@@ -498,6 +499,7 @@ type convertible to [`A].
 [|] [`size_type]
 [|] [:en] erases all elements in the container with key equivalent to [`k].
     [:zh_CN] 清除容器中具有等价于 [`k] 的键的所有元素。
+
     [:en] returns the number of erased elements.
     [:zh_CN] 返回所清除的元素数量。
 [|] [$[=log]([`a.size()]) + [`a.count(]k[`)]]

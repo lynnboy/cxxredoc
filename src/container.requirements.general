@@ -373,7 +373,7 @@ erases.
 [:en]
 [`end()] returns an iterator which is the past-the-end value for the container.
 [:zh_CN]
-[`end()] 返回具有容器的越过结尾值的迭代器。
+[`end()] 返回具有容器的越过末尾值的迭代器。
 
 [:en]
 If the container is empty, then [`begin() == end()];
