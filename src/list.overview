@@ -1,17 +1,24 @@
 ﻿[section#list.overview
     [:en] Class template [`list] overview
+    [:zh_CN] 类模板 [`list] 概要
 ]
+
+[%@library list]
 
 [para]
 [:en]
-[%@library list]
 A [`list] is a sequence container that supports bidirectional iterators and
 allows constant time insert and erase operations anywhere within the sequence,
 with storage management handled automatically.
+[:zh_CN]
+[`list] 是一种序列容器，支持双向迭代器，并允许在序列中的任意位置进行常量时间的
+插入和清除操作，并且具有被自动处理的存储管理。
 
-[:en] Unlike vectors ([#vector]) and deques ([#deque]), fast random access to
-list elements is not supported, but many algorithms only need sequential access
-anyway.
+[:en] Unlike [`vector]s ([#vector]) and [`deque]s ([#deque]), fast random access
+to [`list] elements is not supported, but many algorithms only need sequential
+access anyway.
+[:zh_CN] 与 [`vector]（[#vector]）和 [`deque]（[#deque]）不同，不支持对 [`list]
+元素进行快速的随机访问，但许多算法实际上只需要顺序性的访问即可。
 
 [para]
 [:en] A [`list] satisfies all of the requirements of a container, of
@@ -19,18 +26,26 @@ a reversible container (given in two tables in [#container.requirements]), of
 a sequence container, including most of the optional sequence container
 requirements ([#sequence.reqmts]), and of an allocator-aware container (Table
 [#tab:containers.allocatoraware]).
+[:zh_CN] [`list] 符合容器的所有规定，可反向容器的所有规定（于
+[#container.requirements] 中的两个表格给出），序列容器的所有规定，以及可选的序列
+容器规定（[#sequence.reqmts]），以及分配器感知容器的所有规定（表
+[#tab:containers.allocatoraware]）。
 
 [:en] The exceptions are the [`operator[`]] and [`at] member functions, which
 are not provided.
+[:zh_CN] 其例外是 [`operator[`]] 和 [`at] 成员函数并未提供。
 
 [footnote]
 [:en] These member functions are only provided by containers whose iterators are
 random access iterators.
+[:zh_CN] 这些成员函数仅由具有随机访问迭代器的容器所提供。
 [footnote:end]
 
 [:en] Descriptions are provided here only for operations on [`list] that are not
 described in one of these tables or for operations where there is additional
 semantic information.
+[:zh_CN] 此处给出的说明仅包括未被这些表格之一所描述的 [`list] 的操作，以及具有
+额外的语义信息的操作。
 
 [codeblock:synopsis [special implementation-defined] ]
 namespace std {
@@ -38,12 +53,17 @@ namespace std {
   class list {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef value_type&                                             reference;
     typedef const value_type&                                       const_reference;
     typedef implementation-defined                iterator;       // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                const_iterator; // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                size_type;      // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                difference_type;// [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef T                                     value_type;
     typedef Allocator                             allocator_type;
     typedef typename allocator_traits<Allocator>::pointer           pointer;
@@ -52,6 +72,7 @@ namespace std {
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
     // [:en] [#list.cons], construct/copy/destroy:
+    // [|:zh_CN] [#list.cons]，构造/复制/销毁：
     list() : list(Allocator()) { }
     explicit list(const Allocator&);
     explicit list(size_type n, const Allocator& = Allocator());
@@ -75,6 +96,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] iterators:
+    // [|:zh_CN] 迭代器：
     iterator               begin() noexcept;
     const_iterator         begin() const noexcept;
     iterator               end() noexcept;
@@ -90,6 +112,7 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] [#list.capacity], capacity:
+    // [|:zh_CN] [#list.capacity]，容量：
     bool      empty() const noexcept;
     size_type size() const noexcept;
     size_type max_size() const noexcept;
@@ -97,12 +120,14 @@ namespace std {
     void      resize(size_type sz, const T& c);
 
     // [:en] element access:
+    // [|:zh_CN] 元素访问：
     reference       front();
     const_reference front() const;
     reference       back();
     const_reference back() const;
 
     // [:en] [#list.modifiers], modifiers:
+    // [|:zh_CN] [#list.modifiers]，改动函数
     template <class... Args> void emplace_front(Args&&... args);
     void pop_front();
     template <class... Args> void emplace_back(Args&&... args);
@@ -128,6 +153,7 @@ namespace std {
     void     clear() noexcept;
 
     // [:en] [#list.ops], list operations:
+    // [|:zh_CN] [#list.ops]，list 的操作：
     void splice(const_iterator position, list& x);
     void splice(const_iterator position, list&& x);
     void splice(const_iterator position, list& x, const_iterator i);
@@ -169,6 +195,7 @@ namespace std {
     bool operator<=(const list<T, Allocator>& x, const list<T, Allocator>& y);
 
   // [:en] specialized algorithms:
+  // [|:zh_CN] 特化的算法
   template <class T, class Allocator>
     void swap(list<T, Allocator>& x, list<T, Allocator>& y)
       noexcept(noexcept(x.swap(y)));
