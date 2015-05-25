@@ -1,5 +1,6 @@
 ﻿[section#array.special
     [:en] [`array] specialized algorithms
+    [:zh_CN] [`array] 所特化的算法
 ]
 
 [%@library array[!swap]]
@@ -18,4 +19,5 @@ x.swap(y);
 
 [para:complexity]
 [:en] Linear in [`N].
+[:zh_CN] 对于 [`N] 为线性。
 [exit:description]
