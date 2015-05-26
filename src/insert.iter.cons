@@ -1,0 +1,15 @@
+﻿[section#insert.iter.cons
+    [:en] [`insert_iterator] constructor
+    [:zh_CN] [`insert_iterator] 的构造函数
+]
+
+[%@library insert_iterator[!insert_iterator]]
+[codeblock:declaration]
+insert_iterator(Container& x, typename Container::iterator i);
+[codeblock:end]
+
+[enter:description]
+[para:effects]
+[:en] Initializes [`container] with [`std::addressof(x)] and [`iter] with [`i].
+[:zh_CN] 以 [`std::addressof(x)] 初始化 [`container] 并以 [`i] 初始化 [`iter]。
+[exit:description]
