@@ -1,5 +1,5 @@
 ﻿[section#inserter
-    [:en] [`inserter]
+    [`inserter]
 ]
 
 [%@library inserter]
@@ -11,4 +11,5 @@ template <class Container>
 [enter:description]
 [para:returns]
 [:en] [`insert_iterator<Container>(x, i)].
+[:zh_CN] [`insert_iterator<Container>(x, i)]。
 [exit:description]
