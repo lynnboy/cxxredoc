@@ -1,5 +1,6 @@
 ﻿[section#iterator.requirements.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
@@ -7,51 +8,77 @@
 [%requirements[!iterator]]
 Iterators are a generalization of pointers that allow a [=Cpp] program to work
 with different data structures (containers) in a uniform manner.
+[:zh_CN]
+[%规定[!迭代器]]
+迭代器是对指针的泛化，允许 [=Cpp] 以统一的方式在不同的数据结构（容器）上工作。
 
 [:en] To be able to construct template algorithms that work correctly and
 efficiently on different types of data structures, the library formalizes not
 just the interfaces but also the semantics and complexity assumptions of
 iterators.
+[:zh_CN] 为了能够构造出可以在不同类型的数据结构上正确并高效工作的模板算法，程序
+库不仅对迭代器的接口，同时也对其语义和复杂度假设进行了形式化。
 
 [:en] All input iterators [`i] support the expression [`*i], resulting in a
 value of some object type [`T], called the [+value type] of the iterator.
+[:zh_CN] 所有输入迭代器 [`i] 均支持表达式 [`*i]，其结果为某个对象类型 [`T] 的值
+，该类型被称之为这个迭代器的[+值类型]。
 
 [:en] All output iterators support the expression [`*i = o] where [`o] is a
 value of some type that is in the set of types that are [+writable] to the
 particular iterator type of [`i].
+[:zh_CN] 所有输出迭代器均支持表达式 [`*i = 0]，其中 [`o] 为某个属于对于 [`i] 的
+特定迭代器类型[+可写]的类型集合的类型的值。
 
 [:en] All iterators [`i] for which the expression [`(*i).m] is well-defined,
 support the expression [`i->m] with the same semantics as [`(*i).m].
+[:zh_CN] 所有能够使表达式 [`(*i).m] 良构的迭代器 [`i]，都支持表达式 [`i->m]，并
+具有与 [`(*i).m] 相同的语义。
 
 [:en] For every iterator type [`X] for which equality is defined, there is a
 corresponding signed integer type called the [+difference type] of the iterator.
+[:zh_CN] 对于每个定义了相等性的迭代器类型 [`X]，都有一个对应的有符号正数类型，
+被称为该迭代器的[+差类型]。
 
 [para]
 [:en] Since iterators are an abstraction of pointers, their semantics is
 a generalization of most of the semantics of pointers in [=Cpp].
+[:zh_CN] 由于迭代器是对指针的抽象，所以它们的语义是对 [=Cpp] 中的指针的大多数
+语义的一种泛化。
 
 [:en] This ensures that every function template that takes iterators works as
 well with regular pointers.
+[:zh_CN] 这保证了每个接受迭代器的函数模板都能与普通指针正常工作。
 
 [:en] This International Standard defines five categories of iterators,
 according to the operations defined on them: [+input iterators], [+output
 iterators], [+forward iterators], [+bidirectional iterators] and [+random access
 iterators], as shown in Table [#tab:iterators.relations].
+[:zh_CN] 本国际标准根据在其上所定义的操作定义了五个迭代器范畴：[+输入迭代器]，
+[+输出迭代器]，[+前向迭代器]，[+双向迭代器]，以及[+随机访问迭代器]，如表
+[#tab:iterators.relations] 所示。
 
 [table:grid@simple#tab:iterators.relations
     [:en] Relations among iterator categories
+    [:zh_CN] 迭代器范畴之间的关系
+
     [columns@repeated=4]
 ]
 
 [|] [:en] [em@bf Random Access]
+    [:zh_CN] [em@bf 随机访问]
 [|] [:en] [=rightarrow] [em@bf Bidirectional]
+    [:zh_CN] [=rightarrow] [em@bf 双向]
 [|] [:en] [=rightarrow] [em@bf Forward]
+    [:zh_CN] [=rightarrow] [em@bf 前向]
 [|] [:en] [=rightarrow] [em@bf Input]
+    [:zh_CN] [=rightarrow] [em@bf 输入]
 
 [|]
 [|]
 [|]
 [|] [:en] [=rightarrow] [em@bf Output]
+    [:zh_CN] [=rightarrow] [em@bf 输出]
 
 [table:end]
 
@@ -62,25 +89,38 @@ satisfy all the requirements of forward iterators and can be used whenever a
 forward iterator is specified; Random access iterators also satisfy all the
 requirements of bidirectional iterators and can be used whenever a bidirectional
 iterator is specified.
+[:zh_CN] 前向迭代器符合输入迭代器的所有规定，且可以用在指定输入迭代器的地方；
+双向迭代器也符合前向迭代器的所有规定，且可以用在指定前向迭代器的地方；随机访问
+迭代器也符合双向迭代器的所有规定，且可以用在指定双向迭代器的地方。
 
 [para]
 [:en] Iterators that further satisfy the requirements of output iterators are
 called [def mutable iterator]s.
+[:zh_CN] 还符合输出迭代器的规定的迭代器被称为[def 可改动迭代器]。
 
 [:en] Nonmutable iterators are referred to as [def constant iterator]s.
+[:zh_CN] 不可改动的迭代器被称为[def 常量迭代器]。
 
 [para]
 [:en] Iterators that further satisfy the requirement that, for integral values
 [`n] and dereferenceable iterator values [`a] and [`(a + n)], [`*(a + n)] is
 equivalent to [`*(addressof(*a) + n)], are called [def contiguous iterators].
+[:zh_CN] 被称为[def 连续迭代器]的迭代器还满足如下规定：对于整型值 [`n] 和可
+解引用的迭代器值 [`a] 和 [`(a + n)]，有 [`*(a + n)] 等价于
+[`*(addressof(*a) + n)]。
 
 [enter:note]
 [:en] For example, the type ["pointer to [`int]] is a contiguous iterator, but
 [`reverse_iterator<int *>] is not.
+[:zh_CN] 例如，类型“[`int] 的指针”是连续迭代器，但 [`reverse_iterator<int *>]
+不是。
 
 [:en] For a valid iterator range [=range[a,b)] with dereferenceable [`a], the
 corresponding range denoted by pointers is [=range[addressof(*a),addressof(*a)
 + (b - a))]; [`b] might not be dereferenceable.
+[:zh_CN] 对于有效的迭代器范围 [=range[a,b)]（[`a] 可解引用），其对应的以指针表示
+的范围是 [=range[addressof(*a),addressof(*a) + (b - a))]；[`b] 可以不是可解引用
+的。
 [exit:note]
 
 [para]
@@ -88,22 +128,28 @@ corresponding range denoted by pointers is [=range[addressof(*a),addressof(*a)
 value pointing past the last element of the array, so for any iterator type
 there is an iterator value that points past the last element of a corresponding
 sequence.
+[:zh_CN] 与普通指向数组的指针保证存在指向越过数组最后一个元素的指针值一样，对于
+任何迭代器类型，也存在指向越过其对应序列最后一个元素的迭代器值。
 
 [:en] These values are called [+past-the-end] values.
+[:zh_CN] 这些值被称为[+越过末尾]值。
 
 [:en] Values of an iterator [`i] for which the expression [`*i] is defined are
-called
-
-[:en] [+dereferenceable].
+called [+dereferenceable].
+[:zh_CN] 表达式 [`*i] 有定义的迭代器 [`i] 的值被称为是[+可解引用]的。
 
 [:en] The library never assumes that past-the-end values are dereferenceable.
+[:zh_CN] 程序库假设越过末尾值总不可解引用。
 
 [:en] Iterators can also have singular values that are not associated with any
 sequence.
+[:zh_CN] 迭代器还可以具有不与任何序列关联的奇异值。
 
 [enter:example]
 [:en] After the declaration of an uninitialized pointer [`x] (as with
 [`int* x;]), [`x] must always be assumed to have a singular value of a pointer.
+[:zh_CN] 声明一个未初始化的指针 [`x] 之后（比如 [`int* x;]），[`x] 必须假定为
+总是具有该指针的奇异值。
 [exit:example]
 
 [:en] Results of most expressions are undefined for singular values; the only
@@ -111,61 +157,84 @@ exceptions are destroying an iterator that holds a singular value, the
 assignment of a non-singular value to an iterator that holds a singular value,
 and, for iterators that satisfy the [`DefaultConstructible] requirements, using
 a value-initialized iterator as the source of a copy or move operation.
+[:zh_CN] 奇异值的大多数表达式的结果都是未定义的；仅有的例外是销毁一个持有奇异值
+的迭代器，向持有奇异值的迭代器赋值为一个非奇异值，以及对于符合
+[`DefaultConstructible] 规定的迭代器，使用经过值初始化的迭代器作为复制或移动操作
+的源。
 
 [enter:note]
 [:en] This guarantee is not offered for default initialization, although the
 distinction only matters for types with trivial default constructors such as
 pointers or aggregates holding pointers.
+[:zh_CN] 这项保证并未对默认初始化给出，虽然其区别仅影响具有平凡默认构造函数的
+类型，如指针和持有指针的聚合。
 [exit:note]
 
 [:en] In these cases the singular value is overwritten the same way as any other
 value.
+[:zh_CN] 这些情况下奇异值都以同其他值相同的方式被覆盖。
 
 [:en] Dereferenceable values are always non-singular.
+[:zh_CN] 可解引用的值总是非奇异的。
 
 [para]
 [:en] An iterator [`j] is called [+reachable] from an iterator [`i] if and only
 if there is a finite sequence of applications of the expression [`++i] that
 makes [`i == j].
+[:zh_CN] 迭代器 [`j] 被称为从迭代器 [`i] [+可达]，当且仅当可以通过表达式 [`++i]
+的运用的有限序列而使得 [`i == j]。
 
 [:en] If [`j] is reachable from [`i], they refer to elements of the same
 sequence.
+[:zh_CN] 如果 [`j] 从 [`i] 可达，则它们指代同一个序列中的元素。
 
 [para]
 [:en] Most of the library[=']s algorithmic templates that operate on data
 structures have interfaces that use ranges.
+[:zh_CN] 程序库中的大多数对数据结构进行操作的算法模板，都具有使用范围的接口。
 
 [:en] A [+range] is a pair of iterators that designate the beginning and end of
 the computation.
+[:zh_CN] [+范围]是一对代表计算的开始和结尾的迭代器。
 
 [:en] A range [=range[i,i)] is an empty range; in general, a range [=range[i,j)]
 refers to the elements in the data structure starting with the element pointed
 to by [`i] and up to but not including the element pointed to by [`j].
+[:zh_CN] 范围 [=range[i,i)] 是空范围；一般地，范围 [=range[i,j)]指代数据结构中
+的元素，开始于 [`i] 所指向的元素，直到但并不包括由 [`j] 所指向的元素。
 
 [:en] Range [=range[i,j)] is valid if and only if [`j] is reachable from [`i].
+[:zh_CN] 当且仅当 [`j] 从 [`i] 可达时，范围 [=range[i,j)] 有效。
 
 [:en] The result of the application of functions in the library to invalid
 ranges is undefined.
+[:zh_CN] 对无效范围运用程序库中的函数的结果是未定义的。
 
 [para]
 [:en] All the categories of iterators require only those functions that are
 realizable for a given category in constant time (amortized).
+[:zh_CN] 所有的迭代器范畴仅要求对于给定范畴可以实现为（摊销）常量时间的函数。
 
 [:en] Therefore, requirement tables for the iterators do not have a complexity
 column.
+[:zh_CN] 因此，迭代器的规定表格中没有复杂度的列。
 
 [para]
 [:en] Destruction of an iterator may invalidate pointers and references
 previously obtained from that iterator.
+[:zh_CN] 迭代器的销毁将会使此前从该迭代器中获得的指针和引用失效。
 
 [para]
 [:en] An [+invalid] iterator is an iterator that may be singular.
+[:zh_CN] [+无效]迭代器是可能为奇异的迭代器。
 
 [footnote]
 [:en] This definition applies to pointers, since pointers are iterators.
+[:zh_CN] 这条定义也适用于指针，因为指针也是迭代器。
 
 [:en] The effect of dereferencing an iterator that has been invalidated is
 undefined.
+[:zh_CN] 对已经失效的迭代器进行解引用的效果是未定义的。
 [footnote:end]
 
 [para]
@@ -176,8 +245,15 @@ respectively, [`n] denotes a value of [`difference_type], [`u], [`tmp], and [`m]
 denote identifiers, [`r] denotes a value of [`X&], [`t] denotes a value of value
 type [`T], [`o] denotes a value of some type that is writable to the output
 iterator.
+[:zh_CN] 在以下各节中，[`a] 和 [`b] 代表类型 [`X] 或 [`const X] 的值，
+[`difference_type] 和 [`reference] 分别代表类型
+[`iterator_traits<X>::difference_type] 和 [`iterator_traits<X>::reference]，
+[`n] 代表 [`difference_type] 的值，[`u]、[`tmp] 和 [`m] 代表标识符，[`r] 代表
+[`X&] 的值，[`t] 代表值类型 [`T] 的值，[`o] 代表向输出迭代器可写的某种类型的值。
 
 [enter:note]
 [:en] For an iterator type [`X] there must be an instantiation of
 [`iterator_traits<X>] ([#iterator.traits]).
+[:zh_CN] 对于迭代器类型 [`X]，必须存在 [`iterator_traits<X>] 的实例
+（[#iterator.traits]）。
 [exit:note]
