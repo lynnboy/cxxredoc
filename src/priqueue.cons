@@ -1,5 +1,6 @@
 ﻿[section#priqueue.cons
     [:en] [`priority_queue] constructors
+    [:zh_CN] [`priority_queue] 的构造函数
 ]
 
 [%@library priority_queue[!priority_queue]]
@@ -13,10 +14,13 @@ explicit priority_queue(const Compare& x = Compare(),
 [enter:description]
 [para:requires]
 [:en] [`x] shall define a strict weak ordering ([#alg.sorting]).
+[:zh_CN] [`x] 应当定义一种严格弱序（[#alg.sorting]）。
 
 [para:effects]
 [:en] Initializes [`comp] with [`x] and [`c] with [`y] (copy constructing or
 move constructing as appropriate); calls [`make_heap(c.begin(), c.end(), comp)].
+[:zh_CN] 以 [`x] 初始化 [`comp]，并以 [`y] 初始化 [`c]（适当地进行复制构造或者
+移动构造）；调用 [`make_heap(c.begin(), c.end(), comp)]。
 [exit:description]
 
 [%@library priority_queue[!priority_queue]]
@@ -34,9 +38,13 @@ template <class InputIterator>
 [enter:description]
 [para:requires]
 [:en] [`x] shall define a strict weak ordering ([#alg.sorting]).
+[:zh_CN] [`x] 应当定义一种严格弱序（[#alg.sorting]）。
 
 [para:effects]
 [:en] Initializes [`comp] with [`x] and [`c] with [`y] (copy constructing or
 move constructing as appropriate); calls [`c.insert(c.end(), first, last)];
 and finally calls [`make_heap(c.begin(), c.end(), comp)].
+[:zh_CN] 以 [`x] 初始化 [`comp]，并以 [`y] 初始化 [`c]（适当地进行复制构造或者
+移动构造）；调用 [`c.insert(c.end(), first, last)]；最后调用
+[`make_heap(c.begin(), c.end(), comp)]。
 [exit:description]
