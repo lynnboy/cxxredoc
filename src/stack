@@ -1,14 +1,19 @@
 ﻿[section#stack
     [:en] Class template [`stack]
+    [:zh_CN] 类模板 [`stack]
 ]
 
 [para]
 [%@library stack]
 [:en] Any sequence container supporting operations [`back()], [`push_back()] and
 [`pop_back()] can be used to instantiate [`stack].
+[:zh_CN] 支持 [`back()]，[`push_back()] 和 [`pop_back()] 操作的任何序列容器都
+可以用于实例化 [`stack]。
 
 [:en] In particular, [`vector] ([#vector]), [`list] ([#list]) and [`deque]
 ([#deque]) can be used.
+[:zh_CN] 尤其是，可以使用 [`vector]（[#vector]），[`list]（[#list]）和 [`deque]
+（[#deque]）。
 
 [include stack.syn]
 
