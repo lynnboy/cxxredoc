@@ -1,5 +1,6 @@
 ﻿[section#unord.multimap.swap
     [:en] [`unordered_multimap] swap
+    [:zh_CN] [`unordered_multimap] 的交换
 ]
 
 [%@library unordered_multimap[!swap]]
@@ -11,8 +12,8 @@ template <class Key, class T, class Hash, class Pred, class Alloc>
     noexcept(noexcept(x.swap(y)));
 [codeblock:end]
 
-
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
