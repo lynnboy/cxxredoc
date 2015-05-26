@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.op.star
-    [:en] [`operator*]
+    [`operator*]
 ]
 
 [%@library operator*[!reverse_iterator]]
