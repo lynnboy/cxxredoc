@@ -1,5 +1,5 @@
 ﻿[section#back.inserter
-    [:en] [`back_inserter]
+    [`back_inserter]
 ]
 
 [%@library back_inserter]
@@ -11,4 +11,5 @@ template <class Container>
 [enter:description]
 [para:returns]
 [:en] [`back_insert_iterator<Container>(x)].
+[:zh_CN] [`back_insert_iterator<Container>(x)]。
 [exit:description]
