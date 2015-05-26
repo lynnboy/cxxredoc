@@ -1,12 +1,17 @@
 ﻿[section#move.iter.requirements
     [:en] [`move_iterator] requirements
+    [:zh_CN] [`move_iterator] 的规定
 ]
 
 [para]
 [:en] The template parameter [`Iterator] shall meet the requirements for an
 Input Iterator ([#input.iterators]).
+[:zh_CN] 模板形参 [`Iterator] 应当符合输入迭代器的规定（[#input.iterators]）。
 
 [:en] Additionally, if any of the bidirectional or random access traversal
 functions are instantiated, the template parameter shall meet the requirements
 for a Bidirectional Iterator ([#bidirectional.iterators]) or a Random Access
 Iterator ([#random.access.iterators]), respectively.
+[:zh_CN] 此外，如果双向或随机访问的往返移动函数被实例化，则该模板形参应当分别
+符合双向迭代器（[#bidirectional.iterators]）或随机访问迭代器
+（[#random.access.iterators]）的规定。
