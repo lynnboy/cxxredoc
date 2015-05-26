@@ -1,5 +1,6 @@
 ﻿[section#unord.set.syn
     [:en] Header [`<unordered_set>] synopsis
+    [:zh_CN] 头文件 [`<unordered_set>] 纲要
 ]
 
 [%@library <unordered_set>[sortas unordered_set]]
@@ -10,6 +11,7 @@
 
 namespace std {
   // [:en] [#unord.set], class template unordered_set:
+  // [|:zh_CN] [#unord.set]，类模板 unordered_set
   template <class Key,
             class Hash = hash<Key>,
             class Pred = std::equal_to<Key>,
@@ -17,6 +19,7 @@ namespace std {
     class unordered_set;
 
   // [:en] [#unord.multiset], class template unordered_multiset:
+  // [|:zh_CN] [#unord.multiset]，类模板 unordered_multiset
   template <class Key,
             class Hash = hash<Key>,
             class Pred = std::equal_to<Key>,
