@@ -1,14 +1,19 @@
 ﻿[section#iterator.operations
     [:en] Iterator operations
+    [:zh_CN] 迭代器的操作
 ]
 
 [para]
 [:en] Since only random access iterators provide [`+] and [`-] operators, the
 library provides two function templates [`advance] and [`distance].
+[:zh_CN] 由于只有随机访问迭代器提供了 [`+] 和 [`-] 运算符，程序库提供了两个函数
+模板 [`advance] 和 [`distance]。
 
 [:en] These function templates use [`+] and [`-] for random access iterators
 (and are, therefore, constant time for them); for input, forward and
 bidirectional iterators they use [`++] to provide linear time implementations.
+[:zh_CN] 这些函数模板为随机访问迭代器使用 [`+] 和 [`-]（因此它们具有常量时间）；
+对于输入、前向和双向迭代器它们使用 [`++] 以提供线性时间的实现。
 
 [%@library advance]
 [codeblock:declaration]
@@ -19,10 +24,12 @@ template <class InputIterator, class Distance>
 [enter:description]
 [para:requires]
 [:en] [`n] shall be negative only for bidirectional and random access iterators.
+[:zh_CN] [`n] 应当仅对双向和随机访问迭代器可为负数
 
 [para:effects]
 [:en] Increments (or decrements for negative [`n]) iterator reference [`i] by
 [`n].
+[:zh_CN] 对迭代器引用增加（或对于负数的 [`n] 为减少）[`n]。
 [exit:description]
 
 [%@library distance]
@@ -37,11 +44,16 @@ template <class InputIterator>
 [:en] If [`InputIterator] meets the requirements of random access iterator,
 returns [`(last - first)]; otherwise, returns the number of increments needed to
 get from [`first] to [`last].
+[:zh_CN] 如果 [`InputIterator] 符合随机访问迭代器的规定则返回 [`(last - first)]
+；否则返回从 [`first] 到 [`last] 所需要进行的增量次数。
 
 [para:requires]
 [:en] If [`InputIterator] meets the requirements of random access iterator,
 [`last] shall be reachable from [`first] or [`first] shall be reachable from
 [`last]; otherwise, [`last] shall be reachable from [`first].
+[:zh_CN] 如果 [`InputIterator] 符合随机访问迭代器的规定，则 [`last] 应当从
+[`first] 可达或者 [`first] 应当从 [`last] 可达；否则 [`last] 应当从 [`first]
+可达。
 [exit:description]
 
 [%@library next]
@@ -54,6 +66,7 @@ template <class ForwardIterator>
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`advance(x, n); return x;]
+[:zh_CN] 等价于 [`advance(x, n); return x;]
 [exit:description]
 
 [%@library prev]
@@ -66,4 +79,5 @@ template <class BidirectionalIterator>
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`advance(x, -n); return x;]
+[:zh_CN] 等价于 [`advance(x, -n); return x;]
 [exit:description]
