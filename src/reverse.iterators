@@ -1,15 +1,20 @@
 ﻿[section#reverse.iterators
     [:en] Reverse iterators
+    [:zh_CN] 反向迭代器
 ]
 
 [para]
 [:en] Class template [`reverse_iterator] is an iterator adaptor that iterates
 from the end of the sequence defined by its underlying iterator to the beginning
 of that sequence.
+[:zh_CN] 类模板 [`reverse_iterator] 是一种迭代器适配器，从其底层迭代器所定义的
+序列的结尾迭代到该序列的开头。
 
 [:en] The fundamental relation between a reverse iterator and its corresponding
 iterator [`i] is established by the identity:
 [`&*(reverse_iterator(i)) == &*(i - 1)].
+[:zh_CN] 反向迭代器与其对应的地城迭代器 [`i] 之间的基本关系是通过同一性建立的：
+[`&*(reverse_iterator(i)) == &*(i - 1)]。
 
 [include reverse.iterator]
 
