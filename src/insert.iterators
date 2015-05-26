@@ -1,49 +1,68 @@
 ﻿[section#insert.iterators
     [:en] Insert iterators
+    [:zh_CN] 插入迭代器
 ]
 
 [para]
 [:en] To make it possible to deal with insertion in the same way as writing into
 an array, a special kind of iterator adaptors, called [+insert iterators], are
 provided in the library.
+[:zh_CN] 为了以与向数组中进行写入相同的方式处理插入操作，程序库提供了一种特殊的
+迭代器适配器，称为[+插入迭代器]。
 
 [:en] With regular iterator classes,
+[:zh_CN] 当用常规的迭代器类时，
 
 [codeblock:notation]
 while (first != last) *result++ = *first++;
 [codeblock:end]
 
 [:en@~] causes a range [=range[first,last)] to be copied into a range starting
-with result.
+with [`result].
+[:zh_CN@~] 导致范围 [=range[first,last)] 被复制到从 [`result] 开始的范围中。
 
 [:en] The same code with [`result] being an insert iterator will insert
 corresponding elements into the container.
+[:zh_CN] 当 [`result] 为插入迭代器时相同的代码将会将对应的元素插入到容器中。
 
 [:en] This device allows all of the copying algorithms in the library to work in
 the [+insert mode] instead of the [+regular overwrite] mode.
+[:zh_CN] 这种设备允许程序库中的所有复制算法工作于[+插入模式]而不是[+普通的覆盖]
+模式。
 
 [para]
 [:en] An insert iterator is constructed from a container and possibly one of its
 iterators pointing to where insertion takes place if it is neither at the
 beginning nor at the end of the container.
+[:zh_CN] 插入迭代器是从容器构造的，且可能带有一个该容器的迭代器，指向所要进行
+插入之处，此时它既非该容器的开头也非其末尾。
 
 [:en] Insert iterators satisfy the requirements of output iterators.
+[:zh_CN] 插入迭代器符合输出迭代器的规定。
 
 [:en] [`operator*] returns the insert iterator itself.
+[:zh_CN] [`operator*] 返回插入迭代器自身。
 
 [:en] The assignment [`operator=(const T& x)] is defined on insert iterators to
 allow writing into them, it inserts [`x] right before where the insert iterator
 is pointing.
+[:zh_CN] 插入迭代器上定义了赋值 [`operator=(const T& x)]，以允许向其中进行写入，
+它将 [`x] 插入到紧接迭代器所指向的地方之前。
 
 [:en] In other words, an insert iterator is like a cursor pointing into the
 container where the insertion takes place.
+[:zh_CN] 换句话说，插入迭代器类似一个指向容器中将要进行插入之处的游标。
 
 [:en] [`back_insert_iterator] inserts elements at the end of a container,
 [`front_insert_iterator] inserts elements at the beginning of a container, and
 [`insert_iterator] inserts elements where the iterator points to in a container.
+[:zh_CN] [`back_insert_iterator] 向容器的末尾插入元素，[`front_insert_iterator]
+向容器的开头插入元素，而 [`insert_iterator] 向容器中由迭代器所指向之处插入元素。
 
 [:en] [`back_inserter], [`front_inserter], and [`inserter] are three functions
 making the insert iterators out of a container.
+[:zh_CN] [`back_inserter]、[`front_inserter] 和 [`inserter] 是三个从容器上制作出
+插入迭代器的函数。
 
 [include back.insert.iterator]
 
