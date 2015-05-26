@@ -1,15 +1,20 @@
 ﻿[section#vector.overview
     [:en] Class template [`vector] overview
+    [:zh_CN] 类模板 [`vector] 概要
 ]
 
-[para]
 [%@library vector]
+
+[para]
 [:en] A [`vector] is a sequence container that supports (amortized) constant
 time insert and erase operations at the end; insert and erase in the middle take
 linear time.
+[:zh_CN] [`vector] 是一种序列容器，并支持在末尾进行（摊销）常量时间的插入和清除
+操作；在中间进行的插入和清除耗费线性时间。
 
 [:en] Storage management is handled automatically, though hints can be given
 to improve efficiency.
+[:zh_CN] 存储管理是被自动处理的，可以通过提供提示来提升性能。
 
 [para]
 [:en] A [`vector] satisfies all of the requirements of a container and of a
@@ -18,13 +23,22 @@ sequence container, including most of the optional sequence container
 requirements ([#sequence.reqmts]), of an allocator-aware container (Table
 [#tab:containers.allocatoraware]), and, for an element type other than [`bool],
 of a contiguous container ([#container.requirements.general]).
+[:zh_CN] [`vector] 符合容器的所有规定，可反向容器的所有规定（于
+[#container.requirements] 中的两个表格给出），序列容器的所有规定，以及大多数可选
+的序列容器规定（[#sequence.reqmts]），分配器感知容器的所有规定（表
+[#tab:containers.allocatoraware]），以及（对于除了 [`bool] 之外的元素类型）连续
+容器（[#container.requirements.general]）的所有规定。
 
 [:en] The exceptions are the [`push_front], [`pop_front], and [`emplace_front]
 member functions, which are not provided.
+[:zh_CN] 其例外是并未提供成员函数 [`push_front]，[`pop_front]，和
+[`emplace_front]。
 
 [:en] Descriptions are provided here only for operations on [`vector] that are
 not described in one of these tables or for operations where there is additional
 semantic information.
+[:zh_CN] 此处给出的说明仅包括未被这些表格之一所描述的 [`vector] 的操作，以及具有
+额外的语义信息的操作。
 
 [codeblock:synopsis [special implementation-defined] ]
 namespace std {
@@ -32,12 +46,17 @@ namespace std {
   class vector {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef value_type&                           reference;
     typedef const value_type&                     const_reference;
     typedef implementation-defined                iterator;       // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                const_iterator; // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                size_type;      // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                difference_type;// [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef T                                     value_type;
     typedef Allocator                             allocator_type;
     typedef typename allocator_traits<Allocator>::pointer           pointer;
@@ -46,6 +65,7 @@ namespace std {
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
     // [:en] [#vector.cons], construct/copy/destroy:
+    // [|:zh_CN] [#vector.cons]，构造/复制/销毁：
     vector() noexcept : vector(Allocator()) { }
     explicit vector(const Allocator&) noexcept;
     explicit vector(size_type n, const Allocator& = Allocator());
@@ -70,6 +90,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] iterators:
+    // [|:zh_CN] 迭代器：
     iterator               begin() noexcept;
     const_iterator         begin() const noexcept;
     iterator               end() noexcept;
@@ -85,6 +106,7 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] [#vector.capacity], capacity:
+    // [|:zh_CN] [#vector.capacity]，容量：
     bool      empty() const noexcept;
     size_type size() const noexcept;
     size_type max_size() const noexcept;
@@ -95,6 +117,7 @@ namespace std {
     void      shrink_to_fit();
 
     // [:en] element access:
+    // [|:zh_CN] 元素访问：
     reference       operator[](size_type n);
     const_reference operator[](size_type n) const;
     const_reference at(size_type n) const;
@@ -105,10 +128,12 @@ namespace std {
     const_reference back() const;
 
     // [:en] [#vector.data], data access
+    // [|:zh_CN] [#vector.data]，数据访问
     T*       data() noexcept;
     const T* data() const noexcept;
 
     // [:en] [#vector.modifiers], modifiers:
+    // [|:zh_CN] [#vector.modifiers]，改动函数：
     template <class... Args> void emplace_back(Args&&... args);
     void push_back(const T& x);
     void push_back(T&& x);
@@ -143,6 +168,7 @@ namespace std {
     bool operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
   // [:en] [#vector.special], specialized algorithms:
+  // [|:zh_CN] [#vector.special]，特化的算法：
   template <class T, class Allocator>
     void swap(vector<T, Allocator>& x, vector<T, Allocator>& y)
       noexcept(noexcept(x.swap(y)));
