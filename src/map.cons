@@ -1,5 +1,6 @@
 ﻿[section#map.cons
     [:en] [`map] constructors, copy, and assignment
+    [:zh_CN] [`map] 的构造函数、复制和赋值
 ]
 
 [%@library map[!operator==]]
@@ -14,9 +15,11 @@ explicit map(const Compare& comp, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs an empty [`map] using the specified comparison object and
 allocator.
+[:zh_CN] 构造一个空的 [`map]，并使用指定的比较对象和分配器。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library map[![:en]constructor]]
@@ -31,12 +34,19 @@ template <class InputIterator>
 [:en] If the iterator[=']s indirection operator returns an lvalue or a const
 rvalue [`pair<key_type, mapped_type>], then both [`key_type] and [`mapped_type]
 shall be [`CopyInsertable] into [`*this].
+[:zh_CN] 如果迭代器的间接运算符返回了左值或者 const 右值
+[`pair<key_type, mapped_type>]，则 [`key_type] 和 [`mapped_type] 都应当为向
+[`*this] 中 [`CopyInsertable]。
 
 [para:effects]
 [:en] Constructs an empty [`map] using the specified comparison object and
 allocator, and inserts elements from the range [=range[first,last)].
+[:zh_CN] 构造一个空的 [`map]，并使用指定的比较对象和分配器，并将范围
+[=range[first,last)] 中的元素插入其中。
 
 [para:complexity]
 [:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
 [`comp] and otherwise [$N] log([$N]), where [$N] is [`last] - [`first].
+[:zh_CN] 如果范围 [=range[first,last)] 已经根据 [`comp] 有序，则对于 [$N] 为线性
+，否则为 [$N] log([$N])，其中 [$N] 为 [`last] - [`first]。
 [exit:description]
