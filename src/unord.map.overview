@@ -13,8 +13,8 @@ associates values of another type [`mapped_type] with the keys.
 [:zh_CN]
 [%[`unordered_map][!唯一键]]
 [%无序关联容器[!唯一键]]
-[`unordered_map] 是一种关联容器，支持唯一键（[`unordered_map] 中包含每个键值的
-最多一个元素），并将键与另一个类型 [`T] 的值相关联。
+[`unordered_map] 是一种无序关联容器，支持唯一键（[`unordered_map] 中包含每个键值
+的最多一个元素），并将键与另一个类型 [`T] 的值相关联。
 
 [:en] The [`unordered_map] class supports forward iterators.
 [:zh_CN] [`unordered_map] 类支持前向迭代器。
@@ -56,7 +56,7 @@ namespace std {
   {
   public:
     // [:en] types
-    // [|:zh_CN] 类型：
+    // [|:zh_CN] 类型
     typedef Key                                                 key_type;
     typedef std::pair<const Key, T>                             value_type;
     typedef T                                                   mapped_type;
@@ -76,7 +76,7 @@ namespace std {
     typedef implementation-defined                              const_local_iterator;
 
     // [:en] construct/destroy/copy
-    // [|:zh_CN] 构造/销毁/复制：
+    // [|:zh_CN] 构造/销毁/复制
     unordered_map();
     explicit unordered_map(size_type n,
                            const hasher& hf = hasher(),
