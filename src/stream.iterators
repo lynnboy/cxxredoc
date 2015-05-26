@@ -1,10 +1,13 @@
 ﻿[section#stream.iterators
     [:en] Stream iterators
+    [:zh_CN] 流迭代器
 ]
 
 [para]
 [:en] To make it possible for algorithmic templates to work directly with
 input/output streams, appropriate iterator-like class templates are provided.
+[:zh_CN] 为了使算法模板可以直接与输入/输出流一起工作，程序库提供了适当的迭代器式
+的类模板。
 
 [para:~]
 [enter:example]
@@ -16,6 +19,7 @@ partial_sum(istream_iterator<double, char>(cin),
 
 [:en@~] reads a file containing floating point numbers from [`cin], and prints
 the partial sums onto [`cout].
+[:zh_CN@~] 从 [`cin] 中读取包含浮点数字的文件，并将其部分和打印到 [`cout]。
 [exit:example]
 
 [include istream.iterator]
