@@ -1,5 +1,6 @@
 ﻿[section#list.modifiers
     [:en] [`list] modifiers
+    [:zh_CN] [`list] 的改动函数
 ]
 
 [%@library insert[!list]]
@@ -24,16 +25,22 @@ void push_back(T&& x);
 [enter:description]
 [para:notes]
 [:en] Does not affect the validity of iterators and references.
+[:zh_CN] 并不影响迭代器和引用的有效性。
 
 [:en] If an exception is thrown there are no effects.
+[:zh_CN] 如果抛出异常则没有效果。
 
 [para:complexity]
 [:en] Insertion of a single element into a list takes constant time and exactly
 one call to a constructor of [`T].
+[:zh_CN] 向 [`list] 中插入单个元素耗费常量时间，且进行恰好一次 [`T] 的构造函数
+的调用。
 
 [:en] Insertion of multiple elements into a list is linear in the number of
 elements inserted, and the number of calls to the copy constructor or move
 constructor of [`T] is exactly equal to the number of elements inserted.
+[:zh_CN] 向 [`list] 插入多个元素对于所插入的元素数量为线性，而对 [`T] 的复制构造
+函数或移动构造函数的调用次数恰好等于所插入的元素个数。
 [exit:description]
 
 [%@library erase[!list]]
@@ -49,15 +56,20 @@ void clear() noexcept;
 [enter:description]
 [para:effects]
 [:en] Invalidates only the iterators and references to the erased elements.
+[:zh_CN] 仅使指代所清除的元素的迭代器和引用失效。
 
 [para:throws]
 [:en] Nothing.
+[:zh_CN] 无。
 
 [para:complexity]
 [:en] Erasing a single element is a constant time operation with a single call
 to the destructor of [`T].
+[:zh_CN] 清除单个元素为常量时间操作，并进行一次对 [`T] 的析构函数的调用。
 
 [:en] Erasing a range in a list is linear time in the size of the range and the
 number of calls to the destructor of type [`T] is exactly equal to the size of
 the range.
+[:zh_CN] 清除 [`list] 中的一个范围对于该范围的大小为线性，而对 [`T] 类型的析构
+函数的调用次数恰好等于范围的大小。
 [exit:description]
