@@ -1,5 +1,6 @@
 ﻿[section#move.iterator
     [:en] Class template [`move_iterator]
+    [:zh_CN] 类模板 [`move_iteratr]
 ]
 
 [%@library move_iterator]
@@ -72,8 +73,12 @@ namespace std {
 
 [para]
 [:en] Let [$R] be [`iterator_traits<Iterator>::reference].
+[:zh_CN] 令 [$R] 为 [`iterator_traits<Iterator>::reference]。
 
 [:en] If [`is_reference<][$R][`>::value] is [`true], the template specialization
 [`move_iterator<Iterator>] shall define the nested type named [`reference] as a
 synonym for [`remove_reference<][$R][`>::type&&], otherwise as a synonym for
 [$R].
+[:zh_CN] 如果 [`is_reference<][$R][`>::value] 为 [`true]，则模板特例
+[`move_iterator<Iterator>] 应当将名为 [`reference] 的嵌套类型定义为
+[`remove_reference<][$R][`>::type&&] 的同义词，否则就定义为 [$R] 的同义词。
