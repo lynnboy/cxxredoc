@@ -1,5 +1,5 @@
 ﻿[section#insert.iter.op=
-    [:en] [`insert_iterator:operator=]
+    [`insert_iterator:operator=]
 ]
 
 [%@library operator=[!insert_iterator]]
@@ -16,6 +16,7 @@ iter = container->insert(iter, value);
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!insert_iterator]]
@@ -32,4 +33,5 @@ iter = container->insert(iter, std::move(value));
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
