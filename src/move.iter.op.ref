@@ -1,5 +1,5 @@
 ﻿[section#move.iter.op.ref
-    [:en] [`move_iterator::operator->]
+    [`move_iterator::operator->]
 ]
 
 [%@library operator->[!move_iterator]]
@@ -11,4 +11,5 @@ pointer operator->() const;
 [enter:description]
 [para:returns]
 [:en] [`current].
+[:zh_CN] [`current]。
 [exit:description]
