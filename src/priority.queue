@@ -1,5 +1,6 @@
 ﻿[section#priority.queue
     [:en] Class template [`priority_queue]
+    [:zh_CN] 类模板 [`priority_queue]
 ]
 
 [para]
@@ -7,12 +8,17 @@
 [:en] Any sequence container with random access iterator and supporting
 operations [`front()], [`push_back()] and [`pop_back()] can be used to
 instantiate [`priority_queue].
+[:zh_CN] 带有随机访问迭代器并且支持 [`front()]，[`push_back()] 和 [`pop_back()]
+操作的任何序列容器都可以用于实例化 [`priority_queue]。
 
 [:en] In particular, [`vector] ([#vector]) and [`deque] ([#deque]) can be used.
+[:zh_CN] 尤其是，可以使用 [`vector]（[#vector]）和 [`deque]（[#deque]）。
 
 [:en] Instantiating [`priority_queue] also involves supplying a function or
 function object for making priority comparisons; the library assumes that the
 function or function object defines a strict weak ordering ([#alg.sorting]).
+[:zh_CN] [`priority_queue] 的实例化还涉及一个用以比较优先级的函数或函数对象；
+程序库假定这个函数或函数对象定义一种严格弱序（[#alg.sorting]）。
 
 [codeblock:synopsis]
 namespace std {
@@ -59,6 +65,7 @@ namespace std {
   };
 
   // [:en] no equality is provided
+  // [|:zh_CN] 不提供相等性比较
 
   template <class T, class Container, class Compare>
     void swap(priority_queue<T, Container, Compare>& x,
