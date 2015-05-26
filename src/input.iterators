@@ -1,47 +1,65 @@
 ﻿[section#input.iterators
     [:en] Input iterators
+    [:zh_CN] 输入迭代器
 ]
 
 [para]
 [:en] A class or pointer type [`X] satisfies the requirements of an input
-iterator for the value type [`T] if X satisfies the [`Iterator]
+iterator for the value type [`T] if [`X] satisfies the [`Iterator]
 ([#iterator.iterators]) and [`EqualityComparable] (Table [#equalitycomparable])
 requirements and the expressions in Table [#tab:iterator.input.requirements] are
 valid and have the indicated semantics.
+[:zh_CN] 如果类或指针类型 [`X] 符合 [`Iterator]（[#iterator.iterators]）和
+[`EqualityComparable]（表 [#equalitycomparable]）的规定，并且表
+[#tab:iterator.input.requirements] 中的表达式有效且具有所指定的语义，则 [`X]
+符合值类型 [`T] 的输入迭代器的规定。
 
 [para]
 [:en] In Table [#tab:iterator.input.requirements], the term [+the domain of
 [`==]] is used in the ordinary mathematical sense to denote the set of values
 over which [`==] is (required to be) defined.
+[:zh_CN] 在表 [#tab:iterator.input.requirements] 中，术语“[+[`==] 的值域]”以其
+通常的数学意义来代表 [`==] 所（要求被）定义的值的集合。
 
 [:en] This set can change over time.
+[:zh_CN] 这个集合可能随时间变化。
 
 [:en] Each algorithm places additional requirements on the domain of [`==] for
 the iterator values it uses.
+[:zh_CN] 各个算法为其所使用的迭代器值提出其 [`==] 的值域的附加规定。
 
 [:en] These requirements can be inferred from the uses that algorithm makes of
 [`==] and [`!=].
+[:zh_CN] 这些规定可以从其对 [`==] 和 [`!=] 的用法中推导出来。
 
 [enter:example]
 [:en] the call [`find(a,b,x)] is defined only if the value of [`a] has the
 property [$p] defined as follows: [`b] has property [$p] and a value [`i] has
-property [$p] if [`(*i==x)] or if [`(*i!=x] and [`++i] has property [`p]).
+property [$p] if [`(*i==x)] or if ([`*i!=x] and [`++i] has property [`p]).
+[:zh_CN] [`find(a,b,x)] 的调用仅对于具有如下所定义的性质 [$p] 的 [`a] 的值有定义
+：[`b] 具有性质 [$p]，而当 [`(*i==x)] 或者当 [`*i!=x] 且 [`++i] 具有性质 [$p] 时
+值 [`i] 具有性质 [$p]。
 [exit:example]
 
 [table:listing#tab:iterator.input.requirements
     [:en] Input iterator requirements (in addition to Iterator)
+    [:zh_CN] 输入迭代器（除迭代器之外的）规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter@code
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 前/后条件
         ]
     ]
     [border:row@both]
@@ -49,37 +67,62 @@ property [$p] if [`(*i==x)] or if [`(*i!=x] and [`++i] has property [`p]).
 
 [|] a != b
 [|] [:en] contextually convertible to [`bool]
+    [:zh_CN] 可按语境转换为 [`bool]
 [|] !(a == b)
-[|] [:en] pre: [=orange(a,b)] is in the domain of [`==].
+[|] [para:pre]
+    [:en] [=orange(a,b)] is in the domain of [`==].
+    [:zh_CN] [=orange(a,b)] 在 [`==] 的值域中。
 
 [|] *a
 [|] [:en] convertible to [`T]
+    [:zh_CN] 可以转换为 [`T]
 [|]
-[|] [:en] pre: [`a] is dereferenceable. [br]
-    [:en] The expression [br] [`(void)*a, *a] is equivalent to [`*a]. [br]
+[|] [para:pre]
+    [:en] [`a] is dereferenceable.
+    [:zh_CN] [`a] 可解引用。
+
+    [para]
+    [:en] The expression [`(void)*a, *a] is equivalent to [`*a].
+    [:zh_CN] 表达式 [`(void)*a, *a] 等价于 [`*a]。
+
+    [para]
     [:en] If [`a == b] and [=orange(a,b)] is in the domain of [`==] then [`*a]
     is equivalent to [`*b].
+    [:zh_CN] 如果 [`a == b] 并且 [=orange(a,b)] 在 [`==] 的值域中，则 [`*a]
+    等价于 [`*b]。
 
-[|] [:en] a->m
+[|] a->m
 [|]
 [|] (*a).m
 [|] [:en] pre: [`a] is dereferenceable.
+    [:zh_CN]
 
 [|] ++r
 [|] [`X&]
 [|]
-[|] [:en] pre: [`r] is dereferenceable. [br]
-    [:en] post: [`r] is dereferenceable or [`r] is past-the-end. [br]
-    [:en] post: any copies of the previous value of [`r] are no longer required
+[|] [para:pre]
+    [:en] [`r] is dereferenceable.
+    [:zh_CN] [`r] 可解引用。
+
+    [para:post]
+    [:en] [`r] is dereferenceable or [`r] is past-the-end.
+    [:zh_CN] [`r] 可解引用，或者 [`r] 为越过末尾值。
+
+    [para:post]
+    [:en] any copies of the previous value of [`r] are no longer required
     either to be dereferenceable or to be in the domain of [`==].
+    [:zh_CN] 不需要 [`r] 之前的值的任何副本继续可解引用，或仍处于 [`==] 的值域
+    之中。
 
 [|] (void)r++
 [|]
 [|]
 [|] [:en] equivalent to [`(void)++r]
+    [:zh_CN] 等价于 [`(void)++r]
 
 [|] *r++
 [|] [:en] convertible to [`T]
+    [:zh_CN] 可以转换为 [`T]
 [|] [`{ T tmp = *r;] [br] [`++r;] [br] [`return tmp; }]
 [|]
 
@@ -88,18 +131,25 @@ property [$p] if [`(*i==x)] or if [`(*i!=x] and [`++i] has property [`p]).
 [para]
 [enter:note]
 [:en] For input iterators, [`a == b] does not imply [`++a == ++b].
+[:zh_CN] 对于输入迭代器，[`a == b] 并不隐含 [`++a == ++b]。
 
 [:en] (Equality does not guarantee the substitution property or referential
 transparency.)
+[:zh_CN] （其相等性并不保证具有代换性质或者引用透明性。）
 
 [:en] Algorithms on input iterators should never attempt to pass through the
 same iterator twice.
+[:zh_CN] 输入迭代器上的算法最好不要试图两次通过同一个迭代器。
 
 [:en] They should be [+single pass] algorithms.
+[:zh_CN] 它们应该是[+单遍]算法。
 
 [:en] Value type [`T] is not required to be a [`CopyAssignable] type (Table
 [#copyassignable]).
+[:zh_CN] 不要求值类型 [`T] 为 [`CopyAssignable] 类型（表 [#copyassignable]）。
 
 [:en] These algorithms can be used with istreams as the source of the input data
 through the [`istream_iterator] class template.
+[:zh_CN] 这些算法可以通过 [`istream_iterator] 类模板而将 istream 作为其输入数据
+的来源进行使用。
 [exit:note]
