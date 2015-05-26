@@ -1,5 +1,6 @@
 ﻿[section#priqueue.special
     [:en] [`priority_queue] specialized algorithms
+    [:zh_CN] [`priority_queue] 的特化算法
 ]
 
 [%@library swap[!priority_queue]]
@@ -13,4 +14,5 @@ template <class T, class Container, class Compare>
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
