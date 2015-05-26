@@ -1,5 +1,6 @@
 ﻿[section#bidirectional.iterators
     [:en] Bidirectional iterators
+    [:zh_CN] 双向迭代器
 ]
 
 [para]
@@ -7,21 +8,29 @@
 iterator if, in addition to satisfying the requirements for forward iterators,
 the following expressions are valid as shown in Table
 [#tab:iterator.bidirectional.requirements].
+[:zh_CN] 如果除了符合前向迭代器的规定以外，以下表达式如在表
+[#tab:iterator.bidirectional.requirements] 所示为有效的，则类或指针类型 [`X]
+符合双向迭代器的规定。
 
 [table:listing#tab:iterator.bidirectional.requirements
     [:en] Bidirectional iterator requirements (in addition to forward iterator)
+    [:zh_CN] 双向迭代器（除前向迭代器之外的）规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter@code
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 [br] 前/后条件
         ]
     ]
     [border:row@both]
@@ -30,14 +39,29 @@ the following expressions are valid as shown in Table
 [|] --r
 [|] [`X&]
 [|]
-[|] [:en] pre: there exists [`s] such that [`r == ++s]. [br]
-    [:en] post: [`r] is dereferenceable. [br]
-    [:en] [`--(++r) == r]. [br]
-    [:en] [`--r == --s] implies [`r == s]. [br]
+[|] [para:pre]
+    [:en] there exists [`s] such that [`r == ++s].
+    [:zh_CN] 存在 [`s] 使得 [`r == ++s]。
+
+    [para:post]
+    [:en] [`r] is dereferenceable.
+    [:zh_CN] [`r] 可解引用。
+
+    [para]
+    [:en] [`--(++r) == r].
+    [:zh_CN] [`--(++r) == r]。
+
+    [para]
+    [:en] [`--r == --s] implies [`r == s].
+    [:zh_CN] [`--r == --s] 蕴含 [`r == s]。
+
+    [para]
     [:en] [`&r == &--r].
+    [:zh_CN] [`&r == &--r]。
 
 [|] r--
 [|] [:en] convertible to [`const X&]
+    [:zh_CN] 可以转换为 [`const X&]
 [|]
 { X tmp = r; [br]
   --r; [br]
@@ -52,4 +76,5 @@ the following expressions are valid as shown in Table
 [enter:note]
 [:en] Bidirectional iterators allow algorithms to move iterators backward as
 well as forward.
+[:zh_CN] 双向迭代器允许算法向前或者向后移动迭代器。
 [exit:note]
