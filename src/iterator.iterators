@@ -1,47 +1,64 @@
 ﻿[section#iterator.iterators
     [:en] Iterator
+    [:zh_CN] 迭代器
 ]
 
 [para]
 [:en] The [`Iterator] requirements form the basis of the iterator concept
 taxonomy; every iterator satisfies the [`Iterator] requirements.
+[:zh_CN] [`Iterator] 规定是迭代器概念的分类法的基础；每个迭代器都符合
+[`Iterator] 的规定。
 
 [:en] This set of requirements specifies operations for dereferencing and
 incrementing an iterator.
+[:zh_CN] 这组规定指定了对迭代器进行解引用和增量的操作。
 
 [:en] Most algorithms will require additional operations to read
 ([#input.iterators]) or write ([#output.iterators]) values, or to provide a
 richer set of iterator movements ([#forward.iterators],
-[#bidirectional.iterators], [#random.access.iterators]).)
+[#bidirectional.iterators], [#random.access.iterators]).
+[:zh_CN] 大多数算法都需要额外的操作以进行值的读取（[#input.iterators]）或写入
+（[#output.iterators]），或者为迭代器提供一组更丰富的移动（[#forward.iterators]
+，[#bidirectional.iterators]，[#random.access.iterators]）。
 
 [para]
 [:en] A type [`X] satisfies the [`Iterator] requirements if:
+[:zh_CN] 满足一下条件时，称类型 [`X] 符合 [`Iterator] 的规定：
 
 [list]
 [item]
 [:en] [`X] satisfies the [`CopyConstructible], [`CopyAssignable], and
 [`Destructible] requirements ([#utility.arg.requirements]) and lvalues of type
 [`X] are swappable ([#swappable.requirements]), and
+[:zh_CN] [`X] 符合 [`CopyConstructible]，[`CopyAssignable]，和 [`Destructible]
+的规定（[#utility.arg.requirements]），并且类型 [`X] 的左值是可交换的
+（[#swappable.requirements]），并且
 
 [item]
 [:en] the expressions in Table [#tab:iterator.requirements] are valid and have
 the indicated semantics.
+[:zh_CN] 表 [#tab:iterator.requirements] 中的表达式有效并且具有所指定的语义。
 [list:end]
 
 [table:listing#tab:iterator.requirements
     [:en] Iterator requirements
+    [:zh_CN] 迭代器的规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter@code
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note pre-/post-condition
+            [:zh_CN] 断言/注释 前/后条件
         ]
     ]
     [border:row@both]
@@ -50,7 +67,9 @@ the indicated semantics.
 [|] *r
 [|] reference
 [|]
-[|] [:en] pre: [`r] is dereferenceable.
+[|] [para:pre]
+    [:en] [`r] is dereferenceable.
+    [:zh_CN] [`r] 可解引用
 
 [|] ++r
 [|] X&
