@@ -1,5 +1,6 @@
 ﻿[section#map.modifiers
     [:en] [`map] modifiers
+    [:zh_CN] [`map] 的改动函数
 ]
 
 [%@library insert[!map]]
@@ -14,13 +15,17 @@ template <class InputIterator>
 [enter:description]
 [para:effects]
 [:en] The first form is equivalent to [`return emplace(std::forward<P>(x))].
+[:zh_CN] 第一种形式等价于 [`return emplace(std::forward<P>(x))]。
 
 [:en] The second form is equivalent to [`return emplace_hint(position,
 std::forward<P>(x))].
+[:zh_CN] 第二种形式等价于 [`return emplace_hint(position, std::forward<P>(x))]。
 
 [para:remarks]
 [:en] These signatures shall not participate in overload resolution unless
 [`std::is_constructible<value_type, P&&>::value] is [`true].
+[:zh_CN] 除非 [`std::is_constructible<value_type, P&&>::value] 为 [`true]，否则
+这些签名不能参与重载决议。
 [exit:description]
 
 [%@library try_emplace[!map]]
@@ -35,23 +40,33 @@ template <class... Args> iterator try_emplace(const_iterator hint, key_type&& k,
 [enter:description]
 [para:effects]
 [:en] If the key [`k] already exists in the map, there is no effect.
+[:zh_CN] 如果 [`map] 中已经存在键 [`k]，则没有效果。
 
 [:en] Otherwise, inserts an element into the map.
+[:zh_CN] 否则，向 [`map] 中插入一个元素。
 
 [:en] In the first and third forms, the element is constructed from the
 arguments as [`value_type(k, std::forward<Args>(args)...)].
+[:zh_CN] 第一种和第三种形式中，该元素是以其各个形参通过
+[`value_type(k, std::forward<Args>(args)...)] 进行构造的。
 
 [:en] In the second and fourth forms, the element is constructed from the
 arguments as [`value_type(std::move(k), std::forward<Args>(args)...)].
+[:zh_CN] 第二种和第四种形式中，该元素是以其各个形参通过
+[`value_type(std::move(k), std::forward<Args>(args)...)] 进行构造的。
 
 [:en] In the first two overloads, the [`bool] component of the returned pair is
 [`true] if and only if the insertion took place.
+[:zh_CN] 前两个重载中，当且仅当发生了插入，其返回的 [`pair] 的 [`bool] 成分为
+[`true]。
 
 [:en] The returned [`iterator] points to the element of the map whose key is
 equivalent to [`k].
+[:zh_CN] 返回的 [`iterator] 指向具有等价于 [`k] 的键的元素。
 
 [para:complexity]
 [:en] The same as [`emplace] and [`emplace_hint], respectively.
+[:zh_CN] 分别与 [`emplace] 和 [`emplace_hint] 相同。
 [exit:description]
 
 [%@library insert_or_assign[!map]]
@@ -67,23 +82,32 @@ template <class M> iterator insert_or_assign(const_iterator hint, key_type&& k, 
 [para:effects]
 [:en] If the key [`k] does not exist in the map, inserts an element into the
 map.
+[:zh_CN] 如果 [`map] 中不存在键 [`k]，则向 [`map] 中插入一个元素。
 
 [:en] In the first and third forms, the element is constructed from the
 arguments as [`value_type(k, std::forward<Args>(args)...)].
+[:zh_CN] 第一种和第三种形式中，该元素是以其各个形参通过
+[`value_type(k, std::forward<Args>(args)...)] 进行构造的。
 
 [:en] In the second and fourth forms, the element is constructed from the
 arguments as [`value_type(std::move(k), std::forward<Args>(args)...)].
+[:zh_CN] 第二种和第四种形式中，该元素是以其各个形参通过
+[`value_type(std::move(k), std::forward<Args>(args)...)] 进行构造的。
 
 [:en] If the key already exists, [`std::forward<M>(obj)] is assigned to the
 [`mapped_type] corresponding to the key.
+[:zh_CN] 如果这个键已经存在，则以 [`std::forward<M>(obj)] 向对应于该键的
+[`mapped_type] 进行赋值。
 
 [:en] In the first two overloads, the [`bool] component of the returned value is
 [`true] if and only if the insertion took place.
+[:zh_CN] 前两个重载中，当且仅当发生了插入，其返回值的 [`bool] 成分为 [`true]。
 
 [:en] The returned [`iterator] points to the element that was inserted or
 updated.
+[:zh_CN] 返回的 [`iterator] 指向被插入或者被更新的元素。
 
 [para:complexity]
-The same as [`emplace] and [`emplace_hint],
-respectively.
+[:en] The same as [`emplace] and [`emplace_hint], respectively.
+[:zh_CN] 分别与 [`emplace] 和 [`emplace_hint] 相同。
 [exit:description]
