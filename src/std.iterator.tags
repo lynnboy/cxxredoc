@@ -1,5 +1,6 @@
 ﻿[section#std.iterator.tags
     [:en] Standard iterator tags
+    [:zh_CN] 标准迭代器标签
 ]
 
 [para]
@@ -11,17 +12,27 @@
 [:en] It is often desirable for a function template specialization to find out
 what is the most specific category of its iterator argument, so that the
 function can select the most efficient algorithm at compile time.
+[:zh_CN] 函数模板特化式经常需要确定其迭代器实参的最专门的范畴，以便该函数可以
+在编译期选择最高效的算法。
 
 [:en] To facilitate this, the library introduces [+category tag] classes which
 are used as compile time tags for algorithm selection.
+[:zh_CN] 为对此提供支持，程序库引入了[+范畴标签]类，并用作算法选择所需的编译期
+标签。
 
 [:en] They are: [`input_iterator_tag], [`output_iterator_tag],
 [`forward_iterator_tag], [`bidirectional_iterator_tag] and
 [`random_access_iterator_tag].
+[:zh_CN] 它们是：[`input_iterator_tag]，[`output_iterator_tag]，
+[`forward_iterator_tag]，[`bidirectional_iterator_tag] 和
+[`random_access_iterator_tag]。
 
 [:en] For every iterator of type [`Iterator],
 [`iterator_traits<Iterator>::iterator_category] shall be defined to be the most
 specific category tag that describes the iterator[=']s behavior.
+[:zh_CN] 对于每个 [`Iterator] 类型的迭代器，
+[`iterator_traits<Iterator>::iterator_category] 应当被定义为可以描述该迭代器的
+行为的最特定的范畴标签。
 
 [codeblock:synopsis]
 namespace std {
@@ -44,6 +55,8 @@ namespace std {
 [:en] For a program-defined iterator [`BinaryTreeIterator], it could be included
 into the bidirectional iterator category by specializing the [`iterator_traits]
 template:
+[:zh_CN] 对于由程序定义的迭代器 [`BinaryTreeIterator]，它可以通过特化
+[`iterator_traits] 模板使其被包含在双向迭代器范畴之中：
 
 [codeblock:synopsis]
 template<class T> struct iterator_traits<BinaryTreeIterator<T> > {
@@ -57,6 +70,8 @@ template<class T> struct iterator_traits<BinaryTreeIterator<T> > {
 
 [:en] Typically, however, it would be easier to derive [`BinaryTreeIterator<T>]
 from [`iterator<bidirectional_iterator_tag,T,ptrdiff_t,T*,T&>].
+[:zh_CN] 然而，通常令 [`BinaryTreeIterator<T>] 派生于
+[`iterator<bidirectional_iterator_tag,T,ptrdiff_t,T*,T&>] 将更加简单。
 [exit:example]
 
 [para]
@@ -64,6 +79,8 @@ from [`iterator<bidirectional_iterator_tag,T,ptrdiff_t,T*,T&>].
 [:en] If [`evolve()] is well defined for bidirectional iterators, but can be
 implemented more efficiently for random access iterators, then the
 implementation is as follows:
+[:zh_CN] 如果 [`evolve()] 对于双向迭代器具有良好定义，但它可以对随机访问迭代器
+提供更高效的实现，则其实现可以如下：
 
 [codeblock]
 template <class BidirectionalIterator>
@@ -77,12 +94,14 @@ template <class BidirectionalIterator>
 void evolve(BidirectionalIterator first, BidirectionalIterator last,
   bidirectional_iterator_tag) {
   // [:en] more generic, but less efficient algorithm
+  // [|:zh_CN] 更通用，但较为不高效的算法
 }
 
 template <class RandomAccessIterator>
 void evolve(RandomAccessIterator first, RandomAccessIterator last,
   random_access_iterator_tag) {
   // [:en] more efficient, but less generic algorithm
+  // [|:zh_CN] 更高效，但较为不通用的算法
 }
 [codeblock:end]
 [exit:example]
@@ -92,14 +111,18 @@ void evolve(RandomAccessIterator first, RandomAccessIterator last,
 [:en] If a [=Cpp] program wants to define a bidirectional iterator for some data
 structure containing [`double] and such that it works on a large memory model of
 the implementation, it can do so with:
+[:zh_CN] 如果 [=Cpp] 程序想要为某种包含 [`double] 的数据结构定义一种双向迭代器，
+并使其工作在实现提供的大型内存模型上，则可以这样进行：
 
 [codeblock]
 class MyIterator :
   public iterator<bidirectional_iterator_tag, double, long, T*, T&> {
   // [:en] code implementing [`++], etc.
+  // [|:zh_CN] 实现 [`++] 等等的代码
 };
 [codeblock:end]
 
 [para]
 [:en] Then there is no need to specialize the [`iterator_traits] template.
+[:zh_CN] 不需要特化 [`iterator_traits] 模板。
 [exit:example]
