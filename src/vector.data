@@ -1,5 +1,6 @@
 ﻿[section#vector.data
     [:en] [`vector] data
+    [:zh_CN] [`vector] 的数据
 ]
 
 [%@library data[!vector]]
@@ -11,9 +12,12 @@ const T*   data() const noexcept;
 [enter:description]
 [para:returns]
 [:en] A pointer such that [=range[data(),data() + size())] is a valid range.
+[:zh_CN] 一个指针，并使得 [=range[data(),data() + size())] 为有效范围。
 
 [:en] For a non-empty vector, [`data() == &front()].
+[:zh_CN] 对于非空 [`vector]，有 [`data() == &front()]。
 
 [para:complexity]
 [:en] Constant time.
+[:zh_CN] 常量时间
 [exit:description]
