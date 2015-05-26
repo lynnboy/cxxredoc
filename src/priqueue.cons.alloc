@@ -1,10 +1,13 @@
 ﻿[section#priqueue.cons.alloc
     [:en] [`priority_queue] constructors with allocators
+    [:zh_CN] [`priority_queue] 的接受分配器的构造函数
 ]
 
 [para]
 [:en] If [`uses_allocator<container_type, Alloc>::value] is [`false] the
 constructors in this subclause shall not participate in overload resolution.
+[:zh_CN] 当 [`uses_allocator<container_type, Alloc>::value] 为 [`false] 时，本
+子条款中的构造函数不能参与重载决议。
 
 [codeblock:declaration]
 template <class Alloc> explicit priority_queue(const Alloc& a);
@@ -13,6 +16,7 @@ template <class Alloc> explicit priority_queue(const Alloc& a);
 [enter:description]
 [para:effects]
 [:en] Initializes [`c] with [`a] and value-initializes [`comp].
+[:zh_CN] 以 [`a] 初始化 [`c] 并对 [`comp] 值初始化。
 [exit:description]
 
 [codeblock:declaration]
@@ -22,6 +26,7 @@ template <class Alloc> priority_queue(const Compare& compare, const Alloc& a);
 [enter:description]
 [para:effects]
 [:en] Initializes [`c] with [`a] and initializes [`comp] with [`compare].
+[:zh_CN] 以 [`a] 初始化 [`c] 并以 [`compare] 初始化 [`comp]。
 [exit:description]
 
 [codeblock:declaration]
@@ -33,6 +38,8 @@ template <class Alloc>
 [para:effects]
 [:en] Initializes [`c] with [`cont] as the first argument and [`a] as the second
 argument, and initializes [`comp] with [`compare].
+[:zh_CN] 以 [`cont] 为第一个实参而 [`a] 为第二个实参初始化 [`c]，并以 [`compare]
+初始化 [`comp]。
 [exit:description]
 
 [codeblock:declaration]
@@ -44,6 +51,8 @@ template <class Alloc>
 [para:effects]
 [:en] Initializes [`c] with [`std::move(cont)] as the first argument and [`a]
 as the second argument, and initializes [`comp] with [`compare].
+[:zh_CN] 以 [`std::move(cont)] 为第一个实参而 [`a] 为第二个实参初始化 [`c]，并以
+[`compare] 初始化 [`comp]。
 [exit:description]
 
 [codeblock:declaration]
@@ -54,6 +63,8 @@ template <class Alloc> priority_queue(const priority_queue& q, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`q.c] as the first argument and [`a] as the second
 argument, and initializes [`comp] with [`q.comp].
+[:zh_CN] 以 [`q.c] 为第一个实参而 [`a] 为第二个实参初始化 [`c]，并以 [`q.comp]
+初始化 [`comp]。
 [exit:description]
 
 [codeblock:declaration]
@@ -64,4 +75,6 @@ template <class Alloc> priority_queue(priority_queue&& q, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`std::move(q.c)] as the first argument and [`a]
 as the second argument, and initializes [`comp] with [`std::move(q.comp)].
+[:zh_CN] 以 [`std::move(q.c)] 为第一个实参而 [`a] 为第二个实参初始化 [`c]，并以
+[`std::move(q.comp)] 初始化 [`comp]。
 [exit:description]
