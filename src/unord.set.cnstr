@@ -1,5 +1,6 @@
 ﻿[section#unord.set.cnstr
     [:en] [`unordered_set] constructors
+    [:zh_CN] [`unordered_set] 的构造函数
 ]
 
 [%@library unordered_set[!unordered_set]]
@@ -15,14 +16,20 @@ explicit unordered_set(size_type n,
 [para:effects]
 [:en] Constructs an empty [`unordered_set] using the specified hash function,
 key equality function, and allocator, and using at least [`n] buckets.
+[:zh_CN] 构造一个空的 [`unordered_set]，并使用指定的散列函数、键相等性函数和
+分配器，并使用至少 [`n] 个桶。
 
 [:en] For the default constructor, the number of buckets is [%@impldef default
 number of buckets in [`unordered_set]] implementation-defined.
+[:zh_CN] 对于默认构造函数，桶的数量是[%@impldef [`unordered_set] 中的默认桶数]
+由实现定义的。
 
 [:en] [`max_load_factor()] returns 1.0.
+[:zh_CN] [`max_load_factor()] 返回 1.0。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library unordered_set[!unordered_set]]
@@ -44,15 +51,23 @@ unordered_set(initializer_list<value_type> il,
 [para:effects]
 [:en] Constructs an empty [`unordered_set] using the specified hash function,
 key equality function, and allocator, and using at least [`n] buckets.
+[:zh_CN] 构造一个空的 [`unordered_set]，并使用指定的散列函数、键相等性函数和
+分配器，并使用至少 [`n] 个桶。
 
 [:en] If [`n] is not provided, the number of buckets is [%@impldef default
 number of buckets in [`unordered_set]] implementation-defined.
+[:zh_CN] 如果未提供 [`n]，则桶的数量是[%@impldef [`unordered_set] 中的默认桶数]
+由实现定义的。
 
 [:en] Then inserts elements from the range [=range[f,l)] for the first form, or
-from the range  [=range[il.begin(),il.end())] for the second form.
+from the range [=range[il.begin(),il.end())] for the second form.
+[:zh_CN] 然后第一种形式将插入范围 [=range[f,l)] 中的元素，而第二种形式将插入范围
+[=range[il.begin(),il.end())] 中的元素。
 
 [:en] [`max_load_factor()] returns 1.0.
+[:zh_CN] [`max_load_factor()] 返回 1.0。
 
 [para:complexity]
 [:en] Average case linear, worst case quadratic.
+[:zh_CN] 平均情况为线性，最差情况为平方阶。
 [exit:description]
