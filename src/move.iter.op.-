@@ -1,5 +1,5 @@
 ﻿[section#move.iter.op.-
-    [:en] [`move_iterator::operator-]
+    [`move_iterator::operator-]
 ]
 
 [%@library operator-[!move_iterator]]
@@ -11,4 +11,5 @@ move_iterator operator-(difference_type n) const;
 [enter:description]
 [para:returns]
 [:en] [`move_iterator(current - n)].
+[:zh_CN] [`move_iterator(current - n)]。
 [exit:description]
