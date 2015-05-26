@@ -1,5 +1,6 @@
 ﻿[section#unord.multimap.modifiers
     [:en] [`unordered_multimap] modifiers
+    [:zh_CN] [`unordered_multimap] 的改动函数
 ]
 
 [%@library unordered_multimap[!insert]]
@@ -12,10 +13,13 @@ template <class P>
 [enter:description]
 [para:effects]
 [:en] Equivalent to [`return emplace(std::forward<P>(obj))]. 
+[:zh_CN] 等价于 [`return emplace(std::forward<P>(obj))]。
 
 [para:remarks]
 [:en] This signature shall not participate in overload resolution unless
 [`std::is_constructible<value_type, P&&>::value] is [`true].
+[:zh_CN] 除非 [`std::is_constructible<value_type, P&&>::value] 为 [`true]，否则
+这个签名不能参与重载决议。
 [exit:description]
 
 [%@library unordered_multimap[!insert]]
@@ -27,9 +31,12 @@ template <class P>
 
 [enter:description]
 [para:effects]
-[:en] Equivalent to  [`return emplace_hint(hint, std::forward<P>(obj))].
+[:en] Equivalent to [`return emplace_hint(hint, std::forward<P>(obj))].
+[:zh_CN] 等价于 [`return emplace_hint(hint, std::forward<P>(obj))]。
 
 [para:remarks]
 [:en] This signature shall not participate in overload resolution unless
 [`std::is_constructible<value_type, P&&>::value] is [`true].
+[:zh_CN] 除非 [`std::is_constructible<value_type, P&&>::value] 为 [`true]，否则
+这个签名不能参与重载决议。
 [exit:description]
