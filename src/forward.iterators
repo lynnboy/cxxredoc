@@ -1,51 +1,71 @@
 ﻿[section#forward.iterators
     [:en] Forward iterators
+    [:zh_CN] 前向迭代器
 ]
 
 [para]
 [:en] A class or pointer type [`X] satisfies the requirements of a forward
 iterator if
+[:zh_CN] 当符合以下条件时称类或指针类型 [`X] 符合前向迭代器的规定：
 
 [list]
 [item]
 [:en] [`X] satisfies the requirements of an input iterator ([#input.iterators]),
+[:zh_CN] [`X] 符合输入迭代器的规定（[#input.iterators]），
 
 [item]
-[:en] X satisfies the [`DefaultConstructible] requirements
+[:en] [`X] satisfies the [`DefaultConstructible] requirements
 ([#utility.arg.requirements]),
+[:zh_CN] [`X] 符合 [`DefaultConstructible] 的规定（[#utility.arg.requirements]）
+，
 
 [item]
 [:en] if [`X] is a mutable iterator, [`reference] is a reference to [`T]; if
 [`X] is a const iterator, [`reference] is a reference to [`const T],
+[:zh_CN] 如果 [`X] 为可改动迭代器，则 [`reference] 为 [`T] 的引用；如果 [`X] 为
+const 迭代器，则 [`reference] 为 [`const T] 的引用，
 
 [item]
 [:en] the expressions in Table [#tab:iterator.forward.requirements] are valid
 and have the indicated semantics, and
+[:zh_CN] 表 [#tab:iterator.forward.requirements] 中的表达式有效且具有所指定的
+语义，并且
 
 [item]
 [:en] objects of type [`X] offer the multi-pass guarantee, described below.
+[:zh_CN] [`X] 类型的对象提供多遍保证，如下文所述。
 [list:end]
 
 [para]
-[:en] The domain of == for forward iterators is that of iterators over the same
-underlying sequence. However, value-initialized iterators may be compared and
-shall compare equal to other value-initialized iterators of the same type.
+[:en] The domain of [`==] for forward iterators is that of iterators over the
+same underlying sequence.
+[:zh_CN] 前向迭代器的 [`==] 的定义域是同一个底层序列上的迭代器的集合。
+
+[:en] However, value-initialized iterators may be compared and shall compare
+equal to other value-initialized iterators of the same type.
+[:zh_CN] 然而，值初始化的迭代器也可以被比较，并且应当与相同类型的其他值初始化的
+迭代器比较为相等。
 
 [enter:note]
 [:en] value initialized iterators behave as if they refer past the end of the
 same empty sequence
+[:zh_CN] 值初始化的迭代器表现为如同它们代表同一个空序列的越过末尾。
 [exit:note]
 
 [para]
 [:en] Two dereferenceable iterators [`a] and [`b] of type [`X] offer the
 [def multi-pass guarantee] if:
+[:zh_CN] 两个 [`X] 类型的可解引用迭代器 [`a] 和 [`b]，如果符合以下条件则它们提供
+[def 多遍保证]：
 
 [list]
 [item]
 [:en] [`a == b] implies [`++a == ++b] and
+[:zh_CN] [`a == b] 隐含 [`++a == ++b]，并且
 [item]
 [:en] [`X] is a pointer type or the expression [`(void)++X(a), *a] is equivalent
 to the expression [`*a].
+[:zh_CN] [`X] 为指针类型，或者表达式 [`(void)++X(a), *a] 等价于表达式 [`*a]。
 [list:end]
 
 [para]
@@ -55,22 +75,30 @@ for input and output iterators) and the removal of the restrictions on the
 number of the assignments through a mutable iterator (which applies to output
 iterators) allows the use of multi-pass one-directional algorithms with forward
 iterators.
+[:zh_CN] 有关 [`a == b] 隐含 [`++a == ++b] 的规定（对于输入和输出迭代器没有此
+规定），以及移除对于通过可改动迭代器（这适用于输出迭代器）进行赋值的次数的限制，
+使得多遍单向算法可以与前向迭代器一起使用。
 [exit:note]
 
 [table:listing#tab:iterator.forward.requirements
     [:en] Forward iterator requirements (in addition to input iterator)
+    [:zh_CN] 前向迭代器（除输入迭代器外的）规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter@code
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 [br] 前/后条件
         ]
     ]
     [border:row@both]
@@ -78,6 +106,7 @@ iterators.
 
 [|] r++
 [|] [:en] convertible to [`const X&]
+    [:zh_CN] 可以转换为 [`const X&]
 [|]
 { X tmp = r; [br]
   ++r; [br]
@@ -92,7 +121,11 @@ iterators.
 [para]
 [:en] If [`a] and [`b] are equal, then either [`a] and [`b] are both
 dereferenceable or else neither is dereferenceable.
+[:zh_CN] 如果 [`a] 和 [`b] 相等，则要么 [`a] 和 [`b] 均可解引用，要么均不可
+解引用。
 
 [para]
 [:en] If [`a] and [`b] are both dereferenceable, then [`a == b] if and only if
 [`*a] and [`*b] are bound to the same object.
+[:zh_CN] 如果 [`a] 和 [`b] 均可解引用，则当且仅当 [`*a] 和 [`*b] 绑定到同一个
+对象时有 [`a == b]。

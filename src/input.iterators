@@ -18,7 +18,7 @@ valid and have the indicated semantics.
 [:en] In Table [#tab:iterator.input.requirements], the term [+the domain of
 [`==]] is used in the ordinary mathematical sense to denote the set of values
 over which [`==] is (required to be) defined.
-[:zh_CN] 在表 [#tab:iterator.input.requirements] 中，术语“[+[`==] 的值域]”以其
+[:zh_CN] 在表 [#tab:iterator.input.requirements] 中，术语“[+[`==] 的定义域]”以其
 通常的数学意义来代表 [`==] 所（要求被）定义的值的集合。
 
 [:en] This set can change over time.
@@ -26,7 +26,7 @@ over which [`==] is (required to be) defined.
 
 [:en] Each algorithm places additional requirements on the domain of [`==] for
 the iterator values it uses.
-[:zh_CN] 各个算法为其所使用的迭代器值提出其 [`==] 的值域的附加规定。
+[:zh_CN] 各个算法为其所使用的迭代器值提出其 [`==] 的定义域的附加规定。
 
 [:en] These requirements can be inferred from the uses that algorithm makes of
 [`==] and [`!=].
@@ -71,7 +71,7 @@ property [$p] if [`(*i==x)] or if ([`*i!=x] and [`++i] has property [`p]).
 [|] !(a == b)
 [|] [para:pre]
     [:en] [=orange(a,b)] is in the domain of [`==].
-    [:zh_CN] [=orange(a,b)] 在 [`==] 的值域中。
+    [:zh_CN] [=orange(a,b)] 在 [`==] 的定义域中。
 
 [|] *a
 [|] [:en] convertible to [`T]
@@ -88,7 +88,7 @@ property [$p] if [`(*i==x)] or if ([`*i!=x] and [`++i] has property [`p]).
     [para]
     [:en] If [`a == b] and [=orange(a,b)] is in the domain of [`==] then [`*a]
     is equivalent to [`*b].
-    [:zh_CN] 如果 [`a == b] 并且 [=orange(a,b)] 在 [`==] 的值域中，则 [`*a]
+    [:zh_CN] 如果 [`a == b] 并且 [=orange(a,b)] 在 [`==] 的定义域中，则 [`*a]
     等价于 [`*b]。
 
 [|] a->m
@@ -111,7 +111,7 @@ property [$p] if [`(*i==x)] or if ([`*i!=x] and [`++i] has property [`p]).
     [para:post]
     [:en] any copies of the previous value of [`r] are no longer required
     either to be dereferenceable or to be in the domain of [`==].
-    [:zh_CN] 不需要 [`r] 之前的值的任何副本继续可解引用，或仍处于 [`==] 的值域
+    [:zh_CN] 不需要 [`r] 之前的值的任何副本继续可解引用，或仍处于 [`==] 的定义域
     之中。
 
 [|] (void)r++
