@@ -1,10 +1,12 @@
 ﻿[section#iterator.basic
     [:en] Basic iterator
+    [:zh_CN] 基本迭代器
 ]
 
 [para]
 [:en] The [`iterator] template may be used as a base class to ease the
 definition of required types for new iterators.
+[:zh_CN] [`iterator] 模板可以用作基类以简化为新的迭代器类型的所需类型的定义。
 
 [codeblock:synopsis]
 namespace std {
