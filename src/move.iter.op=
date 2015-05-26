@@ -1,5 +1,5 @@
 ﻿[section#move.iter.op=
-    [:en] [`move_iterator::operator=]
+    [`move_iterator::operator=]
 ]
 
 [%@library operator=[!move_iterator]]
@@ -11,7 +11,9 @@ template <class U> move_iterator& operator=(const move_iterator<U>& u);
 [enter:description]
 [para:effects]
 [:en] Assigns [`u.base()] to [`current].
+[:zh_CN] 将 [`u.base()] 赋值给 [`current]。
 
 [para:requires]
 [:en] [`U] shall be convertible to [`Iterator].
+[:zh_CN] [`U] 应当可以转换为 [`Iterator]。
 [exit:description]
