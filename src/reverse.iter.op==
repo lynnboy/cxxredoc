@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.op==
-    [:en] [`operator==]
+    [`operator==]
 ]
 
 [%@library operator==[!reverse_iterator]]
@@ -13,4 +13,5 @@ template <class Iterator1, class Iterator2>
 [enter:description]
 [para:returns]
 [:en] [`x.current == y.current].
+[:zh_CN] [`x.current == y.current]。
 [exit:description]
