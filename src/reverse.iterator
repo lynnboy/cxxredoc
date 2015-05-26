@@ -1,5 +1,6 @@
 ﻿[section#reverse.iterator
     [:en] Class template [`reverse_iterator]
+    [:zh_CN] 类模板 [`reverse_iterator]
 ]
 
 [%@library reverse_iterator]
@@ -24,6 +25,7 @@ namespace std {
     template <class U> reverse_iterator& operator=(const reverse_iterator<U>& u);
 
     Iterator base() const;      // [:en] explicit
+                                // [|:zh_CN] 明确的
     reference operator*() const;
     pointer   operator->() const;
 
