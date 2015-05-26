@@ -1,11 +1,13 @@
 ﻿[section#iterator.synopsis
-    [:en] Header [<iterator>] synopsis
+    [:en] Header [`<iterator>] synopsis
+    [:zh_CN] 头文件 [`<iterator>] 纲要
 ]
 
 [%@library <iterator> [sortas iterator]]
 [codeblock:synopsis]
 namespace std {
   // [:en] [#iterator.primitives], primitives:
+  // [|:zh_CN] [#iterator.primitives]，原语：
   template<class Iterator> struct iterator_traits;
   template<class T> struct iterator_traits<T*>;
 
@@ -19,6 +21,7 @@ namespace std {
   struct random_access_iterator_tag: public bidirectional_iterator_tag { };
 
   // [:en] [#iterator.operations], iterator operations:
+  // [|:zh_CN] [#iterator.operations]，迭代器的操作：
   template <class InputIterator, class Distance>
     void advance(InputIterator& i, Distance n);
   template <class InputIterator>
@@ -32,6 +35,7 @@ namespace std {
       typename std::iterator_traits<BidirectionalIterator>::difference_type n = 1);
 
   // [:en] [#predef.iterators], predefined iterators:
+  // [|:zh_CN] [#predef.iterators]，预定义迭代器：
   template <class Iterator> class reverse_iterator;
 
   template <class Iterator1, class Iterator2>
@@ -115,6 +119,7 @@ namespace std {
     move_iterator<Iterator> make_move_iterator(Iterator i);
 
   // [:en] [#stream.iterators], stream iterators:
+  // [|:zh_CN] [#stream.iterators]，流迭代器：
   template <class T, class charT = char, class traits = char_traits<charT>,
       class Distance = ptrdiff_t>
   class istream_iterator;
@@ -141,6 +146,7 @@ namespace std {
     class ostreambuf_iterator;
 
   // [:en] [#iterator.range], range access:
+  // [|:zh_CN] [#iterator.range]，范围访问：
   template <class C> auto begin(C& c) -> decltype(c.begin());
   template <class C> auto begin(const C& c) -> decltype(c.begin());
   template <class C> auto end(C& c) -> decltype(c.end());
@@ -163,6 +169,7 @@ namespace std {
   template <class C> auto crend(const C& c) -> decltype(std::rend(c));
 
   // [:en] [#iterator.container], container access:
+  // [|:zh_CN] [#iterator.container]，容器访问：
   template <class C> constexpr auto size(const C& c) -> decltype(c.size());
   template <class T, size_t N> constexpr size_t size(const T (&array)[N]) noexcept;
   template <class C> constexpr auto empty(const C& c) -> decltype(c.empty());
