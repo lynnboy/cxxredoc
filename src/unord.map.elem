@@ -1,10 +1,12 @@
 ﻿[section#unord.map.elem
     [:en] [`unordered_map] element access
+    [:zh_CN] [`unordered_map] 的元素访问
 ]
 
 [%@library unordered_map[!operator'[']]]
 [%@library operator'['][!unordered_map]]
-[%[`unordered_map][!element access]]
+[%[:en] [`unordered_map][!element access]
+  [:zh_CN] [`unordered_map][!元素访问] ]
 [codeblock:declaration]
 mapped_type& operator[](const key_type& k);
 mapped_type& operator[](key_type&& k);
@@ -13,29 +15,39 @@ mapped_type& operator[](key_type&& k);
 [enter:description]
 [para:requires]
 [:en] [`mapped_type] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`mapped_type] 应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [:en] For the first operator, [`key_type] shall be [`CopyInsertable] into
 [`*this].
+[:zh_CN] 对于第一种运算符，[`key_type] 应当为向 [`*this] 中 [`CopyInsertable]。
 
 [:en] For the second operator, [`key_type] shall be [`MoveConstructible].
+[:zh_CN] 对于第二种运算符，[`key_type] 应当为 [`*MoveConstructible]。
 
 [para:effects]
 [:en] If the [`unordered_map] does not already contain an element whose key is
 equivalent to [`[$k]], the first operator inserts the value [`value_type(k,
 mapped_type())] and the second operator inserts the value
 [`value_type(std::move(k), mapped_type())].
+[:zh_CN] 如果 [`unordered_map] 并非已经包含具有等价于 [`[$k]] 的键的元素，则第一
+种运算符插入值 [`value_type(k, mapped_type())]，而第二种运算符插入值
+[`value_type(std::move(k), mapped_type())]。
 
 [para:returns]
 [:en] A reference to [`x.second], where [`x] is the (unique) element whose key
 is equivalent to [`[$k]].
+[:zh_CN] 指代 [`x.second] 的引用，其中 [`x] 为具有等价于 [`[$k]] 的键的（唯一）
+元素。
 
 [para:complexity]
 [:en] Average case [$[=bigoh](1)], worst case [$[=bigoh]([`size()])].
+[:zh_CN] 平均情况为 [$[=bigoh](1)]，最差情况为 [$[=bigoh]([`size()])]。
 [exit:description]
 
 [%@library unordered_map][!at]]
 [%@library at[!unordered_map]]
-[%[`unordered_map][!element access]]
+[%[:en] [`unordered_map][!element access]
+  [:zh_CN] [`unordered_map][!元素访问] ]
 [codeblock:declaration]
 mapped_type& at(const key_type& k);
 const mapped_type& at(const key_type& k) const;
@@ -45,7 +57,10 @@ const mapped_type& at(const key_type& k) const;
 [para:returns]
 [:en] A reference to [`x.second], where [`x] is the (unique) element whose key
 is equivalent to [`k].
+[:zh_CN] 指代 [`x.second] 的引用，其中 [`x] 为具有等价于 [`k] 的键的（唯一）
+元素。
 
 [para:throws]
 [:en] An exception object of type [`out_of_range] if no such element is present.
+[:zh_CN] 如果不存在这种元素则抛出 [`out_of_range] 类型的异常对象。
 [exit:description]
