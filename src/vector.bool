@@ -1,22 +1,29 @@
 ﻿[section#vector.bool
     [:en] Class [`vector<bool>]
+    [:zh_CN] 类 [`vector<bool>]
 ]
 
 [para]
 [%@library vector<bool>]
 [:en] To optimize space allocation, a specialization of vector for [`bool]
 elements is provided:
+[:zh_CN] 为优化空间分配，提供了针对 [`bool] 元素的 [`vector] 的特化：
 
 [codeblock:synopsis [special implementation-defined] ]
 namespace std {
   template <class Allocator> class vector<bool, Allocator> {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef bool                                  const_reference;
     typedef implementation-defined                iterator;       // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                const_iterator; // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                size_type;      // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                difference_type;// [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef bool                                  value_type;
     typedef Allocator                             allocator_type;
     typedef implementation-defined                pointer;
@@ -25,6 +32,7 @@ namespace std {
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
     // [:en] bit reference:
+    // [|:zh_CN] 位的引用：
     class reference {
       friend class vector;
       reference() noexcept;
@@ -34,9 +42,11 @@ namespace std {
       reference& operator=(const bool x) noexcept;
       reference& operator=(const reference& x) noexcept;
       void flip() noexcept;     // [:en] flips the bit
+                                // [|:zh_CN] 翻转位
     };
 
     // [:en] construct/copy/destroy:
+    // [|:zh_CN] 构造/复制/销毁：
     vector() : vector(Allocator()) { }
     explicit vector(const Allocator&);
     explicit vector(size_type n, const Allocator& = Allocator());
@@ -61,6 +71,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] iterators:
+    // [|:zh_CN] 迭代器：
     iterator               begin() noexcept;
     const_iterator         begin() const noexcept;
     iterator               end() noexcept;
@@ -76,6 +87,7 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] capacity:
+    // [|:zh_CN] 容量：
     bool      empty() const noexcept;
     size_type size() const noexcept;
     size_type max_size() const noexcept;
@@ -85,6 +97,7 @@ namespace std {
     void      shrink_to_fit();
 
     // [:en] element access:
+    // [|:zh_CN] 元素访问：
     reference       operator[](size_type n);
     const_reference operator[](size_type n) const;
     const_reference at(size_type n) const;
@@ -95,6 +108,7 @@ namespace std {
     const_reference back() const;
 
     // [:en] modifiers:
+    // [|:zh_CN] 修改函数：
     template <class... Args> void emplace_back(Args&&... args);
     void push_back(const bool& x);
     void pop_back();
@@ -111,6 +125,7 @@ namespace std {
     void swap(vector<bool, Allocator>&);
     static void swap(reference x, reference y) noexcept;
     void flip() noexcept;       // [:en] flips all bits
+                                // [|:zh_CN] 翻转全部的位
     void clear() noexcept;
   };
 }
@@ -122,24 +137,34 @@ semantics as the primary [`vector] template, except that operations dealing with
 the [`bool] value type map to bit values in the container storage and
 [`allocator_traits::construct] ([#allocator.traits.members]) is not used to
 construct these values.
+[:zh_CN] 出非在下文中进行说明，其所有操作均与主 [`vector] 模板具有相同的规定和
+语义，但是处理 [`bool] 值的操作被映射到容器存储中的位值，并且不使用
+[`allocator_traits::construct]（[#allocator.traits.members]）来构造这些值。
 
 [para]
 [:en] There is no requirement that the data be stored as a contiguous allocation
 of [`bool] values.
+[:zh_CN] 对于数据被存储为连续分配的 [`bool] 值是没有规定的。
 
 [:en] A space-optimized representation of bits is recommended instead.
+[:zh_CN] 改为推荐采用一种空间优化的位表示。
 
 [para]
 [:en] [`reference] is a class that simulates the behavior of references of a
-single bit in [`vector<bool>].
+single bit in [`veictor<bool>].
+[:zh_CN] [`reference] 是一种模拟指代 [`veictor<bool>] 中的单个位的行为的类。
 
 [:en] The conversion operator returns [`true] when the bit is set, and [`false]
 otherwise.
+[:zh_CN] 当位被设置时其转换运算符返回 [`true]，否则返回 [`false]。
 
 [:en] The assignment operator sets the bit when the argument is (convertible to)
 [`true] and clears it otherwise.
+[:zh_CN] 当赋值运算符的实参（可以转换）为 [`true] 时将对位进行置位，否则就将其
+清除。
 
 [:en] [`flip] reverses the state of the bit.
+[:zh_CN] [`flip] 翻转位的状态。
 
 [%@library flip[!vector<bool>]]
 [%@library vector<bool>[!flip]]
@@ -150,6 +175,7 @@ void flip() noexcept;
 [enter:description]
 [para:effects]
 [:en] Replaces each element in the container with its complement.
+[:zh_CN] 将容器中的每个元素替换为各自的补。
 [exit:description]
 
 [%@library swap[!vector<bool>]]
@@ -161,6 +187,7 @@ static void swap(reference x, reference y) noexcept;
 [enter:description]
 [para:effects]
 [:en] exchanges the contents of [`x] and [`y] as if by
+[:zh_CN] 交换 [`x] 和 [`y] 的内容，如同
 
 [codeblock:notation]
 bool b = x;
@@ -177,4 +204,5 @@ template <class Allocator> struct hash<vector<bool, Allocator> >;
 [para]
 [:en] The template specialization shall meet the requirements of class template
 [`hash] ([#unord.hash]).
+[:zh_CN] 该模板特化式应当符合类模板 [`hash] 的规定（[#unord.hash]）。
 [exit:description]
