@@ -1,5 +1,6 @@
 ﻿[section#unord.set.overview
     [:en] Class template [`unordered_set] overview
+    [:zh_CN] 类模板 [`unordered_set] 概要
 ]
 
 [para]
@@ -9,29 +10,44 @@
 An [`unordered_set] is an unordered associative container that supports unique
 keys (an [`unordered_set] contains at most one of each key value) and in which
 the elements[='] keys are the elements themselves.
+[:zh_CN]
+[%[`unordered_set][!唯一键]]
+[%无序关联容器[!唯一键]]
+[`unordered_set] 是一种无序关联容器，支持唯一键（[`unordered_set] 中包含每个键值
+的最多一个元素），且其中元素的键就是元素自身。
 
 [:en] The [`unordered_set] class supports forward iterators.
+[:zh_CN] [`unordered_set] 类支持前向迭代器。
 
 [para]
 [:en] An [`unordered_set] satisfies all of the requirements of a container, of
 an unordered associative container, and of an allocator-aware container (Table
 [#tab:containers.allocatoraware]).
+[:zh_CN] [`unordered_set] 符合容器的所有规定，无序关联容器的所有规定，以及
+分配器感知容器的所有规定（表 [#tab:containers.allocatoraware]）。
 
 [:en] It provides the operations described in the preceding requirements table
 for unique keys; that is, an [`unordered_set] supports the [`a_uniq] operations
 in that table, not the [`a_eq] operations.
+[:zh_CN] 它提供以上规定表格中对于唯一键的操作；就是说，[`unordered_set] 支持
+表格中的 [`a_uniq] 的操作，但不支持 [`a_eq] 的操作。
 
 [:en] For an [`unordered_set<Key>] the [`key type] and the value type are both
 [`Key].
+[:zh_CN] [`unordered_set<Key>] 的 [`key_type] 和其值类型均为 [`Key]。
 
 [:en] The [`iterator] and [`const_iterator] types are both const iterator types.
+[:zh_CN] 其 [`iterator] 和 [`const_iterator] 类型均为 const 迭代器类型。
 
 [:en] It is unspecified whether they are the same type.
+[:zh_CN] 它们是否是相同类型是未指明的。
 
 [para]
 [:en] This section only describes operations on [`unordered_set] that are not
 described in one of the requirement tables, or for which there is additional
 semantic information.
+[:zh_CN] 本节中仅说明未被这些表格之一所描述的 [`unordered_set] 的操作，以及具有
+额外的语义信息的操作。
 
 [%@library unordered_set]
 [codeblock:synopsis [special implementation-defined] ]
@@ -44,6 +60,7 @@ namespace std {
   {
   public:
     // [:en] types
+    // [|:zh_CN] 类型
     typedef Key                                                 key_type;
     typedef Key                                                 value_type;
     typedef Hash                                                hasher;
@@ -62,6 +79,7 @@ namespace std {
     typedef implementation-defined                              const_local_iterator;
 
     // [:en] construct/destroy/copy
+    // [|:zh_CN] 构造/销毁/复制
     unordered_set();
     explicit unordered_set(size_type n,
                            const hasher& hf = hasher(),
@@ -109,6 +127,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] iterators
+    // [|:zh_CN] 迭代器
     iterator       begin() noexcept;
     const_iterator begin() const noexcept;
     iterator       end() noexcept;
@@ -117,11 +136,13 @@ namespace std {
     const_iterator cend() const noexcept;
 
     // [:en] size and capacity
+    // [|:zh_CN] 大小与容量
     bool      empty() const noexcept;
     size_type size() const noexcept;
     size_type max_size() const noexcept;
 
     // [:en] modifiers
+    // [|:zh_CN] 改动函数
     template <class... Args> pair<iterator, bool> emplace(Args&&... args);
     template <class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
     pair<iterator, bool> insert(const value_type& obj);
@@ -141,10 +162,12 @@ namespace std {
     void      clear() noexcept;
 
     // [:en] observers
+    // [|:zh_CN] 探察函数
     hasher hash_function() const;
     key_equal key_eq() const;
 
     // [:en] lookup
+    // [|:zh_CN] 查找
     iterator       find(const key_type& k);
     const_iterator find(const key_type& k) const;
     size_type      count(const key_type& k) const;
@@ -152,6 +175,7 @@ namespace std {
     std::pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
 
     // [:en] bucket interface
+    // [|:zh_CN] 桶的接口
     size_type bucket_count() const noexcept;
     size_type max_bucket_count() const noexcept;
     size_type bucket_size(size_type n) const;
@@ -164,6 +188,7 @@ namespace std {
     const_local_iterator cend(size_type n) const;
 
     // [:en] hash policy
+    // [|:zh_CN] 散列策略
     float load_factor() const noexcept;
     float max_load_factor() const noexcept;
     void max_load_factor(float z);
