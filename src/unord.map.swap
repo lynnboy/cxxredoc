@@ -1,5 +1,6 @@
 ﻿[section#unord.map.swap
     [:en] [`unordered_map] swap
+    [:zh_CN] [`unordered_map] 的交换
 ]
 
 [%@library unordered_map[!swap]]
@@ -14,4 +15,5 @@ template <class Key, class T, class Hash, class Pred, class Alloc>
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
