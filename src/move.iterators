@@ -1,5 +1,6 @@
 ﻿[section#move.iterators
     [:en] Move iterators
+    [:zh_CN] 移动迭代器
 ]
 
 [para]
@@ -7,9 +8,12 @@
 behavior as the underlying iterator except that its indirection operator
 implicitly converts the value returned by the underlying iterator[=']s
 indirection operator to an rvalue.
+[:zh_CN] 类模板 [`move_iterator] 是与其底层迭代器具有相同行为的迭代器，但其间接
+运算符将其底层迭代器的间接迭代器的返回值隐式地转换为右值。
 
 [:en] Some generic algorithms can be called with move iterators to replace
 copying with moving.
+[:zh_CN] 某些通用算法可以用移动迭代器进行调用以将复制替换为移动。
 
 [para]
 [enter:example]
@@ -17,9 +21,12 @@ copying with moving.
 [codeblock]
 list<string> s;
 // [:en] populate the list [`s]
+// [|:zh_CN] 产生列表 [`s]
 vector<string> v1(s.begin(), s.end());          // [:en] copies strings into [`v1]
+                                                // [|:zh_CN] 将字符串复制到 [`v1] 中
 vector<string> v2(make_move_iterator(s.begin()),
                   make_move_iterator(s.end())); // [:en] moves strings into [`v2]
+                                                // [|:zh_CN] 将字符串移动到 [`v2] 中
 [codeblock:end]
 
 [exit:example]
