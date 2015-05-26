@@ -1,5 +1,5 @@
 ﻿[section#insert.iter.op*
-    [:en] [`insert_iterator::operator*]
+    [`insert_iterator::operator*]
 ]
 
 [%@library operator*[!insert_iterator]]
@@ -10,4 +10,5 @@ insert_iterator& operator*();
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
