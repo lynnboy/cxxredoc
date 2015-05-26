@@ -1,5 +1,6 @@
 ﻿[section#unord.set.swap
     [:en] [`unordered_set] swap
+    [:zh_CN] [`unordered_set] 的交换
 ]
 
 [%@library unordered_set[!swap]]
@@ -14,4 +15,5 @@ template <class Key, class Hash, class Pred, class Alloc>
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
