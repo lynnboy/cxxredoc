@@ -1,5 +1,6 @@
 ﻿[section#multimap.modifiers
     [:en] [`multimap] modifiers
+    [:zh_CN] [`multimap] 的改动函数
 ]
 
 [%@library insert[!multimap]]
@@ -12,11 +13,15 @@ template <class P> iterator insert(const_iterator position, P&& x);
 [enter:description]
 [para:effects]
 [:en] The first form is equivalent to  [`return emplace(std::forward<P>(x))].
+[:zh_CN] 第一种形式等价于 [`return emplace(std::forward<P>(x))]。
 
 [:en] The second form is equivalent to [`return emplace_hint(position,
 std::forward<P>(x))].
+[:zh_CN] 第二种形式等价于 [`return emplace_hint(position, std::forward<P>(x))]。
 
 [para:remarks]
 [:en] These signatures shall not participate in overload resolution unless
 [`std::is_constructible<value_type, P&&>::value] is [`true].
+[:zh_CN] 除非 [`std::is_constructible<value_type, P&&>::value] 为 [`true]，否则
+这些签名不能参与重载决议。
 [exit:description]
