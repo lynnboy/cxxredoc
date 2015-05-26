@@ -1,5 +1,6 @@
 ﻿[section#list.capacity
     [:en] [`list] capacity
+    [:zh_CN] [`list] 的容量
 ]
 
 [%@library resize[!list]]
@@ -11,8 +12,10 @@ void resize(size_type sz);
 [para:effects]
 [:en] If [`size() < sz], appends [`sz - size()] default-inserted elements to the
 sequence.
+[:zh_CN] 如果 [`size() < sz]，则向序列追加 [`sz - size()] 个默认插入的元素。
 
 [:en] If [`sz <= size()], equivalent to
+[:zh_CN] 如果 [`sz <= size()]，则等价于
 
 [codeblock:notation]
 list<T>::iterator it = begin();
@@ -22,6 +25,7 @@ erase(it, end());
 
 [para:requires]
 [:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`DefaultInsertable]。
 [exit:description]
 
 [%@library resize[!list]]
@@ -41,8 +45,10 @@ else if (sz < size()) {
 }
 else
   ;                 // [:en] do nothing
+                    // [|:zh_CN] 无操作
 [codeblock:end]
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 [exit:description]
