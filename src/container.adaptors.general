@@ -1,24 +1,35 @@
 ﻿[section#container.adaptors.general
     [:en] In general
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en] The headers [`<queue>] and [`<stack>] define the container adaptors
 [`queue], [`priority_queue], and [`stack].
+[:zh_CN] 头文件 [`<queue>] 和 [`<stack>] 定义了容器适配器 [`queue]，
+[`priority_queue]，和 [`stack]。
 
 [para]
 [:en] The container adaptors each take a [`Container] template parameter, and
 each constructor takes a [`Container] reference argument.
+[:zh_CN] 每个容器适配器均接受一个 [`Container] 模板形参，并且每个构造函数均接受
+一个 [`Container] 引用实参。
 
 [:en] This container is copied into the [`Container] member of each adaptor.
+[:zh_CN] 这个容器被复制到各个适配器的 [`Container] 成员中。
 
 [:en] If the container takes an allocator, then a compatible allocator may be
 passed in to the adaptor[=']s constructor.
+[:zh_CN] 如果这个容器带有一个分配器，则可以向适配器的构造函数传递一个与之兼容的
+分配器。
 
 [:en] Otherwise, normal copy or move construction is used for the container
 argument.
+[:zh_CN] 否则，对这个容器实参进行常规的复制或移动构造。
 
 [para]
 [:en] For container adaptors, no [`swap] function throws an exception unless
 that exception is thrown by the swap of the adaptor[=']s [`Container] or
 [`Compare] object (if any).
+[:zh_CN] 对于容器适配器，[`swap] 函数都不抛出异常，除非这个异常是由该适配器的
+[`Container] 或 [`Compare] 对象（如果有）的交换所抛出的。
