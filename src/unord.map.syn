@@ -1,5 +1,6 @@
 ﻿[section#unord.map.syn
     [:en] Header [`<unordered_map>] synopsis
+    [:zh_CN] 头文件 [`<unordered_map>] 纲要
 ]
 
 [%@library <unordered_map> [sortas unordered_map]]
@@ -10,6 +11,7 @@
 
 namespace std {
   // [:en] [#unord.map], class template unordered_map:
+  // [|:zh_CN] [#unord.map]，类模板 unordered_map：
   template <class Key,
             class T,
             class Hash = hash<Key>,
@@ -18,6 +20,7 @@ namespace std {
     class unordered_map;
 
   // [:en] [#unord.multimap], class template unordered_multimap:
+  // [|:zh_CN] [#unord.multimap]，类模板 unordered_multimap
   template <class Key,
             class T,
             class Hash = hash<Key>,
