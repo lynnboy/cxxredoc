@@ -1,5 +1,6 @@
 ﻿[section#multiset.cons
     [:en] [`multiset] constructors
+    [:zh_CN] [`multiset] 的构造函数
 ]
 
 [%@library multiset[!multiset]]
@@ -11,9 +12,11 @@ explicit multiset(const Compare& comp, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs an empty set using the specified comparison object and
 allocator.
+[:zh_CN] 构造一个空的 [`multiset]，并使用指定的比较对象和分配器。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library multiset[!multiset]]
@@ -27,12 +30,18 @@ template <class InputIterator>
 [para:requires]
 [:en] If the iterator[=']s indirection operator returns an lvalue or a const
 rvalue, then [`Key] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] 如果迭代器的间接运算符返回了左值或者 const 右值，则 [`Key] 应当为向
+[`*this] 中 [`CopyInsertable]。
 
 [para:effects]
 [:en] Constructs an empty [`multiset] using the specified comparison object and
 allocator, and inserts elements from the range [=range[first,last)].
+[:zh_CN] 构造一个空的 [`multiset]，并使用指定的比较对象和分配器，并将范围
+[=range[first,last)] 中的元素插入其中。
 
 [para:complexity]
 [:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
 [`comp] and otherwise [$N] log([$N]), where [$N] is [`last - first].
+[:zh_CN] 如果范围 [=range[first,last)] 已经根据 [`comp] 有序，则对于 [$N] 为线性
+，否则为 [$N] log([$N])，其中 [$N] 为 [`last - first]。
 [exit:description]
