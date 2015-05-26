@@ -1,5 +1,6 @@
 ﻿[section#list.cons
     [:en] [`list] constructors, copy, and assignment
+    [:zh_CN] [`list] 的构造函数、复制与赋值
 ]
 
 [%@library list[!list]]
@@ -10,9 +11,11 @@ explicit list(const Allocator&);
 [enter:description]
 [para:effects]
 [:en] Constructs an empty list, using the specified allocator.
+[:zh_CN] 构造一个空的 [`list]，并使用所指定的分配器。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library list[!list]]
@@ -24,12 +27,15 @@ explicit list(size_type n, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs a [`list] with [`n] default-inserted elements using the
 specified allocator.
+[:zh_CN] 构造一个具有 [`n] 个默认插入的元素的 [`list]，并使用所指定的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library list[!list]]
@@ -41,12 +47,15 @@ list(size_type n, const T& value, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs a [`list] with [`n] copies of [`value], using the specified
 allocator.
+[:zh_CN] 构造一个具有 [`n] 个 [`value] 的副本的 [`list]，并使用所指定的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library list[!list]]
@@ -58,7 +67,10 @@ template <class InputIterator>
 [enter:description]
 [para:effects]
 [:en] Constructs a [`list] equal to the range [=range[first,last)].
+[:zh_CN] 构造一个等于范围 [=range[first,last)] 的 [`list]，并使用所指定的分配器
+。
 
 [para:complexity]
 [:en] Linear in [`distance(first, last)].
+[:zh_CN] 对于 [`distance(first, last)] 为线性。
 [exit:description]
