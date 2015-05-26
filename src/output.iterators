@@ -1,5 +1,6 @@
 ﻿[section#output.iterators
     [:en] Output iterators
+    [:zh_CN] 输出迭代器
 ]
 
 [para]
@@ -7,21 +8,29 @@
 iterator if [`X] satisfies the [`Iterator] requirements ([#iterator.iterators])
 and the expressions in Table [#tab:iterator.output.requirements] are valid and
 have the indicated semantics.
+[:zh_CN] 如果类或指针类型 [`X] 符合 [`Iterator] 的规定（[#iterator.iterators]）
+，并且表 [#tab:iterator.output.requirements] 中的表达式有效且具有所指定的语义，
+则 [`X] 符合输出迭代器的规定。
 
 [table:listing#tab:iterator.output.requirements
     [:en] Output iterator requirements (in addition to Iterator)
+    [:zh_CN] 输出迭代器（除迭代器之外的）规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter@code
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 前/后条件
         ]
     ]
     [border:row@both]
@@ -29,35 +38,55 @@ have the indicated semantics.
 
 [|] *r = o
 [|] [:en] result is not used
+    [:zh_CN] 其结果未被使用
 [|]
-[|] [:en] [=Remark] After this operation [`r] is not required to be
-    dereferenceable. [br]
-    [:en] post: [`r] is incrementable.
+[|] [para:remark]
+    [:en] After this operation [`r] is not required to be dereferenceable.
+    [:zh_CN] 这个操作之后，[`r] 不要求为可解引用。
+
+    [para:post]
+    [:en] [`r] is incrementable.
+    [:zh_CN] [`r] 可增量。
 
 [|] ++r
 [|] [`X&]
 [|]
-[|] [`&r == &++r]. [br]
-    [:en] [=Remark] After this operation [`r] is not required to be
-    dereferenceable. [br]
-    [:en] post: [`r] is incrementable.
+[|] [`&r == &++r].
+
+    [para:remark]
+    [:en] After this operation [`r] is not required to be dereferenceable.
+    [:zh_CN] 这个操作之后，[`r] 不要求为可解引用。
+
+    [para:post]
+    [:en] [`r] is incrementable.
+    [:zh_CN] [`r] 可增量。
 
 [|] r++
 [|] [:en] convertible to [`const X&]
+    [:zh_CN] 可以转换为 [`const X&]
 [|]
 { X tmp = r; [br]
   ++r; [br]
   return tmp; }
-[|] [:en] [=Remark] After this operation [`r] is not required to be
-    dereferenceable. [br]
-    [:en] post: [`r] is incrementable.
+[|] [para:remark]
+    [:en] After this operation [`r] is not required to be dereferenceable.
+    [:zh_CN] 这个操作之后，[`r] 不要求为可解引用。
+
+    [para:post]
+    [:en] [`r] is incrementable.
+    [:zh_CN] [`r] 可增量。
 
 [|] *r++ = o
 [|] [:en] result is not used
+    [:zh_CN] 其结果未被使用
 [|]
-[|] [:en] [=Remark] After this operation [`r] is not required to be
-    dereferenceable. [br]
-    [:en] post: [`r] is incrementable.
+[|] [para:remark]
+    [:en] After this operation [`r] is not required to be dereferenceable.
+    [:zh_CN] 这个操作之后，[`r] 不要求为可解引用。
+
+    [para:post]
+    [:en] [`r] is incrementable.
+    [:zh_CN] [`r] 可增量。
 
 [table:end]
 
@@ -65,17 +94,24 @@ have the indicated semantics.
 [enter:note]
 [:en] The only valid use of an [`operator*] is on the left side of the
 assignment statement.
+[:zh_CN] [`operator*] 的唯一有效用法是作为赋值语句的左边。
 
 [:en] [em Assignment through the same value of the iterator happens only once.]
+[:zh_CN] [em 通过同一个迭代器值进行的赋值仅会发生一次。]
 
 [:en] Algorithms on output iterators should never attempt to pass through the
 same iterator twice.
+[:zh_CN] 输出迭代器上的算法最好不要试图两次通过同一个迭代器。
 
 [:en] They should be [+single pass] algorithms.
+[:zh_CN] 它们应该是[+单遍]算法。
 
 [:en] Equality and inequality might not be defined.
+[:zh_CN] 可能不会定义其相等性和不相等性。
 
 [:en] Algorithms that take output iterators can be used with ostreams as the
 destination for placing data through the [`ostream_iterator] class as well as
 with insert iterators and insert pointers.
+[:zh_CN] 接受输出迭代器的算法可以通过 [`ostream_iterator] 类模板而将 ostream
+作为其放置数据的目标进行使用，也可以与插入迭代器和插入指针一起使用。
 [exit:note]
