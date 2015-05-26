@@ -1,10 +1,13 @@
 ﻿[section#stack.cons.alloc
     [:en] [`stack] constructors with allocators
+    [:zh_CN] [`stack] 的接受分配器的构造函数
 ]
 
 [para]
 [:en] If [`uses_allocator<container_type, Alloc>::value] is [`false] the
 constructors in this subclause shall not participate in overload resolution.
+[:zh_CN] 当 [`uses_allocator<container_type, Alloc>::value] 为 [`false] 时，本
+子条款中的构造函数不能参与重载决议。
 
 [codeblock:declaration]
 template <class Alloc> explicit stack(const Alloc& a);
@@ -13,6 +16,7 @@ template <class Alloc> explicit stack(const Alloc& a);
 [enter:description]
 [para:effects]
 [:en] Initializes [`c] with [`a].
+[:zh_CN] 以 [`a] 初始化 [`c]。
 [exit:description]
 
 [codeblock:declaration]
@@ -23,6 +27,7 @@ template <class Alloc> stack(const container_type& cont, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`cont] as the first argument and [`a] as the
 second argument.
+[:zh_CN] 以 [`cont] 为第一个实参而 [`a] 为第二个实参初始化 [`c]。
 [exit:description]
 
 [codeblock:declaration]
@@ -33,6 +38,7 @@ template <class Alloc> stack(container_type&& cont, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`std::move(cont)] as the first argument and [`a]
 as the second argument.
+[:zh_CN] 以 [`std::move(cont)] 为第一个实参而 [`a] 为第二个实参初始化 [`c]。
 [exit:description]
 
 [codeblock:declaration]
@@ -43,6 +49,7 @@ template <class Alloc> stack(const stack& s, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`s.c] as the first argument and [`a] as the second
 argument.
+[:zh_CN] 以 [`s.c] 为第一个实参而 [`a] 为第二个实参初始化 [`c]。
 [exit:description]
 
 [codeblock:declaration]
@@ -53,4 +60,5 @@ template <class Alloc> stack(stack&& s, const Alloc& a);
 [para:effects]
 [:en] Initializes [`c] with [`std::move(s.c)] as the first argument and [`a]
 as the second argument.
+[:zh_CN] 以 [`std::move(s.c)] 为第一个实参而 [`a] 为第二个实参初始化 [`c]。
 [exit:description]
