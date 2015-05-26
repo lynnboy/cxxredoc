@@ -1,10 +1,13 @@
 ﻿[section#reverse.iter.requirements
     [:en] [`reverse_iterator] requirements
+    [:zh_CN] [`reverse_iterator] 的规定
 ]
 
 [para]
 [:en] The template parameter [`Iterator] shall meet all the requirements of
 a Bidirectional Iterator ([#bidirectional.iterators]).
+[:zh_CN] 模板形参 [`Iterator] 应当符合双向迭代器的所有规定
+（[#bidirectional.iterators]）。
 
 [para]
 [:en] Additionally, [`Iterator] shall meet the requirements of a Random Access
@@ -16,3 +19,11 @@ Iterator ([#random.access.iterators]) if any of the members [`operator+]
 ([#reverse.iter.op<=]), [`operator>=] ([#reverse.iter.op>=]), [`operator-]
 ([#reverse.iter.opdiff]) or [`operator+] ([#reverse.iter.opsum]) are referenced
 in a way that requires instantiation ([#temp.inst]).
+[:zh_CN] 此外，如果成员 [`operator+]（[#reverse.iter.op+]）、[`operator-]
+（[#reverse.iter.op-]）、[`operator+=]（[#reverse.iter.op+=]）、[`operator-=]
+（[#reverse.iter.op-=]）、[`operator[`]]（[#reverse.iter.opindex]），或者全局
+运算符 [`operator<]（[#reverse.iter.op<]）、[`operator>]（[#reverse.iter.op>]）
+、[`operator<=]（[#reverse.iter.op<=]）、[`operator>=]（[#reverse.iter.op>=]）
+、[`operator-]（[#reverse.iter.opdiff]）或 [`operator+]（[#reverse.iter.opsum]）
+以需要被实例化（[#temp.inst]）的方式进行了涉指，则 [`Iterator] 应当符合随机访问
+迭代器的规定（[#random.access.iterators]）。
