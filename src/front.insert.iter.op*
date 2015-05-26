@@ -1,5 +1,5 @@
 ﻿[section#front.insert.iter.op*
-    [:en] [`front_insert_iterator::operator*]
+    [`front_insert_iterator::operator*]
 ]
 
 [%@library operator*[!front_insert_iterator]]
@@ -10,4 +10,5 @@ front_insert_iterator& operator*();
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
