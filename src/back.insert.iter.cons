@@ -1,5 +1,6 @@
 ﻿[section#back.insert.iter.cons
     [:en] [`back_insert_iterator] constructor
+    [:zh_CN] [`back_insert_iterator] 的构造函数
 ]
 
 [%@library back_insert_iterator[!back_insert_iterator]]
@@ -10,4 +11,5 @@ explicit back_insert_iterator(Container& x);
 [enter:description]
 [para:effects]
 [:en] Initializes [`container] with [`std::addressof(x)].
+[:zh_CN] 以 [`std::addressof(x)] 初始化 [`container]。
 [exit:description]
