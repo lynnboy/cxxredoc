@@ -1,5 +1,6 @@
 ﻿[section#move.iter.nonmember
     [:en] [`move_iterator] non-member functions
+    [:zh_CN] [`move_iterator] 的非成员函数
 ]
 
 [%@library operator-[!move_iterator]]
@@ -14,6 +15,7 @@ template <class Iterator1, class Iterator2>
 [enter:description]
 [para:returns]
 [:en] [`x.base() - y.base()].
+[:zh_CN] [`x.base() - y.base()]。
 [exit:description]
 
 [%@library operator+[!move_iterator]]
@@ -27,6 +29,7 @@ template <class Iterator>
 [enter:description]
 [para:returns]
 [:en] [`x + n].
+[:zh_CN] [`x + n]。
 [exit:description]
 
 [%@library make_move_iterator]
@@ -38,4 +41,5 @@ move_iterator<Iterator> make_move_iterator(Iterator i);
 [enter:description]
 [para:returns]
 [:en] [`move_iterator<Iterator>(i)].
+[:zh_CN] [`move_iterator<Iterator>(i)]。
 [exit:description]
