@@ -1,5 +1,6 @@
 ﻿[section#random.access.iterators
     [:en] Random access iterators
+    [:zh_CN] 随机访问迭代器
 ]
 
 [para]
@@ -7,22 +8,30 @@
 iterator if, in addition to satisfying the requirements for bidirectional
 iterators, the following expressions are valid as shown in Table
 [#tab:iterator.random.access.requirements].
+[:zh_CN] 如果除了符合双向迭代器的规定以外，以下表达式如在表
+[#tab:iterator.random.access.requirements] 所示为有效的，则类或指针类型 [`X]
+符合随机访问迭代器的规定。
 
 [table:listing#tab:iterator.random.access.requirements
     [:en] Random access iterator requirements (in addition to bidirectional
         iterator)
+    [:zh_CN] 随机访问迭代器（除双向迭代器以外的）规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter@code
             [:en] Operational semantics
+            [:zh_CN] 操作性语义
         ]
         [column@headercenter
             [:en] Assertion/note [br] pre-/post-condition
+            [:zh_CN] 断言/注解 [br] 前/后条件
         ]
     ]
     [border:row@both]
@@ -47,6 +56,7 @@ iterators, the following expressions are valid as shown in Table
 { X tmp = a; [br]
   return tmp += n; }
 [|] [:en] [`a + n == n + a].
+    [:zh_CN] [`a + n == n + a]。
 
 [|] r -= n
 [|] [`X&]
@@ -63,32 +73,45 @@ iterators, the following expressions are valid as shown in Table
 [|] b - a
 [|] [`difference_type]
 [|] return n
-[|] [:en] pre: there exists a value [`n] of type [`difference_type] such that
-    [`a + n == b]. [br]
+[|] [para:pre]
+    [:en] there exists a value [`n] of type [`difference_type] such that
+    [`a + n == b].
+    [:zh_CN] 存在 [`difference_type] 类型的值 [`n]，使得 [`a + n == b]。
+
+
+    [para]
     [:en] [`b == a + (b - a)].
+    [:zh_CN] [`b == a + (b - a)]。
 
 [|] a[=[]n[=]]
 [|] [:en] convertible to [`reference]
+    [:zh_CN] 可以转换为 [`reference]
 [|] *(a + n)
 [|]
 
 [|] a < b
 [|] [:en] contextually convertible to [`bool]
+    [:zh_CN] 可安语境转换为 [`bool]
 [|] b - a > 0
 [|] [:en] [`<] is a total ordering relation
+    [:zh_CN] [`<] 是一种全序关系
 
 [|] a > b
 [|] [:en] contextually convertible to [`bool]
+    [:zh_CN] 可安语境转换为 [`bool]
 [|] b < a
 [|] [:en] [`>] is a total ordering relation opposite to [`<].
+    [:zh_CN] [`>] 是与 [`<] 相反的全序关系
 
 [|] a >= b
 [|] [:en] contextually convertible to [`bool]
+    [:zh_CN] 可安语境转换为 [`bool]
 [|] !(a < b)
 [|]
 
 [|] a <= b
 [|] [:en] contextually convertible to [`bool]
+    [:zh_CN] 可安语境转换为 [`bool]
 [|] !(a > b)
 [|]
 
