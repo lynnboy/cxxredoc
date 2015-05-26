@@ -46,7 +46,7 @@ allocator, and inserts elements from the range [=range[first,last)].
 
 [para:complexity]
 [:en] Linear in [$N] if the range [=range[first,last)] is already sorted using
-[`comp] and otherwise [$N] log([$N]), where [$N] is [`last] - [`first].
+[`comp] and otherwise [$N] log([$N]), where [$N] is [`last - first].
 [:zh_CN] 如果范围 [=range[first,last)] 已经根据 [`comp] 有序，则对于 [$N] 为线性
-，否则为 [$N] log([$N])，其中 [$N] 为 [`last] - [`first]。
+，否则为 [$N] log([$N])，其中 [$N] 为 [`last - first]。
 [exit:description]
