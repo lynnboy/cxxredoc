@@ -1,5 +1,6 @@
 ﻿[section#multimap.overview
     [:en] Class template [`multimap] overview
+    [:zh_CN] 类模板 [`multimap] 概要
 ]
 
 [para]
@@ -7,27 +8,40 @@
 [:en] A [`multimap] is an associative container that supports equivalent keys
 (possibly containing multiple copies of the same key value) and provides for
 fast retrieval of values of another type [`T] based on the keys.
+[:zh_CN] [`multimap] 是一种关联容器，支持等价键（可能包含同一个键值的多个副本）
+，并提供基于键的对另一个类型 [`T] 的值的快速检索。
 
 [:en] The [`multimap] class supports bidirectional iterators.
+[:zh_CN] [`multimap] 类支持双向迭代器。
 
 [para]
 [:en] A [`multimap] satisfies all of the requirements of a container and of a
 reversible container ([#container.requirements]), of an associative container
 ([#associative.reqmts]), and of an allocator-aware container (Table
 [#tab:containers.allocatoraware]).
+[:zh_CN] [`multimap] 符合容器的所有规定，可反向容器的所有规定
+（[#container.requirements]），关联容器的所有规定（[#associative.reqmts]），以及
+分配器感知容器的所有规定（表 [#tab:containers.allocatoraware]）。
 
 [:en] A [`multimap] also provides most operations described in
 ([#associative.reqmts]) for equal keys.
+[:zh_CN] [`multimap] 还提供 [#associative.reqmts] 所描述的大多数等价键的操作。
 
 [:en] This means that a [`multimap] supports the [`a_eq] operations in
 ([#associative.reqmts]) but not the [`a_uniq] operations.
+[:zh_CN] 这意味着 [`multimap] 支持 [#associative.reqmts] 中的 [`a_eq] 的操作，但
+不支持 [`a_uniq] 的操作。
 
 [:en] For a [`multimap<Key,T>] the [`key_type] is [`Key] and the [`value_type]
 is [`pair<const Key,T>].
+[:zh_CN] [`multimap<Key,T>] 的 [`key_type] 为 [`Key]，而其 [`value_type] 为
+[`pair<const Key,T>]。
 
 [:en] Descriptions are provided here only for operations on [`multimap] that are
 not described in one of those tables or for operations where there is additional
 semantic information.
+[:zh_CN] 此处给出的说明仅包括未被这些表格之一所描述的 [`multimap] 的操作，以及
+具有额外的语义信息的操作。
 
 [codeblock:synopsis [special implementation-defined] ]
 namespace std {
@@ -36,6 +50,7 @@ namespace std {
   class multimap {
   public:
     // [:en] types:
+    // [|:zh_CN] 类型：
     typedef Key                                   key_type;
     typedef T                                     mapped_type;
     typedef pair<const Key,T>                     value_type;
@@ -44,9 +59,13 @@ namespace std {
     typedef value_type&                           reference;
     typedef const value_type&                     const_reference;
     typedef implementation-defined                iterator;       // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                const_iterator; // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                size_type;      // [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef implementation-defined                difference_type;// [:en] see [#container.requirements]
+                                                                  // [|:zh_CN] 参见 [#container.requirements]
     typedef typename allocator_traits<Allocator>::pointer           pointer;
     typedef typename allocator_traits<Allocator>::const_pointer     const_pointer;
     typedef std::reverse_iterator<iterator>       reverse_iterator;
@@ -67,6 +86,7 @@ namespace std {
     };
 
     // [:en] construct/copy/destroy:
+    // [|:zh_CN] 构造/复制/销毁：
     multimap() : multimap(Compare()) { }
     explicit multimap(const Compare& comp, const Allocator& = Allocator());
     template <class InputIterator>
@@ -95,6 +115,7 @@ namespace std {
     allocator_type get_allocator() const noexcept;
 
     // [:en] iterators:
+    // [|:zh_CN] 迭代器：
     iterator               begin() noexcept;
     const_iterator         begin() const noexcept;
     iterator               end() noexcept;
@@ -111,11 +132,13 @@ namespace std {
     const_reverse_iterator crend() const noexcept;
 
     // [:en] capacity:
+    // [|:zh_CN] 容量：
     bool      empty() const noexcept;
     size_type size() const noexcept;
     size_type max_size() const noexcept;
 
     // [:en] modifiers:
+    // [|:zh_CN] 改动函数：
     template <class... Args> iterator emplace(Args&&... args);
     template <class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
     iterator insert(const value_type& x);
@@ -137,10 +160,12 @@ namespace std {
     void      clear() noexcept;
 
     // [:en] observers:
+    // [|:zh_CN] 探察函数：
     key_compare key_comp() const;
     value_compare value_comp() const;
 
     // [:en] map operations:
+    // [|:zh_CN] map 的操作：
     iterator       find(const key_type& x);
     const_iterator find(const key_type& x) const;
     template <class K> iterator       find(const K& x);
@@ -187,6 +212,7 @@ namespace std {
                     const multimap<Key, T, Compare, Allocator>& y);
 
   // [:en] specialized algorithms:
+  // [|:zh_CN] 特化的算法：
   template <class Key, class T, class Compare, class Allocator>
     void swap(multimap<Key, T, Compare, Allocator>& x,
               multimap<Key, T, Compare, Allocator>& y)
