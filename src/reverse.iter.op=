@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.op=
-    [:en] [`reverse_iterator::operator=]
+    [`reverse_iterator::operator=]
 ]
 
 [%@library operator=[!reverse_iterator]]
@@ -11,8 +11,10 @@ reverse_iterator&
 
 [enter:description]
 [para:effects]
-[:en] Assigns [`u.base()] to current.
+[:en] Assigns [`u.base()] to [`current].
+[:zh_CN] 将 [`u.base()] 赋值给 [`current]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
