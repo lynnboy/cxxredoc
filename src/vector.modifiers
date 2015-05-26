@@ -1,5 +1,6 @@
 ﻿[section#vector.modifiers
     [:en] [`vector] modifiers
+    [:zh_CN] [`vector] 的改动函数
 ]
 
 [%@library insert[!vector]]
@@ -20,24 +21,33 @@ void push_back(T&& x);
 [enter:description]
 [para:notes]
 [:en] Causes reallocation if the new size is greater than the old capacity.
+[:zh_CN] 如果新的大小大于原来的容量则引发重新分配。
 
 [:en] If no reallocation happens, all the iterators and references before the
 insertion point remain valid.
+[:zh_CN] 如果未发生重新分配，则处于插入点之前的迭代器和引用仍然有效。
 
 [:en] If an exception is thrown other than by the copy constructor, move
 constructor, assignment operator, or move assignment operator of [`T] or by any
 [`InputIterator] operation there are no effects.
+[:zh_CN] 如果抛出了并非由 [`T] 的复制构造函数、移动构造函数、赋值运算符或复制
+赋值运算符所抛出，或者由 [`InputIterator] 的任何操作所抛出的异常，则没有效果。
 
 [:en] If an exception is thrown while inserting a single element at the end and
 [`T] is [`CopyInsertable] or [`is_nothrow_move_constructible<T>::value] is
 [`true], there are no effects.
+[:zh_CN] 如果在末尾插入单个元素时抛出了异常，而 [`T] 为 [`CopyInsertable] 或有
+[`is_nothrow_move_constructible<T>::value] 为 [`true]，则没有效果。
 
 [:en] Otherwise, if an exception is thrown by the move constructor of a
 non-[`CopyInsertable] [`T], the effects are unspecified.
+[:zh_CN] 否则，如果由非 [`CopyInsertable] 的 [`T] 的移动构造函数抛出了异常，则
+其效果是未指明的。
 
 [para:complexity]
 [:en] The complexity is linear in the number of elements inserted plus the
 distance to the end of the vector.
+[:zh_CN] 复杂度对于所插入的元素数量，加上到 [`vector] 的结尾的距离是线性的。
 [exit:description]
 
 [%@library erase[!vector]]
@@ -49,14 +59,19 @@ iterator erase(const_iterator first, const_iterator last);
 [enter:description]
 [para:effects]
 [:en] Invalidates iterators and references at or after the point of the erase.
+[:zh_CN] 使处于清除点或处于其后的迭代器或引用失效。
 
 [para:complexity]
 [:en] The destructor of [`T] is called the number of times equal to the number
 of the elements erased, but the move assignment operator of [`T] is called the
 number of times equal to the number of elements in the vector after the erased
 elements.
+[:zh_CN] 对 [`T] 的析构函数的调用次数等于所清除的元素的数量，但对 [`T] 的移动
+赋值运算符的调用次数等于 [`vector] 中所清除的元素后面的元素数量。
 
 [para:throws]
 [:en] Nothing unless an exception is thrown by the copy constructor, move
 constructor, assignment operator, or move assignment operator of [`T].
+[:zh_CN] 除非 [`T] 的复制构造函数、移动构造函数、赋值运算符或移动赋值运算符抛出
+了异常，否则不抛出异常。
 [exit:description]
