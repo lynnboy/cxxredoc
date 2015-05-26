@@ -1,5 +1,6 @@
 ﻿[section#map.access
     [:en] [`map] element access
+    [:zh_CN] [`map] 的元素访问
 ]
 
 [%@library operator['][!map]]
@@ -11,16 +12,22 @@ T& operator[](const key_type& x);
 [para:effects]
 [:en] If there is no key equivalent to [`x] in the map, inserts [`value_type(x,
 T())] into the map.
+[:zh_CN] 如果 [`map] 中没有等价于 [`x] 的键，则向 [`map] 中插入
+[`value_type(x, T())]。
 
 [para:requires]
 [:en] [`key_type] shall be [`CopyInsertable] and [`mapped_type] shall be
 [`DefaultInsertable] into [`*this].
+[:zh_CN] [`key_type] 应当为向 [`*this] 中 [`CopyInsertable]，且 [`mapped_type]
+应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [para:returns]
 [:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+[:zh_CN] 指代 [`*this] 中对应于 [`x] 的 [`mapped_type] 的引用。
 
 [para:complexity]
 [:en] Logarithmic.
+[:zh_CN] 对数。
 [exit:description]
 
 [%@library operator['][!map]]
@@ -32,15 +39,20 @@ T& operator[](key_type&& x);
 [para:effects]
 [:en] If there is no key equivalent to [`x] in the map, inserts
 [`value_type(std::move(x), T())] into the map.
+[:zh_CN] 如果 [`map] 中没有等价于 [`x] 的键，则向 [`map] 中插入
+[`value_type(std::move(x), T())]。
 
 [para:requires]
 [:en] [`mapped_type] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`mapped_type] 应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [para:returns]
 [:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+[:zh_CN] 指代 [`*this] 中对应于 [`x] 的 [`mapped_type] 的引用。
 
 [para:complexity]
 [:en] Logarithmic.
+[:zh_CN] 对数。
 [exit:description]
 
 [%@library at[!map]]
@@ -52,10 +64,13 @@ const T& at(const key_type& x) const;
 [enter:description]
 [para:returns]
 [:en] A reference to the [`mapped_type] corresponding to [`x] in [`*this].
+[:zh_CN] 指代 [`*this] 中对应于 [`x] 的 [`mapped_type] 的引用。
 
 [para:throws]
 [:en] An exception object of type [`out_of_range] if no such element is present.
+[:zh_CN] 如果不存在这种元素则抛出 [`out_of_range] 类型的异常对象。
 
 [para:complexity]
 [:en] Logarithmic.
+[:zh_CN] 对数。
 [exit:description]
