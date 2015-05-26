@@ -1,14 +1,17 @@
 ﻿[section#reverse.iter.conv
     [:en] Conversion
+    [:zh_CN] 转换
 ]
 
 [%@library base[!reverse_iterator]]
 [%@library reverse_iterator[!base]]
 [codeblock:declaration]
 Iterator base() const;          // [:en] explicit
+                                // [|:zh_CN] 明确的
 [codeblock:end]
 
 [enter:description]
 [para:returns]
 [:en] [`current].
+[:zh_CN] [`current]。
 [exit:description]
