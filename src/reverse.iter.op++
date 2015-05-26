@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.op++
-    [:en] [`operator++]
+    [`operator++]
 ]
 
 [%@library operator++[!reverse_iterator]]
@@ -9,10 +9,11 @@ reverse_iterator& operator++();
 
 [enter:description]
 [para:effects]
-[:en] [`--current;]
+[`--current;]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator++[!reverse_iterator]]
