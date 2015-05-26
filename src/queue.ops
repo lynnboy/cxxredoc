@@ -1,5 +1,6 @@
 ﻿[section#queue.ops
     [:en] [`queue] operators
+    [:zh_CN] [`queue] 的运算符。
 ]
 
 [%@library operator==[!queue]]
@@ -11,6 +12,7 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c == y.c].
+[:zh_CN] [`x.c == y.c]。
 [exit:description]
 
 [%@library operator!=[!queue]]
@@ -22,6 +24,7 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c != y.c].
+[:zh_CN] [`x.c != y.c]。
 [exit:description]
 
 [%@library operator<[!queue]]
@@ -33,6 +36,7 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c < y.c].
+[:zh_CN] [`x.c < y.c]。
 [exit:description]
 
 [%@library operator<=[!queue]]
@@ -44,6 +48,7 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c <= y.c].
+[:zh_CN] [`x.c <= y.c]。
 [exit:description]
 
 [%@library operator>[!queue]]
@@ -55,6 +60,7 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c > y.c].
+[:zh_CN] [`x.c > y.c]。
 [exit:description]
 
 [%@library operator>=[!queue]]
@@ -67,4 +73,5 @@ template <class T, class Container>
 [enter:description]
 [para:returns]
 [:en] [`x.c >= y.c].
+[:zh_CN] [`x.c >= y.c]。
 [exit:description]
