@@ -1,5 +1,6 @@
 ﻿[section#vector.cons
     [:en] [`vector] constructors, copy, and assignment
+    [:zh_CN] [`vector] 的构造函数、复制和赋值
 ]
 
 [%@library vector[!vector]]
@@ -10,9 +11,11 @@ explicit vector(const Allocator&);
 [enter:description]
 [para:effects]
 [:en] Constructs an empty [`vector], using the specified allocator.
+[:zh_CN] 构造一个空的 [`vector]，并使用指定的分配器。
 
 [para:complexity]
 [:en] Constant.
+[:zh_CN] 常量。
 [exit:description]
 
 [%@library vector[!vector]]
@@ -24,12 +27,15 @@ explicit vector(size_type n, const Allocator& = Allocator());
 [para:effects]
 [:en] Constructs a [`vector] with [`n] default-inserted elements using the
 specified allocator.
+[:zh_CN] 构造一个具有 [`n] 个默认插入的元素的 [`vector]，并使用指定的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`DefaultInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`DefaultInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library vector[!vector]]
@@ -42,12 +48,15 @@ vector(size_type n, const T& value,
 [para:effects]
 [:en] Constructs a [`vector] with [`n] copies of [`value], using the specified
 allocator.
+[:zh_CN] 构造一个具有 [`n] 个 [`value] 的副本的 [`vector]，并使用指定的分配器。
 
 [para:requires]
 [:en] [`T] shall be [`CopyInsertable] into [`*this].
+[:zh_CN] [`T] 应当为向 [`*this] 中 [`CopyInsertable]。
 
 [para:complexity]
 [:en] Linear in [`n].
+[:zh_CN] 对于 [`n] 为线性。
 [exit:description]
 
 [%@library vector[!vector]]
@@ -62,12 +71,19 @@ template <class InputIterator>
 [para:effects]
 [:en] Constructs a [`vector] equal to the range [=range[first,last)], using the
 specified allocator.
+[:zh_CN] 构造一个等于范围 [=range[first,last)] 的 [`vector]，并使用指定的分配器
+。
 
 [para:complexity]
 [:en] Makes only [$N] calls to the copy constructor of [`T] (where [$N] is the
-distance between [`first] and [`last]) and no reallocations if iterators first
-and last are of forward, bidirectional, or random access categories.
+distance between [`first] and [`last]) and no reallocations if iterators
+[`first] and [`last] are of forward, bidirectional, or random access categories.
+[:zh_CN] 如果迭代器 [`first] 和 [`last] 属于前向、双向或随机访问范畴，则仅进行
+[$N] 次对 [`T] 的复制构造函数的调用（其中 [$N] 为 [`first] 和 [`last] 之间的距离
+），且不发生重新分配。
 
 [:en] It makes order [`N] calls to the copy constructor of [`T] and order
 [$[=log](N)] reallocations if they are just input iterators.
+[:zh_CN] 如果它们只是输入迭代器，则对 [`T] 的复制构造函数进行 [`N] 阶次的调用，
+并发生 [$[=log](N)] 次的重新分配。
 [exit:description]
