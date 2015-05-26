@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.opdiff
-    [:en] [`operator-]
+    [`operator-]
 ]
 
 [%@library operator-[!reverse_iterator]]
@@ -13,4 +13,5 @@ template <class Iterator1, class Iterator2>
 [enter:description]
 [para:returns]
 [:en] [`y.current - x.current].
+[:zh_CN] [`y.current - x.current]。
 [exit:description]
