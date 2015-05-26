@@ -1,5 +1,5 @@
 ﻿[section#reverse.iter.op-=
-    [:en] [`operator-=]
+    [`operator-=]
 ]
 
 [%@library operator-=[!reverse_iterator]]
@@ -10,8 +10,9 @@ operator-=(typename reverse_iterator<Iterator>::difference_type n);
 
 [enter:description]
 [para:effects]
-[:en] [`current += n;]
+[`current += n;]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
