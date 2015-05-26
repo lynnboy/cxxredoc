@@ -1,5 +1,5 @@
 ﻿[section#front.insert.iter.op=
-    [:en] [`front_insert_iterator::operator=]
+    [`front_insert_iterator::operator=]
 ]
 
 [%@library operator=[!front_insert_iterator]]
@@ -9,10 +9,11 @@ front_insert_iterator& operator=(const typename Container::value_type& value);
 
 [enter:description]
 [para:effects]
-[:en] [`container->push_front(value);]
+[`container->push_front(value);]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator=[!front_insert_iterator]]
@@ -22,8 +23,9 @@ front_insert_iterator& operator=(typename Container::value_type&& value);
 
 [enter:description]
 [para:effects]
-[:en] [`container->push_front(std::move(value));]
+[`container->push_front(std::move(value));]
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
