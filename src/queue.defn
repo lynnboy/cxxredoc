@@ -1,13 +1,17 @@
 ﻿[section#queue.defn
     [:en] [`queue] definition
+    [:zh_CN] [`queue] 的定义式
 ]
 
 [para]
 [%@library queue]
 [:en] Any sequence container supporting operations [`front()], [`back()],
 [`push_back()] and [`pop_front()] can be used to instantiate [`queue].
+[:zh_CN] 支持 [`front()]，[`back()]，[`push_back()] 和 [`pop_front()] 操作的任何
+序列容器都可以用于实例化 [`queue]。
 
 [:en] In particular, [`list] ([#list]) and [`deque] ([#deque]) can be used.
+[:zh_CN] 尤其是，可以使用 [`list]（[#list]）和 [`deque]（[#deque]）。
 
 [codeblock:synopsis]
 namespace std {
