@@ -1,5 +1,5 @@
 ﻿[section#front.inserter
-    [:en] [`front_inserter]
+    [`front_inserter]
 ]
 
 [%@library front_inserter]
@@ -11,4 +11,5 @@ template <class Container>
 [enter:description]
 [para:returns]
 [:en] [`front_insert_iterator<Container>(x)].
+[:zh_CN] [`front_insert_iterator<Container>(x)]。
 [exit:description]
