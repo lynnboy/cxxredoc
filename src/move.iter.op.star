@@ -1,5 +1,5 @@
 ﻿[section#move.iter.op.star
-    [:en] [`move_iterator::operator*]
+    [`move_iterator::operator*]
 ]
 
 [%@library operator*[!move_iterator]]
@@ -11,4 +11,5 @@ reference operator*() const;
 [enter:description]
 [para:returns]
 [:en] [`static_cast<reference>(*current)].
+[:zh_CN] [`static_cast<reference>(*current)]。
 [exit:description]
