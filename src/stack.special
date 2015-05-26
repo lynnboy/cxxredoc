@@ -1,5 +1,6 @@
 ﻿[section#stack.special
     [:en] [`stack] specialized algorithms
+    [:zh_CN] [`stack] 的特化算法
 ]
 
 [%@library swap[!stack]]
@@ -12,4 +13,5 @@ template <class T, class Container>
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
