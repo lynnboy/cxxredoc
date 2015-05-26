@@ -1,5 +1,6 @@
 ﻿[section#queue.special
     [:en] [`queue] specialized algorithms
+    [:zh_CN] [`queue] 的特化算法
 ]
 
 [%@library swap[!queue]]
@@ -12,4 +13,5 @@ template <class T, class Container>
 [enter:description]
 [para:effects]
 [:en] [`x.swap(y)].
+[:zh_CN] [`x.swap(y)]。
 [exit:description]
