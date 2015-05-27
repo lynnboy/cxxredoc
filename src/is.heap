@@ -1,5 +1,5 @@
 ﻿[section#is.heap
-    [:en] [`is_heap]
+    [`is_heap]
 ]
 
 [%@library is_heap]
@@ -10,7 +10,7 @@ template<class RandomAccessIterator>
 
 [enter:description]
 [para:returns]
-[:en] [`is_heap_until(first, last) == last]
+[`is_heap_until(first, last) == last]
 [exit:description]
 
 [%@library is_heap]
@@ -21,7 +21,7 @@ template<class RandomAccessIterator, class Compare>
 
 [enter:description]
 [para:returns]
-[:en] [`is_heap_until(first, last, comp) == last]
+[`is_heap_until(first, last, comp) == last]
 [exit:description]
 
 [%@library is_heap_until]
@@ -36,10 +36,14 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:returns]
 [:en] If [`distance(first, last) < 2], returns [`last].
+[:zh_CN] 如果 [`distance(first, last) < 2]，则返回 [`last]。
 
 [:en] Otherwise, returns the last iterator [`i] in [=crange[first,last`]] for
 which the range [=range[first,i)] is a heap.
+[:zh_CN] 否则，返回 [=crange[first,last`]] 中最后一个使得范围 [=range[first,i)]
+是一个堆的迭代器 [`i]。
 
 [para:complexity]
 [:en] Linear.
+[:zh_CN] 线性。
 [exit:description]
