@@ -1,5 +1,6 @@
 ﻿[section#alg.unique
     [:en] Unique
+    [:zh_CN] 唯一
 ]
 
 [%@library unique]
@@ -18,19 +19,28 @@ template<class ForwardIterator, class BinaryPredicate>
 consecutive group of equivalent elements referred to by the iterator [`i] in the
 range [=range[first + 1,last)] for which the following conditions hold:
 [`*(i - 1) == *i] or [`pred(*(i - 1), *i) != false].
+[:zh_CN] 对于非空范围，清除每个等价元素的连续组中除第一个元素外的所有元素，其中
+元素为由范围 [=range[first + 1,last)] 中的迭代器 [`i] 所指代的，且有以下条件成立
+：[`*(i - 1) == *i] 或者 [`pred(*(i - 1), *i) != false]。
+
 
 [para:requires]
 [:en] The comparison function shall be an equivalence relation.
+[:zh_CN] 比较函数应当提供等价关系。
 
 [:en] The type of [`*first] shall satisfy the [`MoveAssignable] requirements
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveAssignable] 的规定
+（表 [#moveassignable]）。
 
 [para:returns]
 [:en] The end of the resulting range.
+[:zh_CN] 结果范围的末尾。
 
 [para:complexity]
 [:en] For nonempty ranges, exactly [`(last - first) - 1] applications of the
 corresponding predicate.
+[:zh_CN] 对于非空范围，恰好进行 [`(last - first) - 1] 次对应谓词的运用。
 [exit:description]
 
 [%@library unique_copy]
@@ -50,29 +60,42 @@ template<class InputIterator, class OutputIterator,
 [enter:description]
 [para:requires]
 [:en] The comparison function shall be an equivalence relation.
+[:zh_CN] 比较函数应当提供等价关系。
 
 [:en] The ranges [=range[first,last)] and [=range[result,result+(last-first))]
 shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result+(last-first))] 不能
+有重叠。
 
 [:en] The expression [`*result = *first] shall be valid.
+[:zh_CN] 表达式 [`*result = *first] 应当有效。
 
 [:en] If neither [`InputIterator] nor [`OutputIterator] meets the requirements
 of forward iterator then the value type of [`InputIterator] shall be
 [`CopyConstructible] (Table [#copyconstructible]) and [`CopyAssignable] (Table
 [#copyassignable]).
+[:zh_CN] 如果 [`InputIterator] 和 [`OutputIterator] 都不符合前向迭代器的规定，则
+[`InputIterator] 的值类型应当为 [`CopyConstructible]（表 [#copyconstructible]）
+且为 [`CopyAssignable]（表 [#copyassignable]）。
 
 [:en] Otherwise [`CopyConstructible] is not required.
+[:zh_CN] 否则并不需要为 [`CopyConstructible]。
 
 [para:effects]
 [:en] Copies only the first element from every consecutive group of equal
 elements referred to by the iterator [`i] in the range [=range[first,last)]
 for which the following corresponding conditions hold: [`*i == *(i - 1)] or
 [`pred(*i, *(i - 1)) != false].
+[:zh_CN] 对每个等价元素的连续组的第一个元素进行复制，其中元素为由范围
+[=range[first + 1,last)] 中的迭代器 [`i] 所指代的，且有以下条件成立：
+[`*i == *(i - 1)] 或者 [`pred(*i, *(i - 1)) != false]。
 
 [para:returns]
 [:en] The end of the resulting range.
+[:zh_CN] 结果范围的末尾。
 
 [para:complexity]
 [:en] For nonempty ranges, exactly [`last - first - 1] applications of the
 corresponding predicate.
+[:zh_CN] 对于非空范围，恰好进行 [`last - first - 1] 次对应谓词的运用。
 [exit:description]
