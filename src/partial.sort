@@ -1,5 +1,5 @@
 ﻿[section#partial.sort
-    [:en] [`partial_sort]
+    [`partial_sort]
 ]
 
 [%@library partial_sort]
@@ -20,20 +20,27 @@ template<class RandomAccessIterator, class Compare>
 [para:effects]
 [:en] Places the first [`middle - first] sorted elements from the range
 [=range[first,last)] into the range [=range[first,middle)].
+[:zh_CN] 将范围 [=range[first,last)] 中的前 [`middle - first] 个有序元素置于范围
+[=range[first,middle)] 之中。
 
 [:en] The rest of the elements in the range [=range[middle,last)] are placed in
-an unspecified order.
-[%unspecified]
+an [%unspecified] unspecified order.
+[:zh_CN] 范围 [=range[middle,last)] 中的剩余元素以[%未指明的]未指明的顺序放置。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] It takes approximately [`(last - first) * log(middle - first)]
 comparisons.
+[:zh_CN] 耗费大约 [`(last - first) * log(middle - first)] 次比较。
 [exit:description]
