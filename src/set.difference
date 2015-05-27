@@ -1,5 +1,5 @@
 ﻿[section#set.difference
-    [:en] [`set_difference]
+    [`set_difference]
 ]
 
 [%@library set_difference]
@@ -23,21 +23,30 @@ template<class InputIterator1, class InputIterator2,
 [para:effects]
 [:en] Copies the elements of the range [=range[first1,last1)] which are not
 present in the range [=range[first2,last2)] to the range beginning at [`result].
+[:zh_CN] 将范围 [=range[first1,last1)] 中不存在于范围 [=range[first2,last2)] 中
+的元素复制到以 [`result] 开始的范围。
 
 [:en] The elements in the constructed range are sorted.
+[:zh_CN] 所构造的范围中的元素是有序的。
 
 [para:requires]
 [:en] The resulting range shall not overlap with either of the original ranges.
+[:zh_CN] 结果范围不能与任何一个源范围有重叠。
 
 [para:returns]
 [:en] The end of the constructed range.
+[:zh_CN] 所构造的范围的末尾。
 
 [para:complexity]
 [:en] At most [`2 * ((last1 - first1) + (last2 - first2)) - 1] comparisons.
+[:zh_CN] 最多进行 [`2 * ((last1 - first1) + (last2 - first2)) - 1] 次比较。
 
 [para:notes]
 [:en] If [=range[first1,last1)] contains [$m] elements that are equivalent to
 each other and [=range[first2,last2)] contains [$n] elements that are equivalent
 to them, the last max([$m - n], 0) elements from [=range[first1,last1)] shall be
 copied to the output range.
+[:zh_CN] 如果 [=range[first1,last1)] 包含 [$m] 个互相等价的元素，而
+[=range[first2,last2)] 包含 [$n] 个与其等价的元素，则 [=range[first1,last1)] 中
+的最后 max([$m - n], 0) 个元素应当被复制到输出范围中。
 [exit:description]
