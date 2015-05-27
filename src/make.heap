@@ -1,5 +1,5 @@
 ﻿[section#make.heap
-    [:en] [`make_heap]
+    [`make_heap]
 ]
 
 [%@library make_heap]
@@ -15,12 +15,16 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:effects]
 [:en] Constructs a heap out of the range [=range[first,last)].
+[:zh_CN] 将范围 [=range[first,last)] 做成一个堆。
 
 [para:requires]
 [:en] The type of [`*first] shall satisfy the [`MoveConstructible] requirements
 (Table [#moveconstructible]) and the [`MoveAssignable] requirements (Table
 [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible] 的规定
+（表 [#moveconstructible]）和 [`MoveAssignable] 的规定（表 [#moveassignable]）。
 
 [para:complexity]
 [:en] At most [`3 * (last - first)] comparisons.
+[:zh_CN] 最多进行 [`3 * (last - first)] 次比较。
 [exit:description]
