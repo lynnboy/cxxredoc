@@ -1,5 +1,5 @@
 ﻿[section#stable.sort
-    [:en] [`stable_sort]
+    [`stable_sort]
 ]
 
 [%@library stable_sort]
@@ -15,19 +15,27 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:effects]
 [:en] Sorts the elements in the range [=range[first,last)].
+[:zh_CN] 对范围 [=range[first,last)] 中的元素进行排序。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] It does at most [$N [=log][_2](N)] (where [`[$N] == last - first])
-comparisons; if enough extra memory is available, it is [$N [=log(N)].
+comparisons; if enough extra memory is available, it is [$N [=log](N)].
+[:zh_CN] 进行最多 [$N [=log][_2](N)]（其中 [`[$N] == last - first]）次比较；如果
+有足够的额外内存，则为 [$N [=log](N)]。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 [exit:description]
