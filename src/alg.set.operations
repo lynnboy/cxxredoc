@@ -1,17 +1,23 @@
 ﻿[section#alg.set.operations
     [:en] Set operations on sorted structures
+    [:zh_CN] 有序结构上的集合运算
 ]
 
 [para]
 [:en] This section defines all the basic set operations on sorted structures.
+[:zh_CN] 本节定义了在有序结构上的所有的基本集合运算。
 
 [:en] They also work with [`multiset]s ([#multiset]) containing multiple copies
 of equivalent elements.
+[:zh_CN] 它们也可以在包含等价元素的多个副本的 [`multiset]（[#multiset]）上工作。
 
 [:en] The semantics of the set operations are generalized to [`multiset]s
 in a standard way by defining [`set_union()] to contain the maximum number of
 occurrences of every element, [`set_intersection()] to contain the minimum, and
 so on.
+[:zh_CN] 这些集合运算的语义以一种标准的方式推广到 [`multiset] 上：定义
+[`set_union()] 为包含每个元素最大出现次数，定义 [`set_intersection()] 为包含最小
+出现次数，等等。
 
 [include includes]
 
