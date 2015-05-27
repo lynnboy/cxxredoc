@@ -1,5 +1,6 @@
 ﻿[section#alg.equal
     [:en] Equal
+    [:zh_CN] 相等
 ]
 
 [%@library equal]
@@ -28,21 +29,34 @@ template<class InputIterator1, class InputIterator2,
 [para:remarks]
 [:en] If [`last2] was not given in the argument list, it denotes
 [`first2 + (last1 - first1)] below.
+[:zh_CN] 如果实参列表中未给出 [`last2]，则它在下文中代表
+[`first2 + (last1 - first1)]。
 
 [para:returns]
 [:en] If [`last1 - first1 != last2 - first2], return [`false].
+[:zh_CN] 如果 [`last1 - first1 != last2 - first2],，则返回 [`false]。
 
 [:en] Otherwise return [`true] if for every iterator [`i] in the range
 [=range[first1,last1)] the following corresponding conditions hold:
-[`*i == *(first2 + (i - first1)), pred(*i, *(first2 + (i - first1))) != false].
+[`*i == *(first2 + (i - first1))],
+[`pred(*i, *(first2 + (i - first1))) != false].
+[:zh_CN] 否则如果对于范围 [=range[first1,last1)] 中的每个迭代器 [`i]，以下的对应
+条件均生效则返回 [`true]：
+[`*i == *(first2 + (i - first1))]，
+[`pred(*i, *(first2 + (i - first1))) != false]。
 
 [:en] Otherwise, returns [`false].
+[:zh_CN] 否则，返回 [`false]。
 
 [para:complexity]
 [:en] No applications of the corresponding predicate if [`InputIterator1] and
 [`InputIterator2] meet the requirements of random access iterators and
 [`last1 - first1 != last2 - first2].
+[:zh_CN] 如果 [`InputIterator1] 和 [`InputIterator2] 符合随机访问迭代器的规定，
+并且 [`last1 - first1 != last2 - first2]，则不对相应谓词进行运用。
 
 [:en] Otherwise, at most [`min(last1 - first1, last2 - first2)] applications of
 the corresponding predicate.
+[:zh_CN] 否则，最多进行 [`min(last1 - first1, last2 - first2)] 次相应谓词的运用
+。
 [exit:description]
