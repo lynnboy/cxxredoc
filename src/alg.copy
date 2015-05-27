@@ -1,5 +1,6 @@
 ﻿[section#alg.copy
     [:en] Copy
+    [:zh_CN] 复制
 ]
 
 [%@library copy]
@@ -14,18 +15,25 @@ template<class InputIterator, class OutputIterator>
 [:en] Copies elements in the range [=range[first,last)] into the range
 [=range[result,result + (last - first))] starting from [`first] and proceeding
 to [`last].
+[:zh_CN] 将范围 [=range[first,last)] 中的元素复制到范围 [=range[result,result +
+(last - first))] 中，开始于 [`first] 并进行到 [`last]。
 
 [:en] For each non-negative integer [`n < (last - first)], performs
 [`*(result + n) = *(first + n)].
+[:zh_CN] 对于每个非负整数 [`n < (last - first)]，实施
+[`*(result + n) = *(first + n)]。
 
 [para:returns]
 [:en] [`result + (last - first)].
+[:zh_CN] [`result + (last - first)]。
 
 [para:requires]
 [:en] [`result] shall not be in the range [=range[first,last)].
+[:zh_CN] [`result] 不能处于范围 [=range[first,last)] 之中。
 
 [para:complexity]
 [:en] Exactly [`last - first] assignments.
+[:zh_CN] 恰好进行 [`last - first] 次赋值。
 [exit:description]
 
 [%@library copy_n]
@@ -39,12 +47,15 @@ template<class InputIterator, class Size, class OutputIterator>
 [para:effects]
 [:en] For each non-negative integer [$i < n], performs
 [`*(result + i) = *(first + i)].
+[:zh_CN] 对于每个非负整数 [$i < n]，实施 [`*(result + i) = *(first + i)]。
 
 [para:returns]
 [:en] [`result + n].
+[:zh_CN] [`result + n]。
 
 [para:complexity]
 [:en] Exactly [`n] assignments.
+[:zh_CN] 恰好进行 [`n] 次赋值。
 [exit:description]
 
 [%@library copy_n]
@@ -58,19 +69,26 @@ template<class InputIterator, class OutputIterator, class Predicate>
 [para:requires]
 [:en] The ranges [=range[first,last)] and [=range[result,result + (last -
 first))] shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result + (last - first))]
+不能有重叠。
 
 [para:effects]
 [:en] Copies all of the elements referred to by the iterator [`i] in the range
 [=range[first,last)] for which [`pred(*i)] is [`true].
+[:zh_CN] 对范围 [=range[first,last)] 中由迭代器 [`i] 所指代的所有符合
+[`pred(*i)] 为 [`true] 的元素进行复制。
 
 [para:returns]
 [:en] The end of the resulting range.
+[:zh_CN] 结果范围的末尾。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次对应谓词的运用。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 [exit:description]
 
 [%@library copy_backward]
@@ -87,21 +105,31 @@ template<class BidirectionalIterator1, class BidirectionalIterator2>
 [:en] Copies elements in the range [=range[first,last)] into the range
 [=range[result - (last-first),result)] starting from [`last - 1] and proceeding
 to [`first].
+[:zh_CN] 将范围 [=range[first,last)] 中的元素复制到范围 [=range[result -
+(last-first),result)] 中，开始于 [`last - 1] 并进行到 [`first]。
 
 [footnote]
-[:en] [`copy_backward] should be used instead of copy when [`last] is in
+[:en] [`copy_backward] should be used instead of [`copy] when [`last] is in
 the range [=range[result - (last - first),result)].
+[:zh_CN] 如果 [`last] 处于范围 [=range[result - (last - first),result)] 之中，则
+应该用 [`copy_backward] 来代替 [`copy]。
 [footnote:end]
 
 [:en] For each positive integer [`n <= (last - first)], performs
 [`*(result - n) = *(last - n)].
+[:zh_CN] 对于每个正整数 [`n <= (last - first)]，实施
+[`*(result - n) = *(last - n)]。
+[:zh_CN]
 
 [para:requires]
 [:en] [`result] shall not be in the range [=brange(first,last`]].
+[:zh_CN] [`result] 不能处于范围 [=brange(first,last`]] 之中。
 
 [para:returns]
 [:en] [`result - (last - first)].
+[:zh_CN] [`result - (last - first)]。
 
 [para:complexity]
 [:en] Exactly [`last - first] assignments.
+[:zh_CN] 恰好进行 [`last - first] 次赋值。
 [exit:description]
