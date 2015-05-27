@@ -1,5 +1,6 @@
 ﻿[section#alg.random.shuffle
     [:en] Shuffle
+    [:zh_CN] 混洗
 ]
 
 [%@library shuffle]
@@ -14,21 +15,31 @@ template<class RandomAccessIterator, class UniformRandomNumberGenerator>
 [para:effects]
 [:en] Permutes the elements in the range [=range[first,last)] such that each
 possible permutation of those elements has equal probability of appearance.
+[:zh_CN] 对范围 [=range[first,last)] 中的元素进行排列，使得这些元素的每个排列都
+具有相等的出现概率。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type [`UniformRandomNumberGenerator] shall meet the requirements of a
 uniform random number generator ([#rand.req.urng]) type whose return type is
 convertible to [`iterator_traits<RandomAccessIterator>::difference_type].
+[:zh_CN] 类型 [`UniformRandomNumberGenerator] 应当符合均匀随机数生成器类型的规定
+（[#rand.req.urng]），且其返回类型可以转换为
+[`iterator_traits<RandomAccessIterator>::difference_type]。
 
 [para:complexity]
 [:en] Exactly [`(last - first) - 1] swaps.
+[:zh_CN] 恰好进行 [`(last - first) - 1] 次交换。
 
 [para:notes]
 [:en] To the extent that the implementation of this function makes use of random
 numbers, the object [`g] shall serve as the implementation[=']s source of
 randomness.
+[:zh_CN] 这个函数的实现在某种程度上需要使用随机数，对象 [`g] 应当作为其实现的
+随机性的来源。
 
 [exit:description]
