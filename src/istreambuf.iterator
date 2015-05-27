@@ -1,39 +1,54 @@
 ﻿[section#istreambuf.iterator
     [:en] Class template [`istreambuf_iterator]
+    [:zh_CN] 类模板 [`istreambuf_iterator]
 ]
 
 [para]
 [:en] The class template [`istreambuf_iterator] defines an input iterator
-([#input.iterators]) that reads successive [$characters] from the streambuf for
-which it was constructed.
+([#input.iterators]) that reads successive [+characters] from the [`streambuf]
+for which it was constructed.
+[:zh_CN] 类模板 [`istreambuf_iterator] 定义一种输入迭代器（[#input.iterators]）
+，从用以构造它的 [`strambuf] 中读取连续的[+字符]。
 
 [:en] [`operator*] provides access to the current input character, if any.
+[:zh_CN] [`operator*] 提供对于当前输入字符（如果有）的访问。
 
 [enter:note]
 [:en] [`operator->] may return a proxy.
+[:zh_CN] [`operator->] 可能返回一个代理。
 [exit:note]
 
 [:en] Each time [`operator++] is evaluated, the iterator advances to the next
 input character.
+[:zh_CN] 每次求值 [`operator++] 之后，迭代器就被推进到下一个输入字符。
 
 [:en] If the end of stream is reached ([`streambuf_type::sgetc()] returns
 [`traits::eof()]), the iterator becomes equal to the [+end-of-stream] iterator
 value.
+[:zh_CN] 如果到达了流的末尾（[`streambuf_type::sgetc()] 返回 [`traits::eof()]）
+，则迭代器变为与[+流结束]迭代器值相等。
 
 [:en] The default constructor [`istreambuf_iterator()] and the constructor
 [`istreambuf_iterator(0)] both construct an end-of-stream iterator object
 suitable for use as an end-of-range.
+[:zh_CN] 默认构造函数 [`istreambuf_iterator()] 和构造函数
+[`istreambuf_iterator(0)] 都构造一个流结尾迭代器，并适合用作范围结尾。
 
 [:en] All specializations of [`istreambuf_iterator] shall have a trivial copy
 constructor, a [`constexpr] default constructor, and a trivial destructor.
+[:zh_CN] [`istreambuf_iterator] 的所有特例都应当具有平凡的复制构造函数，
+[`constexpr] 默认构造函数，以及平凡的析构函数。
 
 [para]
 [:en] The result of [`operator*()] on an end-of-stream iterator is
 [%behavior[!undefined]] undefined.
+[:zh_CN] 对流结束迭代器实施 [`operator*()] 的结果是[%行为[!未定义～]]未定义的。
 
 [:en] For any other iterator value a [`char_type] value is returned.
+[:zh_CN] 任何其他迭代器都返回一个 [`char_type] 值。
 
 [:en] It is impossible to assign a character via an input iterator.
+[:zh_CN] 不可能通过输入迭代器进行字符的赋值。
 
 [%@library istreambuf_iterator]
 [codeblock:synopsis [special unspecified] ]
