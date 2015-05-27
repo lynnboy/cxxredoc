@@ -1,5 +1,5 @@
 ﻿[section#set.intersection
-    [:en] [`set_intersection]
+    [`set_intersection]
 ]
 
 [%@library set_intersection]
@@ -23,19 +23,27 @@ template<class InputIterator1, class InputIterator2,
 [para:effects]
 [:en] Constructs a sorted intersection of the elements from the two ranges;
 that is, the set of elements that are present in both of the ranges.
+[:zh_CN] 构造两个范围中的元素的有序的交集；就是说，由同时出现于两个范围的元素
+构成的集合。
 
 [para:requires]
 [:en] The resulting range shall not overlap with either of the original ranges.
+[:zh_CN] 结果范围不能与任何一个源范围有重叠。
 
 [para:returns]
 [:en] The end of the constructed range.
+[:zh_CN] 所构造的范围的末尾。
 
 [para:complexity]
 [:en] At most [`2 * ((last1 - first1) + (last2 - first2)) - 1] comparisons.
+[:zh_CN] 最多进行 [`2 * ((last1 - first1) + (last2 - first2)) - 1] 次比较。
 
 [para:notes]
 [:en] If [=range[first1,last1)] contains [$m] elements that are equivalent to
 each other and [=range[first2,last2)] contains [$n] elements that are equivalent
 to them, the first min([$m], [$n]) elements shall be copied from the first range
 to the output range, in order.
+[:zh_CN] 如果 [=range[first1,last1)] 包含 [$m] 个互相等价的元素，而
+[=range[first2,last2)] 包含 [$n] 个与其等价的元素，则第一个范围中的前
+min([$m], [$n]) 个元素应当被依序复制到输出范围中。
 [exit:description]
