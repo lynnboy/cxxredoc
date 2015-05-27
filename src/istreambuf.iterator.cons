@@ -1,9 +1,10 @@
 ﻿[section#istreambuf.iterator.cons
     [:en] [`istreambuf_iterator] constructors
+    [:zh_CN] [`istreambuf_iterator] 的构造函数
 ]
 
 
-[%@library istreambuf_iterator[![:en]constructor]]
+[%@library istreambuf_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 constexpr istreambuf_iterator() noexcept;
 [codeblock:end]
@@ -11,9 +12,10 @@ constexpr istreambuf_iterator() noexcept;
 [enter:description]
 [para:effects]
 [:en] Constructs the end-of-stream iterator.
+[:zh_CN] 构造流结束迭代器。
 [exit:description]
 
-[%@library istreambuf_iterator[![:en]constructor]]
+[%@library istreambuf_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 istreambuf_iterator(basic_istream<charT,traits>& s) noexcept;
 istreambuf_iterator(basic_streambuf<charT,traits>* s) noexcept;
@@ -23,11 +25,14 @@ istreambuf_iterator(basic_streambuf<charT,traits>* s) noexcept;
 [para:effects]
 [:en] Constructs an [`istreambuf_iterator<>] that uses the [`basic_streambuf<>]
 object [`*(s.rdbuf())], or [`*s], respectively.
+[:zh_CN] 分别使用 [`basic_streambuf<>] 对象 [`*(s.rdbuf())] 或 [`*s] 来构造一个
+[`istreambuf_iterator<>]。
 
 [:en] Constructs an end-of-stream iterator if [`s.rdbuf()] is null.
+[:zh_CN] 当 [`s.rdbuf()] 为空时构造流结束迭代器。
 [exit:description]
 
-[%@library istreambuf_iterator[![:en]constructor]]
+[%@library istreambuf_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 istreambuf_iterator(const proxy& p) noexcept;
 [codeblock:end]
@@ -36,4 +41,7 @@ istreambuf_iterator(const proxy& p) noexcept;
 [para:effects]
 [:en] Constructs a [`istreambuf_iterator<>] that uses the [`basic_streambuf<>]
 object pointed to by the [`proxy] object[=']s constructor argument [`p].
+[:zh_CN] 使用由 [`proxy] 对象的构造函数实参 [`p] 所指向的 [`basic_streambuf<>]
+对象构造一个 [`istreambuf_iterator<>]。
+
 [exit:description]
