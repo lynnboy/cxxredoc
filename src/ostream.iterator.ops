@@ -1,5 +1,6 @@
 ﻿[section#ostream.iterator.ops
     [:en] [`ostream_iterator] operations
+    [:zh_CN] [`ostream_iterator] 的操作
 ]
 
 [%@library operator=[!ostream_iterator]]
@@ -27,6 +28,7 @@ ostream_iterator& operator*();
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator++[!ostream_iterator]]
@@ -39,4 +41,5 @@ ostream_iterator& operator++(int);
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
