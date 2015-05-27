@@ -1,5 +1,5 @@
 ﻿[section#sort.heap
-    [:en] [`sort_heap]
+    [`sort_heap]
 ]
 
 [%@library sort_heap]
@@ -15,17 +15,24 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:effects]
 [:en] Sorts elements in the heap [=range[first,last)].
+[:zh_CN] 对堆 [=range[first,last)] 中的元素进行排序。
 
 [para:requires]
 [:en] The range [=range[first,last)] shall be a valid heap.
+[:zh_CN] 范围 [=range[first,last)] 应当是有效堆。
 
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] At most [$N [=log](N)] comparisons (where [`N == last - first]).
+[:zh_CN] 最多进行 [$N [=log](N)] 次比较（其中 [`N == last - first]）。
 [exit:description]
