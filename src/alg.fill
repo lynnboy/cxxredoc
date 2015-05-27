@@ -26,12 +26,13 @@ template<class OutputIterator, class Size, class T>
 [para:effects]
 [:en] The first algorithm assigns [`value] through all the iterators in the
 range [=range[first,last)].
-[:zh_CN] 第一个算法向范围 [=range[first,last)] 中的所有迭代器赋值为 [`value]。
+[:zh_CN] 第一个算法将 [`value] 通过范围 [=range[first,last)] 中的每个迭代器进行
+赋值。
 
 [:en] The second algorithm assigns [`value] through all the iterators in the
 range [=range[first,first + n)] if [`n] is positive, otherwise it does nothing.
-[:zh_CN] 当 [`n] 为正时，第二个算法向范围 [=range[first,first + n)] 中的所有
-迭代器赋值为 [`value]，否则不做任何事。
+[:zh_CN] 当 [`n] 为正时，第二个算法将 [`value] 通过范围
+[=range[first,first + n)] 中的每个迭代器进行赋值，否则不做任何事。
 
 [para:returns]
 [:en] [`fill_n] returns [`first + n] for non-negative values of [`n] and
