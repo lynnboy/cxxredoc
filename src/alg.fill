@@ -1,5 +1,6 @@
 ﻿[section#alg.fill
     [:en] Fill
+    [:zh_CN] 填充
 ]
 
 [%@library fill]
@@ -15,21 +16,30 @@ template<class OutputIterator, class Size, class T>
 [enter:description]
 [para:requires]
 [:en] The expression [`value] shall be writable to the output iterator.
+[:zh_CN] 表达式 [`value] 应当可以向输出迭代器写入。
 
 [:en] The type [`Size] shall be convertible to an integral type
 ([#conv.integral], [#class.conv]).
+[:zh_CN] 类型 [`Size] 应当可以转换为整型类型（[#conv.integral]，[#class.conv]）
+。
 
 [para:effects]
 [:en] The first algorithm assigns [`value] through all the iterators in the
 range [=range[first,last)].
+[:zh_CN] 第一个算法向范围 [=range[first,last)] 中的所有迭代器赋值为 [`value]。
 
 [:en] The second algorithm assigns [`value] through all the iterators in the
 range [=range[first,first + n)] if [`n] is positive, otherwise it does nothing.
+[:zh_CN] 当 [`n] 为正时，第二个算法向范围 [=range[first,first + n)] 中的所有
+迭代器赋值为 [`value]，否则不做任何事。
 
 [para:returns]
 [:en] [`fill_n] returns [`first + n] for non-negative values of [`n] and
 [`first] for negative values.
+[:zh_CN] [`fill_n] 对于非负的 [`n] 返回 [`first + n]，而对于负值则返回 [`first]
+。
 
 [para:complexity]
 [:en] Exactly [`last - first], [`n], or 0 assignments, respectively.
+[:zh_CN] 分别恰好进行 [`last - first]，[`n] 或 0 次赋值。
 [exit:description]
