@@ -14,19 +14,27 @@ template<class ForwardIterator1, class ForwardIterator2>
 [para:effects]
 [:en] For each non-negative integer [`n < (last1 - first1)] performs:
 [`swap(*(first1 + n), *(first2 + n))].
+[:zh_CN] 对于每个非负整数 [`n < (last1 - first1)]，实施
+[`swap(*(first1 + n), *(first2 + n))]。
 
 [para:requires]
 [:en] The two ranges [=range[first1,last1)] and
 [=range[first2,first2 + (last1 - first1))] shall not overlap.
+[:zh_CN] 两个范围 [=range[first1,last1)] 和 [=range[first2,first2 + (last1 -
+first1))] 不能有重叠。
 
 [:en] [`*(first1 + n)] shall be swappable with ([#swappable.requirements])
 [`*(first2 + n)].
+[:zh_CN] [`*(first1 + n)] 应当可以与 [`*(first2 + n)] 进行交换
+（[#swappable.requirements]）。
 
 [para:returns]
 [:en] [`first2 + (last1 - first1)].
+[:zh_CN] [`first2 + (last1 - first1)]。
 
 [para:complexity]
 [:en] Exactly [`last1 - first1] swaps.
+[:zh_CN] 恰好进行 [`last1 - first1] 次交换。
 [exit:description]
 
 [%@library iter_swap]
@@ -38,9 +46,12 @@ template<class ForwardIterator1, class ForwardIterator2>
 [enter:description]
 [para:effects]
 [:en] [`swap(*a, *b)].
+[:zh_CN] [`swap(*a, *b)]。
 
 [para:requires]
 [:en] [`a] and [`b] shall be dereferenceable.
+[:zh_CN] [`a] 和 [`b] 应当可解引用。
 
 [:en] [`*a] shall be swappable with ([#swappable.requirements]) [`*b].
+[:zh_CN] [`*a] 应当可以与 [`*b] 进行交换（[#swappable.requirements]）。
 [exit:description]
