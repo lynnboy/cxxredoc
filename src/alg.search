@@ -1,5 +1,6 @@
 ﻿[section#alg.search
     [:en] Search
+    [:zh_CN] 搜索
 ]
 
 [%@library search]
@@ -20,19 +21,26 @@ template<class ForwardIterator1, class ForwardIterator2,
 [enter:description]
 [para:effects]
 [:en] Finds a subsequence of equal values in a sequence.
+[:zh_CN] 查找序列中具有相同值的子序列。
 
 [para:returns]
 [:en] The first iterator [`i] in the range [=range[first1,last1 -
 (last2-first2))] such that for every non-negative integer [`n] less than
 [`last2 - first2] the following corresponding conditions hold:
-[`*(i + n) == *(first2 + n), pred(*(i + n), *(first2 + n)) != false].
+[`*(i + n) == *(first2 + n)], [`pred(*(i + n), *(first2 + n)) != false].
+[:zh_CN] 范围 [=range[first1,last1 - (last2-first2))] 中的第一个迭代器 [`i]，
+使得对于每个小于 [`last2 - first2] 的非负整数 [`n]，以下的对应条件均有效：
+[`*(i + n) == *(first2 + n)]，[`pred(*(i + n), *(first2 + n)) != false]。
 
 [:en] Returns [`first1] if [=range[first2,last2)] is empty, otherwise returns
 [`last1] if no such iterator is found.
+[:zh_CN] 如果 [=range[first2,last2)] 为空则返回 [`first1]，否则如果未找到这种
+迭代器，则返回 [`last1]。
 
 [para:complexity]
 [:en] At most [`(last1 - first1) * (last2 - first2)] applications of the
 corresponding predicate.
+[:zh_CN] 最多进行 [`(last1 - first1) * (last2 - first2)] 次相应谓词的运用。
 [exit:description]
 
 [%@library search_n]
@@ -53,18 +61,26 @@ template<class ForwardIterator, class Size, class T,
 [para:requires]
 [:en] The type [`Size] shall be convertible to integral type ([#conv.integral],
 [#class.conv]).
+[:zh_CN] 类型 [`Size] 应当可以转换为整型类型（[#conv.integral]，[#class.conv]）
+。
 
 [para:effects]
 [:en] Finds a subsequence of equal values in a sequence.
+[:zh_CN] 查找序列中具有相同值的子序列。
 
 [para:returns]
 [:en] The first iterator [`i] in the range [=range[first,last-count)] such that
 for every non-negative integer [`n] less than [`count] the following
 corresponding conditions hold:
-[`*(i + n) == value, pred(*(i + n),value) != false].
+[`*(i + n) == value], [`pred(*(i + n),value) != false].
+[:zh_CN] 范围 [=range[first,last-count)] 中的第一个迭代器 [`i]，使得对于每个小于
+[`count] 的非负整数 [`n]，以下的对应条件均有效：
+[`*(i + n) == value]，[`pred(*(i + n),value) != false]。
 
 [:en] Returns [`last] if no such iterator is found.
+[:zh_CN] 如果未找到这种迭代器，则返回 [`last]。
 
 [para:complexity]
 [:en] At most [`last - first] applications of the corresponding predicate.
+[:zh_CN] 最多进行 [`last - first] 次相应谓词的运用。
 [exit:description]
