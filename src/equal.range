@@ -1,5 +1,5 @@
 ﻿[section#equal.range
-    [:en] [`equal_range]
+    [`equal_range]
 ]
 
 [%@library equal_range]
@@ -21,9 +21,13 @@ template<class ForwardIterator, class T, class Compare>
 [:en] The elements [`e] of [=range[first,last)] shall be partitioned with
 respect to the expressions [`e < value] and [`!(value < e)] or [`comp(e, value)]
 and [`!comp(value, e)].
+[:zh_CN] [=range[first,last)] 中的元素 [`e] 应当根据表达式 [`e < value] 且
+[`!(value < e)]，或者 [`comp(e, value)] 且 [`!comp(value, e)] 已分区。
 
 [:en] Also, for all elements [`e] of [`[first, last)], [`e < value] shall imply
 [`!(value < e)] or [`comp(e, value)] shall imply [`!comp(value, e)].
+[:zh_CN] 并且，对于 [`[first, last)] 中的所有元素 [`e]，[`e < value] 应当蕴含
+[`!(value < e)]，或者 [`comp(e, value)] 应当蕴含 [`!comp(value, e)]。
 
 [para:returns]
 [codeblock:notation]
@@ -32,6 +36,7 @@ make_pair(lower_bound(first, last, value),
 [codeblock:end]
 
 [:en@~] or
+[:zh_CN@~] 或者
 
 [codeblock:notation]
 make_pair(lower_bound(first, last, value, comp),
@@ -40,4 +45,5 @@ make_pair(lower_bound(first, last, value, comp),
 
 [para:complexity]
 [:en] At most 2 * log[_2]([`last - first]) + [=bigoh](1) comparisons.
+[:zh_CN] 最多 2 * log[_2]([`last - first]) + [=bigoh](1) 次比较。
 [exit:description]
