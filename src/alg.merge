@@ -1,5 +1,6 @@
 ﻿[section#alg.merge
     [:en] Merge
+    [:zh_CN] 归并
 ]
 
 [%@library merge]
@@ -26,21 +27,31 @@ template<class InputIterator1, class InputIterator2,
 [`result_last] is [`result + (last1 - first1) + (last2 - first2)], such that the
 resulting range satisfies [`is_sorted(result, result_last)] or
 [`is_sorted(result, result_last, comp)], respectively.
+[:zh_CN] 将两个范围 [=range[first1,last1)] 和 [=range[first2,last2)] 中的所有
+元素复制到范围 [=range[result,result_last)] 中，其中 [`result_last] 为
+[`result + (last1 - first1) + (last2 - first2)]，并使得结果范围符合
+[`is_sorted(result, result_last)] 或者 [`is_sorted(result, result_last, comp)]。
 
 [para:requires]
 [:en] The ranges [=range[first1,last1)] and [=range[first2,last2)] shall be
 sorted with respect to [`operator<] or [`comp].
+[:zh_CN] 范围 [=range[first1,last1)] 和 [=range[first2,last2)] 都应当根据
+[`operator<] 或 [`comp] 有序。
 
 [:en] The resulting range shall not overlap with either of the original ranges.
+[:zh_CN] 结果范围不能与任何一个源范围有重叠。
 
 [para:returns]
 [:en] [`result + (last1 - first1) + (last2 - first2)].
+[:zh_CN] [`result + (last1 - first1) + (last2 - first2)]。
 
 [para:complexity]
 [:en] At most [`(last1 - first1) + (last2 - first2) - 1] comparisons.
+[:zh_CN] 最多进行 [`(last1 - first1) + (last2 - first2) - 1] 次比较。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 [exit:description]
 
 [%@library inplace_merge]
@@ -61,29 +72,45 @@ template<class BidirectionalIterator, class Compare>
 [:en] Merges two sorted consecutive ranges [=range[first,middle)] and
 [=range[middle,last)], putting the result of the merge into the range
 [=range[first,last)].
+[:zh_CN] 对两个连续的范围 [=range[first,middle)] 和 [=range[middle,last)] 进行
+归并，并将归并的结果置于范围 [=range[first,last)] 中。
 
 [:en] The resulting range will be in non-decreasing order; that is, for every
 iterator [`i] in [=range[first,last)] other than [`first], the condition
 [`*i < *(i - 1)] or, respectively, [`comp(*i, *(i - 1))] will be false.
+[:zh_CN] 结果范围将具有非降序；就是说，对于 [=range[first,last)] 中除了 [`first]
+之外的每个迭代器 [`i]，条件 [`*i < *(i - 1)] 或者 [`comp(*i, *(i - 1))] 将分别
+为假。
 
 [para:requires]
 [:en] The ranges [=range[first,middle)] and [=range[middle,last)] shall be
 sorted with respect to [`operator<] or [`comp].
+[:zh_CN] 范围 [=range[first,middle)] 和 [=range[middle,last)] 应当根据
+[`operator<] 或 [`comp] 有序。
 
 [:en] [`BidirectionalIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`BidirectionalIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
+
 
 [para:complexity]
 [:en] When enough additional memory is available, [`(last - first) - 1]
 comparisons.
+[:zh_CN] 如果有足够的额外内存，则进行 [`(last - first) - 1] 次比较。
 
 [:en] If no additional memory is available, an algorithm with complexity
 [$N] log([$N]) (where [`N] is equal to [`last - first]) may be used.
+[:zh_CN] 如果没有额外内存，则可能使用复杂度为 [$N] log([$N]) 的算法（其中 [`N]
+等于 [`last - first]）。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 [exit:description]
