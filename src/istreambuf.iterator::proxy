@@ -1,5 +1,6 @@
 ﻿[section#istreambuf.iterator::proxy
     [:en] Class template [`istreambuf_iterator::proxy]
+    [:zh_CN] 类模板 [`istreambuf_iterator::proxy]
 ]
 
 [%@library proxy[!istreambuf_iterator]]
@@ -19,12 +20,17 @@ namespace std {
 
 [para]
 [:en] Class [`istreambuf_iterator<charT,traits>::proxy] is for exposition only.
+[:zh_CN] 类 [`istreambuf_iterator<charT,traits>::proxy] 仅用于阐释。
 
 [:en] An implementation is permitted to provide equivalent functionality without
 providing a class with this name.
+[:zh_CN] 允许实现不提供具有这个名字的类而提供等价的功能。
 
 [:en] Class [`istreambuf_iterator<charT, traits>::proxy] provides a temporary
 placeholder as the return value of the post-increment operator ([`operator++]).
+[:zh_CN] 类 [`istreambuf_iterator<charT,traits>::proxy] 提供了作为后置增量运算符
+（[`operator++]）的返回值的临时占位符。
 
 [:en] It keeps the character pointed to by the previous value of the iterator
 for some possible future access to get the character.
+[:zh_CN] 它保持由迭代器之前的值所指向的字符，以便随后可能对其访问以获得该字符。
