@@ -1,9 +1,10 @@
 ﻿[section#ostreambuf.iter.cons
     [:en] [`ostreambuf_iterator] constructors
+    [:zh_CN] [`ostreambuf_iterator] 的构造函数
 ]
 
 
-[%@library ostreambuf_iterator[![:en]constructor]]
+[%@library ostreambuf_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 ostreambuf_iterator(ostream_type& s) noexcept;
 [codeblock:end]
@@ -11,12 +12,14 @@ ostreambuf_iterator(ostream_type& s) noexcept;
 [enter:description]
 [para:requires]
 [:en] [`s.rdbuf()] shall not be a null pointer.
+[:zh_CN] [`s.rdbuf()] 不能为空指针。
 
 [para:effects]
 [:en] Initializes [`sbuf_] with [`s.rdbuf()].
+[:zh_CN] 以 [`s.rdbuf()] 初始化 [`sbuf_]。
 [exit:description]
 
-[%@library ostreambuf_iterator[![:en]constructor]]
+[%@library ostreambuf_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 ostreambuf_iterator(streambuf_type* s) noexcept;
 [codeblock:end]
@@ -24,7 +27,9 @@ ostreambuf_iterator(streambuf_type* s) noexcept;
 [enter:description]
 [para:requires]
 [:en] [`s] shall not be a null pointer.
+[:zh_CN] [`s] 不能为空指针。
 
 [para:effects]
 [:en] Initializes [`sbuf_] with [`s].
+[:zh_CN] 以 [`s] 初始化 [`sbuf_]。
 [exit:description]
