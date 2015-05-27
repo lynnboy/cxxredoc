@@ -1,5 +1,5 @@
 ﻿[section#istreambuf.iterator::equal
-    [:en] [`istreambuf_iterator::equal]
+    [`istreambuf_iterator::equal]
 ]
 
 [%@library equal[!istreambuf_iterator]]
@@ -11,4 +11,6 @@ bool equal(const istreambuf_iterator& b) const;
 [para:returns]
 [:en] [`true] if and only if both iterators are at end-of-stream, or neither is
 at end-of-stream, regardless of what [`streambuf] object they use.
+[:zh_CN] 当且仅当两个迭代器均在流结尾，或者都不在流结尾时返回 [`true]，而不管
+它们所使用的 [`streambuf] 对象是什么。
 [exit:description]
