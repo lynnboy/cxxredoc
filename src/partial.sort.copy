@@ -1,5 +1,5 @@
 ﻿[section#partial.sort.copy
-    [:en] [`partial_sort_copy]
+    [`partial_sort_copy]
 ]
 
 [%@library partial_sort_copy]
@@ -24,19 +24,29 @@ template<class InputIterator, class RandomAccessIterator,
 [:en] Places the first [`min(last - first, result_last - result_first)] sorted
 elements into the range [=range[result_first,result_first + min(last - first,
 result_last - result_first))].
+[:zh_CN] 将前 [`min(last - first, result_last - result_first)] 个有序元素置于
+范围 [=range[result_first,result_first + min(last - first, result_last -
+result_first))] 之中。
 
 [para:returns]
 [:en] The smaller of: [`result_last] or [`result_first + (last - first)].
+[:zh_CN] [`result_last] 和 [`result_first + (last - first)] 之中的较小值。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*result_first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*result_first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] Approximately [`(last - first) * log(min(last - first, result_last -
 result_first))] comparisons.
+[:zh_CN] 大约 [`(last - first) * log(min(last - first, result_last -
+result_first))] 次比较。
 [exit:description]
