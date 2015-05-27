@@ -1,5 +1,5 @@
 ﻿[section#istreambuf.iterator::op!=
-    [:en] [`operator!=]
+    [`operator!=]
 ]
 
 [%@library operator!=[!istreambuf_iterator]]
@@ -12,4 +12,5 @@ template <class charT, class traits>
 [enter:description]
 [para:returns]
 [:en] [`!a.equal(b)].
+[:zh_CN] [`!a.equal(b)]。
 [exit:description]
