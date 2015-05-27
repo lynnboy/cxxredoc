@@ -1,5 +1,6 @@
 ﻿[section#iterator.container
     [:en] Container access
+    [:zh_CN] 容器访问
 ]
 
 [para]
@@ -8,6 +9,10 @@ the function templates in [#iterator.container] are available when any of the
 following headers are included: [`<array>], [`<deque>], [`<forward_list>],
 [`<list>], [`<map>], [`<regex>], [`<set>], [`<string>], [`<unordered_map>],
 [`<unordered_set>], and [`<vector>].
+[:zh_CN] 除了通过包含 [`<iterator>] 头文件使其可用之外，[#iterator.container]
+中的函数模板在包含了下列任何头文件时也可用：[`<array>]，[`<deque>]，
+[`<forward_list>]，[`<list>]，[`<map>]，[`<regex>]，[`<set>]，[`<string>]，
+[`<unordered_map>]，[`<unordered_set>]，以及 [`<vector>]。
 
 [codeblock:declaration]
 template <class C> constexpr auto size(const C& c) -> decltype(c.size());
@@ -15,6 +20,7 @@ template <class C> constexpr auto size(const C& c) -> decltype(c.size());
 [enter:description]
 [para:returns]
 [:en] [`c.size()].
+[:zh_CN] [`c.size()]。
 [exit:description]
 
 [codeblock:declaration]
@@ -23,6 +29,7 @@ template <class T, size_t N> constexpr size_t size(const T (&array)[N]) noexcept
 [enter:description]
 [para:returns]
 [:en] [`N].
+[:zh_CN] [`N]。
 [exit:description]
 
 [codeblock:declaration]
@@ -31,6 +38,7 @@ template <class C> constexpr auto empty(const C& c) -> decltype(c.empty());
 [enter:description]
 [para:returns]
 [:en] [`c.empty()].
+[:zh_CN] [`c.empty()]。
 [exit:description]
 
 [codeblock:declaration]
@@ -39,6 +47,7 @@ template <class T, size_t N> constexpr bool empty(const T (&array)[N]) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`false].
+[:zh_CN] [`false]。
 [exit:description]
 
 [codeblock:declaration]
@@ -47,6 +56,7 @@ template <class E> constexpr bool empty(initializer_list<E> il) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`il.size() == 0].
+[:zh_CN] [`il.size() == 0]。
 [exit:description]
 
 [codeblock:declaration]
@@ -56,6 +66,7 @@ template <class C> constexpr auto data(const C& c) -> decltype(c.data());
 [enter:description]
 [para:returns]
 [:en] [`c.data()].
+[:zh_CN] [`c.data()]。
 [exit:description]
 
 [codeblock:declaration]
@@ -64,6 +75,7 @@ template <class T, size_t N> constexpr T* data(T (&array)[N]) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`array].
+[:zh_CN] [`array]。
 [exit:description]
 
 [codeblock:declaration]
@@ -72,4 +84,5 @@ template <class E> constexpr const E* data(initializer_list<E> il) noexcept;
 [enter:description]
 [para:returns]
 [:en] [`il.begin()].
+[:zh_CN] [`il.begin()]。
 [exit:description]
