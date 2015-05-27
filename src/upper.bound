@@ -1,5 +1,5 @@
 ﻿[section#upper.bound
-    [:en] [`upper_bound]
+    [`upper_bound]
 ]
 
 [%@library upper_bound]
@@ -19,12 +19,18 @@ template<class ForwardIterator, class T, class Compare>
 [para:requires]
 [:en] The elements [`e] of [=range[first,last)] shall be partitioned with
 respect to the expression [`!(value < e)] or [`!comp(value, e)].
+[:zh_CN] [=range[first,last)] 中的元素 [`e] 应当根据表达式 [`!(value < e)] 或
+[`!comp(value, e)] 已分区。
 
 [para:returns]
 [:en] The furthermost iterator [`i] in the range [=crange[first,last`]] such
 that for every iterator [`j] in the range [=range[first,i)] the following
 corresponding conditions hold: [`!(value < *j)] or [`comp(value, *j) == false].
+[:zh_CN] 范围 [=crange[first,last`]] 中最远处的迭代器 [`i]，使得对于范围
+[=range[first,i)] 中的每个迭代器 [`j]，以下对应条件成立：[`!(value < *j)] 或
+[`comp(value, *j) == false]。
 
 [para:complexity]
 [:en] At most log[_2]([`last - first]) + [=bigoh](1) comparisons.
+[:zh_CN] 最多 log[_2]([`last - first]) + [=bigoh](1) 次比较。
 [exit:description]
