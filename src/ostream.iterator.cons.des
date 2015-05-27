@@ -1,9 +1,10 @@
 ﻿[section#ostream.iterator.cons.des
     [:en] [`ostream_iterator] constructors and destructor
+    [:zh_CN] [`ostream_iterator] 的构造函数和析构函数
 ]
 
 
-[%@library ostream_iterator[![:en]constructor]]
+[%@library ostream_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 ostream_iterator(ostream_type& s);
 [codeblock:end]
@@ -11,9 +12,10 @@ ostream_iterator(ostream_type& s);
 [enter:description]
 [para:effects]
 [:en] Initializes [$out_stream] with [`&s] and [$delim] with null.
+[:zh_CN] 以 [`&s] 初始化 [$out_stream]，以空值初始化 [$delim]。
 [exit:description]
 
-[%@library ostream_iterator[![:en]constructor]]
+[%@library ostream_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 ostream_iterator(ostream_type& s, const charT* delimiter);
 [codeblock:end]
@@ -21,9 +23,10 @@ ostream_iterator(ostream_type& s, const charT* delimiter);
 [enter:description]
 [para:effects]
 [:en] Initializes [$out_stream] with [`&s] and [$delim] with [`delimiter].
+[:zh_CN] 以 [`&s] 初始化 [$out_stream]，以 [`delimiter] 初始化 [$delim]。
 [exit:description]
 
-[%@library ostream_iterator[![:en]constructor]]
+[%@library ostream_iterator[![:en]constructor[:zh_CN]构造函数]]
 [codeblock:declaration]
 ostream_iterator(const ostream_iterator& x);
 [codeblock:end]
@@ -31,9 +34,10 @@ ostream_iterator(const ostream_iterator& x);
 [enter:description]
 [para:effects]
 [:en] Constructs a copy of [`x].
+[:zh_CN] 构造 [`x] 的副本。
 [exit:description]
 
-[%@library ostream_iterator[![:en]destructor]]
+[%@library ostream_iterator[![:en]destructor[:zh_CN]析构函数]]
 [codeblock:declaration]
 ~ostream_iterator();
 [codeblock:end]
@@ -41,4 +45,5 @@ ostream_iterator(const ostream_iterator& x);
 [enter:description]
 [para:effects]
 [:en] The iterator is destroyed.
+[:zh_CN] 销毁迭代器。
 [exit:description]
