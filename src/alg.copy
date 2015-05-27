@@ -119,7 +119,6 @@ the range [=range[result - (last - first),result)].
 [`*(result - n) = *(last - n)].
 [:zh_CN] 对于每个正整数 [`n <= (last - first)]，实施
 [`*(result - n) = *(last - n)]。
-[:zh_CN]
 
 [para:requires]
 [:en] [`result] shall not be in the range [=brange(first,last`]].
