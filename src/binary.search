@@ -1,5 +1,5 @@
 ﻿[section#binary.search
-    [:en] [`binary_search]
+    [`binary_search]
 ]
 
 [%@library binary_search]
@@ -18,15 +18,23 @@ template<class ForwardIterator, class T, class Compare>
 [:en] The elements [`e] of [=range[first,last)] are partitioned with respect to
 the expressions [`e < value] and [`!(value < e)] or [`comp(e, value)] and
 [`!comp(value, e)].
+[:zh_CN] [=range[first,last)] 中的元素 [`e] 应当根据表达式 [`e < value] 和
+[`!(value < e)]，或者 [`comp(e, value)] 和 [`!comp(value, e)] 已分区。
 
 [:en] Also, for all elements [`e] of [`[first, last)], [`e < value] implies
 [`!(value < e)] or [`comp(e, value)] implies [`!comp(value, e)].
+[:zh_CN] 并且，对于 [`[first, last)] 中的所有元素 [`e]，[`e < value] 应当蕴含
+[`!(value < e)]，或者 [`comp(e, value)] 应当蕴含 [`!comp(value, e)]。
 
 [para:returns]
 [:en] [`true] if there is an iterator [`i] in the range [=range[first,last)]
 that satisfies the corresponding conditions: [`!(*i < value) && !(value < *i)]
 or [`comp(*i, value) == false && comp(value, *i) == false].
+[:zh_CN] 如果 [=range[first,last)] 中存在符合以下对应条件的迭代器 [`i] 则返回
+[`true]：[`!(*i < value) && !(value < *i)]
+或者 [`comp(*i, value) == false && comp(value, *i) == false]。
 
 [para:complexity]
 [:en] At most log[_2]([`last - first]) + [=bigoh](1) comparisons.
+[:zh_CN] 最多 log[_2]([`last - first]) + [=bigoh](1) 次比较。
 [exit:description]
