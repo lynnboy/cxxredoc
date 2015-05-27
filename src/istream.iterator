@@ -1,5 +1,6 @@
 ﻿[section#istream.iterator
     [:en] Class template [`istream_iterator]
+    [:zh_CN] 类模板 [`istream_iterator]
 ]
 
 [para]
@@ -7,38 +8,54 @@
 [:en] The class template [`istream_iterator] is an input iterator
 ([#input.iterators]) that reads (using [`operator>>]) successive elements from
 the input stream for which it was constructed.
+[:zh_CN] 类模板 [`istream_iterator] 是一种输入迭代器（[#input.iterators]），从
+用以构造它的输入流中（通过使用 [`operator>>]）读取连续的元素。
 
 [:en] After it is constructed, and every time [`++] is used, the iterator reads
 and stores a value of [`T].
+[:zh_CN] 当其被构造后，以及每次使用 [`++] 之后，迭代器均读取并存储一个 [`T] 值。
 
 [:en] If the iterator fails to read and store a value of [`T] ([`fail()] on the
 stream returns [`true]), the iterator becomes equal to the [+end-of-stream]
 iterator value.
+[:zh_CN] 如果迭代器读取并存储 [`T] 值失败（流的 [`fail()] 返回 [`true]），迭代器
+变为与[+流结束]迭代器值相等。
 
 [:en] The constructor with no arguments [`istream_iterator()] always constructs
 an end-of-stream input iterator object, which is the only legitimate iterator to
 be used for the end condition.
+[:zh_CN] 没有实参的构造函数 [`istream_iterator()] 总是构造一个流结束输入迭代器，
+并且是用作结束条件的唯一合法的迭代器。
 
 [:en] The result of [`operator*] on an end-of-stream iterator is not defined.
+[:zh_CN] 对流结束迭代器实施 [`operator*] 的结果是未定义的。
 
 [:en] For any other iterator value a [`const T&] is returned.
+[:zh_CN] 其他任何迭代器值都将返回一个 [`const T&]。
 
 [:en] The result of [`operator->] on an end-of-stream iterator is not defined.
+[:zh_CN] 对流结束迭代器实施 [`operator->] 的结果是未定义的。
 
 [:en] For any other iterator value a [`const T*] is returned.
+[:zh_CN] 其他任何迭代器值都将返回一个 [`const T*]。
 
 [:en] The behavior of a program that applies [`operator++()] to an end-of-stream
 iterator is undefined.
+[:zh_CN] 向流结束迭代器实施 [`operator++()] 的程序行为是未定义的。
 
 [:en] It is impossible to store things into istream iterators.
+[:zh_CN] 不可能向 istream 迭代器中进行存储。
 
 [para]
 [:en] Two end-of-stream iterators are always equal.
+[:zh_CN] 流结束迭代器总是相等。
 
 [:en] An end-of-stream iterator is not equal to a non-end-of-stream iterator.
+[:zh_CN] 流结束迭代器不等于非流结束迭代器。
 
 [:en] Two non-end-of-stream iterators are equal when they are constructed from
 the same stream.
+[:zh_CN] 当两个非流结束迭代器是以同一个流构造时它们相等。
 
 [codeblock:synopsis]
 namespace std {
