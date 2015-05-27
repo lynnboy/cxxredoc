@@ -1,5 +1,6 @@
 ﻿[section#alg.reverse
     [:en] Reverse
+    [:zh_CN] 反转
 ]
 
 [%@library reverse]
@@ -11,13 +12,17 @@ template<class BidirectionalIterator>
 [enter:description]
 [para:effects]
 [:en] For each non-negative integer [`i < (last - first)/2], applies
-[`iter_swap] to all pairs of iterators [`first + i, (last - i) - 1].
+[`iter_swap] to all pairs of iterators [`first + i], [`(last - i) - 1].
+[:zh_CN] 对于每个非负整数 [`i < (last - first)/2]，对每一对迭代器 [`first + i]
+和 [`(last - i) - 1] 运用 [`iter_swap]。
 
 [para:requires]
 [:en] [`*first] shall be swappable ([#swappable.requirements]).
+[:zh_CN] [`*first] 应当为可交换的（[#swappable.requirements]）。
 
 [para:complexity]
 [:en] Exactly [`(last - first)/2] swaps.
+[:zh_CN] 恰好进行 [`(last - first)/2] 次交换。
 [exit:description]
 
 [%@library reverse_copy]
@@ -34,14 +39,22 @@ template<class BidirectionalIterator, class OutputIterator>
 [=range[result,result+(last-first))] such that for every non-negative integer
 [`i < (last - first)] the following assignment takes place:
 [`*(result + (last - first) - 1 - i) = *(first + i)].
+[:zh_CN] 将范围 [=range[first,last)] 复制到范围
+[=range[result,result+(last-first))] 中，其中对于每个非负整数
+[`i < (last - first)]，都进行了以下赋值：
+[`*(result + (last - first) - 1 - i) = *(first + i)]。
 
 [para:requires]
 [:en] The ranges [=range[first,last)] and [=range[result,result+(last-first))]
 shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result+(last-first))] 不能
+有重叠。
 
 [para:returns]
 [:en] [`result + (last - first)].
+[:zh_CN] [`result + (last - first)]。
 
 [para:complexity]
 [:en] Exactly [`last - first] assignments.
+[:zh_CN] 恰好进行 [`last - first] 次赋值。
 [exit:description]
