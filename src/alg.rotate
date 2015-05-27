@@ -1,5 +1,6 @@
 ﻿[section#alg.rotate
     [:en] Rotate
+    [:zh_CN] 旋转
 ]
 
 [%@library rotate]
@@ -14,25 +15,35 @@ template<class ForwardIterator>
 [:en] For each non-negative integer [`i < (last - first)], places the element
 from the position [`first + i] into position
 [`first + (i + (last - middle)) % (last - first)].
+[:zh_CN] 对于每个非负整数 [`i < (last - first)]，将位置 [`first + i] 中的元素
+置于位置 [`first + (i + (last - middle)) % (last - first)] 中。
 
 [para:returns]
 [:en] [`first + (last - middle)].
+[:zh_CN] [`first + (last - middle)]。
 
 [para:notes]
 [:en] This is a left rotate.
+[:zh_CN] 这是左旋操作。
 
 [para:requires]
 [:en] [=range[first,middle)] and [=range[middle,last)] shall be valid ranges.
+[:zh_CN] [=range[first,middle)] 和 [=range[middle,last)] 应当是有效范围。
 
 [:en] [`ForwardIterator] shall satisfy the requirements of [`ValueSwappable]
 ([#swappable.requirements]).
+[:zh_CN] [`ForwardIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and the requirements of
 [`MoveAssignable] (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible] 的规定
+（表 [#moveconstructible]）和 [`MoveAssignable] 的规定（表 [#moveassignable]）。
 
 [para:complexity]
 [:en] At most [`last - first] swaps.
+[:zh_CN] 最多进行 [`last - first] 次交换。
 [exit:description]
 
 [%@library rotate_copy]
@@ -49,14 +60,22 @@ template<class ForwardIterator, class OutputIterator>
 (last - first))] such that for each non-negative integer [`i < (last - first)]
 the following assignment takes place: [`*(result + i) =  *(first + (i + (middle
 - first)) % (last - first))].
+[:zh_CN] 将范围 [=range[first,last)] 复制到范围 [=range[result,result + (last -
+first))] 中，其中对于每个非负整数 [`i < (last - first)]，都进行了以下赋值：
+[`*(result + i) =  *(first + (i + (middle - first)) % (last - first))]。
 
 [para:returns]
 [:en] [`result + (last - first)].
+[:zh_CN] [`result + (last - first)]。
 
 [para:requires]
 [:en] The ranges [=range[first,last)] and
 [=range[result,result + (last - first))] shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result + (last - first))]
+不能有重叠。
+
 
 [para:complexity]
 [:en] Exactly [`last - first] assignments.
+[:zh_CN] 恰好进行 [`last - first] 次赋值。
 [exit:description]
