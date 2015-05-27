@@ -1,27 +1,37 @@
 ﻿[section#alg.heap.operations
     [:en] Heap operations
+    [:zh_CN] 堆运算
 ]
 
 [para]
 [:en] A [+heap] is a particular organization of elements in a range between two
 random access iterators [=range[a,b)].
+[:zh_CN] [+堆]是对两个随机访问迭代器 [=range[a,b)] 之间的范围中的元素的一种特定
+的组织方式。
 
 [:en] Its two key properties are:
+[:zh_CN] 它的两项关键性质是：
 
 [list:ol@nparen]
 [item]
 [:en] There is no element greater than [`*a] in the range and
+[:zh_CN] 范围中不存在大于 [`*a] 的元素，并且
 [item]
 [:en] [`*a] may be removed by [`pop_heap()], or a new element added by
 [`push_heap()], in [=bigoh](log([$N])) time.
+[:zh_CN] 可以通过 [`pop_heap()] 移除 [`*a]，或者通过 [`push_heap()] 添加一个新
+元素，并具有 [=bigoh](log([$N])) 的时间。
 [list:end]
 
 [para]
 [:en] These properties make heaps useful as priority queues.
+[:zh_CN] 这些性质使堆可以作为优先级队列。
 
 [para]
 [:en] [`make_heap()] converts a range into a heap and [`sort_heap()] turns a
 heap into a sorted sequence.
+[:zh_CN] [`make_heap()] 把一个范围转换为一个堆，而 [`sort_heap()] 把一个堆变为
+一个有序序列。
 
 [include push.heap]
 
