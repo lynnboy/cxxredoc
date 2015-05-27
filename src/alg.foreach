@@ -1,5 +1,6 @@
 ﻿[section#alg.foreach
     [:en] For each
+    [:zh_CN] 对每个……（For each）
 ]
 
 [%@library for_each]
@@ -12,27 +13,38 @@ template<class InputIterator, class Function>
 [para:requires]
 [:en] [`Function] shall meet the requirements of [`MoveConstructible] (Table
 [#moveconstructible]).
+[:zh_CN] [`Function] 应当符合 [`MoveConstructible] 的规定（表
+[#moveconstructible]）。
 
 [enter:note]
 [:en] [`Function] need not meet the requirements of [`CopyConstructible] (Table
 [#copyconstructible]).
+[:zh_CN] [`Function] 并不需要符合 [`CopyConstructible] 的规定（表
+[#copyconstructible]）。
 [exit:note]
 
 [para:effects]
 [:en] Applies [`f] to the result of dereferencing every iterator in the range
 [=range[first,last)], starting from [`first] and proceeding to [`last - 1].
+[:zh_CN] 对范围 [=range[first,last)] 中的每个迭代器的解引用结果运用 [`f]，开始于
+[`frist] 并进行到 [`last - 1]。
 
 [enter:note]
 [:en] If the type of [`first] satisfies the requirements of a mutable iterator,
 [`f] may apply nonconstant functions through the dereferenced iterator.
+[:zh_CN] 如果 [`first] 的类型符合可改动迭代器的规定，则 [`f] 可以通过所解引用的
+迭代器运用非常量函数。
 [exit:note]
 
 [para:returns]
 [:en] [`std::move(f)].
+[:zh_CN] [`std::move(f)]。
 
 [para:complexity]
 [:en] Applies [`f] exactly [`last - first] times.
+[:zh_CN] 恰好进行 [`last - first] 次 [`f] 的运用。
 
 [para:notes]
 [:en] If [`f] returns a result, the result is ignored.
+[:zh_CN] 如果 [`f] 返回结果，则该结果被忽略。
 [exit:description]
