@@ -1,5 +1,6 @@
 ﻿[section#alg.adjacent.find
     [:en] Adjacent find
+    [:zh_CN] 邻接查找
 ]
 
 [%@library adjacent_find]
@@ -16,12 +17,18 @@ template<class ForwardIterator, class BinaryPredicate>
 [para:returns]
 [:en] The first iterator [`i] such that both [`i] and [`i + 1] are in the range
 [=range[first,last)] for which the following corresponding conditions hold:
-[`*i == *(i + 1), pred(*i, *(i + 1)) != false].
+[`*i == *(i + 1)], [`pred(*i, *(i + 1)) != false].
+[:zh_CN] 第一个迭代器 [`i]，使得 [`i] 和 [`i + 1] 都处于范围
+[=range[first,last)] 中，且以下对应条件生效：
+[`*i == *(i + 1)]，[`pred(*i, *(i + 1)) != false]。
 
 [:en] Returns [`last] if no such iterator is found.
+[:zh_CN] 如果未找到这种迭代器，则返回 [`last]。
 
 [para:complexity]
 [:en] For a nonempty range, exactly [`min((i - first) + 1, (last - first) - 1)]
 applications of the corresponding predicate, where [`i] is [`adjacent_find][=']s
 return value.
+[:zh_CN] 对于非空范围，恰好进行 [`min((i - first) + 1, (last - first) - 1)] 次
+相应谓词的运用，其中 [`i] 为 [`adjacent_find] 的返回值。
 [exit:description]
