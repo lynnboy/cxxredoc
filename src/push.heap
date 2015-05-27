@@ -1,5 +1,5 @@
 ﻿[section#push.heap
-    [:en] [`push_heap]
+    [`push_heap]
 ]
 
 [%@library push_heap]
@@ -16,14 +16,19 @@ template<class RandomAccessIterator, class Compare>
 [para:effects]
 [:en] Places the value in the location [`last - 1] into the resulting heap
 [=range[first,last)].
+[:zh_CN] 将位置 [`last - 1] 中的值置于结果堆 [=range[first,last)] 中。
 
 [para:requires]
 [:en] The range [=range[first,last - 1)] shall be a valid heap.
+[:zh_CN] 范围 [=range[first,last - 1)] 应当是有效的堆。
 
 [:en] The type of [`*first] shall satisfy the [`MoveConstructible] requirements
 (Table [#moveconstructible]) and the [`MoveAssignable] requirements
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible] 的规定
+（表 [#moveconstructible]）和 [`MoveAssignable] 的规定（表 [#moveassignable]）。
 
 [para:complexity]
 [:en] At most [`log(last - first)] comparisons.
+[:zh_CN] 最多进行 [`log(last - first)] 次比较。
 [exit:description]
