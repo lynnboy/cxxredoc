@@ -1,61 +1,84 @@
 ﻿[section#alg.sorting
     [:en] Sorting and related operations
+    [:zh_CN] 排序和相关运算
 ]
 
 [para]
 [:en] All the operations in [#alg.sorting] have two versions: one that takes a
 function object of type [`Compare] and one that uses an [`operator<].
+[:zh_CN] [#alg.sorting] 中的所有运算都有两种版本：一种接受 [`Compare] 类型的函数
+对象，而另一种使用 [`operator<]。
 
 [para]
 [:en] [`Compare] is a function object type ([#function.objects]).
+[:zh_CN] [`Compare] 是函数对象类型（[#function.objects]）。
 
 [:en] The return value of the function call operation applied to an object of
 type [`Compare], when contextually converted to [`bool] (Clause [#conv]), yields
 [`true] if the first argument of the call is less than the second, and [`false]
 otherwise.
+[:zh_CN] 对 [`Compare] 类型的对象运用函数调用运算符的返回值，当被按语境转换为
+[`bool]（第 [#conv] 条）时，若该调用的第一个实参小于第二个则产生 [`true]，否则
+为 [`false]。
 
 [:en] [`Compare comp] is used throughout for algorithms assuming an ordering
 relation.
+[:zh_CN] 假定存在排序关系的算法中将始终使用 [`Compare comp]。
 
 [:en] It is assumed that [`comp] will not apply any non-constant function
 through the dereferenced iterator.
+[:zh_CN] [`comp] 被假定为，不会通过被解引用的迭代器进行任何非常量函数的运用。
 
 [para]
 [:en] For all algorithms that take [`Compare], there is a version that uses
 [`operator<] instead.
+[:zh_CN] 对于所有接受 [`Compare] 的算法，存在一个改为使用 [`operator<] 的版本。
 
 [:en] That is, [`comp(*i, *j) != false] defaults to [`*i < *j != false].
+[:zh_CN] 就是说，[`comp(*i, *j) != false] 默认为 [`*i < *j != false]。
 
 [:en] For algorithms other than those described in [#alg.binary.search] to work
 correctly, [`comp] has to induce a strict weak ordering on the values.
+[:zh_CN] 为了使除了在 [#alg.binary.search] 中说明的算法以外的算法能够正确工作，
+[`comp] 必须为各个值归纳一种严格弱序关系。
 
 [para]
 [:en] The term [+strict] refers to the requirement of an irreflexive relation
 ([`!comp(x, x)] for all [`x]), and the term [+weak] to requirements that are not
 as strong as those for a total ordering, but stronger than those for a partial
 ordering.
+[:zh_CN] 术语[+严格]代表对反自反关系的规定（对于所有 [`x] 有 [`!comp(x, x)]），
+而术语[+弱]修饰不如全序关系那么强，但强于偏序关系的规定。
 
 [:en] If we define [`equiv(a, b)] as [`!comp(a, b) && !comp(b, a)], then the
-requirements are that [`comp] and [`equiv] both be transitive  relations:
+requirements are that [`comp] and [`equiv] both be transitive relations:
+[:zh_CN] 如果我们定义 [`equiv(a, b)] 为 [`!comp(a, b) && !comp(b, a)]，则其规定
+为，[`comp] 和 [`equiv] 都是可传递关系：
 
 [list]
 [item]
 [:en] [`comp(a, b) && comp(b, c)] implies [`comp(a, c)]
+[:zh_CN] [`comp(a, b) && comp(b, c)] 意味着 [`comp(a, c)]
 [item]
 [:en] [`equiv(a, b) && equiv(b, c)] implies [`equiv(a, c)]
+[:zh_CN] [`equiv(a, b) && equiv(b, c)] 意味着 [`equiv(a, c)]
 [list:end]
 
 [enter:note]
 [:en] Under these conditions, it can be shown that
+[:zh_CN] 在这些条件下，可以明确
 
 [list]
 [item]
 [:en] [`equiv] is an equivalence relation
+[:zh_CN] [`equiv] 是一种等价关系
 [item]
 [:en] [`comp] induces a well-defined relation on the equivalence classes
 determined by [`equiv]
+[:zh_CN] [`comp] 在由 [`equiv] 所确定的等价类之间归纳为一种良好定义的关系
 [item]
 [:en] The induced relation is a strict total ordering.
+[:zh_CN] 所归纳的关系是严格全序关系。
 [list:end]
 [exit:note]
 
@@ -64,23 +87,35 @@ determined by [`equiv]
 iterator [`i] pointing to the sequence and every non-negative integer [`n] such
 that [`i + n] is a valid iterator pointing to an element of the sequence,
 [`comp(*(i + n), *i) == false].
+[:zh_CN] 如果对于每个指向一个序列的迭代器 [`i]，以及每个使 [`i + n] 为指向该序列
+的元素的有效迭代器的非负整数 [`n]，均有 [`comp(*(i + n), *i) == false]，则该序列
+[+对于比较器 [`comp] 有序]。
 
 [para]
 [:en] A sequence [=range[start,finish)] is [+partitioned with respect to an
 expression] [`f(e)] if there exists an integer [`n] such that for all
 [`0 <= i < distance(start, finish)], [`f(*(start + i))] is true if and only if
 [`i < n].
+[:zh_CN] 如果存在一个整数 [`n] 使得对于所有 [`0 <= i < distance(start, finish)]
+，当且仅当 [`i < n] 时 [`f(*(start + i))] 为真，则序列 [=range[start,finish)]
+[+对于表达式 [`f(e)] 已分区]。
 
 [para]
 [:en] In the descriptions of the functions that deal with ordering relationships
 we frequently use a notion of equivalence to describe concepts such as
 stability.
+[:zh_CN] 在处理排序关系的函数的说明中，我们经常使用一种等价性的说法来描述诸如
+稳定性等概念。
 
 [:en] The equivalence to which we refer is not necessarily an [`operator==], but
 an equivalence relation induced by the strict weak ordering.
+[:zh_CN] 我们所提及的等价性并不需要某个 [`operator==]，而是由严格弱序关系所归纳
+出来的等价关系。
 
 [:en] That is, two elements [`a] and [`b] are considered equivalent if and only
 if [`!(a < b) && !(b < a)].
+[:zh_CN] 就是说，当且仅当 [`!(a < b) && !(b < a)] 时，两个元素 [`a] 和 [`b] 被
+认为是等价的。
 
 [include alg.sort]
 
