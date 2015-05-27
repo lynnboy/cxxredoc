@@ -1,5 +1,6 @@
 ﻿[section#alg.binary.search
     [:en] Binary search
+    [:zh_CN] 折半搜索
 ]
 
 [para]
@@ -7,14 +8,21 @@
 assume that the sequence being searched is partitioned with respect to an
 expression formed by binding the search key to an argument of the implied or
 explicit comparison function.
+[:zh_CN] 本节中的所有算法都是各个版本的折半搜索，并假设所搜索的序列根据某个
+表达式已分区，该表达式是以搜索键与某个隐含的或者明确的比较函数的实参而构成的。
 
 [:en] They work on non-random access iterators minimizing the number of
 comparisons, which will be logarithmic for all types of iterators.
+[:zh_CN] 它们可以工作于非随机访问迭代器，其最小化的比较次数，对于所有类型的
+迭代器将为对数阶。
 
 [:en] They are especially appropriate for random access iterators, because these
 algorithms do a logarithmic number of steps through the data structure.
+[:zh_CN] 它们尤其适合于随机访问迭代器，因为这些算法可以在数据结构上执行指数阶
+数量的步骤。
 
 [:en] For non-random access iterators they execute a linear number of steps.
+[:zh_CN] 对于非随机访问迭代器，它们执行线性阶数量的步骤。
 
 [include lower.bound]
 
