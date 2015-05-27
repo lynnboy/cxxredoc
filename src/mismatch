@@ -1,5 +1,6 @@
 ﻿[section#mismatch
     [:en] Mismatch
+    [:zh_CN] 查找不匹配
 ]
 
 [%@library mismatch]
@@ -32,26 +33,35 @@ template <class InputIterator1, class InputIterator2,
 [para:remarks]
 [:en] If [`last2] was not given in the argument list, it denotes
 [`first2 + (last1 - first1)] below.
+[:zh_CN] 如果实参列表中未给出 [`last2]，则它在下文中代表
+[`first2 + (last1 - first1)]。
 
 [para:returns]
 [:en] A pair of iterators [`i] and [`j] such that [`j == first2 + (i - first1)]
 and [`i] is the first iterator in the range [=range[first1,last1)] for which the
 following corresponding conditions hold:
+[:zh_CN] 一对迭代器 [`i] 和 [`j]，使得 [`j == first2 + (i - first1)]，并且 [`i]
+为范围 [=range[first1,last1)] 中第一个使以下的对应条件生效的迭代器：
 
 [list]
 [item]
 [:en] [`j] is in the range [`[first2, last2)].
+[:zh_CN] [`j] 处于范围 [`[first2, last2)] 之中。
 [item]
-[:en] [`!(*i == *(first2 + (i - first1)))]
+[`!(*i == *(first2 + (i - first1)))]
 [item]
-[:en] [`pred(*i, *(first2 + (i - first1))) == false]
+[`pred(*i, *(first2 + (i - first1))) == false]
 [list:end]
 
 [:en] Returns the pair [`first1 + min(last1 - first1, last2 - first2)] and
 [`first2 + min(last1 - first1, last2 - first2)] if such an iterator [`i] is not
 found.
+[:zh_CN] 如果未找到这种迭代器 [`i]，则返回
+[`first1 + min(last1 - first1, last2 - first2)] 和
+[`first2 + min(last1 - first1, last2 - first2)] 的对偶。
 
 [para:complexity]
 [:en] At most [`min(last1 - first1, last2 - first2)] applications of the
 corresponding predicate.
+[:zh_CN] 最多进行 [`min(last1 - first1, last2 - first2)] 次相应谓词的运用。
 [exit:description]
