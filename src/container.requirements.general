@@ -833,7 +833,7 @@ allocator_traits<A>::construct(m, p, rv)
 [codeblock:end]
 
 [:en@~] and its evaluation causes the following postcondition to hold:
-[:zh_CN@~] 并且其求值导致以下后条件有效：
+[:zh_CN@~] 并且其求值导致以下后条件成立：
 
 [:en] The value of [`*p] is equivalent to the value of [`rv] before the
 evaluation.
@@ -858,7 +858,7 @@ allocator_traits<A>::construct(m, p, v)
 [codeblock:end]
 
 [:en@~] and its evaluation causes the following postcondition to hold:
-[:zh_CN@~] 并且其求值导致以下后条件有效：
+[:zh_CN@~] 并且其求值导致以下后条件成立：
 
 [:en] The value of [`v] is unchanged and is equivalent to [`*p].
 [:zh_CN] [`v] 的值未改变且等价于 [`*p]。

@@ -276,7 +276,7 @@ typedef char S::*PMD;
 [codeblock:end]
 
 [:en@~] the following assertions will hold:
-[:zh_CN@~] 下列断言均有效：
+[:zh_CN@~] 下列断言均成立：
 
 [codeblock]
 static_assert(is_same<result_of_t<S(int)>, short>::value, "Error!");

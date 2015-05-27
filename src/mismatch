@@ -41,7 +41,7 @@ template <class InputIterator1, class InputIterator2,
 and [`i] is the first iterator in the range [=range[first1,last1)] for which the
 following corresponding conditions hold:
 [:zh_CN] 一对迭代器 [`i] 和 [`j]，使得 [`j == first2 + (i - first1)]，并且 [`i]
-为范围 [=range[first1,last1)] 中第一个使以下的对应条件生效的迭代器：
+为范围 [=range[first1,last1)] 中第一个使以下的对应条件成立的迭代器：
 
 [list]
 [item]

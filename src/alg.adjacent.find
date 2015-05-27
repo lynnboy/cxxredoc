@@ -19,7 +19,7 @@ template<class ForwardIterator, class BinaryPredicate>
 [=range[first,last)] for which the following corresponding conditions hold:
 [`*i == *(i + 1)], [`pred(*i, *(i + 1)) != false].
 [:zh_CN] 第一个迭代器 [`i]，使得 [`i] 和 [`i + 1] 都处于范围
-[=range[first,last)] 中，且以下对应条件生效：
+[=range[first,last)] 中，且以下对应条件成立：
 [`*i == *(i + 1)]，[`pred(*i, *(i + 1)) != false]。
 
 [:en] Returns [`last] if no such iterator is found.

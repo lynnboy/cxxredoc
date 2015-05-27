@@ -41,7 +41,7 @@ template<class InputIterator1, class InputIterator2,
 [`*i == *(first2 + (i - first1))],
 [`pred(*i, *(first2 + (i - first1))) != false].
 [:zh_CN] 否则如果对于范围 [=range[first1,last1)] 中的每个迭代器 [`i]，以下的对应
-条件均生效则返回 [`true]：
+条件均成立则返回 [`true]：
 [`*i == *(first2 + (i - first1))]，
 [`pred(*i, *(first2 + (i - first1))) != false]。
 

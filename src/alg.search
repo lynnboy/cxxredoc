@@ -29,7 +29,7 @@ template<class ForwardIterator1, class ForwardIterator2,
 [`last2 - first2] the following corresponding conditions hold:
 [`*(i + n) == *(first2 + n)], [`pred(*(i + n), *(first2 + n)) != false].
 [:zh_CN] 范围 [=range[first1,last1 - (last2-first2))] 中的第一个迭代器 [`i]，
-使得对于每个小于 [`last2 - first2] 的非负整数 [`n]，以下的对应条件均有效：
+使得对于每个小于 [`last2 - first2] 的非负整数 [`n]，以下的对应条件均成立：
 [`*(i + n) == *(first2 + n)]，[`pred(*(i + n), *(first2 + n)) != false]。
 
 [:en] Returns [`first1] if [=range[first2,last2)] is empty, otherwise returns
@@ -74,7 +74,7 @@ for every non-negative integer [`n] less than [`count] the following
 corresponding conditions hold:
 [`*(i + n) == value], [`pred(*(i + n),value) != false].
 [:zh_CN] 范围 [=range[first,last-count)] 中的第一个迭代器 [`i]，使得对于每个小于
-[`count] 的非负整数 [`n]，以下的对应条件均有效：
+[`count] 的非负整数 [`n]，以下的对应条件均成立：
 [`*(i + n) == value]，[`pred(*(i + n),value) != false]。
 
 [:en] Returns [`last] if no such iterator is found.

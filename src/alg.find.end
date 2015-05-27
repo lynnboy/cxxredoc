@@ -28,8 +28,8 @@ template<class ForwardIterator1, class ForwardIterator2,
 first2))] such that for every non-negative integer [`n < (last2 - first2)], the
 following corresponding conditions hold:
 [`*(i + n) == *(first2 + n)], [`pred(*(i + n), *(first2 + n)) != false].
-[:zh_CN] 范围 [=range[first1,last1 - (last2 - first2))] 中最后一个使以下的对应
-条件生效的迭代器 [`i]：
+[:zh_CN] 范围 [=range[first1,last1 - (last2 - first2))] 中最后一个迭代器 [`i]，
+使得对于每个非负整数 [`n < (last2 - first2)]，以下的对应条件均成立：
 [`*(i + n) == *(first2 + n)]，[`pred(*(i + n), *(first2 + n)) != false]。
 
 [:en] Returns [`last1] if [=range[first2,last2)] is empty or if no such iterator

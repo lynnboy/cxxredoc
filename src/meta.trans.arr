@@ -49,7 +49,7 @@ struct remove_all_extents;
 [enter:example]
 [codeblock]
 // [:en] the following assertions hold:
-// [|:zh_CN] 下列断言均有效：
+// [|:zh_CN] 下列断言均成立：
 assert((is_same<remove_extent_t<int>, int>::value));
 assert((is_same<remove_extent_t<int[2]>, int>::value));
 assert((is_same<remove_extent_t<int[2][3]>, int[3]>::value));
@@ -61,7 +61,7 @@ assert((is_same<remove_extent_t<int[][3]>, int[3]>::value));
 [enter:example]
 [codeblock]
 // [:en] the following assertions hold:
-// [|:zh_CN] 下列断言均有效：
+// [|:zh_CN] 下列断言均成立：
 assert((is_same<remove_all_extents_t<int>, int>::value));
 assert((is_same<remove_all_extents_t<int[2]>, int>::value));
 assert((is_same<remove_all_extents_t<int[2][3]>, int>::value));

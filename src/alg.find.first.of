@@ -28,7 +28,7 @@ template<class InputIterator, class ForwardIterator,
 some iterator [`j] in the range [=range[first2,last2)] the following conditions
 hold: [`*i == *j], [`pred(*i,*j) != false].
 [:zh_CN] 范围 [=range[first1,last1)] 中第一个迭代器 [`i]，使得对于范围
-[=range[first2,last2)] 中的某个迭代器 [`j]，以下的对应条件生效：
+[=range[first2,last2)] 中的某个迭代器 [`j]，以下的对应条件成立：
 [`*i == *j]，[`pred(*i,*j) != false]。
 
 [:en] Returns [`last1] if [=range[first2,last2)] is empty or if no such iterator

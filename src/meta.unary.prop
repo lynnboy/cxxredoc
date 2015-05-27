@@ -529,7 +529,7 @@ union U1 { };
 union U2 final { };
 
 // [:en] the following assertions hold:
-// [|:zh_CN] 下列断言有效：
+// [|:zh_CN] 下列断言成立：
 static_assert(!is_final<int>::value, "Error!");
 static_assert( is_final<P>::value, "Error!");
 static_assert(!is_final<U1>::value, "Error!");

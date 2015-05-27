@@ -154,7 +154,7 @@ template <class Predicate> void remove_if(Predicate pred);
 [para:effects]
 [:en] Erases all the elements in the list referred by a list iterator [`i] for
 which the following conditions hold: [`*i == value, pred(*i) != false].
-[:zh_CN] 清除列表中的所有由列表的迭代器 [`i] 所指代的元素，其中以下条件有效：
+[:zh_CN] 清除列表中的所有由列表的迭代器 [`i] 所指代的元素，其中以下条件成立：
 [`*i == value, pred(*i) != false]。
 
 [:en] Invalidates only the iterators and references to the erased elements.

@@ -68,7 +68,7 @@ Each of these templates shall be a [`UnaryTypeTrait] ([#meta.rqmts]) with a
 [enter:example]
 [codeblock]
 // [:en] the following assertions hold:
-// [|:zh_CN] 下列断言均有效：
+// [|:zh_CN] 下列断言均成立：
 assert(rank<int>::value == 0);
 assert(rank<int[2]>::value == 1);
 assert(rank<int[][4]>::value == 2);
@@ -79,7 +79,7 @@ assert(rank<int[][4]>::value == 2);
 [enter:example]
 [codeblock]
  // [:en] the following assertions hold:
- // [|:zh_CN] 下列断言均有效：
+ // [|:zh_CN] 下列断言均成立：
 assert(extent<int>::value == 0);
 assert(extent<int[2]>::value == 2);
 assert(extent<int[2][4]>::value == 2);
