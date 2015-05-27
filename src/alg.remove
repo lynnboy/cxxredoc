@@ -1,5 +1,6 @@
 ﻿[section#alg.remove
     [:en] Remove
+    [:zh_CN] 移除
 ]
 
 [%@library remove]
@@ -18,25 +19,34 @@ template<class ForwardIterator, class Predicate>
 [para:requires]
 [:en] The type of [`*first] shall satisfy the [`MoveAssignable] requirements
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveAssignable] 的规定
+（表 [#moveassignable]）。
 
 [para:effects]
 [:en] Eliminates all the elements referred to by iterator [`i] in the range
 [=range[first,last)] for which the following corresponding conditions hold:
-[`*i == value, pred(*i) != false].
+[`*i == value], [`pred(*i) != false].
+[:zh_CN] 将范围 [=range[first,last)] 中的迭代器 [`i] 所指代的所有使得以下对应
+条件成立的元素排除：[`*i == value]，[`pred(*i) != false]。
 
 [para:returns]
 [:en] The end of the resulting range.
+[:zh_CN] 结果范围的末尾。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次对应谓词的运用。
 
 [para:realnote]
 [:en] each element in the range [=range[ret,last)], where [`ret] is the returned
 value, has a valid but unspecified state, because the algorithms can eliminate
 elements by moving from elements that were originally in that range.
+[:zh_CN] 范围 [=range[ret,last)] 中的各个元素（其中 [`ret] 为返回值），均具有
+有效但未指明的状态，这是由于算法可以将原来处于这个范围中的元素移走而将元素消除。
 [exit:description]
 
 [%@library remove_copy]
@@ -56,19 +66,29 @@ template<class InputIterator, class OutputIterator, class Predicate>
 [enter:description]
 [para:requires]
 [:en] The ranges [=range[first,last)] and [=range[result,result + (last -
-first))] shall not overlap. The expression [`*result = *first] shall be valid.
+first))] shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result + (last - first))]
+不能有重叠。
+
+[:en] The expression [`*result = *first] shall be valid.
+[:zh_CN] 表达式 [`*result - *first] 应当有效。
 
 [para:effects]
 [:en] Copies all the elements referred to by the iterator [`i] in the range
 [=range[first,last)] for which the following corresponding conditions do not
-hold: [`*i == value, pred(*i) != false].
+hold: [`*i == value], [`pred(*i) != false].
+[:zh_CN] 对范围 [=range[first,last)] 中的迭代器 [`i] 所指代的所有使得以下对应
+条件不成立的元素进行复制：[`*i == value]，[`pred(*i) != false]。
 
 [para:returns]
 [:en] The end of the resulting range.
+[:zh_CN] 结果范围的末尾。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次对应谓词的运用。
 
 [para:remarks]
 [:en] Stable ([#algorithm.stable]).
+[:zh_CN] 稳定的（[#algorithm.stable]）。
 [exit:description]
