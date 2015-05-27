@@ -1,5 +1,5 @@
 ﻿[section#includes
-    [:en] [`includes]
+    [`includes]
 ]
 
 [%@library includes]
@@ -18,9 +18,14 @@ template<class InputIterator1, class InputIterator2, class Compare>
 [para:returns]
 [:en] [`true] if [=range[first2,last2)] is empty or if every element in the
 range [=range[first2,last2)] is contained in the range [=range[first1,last1)].
+[:zh_CN] 如果 [=range[first2,last2)] 为空，或如果范围 [=range[first2,last2)] 中
+的每个元素均被范围 [=range[first1,last1)] 所包含，则返回 [`true]。
+
 
 [:en] Returns [`false] otherwise.
+[:zh_CN] 否则返回 [`false]。
 
 [para:complexity]
 [:en] At most [`2 * ((last1 - first1) + (last2 - first2)) - 1] comparisons.
+[:zh_CN] 最多进行 [`2 * ((last1 - first1) + (last2 - first2)) - 1] 次比较。
 [exit:description]
