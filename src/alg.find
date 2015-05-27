@@ -1,5 +1,6 @@
 ﻿[section#alg.find
     [:en] Find
+    [:zh_CN] 查找
 ]
 
 [%@library find]
@@ -23,9 +24,13 @@ template<class InputIterator, class Predicate>
 [:en] The first iterator [`i] in the range [=range[first,last)] for which the
 following corresponding conditions hold: [`*i == value], [`pred(*i) != false],
 [`pred(*i) == false].
+[:zh_CN] 范围 [=range[first,last)] 中第一个使以下的对应条件生效的迭代器 [`i]：
+[`*i == value]，[`pred(*i) != false]，[`pred(*i) == false]。
 
 [:en] Returns [`last] if no such iterator is found.
+[:zh_CN] 如果未找到这种迭代器则返回 [`last]。
 
 [para:complexity]
 [:en] At most [`last - first] applications of the corresponding predicate.
+[:zh_CN] 最多进行 [`last - first] 次相应谓词的运用。
 [exit:description]
