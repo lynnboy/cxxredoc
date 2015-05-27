@@ -1,5 +1,5 @@
 ﻿[section#sort
-    [:en] [`sort]
+    [`sort]
 ]
 
 [%@library sort]
@@ -15,15 +15,21 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:effects]
 [:en] Sorts the elements in the range [=range[first,last)].
+[:zh_CN] 对范围 [=range[first,last)] 中的元素进行排序。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] [$[=bigoh](N [=log](N))] (where [`[$N] == last - first]) comparisons.
+[:zh_CN] [$[=bigoh](N [=log](N))]（其中 [`[$N] == last - first]）次比较。
 [exit:description]
