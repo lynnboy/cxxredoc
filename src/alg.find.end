@@ -1,5 +1,6 @@
 ﻿[section#alg.find.end
     [:en] Find end
+    [:zh_CN] 末端查找
 ]
 
 [%@library find_end]
@@ -20,17 +21,25 @@ template<class ForwardIterator1, class ForwardIterator2,
 [enter:description]
 [para:effects]
 [:en] Finds a subsequence of equal values in a sequence.
+[:zh_CN] 查找序列中具有相同值的子序列。
 
 [para:returns]
 [:en] The last iterator [`i] in the range [=range[first1,last1 - (last2 -
 first2))] such that for every non-negative integer [`n < (last2 - first2)], the
 following corresponding conditions hold:
-[`*(i + n) == *(first2 + n), pred(*(i + n), *(first2 + n)) != false].
+[`*(i + n) == *(first2 + n)], [`pred(*(i + n), *(first2 + n)) != false].
+[:zh_CN] 范围 [=range[first1,last1 - (last2 - first2))] 中最后一个使以下的对应
+条件生效的迭代器 [`i]：
+[`*(i + n) == *(first2 + n)], [`pred(*(i + n), *(first2 + n)) != false]。
 
 [:en] Returns [`last1] if [=range[first2,last2)] is empty or if no such iterator
 is found.
+[:zh_CN] 如果 [=range[first2,last2)] 为空或者如果未找到这种迭代器，则返回
+[`last1]。
 
 [para:complexity]
 [:en] At most [`(last2 - first2) * (last1 - first1 - (last2 - first2) + 1)]
 applications of the corresponding predicate.
+[:zh_CN] 最多进行 [`(last2 - first2) * (last1 - first1 - (last2 - first2) + 1)]
+次相应谓词的运用。
 [exit:description]
