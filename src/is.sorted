@@ -1,5 +1,5 @@
 ﻿[section#is.sorted
-    [:en] [`is_sorted]
+    [`is_sorted]
 ]
 
 [%@library is_sorted]
@@ -10,7 +10,7 @@ template<class ForwardIterator>
 
 [enter:description]
 [para:returns]
-[:en] [`is_sorted_until(first, last) == last]
+[`is_sorted_until(first, last) == last]
 [exit:description]
 
 [%@library is_sorted]
@@ -22,7 +22,7 @@ template<class ForwardIterator, class Compare>
 
 [enter:description]
 [para:returns]
-[:en] [`is_sorted_until(first, last, comp) == last]
+[`is_sorted_until(first, last, comp) == last]
 [exit:description]
 
 [%@library is_sorted_until]
@@ -37,10 +37,14 @@ template<class ForwardIterator, class Compare>
 [enter:description]
 [para:returns]
 [:en] If [`distance(first, last) < 2], returns [`last].
+[:zh_CN] 如果 [`distance(first, last) < 2]，则返回 [`last]。
 
 [:en] Otherwise, returns the last iterator [`i] in [=crange[first,last`]] for
 which the range [=range[first,i)] is sorted.
+[:zh_CN] 否则，返回 [=crange[first,last`]] 中的最后一个使范围 [=range[first,i)]
+有序的迭代器 [`i]。
 
 [para:complexity]
 [:en] Linear.
+[:zh_CN] 线性。
 [exit:description]
