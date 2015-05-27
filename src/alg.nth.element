@@ -1,5 +1,6 @@
 ﻿[section#alg.nth.element
     [:en] Nth element
+    [:zh_CN] N 位元素
 ]
 
 [%@library nth_element]
@@ -18,19 +19,29 @@ template<class RandomAccessIterator, class Compare>
 [:en] After [`nth_element] the element in the position pointed to by [`nth] is
 the element that would be in that position if the whole range were sorted,
 unless [`nth == last].
+[:zh_CN] [`nth_element] 之后，除非 [`nth == last]，由 [`nth] 所指向的位置中的
+元素，是当整个序列排序后将会置于该位置的元素。
 
 [:en] Also for every iterator [`i] in the range [=range[first,nth)] and every
 iterator [`j] in the range [=range[nth,last)] it holds that: [`!(*j < *i)] or
 [`comp(*j, *i) == false].
+[:zh_CN] 并且对于范围 [=range[first,nth)] 中的每个迭代器 [`i] 以及范围
+[=range[nth,last)] 中的每个迭代器 [`j]，以下条件成立：[`!(*j < *i)] 或
+[`comp(*j, *i) == false]。
 
 [para:requires]
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible]
+（表 [#moveconstructible]）和 [`MoveAssignable]（表 [#moveassignable]）的规定。
 
 [para:complexity]
 [:en] Linear on average.
+[:zh_CN] 平均为线性的。
 [exit:description]
