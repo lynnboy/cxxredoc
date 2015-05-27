@@ -1,5 +1,6 @@
 ﻿[section#alg.replace
     [:en] Replace
+    [:zh_CN] 替换
 ]
 
 [%@library replace]
@@ -17,14 +18,18 @@ template<class ForwardIterator, class Predicate, class T>
 [enter:description]
 [para:requires]
 [:en] The expression [`*first = new_value] shall be valid.
+[:zh_CN] 表达式 [`*first = new_value] 应当有效。
 
 [para:effects]
 [:en] Substitutes elements referred by the iterator [`i] in the range
 [=range[first,last)] with [`new_value], when the following corresponding
 conditions hold: [`*i == old_value], [`pred(*i) != false].
+[:zh_CN] 将范围 [=range[first,last)] 中由迭代器 [`i] 所指代的使以下对应条件成立
+的元素替换为 [`new_value]：[`*i == old_value]，[`pred(*i) != false]。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次对应谓词的运用。
 [exit:description]
 
 [%@library replace_copy]
@@ -47,14 +52,21 @@ template<class InputIterator, class OutputIterator, class Predicate, class T>
 [para:requires]
 [:en] The results of the expressions [`*first] and [`new_value] shall be
 writable to the [`result] output iterator.
+[:zh_CN] 表达式 [`*first] 的结果和 [`new_value] 都应当可以向 [`result] 输出
+迭代器写出。
 
-[:en] The ranges [=range[first,last)] and
-[=range[result,result + (last - first))] shall not overlap.
+[:en] The ranges [=range[first,last)] and [=range[result,result + (last -
+first))] shall not overlap.
+[:zh_CN] 范围 [=range[first,last)] 和 [=range[result,result + (last - first))]
+不能有重叠。
 
 [para:effects]
 [:en] Assigns to every iterator [`i] in the range [=range[result,result + (last
 - first))] either [`new_value] or [`*(first + (i - result))] depending on
 whether the following corresponding conditions hold:
+[:zh_CN] 向范围 [=range[result,result + (last - first))] 中的每个迭代器 [`i]，
+根据下列对应条件是否成立，或者以 [`new_value] 或者以 [`*(first + (i - result))]
+进行赋值：
 
 [codeblock:notation]
 *(first + (i - result)) == old_value
@@ -63,7 +75,9 @@ pred(*(first + (i - result))) != false
 
 [para:returns]
 [:en] [`result + (last - first)].
+[:zh_CN] [`result - (last - first)]。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次对应谓词的运用。
 [exit:description]
