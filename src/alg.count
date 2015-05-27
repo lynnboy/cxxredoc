@@ -1,5 +1,6 @@
 ﻿[section#alg.count
     [:en] Count
+    [:zh_CN] 计数
 ]
 
 [%@library count]
@@ -18,8 +19,12 @@ template<class InputIterator, class Predicate>
 [para:effects]
 [:en] Returns the number of iterators [`i] in the range [=range[first,last)] for
 which the following corresponding conditions hold:
-[`*i == value, pred(*i) != false].
+[`*i == value], [`pred(*i) != false].
+[:zh_CN] 返回范围 [=range[first,last)] 中使以下的对应条件生效的迭代器 [`i] 的
+数量：
+[`*i == value]，[`pred(*i) != false]。
 
 [para:complexity]
 [:en] Exactly [`last - first] applications of the corresponding predicate.
+[:zh_CN] 恰好进行 [`last - first] 次相应谓词的运用。
 [exit:description]
