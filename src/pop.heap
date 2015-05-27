@@ -1,5 +1,5 @@
 ﻿[section#pop.heap
-    [:en] [`pop_heap]
+    [`pop_heap]
 ]
 
 [%@library pop_heap]
@@ -15,18 +15,26 @@ template<class RandomAccessIterator, class Compare>
 [enter:description]
 [para:requires]
 [:en] The range [=range[first,last)] shall be a valid non-empty heap.
+[:zh_CN] 范围 [=range[first,last)] 应当是有效的非空堆。
 
 [:en] [`RandomAccessIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN] [`RandomAccessIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [:en] The type of [`*first] shall satisfy the requirements of
 [`MoveConstructible] (Table [#moveconstructible]) and of [`MoveAssignable]
 (Table [#moveassignable]).
+[:zh_CN] [`*first] 的类型应当符合 [`MoveConstructible] 的规定
+（表 [#moveconstructible]）和 [`MoveAssignable] 的规定（表 [#moveassignable]）。
 
 [para:effects]
 [:en] Swaps the value in the location [`first] with the value in the location
 [`last - 1] and makes [=range[first,last - 1)] into a heap.
+[:zh_CN] 将位置 [`first] 中的值与位置 [`last - 1] 中的值进行交换，再使
+[=range[first,last - 1)] 成为堆。
 
 [para:complexity]
 [:en] At most [`2 * log(last - first)] comparisons.
+[:zh_CN] 最多进行 [`2 * log(last - first)] 次比较。
 [exit:description]
