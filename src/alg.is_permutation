@@ -1,5 +1,6 @@
 ﻿[section#alg.is_permutation
     [:en] Is permutation
+    [:zh_CN] 是排列（Is permutation）
 ]
 
 [%@library is_permutation]
@@ -25,31 +26,48 @@ template<class ForwardIterator1, class ForwardIterator2,
 [para:requires]
 [:en] [`ForwardIterator1] and [`ForwardIterator2] shall have the same value
 type.
+[:zh_CN] [`ForwardIterator1] 和 [`ForwardIterator2] 应当具有相同的值类型。
 
 [:en] The comparison function shall be an equivalence relation.
+[:zh_CN] 比较函数应当代表等价关系。
 
 [para:remarks]
 [:en] If [`last2] was not given in the argument list, it denotes
 [`first2 + (last1 - first1)] below.
+[:zh_CN] 如果实参列表中未给出 [`last2]，则它在下文中代表
+[`first2 + (last1 - first1)]。
 
 [para:returns]
 [:en] If [`last1 - first1 != last2 - first2], return [`false].
+[:zh_CN] 如果 [`last1 - first1 != last2 - first2],，则返回 [`false]。
 
 [:en] Otherwise return [`true] if there exists a permutation of the elements in
 the range [=range[first2,first2 + (last1 - first1))], beginning with
 [`ForwardIterator2 begin], such that [`equal(first1, last1, begin)] returns
-[`true] or  [`equal(first1, last1, begin, pred)] returns [`true]; otherwise,
+[`true] or [`equal(first1, last1, begin, pred)] returns [`true]; otherwise,
 returns [`false].
+[:zh_CN] 否则如果对于范围 [=range[first2,first2 + (last1 - first1))] 中的元素，
+存在以 [`ForwardIterator2 begin] 开始的一种排列，使得
+[`equal(first1, last1, begin)] 返回 [`true] 或者
+[`equal(first1, last1, begin, pred)] 返回 [`true]，则该函数返回 [`true]；否则就
+返回 [`false]。
 
 [para:complexity]
 [:en] No applications of the corresponding predicate if [`ForwardIterator1] and
 [`ForwardIterator2] meet the requirements of random access iterators and
 [`last1 - first1 != last2 - first2].
+[:zh_CN] 如果 [`ForwardIterator1] 和 [`ForwardIterator2] 符合随机访问迭代器的
+规定，并且 [`last1 - first1 != last2 - first2]，则不对相应谓词进行运用。
 
 [:en] Otherwise, exactly [`distance(first1, last1)] applications of the
 corresponding predicate if [`equal(first1, last1, first2, last2)] would return
 [`true] if [`pred] was not given in the argument list or [`equal(first1, last1,
-first2, last2, pred)] would return [`true] if pred was given in the argument
+first2, last2, pred)] would return [`true] if [`pred] was given in the argument
 list; otherwise, at worst [=bigoh]([$N[^2]]), where [$N] has the value
 [`distance(first1, last1)].
+[:zh_CN] 否则，如果当实参列表中未给出 [`pred] 时 [`equal(first1, last1, first2,
+last2)] 返回 [`true]，或当实参列表中给出了 [`pred] 时 [`equal(first1, last1,
+first2, last2, pred)] 返回 [`true]，则恰好进行 [`distance(first1, last1)] 次对应
+谓词的运用；否则，最差为 [=bigoh]([$N[^2]])，其中 [$N] 的值为
+[`distance(first1, last1)]。
 [exit:description]
