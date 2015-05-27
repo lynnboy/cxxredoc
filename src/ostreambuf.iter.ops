@@ -1,5 +1,6 @@
 ﻿[section#ostreambuf.iter.ops
     [:en] [`ostreambuf_iterator] operations
+    [:zh_CN] [`ostreambuf_iterator] 的操作
 ]
 
 [%@library operator=[!ostreambuf_iterator]]
@@ -11,9 +12,12 @@ ostreambuf_iterator& operator=(charT c);
 [para:effects]
 [:en] If [`failed()] yields [`false], calls [`sbuf_->sputc(c)]; otherwise has no
 effect.
+[:zh_CN] 如果 [`failed()] 产生 [`false]，则调用 [`sbuf_->sputc(c)]；否则没有效果
+。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator*[!ostreambuf_iterator]]
@@ -24,6 +28,7 @@ ostreambuf_iterator& operator*();
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator++[!ostreambuf_iterator]]
@@ -35,6 +40,7 @@ ostreambuf_iterator& operator++(int);
 [enter:description]
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library failed[!ostreambuf_iterator]]
@@ -46,4 +52,6 @@ bool failed() const noexcept;
 [para:returns]
 [:en] [`true] if in any prior use of member [`operator=], the call to
 [`sbuf_->sputc()] returned [`traits::eof()]; or [`false] otherwise.
+[:zh_CN] 如果之前使用成员 [`operator=] 中有任何对 [`sbuf_->sputc()] 的调用返回了
+[`traits::eof()]，则为 [`true]；否则为 [`false]。
 [exit:description]
