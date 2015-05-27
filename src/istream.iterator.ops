@@ -1,5 +1,6 @@
 ﻿[section#istream.iterator.ops
     [:en] [`istream_iterator] operations
+    [:zh_CN] [`istream_iterator] 的操作
 ]
 
 [%@library operator*[!istream_iterator]]
@@ -11,6 +12,7 @@ const T& operator*() const;
 [enter:description]
 [para:returns]
 [:en] [$value].
+[:zh_CN] [$value]。
 [exit:description]
 
 [%@library operator->[!istream_iterator]]
@@ -22,6 +24,7 @@ const T* operator->() const;
 [enter:description]
 [para:returns]
 [:en] [`&(operator*())].
+[:zh_CN] [`&(operator*())]。
 [exit:description]
 
 [%@library operator++[!istream_iterator]]
@@ -33,12 +36,15 @@ istream_iterator& operator++();
 [enter:description]
 [para:requires]
 [:en] [`in_stream != 0].
+[:zh_CN] [`in_stream != 0]。
 
 [para:effects]
 [:en] [`*in_stream >> value].
+[:zh_CN] [`*in_stream >> value]。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator++[!istream_iterator]]
@@ -50,6 +56,7 @@ istream_iterator operator++(int);
 [enter:description]
 [para:requires]
 [:en] [`in_stream != 0].
+[:zh_CN] [`in_stream != 0]。
 
 [para:effects]
 [codeblock:notation]
@@ -67,10 +74,11 @@ template <class T, class charT, class traits, class Distance>
                   const istream_iterator<T,charT,traits,Distance> &y);
 [codeblock:end]
 
+[%@library istream_iterator[!operator==]]
 [enter:description]
 [para:returns]
 [:en] [`x.in_stream == y.in_stream].
-[%@library istream_iterator[!operator==]]
+[:zh_CN] [`x.in_stream == y.in_stream]。
 [exit:description]
 
 [%@library operator!=[!istream_iterator]]
@@ -84,5 +92,5 @@ template <class T, class charT, class traits, class Distance>
 [%@library istream_iterator[!operator!=]]
 [enter:description]
 [para:returns]
-[:en] [`!(x == y)]
+[`!(x == y)]
 [exit:description]
