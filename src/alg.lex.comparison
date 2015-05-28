@@ -1,5 +1,6 @@
 ﻿[section#alg.lex.comparison
     [:en] Lexicographical comparison
+    [:zh_CN] 字典序比较
 ]
 
 [%@library lexicographical_compare]
@@ -21,22 +22,31 @@ template<class InputIterator1, class InputIterator2, class Compare>
 [:en] [`true] if the sequence of elements defined by the range
 [=range[first1,last1)] is lexicographically less than the sequence of elements
 defined by the range [=range[first2,last2)] and [`false] otherwise.
+[:zh_CN] 如果由范围 [=range[first1,last1)] 所定义的元素序列按字典序小于由范围
+[=range[first2,last2)] 所定义的元素序列，则返回 [`true]，否则返回 [`false]。
 
 [para:complexity]
 [:en] At most [`2*min((last1 - first1), (last2 - first2))] applications of the
 corresponding comparison.
+[:zh_CN] 最多进行 [`2*min((last1 - first1), (last2 - first2))] 次对应比较的运用
+。
 
 [para:notes]
 [:en] If two sequences have the same number of elements and their corresponding
 elements are equivalent, then neither sequence is lexicographically less than
 the other.
+[:zh_CN] 如果两个序列具有相同数量的元素，并且它们的对应元素等价，则两个序列
+按字典序并非一个小于另一个。
 
 [:en] If one sequence is a prefix of the other, then the shorter sequence is
 lexicographically less than the longer sequence.
+[:zh_CN] 如果一个序列是另一个的前缀，则较短的序列按字典序小于较长的序列。
 
 [:en] Otherwise, the lexicographical comparison of the sequences yields the same
 result as the comparison of the first corresponding pair of elements that are
 not equivalent.
+[:zh_CN] 否则，对序列进行字典序比较的结果与对其中第一对不等价的元素对进行比较的
+的结果相同。
 
 [codeblock:notation]
 for ( ; first1 != last1 && first2 != last2 ; ++first1, ++first2) {
@@ -49,4 +59,5 @@ return first1 == last1 && first2 != last2;
 [para:remarks]
 [:en] An empty sequence is lexicographically less than any non-empty sequence,
 but not less than any empty sequence.
+[:zh_CN] 空序列按字典序小于任何非空序列，但不小于任何空序列。
 [exit:description]
