@@ -1,5 +1,6 @@
 ﻿[section#complex.syn
     [:en] Header [`<complex>] synopsis
+    [:zh_CN] 头文件 [`<complex>] 纲要
 ]
 
 [%@library <complex> [sortas complex]]
@@ -11,6 +12,7 @@ namespace std {
   template<> class complex<long double>;
 
   // [:en] [#complex.ops], operators:
+  // [|:zh_CN] [#complex.ops]，运算符：
   template<class T>
     complex<T> operator+(const complex<T>&, const complex<T>&);
   template<class T> complex<T> operator+(const complex<T>&, const T&);
@@ -52,6 +54,7 @@ namespace std {
   operator<<(basic_ostream<charT, traits>&, const complex<T>&);
 
   // [:en] [#complex.value.ops], values:
+  // [|:zh_CN] [#complex.value.ops]，值：
   template<class T> constexpr T real(const complex<T>&);
   template<class T> constexpr T imag(const complex<T>&);
 
@@ -64,6 +67,7 @@ namespace std {
   template<class T> complex<T> polar(const T&, const T& = 0);
 
   // [:en] [#complex.transcendentals], transcendentals:
+  // [|:zh_CN] [#complex.transcendentals]，超越函数：
   template<class T> complex<T> acos(const complex<T>&);
   template<class T> complex<T> asin(const complex<T>&);
   template<class T> complex<T> atan(const complex<T>&);
@@ -89,6 +93,7 @@ namespace std {
   template<class T> complex<T> tanh (const complex<T>&);
 
   // [:en] [#complex.literals], complex literals:
+  // [|:zh_CN] [#complex.literals]，复数字面量：
   inline namespace literals {
     inline namespace complex_literals {
       constexpr complex<long double> operator""il(long double);
