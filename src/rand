@@ -15,34 +15,48 @@
 
 [section#rand
     [:en] Random number generation
+    [:zh_CN] 随机数生成
 ]
 
 [%:begin#random.number.generation
     [:en] random number generation
+    [:zh_CN] 随机数生成
 ]
 [:en]
 [%distribution[see random number distribution]]
 [%engine[see random number engine]]
 [%engine adaptor[see random number engine adaptor]]
 [%random number generator[see uniform random number generator]]
+[:zh_CN]
+[%分布[see 随机数分布]]
+[%引擎[see 随机数引擎]]
+[%引擎适配器[see 随机数引擎适配器]]
+[%随机数生成器[see 均匀随机数生成器]]
 
 [para]
 [:en] This subclause defines a facility for generating (pseudo-)random numbers.
+[:zh_CN] 本子条款定义了一种用以生成（伪）随机数的设施。
 
 [para]
 [:en] In addition to a few utilities, four categories of entities are described:
 [+uniform random number generators], [+random number engines], [+random number
 engine adaptors], and [+random number distributions].
+[:zh_CN] 除了少量工具意外，还说明了四种实体：[+均匀随机数生成器]，[+随机数引擎]
+，[+随机数引擎适配器]，以及[+随机数分布]。
 
 [:en] These categorizations are applicable to types that satisfy the
 corresponding requirements, to objects instantiated from such types, and to
 templates producing such types when instantiated.
+[:zh_CN] 这些类别可以运用于符合对应的规定的类型，由这种类型创建的对象，以及
+实例化时产生这种类型的模板。
 
 [enter:note]
 [:en] These entities are specified in such a way as to permit the binding of any
 uniform random number generator object [`e] as the argument to any random number
 distribution object [`d], thus producing a zero-argument function object such as
 given by [`bind(d,e)].
+[:zh_CN] 这些实体的说明方式，允许如 [`bind(d,e)] 这样，将任何均匀随机数生成器
+对象 [`e] 作为实参绑定到任何随机数分布对象 [`d] 上，由此产生一种无实参函数对象。
 [exit:note]
 
 [para]
@@ -50,41 +64,59 @@ given by [`bind(d,e)].
 [%[`result_type][!entity characterization based on]]
 Each of the entities specified via this subclause has an associated arithmetic
 type ([#basic.fundamental]) identified as [`result_type].
+[:zh_CN]
+[%[`result_type][!基于～的实体性质]]
+本子条款所描述的每种实体都具有一个关联的算术类型（[#basic.fundamental]），被标识
+为 [`result_type]。
 
 [:en] With [`T] as the [`result_type] thus associated with such an entity, that
 entity is characterized:
+[:zh_CN] 当 [`T] 作为与这种实体关联的 [`result_type] 时，该实体的特征为：
 
 [list:ol@arparen]
 [item]
 [:en] as [+boolean] or equivalently as [+boolean-valued], if [`T] is [`bool];
+[:zh_CN] 如果 [`T] 为 [`bool]，则为[+布尔]或者等价地为[+布尔值的]；
 [item]
 [:en] otherwise as [+integral] or equivalently as [+integer-valued], if
 [`numeric_limits<T>::is_integer] is [`true];
+[:zh_CN] 如果 [`numeric_limits<T>::is_integer] 为 [`true]，则为[+整型]或者等价地
+为[+整数值的]；
 [item]
 [:en] otherwise as [+floating] or equivalently as [+real-valued].
+[:zh_CN] 否则为[+浮点]或者等价地为[+实数值的]。
 [list:end]
 
 [:en] If integer-valued, an entity may optionally be further characterized as
 [+signed] or [+unsigned], according to [`numeric_limits<T>::is_signed].
+[:zh_CN] 当为整数值时，实体还可选地根据 [`numeric_limits<T>::is_signed] 具有特征
+[+有符号]或[+无符号]。
 
 [para]
 [:en] Unless otherwise specified, all descriptions of calculations in this
 subclause use mathematical real numbers.
+[:zh_CN] 除非另行说明，对本子条款中的计算的说明都使用数学的实数。
 
 [para]
 [:en] Throughout this subclause, the operators [$@sf bitand], [$@sf bitor], and
 [$@sf xor] denote the respective conventional bitwise operations.
+[:zh_CN] 本子条款通篇中，运算符 [$@sf bitand]、[$@sf bitor] 和 [$@sf xor] 分别
+代表常规的按位运算。
 
 [:en] Further:
+[:zh_CN] 此外：
 
 [list:ol@arparen]
 [item]
 [:en] the operator [$@sf rshift] denotes a bitwise right shift with zero-valued
 bits appearing in the high bits of the result, and
+[:zh_CN] 运算符 [$@sf rshift] 代表按位右移并以零位作为结果的高序位，而
 [item]
 [:en] the operator [$[$@sf lshift][_w]] denotes a bitwise left shift with
 zero-valued bits appearing in the low bits of the result, and whose result is
 always taken modulo [$2[^w]].
+[:zh_CN] 运算符 [$[$@sf lshift][_w]] 代表按位左移并以零位作为结果的低序位，且其
+结果总是按模 [$2[^w]] 取值。
 [list:end]
 
 [include rand.req]
@@ -93,6 +125,7 @@ always taken modulo [$2[^w]].
 
 [%:begin#random.number.generation.engines
     [:en] random number generation [!engines]
+    [:zh_CN] 随机数生成[!引擎]
 ]
 
 [include rand.eng]
