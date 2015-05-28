@@ -1,47 +1,63 @@
 ﻿[section#complex.numbers
     [:en] Complex numbers
+    [:zh_CN] 复数
 ]
 
 [para]
 [%@library <complex> [sortas complex]]
 [:en] The header [`<complex>] defines a class template, and numerous functions
 for representing and manipulating complex numbers.
+[:zh_CN] 头文件 [`<complex>] 定义了用于表示并操纵复数的一个类模板和许多函数。
 
 [para]
 [:en] The effect of instantiating the template [`complex] for any type other
 than [`float], [`double], or [`long double] is unspecified.
+[:zh_CN] 以除了 [`float]、[`double] 或 [`long double] 以外的任何类型实例化
+[`complex] 模板的效果都是未指明的。
 
 [:en] The specializations [`complex<float>], [`complex<double>], and
 [`complex<long double>] are literal types ([#basic.types]).
+[:zh_CN] 特例 [`complex<float>]、[`complex<double>] 和 [`complex<long double>]
+都是字面量类型（[#basic.types]）。
 
 [para]
 [:en] If the result of a function is not mathematically defined or not in the
 range of representable values for its type, the behavior is undefined.
+[:zh_CN] 如果某个函数的结果在数学上没有定义，或者不在其类型的可表示的值范围之内
+，则其行为是未定义的。
 
 [para]
 [:en] If [`z] is an lvalue expression of type [$cv] [`std::complex<T>] then:
+[:zh_CN] 如果 [`z] 是类型 [$cv] [`std::complex<T>] 的左值表达式，则有：
 
 [list]
 [item]
 [:en] the expression [`reinterpret_cast<cv T(&)[2`]>(z)] shall be well-formed,
+[:zh_CN] 表达式 [`reinterpret_cast<cv T(&)[2`]>(z)] 应当是良构的，
 [item]
 [:en] [`reinterpret_cast<cv T(&)[2`]>(z)[0`]] shall designate the real part of
 [`z], and
+[:zh_CN] [`reinterpret_cast<cv T(&)[2`]>(z)[0`]] 应当代表 [`z] 的实部，而
 [item]
 [:en] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] shall designate the imaginary part
 of [`z].
-[list:end]
+[:zh_CN]
+[list:end] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] 应当代表 [`z] 的虚部。
 
 [:en] Moreover, if [`a] is an expression of type [`cv std::complex<T>*] and the
 expression [`a[i`]] is well-defined for an integer expression [`i], then:
+[:zh_CN] 此外，如果 [`a] 是类型 [`cv std::complex<T>*] 的表达式，且对于某个整数
+表达式 [`i]，表达式 [`a[i`]] 是良构的，则有：
 
 [list]
 [item]
 [:en] [`reinterpret_cast<cv T*>(a)[2*i`]] shall designate the real part of
 [`a[i`]], and
+[:zh_CN] [`reinterpret_cast<cv T*>(a)[2*i`]] 应当代表 [`a[i`]] 的实部，而
 [item]
 [:en] [`reinterpret_cast<cv T*>(a)[2*i + 1`]] shall designate the imaginary part
 of [`a[i`]].
+[:zh_CN] [`reinterpret_cast<cv T*>(a)[2*i + 1`]] 应当代表 [`a[i`]] 的虚部。
 [list:end]
 
 [include complex.syn]
