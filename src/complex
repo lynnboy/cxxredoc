@@ -1,5 +1,6 @@
 ﻿[section#complex
     [:en] Class template [`complex]
+    [:zh_CN] 类模板 [`complex]
 ]
 
 [%@library complex]
@@ -38,3 +39,5 @@ namespace std {
 [para]
 [:en] The class [`complex] describes an object that can store the Cartesian
 components, [`real()] and [`imag()], of a complex number.
+[:zh_CN] 类模板 [`complex] 描述一种对象，可以存储复数的笛卡尔分量 [`real()] 和
+[`imag()]。
