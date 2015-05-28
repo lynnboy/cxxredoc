@@ -1,5 +1,6 @@
 ﻿[section#complex.members
     [:en] [`complex] member functions
+    [:zh_CN] [`complex] 的成员函数
 ]
 
 [%@library complex[!complex]]
@@ -10,9 +11,11 @@ template<class T> constexpr complex(const T& re = T(), const T& im = T());
 [enter:description]
 [para:effects]
 [:en] Constructs an object of class [`complex].
+[:zh_CN] 构造类 [`complex] 的一个对象。
 
 [para:postcondition]
 [:en] [`real() == re && imag() == im].
+[:zh_CN] [`real() == re && imag() == im]。
 [exit:description]
 
 [%@library real[!complex]]
@@ -24,6 +27,7 @@ constexpr T real() const;
 [enter:description]
 [para:returns]
 [:en] The value of the real component.
+[:zh_CN] 实部的值。
 [exit:description]
 
 [%@library real[!complex]]
@@ -35,6 +39,7 @@ void real(T val);
 [enter:description]
 [para:effects]
 [:en] Assigns [`val] to the real component.
+[:zh_CN] 将实部赋值为 [`val]。
 [exit:description]
 
 [%@library imag[!complex]]
@@ -46,6 +51,7 @@ constexpr T imag() const;
 [enter:description]
 [para:returns]
 [:en] The value of the imaginary component.
+[:zh_CN] 虚部的值。
 [exit:description]
 
 [%@library imag[!complex]]
@@ -57,4 +63,5 @@ void imag(T val);
 [enter:description]
 [para:effects]
 [:en] Assigns [`val] to the imaginary component.
+[:zh_CN] 将虚部赋值为 [`val]。
 [exit:description]
