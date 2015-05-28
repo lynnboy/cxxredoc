@@ -1,70 +1,98 @@
 ﻿[section#numeric.requirements
     [:en] Numeric type requirements
+    [:zh_CN] 数值类型的规定
 ]
 
-[% [:en] requirements[!numeric type]]
+[% [:en] requirements[!numeric type]
+   [:zh_CN] 规定[!数值类型] ]
 
 [para]
 [:en] The [`complex] and [`valarray] components are parameterized by the type of
 information they contain and manipulate.
+[:zh_CN] [`complex] 和 [`valarray] 等组件是以它们所包含并操纵的信息的类型进行
+参数化的。
 
 [:en] A [=Cpp] program shall instantiate these components only with a type [`T]
 that satisfies the following requirements:
+[:zh_CN] [=Cpp] 程序应当只使用符合下列规定的类型 [`T] 来对这些组件进行实例化：
 
 [footnote]
 [:en] In other words, value types.
+[:zh_CN] 换句话说，就是值类型。
 
 [:en] These include arithmetic types, pointers, the library class [`complex],
 and instantiations of [`valarray] for value types.
+[:zh_CN] 这包括了算术类型、指针、程序库的类 [`complex]，以及对值类型所实例化的
+[`valarray] 等。
 [footnote:end]
 
 [list]
 [item]
 [:en] [`T] is not an abstract class (it has no pure virtual member functions);
+[:zh_CN] [`T] 不是抽象类（没有纯虚成员函数）；
 [item]
 [:en] [`T] is not a reference type;
+[:zh_CN] [`T] 不是引用类型；
 [item]
 [:en] [`T] is not cv-qualified;
+[:zh_CN] [`T] 未被 cv-限定；
 [item]
 [:en] If [`T] is a class, it has a public default constructor;
+[:zh_CN] 如果 [`T] 是某个类，则它具有公用默认构造函数；
 [item]
 [:en] If [`T] is a class, it has a public copy constructor with the signature
 [`T::T(const T&)]
+[:zh_CN] 如果 [`T] 是某个类，则它具有签名为 [`T::T(const T&)] 的公用复制构造函数
+；
 [item]
 [:en] If [`T] is a class, it has a public destructor;
+[:zh_CN] 如果 [`T] 是某个类，则它具有公用析构函数；
 [item]
 [:en] If [`T] is a class, it has a public assignment operator whose signature is
 either [`T& T::operator=(const T&)] or [`T& T::operator=(T)]
+[:zh_CN] 如果 [`T] 是某个类，则它具有签名为 [`T& T::operator=(const T&)] 或者
+[`T& T::operator=(T)] 的公用赋值运算符；
 [item]
 [:en] If [`T] is a class, its assignment operator, copy and default
 constructors, and destructor shall correspond to each other in the following
 sense:
+[:zh_CN] 如果 [`T] 是某个类，则其赋值运算符、复制和默认构造函数以及析构函数应当
+以如下方式相互对应：
 
 [:en] Initialization of raw storage using the default constructor, followed by
 assignment, is semantically equivalent to initialization of raw storage using
 the copy constructor.
+[:zh_CN] 使用默认构造函数对原始存储进行初始化，随后进行赋值，语义上等价于使用
+复制构造函数进行的初始化。
 
 [para:~]
 [:en] Destruction of an object, followed by initialization of its raw storage
 using the copy constructor, is semantically equivalent to assignment to the
 original object.
+[:zh_CN] 销毁一个对象，随后对其原始存储使用复制构造函数进行初始化，语义上等价于
+对原对象的赋值。
 
 [para:~]
 [enter:note]
 [:en] This rule states that there shall not be any subtle differences in the
 semantics of initialization versus assignment.
+[:zh_CN] 这条规则指出在初始化和赋值的语义之间不能存在微妙的差异。
 
 [:en] This gives an implementation considerable flexibility in how arrays are
 initialized.
+[:zh_CN] 这就在如何对数组进行初始化上给了实现相当的灵活性。
 
 [para:~]
 [enter:example]
 [:en] An implementation is allowed to initialize a [`valarray] by allocating
 storage using the [`new] operator (which implies a call to the default
 constructor for each element) and then assigning each element its value.
+[:zh_CN] 允许实现通过使用 [`new] 运算符来分配存储（这暗含了对每个元素调用默认
+构造函数），随后对每个元素赋值为其值来实施 [`valarray] 的初始化。
 
 [:en] Or the implementation can allocate raw storage and use the copy
 constructor to initialize each element.
+[:zh_CN] 实现也可以分配原始存储，再用复制构造函数对每个元素进行初始化。
 [exit:example]
 
 [para:~]
@@ -72,24 +100,33 @@ constructor to initialize each element.
 a class, or if it fails to satisfy any of the other conditions listed above, the
 programmer should use [`vector] ([#vector]) instead of [`valarray] for that
 class;
+[:zh_CN] 如果初始化和赋值的区别对于某个类很重要，或者如果它无法满足以上所列出的
+任何条件，那么程序员就应当为这个类使用 [`vector]（[#vector]）来代替 [`valarray]
+。
 [exit:note]
 
 [item]
 [:en] If [`T] is a class, it does not overload unary [`operator&].
+[:zh_CN] 如果 [`T] 是某个类，则它不能重载一元 [`operator&]。
 [list:end]
 
 [para]
 [:en] If any operation on [`T] throws an exception the effects are undefined.
+[:zh_CN] 如果 [`T] 上的任何操作抛出了异常，则其效果是未定义的。
 
 [para]
 [:en] In addition, many member and related functions of [`valarray<T>] can be
 successfully instantiated and will exhibit well-defined behavior if and only if
 [`T] satisfies additional requirements specified for each such member or related
 function.
+[:zh_CN] 此外，[`valarray<T>] 的许多成员和相关函数，当且仅当 [`T] 能够符合由每个
+这种成员或相关函数所制定额外的规定时，能够被成功实例化，并呈现有良好定义的行为。
 
 [para]
 [enter:example]
 [:en] It is valid to instantiate [`valarray<complex>], but [`operator>()] will
 not be successfully instantiated for [`valarray<complex>] operands, since
 [`complex] does not have any ordering operators.
+[:zh_CN] [`valarray<complex>] 的实例化是有效的，但对 [`valarray<complex>] 操作数
+无法成功实例化 [`operator>()]，这是因为 [`complex] 没有任何排序运算符。
 [exit:example]
