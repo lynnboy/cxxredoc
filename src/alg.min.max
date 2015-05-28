@@ -1,5 +1,6 @@
 ﻿[section#alg.min.max
     [:en] Minimum and maximum
+    [:zh_CN] 最大值和最小值
 ]
 
 [%@library min]
@@ -12,12 +13,15 @@ template<class T, class Compare>
 [enter:description]
 [para:requires]
 [:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+[:zh_CN] 类型 [`T] 为 [`LessThanComparable]（表 [#lessthancomparable]）。
 
 [para:returns]
 [:en] The smaller value.
+[:zh_CN] 较小值。
 
 [para:notes]
 [:en] Returns the first argument when the arguments are equivalent.
+[:zh_CN] 当两个实参等价时返回第一个实参。
 [exit:description]
 
 [%@library min]
@@ -32,13 +36,17 @@ template<class T, class Compare>
 [para:requires]
 [:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
 [`t.size() > 0].
+[:zh_CN] [`T] 为 [`LessThanComparable] 和 [`CopyConstructible]，并且
+[`t.size() > 0]。
 
 [para:returns]
-[:en] The smallest value in the initializer_list.
+[:en] The smallest value in the [`initializer_list].
+[:zh_CN] [`initializer_list] 中的最小值。
 
 [para:remarks]
 [:en] Returns a copy of the leftmost argument when several arguments are
 equivalent to the smallest.
+[:zh_CN] 当多个实参都等价于最小值时返回最左边的实参的副本。
 [exit:description]
 
 [%@library max]
@@ -51,12 +59,15 @@ template<class T, class Compare>
 [enter:description]
 [para:requires]
 [:en] Type [`T] is [`LessThanComparable] (Table [#lessthancomparable]).
+[:zh_CN] 类型 [`T] 为 [`LessThanComparable]（表 [#lessthancomparable]）。
 
 [para:returns]
 [:en] The larger value.
+[:zh_CN] 较大值。
 
 [para:notes]
 [:en] Returns the first argument when the arguments are equivalent.
+[:zh_CN] 当两个实参等价时返回第一个实参。
 [exit:description]
 
 [%@library max]
@@ -71,13 +82,17 @@ template<class T, class Compare>
 [para:requires]
 [:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
 [`t.size() > 0].
+[:zh_CN] [`T] 为 [`LessThanComparable] 和 [`CopyConstructible]，并且
+[`t.size() > 0]。
 
 [para:returns]
-[:en] The largest value in the initializer_list.
+[:en] The largest value in the [`initializer_list].
+[:zh_CN] [`initializer_list] 中的最大值。
 
 [para:remarks]
 [:en] Returns a copy of the leftmost argument when several arguments are
 equivalent to the largest.
+[:zh_CN] 当多个实参都等价于最大值时返回最左边的实参的副本。
 [exit:description]
 
 [%@library minmax]
@@ -90,17 +105,22 @@ template<class T, class Compare>
 [enter:description]
 [para:requires]
 [:en] Type [`T] shall be [`LessThanComparable] (Table [#lessthancomparable]).
+[:zh_CN] 类型 [`T] 应当为 [`LessThanComparable]（表 [#lessthancomparable]）。
 
 [para:returns]
 [:en] [`pair<const T&, const T&>(b, a)] if [`b] is smaller than [`a], and
 [`pair<const T&, const T&>(a, b)] otherwise.
+[:zh_CN] 如果 [`b] 小于 [`a] 则返回 [`pair<const T&, const T&>(b, a)]，否则返回
+[`pair<const T&, const T&>(a, b)]。
 
 [para:notes]
 [:en] Returns [`pair<const T&, const T&>(a, b)] when the arguments are
 equivalent.
+[:zh_CN] 当两个实参等价时返回 [`pair<const T&, const T&>(a, b)]。
 
 [para:complexity]
 [:en] Exactly one comparison.
+[:zh_CN] 恰好进行一次比较。
 [exit:description]
 
 [%@library minmax]
@@ -115,20 +135,27 @@ template<class T, class Compare>
 [para:requires]
 [:en] [`T] is [`LessThanComparable] and [`CopyConstructible] and
 [`t.size() > 0].
+[:zh_CN] [`T] 为 [`LessThanComparable] 和 [`CopyConstructible]，并且
+[`t.size() > 0]。
 
 [para:returns]
 [:en] [`pair<T, T>(x, y)], where [`x] has the smallest and [`y] has the largest
 value in the initializer list.
+[:zh_CN] [`pair<T, T>(x, y)]，其中 [`x] 具有初始化式列表中的最小值，而 [`y] 具有
+最大值。
 
 [para:remarks]
 [:en] [`x] is a copy of the leftmost argument when several arguments are
 equivalent to the smallest.
+[:zh_CN] 当多个实参都等价于最小值时 [`x] 为最左边的实参的副本。
 
 [:en] [`y] is a copy of the rightmost argument when several arguments are
 equivalent to the largest.
+[:zh_CN] 当多个实参都等价于最大值时 [`y] 为最右边的实参的副本。
 
 [para:complexity]
 [:en] At most [`(3/2) * t.size()] applications of the corresponding predicate.
+[:zh_CN] 最多进行 [`(3/2) * t.size()] 次对应谓词的运用。
 [exit:description]
 
 [%@library min_element]
@@ -146,12 +173,17 @@ template<class ForwardIterator, class Compare>
 [:en] The first iterator [`i] in the range [=range[first,last)] such that for
 every iterator [`j] in the range [=range[first,last)] the following
 corresponding conditions hold: [`!(*j < *i)] or [`comp(*j, *i) == false].
+[:zh_CN] 范围 [=range[first,last)] 中的第一个迭代器 [`i]，使得对于范围
+[=range[first,last)] 中的每个迭代器 [`j]，以下的对应条件成立：[`!(*j < *i)] 或者
+[`comp(*j, *i) == false]。
 
 [:en] Returns [`last] if [`first == last].
+[:zh_CN] 当 [`first == last] 时返回 [`last]。
 
 [para:complexity]
 [:en] Exactly [`max((last - first) - 1, 0)] applications of the corresponding
 comparisons.
+[:zh_CN] 恰好进行 [`max((last - first) - 1, 0)] 次对应比较的运用。
 [exit:description]
 
 [%@library max_element]
@@ -168,12 +200,17 @@ template<class ForwardIterator, class Compare>
 [:en] The first iterator [`i] in the range [=range[first,last)] such that for
 every iterator [`j] in the range [=range[first,last)] the following
 corresponding conditions hold: [`!(*i < *j)] or [`comp(*i, *j) == false].
+[:zh_CN] 范围 [=range[first,last)] 中的第一个迭代器 [`i]，使得对于范围
+[=range[first,last)] 中的每个迭代器 [`j]，以下的对应条件成立：[`!(*i < *j)] 或者
+[`comp(*i, *j) == false]。
 
 [:en] Returns [`last] if [`first == last].
+[:zh_CN] 当 [`first == last] 时返回 [`last]。
 
 [para:complexity]
 [:en] Exactly [`max((last - first) - 1, 0)] applications of the corresponding
 comparisons.
+[:zh_CN] 恰好进行 [`max((last - first) - 1, 0)] 次对应比较的运用。
 [exit:description]
 
 [%@library minmax_element]
@@ -192,15 +229,23 @@ template<class ForwardIterator, class Compare>
 [`make_pair(m, M)], where [`m] is the first iterator in [=range[first,last)]
 such that no iterator in the range refers to a smaller element, and where [`M]
 is the last iterator
+[:zh_CN] 如果 [=range[first,last)] 为空则返回 [`make_pair(first,first)]，否则
+返回 [`make_pair(m, M)]，其中 [`m] 是范围 [=range[first,last)] 中的第一个迭代器
+，使得范围中不存在指代更小元素的迭代器，而 [`M] 是范围 [=range[first,last)] 中的
+最后一个迭代器
 
 [footnote]
 [:en] This behavior intentionally differs from [`max_element()].
+[:zh_CN] 这个行为特意与 [`max_element()] 不同。
 [footnote:end]
 
 [:en@~] in [=range[first,last)] such that no iterator in the range refers to a
 larger element.
+[:zh_CN@~] ，使得范围中不存在指代更大元素的迭代器。
 
 [para:complexity]
 [:en] At most [$max([=lfloor][=frac@3@2](N-1)[=rfloor], 0)] applications of the
 corresponding predicate, where [$N] is [`distance(first, last)].
+[:zh_CN] 最多进行 [$max([=lfloor][=frac@3@2](N-1)[=rfloor], 0)] 次对应谓词的运用
+，其中 [$N] 为 [`distance(first, last)]。
 [exit:description]
