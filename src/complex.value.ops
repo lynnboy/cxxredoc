@@ -1,5 +1,6 @@
 ﻿[section#complex.value.ops
     [:en] [`complex] value operations
+    [:zh_CN] [`complex] 的值运算
 ]
 
 [%@library real[!complex]]
@@ -10,6 +11,7 @@ template<class T> constexpr T real(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] [`x.real()].
+[:zh_CN] [`x.real()]。
 [exit:description]
 
 [%@library imag[!complex]]
@@ -20,6 +22,7 @@ template<class T> constexpr T imag(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] [`x.imag()].
+[:zh_CN] [`x.imag()]。
 [exit:description]
 
 [%@library abs[!complex]]
@@ -30,6 +33,7 @@ template<class T> T abs(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The magnitude of [`x].
+[:zh_CN] [`x] 的幅值。
 [exit:description]
 
 [%@library arg[!complex]]
@@ -40,6 +44,7 @@ template<class T> T arg(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The phase angle of [`x], or [`atan2(imag(x), real(x))].
+[:zh_CN] [`x] 的相角，或 [`atan2(imag(x), real(x))]。
 [exit:description]
 
 [%@library norm[!complex]]
@@ -50,6 +55,7 @@ template<class T> T norm(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The squared magnitude of [`x].
+[:zh_CN] [`x] 的平方幅值。
 [exit:description]
 
 [%@library conj[!complex]]
@@ -60,6 +66,7 @@ template<class T> complex<T> conj(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex conjugate of [`x].
+[:zh_CN] [`x] 的复共轭。
 [exit:description]
 
 [%@library proj[!complex]]
@@ -70,9 +77,11 @@ template<class T> complex<T> proj(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The projection of [`x] onto the Riemann sphere.
+[:zh_CN] [`x] 在黎曼球面的投影。
 
 [para:remarks]
 [:en] Behaves the same as the C function [`cproj], defined in 7.3.9.4.
+[:zh_CN] 与 C 函数 [`cproj]（定义于 7.3.9.4）的行为相同。
 [exit:description]
 
 [%@library polar[!complex]]
@@ -84,4 +93,5 @@ template<class T> complex<T> polar(const T& rho, const T& theta = 0);
 [para:returns]
 [:en] The [`complex] value corresponding to a complex number whose magnitude is
 [`rho] and whose phase angle is [`theta].
+[:zh_CN] 对应于具有幅值 [`rho] 和相角 [`theta] 的复数的 [`complex] 值。
 [exit:description]
