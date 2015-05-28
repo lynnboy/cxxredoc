@@ -1,5 +1,6 @@
 ﻿[section#func.wrap.func.nullptr
     [:en] null pointer comparison operators
+    [:zh_CN] 空指针比较运算符
 ]
 
 [%@library operator==[!function]]
@@ -14,6 +15,7 @@ template <class R, class... ArgTypes>
 [enter:description]
 [para:returns]
 [:en] [`!f].
+[:zh_CN] [`!f]。
 [exit:description]
 
 [%@library operator!=[!function]]
@@ -27,5 +29,6 @@ template <class R, class... ArgTypes>
 
 [enter:description]
 [para:returns]
-[:en] [` (bool) f].
+[:en] [`(bool) f].
+[:zh_CN] [`(bool) f]。
 [exit:description]
