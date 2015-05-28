@@ -1,19 +1,24 @@
 ﻿[section#alg.c.library
     [:en] C library algorithms
+    [:zh_CN] C 程序库的算法
 ]
 
 [para]
 [:en] Table [#tab:algorithms.hdr.cstdlib] describes some of the contents of the
 header [`<cstdlib>].
+[:zh_CN] 表 [#tab:algorithms.hdr.cstdlib] 描述头文件 [`<cstdlib>] 的一些内容。
 
 [table:listing#tab:algorithms.hdr.cstdlib
     [:en] Header [`<cstdlib>] synopsis
+    [:zh_CN] 头文件 [`<cstdlib>] 纲要
     [columns
         [column@headercenter@code
             [:en] Type
+            [:zh_CN] 种类
         ]
         [column@headercenter@code
             [:en] Name(s)
+            [:zh_CN] 名字
         ]
         [column@header~@code]
     ]
@@ -36,9 +41,11 @@ header [`<cstdlib>].
 [para]
 [:en] The contents are the same as the Standard C library header [`<stdlib.h>]
 with the following exceptions:
+[:zh_CN] 其内容与标准 C 程序库头文件 [`<stdlib.h>] 相同，但有以下例外：
 
 [para]
 [:en] The function signature:
+[:zh_CN] 函数签名：
 
 [codeblock:notation]
 bsearch(const void *, const void *, size_t, size_t,
@@ -46,6 +53,7 @@ bsearch(const void *, const void *, size_t, size_t,
 [codeblock:end]
 
 [:en@~] is replaced by the two declarations:
+[:zh_CN@~] 被替换为两个声明式：
 
 [codeblock:notation]
 extern "C" void* bsearch(const void* key, const void* base,
@@ -57,9 +65,11 @@ extern "C++" void* bsearch(const void* key, const void* base,
 [codeblock:end]
 
 [:en@~] both of which have the same behavior as the original declaration.
+[:zh_CN@~] 它们都具有与原声明式相同的行为。
 
 [para]
 [:en] The function signature:
+[:zh_CN] 函数签名：
 
 [codeblock:notation]
 qsort(void *, size_t, size_t,
@@ -67,6 +77,7 @@ qsort(void *, size_t, size_t,
 [codeblock:end]
 
 [:en@~] is replaced by the two declarations:
+[:zh_CN@~] 被替换为两个声明式：
 
 [codeblock:notation]
 extern "C" void qsort(void* base, size_t nmemb, size_t size,
@@ -76,16 +87,21 @@ extern "C++" void qsort(void* base, size_t nmemb, size_t size,
 [codeblock:end]
 
 [:en@~] both of which have the same behavior as the original declaration.
+[:zh_CN@~] 它们都具有与原声明式相同的行为。
 
 [:en] The behavior is undefined unless the objects in the array pointed to by
 [`base] are of trivial type.
+[:zh_CN] 除非由 [`base] 所指向的数组中的对象具有平凡类型，否则其行为是未定义的。
 
 [para:~]
 [enter:note]
 [:en] Because the function argument [`compar()] may throw an exception,
 [`bsearch()] and [`qsort()] are allowed to propagate the exception
 ([#res.on.exception.handling]).
+[:zh_CN] 由于函数实参 [`compar()] 可能抛出异常，因此 [`bsearch()] 和 [`qsort()]
+都允许传播异常（[#res.on.exception.handling]）。
 [exit:note]
 
 [para:xref]
 [:en] ISO C 7.10.5.
+[:zh_CN] ISO C 7.10.5。
