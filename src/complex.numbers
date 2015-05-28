@@ -41,8 +41,8 @@ range of representable values for its type, the behavior is undefined.
 [item]
 [:en] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] shall designate the imaginary part
 of [`z].
-[:zh_CN]
-[list:end] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] 应当代表 [`z] 的虚部。
+[:zh_CN] [`reinterpret_cast<cv T(&)[2`]>(z)[1`]] 应当代表 [`z] 的虚部。
+[list:end]
 
 [:en] Moreover, if [`a] is an expression of type [`cv std::complex<T>*] and the
 expression [`a[i`]] is well-defined for an integer expression [`i], then:
