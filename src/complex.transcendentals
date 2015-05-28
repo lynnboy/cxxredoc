@@ -1,5 +1,6 @@
 ﻿[section#complex.transcendentals
     [:en] [`complex] transcendentals
+    [:zh_CN] [`complex] 的超越函数
 ]
 
 [%@library acos[!complex]]
@@ -11,9 +12,11 @@ template<class T> complex<T> acos(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc cosine of [`x].
+[:zh_CN] [`x] 的复反余弦。
 
 [para:remarks]
 [:en] Behaves the same as C function [`cacos], defined in 7.3.5.1.
+[:zh_CN] 与 C 函数 [`cacos]（定义于 7.3.5.1）的行为相同。
 [exit:description]
 
 [%@library asin[!complex]]
@@ -25,9 +28,11 @@ template<class T> complex<T> asin(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc sine of [`x].
+[:zh_CN] [`x] 的复反正弦。
 
 [para:remarks]
 [:en] Behaves the same as C function [`casin], defined in 7.3.5.2.
+[:zh_CN] 与 C 函数 [`casin]（定义于 7.3.5.2）的行为相同。
 [exit:description]
 
 [%@library atan[!complex]]
@@ -39,9 +44,11 @@ template<class T> complex<T> atan(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc tangent of [`x].
+[:zh_CN] [`x] 的复反正切。
 
 [para:remarks]
 [:en] Behaves the same as C function [`catan], defined in 7.3.5.3.
+[:zh_CN] 与 C 函数 [`catan]（定义于 7.3.5.3）的行为相同。
 [exit:description]
 
 [%@library acosh[!complex]]
@@ -53,9 +60,11 @@ template<class T> complex<T> acosh(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc hyperbolic cosine of [`x].
+[:zh_CN] [`x] 的复反双曲余弦。
 
 [para:remarks]
 [:en] Behaves the same as C function [`cacosh], defined in 7.3.6.1.
+[:zh_CN] 与 C 函数 [`cacosh]（定义于 7.3.6.1）的行为相同。
 [exit:description]
 
 [%@library asinh[!complex]]
@@ -67,9 +76,11 @@ template<class T> complex<T> asinh(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc hyperbolic sine of [`x].
+[:zh_CN] [`x] 的复反双曲正弦。
 
 [para:remarks]
 [:en] Behaves the same as C function [`casinh], defined in 7.3.6.2.
+[:zh_CN] 与 C 函数 [`casinh]（定义于 7.3.6.2）的行为相同。
 [exit:description]
 
 [%@library atanh[!complex]]
@@ -81,9 +92,11 @@ template<class T> complex<T> atanh(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex arc hyperbolic tangent of [`x].
+[:zh_CN] [`x] 的复反双曲正切。
 
 [para:remarks]
 [:en] Behaves the same as C function [`catanh], defined in 7.3.6.3.
+[:zh_CN] 与 C 函数 [`catanh]（定义于 7.3.6.3）的行为相同。
 [exit:description]
 
 [%@library cos[!complex]]
@@ -94,6 +107,7 @@ template<class T> complex<T> cos(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex cosine of [`x].
+[:zh_CN] [`x] 的复余弦。
 [exit:description]
 
 [%@library cosh[!complex]]
@@ -104,6 +118,7 @@ template<class T> complex<T> cosh(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex hyperbolic cosine of [`x].
+[:zh_CN] [`x] 的复双曲余弦。
 [exit:description]
 
 [%@library exp[!complex]]
@@ -114,6 +129,7 @@ template<class T> complex<T> exp(const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex base e exponential of [`x].
+[:zh_CN] 以 e 为底的 [`x] 的复指数幂。
 [exit:description]
 
 [%@library log[!complex]]
@@ -124,13 +140,17 @@ template<class T> complex<T> log(const complex<T>& x);
 [enter:description]
 [para:notes]
 [:en] the branch cuts are along the negative real axis.
+[:zh_CN] 沿负实轴切割分支。
 
 [para:returns]
 [:en] The complex natural (base e) logarithm of [`x], in the range of a strip
 mathematically unbounded along the real axis and in the interval
 [=crange[-i times pi,i times pi`]] along the imaginary axis.
+[:zh_CN] [`x] 的复自然（以 e 为底）对数，定义域为数学上沿实轴无界而沿虚轴处于
+间隔 [=crange[-i times pi,i times pi`]] 之内的条带。
 
 [:en] When [`x] is a negative real number, [`imag(log(x))] is pi.
+[:zh_CN] 当 [`x] 为负实数时，[`imag(log(x))] 为 pi。
 [exit:description]
 
 [%@library log10[!complex]]
@@ -141,10 +161,12 @@ template<class T> complex<T> log10(const complex<T>& x);
 [enter:description]
 [para:notes]
 [:en] the branch cuts are along the negative real axis.
+[:zh_CN] 沿负实轴切割分支。
 
 [para:returns]
 [:en] The complex common (base 10) logarithm of [`x], defined as
 [`log(x)/log(10)].
+[:zh_CN] [`x] 的复常用（以 10 为底）对数，定义为 [`log(x)/log(10)]。
 [exit:description]
 
 [%@library pow[!complex]]
@@ -158,12 +180,15 @@ template<class T> complex<T> pow  (const T& x, const complex<T>& y);
 [enter:description]
 [para:notes]
 [:en] the branch cuts are along the negative real axis.
+[:zh_CN] 沿负实轴切割分支。
 
 [para:returns]
 [:en] The complex power of base [`x] raised to the [`y]-th power, defined as
 [`exp(y*log(x))].
+[:zh_CN] 以 [`x] 为底的 [`y] 次复幂，定义为 [`exp(y*log(x))]。
 
 [:en] The value returned for [`pow(0,0)] is implementation-defined.
+[:zh_CN] [`pow(0,0)] 的返回值是由实现定义的。
 [exit:description]
 
 [%@library sin[!complex]]
@@ -174,6 +199,7 @@ template<class T> complex<T> sin  (const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex sine of [`x].
+[:zh_CN] [`x] 的复正弦。
 [exit:description]
 
 [%@library sinh[!complex]]
@@ -184,6 +210,7 @@ template<class T> complex<T> sinh (const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex hyperbolic sine of [`x].
+[:zh_CN] [`x] 的复双曲正弦。
 [exit:description]
 
 [%@library sqrt[!complex]]
@@ -194,12 +221,15 @@ template<class T> complex<T> sqrt (const complex<T>& x);
 [enter:description]
 [para:notes]
 [:en] the branch cuts are along the negative real axis.
+[:zh_CN] 沿负实轴切割分支。
 
 [para:returns]
 [:en] The complex square root of [`x], in the range of the right half-plane.
+[:zh_CN] [`x] 在右半平面的范围中的复平方根
 
 [:en] If the argument is a negative real number, the value returned lies on the
 positive imaginary axis.
+[:zh_CN] 如果实参为负实数，则其返回值处于正虚轴上。
 [exit:description]
 
 [%@library tan[!complex]]
@@ -210,6 +240,7 @@ template<class T> complex<T> tan  (const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex tangent of [`x].
+[:zh_CN] [`x] 的复正切。
 [exit:description]
 
 [%@library tanh[!complex]]
@@ -220,4 +251,5 @@ template<class T> complex<T> tanh (const complex<T>& x);
 [enter:description]
 [para:returns]
 [:en] The complex hyperbolic tangent of [`x].
+[:zh_CN] [`x] 的复双曲正切。
 [exit:description]
