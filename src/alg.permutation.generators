@@ -1,5 +1,6 @@
 ﻿[section#alg.permutation.generators
     [:en] Permutation generators
+    [:zh_CN] 排列产生器
 ]
 
 [%@library next_permutation]
@@ -17,21 +18,30 @@ template<class BidirectionalIterator, class Compare>
 [para:effects]
 [:en] Takes a sequence defined by the range [=range[first,last)] and transforms
 it into the next permutation.
+[:zh_CN] 接受由范围 [=range[first,last)] 所定义的序列，并将其变换为其下一个排列
+。
 
 [:en] The next permutation is found by assuming that the set of all permutations
 is lexicographically sorted with respect to [`operator<] or [`comp].
+[:zh_CN] 下一个排列是通过假定所有排列的集合是根据 [`operator<] 或 [`comp] 进行
+字典序排序而找到的。
 
 [:en] If such a permutation exists, it returns [`true].
+[:zh_CN] 如果存在这种排列，则返回 [`true]。
 
 [:en] Otherwise, it transforms the sequence into the smallest permutation, that
 is, the ascendingly sorted one, and returns [`false].
+[:zh_CN] 否则，它将序列变换为最小排列，也就是升序中的第一个，并返回 [`false]。
 
 [para:requires]
 [:en] [`BidirectionalIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN]  [`BidirectionalIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [para:complexity]
 [:en] At most [`(last - first)/2] swaps.
+[:zh_CN] 最多进行 [`(last - first)/2] 次交换。
 [exit:description]
 
 [%@library prev_permutation]
@@ -49,21 +59,30 @@ template<class BidirectionalIterator, class Compare>
 [para:effects]
 [:en] Takes a sequence defined by the range [=range[first,last)] and transforms
 it into the previous permutation.
+[:zh_CN] 接受由范围 [=range[first,last)] 所定义的序列，并将其变换为其前一个排列
+。
 
 [:en] The previous permutation is found by assuming that the set of all
 permutations is lexicographically sorted with respect to [`operator<] or
 [`comp].
+[:zh_CN] 前一个排列是通过假定所有排列的集合是根据 [`operator<] 或 [`comp] 进行
+字典序排序而找到的。
 
 [para:returns]
 [:en] [`true] if such a permutation exists.
+[:zh_CN] 如果存在这种排列，则返回 [`true]。
 
 [:en] Otherwise, it transforms the sequence into the largest permutation, that
 is, the descendingly sorted one, and returns [`false].
+[:zh_CN] 否则，它将序列变换为最小排列，也就是降序中的第一个，并返回 [`false]。
 
 [para:requires]
 [:en] [`BidirectionalIterator] shall satisfy the requirements of
 [`ValueSwappable] ([#swappable.requirements]).
+[:zh_CN]  [`BidirectionalIterator] 应当符合 [`ValueSwappable] 的规定
+（[#swappable.requirements]）。
 
 [para:complexity]
 [:en] At most [`(last - first)/2] swaps.
+[:zh_CN] 最多进行 [`(last - first)/2] 次交换。
 [exit:description]
