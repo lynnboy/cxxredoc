@@ -1,15 +1,32 @@
 ﻿[section#cfenv.syn
     [:en] Header [`<cfenv>] synopsis
+    [:zh_CN] 头文件 [`<cfenv>] 纲要
 ]
 
 [%@library <cfenv> [sortas cfenv]]
+
+[%@library fenv_t]
+[%@library fexcept_t]
+[%@library feclearexcept]
+[%@library fegetexceptflag]
+[%@library feraiseexcept]
+[%@library fesetexceptflag]
+[%@library fetestexcept]
+[%@library fegetround]
+[%@library fesetround]
+[%@library fegetenv]
+[%@library feholdexcept]
+[%@library fesetenv]
+[%@library feupdateenv]
 [codeblock:synopsis [special object integer type] ]
 namespace std {
   // [:en] types
+  // [|:zh_CN] 类型
   typedef object type  fenv_t;
   typedef integer type fexcept_t;
 
   // [:en] functions
+  // [|:zh_CN] 函数
   int feclearexcept(int except);
   int fegetexceptflag(fexcept_t* pflag, int except);
   int feraiseexcept(int except);
@@ -27,19 +44,9 @@ namespace std {
 [codeblock:end]
 
 [para]
-[%@library fenv_t]
-[%@library fexcept_t]
-[%@library feclearexcept]
-[%@library fegetexceptflag]
-[%@library feraiseexcept]
-[%@library fesetexceptflag]
-[%@library fetestexcept]
-[%@library fegetround]
-[%@library fesetround]
-[%@library fegetenv]
-[%@library feholdexcept]
-[%@library fesetenv]
-[%@library feupdateenv]
+[:en] The header also defines the macros:
+[:zh_CN] 头文件中还定义了一下宏：
+
 [%@library FE_ALL_EXCEPT]
 [%@library FE_DIVBYZERO]
 [%@library FE_INEXACT]
@@ -51,7 +58,6 @@ namespace std {
 [%@library FE_TOWARDZERO]
 [%@library FE_UPWARD]
 [%@library FE_DFL_ENV]
-[:en] The header also defines the macros:
 
 [codeblock:notation]
   FE_ALL_EXCEPT
@@ -72,22 +78,30 @@ namespace std {
 [para]
 [:en] The header defines all functions, types, and macros the same as Clause 7.6
 of the C standard.
+[:zh_CN] 这个头文件所定义的所有函数、类型和宏，都与 C 标准的条款 7.6 中相同。
 
 [para]
 [:en] The floating-point environment has thread storage duration
 ([#basic.stc.thread]).
+[:zh_CN] 浮点环境具有线程存储期（[#basic.stc.thread]）。
 
 [:en] The initial state for a thread[=']s floating-point environment is the
 state of the floating-point environment of the thread that constructs the
 corresponding [`std::thread] object ([#thread.thread.class]) at the time it
 constructed the object.
+[:zh_CN] 线程的浮点环境的初始状态，是构造了其所对应的 [`std::thread] 对象
+（[#thread.thread.class]）的线程当构造这个对象时的浮点环境的状态。
 
 [enter:note]
 [:en] That is, the child thread gets the floating-point state of the parent
 thread at the time of the child[=']s creation.
+[:zh_CN] 就是说，子线程获得父线程在创建子线程时的浮点状态。
 [exit:note]
 
 [para]
 [:en] A separate floating-point environment shall be maintained for each thread.
+[:zh_CN] 每个线程都应当维护一个独立的浮点环境。
 
-[:en] Each function accesses the environment corresponding to its calling thread.
+[:en] Each function accesses the environment corresponding to its calling
+thread.
+[:zh_CN] 每个函数都访问对应于调用它的线程的环境。
