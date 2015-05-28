@@ -1,5 +1,6 @@
 ﻿[section#complex.member.ops
     [:en] [`complex] member operators
+    [:zh_CN] [`complex] 的成员运算符
 ]
 
 [%@library operator+=[!complex]]
@@ -12,9 +13,12 @@ complex<T>& operator+=(const T& rhs);
 [:en] Adds the scalar value [`rhs] to the real part of the complex value
 [`*this] and stores the result in the real part of [`*this], leaving the
 imaginary part unchanged.
+[:zh_CN] 将标量值 [`rhs] 加到复数值 [`*this] 的实部上，并将其结果存储到 [`*this]
+的实部，保留其虚部不变。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator-=[!complex]]
@@ -27,9 +31,12 @@ complex<T>& operator-=(const T& rhs);
 [:en] Subtracts the scalar value [`rhs] from the real part of the complex value
 [`*this] and stores the result in the real part of [`*this], leaving the
 imaginary part unchanged.
+[:zh_CN] 从复数值 [`*this] 的实部上减去标量值 [`rhs]，并将其结果存储到 [`*this]
+的实部，保留其虚部不变。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator*=[!complex]]
@@ -41,9 +48,11 @@ complex<T>& operator*=(const T& rhs);
 [para:effects]
 [:en] Multiplies the scalar value [`rhs] by the complex value [`*this] and
 stores the result in [`*this].
+[:zh_CN] 将复数值 [`*this] 乘以标量值 [`rhs]，并将其结果存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator/=[!complex]]
@@ -55,9 +64,11 @@ complex<T>& operator/=(const T& rhs);
 [para:effects]
 [:en] Divides the scalar value [`rhs] into the complex value [`*this] and stores
 the result in [`*this].
+[:zh_CN] 将复数值 [`*this] 除以标量值 [`rhs]，并将其结果存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator+=[!complex]]
@@ -69,9 +80,11 @@ template<class X> complex<T>& operator+=(const complex<X>& rhs);
 [para:effects]
 [:en] Adds the complex value [`rhs] to the complex value [`*this] and stores the
 sum in [`*this].
+[:zh_CN] 对复数值 [`*this] 加上复数值 [`rhs]，并将它们的和结果存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator-=[!complex]]
@@ -83,9 +96,11 @@ template<class X> complex<T>& operator-=(const complex<X>& rhs);
 [para:effects]
 [:en] Subtracts the complex value [`rhs] from the complex value [`*this] and
 stores the difference in [`*this].
+[:zh_CN] 从复数值 [`*this] 中减去复数值 [`rhs]，并将它们的差存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator*=[!complex]]
@@ -97,9 +112,11 @@ template<class X> complex<T>& operator*=(const complex<X>& rhs);
 [para:effects]
 [:en] Multiplies the complex value [`rhs] by the complex value [`*this] and
 stores the product in [`*this].
+[:zh_CN] 将复数值 [`*this] 乘以复数值 [`rhs]，并将它们的积存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
 
 [%@library operator/=[!complex]]
@@ -111,7 +128,9 @@ template<class X> complex<T>& operator/=(const complex<X>& rhs);
 [para:effects]
 [:en] Divides the complex value [`rhs] into the complex value [`*this] and
 stores the quotient in [`*this].
+[:zh_CN] 将复数值 [`*this] 除以复数值 [`rhs]，并将它们的商存储到 [`*this] 中。
 
 [para:returns]
 [:en] [`*this].
+[:zh_CN] [`*this]。
 [exit:description]
