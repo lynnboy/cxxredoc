@@ -1,26 +1,34 @@
 ﻿[section#numerics.general
     [:en] General
+    [:zh_CN] 综述
 ]
 
 [para]
 [:en] This Clause describes components that [=Cpp] programs may use to perform
 seminumerical operations.
+[:zh_CN] 本条中描述了 [=Cpp] 程序可以用于实施半数值（Seminumerical）运算的组件。
 
 [para]
 [:en] The following subclauses describe components for complex number types,
 random number generation, numeric ([$n]-at-a-time) arrays, generalized numeric
 algorithms, and facilities included from the ISO C library, as summarized in
 Table [#tab:numerics.lib.summary].
+[:zh_CN] 以下各子条款描述了复数类型，随机数生成，数值数组（每次 [$n] 个），通用
+数值算法，以及从 ISO C 程序库中包括进来的设施等组件，总结于表
+[#tab:numerics.lib.summary]。
 
 [table:listing#tab:numerics.lib.summary
     [:en] Numerics library summary
+    [:zh_CN] 数值程序库概要
     [columns
         [column@headercenter@vcenter
             [:en] Subclause
+            [:zh_CN] 子条款
         ]
         [column@vcenter@header~]
         [column@code@vcenter
             [:en] Header(s)
+            [:zh_CN] 头文件
         ]
     ]
     [border:row@both]
@@ -28,30 +36,37 @@ Table [#tab:numerics.lib.summary].
 
 [|] [#numeric.requirements]
 [|] [:en] Requirements
+    [:zh_CN] 规定
 [|]
 
 [|] [#cfenv]
 [|] [:en] Floating-Point Environment
+    [:zh_CN] 浮点环境
 [|] <cfenv>
 
 [|] [#complex.numbers]
 [|] [:en] Complex Numbers
+    [:zh_CN] 复数
 [|] <complex>
 
 [|] [#rand]
 [|] [:en] Random number generation
+    [:zh_CN] 随机数生成
 [|] <random>
 
 [|] [#numarray]
 [|] [:en] Numeric arrays
+    [:zh_CN] 数值数组
 [|] <valarray>
 
 [|] [#numeric.ops]
 [|] [:en] Generalized numeric operations
+    [:zh_CN] 通用数值运算
 [|] <numeric>
 
 [|] [#c.math]
 [|] [:en] C library
+    [:zh_CN] C 程序库
 [|] <cmath> [br] <ctgmath> [br] <tgmath.h> [br] <cstdlib>
 
 [table:end]
