@@ -5,23 +5,29 @@
 
 [section#rand.req.urng
     [:en] Uniform random number generator requirements
+    [:zh_CN] 均匀随机数生成器规定
 ]
 
 [%:begin#uniform.random.number.generator.requirements
     [:en] uniform random number generator[!requirements]
+    [:zh_CN] 均匀随机数生成器[!规定]
 ]
 [%:begin#requirements.uniform.random.number.generator
     [:en] requirements[!uniform random number generator]
+    [:zh_CN] 规定[!均匀随机数生成器]
 ]
 
 [para]
 [:en] A [+uniform random number generator] [`g] of type [`G] is a function
 object returning unsigned integer values such that each value in the range of
 possible results has (ideally) equal probability of being returned.
+[:zh_CN] [`G] 类型的[+均匀随机数生成器] [`g] 是返回无符号整数值的函数对象，其
+可能结果的范围中的每个值都具有（理想）相等的返回概率。
 
 [enter:note]
 [:en] The degree to which [`g][=']s results approximate the ideal is often
 determined statistically.
+[:zh_CN] [`g] 的结果在何种程度上近似于理想，通常是由统计确定的。
 [exit:note]
 
 [para]
@@ -29,63 +35,100 @@ determined statistically.
 generator] if the expressions shown in Table [#tab:UniformRandomNumberGenerator]
 are valid and have the indicated semantics, and if [`G] also satisfies all other
 requirements of this section [#rand.req.urng].
+[:zh_CN] 如果表 [#tab:UniformRandomNumberGenerator] 中给出的表达式均有效并具有所
+指定的语义，并且如果 [`G] 还符合本节 [#rand.req.urng] 中的其他全部规定，则类
+[`G] 符合[+均匀随机数生成器]的规定。
+
 
 [:en] In that Table and throughout this section:
+[:zh_CN] 在这个表和本节的通篇中：
 
 [list:ol@arparen]
 [item]
 [:en] [`T] is the type named by [`G][=']s associated [`result_type], and
+[:zh_CN] [`T] 是 [`G] 所关联的 [`result_type] 所指名的类型，而
 [item]
 [:en] [`g] is a value of [`G].
+[:zh_CN] [`g] 为 [`G] 的值。
 [list:end]
 
 [table:listing#tab:UniformRandomNumberGenerator
     [:en] Uniform random number generator requirements
+    [:zh_CN] 均匀随机数生成器规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter@code
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Pre/post-condition
+            [:zh_CN] 前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
     [border:row@both]
 ]
 
-[|] G::result_type
+[-]
+[:en]
 [%[`result_type][!uniform random number generator requirement]]
+[:zh_CN]
+[%[`result_type][!均匀随机数生成器规定]]
+[|] G::result_type
 [|] T
-[|] [`T] is an unsigned integer type ([#basic.fundamental]).
+[|] [:en] [`T] is an unsigned integer type ([#basic.fundamental]).
+    [:zh_CN] [`T] 为无符号整数类型（[#basic.fundamental]）。
 [|] [:en] compile-time
+    [:zh_CN] 编译期
 
-[|] g()
+[-]
+[:en]
 [%[`operator()][!uniform random number generator requirement]]
+[:zh_CN]
+[%[`operator()][!均匀随机数生成器规定]]
+[|] g()
 [|] T
 [|] [:en] Returns a value in the closed interval [[`G::min()], [`G::max()]].
+    [:zh_CN] 返回闭区间 [[`G::min()], [`G::max()]] 中的某个值。
 [|] [:en] amortized constant
+    [:zh_CN] 摊销常量
 
-[|] G::min()
+[-]
+[:en]
 [%[`min][!uniform random number generator requirement]]
+[:zh_CN]
+[%[`min][!均匀随机数生成器规定]]
+[|] G::min()
 [|] T
 [|] [:en] Denotes the least value potentially returned by [`operator()].
+    [:zh_CN] 代表可能由 [`operator()] 返回的最小值。
 [|] [:en] compile-time
+    [:zh_CN] 编译期
 
-[|] G::max()
+[-]
+[:en]
 [%[`max][!uniform random number generator requirement]]
+[:zh_CN]
+[%[`max][!均匀随机数生成器规定]]
+[|] G::max()
 [|] T
 [|] [:en] Denotes the greatest value potentially returned by [`operator()].
+    [:zh_CN] 代表可能由 [`operator()] 返回的最大值。
 [|] [:en] compile-time
+    [:zh_CN] 编译期
 
 [table:end]
 
 [para]
 [:en] The following relation shall hold: [`G::min() < G::max()].
+[:zh_CN] 以下关系应当成立：[`G::min() < G::max()]。
 
 [%:end#requirements.uniform.random.number.generator]
 [%:end#uniform.random.number.generator.requirements]
