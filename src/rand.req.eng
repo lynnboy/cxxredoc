@@ -5,13 +5,16 @@
 
 [section#rand.req.eng
     [:en] Random number engine requirements
+    [:zh_CN] 随机数引擎规定
 ]
 
 [%:begin#random.number.engine.requirements
     [:en] random number engine [!requirements]
+    [:zh_CN] 随机数引擎[!规定]
 ]
 [%:begin#requirements.random.number.engine
     [:en] requirements [!random number engine]
+    [:zh_CN] 规定[!随机数引擎]
 ]
 
 [para]
@@ -19,29 +22,42 @@
 [`E] is a uniform random number generator that additionally meets the
 requirements ([em e.g.], for seeding and for input/output) specified in this
 section.
+[:zh_CN] 类型 [`E] 的[+随机数引擎]（常简称为[+引擎]）[`e]，是额外符合本节所指定
+的规定（比如有关播种以及 I/O 的规定）的均匀随机数生成器。
 
 [para]
 [:en] At any given time, [`e] has a state [$[`e][_i]] for some integer
 [$i [=geq] 0].
+[:zh_CN] 在任意给定时间，[`e] 对于整数 [$i [=geq] 0] 具有状态 [$[`e][_i]]。
 
 [:en] Upon construction, [`e] has an initial state [$[`e][_0]].
+[:zh_CN] 当构造完成时，[`e] 具有初始状态 [$[`e][_0]]。
 
 [:en] An engine[=']s state may be established via a constructor, a [`seed]
 function, assignment, or a suitable [`operator>>].
+[:zh_CN] 引擎的状态可以通过构造函数，[`seed] 函数，赋值，或者适当的
+[`operator>>] 来建立。
 
 [para]
 [:en] [`E][=']s specification shall define:
+[:zh_CN] [`E] 的说明中应当定义：
 
 [list:ol@arparen]
 [item]
 [:en] the size of [`E][=']s state in multiples of the size of [`result_type],
 given as an integral constant expression;
+[:zh_CN] [`E] 的状态的大小相对于 [`result_type] 的大小的倍数，作为整型常量表达式
+给出；
 [item]
 [:en] the [+transition algorithm] [$@sf TA] by which [`e][=']s state [$[`e][_i]]
 is advanced to its [+successor state] [$[`e][_i+1]]; and
+[:zh_CN] [+转换算法] [$@sf TA]，通过它将 [`e] 的状态 [$[`e][_i]] 推进到其后继
+状态 [$[`e][_i+1]]；以及
 [item]
 [:en] the [+generation algorithm] [$@sf GA] by which an engine[=']s state is
 mapped to a value of type [`result_type].
+[:zh_CN] [+生成算法] [$@sf GA]，通过它将引擎的状态映射为 [`result_type] 类型的值
+。
 [list:end]
 
 [para]
@@ -50,46 +66,65 @@ generator ([#rand.req.urng]) also satisfies the requirements of a [+random
 number engine] if the expressions shown in Table [#tab:RandomEngine] are valid
 and have the indicated semantics, and if [`E] also satisfies all other
 requirements of this section [#rand.req.eng].
+[:zh_CN] 如果表 [#tab:RandomEngine] 中给出的表达式均有效并具有所指定的语义，并且
+如果 [`E] 还符合本节 [#rand.req.eng] 中的其他全部规定，则符合[+均匀随机数生成器]
+的规定的类 [`E] 也符合[+随机数引擎]的规定。
 
 [:en] In that Table and throughout this section:
+[:zh_CN] 在这个表和本节的通篇中：
 
 [list:ol@arparen]
 [item]
 [:en] [`T] is the type named by [`E][=']s associated [`result_type];
+[:zh_CN] [`T] 是 [`E] 所关联的 [`result_type] 所指名的类型；
 [item]
 [:en] [`e] is a value of [`E], [`v] is an lvalue of [`E], [`x] and [`y] are
 (possibly [`const]) values of [`E];
+[:zh_CN] [`e] 为 [`E] 的值，[`v] 为 [`E] 的左值，[`x] 和 [`y] 为 [`E] 的（可能为
+[`const] 的）值；
 [item]
 [:en] [`s] is a value of [`T];
+[:zh_CN] [`s] 为 [`T] 的值；
 [item]
 [:en] [`q] is an lvalue satisfying the requirements of a seed sequence
 ([#rand.req.seedseq]);
+[:zh_CN] [`q] 为符合种子序列的规定（[#rand.req.seedseq]）的左值；
 [item]
 [:en] [`z] is a value of type [`unsigned long long];
+[:zh_CN] [`z] 为 [`unsigned long long] 类型的值；
 [item]
 [:en] [`os] is an lvalue of the type of some class template specialization
 [`basic_ostream<charT, traits>]; and
+[:zh_CN] [`os] 为某个类型为模板特例 [`basic_ostream<charT, traits>] 的左值；而
 [item]
 [:en] [`is] is an lvalue of the type of some class template specialization
 [`basic_istream<charT, traits>];
+[:zh_CN] [`is] 为某个类型为模板特例 [`basic_istream<charT, traits>] 的左值；
 [list:end]
 [:en] where [`charT] and [`traits] are constrained according to Clause
 [#strings] and Clause [#input.output].
+[:zh_CN] 其中 [`charT] 和 [`traits] 遵循第 [#strings] 条和第 [#input.output] 条
+的约束条件。
 
 [table:listing#tab:RandomEngine
     [:en] Random number engine requirements
+    [:zh_CN] 随机数引擎规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Pre/post-condition
+            [:zh_CN] 前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
     [border:row@both]
@@ -101,18 +136,21 @@ requirements of this section [#rand.req.eng].
 [|] [:en] Creates an engine with the same initial state as all other
     default-constructed engines of type [`E].
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] E(x)
 [%copy constructor!random number engine requirement]]
 [|]
 [|] [:en] Creates an engine that compares equal to [`x].
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] E(s)
 [%constructor[!random number engine requirement]]
 [|]
 [|] [:en] Creates an engine with initial state determined by [`s].
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] E(q)
 [%constructor[!random number engine requirement]]
@@ -121,6 +159,7 @@ requirements of this section [#rand.req.eng].
 [:en] This constructor (as well as the subsequent corresponding [`seed()]
 function) may be particularly useful to applications requiring a large number of
 independent random sequences.
+[:zh_CN]
 [footnote:end]
 
 [|]
@@ -161,6 +200,7 @@ independent random sequences.
 [:en] This operation is common in user code, and can often be implemented in an
 engine-specific manner so as to provide significant performance improvements
 over an equivalent naive loop that makes [`z] consecutive calls [`e()].
+[:zh_CN]
 [footnote:end]
 
 [|] [`void]
@@ -172,16 +212,19 @@ over an equivalent naive loop that makes [`z] consecutive calls [`e()].
 [%[`operator==][!random number engine requirement]]
 [|] [`bool]
 [|] [:en] This operator is an equivalence relation.
+
     [:en] With [$S[_x]] and [$S[_y]] as the infinite sequences of values that
     would be generated by repeated future calls to [`x()] and [`y()],
     respectively, returns [`true] if [$S[_x] = S[_y]]; else returns [`false].
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] x != y
 [%[`operator!=][!random number engine requirement]]
 [|] [`bool]
 [|] [`!(x == y)].
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] os << x
 [%[`operator<<][!random number engine requirement]]
@@ -189,31 +232,38 @@ over an equivalent naive loop that makes [`z] consecutive calls [`e()].
 [|] [:en] With [`os.][$fmtflags] set to [`ios_base::dec|ios_base::left] and the
     fill character set to the space character, writes to [`os] the textual
     representation of [`x][=']s current state.
+
     [:en] In the output, adjacent numbers are separated by one or more space
     characters.
     [br]
     [:en] post: The [`os.][$fmtflags] and fill character are unchanged.
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [|] is >> v
 [%[`operator>>][!random number engine requirement]]
 [|] [:en] reference to the type of [`is]
 [|] [:en] With [`is.fmtflags] set to [`ios_base::dec], sets [`v][=']s state as
     determined by reading its textual representation from [`is].
+
     [:en] If bad input is encountered, ensures that [`v][=']s state is unchanged
     by the operation and calls [`is.setstate(ios::failbit)] (which may throw
     [`ios::failure] [[#iostate.flags]]).
+
     [:en] If a textual representation written via [`os << x] was subsequently
     read via [`is >> v], then [`x == v] provided that there have been no
     intervening invocations of [`x] or of [`v].
+
     [br]
     [:en] pre: [`is] provides a textual representation that was previously
     written using an output stream whose imbued locale was the same as that of
     [`is], and whose type[=']s template specialization arguments [`charT] and
     [`traits] were respectively the same as those of [`is].
+
     [br]
     [:en] post: The [`is.][$fmtflags] are unchanged.
 [|] [:en] [=bigoh](size of state)
+    [:zh_CN] [=bigoh](状态的大小)
 
 [table:end]
 
