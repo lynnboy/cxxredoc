@@ -5,26 +5,33 @@
 
 [section#rand.req.seedseq
     [:en] Seed sequence requirements
+    [:zh_CN] 种子序列规定
 ]
 
 [%:begin#seed.sequence.requirements
     [:en] seed sequence[!requirements]
+    [:zh_CN] 种子序列[!规定]
 ]
 [%:begin#requirements.seed.sequence
     [:en] requirements[!seed sequence]
+    [:zh_CN] 规定[!种子序列]
 ]
 
 [para]
 [:en] A [+seed sequence][%seed sequence] is an object that consumes a sequence
 of integer-valued data and produces a requested number of unsigned integer
 values [$i], [$0 [=le] i < 2[^32]], based on the consumed data.
+[:zh_CN] [+种子序列][%种子序列]是一种对象，它消耗一个整数值数据的序列，并根据所
+消耗的数据产生所要求的无符号整数值 [$i]，其中 [$0 [=le] i < 2[^32]]。
 
 [enter:note]
 [:en] Such an object provides a mechanism to avoid replication of streams of
 random variates.
+[:zh_CN] 这种对象提供了一种用来避免随机变化的流出现重复的机制。
 
 [:en] This can be useful, for example, in applications requiring large numbers
 of random number engines.
+[:zh_CN] 这可能在例如需要大量随机数引擎的应用中是有用的。
 [exit:note]
 
 [para]
@@ -32,96 +39,159 @@ of random number engines.
 expressions shown in Table [#tab:SeedSequence] are valid and have the indicated
 semantics, and if [`S] also satisfies all other requirements of this section
 [#rand.req.seedseq].
+[:zh_CN] 如果表 [#tab:SeedSequence] 中给出的表达式均有效并具有所指定的语义，并且
+如果 [`S] 还符合本节 [#rand.req.seedseq] 中的其他全部规定，则类 [`S] 符合种子
+序列的规定。
 
 [:en] In that Table and throughout this section:
+[:zh_CN] 在这个表和本节的通篇中：
 
 [list:ol@arparen]
 [item]
 [:en] [`T] is the type named by [`S][=']s associated [`result_type];
+[:zh_CN] [`T] 是 [`S] 所关联的 [`result_type] 所指名的类型；
 [item]
 [:en] [`q] is a value of [`S] and [`r] is a possibly const value of [`S];
+[:zh_CN] [`q] 为 [`S] 的值，而 [`r] 为 [`S] 的可能为 const 的值；
 [item]
 [:en] [`ib] and [`ie] are input iterators with an unsigned integer [`value_type]
 of at least 32 bits;
+[:zh_CN] [`ib] 和 [`ie] 均为具有至少 32 位无符号整数的 [`value_type] 的输入
+迭代器；
 [item]
 [:en] [`rb] and [`re] are mutable random access iterators with an unsigned
 integer [`value_type] of at least 32 bits;
+[:zh_CN] [`rb] 和 [`re] 均为具有至少 32 位无符号整数的 [`value_type] 的可改动
+随机访问迭代器；
 [item]
 [:en] [`ob] is an output iterator; and
+[:zh_CN] [`ob] 为输出迭代器；而
 [item]
 [:en] [`il] is a value of [`initializer_list<T>].
+[:zh_CN] [`il] 为 [`initializer_list<T>] 的值。
 [list:end]
 
 [table:listing#tab:SeedSequence
     [:en] Seed sequence requirements
+    [:zh_CN] 种子序列规定
     [columns
         [column@headercenter@code
             [:en] Expression
+            [:zh_CN] 表达式
         ]
         [column@headercenter@code
             [:en] Return type
+            [:zh_CN] 返回类型
         ]
         [column@headercenter
             [:en] Pre/post-condition
+            [:zh_CN] 前/后条件
         ]
         [column@headercenter
             [:en] Complexity
+            [:zh_CN] 复杂度
         ]
     ]
     [border:row@both]
 ]
 
-[|] S::result_type
+[-]
+[:en]
 [%[`result_type][!seed sequence requirement]]
+[:zh_CN]
+[%[`result_type][!种子序列规定]]
+[|] S::result_type
 [|] T
 [|] [:en] [`T] is an unsigned integer type ([#basic.fundamental]) of at least 32
     bits.
+    [:zh_CN] [`T] 为至少 32 位的无符号整数类型（[#basic.fundamental]）。
 [|] [:en] compile-time
+    [:zh_CN] 编译期
 
-[|][`S()]
+[-]
+[:en]
 [%default constructor[!seed sequence requirement]]
+[:zh_CN]
+[%默认构造函数[!种子序列规定]]
+[|][`S()]
 [|]
 [|] [:en] Creates a seed sequence with the same initial state as all other
     default-constructed seed sequences of type [`S].
+    [:zh_CN] 创建一个种子序列，其初始状态与其他所有被默认构造的 [`S] 类型的种子
+    序列相同。
 [|] [:en] constant
+    [:zh_CN] 常量
 
-[|] S(ib,ie)
+[-]
+[:en]
 [%sequence constructor[!seed sequence requirement]]
+[:zh_CN]
+[%序列构造函数[!种子序列规定]]
+[|] S(ib,ie)
 [|]
 [|] [:en] Creates a seed sequence having internal state that depends on some or
     all of the bits of the supplied sequence [[`ib], [`ie]).
+    [:zh_CN] 创建一个种子序列，其内部状态依赖于所提供的序列 [[`ib], [`ie]) 中的
+    某些或者全部的位。
 [|] [=bigoh]([`ie] - [`ib])
 
-[|] S(il)
+[-]
+[:en]
 [%initializer-list constructor[!seed sequence requirement]]
+[:zh_CN]
+[%初始化式列表构造函数[!种子序列规定]]
+[|] S(il)
 [|]
 [|] [:en] Same as [`S(il.begin(), il.end())].
-[|] same as [`S(il.begin(), il.end())]
+    [:zh_CN] Same as [`S(il.begin(), il.end())].
+[|] [:en] 与 [`S(il.begin(), il.end())] 相同。
+    [:zh_CN] 与 [`S(il.begin(), il.end())] 相同。
 
-[|] q.generate(rb,re)
+[-]
+[:en]
 [%[`generate][!seed sequence requirement]]
+[:zh_CN]
+[%[`generate][!种子序列规定]]
+[|] q.generate(rb,re)
 [|] void
 [|] [:en] Does nothing if [`rb == re].
+    [:zh_CN] 当 [`rb == re] 时不做任何事。
+
     [:en] Otherwise, fills the supplied sequence [[`rb],[`re]) with 32-bit
     quantities that depend on the sequence supplied to the constructor and
     possibly also depend on the history of [`generate][=']s previous
     invocations.
+    [:zh_CN] 否则，向所提供的序列 [[`rb],[`re]) 中填充 32 位的量，它们依赖于提供
+    给构造函数的序列，并且可能还依赖于之前对 [`generate] 所进行的调用的历史。
 [|] [=bigoh]([`re] - [`rb])
 
-[|] r.size()
+[-]
+[:en]
 [%[`size][!seed sequence requirement]]
+[:zh_CN]
+[%[`size][!种子序列规定]]
+[|] r.size()
 [|] size_t
 [|] [:en] The number of 32-bit units that would be copied by a call to
     [`r.param].
-[|] constant
+    [:zh_CN] 当调用 [`r.param] 时将会复制的 32 位单元的数量。
+[|] [:en] constant
+    [:zh_CN] 常量
 
-[|] r.param(ob)
+[-]
+[:en]
 [%[`param][!seed sequence requirement]]
+[:zh_CN]
+[%[`param][!种子序列规定]]
+[|] r.param(ob)
 [|] void
 [|] [:en] Copies to the given destination a sequence of 32-bit units that can be
     provided to the constructor of a second object of type [`S], and that would
     reproduce in that second object a state indistinguishable from the state of
     the first object.
+    [:zh_CN] 向给定的目标复制一系列的 32 位单元，它们可以被提供给 [`S] 类型的
+    第二个对象的构造函数，并在第二个对象中重现一个与第一个对象的状态无法区分的
+    状态。
 [|] [=bigoh]([`r.size()])
 
 [table:end]
